@@ -31,7 +31,7 @@ header img.logo {
 }
 header span.instansi {
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 14px;
   color: white;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
@@ -294,6 +294,11 @@ header {
   padding-top: 8px;
   padding-bottom: 8px;
   background: inherit;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;   /* paksa 1 baris */
+  gap: 8px;
+  padding: 6px;
 }
 .layout {
   /* keep original markup intact; make the layout area scrollable and not hide behind header/footer */

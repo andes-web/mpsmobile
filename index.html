@@ -257,12 +257,11 @@ header {
   .logo-grid {
     display: flex !important;
     flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 0 !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    justify-content: flex-start;
+    flex-wrap: nowrap;          /* tetap 1 baris */
+    justify-content: center !important; /* logo di tengah */
     align-items: center;
+    gap: 0 !important;
+    overflow-x: hidden !important; /* tidak perlu scroll kalau sudah proporsional */
     padding: 6px 8px !important;
     width: 100% !important;
     position: fixed !important;
@@ -273,13 +272,13 @@ header {
     background: #f9fcff !important;
   }
   .logo-grid img {
-    max-height: 30px !important; /* -> ubah ini untuk mengatur tinggi logo di HP */
-    flex: 0 0 auto !important;
-    margin: 0 6px !important;
+    flex: 1 1 auto !important;   /* masing-masing logo fleksibel */
+    max-height: 35px !important; /* kontrol tinggi maksimal */
+    height: auto !important;
     width: auto !important;
     object-fit: contain !important;
+    margin: 0 4px !important;
   }
-
 
 
 /* --- ADDED (no deletions): fixed header/footer + scrollable middle for mobile --- */

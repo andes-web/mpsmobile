@@ -399,22 +399,237 @@ html, body {
   margin-top: 100px !important; /* 55 header + 45 menu */
 }
 
+
+/* ====== Desktop Layout ala layout3.png ====== */
+@media (min-width: 769px) {
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* cegah scroll global */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    z-index: 1000;
+  }
+
+  .layout {
+    display: flex;
+    position: fixed;
+    top: 55px;   /* tepat di bawah header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .sidebar-left {
+    width: 260px;
+    background: #f6fbff;
+    border-right: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .sidebar-right {
+    width: 260px;
+    background: #f7fbff;
+    border-left: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;   /* hanya konten yang discroll */
+    padding: 20px;
+    background: #ffffffd9;
+    border-radius: 0;
+    margin: 0;
+  }
+}
+
+
+/* ====== Desktop Layout Fix sejajarkan konten dan sidebar kanan ====== */
+@media (min-width: 769px) {
+  .layout {
+    top: 55px !important; /* sejajar header */
+  }
+  .content {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+  }
+  .sidebar-right {
+    margin-top: 0 !important;
+  }
+}
+/* ====== Desktop fix: header + sidebars statis, konten scroll ====== */
+@media (min-width: 769px) {
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* cegah scroll global */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    z-index: 2000;
+  }
+
+  .layout {
+    display: flex;
+    position: fixed;
+    top: 55px;   /* tepat di bawah header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .sidebar-left {
+    position: fixed;
+    top: 55px;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    background: #f8fcff;
+    border-right: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .sidebar-right {
+    position: fixed;
+    top: 55px;
+    right: 0;
+    bottom: 0;
+    width: 250px;
+    background: #f0f7ff;
+    border-left: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .content {
+    position: fixed;
+    top: 55px;
+    left: 260px;
+    right: 250px;
+    bottom: 0;
+    overflow-y: auto; /* hanya konten utama yang scroll */
+    padding: 20px;
+    background: #ffffffd9;
+    border-radius: 0;
+    margin: 0;
+  }
+}
+
 </style>
+
+<!-- STRONG DESKTOP OVERRIDES: buat header, kedua sidebar, dan footer logo FIXED (hanya .content yang scroll) -->
+<style>
+@media (min-width: 769px) {
+  html, body {
+    height: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important; /* matikan scroll global */
+  }
+
+  /* Header tetap di atas */
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 55px !important;
+    z-index: 9999 !important;
+  }
+
+  /* Sidebar kiri dan kanan fixed antara header dan footer */
+  .sidebar-left {
+    position: fixed !important;
+    top: 55px !important;
+    bottom: 70px !important; /* ruang untuk logo-grid footer */
+    left: 0 !important;
+    width: 260px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 900 !important;
+  }
+
+  .sidebar-right {
+    position: fixed !important;
+    top: 55px !important;
+    bottom: 70px !important; /* ruang untuk logo-grid footer */
+    right: 0 !important;
+    width: 250px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 900 !important;
+  }
+
+  /* Footer logo fixed di bawah, namun hanya mengisi ruang di antara sidebars */
+  .logo-grid {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 260px !important;  /* lebarnya sama dengan sidebar-left */
+    right: 250px !important; /* lebarnya sama dengan sidebar-right */
+    height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 6px 12px !important;
+    background: #f9fcff !important;
+    border-top: 1px solid #e6eefc !important;
+    overflow-x: auto !important;
+    z-index: 850 !important;
+  }
+  .logo-grid img {
+    max-height: 48px !important;
+    height: auto !important;
+    margin: 0 6px !important;
+  }
+
+  /* Konten utama fixed di area yang tersisa; hanya area ini yang scroll */
+  .content {
+    position: fixed !important;
+    top: 55px !important;            /* di bawah header */
+    left: 260px !important;          /* setelah sidebar-left */
+    right: 250px !important;         /* sebelum sidebar-right */
+    bottom: 70px !important;         /* di atas logo-grid */
+    overflow-y: auto !important;     /* hanya konten yang bisa discroll */
+    -webkit-overflow-scrolling: touch !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Kalau ada menu-bar fixed di mobile, sembunyikan pada desktop */
+  .menu-bar { display: none !important; }
+
+  /* Jaga tampilan sidebar pada desktop */
+  .sidebar-left, .sidebar-right, header, .logo-grid { transform: none !important; }
+
+}
+</style>
+
 </head>
 <body>
 <header>
   <img src="Logo_MPS.png" class="logo" alt="Logo Instansi"/>
   <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
 </header>
-<aside class="sidebar-left" id="sidebar-left">
-
-</aside>
 <div class="layout">
-  
-  <main class="content" id="content"><h2>Selamat Datang</h2><p>Di Manajer Paskibra Solution (MPS) Mobile.</p><!-- logo grid dipindahkan keluar -->
-</div-->
-</main>
-  <aside class="sidebar-right">Sidebar Kanan</aside>
+  <aside class="sidebar-left" id="sidebar-left"></aside>
+  <main class="content" id="content">
+    <h2>Selamat Datang</h2>
+    <p>Di Manajer Paskibra Solution (MPS) Mobile.</p>
+  </main>
+  <aside class="sidebar-right">
+    Sidebar Kanan
+  </aside>
 </div>
 
 <div class="logo-grid">

@@ -568,6 +568,75 @@ header .visitor-counter {
     font-size: 18px;
   }
 }
+}
+/* ===== Submenu embos dalam + container + beda warna + lebarkan ===== */
+@media (min-width: 769px) {
+
+  /* Perlebar agar tidak ada celah kosong */
+  .sidebar-left .accordion,
+  .sidebar-left .panel-inner,
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    width: 95%;
+  }
+
+  /* Submenu default */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    border-radius: 8px;
+    margin: 4px auto;
+    padding: 8px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: clamp(0.65rem, 1vw, 0.9rem);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+
+  /* Klik submenu → embos lebih dalam */
+  .sidebar-left .h2-accordion.active,
+  .sidebar-left .h3-accordion.active,
+  .sidebar-left .h4-button.active {
+    box-shadow: inset 4px 4px 7px rgba(0,0,0,0.35),
+                inset -4px -4px 7px rgba(255,255,255,0.95);
+    background: #e2e8f0;
+  }
+
+  /* Container submenu */
+  .sidebar-left .panel-inner {
+    padding: 10px;
+    background: #fafafa;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2),
+                inset -3px -3px 6px rgba(255,255,255,0.9);
+  }
+
+  /* Container sub-submenu */
+  .sidebar-left .subpanel {
+    margin-left: 8px;
+    padding: 6px;
+    border-radius: 8px;
+    background: #f4f4f4;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.15),
+                inset -2px -2px 5px rgba(255,255,255,0.9);
+  }
+
+  /* Warna per level */
+  .sidebar-left .h2-accordion {
+    background: linear-gradient(145deg, #e0f2fe, #bae6fd);
+  }
+  .sidebar-left .h3-accordion {
+    background: linear-gradient(145deg, #ede9fe, #ddd6fe);
+  }
+  .sidebar-left .h4-button {
+    background: linear-gradient(145deg, #fef9c3, #fef08a);
+    border: none !important;
+  }
+}
+
 </style>
 <!-- STRONG DESKTOP OVERRIDES: buat header, kedua sidebar, dan footer logo FIXED (hanya .content yang scroll) -->
 <style>
@@ -654,6 +723,280 @@ header .visitor-counter {
   .sidebar-left, .sidebar-right, header, .logo-grid { transform: none !important; }
 
 }
+
+/* ===== Efek Embos Sidebar Kiri (Desktop saja) ===== */
+@media (min-width: 769px) {
+  .sidebar-left {
+    background: #f4faff;
+    padding: 12px;
+    box-shadow: inset -2px 0 6px rgba(0,0,0,0.08);
+    border-right: 1px solid #cfdff5;
+  }
+
+  /* Menu utama (accordion) */
+  .sidebar-left .accordion {
+    border-radius: 12px;
+    margin: 6px 0;
+    padding: 10px;
+    font-weight: bold;
+    color: #0b3b82;
+    background: linear-gradient(145deg, #f9f9f9, #e3edf7);
+    box-shadow: inset 2px 2px 5px rgba(255,255,255,0.8),
+                inset -2px -2px 5px rgba(0,0,0,0.1);
+    transition: all 0.25s ease-in-out;
+  }
+  .sidebar-left .accordion:hover {
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.15),
+                inset -3px -3px 6px rgba(255,255,255,0.8);
+    transform: translateY(-1px);
+  }
+
+  /* Panel isi */
+  .sidebar-left .panel-inner {
+    background: #fefefe;
+    border-radius: 12px;
+    padding: 8px;
+    margin: 4px 0 10px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.12),
+                inset -2px -2px 5px rgba(255,255,255,0.9);
+  }
+
+  /* Warna berbeda tiap menu utama */
+  .sidebar-left .accordion:nth-child(1) {
+    background: linear-gradient(145deg, #eef6ff, #d6e6ff);
+  }
+  .sidebar-left .accordion:nth-child(2) {
+    background: linear-gradient(145deg, #fef7f0, #fde5cc);
+  }
+  .sidebar-left .accordion:nth-child(3) {
+    background: linear-gradient(145deg, #f0fdf4, #d1fae5);
+  }
+  .sidebar-left .accordion:nth-child(4) {
+    background: linear-gradient(145deg, #fdf2f8, #fce7f3);
+  }
+  .sidebar-left .accordion:nth-child(5) {
+    background: linear-gradient(145deg, #fff7ed, #ffedd5);
+  }
+
+  /* Submenu (H2, H3, H4) */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    background: #ffffff;
+    border-radius: 8px;
+    margin: 3px 0;
+    padding: 6px 8px;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.08),
+                inset -1px -1px 3px rgba(255,255,255,0.8);
+    transition: background 0.2s;
+  }
+  .sidebar-left .h2-accordion:hover,
+  .sidebar-left .h3-accordion:hover,
+  .sidebar-left .h4-button:hover {
+    background: #f1f5f9;
+  }
+}
+
+
+/* ===== Efek Embos Sidebar Kiri (Desktop dengan submenu menyatu & state aktif) ===== */
+@media (min-width: 769px) {
+  .sidebar-left {
+    background: #f0f6fb;
+    padding: 12px;
+    box-shadow: inset -3px 0 8px rgba(0,0,0,0.12);
+    border-right: 1px solid #cfdff5;
+    max-width: 260px;
+  }
+
+  /* Menu utama (accordion) */
+  .sidebar-left .accordion {
+    width: 100%;
+    border-radius: 10px;
+    margin: 6px 0;
+    padding: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+    box-shadow: inset 5px 5px 10px rgba(0,0,0,0.35),
+                inset -5px -5px 10px rgba(255,255,255,0.95);
+    transition: all 0.25s ease-in-out;
+  }
+
+  .sidebar-left .accordion.active {
+    background: linear-gradient(145deg, #93c5fd, #60a5fa);
+    box-shadow: inset 6px 6px 12px rgba(0,0,0,0.45),
+                inset -6px -6px 12px rgba(255,255,255,0.95);
+  }
+
+  /* Container submenu */
+  .sidebar-left .panel-inner {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.25),
+                inset -4px -4px 8px rgba(255,255,255,0.9);
+  }
+
+  /* Warna berbeda tiap menu utama */
+  .sidebar-left .accordion:nth-of-type(1) {
+    background: linear-gradient(145deg, #d9e9ff, #bcd6ff);
+  }
+  .sidebar-left .accordion:nth-of-type(2) {
+    background: linear-gradient(145deg, #ffe9d6, #fcd1a8);
+  }
+  .sidebar-left .accordion:nth-of-type(3) {
+    background: linear-gradient(145deg, #dcfce7, #a7f3d0);
+  }
+  .sidebar-left .accordion:nth-of-type(4) {
+    background: linear-gradient(145deg, #fce7f3, #f9a8d4);
+  }
+  .sidebar-left .accordion:nth-of-type(5) {
+    background: linear-gradient(145deg, #ffedd5, #fdba74);
+  }
+
+  /* Submenu */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    background: #ffffff;
+    border-radius: 6px;
+    margin: 4px 0;
+    padding: 6px 8px;
+    box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15),
+                inset -2px -2px 4px rgba(255,255,255,0.85);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .sidebar-left .h2-accordion.active,
+  .sidebar-left .h3-accordion.active,
+  .sidebar-left .h4-button.active {
+    background: #f1f5f9;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.25),
+                inset -3px -3px 6px rgba(255,255,255,0.9);
+  }
+}
+
+
+/* ===== Submenu dengan warna embos sesuai parent, tanpa segitiga, single line ===== */
+@media (min-width: 769px) {
+
+  /* Hilangkan segitiga default */
+  .sidebar-left .h2-accordion::after,
+  .sidebar-left .h3-accordion::after {
+    content: none !important;
+  }
+
+  /* Submenu (H2/H3) */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion {
+    width: 100%;
+    border-radius: 8px;
+    margin: 4px 0;
+    padding: 8px;
+    font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: linear-gradient(145deg, #fef3c7, #fde68a);
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.25),
+                inset -4px -4px 8px rgba(255,255,255,0.9);
+    transition: all 0.25s ease-in-out;
+  }
+  .sidebar-left .h2-accordion.active,
+  .sidebar-left .h3-accordion.active {
+    background: linear-gradient(145deg, #fcd34d, #fbbf24);
+    box-shadow: inset 6px 6px 12px rgba(0,0,0,0.4),
+                inset -6px -6px 12px rgba(255,255,255,0.95);
+  }
+
+  /* Container sub-submenu */
+  .sidebar-left .subpanel {
+    background: #f3f4f6;
+    padding: 6px;
+    border-radius: 6px;
+    margin-left: 8px;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.25),
+                inset -3px -3px 6px rgba(255,255,255,0.9);
+  }
+@media (min-width: 769px) {
+  .sidebar-left .h3-accordion {
+    margin-left: 12px;    /* geser ke kanan sedikit */
+    max-width: calc(100% - 16px); /* supaya tidak melebihi container */
+    background: linear-gradient(145deg, #d6f0f8, #b6d1d1);
+    box-shadow: inset 6px 6px 12px rgba(0,0,0,0.4),
+                inset -6px -6px 12px rgba(255,255,255,0.95);
+  }
+}
+
+  /* Sub-submenu (H4) */
+  .sidebar-left .h4-button {
+    width: 100%;
+    border-radius: 6px;
+    margin: 3px 0;
+    padding: 6px 8px;
+    font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: linear-gradient(145deg, #ecfccb, #bef264);
+    box-shadow: inset 3px 3px 7px rgba(0,0,0,0.25),
+                inset -3px -3px 7px rgba(255,255,255,0.9);
+  }
+  .sidebar-left .h4-button.active {
+    background: linear-gradient(145deg, #a3e635, #84cc16);
+    box-shadow: inset 5px 5px 9px rgba(0,0,0,0.4),
+                inset -5px -5px 9px rgba(255,255,255,0.95);
+  }
+}
+/* Hilangkan container subpanel untuk H4 */
+@media (min-width: 769px) {
+  .sidebar-left .subpanel {
+    background: none !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    box-shadow: none !important;
+  }
+
+   .sidebar-left .h4-button {
+    display: block;
+    max-width: calc(100% - 24px); /* tidak melebihi header/container */
+    margin-left: 16px;            /* indentasi */
+    margin-right: auto;           /* supaya tidak keluar ke kanan */
+    border: none;
+    border-radius: 6px;
+    padding: 6px 8px;
+    background: linear-gradient(145deg, #ecfccb, #bef264);
+    box-shadow: inset 3px 3px 7px rgba(0,0,0,0.25),
+                inset -3px -3px 7px rgba(255,255,255,0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sidebar-left .h4-button.active {
+    background: linear-gradient(145deg, #a3e635, #84cc16);
+    box-shadow: inset 5px 5px 9px rgba(0,0,0,0.4),
+                inset -5px -5px 9px rgba(255,255,255,0.95);
+  }
+}
+@media (min-width: 769px) {
+  .sidebar-left {
+    overflow-y: auto;   /* tetap bisa scroll */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .sidebar-left .panel-inner {
+    overflow-y: auto;       /* tetap bisa digulir */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .sidebar-left::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Edge */
+  }
+  .sidebar-left .panel-inner::-webkit-scrollbar {
+    display: none;          /* Chrome, Safari, Edge */
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2302,5 +2645,30 @@ jurlamChildren.forEach(item=>{
   localStorage.setItem("visitorCount", count);
   document.getElementById("visitorNumber").textContent = count;
 </script>
+
+<script>
+// Toggle active emboss effect persistently
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".accordion, .h2-accordion, .h3-accordion, .h4-button").forEach(function(btn) {
+    btn.addEventListener("click", function(e) {
+      e.stopPropagation();
+      this.classList.toggle("active");
+    });
+  });
+});
+</script>
+<script>
+// Toggle embos aktif untuk menu, submenu, dan sub-submenu
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".accordion, .h2-accordion, .h3-accordion, .h4-button")
+    .forEach(function(btn) {
+      btn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        this.classList.toggle("active");
+      });
+    });
+});
+</script>
+
 </body>
 </html>

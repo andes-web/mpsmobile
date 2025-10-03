@@ -25,16 +25,23 @@ header {
   padding: 0 12px;
   height: 55px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  justify-content: space-between;
 }
 header img.logo {
   height: 45px;
   margin-right: 10px;
+  flex: 0 0 auto;
 }
 header span.instansi {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 30px;
   color: white;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  flex: 1;
+  text-align: center;
+  white-space: normal; /* biar bisa wrap */
+  word-wrap: break-word;
+  margin: 0 10px;
 }
 
 /* Layout dasar */
@@ -527,7 +534,10 @@ html, body {
   }
 }
 
-
+/* Visitor counter di kanan */
+header .visitor-counter {
+  flex: 0 0 auto;
+}
 /* Visitor Counter */
 .visitor-counter {
   display: flex;

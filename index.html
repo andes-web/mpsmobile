@@ -996,32 +996,6 @@ header .visitor-counter {
     display: none;          /* Chrome, Safari, Edge */
   }
 }
-@media (min-width: 769px) {
-  .sidebar-left .sidebar-title {
-    font-size: 1.3rem;         /* ukuran proporsional */
-    font-weight: bold;         /* cetak tebal */
-    color: #080077;            /* warna teks */
-    text-align: center;        /* rata tengah */
-    padding: 0px 0;
-    margin: 0px 5px 14px 0;      /* jarak proporsional */
-    border-bottom: 10px solid #93c5fd; /* garis batas */
-    letter-spacing: 1px;       /* jarak antar huruf */
-  }
-}
-@media (max-width: 768px) {
-  .footer-logo img {
-    margin: 0 !important;
-    padding: 0 !important;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  .footer-logo {
-    display: flex;
-    justify-content: center; /* rapat di tengah */
-    gap: 0;                  /* hilangkan celah antar logo */
-  }
-}
 
 </style>
 </head>
@@ -1031,8 +1005,7 @@ header .visitor-counter {
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
 <div class="visitor-counter"><div class="label">Visitors:</div><div class="number" id="visitorNumber">0</div></div></header>
 <div class="layout">
-<aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
-</aside>
+<aside class="sidebar-left" id="sidebar-left"></aside>
 <main class="content" id="content">
 <h2>Selamat Datang</h2>
 <p>Di Manajer Paskibra Solution (MPS) Mobile.</p>
@@ -1051,9 +1024,7 @@ header .visitor-counter {
 <img alt="Logo 6" src="7.png"/>
 <img alt="Logo 7" src="1_Citeureup.png"/>
 </div>
-
 <script>
-  
 const jurlamChildren = [
   {
     title: "DIKLAT", // H1

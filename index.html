@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>MPS Mobile</title>
 <style>
 body {
@@ -277,7 +278,7 @@ header {
     height: auto !important;
     width: auto !important;
     object-fit: contain !important;
-    margin: 0 !important;
+    margin: 0 4px !important;
   }
 
 
@@ -526,8 +527,38 @@ html, body {
   }
 }
 
-</style>
 
+/* Visitor Counter */
+.visitor-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  padding: 0 10px;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+.visitor-counter .label {
+  font-size: 12px;
+  font-weight: bold;
+}
+.visitor-counter .number {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+@media(max-width:768px) {
+  .visitor-counter {
+    padding: 0 6px;
+  }
+  .visitor-counter .label {
+    font-size: 11px;
+  }
+  .visitor-counter .number {
+    font-size: 18px;
+  }
+}
+</style>
 <!-- STRONG DESKTOP OVERRIDES: buat header, kedua sidebar, dan footer logo FIXED (hanya .content yang scroll) -->
 <style>
 @media (min-width: 769px) {
@@ -614,35 +645,32 @@ html, body {
 
 }
 </style>
-
 </head>
 <body>
 <header>
-  <img src="Logo_MPS.png" class="logo" alt="Logo Instansi"/>
-  <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
-</header>
+<img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
+<span class="instansi">MANAGER PASKIBRA SOLUTION</span>
+<div class="visitor-counter"><div class="label">Visitors:</div><div class="number" id="visitorNumber">0</div></div></header>
 <div class="layout">
-  <aside class="sidebar-left" id="sidebar-left"></aside>
-  <main class="content" id="content">
-    <h2>Selamat Datang</h2>
-    <p>Di Manajer Paskibra Solution (MPS) Mobile.</p>
-  </main>
-  <aside class="sidebar-right">
+<aside class="sidebar-left" id="sidebar-left"></aside>
+<main class="content" id="content">
+<h2>Selamat Datang</h2>
+<p>Di Manajer Paskibra Solution (MPS) Mobile.</p>
+</main>
+<aside class="sidebar-right">
     Sidebar Kanan
   </aside>
 </div>
-
 <div class="logo-grid">
-  <!-- Sisipkan hingga 10 logo kecil di sini -->
-  <img src="12-removebg-preview.png" alt="Logo 1">
-  <img src="16-removebg-preview.png" alt="Logo 2">
-  <img src="6-removebg-preview (1).png" alt="Logo 3">
-  <img src="8-removebg-preview.png" alt="Logo 4">
-  <img src="31-removebg-preview.png" alt="Logo 5">
-  <img src="7.png" alt="Logo 6">
-  <img src="1_Citeureup.png" alt="Logo 7">
+<!-- Sisipkan hingga 10 logo kecil di sini -->
+<img alt="Logo 1" src="12-removebg-preview.png"/>
+<img alt="Logo 2" src="16-removebg-preview.png"/>
+<img alt="Logo 3" src="6-removebg-preview (1).png"/>
+<img alt="Logo 4" src="8-removebg-preview.png"/>
+<img alt="Logo 5" src="31-removebg-preview.png"/>
+<img alt="Logo 6" src="7.png"/>
+<img alt="Logo 7" src="1_Citeureup.png"/>
 </div>
-
 <script>
 const jurlamChildren = [
   {
@@ -2252,6 +2280,17 @@ jurlamChildren.forEach(item=>{
     }
   });
 });
+</script>
+<script>
+  // Simpel: gunakan localStorage agar tidak reset tiap refresh
+  let count = localStorage.getItem("visitorCount");
+  if (!count) {
+    count = 1;
+  } else {
+    count = parseInt(count) + 1;
+  }
+  localStorage.setItem("visitorCount", count);
+  document.getElementById("visitorNumber").textContent = count;
 </script>
 </body>
 </html>

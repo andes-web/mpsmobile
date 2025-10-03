@@ -534,40 +534,6 @@ html, body {
   }
 }
 
-/* Visitor counter di kanan */
-header .visitor-counter {
-  flex: 0 0 auto;
-}
-/* Visitor Counter */
-.visitor-counter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: auto;
-  padding: 0 10px;
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-}
-.visitor-counter .label {
-  font-size: 12px;
-  font-weight: bold;
-}
-.visitor-counter .number {
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 1.2;
-}
-@media(max-width:768px) {
-  .visitor-counter {
-    padding: 0 6px;
-  }
-  .visitor-counter .label {
-    font-size: 11px;
-  }
-  .visitor-counter .number {
-    font-size: 18px;
-  }
-}
 }
 /* ===== Submenu embos dalam + container + beda warna + lebarkan ===== */
 @media (min-width: 769px) {
@@ -999,13 +965,13 @@ header .visitor-counter {
 @media (min-width: 769px) {
   .sidebar-left .sidebar-title {
     font-size: 1.3rem;         /* ukuran proporsional */
-    font-weight: bold;         /* cetak tebal */
+    font-weight: 900;         /* cetak tebal */
     color: #080077;            /* warna teks */
     text-align: center;        /* rata tengah */
     padding: 12px 0 14px 0;
     margin: 8px 0px 16px 0;      /* jarak proporsional */
-    border-bottom: 5px solid #93c5fd; /* garis batas */
-    letter-spacing: 1px;       /* jarak antar huruf */
+    border-bottom: 3px solid #a8a9aa; /* garis batas */
+    letter-spacing: 0px;       /* jarak antar huruf */
   }
 }
 @media (max-width: 768px) {
@@ -1028,13 +994,81 @@ header .visitor-counter {
     display: none !important;
   }
 }
+
 </style>
 </head>
 <body>
 <header>
 <img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
-<div class="visitor-counter"><div class="label">Visitors:</div><div class="number" id="visitorNumber">0</div></div></header>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visitor Counter</title>
+  
+  <!-- Odometer CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/themes/odometer-theme-default.min.css" />
+
+  <style>
+    /* Container simetris tengah */
+    #visitorWrapper {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .visitor-text {
+      font-size: 10px;
+      font-weight: 500;
+      color: #2c3e50;
+      margin-bottom: 0px;
+    }
+    #visitorCount {
+      font-size: 36px;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Visitor Counter 2 baris -->
+  <div id="visitorWrapper">
+    <div class="visitor-text">Visitor</div>
+    <div id="visitorCount" class="odometer">0</div>
+  </div>
+
+  <!-- Odometer JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/odometer.min.js"></script>
+
+  <!-- Visitor Counter Script -->
+  <script>
+    const namespace = 'MPS_Mobile'; // Nama proyek/situs Anda
+    const key = 'diklat';            // Ganti sesuai halaman unik ('diklat', 'bintal', 'bintur', dsb.)
+
+    const el = document.getElementById('visitorCount');
+
+    // Fungsi ambil visitor dan update odometer
+    function updateVisitor() {
+      fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+        .then(res => res.json())
+        .then(data => {
+          el.innerHTML = data.value; // Odometer otomatis animasi naik
+        })
+        .catch(err => console.error('Error fetching visitor count:', err));
+    }
+
+    // Set awal
+    updateVisitor();
+
+    // Auto-update setiap 10 detik
+    setInterval(updateVisitor, 10000);
+  </script>
+
+</body>
+</html>
+
 <div class="layout">
 <aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
 </aside>
@@ -2669,18 +2703,6 @@ jurlamChildren.forEach(item=>{
 });
 </script>
 <script>
-  // Simpel: gunakan localStorage agar tidak reset tiap refresh
-  let count = localStorage.getItem("visitorCount");
-  if (!count) {
-    count = 1;
-  } else {
-    count = parseInt(count) + 1;
-  }
-  localStorage.setItem("visitorCount", count);
-  document.getElementById("visitorNumber").textContent = count;
-</script>
-
-<script>
 // Toggle active emboss effect persistently
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll(".accordion, .h2-accordion, .h3-accordion, .h4-button").forEach(function(btn) {
@@ -2702,6 +2724,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     });
 });
+
 </script>
 
 </body>

@@ -2520,30 +2520,30 @@ const jurlamChildren = [
       },
       // 3. Empati, Kerjasama, Dinamika
       {
-        title: "Penilaian Antar Teman", 
+        title: "Penilaian Diri Sendiri", 
         content: "Memperkuat soliditas tim instruktur, meningkatkan empati terhadap peserta didik, dan mengelola dinamika tim secara sehat.",
         children: [
           {
-            title: "Simulasi Konflik", 
-            content: "<h4>Mengelola Tekanan Tim</h4><p>Permainan peran untuk mensimulasikan situasi konflik internal panitia. Tujuannya adalah melatih instruktur menemukan akar masalah, memediasi, dan menyelesaikan konflik secara profesional dan tanpa emosi.</p>"
+            title: "Penilaian D-Diklat", 
+            content: "<iframe src='https://andesofiani.github.io/pemetaan-profil-pola-pikir/' style='width:100%;height:100vh;border:none;'></iframe>"
           },
           {
-            title: "Outbound Leadership", 
+            title: "Penilaian D-BINTAL", 
             content: "<h4>Aktivitas Penguatan Tim Instruktur</h4><p>Kegiatan luar ruangan (outbound) yang dirancang khusus untuk mempererat ikatan, meningkatkan rasa saling percaya, dan membangun komunikasi non-hirarkis di antara instruktur.</p>"
           },
           {
-            title: "Sesi Apresiasi", 
+            title: "Penilaian D-BINTUR1", 
             content: "<h4>Menghargai Kontribusi</h4><p>Sesi di mana setiap instruktur didorong untuk memberikan apresiasi dan umpan balik positif kepada rekan timnya. Mendorong budaya kerja yang suportif dan menghargai usaha.</p>"
           },
           {
-            title: "Mentoring Junior", 
-            content: "<h4>Transfer Pengetahuan & Nilai</h4><p>Pelatihan dan penugasan khusus bagi instruktur senior untuk membimbing instruktur junior. Memastikan transfer pengetahuan, budaya, dan standar kualitas pembinaan yang konsisten.</p>"
+            title: "Penilaian D-BINTUR2", 
+            content: "<h4>Mentoring Junior</h4><p>Pelatihan dan penugasan khusus bagi instruktur senior untuk membimbing instruktur junior. Memastikan transfer pengetahuan, budaya, dan standar kualitas pembinaan yang konsisten.</p>"
           }
         ]
       },
       // 4. Fisik & Disiplin (BARU)
       {
-        title: "Penilaian Diri Sendiri", 
+        title: "Penilaian Antar Teman", 
         content: "Materi yang fokus pada peningkatan standar fisik, penguasaan PBB, dan kedisiplinan diri sebagai teladan bagi peserta didik.",
         children: [
           {
@@ -2948,6 +2948,111 @@ document.addEventListener("click", function(e){
     else {
       const content = getContentElement();
       if(content) content.innerHTML = '<div style="width:100%;height:100vh;overflow:auto"><iframe data-role="form-kelompok-iframe" src="' + IFRAME_SRC + '" style="' + IFRAME_STYLE + '"></iframe></div>';
+      else window.location.href = FORM_URL;
+    }
+  };
+
+  // debug log
+  console.log('[menu-diklat] init handler (capture). Mobile breakpoint:', 768);
+})();
+</script>
+<!-- ===== end paste KELOMPOK===== -->
+ 	<!-- ===== Paste THIS before </body> in MPS_Mobile.html DIRI===== -->
+<script>
+(function(){
+  const FORM_URL = 'https://andesofiani.github.io/pemetaan-profil-pola-pikir/';
+  const IFRAME_SRC = FORM_URL;
+  const IFRAME_STYLE = 'width:100%;height:100vh;border:none;';
+
+  function isMobile(){
+    return window.innerWidth <= 768; // ubah batas jika perlu
+  }
+
+  // pola aman: cocokkan "penilaian d-diklat" dalam teks (case-insensitive)
+  const MENU_REGEX = /\bpenilaian\s*d-diklat\b/i;
+
+  // cari elemen area konten (ganti selector jika #content berbeda)
+  function getContentElement(){
+    return document.getElementById('content') || document.querySelector('main') || document.body;
+  }
+
+  // helper: periksa apakah node mengandung teks menu yang cocok
+  function nodeHasMenuText(node){
+    if(!node || node.nodeType !== 1) return false;
+    const txt = (node.innerText || node.textContent || '').replace(/\s+/g,' ').trim();
+    return MENU_REGEX.test(txt);
+  }
+
+  // saat klik, tangkap di fase capture supaya mencegah renderer menu lain menimpa
+  document.addEventListener('click', function(ev){
+    try{
+      // periksa seluruh path (support shadow DOM / composedPath)
+      const path = (ev.composedPath && ev.composedPath()) || (ev.path) || (() => {
+        // fallback: bangun sendiri
+        const p = [];
+        let node = ev.target;
+        while(node){
+          p.push(node);
+          node = node.parentElement;
+        }
+        return p;
+      })();
+
+      let matchedNode = null;
+      for(const node of path){
+        if(nodeHasMenuText(node)){
+          matchedNode = node;
+          break;
+        }
+      }
+      if(!matchedNode) return; // bukan klik Penilaian Diklat -> lanjutkan
+
+      // kita tangani sendiri -> cegah handler lain (prevent + stop)
+      ev.preventDefault && ev.preventDefault();
+      ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+      ev.stopPropagation && ev.stopPropagation();
+
+      // Sekarang lakukan action sesuai device
+      if(isMobile()){
+        // Mobile: redirect full page
+        window.location.href = FORM_URL;
+        return;
+      }
+
+      // Desktop: load form di dalam konten (iframe)
+      const content = getContentElement();
+      if(!content){
+        console.warn('[menu-diklat] content element not found, fallback: open in same tab');
+        window.location.href = FORM_URL;
+        return;
+      }
+
+      // Jika iframe sudah ada dengan src yang sama, do nothing (or focus)
+      const existing = content.querySelector('iframe[data-role="pemetaan-profil-pola-pikir-iframe"]');
+      if(existing){
+        // sudah ada — fokus (scroll to) dan return
+        try{ existing.scrollIntoView({behavior:'smooth'}); }catch(e){}
+        return;
+      }
+
+      // Ganti isi content dengan iframe (bersih)
+      content.innerHTML = '<div style="width:100%;height:100vh;overflow:auto">' +
+        '<iframe data-role="pemetaan-profil-pola-pikir-iframe" src="' + IFRAME_SRC + '" style="' + IFRAME_STYLE + '"></iframe>' +
+      '</div>';
+      return;
+
+    }catch(err){
+      console.error('[menu-diklat] handler error:', err);
+      // fallback simple
+    }
+  }, true); // capture = true so our handler runs before others
+
+  // also provide an optional function to programmatically open
+  window.__openPenilaianDiklat = function(){
+    if(isMobile()) window.location.href = FORM_URL;
+    else {
+      const content = getContentElement();
+      if(content) content.innerHTML = '<div style="width:100%;height:100vh;overflow:auto"><iframe data-role="pemetaan-profil-pola-pikir-iframe" src="' + IFRAME_SRC + '" style="' + IFRAME_STYLE + '"></iframe></div>';
       else window.location.href = FORM_URL;
     }
   };

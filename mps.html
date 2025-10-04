@@ -2727,16 +2727,131 @@ document.addEventListener("click", function(e){
     }
   }
 });
-// paste ini di MPS_Mobile.html (script area)
-window.addEventListener('message', function(evt){
-  if(!evt.data || !evt.data.type) return;
-  if(evt.data.type === 'form-individu-loaded'){
-    setHomeDisabled(true);   // gunakan function dari Opsi A (atau implementasi serupa)
-  } else if(evt.data.type === 'form-individu-unload'){
-    setHomeDisabled(false);
-  }
-});
-
 </script>
+<script>
+(function(){
+  // ---------- helper ----------
+  function findMenuAncestor(el){
+    let node = el;
+    for(let i=0;i<8 && node; i++){
+      if(node.nodeType === 1){
+        // consider only element nodes
+        return node; // return nearest element (we'll inspect text later)
+      }
+      node = node.parentElement;
+    }
+    return null;
+  }
+
+  function textOf(el){
+    if(!el) return '';
+    // take visible text, ignore child icons etc
+    return (el.innerText || el.textContent || '').replace(/\s+/g,' ').trim();
+  }
+
+  function isHomeText(txt){
+    if(!txt) return false;
+    txt = txt.toUpperCase().trim();
+    // accept exact "HOME" or starts with HOME (e.g. "HOME ›")
+    return txt === 'HOME' || txt.startsWith('HOME ');
+  }
+
+  function setHomeDisabled(disabled){
+    // find candidates across typical menu element classes and li/a/button
+    const selectors = '.h2-accordion, .h3-accordion, .h4-button, .accordion, li, a, button, .menu-home';
+    const nodes = Array.from(document.querySelectorAll(selectors));
+    nodes.forEach(node=>{
+      const txt = textOf(node);
+      if(isHomeText(txt)){
+        if(disabled){
+          node.dataset._prevPointer = node.style.pointerEvents || '';
+          node.style.pointerEvents = 'none';
+          node.style.opacity = '0.5';
+          node.classList.add('disabled-by-script');
+        } else {
+          node.style.pointerEvents = node.dataset._prevPointer || '';
+          node.style.opacity = '';
+          node.classList.remove('disabled-by-script');
+        }
+      }
+    });
+    console.log('[home-disable] setHomeDisabled =', disabled);
+  }
+
+  // ---------- capture click blocker for HOME ----------
+  // This runs *before* other bubble-phase handlers (prevents render)
+  document.addEventListener('click', function(ev){
+    try{
+      const anc = findMenuAncestor(ev.target);
+      if(!anc) return;
+      // climb up a few levels to find a menu label with text
+      let node = anc;
+      for(let i=0;i<6 && node; i++){
+        const txt = textOf(node);
+        if(txt && isHomeText(txt)){
+          // Block it immediately (capture phase)
+          ev.preventDefault();
+          ev.stopPropagation();
+          console.log('[home-blocked] Click on HOME blocked (capture) — element:', node);
+          return;
+        }
+        node = node.parentElement;
+      }
+    }catch(err){ console.error(err); }
+  }, true); // capture = true
+
+  // ---------- postMessage listener from iframe ----------
+  window.addEventListener('message', function(evt){
+    try{
+      const msg = evt.data || {};
+      if(typeof msg !== 'object') return;
+      if(msg.type === 'form-individu-loaded'){
+        console.log('[postMessage] form loaded -> disable HOME');
+        setHomeDisabled(true);
+      } else if(msg.type === 'form-individu-unload'){
+        console.log('[postMessage] form unload -> enable HOME');
+        setHomeDisabled(false);
+      } else {
+        // ignore other messages
+      }
+    }catch(err){ console.error(err); }
+  });
+
+  // ---------- MutationObserver fallback: detect iframe presence in #content ----------
+  const content = document.getElementById('content');
+  if(content){
+    const mo = new MutationObserver(function(muts){
+      try{
+        const iframe = content.querySelector('iframe[src="Form_Individu.html"], iframe[src="./Form_Individu.html"], iframe[data-role="form-individu"]');
+        setHomeDisabled(!!iframe);
+        if(iframe) console.log('[mutation] iframe detected -> HOME disabled');
+      }catch(err){ console.error(err); }
+    });
+    mo.observe(content, { childList: true, subtree: true });
+    // initial check
+    const iframe0 = content.querySelector('iframe[src="Form_Individu.html"], iframe[src="./Form_Individu.html"], iframe[data-role="form-individu"]');
+    setHomeDisabled(!!iframe0);
+  } else {
+    console.warn('[home-disable] #content not found — MutationObserver not attached');
+  }
+
+  // ---------- safety: also hide/hijack any anchor that navigates to "HOME" rendering function ----------
+  // If your app uses anchors like <a href="#home">, we additionally prevent default on those anchors
+  document.addEventListener('click', function(ev){
+    try{
+      const tgt = ev.target.closest('a[href], button');
+      if(!tgt) return;
+      const txt = textOf(tgt);
+      if(isHomeText(txt)){
+        ev.preventDefault();
+        ev.stopPropagation();
+        console.log('[home-blocked] anchor/button HOME blocked (fallback listener)');
+      }
+    }catch(err){ }
+  });
+
+})();
+</script>
+
 </body>
 </html>

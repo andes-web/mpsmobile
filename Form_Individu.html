@@ -199,7 +199,7 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   .then(async r=>{
      let res=await r.text();
      console.log("Server response:",res);
-     Swal.fire({icon:'success',title:'Berhasil!',text:'Data terkirim ke Google Sheet',
+     Swal.fire({icon:'success',title:'Berhasil!',text:'Data Tersimpan',
        confirmButtonColor:'#16a34a',timer:2000,showConfirmButton:false});
      document.getElementById("nama").value="";
      document.getElementById("anggota").selectedIndex=0;
@@ -209,7 +209,7 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   })
   .catch(err=>{
      console.error("Fetch error:",err);
-     Swal.fire({icon:'error',title:'Oops...',text:'Gagal mengirim data!',confirmButtonColor:'#dc2626'});
+     Swal.fire({icon:'error',title:'Oops...',text:'Gagal menyimpan data!',confirmButtonColor:'#dc2626'});
   });
 });
 
@@ -245,4 +245,5 @@ document.getElementById("homeBtn").addEventListener("click",()=>{
 </script>
 </body>
 </html>
+
 

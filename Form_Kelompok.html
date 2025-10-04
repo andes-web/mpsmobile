@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nilai Kelompok MPS</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+  :root{
+    --accent:#2563eb; --success:#16a34a;
+    --c1:#fff1f2; --c2:#eef6ff; --c3:#ecfff6; --c4:#fffbea; --c5:#f5f3ff;
+    --v1:#be185d; --v2:#1e40af; --v3:#059669; --v4:#b45309; --v5:#6d28d9;
+  }
+  body{font-family:"Segoe UI",sans-serif;margin:0;padding:20px;
+       background:linear-gradient(135deg,#e0f2fe 0%,#fef9c3 100%);}
+  .container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;
+             padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+  h2.title-main{font-size:1.5rem;font-weight:950;text-align:center;margin:0;
+  text-shadow:2px 2px 3px rgba(0,0,0,0.25);}
+  h2.title-sub{font-size:1rem;font-weight:600;text-align:center;margin:2px 0 10px 0;}
+
+  .top-container{display:flex;justify-content:space-between;align-items:flex-start;
+    gap:8px;padding:12px;border:1px solid #ccc;border-radius:8px;background:#f9f9f9;margin-bottom:4px;}
+  .form-left{flex:1;display:flex;flex-direction:column;gap:5px;margin-top:5px}
+  .form-pos{flex:0 0 auto;margin-left:4px;}
+  .form-left input,.form-left select,.form-pos select{
+    width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #ccc;}
+  .form-pos label {
+  display:block;       /* penting */
+  width:100%;          /* biar ikut memenuhi lebar parent */
+  font-size:0.6rem;
+  font-weight:600;
+  text-align:center;   /* baru benar² center */
+  color:#444;
+  margin:0;            /* buang margin-left yang ganggu */
+}
+  .form-pos select{font-size:2rem;font-weight:800;padding:10px 12px;min-width:3ch;text-align:center;}
+
+  .rubrik{display:grid;gap:4px;}
+  .aspek-card{display:flex;align-items:center;justify-content:space-between;
+    border-radius:10px;padding:10px;box-shadow:0 4px 12px rgba(0,0,0,0.06);}
+  .left{flex:1;margin-right:8px;}
+  .aspek-title{font-weight:700;font-size:1rem;margin-bottom:3px;}
+  .indikator{font-size:0.62rem;margin-bottom:6px;color:#222;line-height:1.2;}
+  .nilai-buttons{display:flex;gap:1px;flex-wrap:wrap;}
+  .nilai-buttons button {
+    padding: 8px 14px;border-radius: 6px;border: 1px solid #aaa;
+    background: #f9f9f9;font-weight: 700;font-size: 0.9rem;cursor: pointer;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
+                inset -2px -2px 5px rgba(255,255,255,0.7);
+    transition: all 0.2s ease-in-out;
+  }
+  .nilai-buttons button:hover {
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5),
+                inset -3px -3px 6px rgba(255,255,255,0.8);
+  }
+  .nilai-buttons button.active {
+    background: var(--accent);color: #fff;
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.6),
+                inset -2px -2px 6px rgba(255,255,255,0.3);
+  }
+  .nilai-besar {font-size: 3.8rem;font-weight: 900;text-align: center;min-width: 1ch;color: #333;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.4),-2px -2px 3px rgba(255,255,255,0.9);}
+  .nilai-besar.hidden {opacity: 0.25;color: #777;text-shadow: none;}
+
+  .controls-row{display:flex;gap:6px;margin-top:10px;justify-content:center;}
+  .controls-row .btn {
+    flex: 1;max-width: 120px;padding: 8px 0;border-radius: 6px;border: none;
+    font-weight: 700;font-size: 0.85rem;cursor: pointer;text-align: center;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
+                inset -2px -2px 5px rgba(255,255,255,0.7);
+    transition: all 0.2s ease-in-out;
+  }
+  .controls-row .btn:hover {transform: scale(1.05);}
+  .btn-home{background:#60a5fa;color:#fff;}
+  .btn-undi{background:#facc15;color:#111;}
+  .btn-reset{background:#eef2ff;color:#111;border:1px solid #c7d2fe;}
+  .btn-submit{background:var(--success);color:#fff;}
+</style>
+</head>
+<body>
+<div class="container">
+  <h2 class="title-main">NILAI KELOMPOK</h2>
+  <h2 class="title-sub">PENDIDIKAN DAN LATIHAN</h2>
+
+  <div class="top-container">
+    <div class="form-left">
+      <input id="nama" type="text" maxlength="20" placeholder="NAMA KETUA">
+      <select id="anggota">
+        <option value="">-- Pilih Kelompok --</option>
+        <option value="Kelompok 1">Kelompok 1</option>
+        <option value="Kelompok 2">Kelompok 2</option>
+        <option value="Kelompok 3">Kelompok 3</option>
+        <option value="Kelompok 4">Kelompok 4</option>
+        <option value="Kelompok 5">Kelompok 5</option>
+        <option value="Kelompok 6">Kelompok 6</option>
+        <option value="Kelompok 7">Kelompok 7</option>
+        <option value="Kelompok 8">Kelompok 8</option>
+        <option value="Kelompok 9">Kelompok 9</option>
+        <option value="Kelompok 10">Kelompok 10</option>
+
+      </select>
+    </div>
+    <div class="form-pos">
+      <label for="pos">POS</label>
+      <select id="pos">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="rubrik-body" class="rubrik"></div>
+
+  <div class="controls-row">
+    <button id="homeBtn" class="btn btn-home">HOME</button>
+    <button id="submitBtn" class="btn btn-submit">SUBMIT</button>
+    <button id="resetBtn" class="btn btn-reset">RESET</button>
+    <button id="downloadExcel" class="btn btn-undi">UNDUH</button>
+  </div>
+</div>
+
+<script>
+const scriptURL="https://script.google.com/macros/s/AKfycby0rKtfwleVJes0fUNuwziSaqOXKxjRBh8_R-FnVuGYM5TqWH2NDiAPQj9LWyYA4IZs/exec";
+
+/* ==== Data Rubrik ==== */
+const rubrik={1:[{aspek:"Kedisiplinan",indikator:`1: Tidak mengikuti aba-aba<br>2: Mengikuti sebagian aba-aba<br>3: Mengikuti semua aba-aba tapi beluma<br>4: Serentak, rapi, konsisten<br>5: Serempak, rapi, inisiatif memberi contoh kepada teman`},
+{aspek:"Kekompakan",indikator:`1: Bergerak sendiri-sendiri<br>2: Ada sebagian mengikuti<br>3: Mayoritas mengikuti dengan kompak<br>4: Kompak penuh<br>5: Kompak penuh, mengatur ritme sendiri`},
+{aspek:"Pemahaman Aba-aba",indikator:`1: Tidak memahami aba-aba<br>2: Memahami 1 aba-aba<br>3: Memahami beberapa aba-aba<br>4: Memahami seluruh aba-aba dengan tepat<br>5: Memahami dan mengimprovisasi dengan tepat`}],
+2:[{aspek:"Pemahaman Materi Kebangsaan",indikator:`1: Tidak mengenali simbol/nama<br>2: Mengenali satu simbol/nama<br>3: Mengenali beberapa simbol/nama<br>4: Mengenal semua simbol/nama dan menjelaskan<br>5: Menjelaskan simbol/nama plus makna mendalam`},
+{aspek:"Kerja Sama Tim",indikator:`1: Tidak bekerja sama<br>2: Hanya 1–2 orang bekerja<br>3: Bekerja bersama tapi belum efektif<br>4: Bekerja bersama efektif<br>5: Bekerja bersama efektif + mengkoordinasi anggota lain`},
+{aspek:"Strategi Penyusunan Puzzle",indikator:`1: Acak tanpa strategi<br>2: Strategi sederhana<br>3: Strategi lebih dari satu tetapi tidak terkoordinasi<br>4: Strategi sistematis dan kooperatif<br>5: Strategi inovatif, efektif, dan kreatif`}],
+3:[{aspek:"Keterampilan Dasar P3K",indikator:`1: Tidak tahu langkah P3K<br>2: Mengetahui satu langkah<br>3: Melaksanakan beberapa langkah<br>4: Melaksanakan seluruh langkah dengan benar<br>5: Melaksanakan seluruh langkah dengan tepat & improvisasi aman`},
+{aspek:"Kepedulian pada Korban",indikator:`1: Acuh tak acuh<br>2: Menyapa korban tanpa tindakan<br>3: Memberi tindakan dasar<br>4: Memberi tindakan sesuai SOP<br>5: Memberi tindakan sesuai SOP & menenangkan korban`},
+{aspek:"Koordinasi Tim Penyelamatan",indikator:`1: Tidak ada koordinasi<br>2: Koordinasi terbatas<br>3: Koordinasi sebagian anggota<br>4: Koordinasi penuh & jelas<br>5: Koordinasi penuh + pembagian tugas kreatif`}],
+4:[{aspek:"Pemahaman Nilai Juang",indikator:`1: Tidak memahami<br>2: Menyebut satu nilai<br>3: Menyebut beberapa nilai<br>4: Menyebut dan mengaitkan nilai dengan pengalaman<br>5: Menyebut, mengaitkan, dan mengekspresikan nilai secara kreatif (tulisan, komitmen)`},
+{aspek:"Kemampuan Refleksi Diri",indikator:`1: Tidak dapat merefleksi<br>2: Refleksi sederhana<br>3: Refleksi beberapa aspek terpisah<br>4: Refleksi komprehensif<br>5: Refleksi komprehensif & membuat rencana aksi`},
+{aspek:"Ekspresi Komitmen",indikator:`1: Tidak membuat komitmen<br>2: Komitmen sederhana<br>3: Komitmen lebih dari satu aspek<br>4: Komitmen konkret & realistis<br>5: Komitmen konkret & inovatif (inisiatif pribadi/kelompok)`}],
+5:[{aspek:"Perumusan Strategi",indikator:`1: Tidak ada strategi<br>2: Strategi tunggal sederhana<br>3: Strategi lebih dari satu tetapi tidak sinergis<br>4: Strategi sistematis & realistis<br>5: Strategi sistematis, kreatif, adaptif`},
+{aspek:"Kerja Sama dalam Implementasi",indikator:`1: Tidak bekerja sama<br>2: Hanya 1–2 orang bekerja<br>3: Bekerja sama belum efektif<br>4: Bekerja sama efektif<br>5: Bekerja sama efektif & mengkoordinasi sendiri + mengkoordinasi anggota lain`},
+{aspek:"Hasil & Dampak Strategi",indikator:`1: Tidak tercapai<br>2: Sebagian kecil tercapai<br>3: Mayoritas<br>4: Tercapai sesuai target<br>5: Tercapai melebihi target dengan inovasi baru`}],
+};
+const cardColors=['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)'];
+const valueColors=['var(--v1)','var(--v2)','var(--v3)','var(--v4)','var(--v5)'];
+let nilaiData={};
+const rubrikBody=document.getElementById("rubrik-body");
+const posSelect=document.getElementById("pos");
+
+function renderRubrik(pos){
+  rubrikBody.innerHTML="";
+  rubrik[pos].forEach((it,idx)=>{
+    const card=document.createElement("div");
+    card.className="aspek-card"; card.style.background=cardColors[idx%5];
+    const left=document.createElement("div");left.className="left";
+    left.innerHTML=`<div class="aspek-title">${it.aspek}</div><div class="indikator">${it.indikator}</div>`;
+    const wrap=document.createElement("div");wrap.className="nilai-buttons";
+    for(let n=1;n<=5;n++){
+      let b=document.createElement("button");b.textContent=n;
+      b.onclick=()=>setNilai(pos,idx,n,b,idx);
+      if(nilaiData[pos]&&nilaiData[pos][idx]===n)b.classList.add("active");
+      wrap.appendChild(b);
+    }
+    left.appendChild(wrap);
+    const nilai=document.createElement("div");nilai.id=`nilai-${pos}-${idx}`;
+    nilai.className="nilai-besar hidden";nilai.textContent="-";
+    card.appendChild(left);card.appendChild(nilai);rubrikBody.appendChild(card);
+  });
+}
+function setNilai(pos,idx,n,btn,idxForColor){
+  if(!nilaiData[pos])nilaiData[pos]={};nilaiData[pos][idx]=n;
+  btn.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  const box=document.getElementById(`nilai-${pos}-${idx}`);
+  box.textContent=n;box.classList.remove("hidden");
+  box.style.color=valueColors[idxForColor%valueColors.length];
+}
+renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.value));
+
+/* ==== Submit ==== */
+document.getElementById("submitBtn").addEventListener("click",()=>{
+  const nama=document.getElementById("nama").value.trim();
+  const anggota=document.getElementById("anggota").value.trim();
+  const pos=posSelect.value;
+
+  if(!nama){
+    Swal.fire({icon:'warning',title:'Perhatian',text:'Nama anggota wajib diisi',confirmButtonColor:'#facc15'});
+    return;
+  }
+  if(!anggota){
+    Swal.fire({icon:'warning',title:'Perhatian',text:'Unit wajib dipilih',confirmButtonColor:'#facc15'});
+    return;
+  }
+  const aspekRubrik=rubrik[pos]||[];
+  let adaKosong=aspekRubrik.some((a,idx)=>!nilaiData[pos]||!nilaiData[pos][idx]);
+  if(adaKosong){
+    Swal.fire({icon:'warning',title:'Perhatian',text:'Semua skor rubrik wajib diisi',confirmButtonColor:'#facc15'});
+    return;
+  }
+
+  const arr=aspekRubrik.map((a,idx)=>({aspek:a.aspek,nilai:nilaiData[pos][idx]}));
+
+  fetch(scriptURL,{
+    method:"POST",
+    body:new URLSearchParams({nama,anggota,pos,nilai:JSON.stringify(arr)})
+  })
+  .then(async r=>{
+     let res=await r.text();
+     console.log("Server response:",res);
+     Swal.fire({icon:'success',title:'Berhasil!',text:'Data Tersimpan',
+       confirmButtonColor:'#16a34a',timer:2000,showConfirmButton:false});
+     document.getElementById("nama").value="";
+     document.getElementById("anggota").selectedIndex=0;
+     posSelect.value="1";
+     nilaiData={};
+     renderRubrik(1);
+  })
+  .catch(err=>{
+     console.error("Fetch error:",err);
+     Swal.fire({icon:'error',title:'Oops...',text:'Gagal menyimpan data!',confirmButtonColor:'#dc2626'});
+  });
+});
+
+/* ==== Reset ==== */
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  nilaiData={};renderRubrik(posSelect.value);
+  document.getElementById("nama").value="";
+  document.getElementById("anggota").selectedIndex=0;
+});
+
+/* ==== Unduh Excel ==== */
+document.getElementById("downloadExcel").addEventListener("click",()=>{
+  const rows=[["Timestamp","Nama","Anggota","POS","Aspek","Nilai"]];
+  const ts=new Date().toLocaleString();
+  const nm=document.getElementById("nama").value;
+  const ang=document.getElementById("anggota").value;
+  for(const pos in nilaiData){
+    (rubrik[pos]||[]).forEach((a,idx)=>{
+      const skor=nilaiData[pos]&&nilaiData[pos][idx]?nilaiData[pos][idx]:"";
+      rows.push([ts,nm,ang,"POS "+pos,a.aspek,skor]);
+    });
+  }
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"Nilai");
+  XLSX.writeFile(wb,"Nilai_Kelompok.xlsx");
+});
+
+</script>
+<script>
+document.getElementById("homeBtn").addEventListener("click", ()=>{
+  const url = "https://andes-web.github.io/mpsmobile/";
+
+  if(window.innerWidth <= 768){
+    // 🔹 MOBILE → buka tab baru + coba tutup tab lama
+    window.open(url, "_blank");
+    window.open("", "_self");
+    window.close();
+  } else {
+    // 🔹 DESKTOP → cukup buka tab baru (biarkan tab lama terbuka)
+    window.open(url, "_blank");
+  }
+});
+</script>
+
+</body>
+</html>

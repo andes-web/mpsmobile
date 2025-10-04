@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NILAI KELOMPOK PENDIDIKAN LATIHAN</title>
+<title>Nilai Individu MPS</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
   :root{
@@ -361,7 +361,7 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   const nama=document.getElementById("nama").value.trim();
   const anggota=document.getElementById("anggota").value.trim();
   const pos=posSelect.value;
-  if(!nama){alert("Nama kelompok wajib diisi");return;}
+  if(!nama){alert("Nama anggota wajib diisi");return;}
   const arr=(rubrik[pos]||[]).map((a,idx)=>({
     aspek:a.aspek,
     nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""
@@ -388,7 +388,6 @@ fetch(scriptURL, {
    nilaiData = {};                                       // kosongkan nilai
    renderRubrik(1);                                      // render ulang POS 1
 })
-
 .catch(err=>{
    console.error("Fetch error:", err);
    alert("❌ Gagal: "+err);
@@ -401,12 +400,11 @@ document.getElementById("resetBtn").addEventListener("click",()=>{nilaiData={};r
 
 /* ==== Unduh Excel ==== */
 document.getElementById("downloadExcel").addEventListener("click",()=>{
- const rows=[["Timestamp","Nama Kelompok","Anggota","POS","Aspek","Nilai"]];
- const ts=new Date().toLocaleString();const nm=document.getElementById("nama").value;const ang=document.getElementById("anggota").value;
+ const rows=[["Timestamp","Nama","Unit","POS","Aspek","Nilai"]];
+ const ts=new Date().toLocaleString();const nm=document.getElementById("nama").value;const ang=document.getElementById("unit").value;
  for(const pos in nilaiData){(rubrik[pos]||[]).forEach((a,idx)=>{const skor=nilaiData[pos]&&nilaiData[pos][idx]?nilaiData[pos][idx]:"";rows.push([ts,nm,ang,"POS "+pos,a.aspek,skor]);});}
- const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Nilai");XLSX.writeFile(wb,"Nilai_Bintal.xlsx");
+ const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Nilai");XLSX.writeFile(wb,"Data.xlsx");
 });
 </script>
 </body>
 </html>
-

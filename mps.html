@@ -533,6 +533,41 @@ html, body {
     margin: 0;
   }
 }
+
+/* Visitor counter di kanan */
+header .visitor-counter {
+  flex: 0 0 auto;
+}
+/* Visitor Counter */
+.visitor-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  padding: 0 10px;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+.visitor-counter .label {
+  font-size: 12px;
+  font-weight: bold;
+}
+.visitor-counter .number {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+@media(max-width:768px) {
+  .visitor-counter {
+    padding: 0 6px;
+  }
+  .visitor-counter .label {
+    font-size: 11px;
+  }
+  .visitor-counter .number {
+    font-size: 18px;
+  }
+}
 }
 /* ===== Submenu embos dalam + container + beda warna + lebarkan ===== */
 @media (min-width: 769px) {
@@ -964,14 +999,13 @@ html, body {
 @media (min-width: 769px) {
   .sidebar-left .sidebar-title {
     font-size: 1.3rem;         /* ukuran proporsional */
-    font-weight: 900;         /* cetak tebal */
+    font-weight: bold;         /* cetak tebal */
     color: #080077;            /* warna teks */
     text-align: center;        /* rata tengah */
     padding: 12px 0 14px 0;
     margin: 8px 0px 16px 0;      /* jarak proporsional */
-    border-bottom: 2px solid #a5a6a7; /* garis batas */
-    letter-spacing: 0px;       /* jarak antar huruf */
-    text-shadow: 1px 1px 0 #aaaaaa; /* bayangan tipis bikin kelihatan lebih tebal */
+    border-bottom: 5px solid #93c5fd; /* garis batas */
+    letter-spacing: 1px;       /* jarak antar huruf */
   }
 }
 @media (max-width: 768px) {
@@ -1000,6 +1034,7 @@ html, body {
 <header>
 <img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
+<div class="visitor-counter"><div class="label">Visitors:</div><div class="number" id="visitorNumber">0</div></div></header>
 <div class="layout">
 <aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
 </aside>
@@ -2353,8 +2388,8 @@ const jurlamChildren = [
         content: "Fokus pada pengembangan kesadaran diri instruktur, gaya kepemimpinan yang efektif, dan kemampuan memimpin dengan teladan.",
         children: [
           {
-            title: "Penilaian Bintur", 
-            content: "<h4>Penilaian yang dilakukan selama kegiatan Bintur secara Individu dengan menggunakan instrumen yang telah ditetapkan berdasarkan Taksonomi SOLO.</p>"
+            title: "Refleksi Kepemimpinan", 
+            content: "<h4>Mengevaluasi Gaya Kepemimpinan</h4><p>Sesi refleksi mendalam mengenai kekuatan dan kelemahan diri sebagai pemimpin/instruktur. Mengidentifikasi area pengembangan pribadi dan profesional.</p>"
           },
           {
             title: "Peran Instruktur", 
@@ -2452,11 +2487,11 @@ const jurlamChildren = [
           },
           {
             title: "Penilaian Bintal", 
-            content: "<h4>Penilaian yang dilakukan selama kegiatan Bintal secara Individu dengan menggunakan instrumen yang telah ditetapkan berdasarkan Taksonomi SOLO.</p>"
+            content: "<h4>Filosofi Menjadi Pembimbing</h4><p>Diskusi tentang esensi peran instruktur, mulai dari fasilitator, motivator, hingga mentor. Menetapkan standar etika dan profesionalisme dalam pembinaan.</p>"
           },
           {
             title: "Penilaian Bintur", 
-            content: "<h4>Penilaian yang dilakukan selama kegiatan Bintur secara Individu dengan menggunakan instrumen yang telah ditetapkan berdasarkan Taksonomi SOLO.</p>"
+            content: "<h4>Forum Tukar Wawasan</h4><p>Instruktur berbagi pengalaman keberhasilan dan kegagalan dalam melatih atau mengelola kegiatan. Tujuannya adalah saling belajar dari praktik terbaik (best practices) dan tantangan yang dihadapi.</p>"
           }
         ]
       },
@@ -2637,6 +2672,18 @@ jurlamChildren.forEach(item=>{
 });
 </script>
 <script>
+  // Simpel: gunakan localStorage agar tidak reset tiap refresh
+  let count = localStorage.getItem("visitorCount");
+  if (!count) {
+    count = 1;
+  } else {
+    count = parseInt(count) + 1;
+  }
+  localStorage.setItem("visitorCount", count);
+  document.getElementById("visitorNumber").textContent = count;
+</script>
+
+<script>
 // Toggle active emboss effect persistently
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll(".accordion, .h2-accordion, .h3-accordion, .h4-button").forEach(function(btn) {
@@ -2674,5 +2721,6 @@ document.addEventListener("click", function(e){
   }
 });
 </script>
+
 </body>
 </html>

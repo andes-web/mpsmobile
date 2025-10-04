@@ -240,17 +240,13 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 
 /* ==== Tombol HOME ==== */
 document.getElementById("homeBtn").addEventListener("click", ()=>{
-  if(window.innerWidth > 768){
-    // 🔹 Desktop → langsung alihkan tab yang sama
-    window.location.href = "https://andes-web.github.io/mpsmobile/";
-  } else {
-    // 🔹 Mobile → buka tab baru lalu tutup halaman ini
-    window.open("https://andes-web.github.io/mpsmobile/", "_blank");
-    window.open("","_self"); 
-    window.close();
-  }
-});
+  // buka halaman utama di tab baru
+  window.open("https://andes-web.github.io/mpsmobile/", "_blank");
 
+  // tutup halaman Form_Individu setelah buka tab baru
+  window.open("","_self"); 
+  window.close();
+});
 
 </script>
 </body>

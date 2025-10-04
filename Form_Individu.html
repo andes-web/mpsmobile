@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Nilai Individu MPS</title>
+<title>NILAI KELOMPOK PENDIDIKAN LATIHAN</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
@@ -16,296 +16,101 @@
        background:linear-gradient(135deg,#e0f2fe 0%,#fef9c3 100%);}
   .container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;
              padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
-  h2.title-main{
-  font-size:1.5rem;    /* lebih besar */
-  font-weight:950;     /* sangat tebal */
-  text-align:center;
-  margin:0;
-  text-shadow:2px 2px 3px rgba(0,0,0,0.25);  /* efek bayangan */
-}
+  h2.title-main{font-size:1.5rem;font-weight:950;text-align:center;margin:0;
+  text-shadow:2px 2px 3px rgba(0,0,0,0.25);}
+  h2.title-sub{font-size:1rem;font-weight:600;text-align:center;margin:2px 0 10px 0;}
 
-h2.title-sub{
-  font-size:1rem;      /* lebih kecil */
-  font-weight:600;
-  text-align:center;
-  margin:2px 0 10px 0; /* agak rapat ke bawah */
-}
+  .top-container{display:flex;justify-content:space-between;align-items:flex-start;
+    gap:4px;padding:12px;border:1px solid #ccc;border-radius:8px;background:#f9f9f9;margin-bottom:4px;}
+  .form-left{flex:1;display:flex;flex-direction:column;gap:5px;}
+  .form-pos{flex:0 0 auto;margin-left:4px;}
+  .form-left input,.form-left select,.form-pos select{
+    width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #ccc;}
+  .form-pos label{font-size:0.7rem;font-weight:600;margin-bottom:0px;text-align:center;color:#444;}
+  .form-pos select{font-size:2rem;font-weight:800;padding:10px 12px;min-width:3ch;text-align:center;}
 
-
- /* Top row: nama+unit di kiri (vertikal), pos tetap di kanan (desktop) */
-  .top-row{
-  display:flex;
-  gap:20px;
-  margin-bottom:12px;
-  align-items:flex-start;
-  justify-content:space-between;
-  flex-wrap:nowrap;
-}
-/* kiri berisi dua baris: name + unit */
-.left-col{
-  display:flex;
-  flex-direction:column;
-  gap:0px;
-  flex:1;
-}
-  .name, .unit{
-  flex:unset;        /* jangan pakai ukuran tetap */
-  width:100%;        /* isi penuh */
-  margin:0;          /* hilangkan margin default */
-  padding:0;
-}
-.name input,
-.unit select{
-  width:100%;
-  box-sizing:border-box;
-}
-/* Hilangkan label bawaan */
-.name label,
-.unit label{
-  display:none;
-}
-/* Placeholder abu-abu */
-#nama::placeholder{
-  color:#888;
-  opacity:1;
-}
-  
-  /* POS di kanan */
-.pos{
-  flex:unset;
-  display:flex;
-  flex-direction:column;
-  align-items:center; /* label & select rata kanan */
-}
-/* label POS agar kanan */
-.pos label{ text-align:right; margin-bottom:4px; }
-
-/* angka POS diperbesar (besar pada desktop) */
-.pos select{
-  font-size:2.5rem;     /* besar ~5x dari default (sesuaikan bila perlu) */
-  font-weight:800;
-  padding:8px 10px;
-  min-width:3ch;
-  text-align:center;
-}
-/* Responsif: pada layar kecil, susun ulang agar tidak pecah */
-@media(max-width:600px){
-  .top-row{ 
-    flex-wrap:nowrap;       /* jangan dibungkus, tetap sejajar */
-  }
-  .left-col{ 
-    flex:1;                 /* isi sisa ruang di kiri */
-  }
-  .pos{ 
-    flex:0 0 auto;          /* tetap kanan, ukuran sesuai konten */
-    align-items:flex-end; 
-  }
-}
-
-
-label{display:block;font-weight:700;font-size:0.85rem;margin-bottom:4px;}
-input,select,textarea{
-  width:100%;padding:6px 8px;border-radius:6px;border:1px solid #ccc;font-size:0.9rem;
-}
-input#nama{max-width:25ch;}
-  select#pos{max-width:15ch;}
-
-  textarea{resize:vertical;min-height:50px;width:100%;}
-
-  /* Rubrik */
   .rubrik{display:grid;gap:4px;}
   .aspek-card{display:flex;align-items:center;justify-content:space-between;
-              border-radius:10px;padding:10px;box-shadow:0 4px 12px rgba(0,0,0,0.06);}
+    border-radius:10px;padding:10px;box-shadow:0 4px 12px rgba(0,0,0,0.06);}
   .left{flex:1;margin-right:8px;}
   .aspek-title{font-weight:700;font-size:1rem;margin-bottom:3px;}
   .indikator{font-size:0.62rem;margin-bottom:6px;color:#222;line-height:1.2;}
   .nilai-buttons{display:flex;gap:1px;flex-wrap:wrap;}
   .nilai-buttons button {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: 1px solid #aaa;
-  background: #f9f9f9;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
-              inset -2px -2px 5px rgba(255,255,255,0.7);
-  transition: all 0.2s ease-in-out;
-}
+    padding: 8px 14px;border-radius: 6px;border: 1px solid #aaa;
+    background: #f9f9f9;font-weight: 700;font-size: 0.9rem;cursor: pointer;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
+                inset -2px -2px 5px rgba(255,255,255,0.7);
+    transition: all 0.2s ease-in-out;
+  }
+  .nilai-buttons button:hover {
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5),
+                inset -3px -3px 6px rgba(255,255,255,0.8);
+  }
+  .nilai-buttons button.active {
+    background: var(--accent);color: #fff;
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.6),
+                inset -2px -2px 6px rgba(255,255,255,0.3);
+  }
+  .nilai-besar {font-size: 3.8rem;font-weight: 900;text-align: center;min-width: 1ch;color: #333;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.4),-2px -2px 3px rgba(255,255,255,0.9);}
+  .nilai-besar.hidden {opacity: 0.25;color: #777;text-shadow: none;}
 
-.nilai-buttons button:hover {
-  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5),
-              inset -3px -3px 6px rgba(255,255,255,0.8);
-}
-
-.nilai-buttons button.active {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.6),
-              inset -2px -2px 6px rgba(255,255,255,0.3);
-}
-
-
-  /* Angka besar */
-  .nilai-besar {
-  font-size: 3.8rem;
-  font-weight: 900;
-  text-align: center;
-  min-width: 1ch;
-  color: #333;
-  /* Efek embos pada teks */
-  text-shadow: 
-    2px 2px 3px rgba(0,0,0,0.4),     /* bayangan bawah kanan gelap */
-   -2px -2px 3px rgba(255,255,255,0.9); /* bayangan atas kiri terang */
-}
-
-.nilai-besar.hidden {
-  opacity: 0.25;
-  color: #777;
-  text-shadow: none;
-}
-
-  /* Tombol bawah */
   .controls-row{display:flex;gap:6px;margin-top:10px;justify-content:center;}
   .controls-row .btn {
-  flex: 1;
-  max-width: 120px;
-  padding: 8px 0;
-  border-radius: 6px;
-  border: none;
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
-  /* Efek embos */
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
-              inset -2px -2px 5px rgba(255,255,255,0.7);
-}
-
-.controls-row .btn:hover {
-  transform: scale(1.05);
-  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5),
-              inset -3px -3px 6px rgba(255,255,255,0.8);
-}
-
-.btn-home   { background:#60a5fa; color:#fff; }
-.btn-undi   { background:#facc15; color:#111; }
-.btn-reset  { background:#eef2ff; color:#111; border:1px solid #c7d2fe; }
-.btn-submit { background:var(--success); color:#fff; }
-
-  .btn:hover{transform:scale(1.05);}
-  @media(max-width:600px){
-    .top-row{flex-wrap:wrap;gap:12px;}
-    .name,.pos{flex:unset;width:auto;}
-    .controls-row{flex-wrap:wrap;}
-    .controls-row .btn{flex:1 1 45%;max-width:none;}
+    flex: 1;max-width: 120px;padding: 8px 0;border-radius: 6px;border: none;
+    font-weight: 700;font-size: 0.85rem;cursor: pointer;text-align: center;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
+                inset -2px -2px 5px rgba(255,255,255,0.7);
+    transition: all 0.2s ease-in-out;
   }
-  /* Container utama */
-.top-container{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:4px;
-  padding:12px;
-  border:1px solid #ccc;
-  border-radius:8px;
-  background:#f9f9f9;   /* bisa diganti warna lain */
-  margin-bottom:4px;
-}
-
-/* kiri: nama & unit */
-.form-left{
-  flex:1;                 /* isi penuh ruang yang ada */
-  display:flex;
-  flex-direction:column;
-  gap:5px;                /* jarak kecil antara NAMA ANGGOTA dan PILIH UNIT */
-}
-
-/* kanan: pos */
-.form-pos{
-  flex:0 0 auto;         /* pos tetap sesuai ukuran konten */
-  margin-left:4px;       /* kasih jarak tipis biar tidak benar-benar menempel */
-}
-
-/* samakan ukuran kolom */
-.form-left input,
-.form-left select{
-  width:100%;
-  box-sizing:border-box;
-  padding:8px;
-  border-radius:6px;
-  border:1px solid #ccc;
-}
-.form-pos label{
-  font-size:0.7rem;     /* kecil, hanya label */
-  font-weight:600;
-  margin-bottom:0px;    /* rapat ke select */
-  text-align:center;    /* rata tengah */
-  color:#444;
-}
-
-/* gaya POS lebih besar */
-.form-pos select{
-  font-size:2rem;
-  font-weight:800;
-  padding:10px 12px;
-  border-radius:6px;
-  border:1px solid #ccc;
-  min-width:3ch;
-  text-align:center;
-}
-
+  .controls-row .btn:hover {transform: scale(1.05);}
+  .btn-home{background:#60a5fa;color:#fff;}
+  .btn-undi{background:#facc15;color:#111;}
+  .btn-reset{background:#eef2ff;color:#111;border:1px solid #c7d2fe;}
+  .btn-submit{background:var(--success);color:#fff;}
 </style>
 </head>
 <body>
 <div class="container">
   <h2 class="title-main">NILAI INDIVIDU</h2>
-<h2 class="title-sub">PENDIDIKAN DAN LATIHAN</h2>
+  <h2 class="title-sub">PENDIDIKAN DAN LATIHAN</h2>
 
-
- <!-- Container Input Atas -->
-<div class="top-container">
-  <div class="form-left">
-    <input id="nama" type="text" maxlength="20" placeholder="NAMA ANGGOTA">
-
-    <select id="anggota">
-      <option value="">-- Pilih Unit --</option>
-      <option value="SMPN 1 Citeureup">SMPN 1 Citeureup</option>
-      <option value="SMPN 6 Depok">SMPN 6 Depok</option>
-      <option value="SMPN 7 Depok">SMPN 7 Depok</option>
-      <option value="SMPN 8 Depok">SMPN 8 Depok</option>
-      <option value="SMPN 12 Depok">SMPN 12 Depok</option>
-      <option value="SMPN 16 Depok">SMPN 16 Depok</option>
-      <option value="SMPN 31 Depok">SMPN 31 Depok</option>
-      <option value="SMPN 32 Depok">SMPN 32 Depok</option>
-    </select>
+  <div class="top-container">
+    <div class="form-left">
+      <input id="nama" type="text" maxlength="20" placeholder="NAMA ANGGOTA">
+      <select id="anggota">
+        <option value="">-- Pilih Unit --</option>
+        <option value="SMPN 1 Citeureup">SMPN 1 Citeureup</option>
+        <option value="SMPN 6 Depok">SMPN 6 Depok</option>
+        <option value="SMPN 7 Depok">SMPN 7 Depok</option>
+        <option value="SMPN 8 Depok">SMPN 8 Depok</option>
+        <option value="SMPN 12 Depok">SMPN 12 Depok</option>
+        <option value="SMPN 16 Depok">SMPN 16 Depok</option>
+        <option value="SMPN 31 Depok">SMPN 31 Depok</option>
+        <option value="SMPN 32 Depok">SMPN 32 Depok</option>
+      </select>
+    </div>
+    <div class="form-pos">
+      <label for="pos">POS</label>
+      <select id="pos">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
   </div>
 
-  <div class="form-pos">
-    <label for="pos">POS</label>
-    <select id="pos">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-  </div>
-</div>
-
-
-
-  <!-- Rubrik -->
   <div id="rubrik-body" class="rubrik"></div>
 
-  <!-- Tombol -->
   <div class="controls-row">
-  <button id="homeBtn" class="btn btn-home">HOME</button>
-  <button id="submitBtn" class="btn btn-submit">SUBMIT</button>
-  <button id="resetBtn" class="btn btn-reset">RESET</button>
-  <button id="downloadExcel" class="btn btn-undi">UNDUH</button>
-</div>
+    <button id="homeBtn" class="btn btn-home">HOME</button>
+    <button id="submitBtn" class="btn btn-submit">SUBMIT</button>
+    <button id="resetBtn" class="btn btn-reset">RESET</button>
+    <button id="downloadExcel" class="btn btn-undi">UNDUH</button>
+  </div>
 </div>
 
 <script>
@@ -334,26 +139,33 @@ let nilaiData={};
 const rubrikBody=document.getElementById("rubrik-body");
 const posSelect=document.getElementById("pos");
 
-/* ==== Render Rubrik ==== */
 function renderRubrik(pos){
- rubrikBody.innerHTML="";
- rubrik[pos].forEach((it,idx)=>{
-  const card=document.createElement("div");
-  card.className="aspek-card"; card.style.background=cardColors[idx%5];
-  const left=document.createElement("div");left.className="left";
-  left.innerHTML=`<div class="aspek-title">${it.aspek}</div><div class="indikator">${it.indikator}</div>`;
-  const wrap=document.createElement("div");wrap.className="nilai-buttons";
-  for(let n=1;n<=5;n++){let b=document.createElement("button");b.textContent=n;
-    b.onclick=()=>setNilai(pos,idx,n,b,idx);if(nilaiData[pos]&&nilaiData[pos][idx]===n)b.classList.add("active");wrap.appendChild(b);}
-  left.appendChild(wrap);
-  const nilai=document.createElement("div");nilai.id=`nilai-${pos}-${idx}`;nilai.className="nilai-besar hidden";nilai.textContent="-";
-  card.appendChild(left);card.appendChild(nilai);rubrikBody.appendChild(card);
- });
+  rubrikBody.innerHTML="";
+  rubrik[pos].forEach((it,idx)=>{
+    const card=document.createElement("div");
+    card.className="aspek-card"; card.style.background=cardColors[idx%5];
+    const left=document.createElement("div");left.className="left";
+    left.innerHTML=`<div class="aspek-title">${it.aspek}</div><div class="indikator">${it.indikator}</div>`;
+    const wrap=document.createElement("div");wrap.className="nilai-buttons";
+    for(let n=1;n<=5;n++){
+      let b=document.createElement("button");b.textContent=n;
+      b.onclick=()=>setNilai(pos,idx,n,b,idx);
+      if(nilaiData[pos]&&nilaiData[pos][idx]===n)b.classList.add("active");
+      wrap.appendChild(b);
+    }
+    left.appendChild(wrap);
+    const nilai=document.createElement("div");nilai.id=`nilai-${pos}-${idx}`;
+    nilai.className="nilai-besar hidden";nilai.textContent="-";
+    card.appendChild(left);card.appendChild(nilai);rubrikBody.appendChild(card);
+  });
 }
 function setNilai(pos,idx,n,btn,idxForColor){
- if(!nilaiData[pos])nilaiData[pos]={};nilaiData[pos][idx]=n;
- btn.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
- const box=document.getElementById(`nilai-${pos}-${idx}`);box.textContent=n;box.classList.remove("hidden");box.style.color=valueColors[idxForColor%valueColors.length];
+  if(!nilaiData[pos])nilaiData[pos]={};nilaiData[pos][idx]=n;
+  btn.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  const box=document.getElementById(`nilai-${pos}-${idx}`);
+  box.textContent=n;box.classList.remove("hidden");
+  box.style.color=valueColors[idxForColor%valueColors.length];
 }
 renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.value));
 
@@ -362,112 +174,33 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   const nama=document.getElementById("nama").value.trim();
   const anggota=document.getElementById("anggota").value.trim();
   const pos=posSelect.value;
-  if(!nama){
-  Swal.fire({
-    icon: 'warning',
-    title: 'Perhatian',
-    text: 'Nama anggota wajib diisi',
-    confirmButtonColor: '#facc15'
-  });
-  return;
-}
-
-  const arr=(rubrik[pos]||[]).map((a,idx)=>({
-    aspek:a.aspek,
-    nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""
-  }));
-
-fetch(scriptURL, {
-  method: "POST",
-  body: new URLSearchParams({
-    nama,
-    anggota,
-    pos,
-    nilai: JSON.stringify(arr)
-  })
-})
-.then(async r=>{
-   let res = await r.text();
-   console.log("Server response:", res);
-   Swal.fire({
-     icon: 'success',
-     title: 'Berhasil!',
-     text: 'Data Tersimpan',
-     confirmButtonColor: '#16a34a',
-     timer: 2000,
-     showConfirmButton: false
-   });
-
-
-   // Reset semua input
-   document.getElementById("nama").value = "";
-   document.getElementById("anggota").selectedIndex = 0; // reset ke "-- Pilih Unit --"
-   posSelect.value = "1";                                // reset ke POS 1
-   nilaiData = {};                                       // kosongkan nilai
-   renderRubrik(1);                                      // render ulang POS 1
-})
-.catch(err=>{
-   console.error("Fetch error:", err);
-   Swal.fire({
-     icon: 'error',
-     title: 'Oops...',
-     text: 'Gagal menyimpan data!',
-     confirmButtonColor: '#dc2626'
-   });
-});
-});
-
-
-/* ==== Reset ==== */
-document.getElementById("resetBtn").addEventListener("click",()=>{nilaiData={};renderRubrik(posSelect.value);});
-
-/* ==== Unduh Excel ==== */
-document.getElementById("downloadExcel").addEventListener("click",()=>{
- const rows=[["Timestamp","Nama","Unit","POS","Aspek","Nilai"]];
- const ts=new Date().toLocaleString();const nm=document.getElementById("nama").value;const ang=document.getElementById("unit").value;
- for(const pos in nilaiData){(rubrik[pos]||[]).forEach((a,idx)=>{const skor=nilaiData[pos]&&nilaiData[pos][idx]?nilaiData[pos][idx]:"";rows.push([ts,nm,ang,"POS "+pos,a.aspek,skor]);});}
- const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Nilai");XLSX.writeFile(wb,"Data.xlsx");
-});
-document.getElementById("homeBtn").addEventListener("click", ()=>{
-  window.location.href = "https://andes-web.github.io/mpsmobile/";
-});
-document.getElementById("submitBtn").addEventListener("click",()=>{
-  const nama=document.getElementById("nama").value.trim();
-  const anggota=document.getElementById("anggota").value.trim();
-  const pos=posSelect.value;
 
   if(!nama){
-    Swal.fire({
-      icon: 'warning',
-      title: 'Perhatian',
-      text: 'Nama anggota wajib diisi',
-      confirmButtonColor: '#facc15'
-    });
+    Swal.fire({icon:'warning',title:'Perhatian',text:'Nama anggota wajib diisi',confirmButtonColor:'#facc15'});
+    return;
+  }
+  if(!anggota){
+    Swal.fire({icon:'warning',title:'Perhatian',text:'Unit wajib dipilih',confirmButtonColor:'#facc15'});
+    return;
+  }
+  const aspekRubrik=rubrik[pos]||[];
+  let adaKosong=aspekRubrik.some((a,idx)=>!nilaiData[pos]||!nilaiData[pos][idx]);
+  if(adaKosong){
+    Swal.fire({icon:'warning',title:'Perhatian',text:'Semua skor rubrik wajib diisi',confirmButtonColor:'#facc15'});
     return;
   }
 
-  const arr=(rubrik[pos]||[]).map((a,idx)=>({
-    aspek:a.aspek,
-    nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""
-  }));
+  const arr=aspekRubrik.map((a,idx)=>({aspek:a.aspek,nilai:nilaiData[pos][idx]}));
 
-  fetch(scriptURL, {
+  fetch(scriptURL,{
     method:"POST",
     body:new URLSearchParams({nama,anggota,pos,nilai:JSON.stringify(arr)})
   })
   .then(async r=>{
-     let res = await r.text();
-     console.log("Server response:", res);
-     Swal.fire({
-       icon: 'success',
-       title: 'Berhasil!',
-       text: 'Data tersimpan',
-       confirmButtonColor: '#16a34a',
-       timer: 2000,
-       showConfirmButton: false
-     });
-
-     // reset form
+     let res=await r.text();
+     console.log("Server response:",res);
+     Swal.fire({icon:'success',title:'Berhasil!',text:'Data terkirim ke Google Sheet',
+       confirmButtonColor:'#16a34a',timer:2000,showConfirmButton:false});
      document.getElementById("nama").value="";
      document.getElementById("anggota").selectedIndex=0;
      posSelect.value="1";
@@ -475,16 +208,40 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
      renderRubrik(1);
   })
   .catch(err=>{
-     console.error("Fetch error:", err);
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Gagal menyimpan data!',
-       confirmButtonColor: '#dc2626'
-     });
+     console.error("Fetch error:",err);
+     Swal.fire({icon:'error',title:'Oops...',text:'Gagal mengirim data!',confirmButtonColor:'#dc2626'});
   });
 });
 
+/* ==== Reset ==== */
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  nilaiData={};renderRubrik(posSelect.value);
+  document.getElementById("nama").value="";
+  document.getElementById("anggota").selectedIndex=0;
+});
+
+/* ==== Unduh Excel ==== */
+document.getElementById("downloadExcel").addEventListener("click",()=>{
+  const rows=[["Timestamp","Nama Kelompok","Anggota","POS","Aspek","Nilai"]];
+  const ts=new Date().toLocaleString();
+  const nm=document.getElementById("nama").value;
+  const ang=document.getElementById("anggota").value;
+  for(const pos in nilaiData){
+    (rubrik[pos]||[]).forEach((a,idx)=>{
+      const skor=nilaiData[pos]&&nilaiData[pos][idx]?nilaiData[pos][idx]:"";
+      rows.push([ts,nm,ang,"POS "+pos,a.aspek,skor]);
+    });
+  }
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"Nilai");
+  XLSX.writeFile(wb,"Nilai_Bintal.xlsx");
+});
+
+/* ==== Tombol HOME ==== */
+document.getElementById("homeBtn").addEventListener("click",()=>{
+  window.location.href="https://andes-web.github.io/mpsmobile/";
+});
 </script>
 </body>
 </html>

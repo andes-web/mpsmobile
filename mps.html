@@ -2710,6 +2710,41 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 <script>
+/* ------------ Paste ke MPS_Mobile.html (script area) ------------ */
+function findHomeElements(){
+  return Array.from(document.querySelectorAll('.h2-accordion, .h3-accordion, .h4-button, .accordion'))
+    .filter(el => el.textContent && el.textContent.trim().toUpperCase() === 'HOME');
+}
+
+function setHomeDisabled(disabled){
+  const els = findHomeElements();
+  els.forEach(el=>{
+    if(disabled){
+      el.dataset._prevPointer = el.style.pointerEvents || '';
+      el.style.pointerEvents = 'none';
+      el.style.opacity = '0.5';
+      el.classList.add('disabled-by-iframe');
+    } else {
+      el.style.pointerEvents = el.dataset._prevPointer || '';
+      el.style.opacity = '';
+      el.classList.remove('disabled-by-iframe');
+    }
+  });
+}
+/* Observer: jika #content berubah — cek ada iframe Form_Individu atau tidak */
+(function(){
+  const target = document.getElementById('content');
+  if(!target) return;
+  const mo = new MutationObserver(()=>{
+    const iframe = target.querySelector('iframe[src="Form_Individu.html"]');
+    setHomeDisabled(Boolean(iframe));
+  });
+  mo.observe(target, { childList: true, subtree: true });
+
+  // juga cek sekarang (jika halaman sudah memuat iframe)
+  const initialIframe = target.querySelector('iframe[src="Form_Individu.html"]');
+  setHomeDisabled(Boolean(initialIframe));
+})();
 function isMobile(){
   return window.innerWidth <= 768; // patokan sederhana
 }

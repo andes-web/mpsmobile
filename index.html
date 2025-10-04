@@ -2483,7 +2483,17 @@ const jurlamChildren = [
         children: [
           {
             title: "Penilaian Diklat", 
-            content: "<iframe src='https://andes-web.github.io/mpsmobile/Form_Individu.html' style='width:100%;height:100vh;border:none;'></iframe>"
+            content: "<script>
+    if(window.innerWidth <= 768){
+      // 🔹 Mobile → buka full page
+      window.location.href='https://andes-web.github.io/mpsmobile/Form_Individu.html';
+    } else {
+      // 🔹 Desktop → load iframe ke dalam konten
+      document.currentScript.parentElement.innerHTML = \"
+        <iframe src='https://andes-web.github.io/mpsmobile/Form_Individu.html' style='width:100%;height:100vh;border:none;'></iframe>
+      \";
+    }
+  </script>"
           },
           {
             title: "Penilaian Bintal", 

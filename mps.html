@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MPS Fix Panel Final with Icons</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MPS Mobile</title>
 <style>
 body {
   margin: 0;
@@ -24,16 +25,23 @@ header {
   padding: 0 12px;
   height: 55px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  justify-content: space-between;
 }
 header img.logo {
-  height: 32px;
+  height: 45px;
   margin-right: 10px;
+  flex: 0 0 auto;
 }
 header span.instansi {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 30px;
   color: white;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  flex: 1;
+  text-align: center;
+  white-space: normal; /* biar bisa wrap */
+  word-wrap: break-word;
+  margin: 0 10px;
 }
 
 /* Layout dasar */
@@ -217,16 +225,17 @@ header {
 .logo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-  gap: 10px;
+  gap: 4px;
   margin-top: 20px;
-  padding: 10px;
+  padding: 0px;
   background: #f9fcff;
   border-radius: 8px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  flex-wrap: nowrap;
 }
 .logo-grid img {
-  max-width: 100%;
-  height: auto;
+  width: auto;
+  height: 20px;
   display: block;
   margin: auto;
 }
@@ -252,25 +261,32 @@ header {
   font-size: 0.8rem;
 }
 
-/* Logo grid di luar konten utama */
-.logo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  gap: 10px;
-  margin: 15px auto;
-  padding: 10px;
-  max-width: 95%;
-  background: #f9fcff;
-  border-radius: 8px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-}
-.logo-grid img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: auto;
-}
-
+@media (max-width: 768px) {
+  .logo-grid {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;          /* tetap 1 baris */
+    justify-content: center !important; /* logo di tengah */
+    align-items: center;
+    gap: 0 !important;
+    overflow-x: hidden !important; /* tidak perlu scroll kalau sudah proporsional */
+    padding: 6px 8px !important;
+    width: 100% !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 2147483646 !important;
+    background: #f9fcff !important;
+  }
+  .logo-grid img {
+    flex: 1 1 auto !important;   /* masing-masing logo fleksibel */
+    max-height: 35px !important; /* kontrol tinggi maksimal */
+    height: auto !important;
+    width: auto !important;
+    object-fit: contain !important;
+    margin: 0 4px !important;
+  }
 
 
 /* --- ADDED (no deletions): fixed header/footer + scrollable middle for mobile --- */
@@ -391,39 +407,623 @@ html, body {
   margin-top: 100px !important; /* 55 header + 45 menu */
 }
 
+
+/* ====== Desktop Layout ala layout3.png ====== */
+@media (min-width: 769px) {
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* cegah scroll global */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    z-index: 1000;
+  }
+
+  .layout {
+    display: flex;
+    position: fixed;
+    top: 55px;   /* tepat di bawah header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .sidebar-left {
+    width: 260px;
+    background: #f6fbff;
+    border-right: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .sidebar-right {
+    width: 260px;
+    background: #f7fbff;
+    border-left: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;   /* hanya konten yang discroll */
+    padding: 20px;
+    background: #ffffffd9;
+    border-radius: 0;
+    margin: 0;
+  }
+}
+
+
+/* ====== Desktop Layout Fix sejajarkan konten dan sidebar kanan ====== */
+@media (min-width: 769px) {
+  .layout {
+    top: 55px !important; /* sejajar header */
+  }
+  .content {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+  }
+  .sidebar-right {
+    margin-top: 0 !important;
+  }
+}
+/* ====== Desktop fix: header + sidebars statis, konten scroll ====== */
+@media (min-width: 769px) {
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* cegah scroll global */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    z-index: 2000;
+  }
+
+  .layout {
+    display: flex;
+    position: fixed;
+    top: 55px;   /* tepat di bawah header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .sidebar-left {
+    position: fixed;
+    top: 55px;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    background: #f8fcff;
+    border-right: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .sidebar-right {
+    position: fixed;
+    top: 55px;
+    right: 0;
+    bottom: 0;
+    width: 250px;
+    background: #f0f7ff;
+    border-left: 1px solid #cfdff5;
+    overflow-y: auto;
+  }
+
+  .content {
+    position: fixed;
+    top: 55px;
+    left: 260px;
+    right: 250px;
+    bottom: 0;
+    overflow-y: auto; /* hanya konten utama yang scroll */
+    padding: 20px;
+    background: #ffffffd9;
+    border-radius: 0;
+    margin: 0;
+  }
+}
+}
+/* ===== Submenu embos dalam + container + beda warna + lebarkan ===== */
+@media (min-width: 769px) {
+
+  /* Perlebar agar tidak ada celah kosong */
+  .sidebar-left .accordion,
+  .sidebar-left .panel-inner,
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    width: 95%;
+  }
+
+  /* Submenu default */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    border-radius: 8px;
+    margin: 4px auto;
+    padding: 8px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: clamp(0.65rem, 1vw, 0.9rem);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+
+  /* Klik submenu → embos lebih dalam */
+  .sidebar-left .h2-accordion.active,
+  .sidebar-left .h3-accordion.active,
+  .sidebar-left .h4-button.active {
+    box-shadow: inset 4px 4px 7px rgba(0,0,0,0.35),
+                inset -4px -4px 7px rgba(255,255,255,0.95);
+    background: #e2e8f0;
+  }
+
+  /* Container submenu */
+  .sidebar-left .panel-inner {
+    padding: 10px;
+    background: #fafafa;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2),
+                inset -3px -3px 6px rgba(255,255,255,0.9);
+  }
+
+  /* Container sub-submenu */
+  .sidebar-left .subpanel {
+    margin-left: 8px;
+    padding: 6px;
+    border-radius: 8px;
+    background: #f4f4f4;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.15),
+                inset -2px -2px 5px rgba(255,255,255,0.9);
+  }
+
+  /* Warna per level */
+  .sidebar-left .h2-accordion {
+    background: linear-gradient(145deg, #e0f2fe, #bae6fd);
+  }
+  .sidebar-left .h3-accordion {
+    background: linear-gradient(145deg, #ede9fe, #ddd6fe);
+  }
+  .sidebar-left .h4-button {
+    background: linear-gradient(145deg, #fef9c3, #fef08a);
+    border: none !important;
+  }
+}
+
+</style>
+<!-- STRONG DESKTOP OVERRIDES: buat header, kedua sidebar, dan footer logo FIXED (hanya .content yang scroll) -->
+<style>
+@media (min-width: 769px) {
+  html, body {
+    height: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important; /* matikan scroll global */
+  }
+
+  /* Header tetap di atas */
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 55px !important;
+    z-index: 9999 !important;
+  }
+
+  /* Sidebar kiri dan kanan fixed antara header dan footer */
+  .sidebar-left {
+    position: fixed !important;
+    top: 55px !important;
+    bottom: 70px !important; /* ruang untuk logo-grid footer */
+    left: 0 !important;
+    width: 260px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 900 !important;
+  }
+
+  .sidebar-right {
+    position: fixed !important;
+    top: 55px !important;
+    bottom: 70px !important; /* ruang untuk logo-grid footer */
+    right: 0 !important;
+    width: 250px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 900 !important;
+  }
+
+  /* Footer logo fixed di bawah, namun hanya mengisi ruang di antara sidebars */
+  .logo-grid {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 260px !important;  /* lebarnya sama dengan sidebar-left */
+    right: 250px !important; /* lebarnya sama dengan sidebar-right */
+    height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 6px 12px !important;
+    background: #f9fcff !important;
+    border-top: 1px solid #e6eefc !important;
+    overflow-x: auto !important;
+    z-index: 850 !important;
+  }
+  .logo-grid img {
+    max-height: 48px !important;
+    height: auto !important;
+    margin: 0 6px !important;
+  }
+
+  /* Konten utama fixed di area yang tersisa; hanya area ini yang scroll */
+  .content {
+    position: fixed !important;
+    top: 55px !important;            /* di bawah header */
+    left: 260px !important;          /* setelah sidebar-left */
+    right: 250px !important;         /* sebelum sidebar-right */
+    bottom: 70px !important;         /* di atas logo-grid */
+    overflow-y: auto !important;     /* hanya konten yang bisa discroll */
+    -webkit-overflow-scrolling: touch !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Kalau ada menu-bar fixed di mobile, sembunyikan pada desktop */
+  .menu-bar { display: none !important; }
+
+  /* Jaga tampilan sidebar pada desktop */
+  .sidebar-left, .sidebar-right, header, .logo-grid { transform: none !important; }
+
+}
+
+/* ===== Efek Embos Sidebar Kiri (Desktop saja) ===== */
+@media (min-width: 769px) {
+  .sidebar-left {
+    background: #f4faff;
+    padding: 12px;
+    box-shadow: inset -2px 0 6px rgba(0,0,0,0.08);
+    border-right: 1px solid #cfdff5;
+  }
+
+  /* Menu utama (accordion) */
+  .sidebar-left .accordion {
+    border-radius: 12px;
+    margin: 6px 0;
+    padding: 10px;
+    font-weight: bold;
+    color: #0b3b82;
+    background: linear-gradient(145deg, #f9f9f9, #e3edf7);
+    box-shadow: inset 2px 2px 5px rgba(255,255,255,0.8),
+                inset -2px -2px 5px rgba(0,0,0,0.1);
+    transition: all 0.25s ease-in-out;
+  }
+  .sidebar-left .accordion:hover {
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.15),
+                inset -3px -3px 6px rgba(255,255,255,0.8);
+    transform: translateY(-1px);
+  }
+
+  /* Panel isi */
+  .sidebar-left .panel-inner {
+    background: #fefefe;
+    border-radius: 12px;
+    padding: 8px;
+    margin: 4px 0 10px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.12),
+                inset -2px -2px 5px rgba(255,255,255,0.9);
+  }
+
+  /* Warna berbeda tiap menu utama */
+  .sidebar-left .accordion:nth-child(1) {
+    background: linear-gradient(145deg, #eef6ff, #d6e6ff);
+  }
+  .sidebar-left .accordion:nth-child(2) {
+    background: linear-gradient(145deg, #fef7f0, #fde5cc);
+  }
+  .sidebar-left .accordion:nth-child(3) {
+    background: linear-gradient(145deg, #f0fdf4, #d1fae5);
+  }
+  .sidebar-left .accordion:nth-child(4) {
+    background: linear-gradient(145deg, #fdf2f8, #fce7f3);
+  }
+  .sidebar-left .accordion:nth-child(5) {
+    background: linear-gradient(145deg, #fff7ed, #ffedd5);
+  }
+
+  /* Submenu (H2, H3, H4) */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    background: #ffffff;
+    border-radius: 8px;
+    margin: 3px 0;
+    padding: 6px 8px;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.08),
+                inset -1px -1px 3px rgba(255,255,255,0.8);
+    transition: background 0.2s;
+  }
+  .sidebar-left .h2-accordion:hover,
+  .sidebar-left .h3-accordion:hover,
+  .sidebar-left .h4-button:hover {
+    background: #f1f5f9;
+  }
+}
+
+
+/* ===== Efek Embos Sidebar Kiri (Desktop dengan submenu menyatu & state aktif) ===== */
+@media (min-width: 769px) {
+  .sidebar-left {
+    background: #f0f6fb;
+    padding: 12px;
+    box-shadow: inset -3px 0 8px rgba(0,0,0,0.12);
+    border-right: 1px solid #cfdff5;
+    max-width: 260px;
+  }
+
+  /* Menu utama (accordion) */
+  .sidebar-left .accordion {
+    width: 100%;
+    border-radius: 10px;
+    margin: 6px 0;
+    padding: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+    box-shadow: inset 5px 5px 10px rgba(0,0,0,0.35),
+                inset -5px -5px 10px rgba(255,255,255,0.95);
+    transition: all 0.25s ease-in-out;
+  }
+
+  .sidebar-left .accordion.active {
+    background: linear-gradient(145deg, #93c5fd, #60a5fa);
+    box-shadow: inset 6px 6px 12px rgba(0,0,0,0.45),
+                inset -6px -6px 12px rgba(255,255,255,0.95);
+  }
+
+  /* Container submenu */
+  .sidebar-left .panel-inner {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.25),
+                inset -4px -4px 8px rgba(255,255,255,0.9);
+  }
+
+  /* Warna berbeda tiap menu utama */
+  .sidebar-left .accordion:nth-of-type(1) {
+    background: linear-gradient(145deg, #d9e9ff, #bcd6ff);
+  }
+  .sidebar-left .accordion:nth-of-type(2) {
+    background: linear-gradient(145deg, #ffe9d6, #fcd1a8);
+  }
+  .sidebar-left .accordion:nth-of-type(3) {
+    background: linear-gradient(145deg, #dcfce7, #a7f3d0);
+  }
+  .sidebar-left .accordion:nth-of-type(4) {
+    background: linear-gradient(145deg, #fce7f3, #f9a8d4);
+  }
+  .sidebar-left .accordion:nth-of-type(5) {
+    background: linear-gradient(145deg, #ffedd5, #fdba74);
+  }
+
+  /* Submenu */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion,
+  .sidebar-left .h4-button {
+    background: #ffffff;
+    border-radius: 6px;
+    margin: 4px 0;
+    padding: 6px 8px;
+    box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15),
+                inset -2px -2px 4px rgba(255,255,255,0.85);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .sidebar-left .h2-accordion.active,
+  .sidebar-left .h3-accordion.active,
+  .sidebar-left .h4-button.active {
+    background: #f1f5f9;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.25),
+                inset -3px -3px 6px rgba(255,255,255,0.9);
+  }
+}
+
+
+/* ===== Submenu dengan warna embos sesuai parent, tanpa segitiga, single line ===== */
+@media (min-width: 769px) {
+
+  /* Hilangkan segitiga default */
+  .sidebar-left .h2-accordion::after,
+  .sidebar-left .h3-accordion::after {
+    content: none !important;
+  }
+
+  /* Submenu (H2/H3) */
+  .sidebar-left .h2-accordion,
+  .sidebar-left .h3-accordion {
+    width: 100%;
+    border-radius: 8px;
+    margin: 4px 0;
+    padding: 8px;
+    font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: linear-gradient(145deg, #fef3c7, #fde68a);
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.25),
+                inset -4px -4px 8px rgba(255,255,255,0.9);
+    transition: all 0.25s ease-in-out;
+  }
+  .sidebar-left .h2-accordion.active,
+  .sidebar-left .h3-accordion.active {
+    background: linear-gradient(145deg, #fcd34d, #fbbf24);
+    box-shadow: inset 6px 6px 12px rgba(0,0,0,0.4),
+                inset -6px -6px 12px rgba(255,255,255,0.95);
+  }
+
+  /* Container sub-submenu */
+  .sidebar-left .subpanel {
+    background: #f3f4f6;
+    padding: 6px;
+    border-radius: 6px;
+    margin-left: 8px;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.25),
+                inset -3px -3px 6px rgba(255,255,255,0.9);
+  }
+@media (min-width: 769px) {
+  .sidebar-left .h3-accordion {
+    margin-left: 12px;    /* geser ke kanan sedikit */
+    max-width: calc(100% - 16px); /* supaya tidak melebihi container */
+    background: linear-gradient(145deg, #d6f0f8, #b6d1d1);
+    box-shadow: inset 6px 6px 12px rgba(0,0,0,0.4),
+                inset -6px -6px 12px rgba(255,255,255,0.95);
+  }
+}
+
+  /* Sub-submenu (H4) */
+  .sidebar-left .h4-button {
+    width: 100%;
+    border-radius: 6px;
+    margin: 3px 0;
+    padding: 6px 8px;
+    font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: linear-gradient(145deg, #ecfccb, #bef264);
+    box-shadow: inset 3px 3px 7px rgba(0,0,0,0.25),
+                inset -3px -3px 7px rgba(255,255,255,0.9);
+  }
+  .sidebar-left .h4-button.active {
+    background: linear-gradient(145deg, #a3e635, #84cc16);
+    box-shadow: inset 5px 5px 9px rgba(0,0,0,0.4),
+                inset -5px -5px 9px rgba(255,255,255,0.95);
+  }
+}
+/* Hilangkan container subpanel untuk H4 */
+@media (min-width: 769px) {
+  .sidebar-left .subpanel {
+    background: none !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    box-shadow: none !important;
+  }
+
+   .sidebar-left .h4-button {
+    display: block;
+    max-width: calc(100% - 24px); /* tidak melebihi header/container */
+    margin-left: 16px;            /* indentasi */
+    margin-right: auto;           /* supaya tidak keluar ke kanan */
+    border: none;
+    border-radius: 6px;
+    padding: 6px 8px;
+    background: linear-gradient(145deg, #ecfccb, #bef264);
+    box-shadow: inset 3px 3px 7px rgba(0,0,0,0.25),
+                inset -3px -3px 7px rgba(255,255,255,0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sidebar-left .h4-button.active {
+    background: linear-gradient(145deg, #a3e635, #84cc16);
+    box-shadow: inset 5px 5px 9px rgba(0,0,0,0.4),
+                inset -5px -5px 9px rgba(255,255,255,0.95);
+  }
+}
+@media (min-width: 769px) {
+  .sidebar-left {
+    overflow-y: auto;   /* tetap bisa scroll */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .sidebar-left .panel-inner {
+    overflow-y: auto;       /* tetap bisa digulir */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .sidebar-left::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Edge */
+  }
+  .sidebar-left .panel-inner::-webkit-scrollbar {
+    display: none;          /* Chrome, Safari, Edge */
+  }
+}
+@media (min-width: 769px) {
+  .sidebar-left .sidebar-title {
+    font-size: 1.3rem;         /* ukuran proporsional */
+    font-weight: 900;         /* cetak tebal */
+    color: #080077;            /* warna teks */
+    text-align: center;        /* rata tengah */
+    padding: 12px 0 14px 0;
+    margin: 8px 0px 16px 0;      /* jarak proporsional */
+    border-bottom: 2px solid #a5a6a7; /* garis batas */
+    letter-spacing: 0px;       /* jarak antar huruf */
+    text-shadow: 1px 1px 0 #aaaaaa; /* bayangan tipis bikin kelihatan lebih tebal */
+  }
+}
+@media (max-width: 768px) {
+  .footer-logo img {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .footer-logo {
+    display: flex;
+    justify-content: center; /* rapat di tengah */
+    gap: 0;                  /* hilangkan celah antar logo */
+  }
+}
+/* Sembunyikan NAVIGASI UTAMA di mobile */
+@media (max-width: 768px) {
+  .sidebar-left .sidebar-title {
+    display: none !important;
+  }
+}
 </style>
 </head>
 <body>
 <header>
-  <img src="mpsicon.jpg" class="logo" alt="Logo Instansi"/>
-  <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
-</header>
-<aside class="sidebar-left" id="sidebar-left">
-
-</aside>
+<img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
+<span class="instansi">MANAGER PASKIBRA SOLUTION</span>
 <div class="layout">
-  
-  <main class="content" id="content"><h2>Selamat Datang</h2><p>Di Manajer Paskibra Solution (MPS) Mobile.</p><!-- logo grid dipindahkan keluar -->
-</div-->
+<aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
+</aside>
+<main class="content" id="content">
+<h2>Selamat Datang</h2>
+<p>Di Manajer Paskibra Solution (MPS) Mobile.</p>
 </main>
-  <aside class="sidebar-right">Sidebar Kanan</aside>
+<aside class="sidebar-right">
+    Sidebar Kanan
+  </aside>
 </div>
-
 <div class="logo-grid">
-  <!-- Sisipkan hingga 10 logo kecil di sini -->
-  <img src="logo1.png" alt="Logo 1">
-  <img src="logo2.png" alt="Logo 2">
-  <img src="logo3.png" alt="Logo 3">
-  <img src="logo4.png" alt="Logo 4">
-  <img src="logo5.png" alt="Logo 5">
-  <img src="logo6.png" alt="Logo 6">
-  <img src="logo7.png" alt="Logo 7">
-  <img src="logo8.png" alt="Logo 8">
-  <img src="logo9.png" alt="Logo 9">
-  <img src="logo10.png" alt="Logo 10">
+<!-- Sisipkan hingga 10 logo kecil di sini -->
+<img alt="Logo 1" src="12-removebg-preview.png"/>
+<img alt="Logo 2" src="16-removebg-preview.png"/>
+<img alt="Logo 3" src="6-removebg-preview (1).png"/>
+<img alt="Logo 4" src="8-removebg-preview.png"/>
+<img alt="Logo 5" src="31-removebg-preview.png"/>
+<img alt="Logo 6" src="7.png"/>
+<img alt="Logo 7" src="1_Citeureup.png"/>
 </div>
 
 <script>
+  
 const jurlamChildren = [
   {
     title: "DIKLAT", // H1
@@ -1753,8 +2353,8 @@ const jurlamChildren = [
         content: "Fokus pada pengembangan kesadaran diri instruktur, gaya kepemimpinan yang efektif, dan kemampuan memimpin dengan teladan.",
         children: [
           {
-            title: "Refleksi Kepemimpinan", 
-            content: "<h4>Mengevaluasi Gaya Kepemimpinan</h4><p>Sesi refleksi mendalam mengenai kekuatan dan kelemahan diri sebagai pemimpin/instruktur. Mengidentifikasi area pengembangan pribadi dan profesional.</p>"
+            title: "Penilaian Bintur", 
+            content: "<h4>Penilaian yang dilakukan selama kegiatan Bintur secara Individu dengan menggunakan instrumen yang telah ditetapkan berdasarkan Taksonomi SOLO.</p>"
           },
           {
             title: "Peran Instruktur", 
@@ -1847,16 +2447,16 @@ const jurlamChildren = [
         content: "Fokus pada pengembangan kesadaran diri instruktur, gaya kepemimpinan yang efektif, dan kemampuan memimpin dengan teladan.",
         children: [
           {
-            title: "Refleksi Kepemimpinan", 
-            content: "<h4>Mengevaluasi Gaya Kepemimpinan</h4><p>Sesi refleksi mendalam mengenai kekuatan dan kelemahan diri sebagai pemimpin/instruktur. Mengidentifikasi area pengembangan pribadi dan profesional.</p>"
+            title: "Penilaian Diklat", 
+            content: "<iframe src='Form_Individu.html' style='width:100%;height:100vh;border:none;'></iframe>"
           },
           {
-            title: "Peran Instruktur", 
-            content: "<h4>Filosofi Menjadi Pembimbing</h4><p>Diskusi tentang esensi peran instruktur, mulai dari fasilitator, motivator, hingga mentor. Menetapkan standar etika dan profesionalisme dalam pembinaan.</p>"
+            title: "Penilaian Bintal", 
+            content: "<h4>Penilaian yang dilakukan selama kegiatan Bintal secara Individu dengan menggunakan instrumen yang telah ditetapkan berdasarkan Taksonomi SOLO.</p>"
           },
           {
-            title: "Sharing Pengalaman", 
-            content: "<h4>Forum Tukar Wawasan</h4><p>Instruktur berbagi pengalaman keberhasilan dan kegagalan dalam melatih atau mengelola kegiatan. Tujuannya adalah saling belajar dari praktik terbaik (best practices) dan tantangan yang dihadapi.</p>"
+            title: "Penilaian Bintur", 
+            content: "<h4>Penilaian yang dilakukan selama kegiatan Bintur secara Individu dengan menggunakan instrumen yang telah ditetapkan berdasarkan Taksonomi SOLO.</p>"
           }
         ]
       },
@@ -2033,5 +2633,39 @@ jurlamChildren.forEach(item=>{
   });
 });
 </script>
+<script>
+// Toggle active emboss effect persistently
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".accordion, .h2-accordion, .h3-accordion, .h4-button").forEach(function(btn) {
+    btn.addEventListener("click", function(e) {
+      e.stopPropagation();
+      this.classList.toggle("active");
+    });
+  });
+});
+</script>
+<script>
+// Toggle embos aktif untuk menu, submenu, dan sub-submenu
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".accordion, .h2-accordion, .h3-accordion, .h4-button")
+    .forEach(function(btn) {
+      btn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        this.classList.toggle("active");
+      });
+    });
+});
+</script>
+<script>
+document.addEventListener("click", function(e){
+  // Jika submenu PENILAIAN DIKLAT diklik
+  if(e.target && e.target.matches(".submenu-diklat")){
+    document.getElementById("content").innerHTML = `
+      <iframe src="Form_Individu.html" style="width:100%;height:100vh;border:none;"></iframe>
+    `;
+  }
+});
+</script>
+
 </body>
 </html>

@@ -380,13 +380,15 @@ fetch(scriptURL, {
    let res = await r.text();
    console.log("Server response:", res);
    alert("✅ Data terkirim ke Google Sheet");
-   // reset form
-   document.getElementById("nama").value="";
-   document.getElementById("anggota").value="";
-   posSelect.value="1";
-   nilaiData={};
-   renderRubrik(1);
+
+   // Reset semua input
+   document.getElementById("nama").value = "";
+   document.getElementById("anggota").selectedIndex = 0; // reset ke "-- Pilih Unit --"
+   posSelect.value = "1";                                // reset ke POS 1
+   nilaiData = {};                                       // kosongkan nilai
+   renderRubrik(1);                                      // render ulang POS 1
 })
+
 .catch(err=>{
    console.error("Fetch error:", err);
    alert("❌ Gagal: "+err);
@@ -407,3 +409,4 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 </script>
 </body>
 </html>
+

@@ -2501,19 +2501,19 @@ const jurlamChildren = [
         content: "Meningkatkan kompetensi teknis instruktur dalam merancang, menyampaikan, dan mengevaluasi program pelatihan secara terstruktur dan analitis.",
         children: [
           {
-            title: "Workshop Microteaching", 
-            content: "<h4>Latihan Keterampilan Mengajar</h4><p>Instruktur mempraktikkan sesi mengajar singkat (microteaching) dan menerima umpan balik kritis konstruktif mengenai metode penyampaian materi, kejelasan, dan interaksi dengan peserta.</p>"
+            title: "Penilaian K-Diklat", 
+            content: "<iframe src='https://andes-web.github.io/mpsmobile/Form_Kelompok.html' style='width:100%;height:100vh;border:none;'></iframe>"
           },
           {
-            title: "Diskusi & Studi Kasus", 
+            title: "Penilaian K-Bintal", 
             content: "<h4>Pemecahan Masalah Kompleks</h4><p>Menganalisis studi kasus nyata atau hipotesis mengenai isu-isu sulit dalam pembinaan Paskibra (misalnya: manajemen konflik, mengatasi kebosanan, atau pelanggaran disiplin). Merumuskan solusi berbasis data dan etika.</p>"
           },
           {
-            title: "Evaluasi Kegiatan", 
+            title: "Penilaian K-Bintur1", 
             content: "<h4>Analisis Kinerja Program</h4><p>Sesi evaluasi formal terhadap efektivitas program dan kegiatan yang telah berjalan. Mengidentifikasi metrik keberhasilan dan merencanakan perbaikan untuk bulan berikutnya.</p>"
           },
           {
-            title: "Perencanaan Panitia", 
+            title: "Penilaian K-Bintur2", 
             content: "<h4>Latihan Merancang Acara Besar</h4><p>Instruktur berlatih menyusun proposal kegiatan besar (misalnya: Diklat Lanjutan) mulai dari konsep, anggaran, pembagian tugas panitia, hingga manajemen risiko.</p>"
           }
         ]
@@ -2832,6 +2832,130 @@ document.addEventListener("click", function(e){
   console.log('[menu-diklat] init handler (capture). Mobile breakpoint:', 768);
 })();
 </script>
-<!-- ===== end paste ===== -->
+<!-- ===== end paste INDIVIDU ===== -->
+ <script>
+function isMobile(){
+  return window.innerWidth <= 768;
+}
+
+document.addEventListener("click", function(e){
+  if(e.target && e.target.textContent.trim() === "Penilaian K-Diklat"){
+    if(isMobile()){
+      // 🔹 Mobile → langsung buka halaman penuh
+      window.location.href = "Form_Kelompok.html";
+    } else {
+      // 🔹 Desktop → tampilkan di iframe
+      document.getElementById("content").innerHTML = `
+        <iframe src="Form_Kelompok.html" style="width:100%;height:100vh;border:none;"></iframe>
+      `;
+    }
+  }
+});
+</script>
+	<!-- ===== Paste THIS before </body> in MPS_Mobile.html KELOMPOK===== -->
+<script>
+(function(){
+  const FORM_URL = 'https://andes-web.github.io/mpsmobile/Form_Kelompok.html';
+  const IFRAME_SRC = FORM_URL;
+  const IFRAME_STYLE = 'width:100%;height:100vh;border:none;';
+
+  function isMobile(){
+    return window.innerWidth <= 768; // ubah batas jika perlu
+  }
+
+  // pola aman: cocokkan "penilaian k-diklat" dalam teks (case-insensitive)
+  const MENU_REGEX = /\bpenilaian\s*k-diklat\b/i;
+
+  // cari elemen area konten (ganti selector jika #content berbeda)
+  function getContentElement(){
+    return document.getElementById('content') || document.querySelector('main') || document.body;
+  }
+
+  // helper: periksa apakah node mengandung teks menu yang cocok
+  function nodeHasMenuText(node){
+    if(!node || node.nodeType !== 1) return false;
+    const txt = (node.innerText || node.textContent || '').replace(/\s+/g,' ').trim();
+    return MENU_REGEX.test(txt);
+  }
+
+  // saat klik, tangkap di fase capture supaya mencegah renderer menu lain menimpa
+  document.addEventListener('click', function(ev){
+    try{
+      // periksa seluruh path (support shadow DOM / composedPath)
+      const path = (ev.composedPath && ev.composedPath()) || (ev.path) || (() => {
+        // fallback: bangun sendiri
+        const p = [];
+        let node = ev.target;
+        while(node){
+          p.push(node);
+          node = node.parentElement;
+        }
+        return p;
+      })();
+
+      let matchedNode = null;
+      for(const node of path){
+        if(nodeHasMenuText(node)){
+          matchedNode = node;
+          break;
+        }
+      }
+      if(!matchedNode) return; // bukan klik Penilaian Diklat -> lanjutkan
+
+      // kita tangani sendiri -> cegah handler lain (prevent + stop)
+      ev.preventDefault && ev.preventDefault();
+      ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+      ev.stopPropagation && ev.stopPropagation();
+
+      // Sekarang lakukan action sesuai device
+      if(isMobile()){
+        // Mobile: redirect full page
+        window.location.href = FORM_URL;
+        return;
+      }
+
+      // Desktop: load form di dalam konten (iframe)
+      const content = getContentElement();
+      if(!content){
+        console.warn('[menu-diklat] content element not found, fallback: open in same tab');
+        window.location.href = FORM_URL;
+        return;
+      }
+
+      // Jika iframe sudah ada dengan src yang sama, do nothing (or focus)
+      const existing = content.querySelector('iframe[data-role="form-kelompok-iframe"]');
+      if(existing){
+        // sudah ada — fokus (scroll to) dan return
+        try{ existing.scrollIntoView({behavior:'smooth'}); }catch(e){}
+        return;
+      }
+
+      // Ganti isi content dengan iframe (bersih)
+      content.innerHTML = '<div style="width:100%;height:100vh;overflow:auto">' +
+        '<iframe data-role="form-kelompok-iframe" src="' + IFRAME_SRC + '" style="' + IFRAME_STYLE + '"></iframe>' +
+      '</div>';
+      return;
+
+    }catch(err){
+      console.error('[menu-diklat] handler error:', err);
+      // fallback simple
+    }
+  }, true); // capture = true so our handler runs before others
+
+  // also provide an optional function to programmatically open
+  window.__openPenilaianDiklat = function(){
+    if(isMobile()) window.location.href = FORM_URL;
+    else {
+      const content = getContentElement();
+      if(content) content.innerHTML = '<div style="width:100%;height:100vh;overflow:auto"><iframe data-role="form-kelompok-iframe" src="' + IFRAME_SRC + '" style="' + IFRAME_STYLE + '"></iframe></div>';
+      else window.location.href = FORM_URL;
+    }
+  };
+
+  // debug log
+  console.log('[menu-diklat] init handler (capture). Mobile breakpoint:', 768);
+})();
+</script>
+<!-- ===== end paste KELOMPOK===== -->
 </body>
 </html>

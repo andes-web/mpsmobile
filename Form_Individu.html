@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Nilai Individu MPS</title>
+<title>NILAI KELOMPOK PENDIDIKAN LATIHAN</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
   :root{
@@ -308,7 +308,7 @@ input#nama{max-width:25ch;}
 </div>
 
 <script>
-const scriptURL="https://mpsmobile-proxy.andessbi.workers.dev/";
+const scriptURL="https://script.google.com/macros/s/AKfycby0rKtfwleVJes0fUNuwziSaqOXKxjRBh8_R-FnVuGYM5TqWH2NDiAPQj9LWyYA4IZs/exec";
 
 /* ==== Data Rubrik ==== */
 const rubrik={1:[{aspek:"Kedisiplinan",indikator:`1: Tidak mengikuti aba-aba<br>2: Mengikuti sebagian aba-aba<br>3: Mengikuti semua aba-aba tapi beluma<br>4: Serentak, rapi, konsisten<br>5: Serempak, rapi, inisiatif memberi contoh kepada teman`},
@@ -367,26 +367,30 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
     nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""
   }));
 
-  fetch(scriptURL, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({nama,anggota,pos,nilai:arr})
+fetch(scriptURL, {
+  method: "POST",
+  body: new URLSearchParams({
+    nama,
+    anggota,
+    pos,
+    nilai: JSON.stringify(arr)
   })
-  .then(async r=>{
-     let res = await r.text();           // baca respon server
-     console.log("Server response:", res);
-     alert("✅ Data terkirim ke Google Sheet");
-     // reset form
-     document.getElementById("nama").value="";
-     document.getElementById("anggota").value="";
-     posSelect.value="1";
-     nilaiData={};
-     renderRubrik(1);
-  })
-  .catch(err=>{
-     console.error("Fetch error:", err);
-     alert("❌ Gagal: "+err);
-  });
+})
+.then(async r=>{
+   let res = await r.text();
+   console.log("Server response:", res);
+   alert("✅ Data terkirim ke Google Sheet");
+   // reset form
+   document.getElementById("nama").value="";
+   document.getElementById("anggota").value="";
+   posSelect.value="1";
+   nilaiData={};
+   renderRubrik(1);
+})
+.catch(err=>{
+   console.error("Fetch error:", err);
+   alert("❌ Gagal: "+err);
+});
 });
 
 

@@ -241,15 +241,22 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 </script>
 <script>
 document.getElementById("homeBtn").addEventListener("click", ()=>{
-  // Buka MPS utama di tab baru
-  window.open("https://andes-web.github.io/mpsmobile/", "_blank");
+  const url = "https://andes-web.github.io/mpsmobile/";
 
-  // Tutup jendela/tab ini
-  window.open("", "_self");
-  window.close();
+  if(window.innerWidth <= 768){
+    // 🔹 MOBILE → buka tab baru + coba tutup tab lama
+    window.open(url, "_blank");
+    window.open("", "_self");
+    window.close();
+  } else {
+    // 🔹 DESKTOP → cukup buka tab baru (biarkan tab lama terbuka)
+    window.open(url, "_blank");
+  }
 });
 </script>
+
 </body>
 </html>
+
 
 

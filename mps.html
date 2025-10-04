@@ -2667,11 +2667,6 @@ jurlamChildren.forEach(item=>{
     }
   });
 });
-if(!isMobile()){ 
-  // di desktop, nonaktifkan menu home
-  document.querySelector(".menu-home").style.pointerEvents = "none";
-  document.querySelector(".menu-home").style.opacity = "0.5"; // opsional kasih tampilan abu-abu
-}
 
 </script>
 <script>
@@ -2712,8 +2707,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <script>
 function isMobile(){
   return window.innerWidth <= 768; // patokan sederhana
+  // di desktop, nonaktifkan menu home
+  document.querySelector(".menu-home").style.pointerEvents = "none";
+  document.querySelector(".menu-home").style.opacity = "0.5"; // opsional kasih tampilan abu-abu
 }
-
 document.addEventListener("click", function(e){
   if(e.target && e.target.textContent.trim() === "Penilaian Diklat"){
     if(isMobile()){

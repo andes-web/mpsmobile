@@ -240,18 +240,16 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 
 </script>
 <script>
-  document.getElementById("homeBtn").addEventListener("click", ()=>{
-  if(window.innerWidth > 768){
-    // 🔹 Desktop → langsung ganti tab yang sama
-    window.location.href = "https://andes-web.github.io/mpsmobile/";
-  } else {
-    // 🔹 Mobile → buka tab baru lalu tutup halaman ini
-    window.open("https://andes-web.github.io/mpsmobile/", "_blank");
-    window.open("","_self"); 
-    window.close();
-  }
+document.getElementById("homeBtn").addEventListener("click", ()=>{
+  // Buka MPS utama di tab baru
+  window.open("https://andes-web.github.io/mpsmobile/", "_blank");
+
+  // Tutup jendela/tab ini
+  window.open("", "_self");
+  window.close();
 });
 </script>
 </body>
 </html>
+
 

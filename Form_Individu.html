@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Nilai Individu MPS</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
   :root{
     --accent:#2563eb; --success:#16a34a;
@@ -361,7 +362,16 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   const nama=document.getElementById("nama").value.trim();
   const anggota=document.getElementById("anggota").value.trim();
   const pos=posSelect.value;
-  if(!nama){alert("Nama anggota wajib diisi");return;}
+  if(!nama){
+  Swal.fire({
+    icon: 'warning',
+    title: 'Perhatian',
+    text: 'Nama anggota wajib diisi',
+    confirmButtonColor: '#facc15'
+  });
+  return;
+}
+
   const arr=(rubrik[pos]||[]).map((a,idx)=>({
     aspek:a.aspek,
     nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""
@@ -379,7 +389,15 @@ fetch(scriptURL, {
 .then(async r=>{
    let res = await r.text();
    console.log("Server response:", res);
-   alert("✅ Data terkirim ke Google Sheet");
+   Swal.fire({
+     icon: 'success',
+     title: 'Berhasil!',
+     text: 'Data Tersimpan',
+     confirmButtonColor: '#16a34a',
+     timer: 2000,
+     showConfirmButton: false
+   });
+
 
    // Reset semua input
    document.getElementById("nama").value = "";
@@ -390,7 +408,12 @@ fetch(scriptURL, {
 })
 .catch(err=>{
    console.error("Fetch error:", err);
-   alert("❌ Gagal: "+err);
+   Swal.fire({
+     icon: 'error',
+     title: 'Oops...',
+     text: 'Gagal menyimpan data!',
+     confirmButtonColor: '#dc2626'
+   });
 });
 });
 
@@ -408,6 +431,60 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 document.getElementById("homeBtn").addEventListener("click", ()=>{
   window.location.href = "https://andes-web.github.io/mpsmobile/";
 });
+document.getElementById("submitBtn").addEventListener("click",()=>{
+  const nama=document.getElementById("nama").value.trim();
+  const anggota=document.getElementById("anggota").value.trim();
+  const pos=posSelect.value;
+
+  if(!nama){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Perhatian',
+      text: 'Nama anggota wajib diisi',
+      confirmButtonColor: '#facc15'
+    });
+    return;
+  }
+
+  const arr=(rubrik[pos]||[]).map((a,idx)=>({
+    aspek:a.aspek,
+    nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""
+  }));
+
+  fetch(scriptURL, {
+    method:"POST",
+    body:new URLSearchParams({nama,anggota,pos,nilai:JSON.stringify(arr)})
+  })
+  .then(async r=>{
+     let res = await r.text();
+     console.log("Server response:", res);
+     Swal.fire({
+       icon: 'success',
+       title: 'Berhasil!',
+       text: 'Data tersimpan',
+       confirmButtonColor: '#16a34a',
+       timer: 2000,
+       showConfirmButton: false
+     });
+
+     // reset form
+     document.getElementById("nama").value="";
+     document.getElementById("anggota").selectedIndex=0;
+     posSelect.value="1";
+     nilaiData={};
+     renderRubrik(1);
+  })
+  .catch(err=>{
+     console.error("Fetch error:", err);
+     Swal.fire({
+       icon: 'error',
+       title: 'Oops...',
+       text: 'Gagal menyimpan data!',
+       confirmButtonColor: '#dc2626'
+     });
+  });
+});
+
 </script>
 </body>
 </html>

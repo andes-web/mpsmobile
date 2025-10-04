@@ -239,36 +239,19 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 });
 
 /* ==== Tombol HOME ==== */
-document.getElementById("homeBtn").addEventListener("click",()=>{
-  window.location.href="https://andes-web.github.io/mpsmobile/";
+document.getElementById("homeBtn").addEventListener("click", ()=>{
+  // buka halaman utama di tab baru
+  window.open("https://andes-web.github.io/mpsmobile/", "_blank");
+
+  // tutup halaman Form_Individu setelah buka tab baru
+  window.open("","_self"); 
+  window.close();
 });
+
 </script>
-  <script>
-(function(){
-  // only send messages when loaded inside an iframe (parent ≠ self)
-  if(window.parent && window.parent !== window){
-    // notify parent when fully loaded
-    window.addEventListener('DOMContentLoaded', function(){
-      try{ window.parent.postMessage({ type: 'form-individu-loaded' }, '*'); }
-      catch(e){ console.error('postMessage send failed', e); }
-    });
-
-    // notify parent when unloading / navigating away
-    window.addEventListener('beforeunload', function(){
-      try{ window.parent.postMessage({ type: 'form-individu-unload' }, '*'); }
-      catch(e){ }
-    });
-
-    // optional: if your form has an explicit close button, call this:
-    // document.getElementById('closeBtn').addEventListener('click', ()=> window.parent.postMessage({type:'form-individu-unload'}, '*'));
-  } else {
-    console.log('Form_Individu: not in iframe, postMessage skipped');
-  }
-})();
-</script>
-
 </body>
 </html>
+
 
 
 

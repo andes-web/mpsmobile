@@ -358,37 +358,22 @@ renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.val
 
 /* ==== Submit ==== */
 document.getElementById("submitBtn").addEventListener("click",()=>{
-  const nama=document.getElementById("nama").value.trim();
-  const anggota=document.getElementById("anggota").value.trim();
-  const pos=posSelect.value;
-  if(!nama){alert("Nama kelompok wajib diisi");return;}
-  const arr=(rubrik[pos]||[]).map((a,idx)=>({
-    aspek:a.aspek,
-    nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""
-  }));
-
-  fetch(scriptURL, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({nama,anggota,pos,nilai:arr})
-  })
-  .then(async r=>{
-     let res = await r.text();           // baca respon server
-     console.log("Server response:", res);
-     alert("✅ Data terkirim ke Google Sheet");
-     // reset form
-     document.getElementById("nama").value="";
-     document.getElementById("anggota").value="";
-     posSelect.value="1";
-     nilaiData={};
-     renderRubrik(1);
-  })
-  .catch(err=>{
-     console.error("Fetch error:", err);
-     alert("❌ Gagal: "+err);
-  });
+ const nama=document.getElementById("nama").value.trim();
+ const anggota=document.getElementById("anggota").value.trim();
+ const pos=posSelect.value;
+ if(!nama){alert("Nama kelompok wajib diisi");return;}
+ const arr=(rubrik[pos]||[]).map((a,idx)=>({aspek:a.aspek,nilai:(nilaiData[pos]&&nilaiData[pos][idx])?nilaiData[pos][idx]:""}));
+ fetch(scriptURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nama,anggota,pos,nilai:arr})})
+ .then(r=>{
+  alert("✅ Data terkirim ke Google Sheet");
+  document.getElementById("nama").value="";
+  document.getElementById("anggota").value="";
+  posSelect.value="1";
+  nilaiData={};
+  renderRubrik(1);
+})
+.catch(err=>alert("❌ Gagal: "+err));
 });
-
 
 /* ==== Reset ==== */
 document.getElementById("resetBtn").addEventListener("click",()=>{nilaiData={};renderRubrik(posSelect.value);});
@@ -403,8 +388,3 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 </script>
 </body>
 </html>
-
-
-
-
-

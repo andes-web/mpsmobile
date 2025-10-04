@@ -2448,7 +2448,7 @@ const jurlamChildren = [
         children: [
           {
             title: "Penilaian Diklat", 
-            content: "<iframe src='Form_Individu.html' style='width:100%;height:100vh;border:none;'></iframe>"
+            content: "<div id='diklatContent'></div>"
           },
           {
             title: "Penilaian Bintal", 
@@ -2532,6 +2532,9 @@ const jurlamChildren = [
     ]
 }
 ];
+function isMobile(){
+  return window.innerWidth <= 768; // anggap layar <= 768px adalah mobile
+}
 
 const sidebar=document.getElementById('sidebar-left');
 const content=document.getElementById('content');
@@ -2658,14 +2661,18 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 <script>
 document.addEventListener("click", function(e){
-  // Jika submenu PENILAIAN DIKLAT diklik
-  if(e.target && e.target.matches(".submenu-diklat")){
-    document.getElementById("content").innerHTML = `
-      <iframe src="Form_Individu.html" style="width:100%;height:100vh;border:none;"></iframe>
-    `;
+  if(e.target && e.target.textContent.trim() === "Penilaian Diklat"){
+    if(window.innerWidth <= 768){
+      // 🔹 Mobile → buka langsung halaman baru
+      window.location.href = "Form_Individu.html";
+    } else {
+      // 🔹 Desktop → load iframe ke dalam konten
+      document.getElementById("diklatContent").innerHTML = `
+        <iframe src="Form_Individu.html" style="width:100%;height:100vh;border:none;"></iframe>
+      `;
+    }
   }
 });
 </script>
-
 </body>
 </html>

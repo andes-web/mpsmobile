@@ -241,12 +241,19 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 </script>
 <script>
 document.getElementById("homeBtn").addEventListener("click", ()=>{
-  // Redirect ke halaman utama di tab yang sama
-  window.location.href = "https://andes-web.github.io/mpsmobile/";
+  // jika halaman dibuka di iframe → redirect parent
+  if(window.top !== window.self){
+    window.top.location.href = "https://andes-web.github.io/mpsmobile/";
+  } else {
+    // kalau bukan iframe (misalnya mobile) → redirect jendela/tab ini
+    window.location.href = "https://andes-web.github.io/mpsmobile/";
+  }
 });
 </script>
+
 </body>
 </html>
+
 
 
 

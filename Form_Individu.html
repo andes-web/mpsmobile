@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NILAI KELOMPOK PENDIDIKAN LATIHAN</title>
+<title>Nilai Individu MPS</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
@@ -199,7 +199,7 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   .then(async r=>{
      let res=await r.text();
      console.log("Server response:",res);
-     Swal.fire({icon:'success',title:'Berhasil!',text:'Data terkirim ke Google Sheet',
+     Swal.fire({icon:'success',title:'Berhasil!',text:'Data Tersimpan',
        confirmButtonColor:'#16a34a',timer:2000,showConfirmButton:false});
      document.getElementById("nama").value="";
      document.getElementById("anggota").selectedIndex=0;
@@ -209,7 +209,7 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   })
   .catch(err=>{
      console.error("Fetch error:",err);
-     Swal.fire({icon:'error',title:'Oops...',text:'Gagal mengirim data!',confirmButtonColor:'#dc2626'});
+     Swal.fire({icon:'error',title:'Oops...',text:'Gagal menyimpan data!',confirmButtonColor:'#dc2626'});
   });
 });
 
@@ -222,7 +222,7 @@ document.getElementById("resetBtn").addEventListener("click",()=>{
 
 /* ==== Unduh Excel ==== */
 document.getElementById("downloadExcel").addEventListener("click",()=>{
-  const rows=[["Timestamp","Nama Kelompok","Anggota","POS","Aspek","Nilai"]];
+  const rows=[["Timestamp","Nama","Anggota","POS","Aspek","Nilai"]];
   const ts=new Date().toLocaleString();
   const nm=document.getElementById("nama").value;
   const ang=document.getElementById("anggota").value;
@@ -238,6 +238,7 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
   XLSX.writeFile(wb,"Nilai_Bintal.xlsx");
 });
 
+/* ==== Tombol HOME ==== */
 document.getElementById("homeBtn").addEventListener("click", ()=>{
   if(window.innerWidth > 768){
     // 🔹 Desktop → langsung alihkan tab yang sama
@@ -250,7 +251,12 @@ document.getElementById("homeBtn").addEventListener("click", ()=>{
   }
 });
 
-</script>
 
+</script>
 </body>
 </html>
+
+
+
+
+

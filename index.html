@@ -2483,7 +2483,7 @@ const jurlamChildren = [
         children: [
           {
             title: "Penilaian Diklat", 
-            content: "Klik halaman ini untuk mengisi formulir penilaian Individu"
+            content: "Klik DISINI untuk mengisi Formulir Penilaian Diklat"
           },
           {
             title: "Penilaian Bintal", 
@@ -2711,15 +2711,16 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 <script>
 function isMobile(){
-  return window.innerWidth <= 768; // patokan sederhana
+  return window.innerWidth <= 768;
 }
+
 document.addEventListener("click", function(e){
   if(e.target && e.target.textContent.trim() === "Penilaian Diklat"){
     if(isMobile()){
-      // 🔹 Mobile → langsung buka halaman baru
+      // 🔹 Mobile → langsung buka halaman penuh
       window.location.href = "Form_Individu.html";
     } else {
-      // 🔹 Desktop → tampilkan dalam iframe
+      // 🔹 Desktop → tampilkan di iframe
       document.getElementById("content").innerHTML = `
         <iframe src="Form_Individu.html" style="width:100%;height:100vh;border:none;"></iframe>
       `;

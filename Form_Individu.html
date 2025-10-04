@@ -300,7 +300,7 @@ input#nama{max-width:25ch;}
 
   <!-- Tombol -->
   <div class="controls-row">
-  <a href="https://andes-web.github.io/mpsmobile/" class="btn btn-home">HOME</a>
+  <button id="homeBtn" class="btn btn-home">HOME</button>
   <button id="submitBtn" class="btn btn-submit">SUBMIT</button>
   <button id="resetBtn" class="btn btn-reset">RESET</button>
   <button id="downloadExcel" class="btn btn-undi">UNDUH</button>
@@ -404,6 +404,9 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
  const ts=new Date().toLocaleString();const nm=document.getElementById("nama").value;const ang=document.getElementById("unit").value;
  for(const pos in nilaiData){(rubrik[pos]||[]).forEach((a,idx)=>{const skor=nilaiData[pos]&&nilaiData[pos][idx]?nilaiData[pos][idx]:"";rows.push([ts,nm,ang,"POS "+pos,a.aspek,skor]);});}
  const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Nilai");XLSX.writeFile(wb,"Data.xlsx");
+});
+document.getElementById("homeBtn").addEventListener("click", ()=>{
+  window.location.href = "https://andes-web.github.io/mpsmobile/";
 });
 </script>
 </body>

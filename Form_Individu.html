@@ -14,9 +14,11 @@
   }
   @media (min-width: 769px) {
   html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden; /* cegah scroll global */
+  margin: 0;
+  padding: 0;
+  transform: scale(0.9);        /* kecilkan jadi 90% */
+  transform-origin: top center; /* titik skala dari atas */
+  overflow: hidden;             /* agar tak muncul scroll */
   }
   }
   body{font-family:"Segoe UI",sans-serif;margin:0;padding:20px;
@@ -272,6 +274,7 @@ document.getElementById("homeBtn").addEventListener("click", ()=>{
 
 </body>
 </html>
+
 
 
 

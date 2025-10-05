@@ -471,11 +471,6 @@ html, body {
   .sidebar-right {
     margin-top: 0 !important;
   }
-  /* Tinggi area konten utama (desktop) */
-  .main-content, #content, #content-area {
-    min-height: calc(100vh - 200px); /* atur tinggi minimum: 100% tinggi layar dikurangi header/footer */
-    padding: 30px 20px;              /* beri ruang dalam agar konten terlihat lega */
-  }
 }
 /* ====== Desktop fix: header + sidebars statis, konten scroll ====== */
 @media (min-width: 769px) {
@@ -530,7 +525,7 @@ html, body {
     top: 55px;
     left: 260px;
     right: 250px;
-    bottom: 0;
+    bottom: -10px;
     overflow-y: auto; /* hanya konten utama yang scroll */
     padding: 20px;
     background: #ffffffd9;

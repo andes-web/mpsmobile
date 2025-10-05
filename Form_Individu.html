@@ -248,14 +248,6 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 
 </script>
 <script>
-function kirimTinggi() {
-  const tinggi = document.body.scrollHeight;
-  parent.postMessage({height: tinggi}, "*");
-}
-window.addEventListener("load", kirimTinggi);
-window.addEventListener("resize", kirimTinggi);
-</script>  
-<script>
 document.getElementById("homeBtn").addEventListener("click", ()=>{
   const url = "https://andes-web.github.io/mpsmobile/";
 
@@ -273,5 +265,6 @@ document.getElementById("homeBtn").addEventListener("click", ()=>{
 
 </body>
 </html>
+
 
 

@@ -12,6 +12,13 @@
     --c1:#fff1f2; --c2:#eef6ff; --c3:#ecfff6; --c4:#fffbea; --c5:#f5f3ff;
     --v1:#be185d; --v2:#1e40af; --v3:#059669; --v4:#b45309; --v5:#6d28d9;
   }
+  @media (min-width: 769px) {
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* cegah scroll global */
+  }
+  }
   body{font-family:"Segoe UI",sans-serif;margin:0;padding:20px;
        background:linear-gradient(135deg,#e0f2fe 0%,#fef9c3 100%);}
   .container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;
@@ -77,13 +84,6 @@
   .btn-undi{background:#facc15;color:#111;}
   .btn-reset{background:#eef2ff;color:#111;border:1px solid #c7d2fe;}
   .btn-submit{background:var(--success);color:#fff;}
-  @media (min-width: 769px) {
-  html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden; /* cegah scroll global */
-  }
-  }
 </style>
 </head>
 <body>
@@ -272,6 +272,7 @@ document.getElementById("homeBtn").addEventListener("click", ()=>{
 
 </body>
 </html>
+
 
 
 

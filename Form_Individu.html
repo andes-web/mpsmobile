@@ -16,11 +16,25 @@
   html, body {
   margin: 0;
   padding: 0;
-  transform: scale(0.9);        /* kecilkan jadi 90% */
-  transform-origin: top center; /* titik skala dari atas */
-  overflow: hidden;             /* agar tak muncul scroll */
-  }
-  }
+  height: 100%;
+  overflow: hidden; /* hilangkan scroll */
+  background: #e6f0fa; /* warna lembut sama seperti sebelumnya */
+}
+
+/* Fokuskan hanya container putih sebagai area aktif */
+.container, .main-card {
+  transform: scale(0.8);
+  transform-origin: top center;
+  margin: 0 auto;
+  width: 111%; /* kompensasi agar lebar tetap proporsional */
+  box-sizing: border-box;
+}
+
+/* Pastikan elemen luar tidak menambah tinggi halaman */
+header, footer, .bg, .wrapper, .outer, .content-bg {
+  display: none !important; /* sembunyikan elemen luar gradasi */
+}
+}
   body{font-family:"Segoe UI",sans-serif;margin:0;padding:20px;
        background:linear-gradient(135deg,#e0f2fe 0%,#fef9c3 100%);}
   .container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;
@@ -274,6 +288,7 @@ document.getElementById("homeBtn").addEventListener("click", ()=>{
 
 </body>
 </html>
+
 
 
 

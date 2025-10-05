@@ -5,115 +5,132 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>
-   PEMETAAN PROFIL POLA PIKIR
+   POLA PIKIR TEMAN
   </title>
 <style>
-   body{font-family:Arial,sans-serif;background:#e6f0fa;margin:0;padding:20px}
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(160deg, #eaf6ff, #f2f8fb);
+  margin: 0;
+  padding: 20px;
+  color: #334155;
+}
+
+/* Container utama */
 .container {
   max-width: 995px;
   margin: auto;
-  background: linear-gradient(145deg, #ffffff, #f3f4f6);
+  background: linear-gradient(145deg, #ffffff, #edf4ff);
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 10px 10px 30px rgba(0,0,0,0.15),
-              -10px -10px 30px rgba(255,255,255,0.9);
+  box-shadow:
+    6px 6px 20px rgba(0, 0, 0, 0.08),
+    -6px -6px 20px rgba(255, 255, 255, 0.8);
 }
+
+/* Judul */
 h1 {
   text-align: center;
   font-size: 30px;
-  font-weight: 970;
-  margin: 1px 0 2px;
-  color: #1e3a8a;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
-  letter-spacing: 1px;
+  font-weight: 900;
+  margin: 5px 0 15px;
+  color: #2563eb;
+  text-shadow: 2px 2px 6px rgba(37, 99, 235, 0.15);
+  letter-spacing: 0.5px;
 }
 
-/* Kotak container tombol */
+/* Area tombol */
 .btn-container {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:15px;
-  margin:3px auto;
-  padding:10px;
-  border-radius:7px;
-  background:linear-gradient(135deg,#f8fafc,#e0e7ff);
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
-  max-width:970px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 5px auto;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f0faff, #e9f5ff);
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05), inset -2px -2px 6px rgba(255,255,255,0.8);
+  max-width: 970px;
 }
 
-/* Style tombol */
+/* Tombol umum */
 .btn {
-  flex:1;
-  min-width:80px;
-  padding:12px 18px;
-  font-size:16px;
-  font-weight:bold;
-  color:white;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  transition:transform 0.2s, box-shadow 0.2s;
-  box-shadow:0 6px 10px rgba(0,0,0,0.2);
+  flex: 1;
+  min-width: 80px;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
 }
 .btn:hover {
-  transform:translateY(-2px);
-  box-shadow:0 6px 14px rgba(0,0,0,0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 14px rgba(0,0,0,0.25);
 }
 
-/* Warna tombol */
-.primary { background:linear-gradient(135deg,#2563eb,#1e3a8a); }
-.danger { background:linear-gradient(135deg,#ef4444,#b91c1c); }
-.info { background:linear-gradient(135deg,#e39bf1,#830094); }
-.warning { background:linear-gradient(135deg,#f59e0b,#b45309); }
-.success { background:linear-gradient(135deg,#22c55e,#15803d); }
+/* Warna tombol baru yang sejuk */
+.primary { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.danger { background: linear-gradient(135deg, #fca5a5, #ef4444); }
+.info { background: linear-gradient(135deg, #a5b4fc, #6366f1); }
+.warning { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #3b3b3b; }
+.success { background: linear-gradient(135deg, #6ee7b7, #10b981); }
+.home { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
 
-    .paket-btns{text-align:center;margin:0px 0 8px 0}
-    .paket-btns button {
-  padding: 10px 10px;
-  margin: 1px;
+/* Paket tombol */
+.paket-btns { text-align: center; margin: 0px 0 8px 0; }
+.paket-btns button {
+  padding: 10px 12px;
+  margin: 2px;
   border: none;
   border-radius: 24px;
   cursor: pointer;
-  font-weight: 970;
-  font-size: 10px;
-  box-shadow: 5px 5px 12px rgba(0,0,0,0.2),
-              -5px -5px 12px rgba(255,255,255,0.8);
+  font-weight: 800;
+  font-size: 11px;
+  color: white;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.15), -3px -3px 10px rgba(255,255,255,0.8);
   transition: all 0.3s ease;
 }
-
 .paket-btns button:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 8px 8px 18px rgba(0,0,0,0.25),
-              -4px -4px 10px rgba(255,255,255,0.7);
+  box-shadow: 6px 6px 18px rgba(0,0,0,0.2), -4px -4px 10px rgba(255,255,255,0.8);
 }
-
-    .paket-dasar{background:#f83898;color:#fff}
-    .paket-menengah{background:#2563eb;color:#fff}
-    .paket-profesional{background:#a904db;color:#fff}
+.paket-dasar { background: linear-gradient(135deg, #fca5a5, #f43f5e); }
+.paket-menengah { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+.paket-profesional { background: linear-gradient(135deg, #c084fc, #9333ea); }
     .form-group{margin-top: 10px; margin-bottom:8px}
     .form-group label{display:block;font-weight:700;margin-bottom:3px;font-size: 14px;}
     .form-group input{width:98%;padding:8px;border:1px solid #ccc;border-radius:6px;box-shadow:inset 1px 1px 3px #bbb;font-size:14px}
-    .q{font-size: 14px;margin-bottom:20px;padding:10px;border:1px solid #ddd;border-radius:8px;background:#f9fbff}
-    .opt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:3px;padding-left: 0;}
-    .opt label{background:#f0f4ff;padding:10px;border-radius:8px;border:0px solid #ccc;cursor:pointer;box-shadow:0 4px #aaa;text-align:center;font-weight:500;font-size:13px}
-    .opt input[type=radio]{width:7px;height:7px;margin-left: 0;margin-right: 4px;vertical-align: top;accent-color:#2563eb}
-    .opt input:checked+span{color:#2563eb;font-weight:700}
-     @keyframes bounce {
-       0%   { transform: scale(1); }
-       30%  { transform: scale(1.2); }
-       50%  { transform: scale(0.9); }
-       70%  { transform: scale(1.1); }
-       100% { transform: scale(1); }
-     }
-     .opt label:hover,
-     .opt label:focus-within {
-       animation: bounce 0.5s;
-     }
-     .opt input:checked + span {
-       animation: bounce 0.5s;
-       display: inline-block;
-    }
+    /* Pertanyaan dan opsi */
+.q {
+  font-size: 14px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  background: #f8fbff;
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05);
+}
+.opt label {
+  background: #eef2ff;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+.opt label:hover {
+  background: #e0f2fe;
+  transform: scale(1.03);
+}
+.opt input:checked + span {
+  color: #2563eb;
+  font-weight: 700;
+}
     button{display:inline-block;padding:2px 7px;border:none;border-radius:6px;cursor:pointer;margin:2px 2px;font-weight:970;transition:all .2s ease;box-shadow:0 4px #999}
     button:active{transform:translateY(2px);box-shadow:0 2px #666}
     button{padding:5px 7px;border:none;border-radius:2px;cursor:pointer;margin:2px 2px;font-weight:970;box-shadow:0 4px #999}    
@@ -121,13 +138,25 @@ h1 {
     .btns button{display:inline-block;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:970;box-shadow:0 3px #999}
     .primary{background:#2563eb;color:#fff}
     .soft{background:#f0f0f0;color:#333}
-    .result{margin-top:12px;padding:12px;border:1px dashed #888;border-radius:8px;display:none;text-align:center}
-    .score{font-size:4em;font-weight:970;color:#2563eb;display:inline-block;margin-right:14px}
-    .badge{display:inline-block;font-size:1.3em;vertical-align:middle;font-weight:970;padding:6px 18px;border-radius:10px}
-    .badge.F{background:#fee2e2;color:#b91c1c}
-    .badge.FG{background:#fef3c7;color:#92400e}
-    .badge.GF{background:#e0f2fe;color:#0369a1}
-    .badge.G{background:#dcfce7;color:#166534}
+    .result {
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px dashed #93c5fd;
+  border-radius: 8px;
+  display: none;
+  text-align: center;
+  background: #f0f9ff;
+}
+.score {
+  font-size: 4em;
+  font-weight: 900;
+  color: #2563eb;
+}
+/* Badge warna kategori */
+.badge.F { background: #fee2e2; color: #b91c1c; }
+.badge.FG { background: #fef9c3; color: #92400e; }
+.badge.GF { background: #dbeafe; color: #1e3a8a; }
+.badge.G { background: #dcfce7; color: #15803d; }
     .analysis{margin-top:20px;padding:10px;background:#f9fafc;border-radius:8px;display:none}
     .analysis h3{margin-bottom:10px;color:#333}
     .analysis-item{margin-bottom:10px;padding:8px;border-bottom:1px solid #eee}
@@ -214,9 +243,10 @@ h1 {
   height: auto;
 }
 
+/* QR efek glowing lembut */
 #qrcodeCanvas:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(30, 58, 138, 0.6); /* glowing biru */
+  box-shadow: 0 0 20px rgba(147, 197, 253, 0.6);
 }
 
 .qr-credit {
@@ -229,14 +259,14 @@ h1 {
   animation: fadeInUp 1.5s ease;
 }
 
+/* Animasi lembut */
 @keyframes fadeIn {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
 }
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 .judul-utama {
   display: block;
@@ -254,21 +284,16 @@ h1 {
   color: #1e40af;
   line-height: 1.1;  /* rapat juga */
 }
+/* Footer */
 .footer {
-  text-align:center;
-  margin-top:2px;
-  margin-bottom: 5px;
-  font-size:14px;
-  line-height:1.6;
-  opacity:0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s ease forwards;
-  animation-delay: 0.5s;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #475569;
 }
 .footer .nama {
-  font-weight:bold;
-  font-size:17px;
-  color:purple;
+  font-weight: bold;
+  color: #6d28d9;
 }
 .soal {
     border: 1px solid #ccc;
@@ -278,11 +303,11 @@ h1 {
     transition: background-color 0.3s ease;
   }
 
-  /* Warna lembut */
-  .warna-SS  { background-color: #f8d7da; }   /* merah lembut */
-  .warna-S   { background-color: #fff3cd; }   /* kuning lembut */
-  .warna-TS  { background-color: #d4edda; }   /* hijau lembut */
-  .warna-STS { background-color: #e2d9f3; }   /* ungu lembut */
+/* Warna lembut untuk skala penilaian */
+.warna-SS  { background-color: #ffe4e6; }  /* pink pastel */
+.warna-S   { background-color: #fff7cc; }  /* kuning lembut */
+.warna-TS  { background-color: #d1fae5; }  /* hijau mint */
+.warna-STS { background-color: #e0e7ff; }  /* biru lavender */
   </style>
 <!-- Choices.js (CSS + JS) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
@@ -392,8 +417,8 @@ h1 {
 <body>
 <div class="container">
 <h1>
-    <span class="judul-utama">PEMETAAN</span><br>
-    <span class="judul-sub">PROFIL POLA PIKIR</span>
+    <span class="judul-utama">PENILAIAN</span><br>
+    <span class="judul-sub">POLA PIKIR TEMAN</span>
    </h1>
 
 <div class="hint">
@@ -405,20 +430,20 @@ h1 {
    </div>
 <div class="form-group">
 <label>
-     NAMA RESPONDEN:
+     NAMA TEMAN:
     </label>
-<input id="nama" placeholder="Tuliskan nama Anda" required="" type="text" maxlength="45"/>
+<input id="nama" placeholder="Tuliskan nama teman Anda" required="" type="text" maxlength="45"/>
 </div>
 <div class="form-group">
-  <label>INSTANSI / LEMBAGA:</label>
-  <input id="instansi" name="instansi" list="instansiList" placeholder="Pilih atau ketik instansi baru" maxlength="45">
+  <label>ASAL SEKOLAH:</label>
+  <input id="instansi" name="instansi" list="instansiList" placeholder="Pilih atau ketik sekolah baru" maxlength="45">
   <datalist id="instansiList"></datalist>
 </div>
 <div class="form-group">
 <label>
-     BIDANG / MAPEL:
+     NAMA PENILAI:
     </label>
-<input id="mapel" placeholder="Tuliskan bidang atau mapel Anda" type="text" maxlength="45"/>
+<input id="mapel" placeholder="Tuliskan nama penilai" type="text" maxlength="45"/>
 </div>
 <p style="text-align:center; font-weight:bold; font-size:18px; margin-bottom:0px; margin-top:15px;">
   Pilih Paket Soal :
@@ -593,7 +618,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 <p style="text-align:center; font-weight:bold; font-size:12px; margin-top:1px; margin-bottom:0px;">
   Bagikan Link :
   <a href="https://andesofiani.github.io/pemetaan-profil-pola-pikir/" target="_blank">
-    Pemetaan Profil Pola Pikir
+    Penilaian Profil Pola Pikir Teman
   </a>
 </p>
 </div>
@@ -622,376 +647,376 @@ function updateInstansiList(paket) {
 const paketData = {
   dasar: {
     statements: [
-      "Saya memiliki kelemahan dalam melakukan beberapa hal.",
-      "Tidak masalah bila saya gagal sebab itu kesempatan untuk belajar.",
-      "Jika orang lain melakukan sesuatu yang lebih baik daripada saya, itu akan menyebabkan saya merasa rendah diri.",
-      "Saya suka mencoba hal-hal yang baru meskipun hal ini memiliki resiko.",
-      "Saya merasa sukses pada saat mampu menunjukkan kepada orang lain bahwa saya mahir dalam suatu bidang.",
-      "Ketika orang lain sukses, saya merasa terinspirasi dan ingin melakukan hal yang sama.",
-      "Saya senang saat mampu melakukan sesuatu yang tidak bisa dilakukan orang lain.",
-      "Tingkat kecerdasan bisa diubah lewat belajar dan berlatih",
-      "Menurut pendapat saya, manusia dilahirkan dengan tingkat kecerdasan tertentu yang tidak bisa diubah lagi",
-      "Kesulitan membuat saya ingin berusaha lebih keras lagi."
+      "Saya mampu mengenali kekuatan dan kelemahan teman saya dalam kegiatan belajar bersama.",
+      "Saya dapat memberikan umpan balik kepada teman dengan cara yang sopan dan membangun.",
+      "Saya memahami alasan di balik jawaban teman saya, bukan hanya menilai benar atau salah.",
+      "Saya mau menerima masukan dari teman tanpa merasa tersinggung atau malu.",
+      "Saya mampu membantu teman yang kesulitan dengan cara yang membuatnya tetap semangat belajar.",
+      "Saya merasa senang jika teman saya berhasil memahami sesuatu karena bantuan saya.",
+      "Saya menghargai pendapat teman walaupun tidak selalu saya setujui.",
+      "Saya berusaha menilai pekerjaan teman berdasarkan kualitas, bukan karena kedekatan pribadi.",
+      "Saya dapat menjelaskan alasan mengapa saya memberi penilaian tertentu pada pekerjaan teman.",
+      "Saya merasa belajar banyak tentang diri sendiri saat menilai dan dinilai oleh teman."
     ],
-    scoring: [[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0]],
+    scoring: [[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3]],
     analisisPerSoal: [
-  [
-    "Jika seseorang sangat setuju dengan pernyataan ini, hal itu bisa mencerminkan pandangan bahwa kelemahan adalah bagian permanen dari dirinya. Orang dengan pola pikir tetap biasanya memandang kelemahan sebagai batasan yang sulit diubah. Akibatnya, responden mungkin akan cenderung menghindari tantangan karena merasa kelemahan tersebut akan selalu menghalangi, sehingga kurang memiliki dorongan untuk berkembang.",
-    "Pilihan ini menunjukkan pengakuan atas kelemahan, Dalam konteks pola pikir, responden berada di wilayah campuran: di satu sisi ia sadar akan keterbatasan, namun di sisi lain masih terbuka untuk mengubah atau memperbaiki diri. Artinya, ada kecenderungan untuk mengakui kelemahan tetapi tidak menganggapnya mutlak permanen.",
-    "Menolak pernyataan ini berarti responden tidak mau melihat kelemahan sebagai sesuatu yang menetap. Sikap ini mencerminkan pola pikir bertumbuh, karena ia lebih percaya bahwa kelemahan bisa diatasi lewat usaha. Penolakan terhadap gagasan “punya kelemahan yang menghambat” menunjukkan keyakinan pada potensi perbaikan.",
-    "Jawaban ini adalah bentuk optimisme penuh: responden yakin bahwa kelemahan bukan sesuatu yang membatasi hidupnya. Dengan sikap seperti ini, ia memandang semua hambatan dapat diubah menjadi peluang belajar. Ini adalah ciri kuat pola pikir bertumbuh, di mana kelemahan diposisikan sebagai tantangan yang bisa diatasi melalui kerja keras."
-  ],
-  [
-    "Pernyataan ini merefleksikan inti pola pikir bertumbuh. Responden dengan pilihan ini memandang kegagalan sebagai bagian alami dari proses pembelajaran. Ia tidak takut gagal, bahkan melihatnya sebagai jalan untuk menemukan cara baru dan memperkuat kemampuan. Ini adalah ciri khas individu yang resilien dan berorientasi pada pertumbuhan",
-    "Masih berada di jalur pola pikir bertumbuh, namun dengan keyakinan yang lebih moderat. Responden menyadari bahwa kegagalan tidak selalu buruk, tetapi mungkin masih ada rasa cemas atau keraguan. Dengan demikian, ia lebih fleksibel namun belum sepenuhnya menginternalisasi bahwa kegagalan adalah kesempatan besar untuk maju",
-    "Menolak pernyataan ini menunjukkan responden melihat kegagalan sebagai sesuatu yang merugikan. Sikap ini lebih dekat ke pola pikir tetap, meskipun tidak absolut. Responden mungkin merasa kegagalan sebaiknya dihindari, sehingga peluang untuk berkembang bisa berkurang",
-    "Jawaban ini menggambarkan pola pikir tetap yang kuat. Responden tidak melihat kegagalan sebagai sarana belajar, melainkan ancaman terhadap harga diri. Orang dengan pola pikir ini cenderung menghindari tantangan, takut mencoba hal baru, dan mudah menyerah jika menemui hambatan."
-  ],
-  [
-    "Respon ini menandakan kerentanan tinggi terhadap perbandingan sosial. Individu dengan pilihan ini biasanya melihat keberhasilan orang lain sebagai ancaman, bukan inspirasi. Ini merupakan pola pikir tetap yang kuat, karena keberhasilan orang lain dianggap memperkecil nilai dirinya sendiri",
-    "Masih ada rasa minder ketika melihat orang lain lebih unggul, Ini mencerminkan pola pikir campuran: kadang masih terjebak dalam perasaan negatif, namun ada potensi untuk beralih pada cara pandang lebih sehat jika diarahkan",
-    "Menolak pernyataan ini menunjukkan responden tidak mudah merasa rendah diri. Ia bisa menjaga harga diri meski orang lain lebih baik. Sikap ini mendekati pola pikir bertumbuh, karena ia lebih fokus pada upaya perbaikan diri daripada membandingkan dengan orang lain",
-    "Jawaban ini menandakan keyakinan penuh bahwa keberhasilan orang lain tidak mengurangi nilai diri sendiri. Justru bisa menjadi motivasi untuk berkembang. Inilah ciri pola pikir bertumbuh yang sangat kuat: orang lain dipandang sebagai sumber inspirasi, bukan ancaman"
-  ],
-  [
-    "Ini mencerminkan keberanian tinggi menghadapi tantangan dan risiko. Responden dengan pilihan ini jelas berpola pikir bertumbuh, karena ia melihat risiko sebagai bagian alami dari proses belajar",
-    "Masih positif terhadap hal baru, meski mungkin lebih berhati-hati. Sikap ini tetap mengarah ke pola pikir bertumbuh, tetapi dengan batasan tertentu. Responden bersedia mencoba, namun mungkin masih mempertimbangkan rasa aman",
-    "Menolak pernyataan ini menandakan adanya keengganan mencoba hal baru. Hal ini lebih dekat dengan pola pikir tetap, atau setidaknya campuran, karena responden takut risiko akan menghasilkan kegagalan",
-    "Jawaban ini jelas menunjukkan pola pikir tetap: menghindari risiko, menolak tantangan, dan cenderung bermain aman. Responden lebih memilih berada di zona nyaman ketimbang berkembang melalui pengalaman baru"
-  ],
-  [
-    "Respon ini menunjukkan bahwa kesuksesan diukur dari pengakuan eksternal. Responden lebih mementingakan validasi orang lain ketimbang perkembangan diri. Ini adalah ciri khas pola pikir tetap (PPT), karena keberhasilan dianggap bergantung pada citra diri yang harus dilihat oleh lingkungan. Individu dengan pola ini seringkali rentan terhadap kritik dan lebih mudah kehilangan motivasi jika tidak mendapat pengakuan",
-    "Masih ada kecenderungan mencari pengakuan, Responden mulai menunjukkan tanda pola pikir campuran, di mana dirinya masih menimbang antara pencapaian pribadi dan validasi orang lain. Ia bisa berprestasi, tetapi tujuan akhirnya masih bercampur antara perkembangan diri dan pengakuan sosial",
-    "Menolak pernyataan ini berarti responden tidak sepenuhnya mendefinisikan sukses dari pengakuan orang lain. Ia mulai menunjukkan ciri bertumbuh, karena nilai keberhasilan lebih terletak pada kemajuan pribadi dan usaha yang dijalankan. Fokus lebih diarahkan pada penguasaan keterampilan ketimbang sekadar pamer hasil",
-    "Jawaban ini mencerminkan pola pikir bertumbuh yang kuat. Responden percaya kesuksesan bukan diukur dari pandangan luar, melainkan dari peningkatan kompetensi dan usaha diri. Bagi mereka, proses lebih penting daripada validasi sosial, sehingga tetap termotivasi meski tidak mendapat pengakuan"
-  ],
-  [
-    "Ini merupakan ekspresi pola pikir bertumbuh yang kuat. Responden menjadikan keberhasilan orang lain sebagai sumber motivasi. Ia melihat kesuksesan bukan sebagai ancaman, melainkan peluang belajar. Orang dengan sikap ini biasanya cepat terdorong untuk meningkatkan kemampuan diri setelah melihat contoh nyata",
-    "Masih menunjukkan pola pikir bertumbuh, tetapi dengan intensitas lebih ringan. Responden bisa termotivasi oleh kesuksesan orang lain, meskipun mungkin tidak selalu langsung menindaklanjuti dengan aksi nyata. Ini tetap sehat, tetapi belum sepenuhnya kuat",
-    "Menolak pernyataan ini menunjukkan kecenderungan campuran. Responden mungkin tidak merasa terganggu oleh kesuksesan orang lain, tetapi juga tidak mendapat inspirasi darinya. Sikap ini bisa menyebabkan motivasi stagnan, karena kehilangan peluang belajar dari orang lain",
-    "Ini mencerminkan pola pikir tetap. Responden melihat keberhasilan orang lain bukan sebagai inspirasi, melainkan bisa jadi ancaman atau hal yang membuat minder. Dengan pola pikir ini, seseorang lebih mudah merasa iri atau frustrasi, yang menghambat perkembangan diri"
-  ],
-  [
-    "Jawaban ini mengindikasikan pola pikir tetap (PPT), karena keberhasilan dinilai dari keunggulan dibandingkan orang lain. Kepuasan diperoleh bukan dari proses belajar, melainkan dari perasaan lebih hebat daripada orang lain. Sikap ini membuat seseorang fokus pada kompetisi ketimbang pertumbuhan",
-    "Masih ada kecenderungan membandingkan diri dengan orang lain, Hal ini mencerminkan pola pikir campuran, di mana responden kadang mencari validasi dari keunggulan, tetapi di sisi lain juga bisa fokus pada usaha pribadi",
-    "Menolak pernyataan ini berarti responden tidak terlalu bergantung pada perbandingan sosial. Ia lebih menghargai usaha dan pencapaian pribadi. Sikap ini selaras dengan pola pikir bertumbuh, karena keberhasilan orang lain tidak mengurangi nilai dirinya",
-    "Jawaban ini mencerminkan pola pikir bertumbuh yang kuat. Responden benar-benar fokus pada pembelajaran dan perkembangan diri tanpa peduli apakah orang lain mampu atau tidak. Ia tidak mencari kepuasan dari membandingkan diri, melainkan dari pencapaian internal"
-  ],
-  [
-    "Ini adalah inti pola pikir bertumbuh. Responden meyakini bahwa kecerdasan bukan hal yang tetap, melainkan bisa berkembang lewat usaha. Sikap ini menunjukkan optimisme tinggi terhadap kemampuan belajar, sehingga lebih mudah bangkit dari kegagalan",
-    "Masih dalam jalur pola pikir bertumbuh, Responden percaya kecerdasan bisa berubah, tetapi mungkin masih ada sedikit keraguan atau keterbatasan dalam penerapannya",
-    "Menolak pernyataan ini menandakan kecenderungan pola pikir campuran. Responden ragu bahwa kecerdasan bisa ditingkatkan sepenuhnya, sehingga mungkin merasa sebagian kemampuan sudah ditentukan sejak lahir",
-    "Jawaban ini mencerminkan pola pikir tetap (PPT). Responden percaya bahwa kecerdasan adalah bawaan lahir dan tidak bisa diubah. Keyakinan seperti ini biasanya membuat seseorang enggan berusaha lebih keras, karena merasa hasilnya tidak akan berbeda"
-  ],
-  [
-    "Ini adalah pernyataan klasik pola pikir tetap. Responden percaya kecerdasan adalah bawaan lahir dan tidak bisa berkembang. Dengan pola ini, individu cenderung cepat menyerah karena merasa hasil sudah ditentukan sejak awal",
-    "Masih berpola pikir tetap, namun dengan intensitas lebih rendah. Responden mungkin masih membuka sedikit ruang bahwa usaha bisa memengaruhi, tetapi dominasi tetap ada pada keyakinan bahwa kecerdasan relatif permanen",
-    "Menolak pernyataan ini berarti responden lebih dekat ke pola pikir bertumbuh. Ia percaya bahwa kecerdasan tidak mutlak tetap, melainkan bisa berkembang lewat pembelajaran",
-    "Jawaban ini mencerminkan pola pikir bertumbuh yang kuat. Responden yakin kecerdasan adalah sesuatu yang dinamis, yang bisa berkembang seiring pengalaman, latihan, dan pendidikan. Keyakinan ini membuat individu lebih gigih dalam menghadapi tantangan"
-  ],
-  [
-    "Ini adalah bentuk pola pikir bertumbuh yang kuat. Responden memandang kesulitan sebagai pendorong untuk bekerja lebih keras. Sikap ini mencerminkan ketahanan (resilience) yang tinggi",
-    "Masih selaras dengan pola pikir bertumbuh, Responden cenderung tetap berusaha menghadapi kesulitan, meski ada kalanya ragu atau khawatir gagal",
-    "Menolak pernyataan ini menandakan kecenderungan campuran. Responden merasa kesulitan justru membuatnya kehilangan semangat, meski mungkin masih mau mencoba dalam kondisi tertentu",
-    "Jawaban ini mencerminkan pola pikir tetap (PPT). Responden menganggap kesulitan sebagai hambatan yang membuat mereka menyerah. Sikap ini membuat individu mudah berhenti di tengah jalan dan enggan mengambil tantangan baru"
-  ]
-],
-    kategori: (tot)=> tot<=15?"F":tot<=20?"FG":tot<=25?"GF":"G"
+      [
+        "Jika responden sangat setuju, berarti ia sudah mencapai tahap 'extended abstract' pada taksonomi SOLO, yaitu mampu melihat hubungan antara pemahaman diri dan orang lain. Ia menilai teman bukan sekadar membandingkan, tetapi memahami konteks kemampuan mereka secara menyeluruh.",
+        "Respon ini menunjukkan tingkat 'relational' — responden mampu mengenali kekuatan dan kelemahan teman, tetapi belum sepenuhnya mengaitkan dengan cara mengembangkan pembelajaran bersama.",
+        "Menolak pernyataan ini menandakan responden masih pada tahap 'unistructural' atau 'multistructural', di mana ia mungkin hanya menilai teman secara permukaan tanpa refleksi mendalam.",
+        "Jawaban ini mencerminkan tahap 'prestructural', artinya responden belum memahami pentingnya mengenali kemampuan teman sebagai bagian dari proses belajar bersama."
+      ],
+      [
+        "Menunjukkan tahap 'extended abstract'. Responden paham bahwa umpan balik bukan sekadar koreksi, tetapi sarana membangun pemahaman. Ia memberi komentar dengan empati dan mendukung pengembangan teman.",
+        "Tahap 'relational'. Responden dapat memberi umpan balik dengan niat baik, namun mungkin belum selalu menimbang efek emosional pada teman.",
+        "Tahap 'multistructural'. Responden tahu pentingnya memberi masukan, tetapi belum menguasai cara penyampaian yang tepat.",
+        "Tahap 'prestructural'. Responden cenderung mengkritik tanpa membangun atau bahkan enggan memberi umpan balik sama sekali."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden mampu memahami logika berpikir teman, bukan hanya menilai hasil akhirnya. Ini menunjukkan empati kognitif tinggi.",
+        "Tahap 'relational'. Responden memahami sebagian alasan di balik jawaban teman, tetapi belum sepenuhnya mengaitkan dengan konteks pembelajaran.",
+        "Tahap 'multistructural'. Responden hanya menilai berdasarkan permukaan jawaban, tanpa menelusuri alasan di baliknya.",
+        "Tahap 'prestructural'. Responden menilai teman hanya dengan benar-salah tanpa pemahaman konsep di baliknya."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden terbuka terhadap kritik dan melihat masukan teman sebagai bagian dari pertumbuhan diri.",
+        "Tahap 'relational'. Ia menerima masukan, tetapi masih mudah terpengaruh secara emosional atau defensif.",
+        "Tahap 'multistructural'. Ia memahami manfaat masukan, namun belum mampu mengelolanya dengan bijak.",
+        "Tahap 'prestructural'. Ia menolak kritik teman dan melihatnya sebagai serangan pribadi."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden mampu menyesuaikan dukungan bagi teman sesuai kebutuhan dan karakter, menunjukkan empati sosial tinggi.",
+        "Tahap 'relational'. Ia mau membantu teman, tetapi belum selalu menyesuaikan pendekatannya.",
+        "Tahap 'multistructural'. Ia hanya membantu sebatas permintaan tanpa inisiatif.",
+        "Tahap 'prestructural'. Ia enggan membantu teman karena tidak merasa bertanggung jawab atas keberhasilan kelompok."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia melihat keberhasilan teman sebagai cerminan keberhasilan kelompok — kolaborasi sejati.",
+        "Tahap 'relational'. Ia senang melihat teman sukses, namun belum selalu berkontribusi aktif terhadap proses tersebut.",
+        "Tahap 'multistructural'. Ia tidak terganggu dengan kesuksesan teman, tetapi juga tidak melihat nilai kolaboratifnya.",
+        "Tahap 'prestructural'. Ia merasa iri atau kurang nyaman jika teman berhasil."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu menghargai keragaman perspektif dan menjadikannya dasar pembelajaran bersama.",
+        "Tahap 'relational'. Ia menghargai pendapat teman, tetapi masih sulit menyeimbangkan antara pendapat pribadi dan orang lain.",
+        "Tahap 'multistructural'. Ia mendengarkan pendapat teman hanya sebagai formalitas tanpa mempertimbangkan isinya.",
+        "Tahap 'prestructural'. Ia menolak pendapat teman jika berbeda dengan keyakinannya."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia menilai teman dengan obyektivitas penuh, menunjukkan pemahaman etika evaluasi sejati.",
+        "Tahap 'relational'. Ia berusaha obyektif tetapi masih terpengaruh oleh kedekatan personal.",
+        "Tahap 'multistructural'. Ia menilai teman berdasarkan kesan umum, bukan kualitas pekerjaan.",
+        "Tahap 'prestructural'. Ia memberi nilai berdasarkan hubungan pribadi, bukan hasil kerja."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu menjelaskan alasan penilaiannya dengan logika yang mendalam dan konsisten.",
+        "Tahap 'relational'. Ia bisa memberi alasan sederhana, tetapi belum mengaitkan dengan standar atau kriteria yang objektif.",
+        "Tahap 'multistructural'. Ia tahu harus memberi alasan, tapi penjelasannya masih dangkal.",
+        "Tahap 'prestructural'. Ia memberi nilai tanpa pertimbangan dan alasan yang jelas."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden mampu merefleksikan proses belajar melalui interaksi sosial, menjadikannya pengalaman bermakna.",
+        "Tahap 'relational'. Ia sadar bahwa menilai dan dinilai memberi pembelajaran, tetapi belum sepenuhnya merefleksikan hasilnya.",
+        "Tahap 'multistructural'. Ia menikmati proses, namun belum mengaitkan dengan pengembangan diri.",
+        "Tahap 'prestructural'. Ia melihat penilaian antar teman hanya sebagai formalitas tanpa makna pribadi."
+      ]
+    ],
+    kategori: (tot) => tot <= 15 ? "F" : tot <= 20 ? "FG" : tot <= 25 ? "GF" : "G"
   },
   menengah: {
     statements: [
-      "Kemampuan Anda adalah sesuatu yang sangat mendasar yang tidak banyak dapat Anda ubah lagi.",
-      "Tidak peduli seberapapun tingkat kemampuan Anda saat ini, Anda bisa mengubahnya walaupun sedikit.",
-      "Anda akan selalu dapat mengubah kemampuan Anda.",
-      "Anda adalah seseorang yang unik, tidak banyak yang dapat dilakukan untuk mengubahnya.",
-      "Anda akan selalu dapat mengubah diri Anda sendiri.",
-      "Kemampuan dalam bidang seni dan musik dapat dipelajari oleh siapapun.",
-      "Hanya sedikit orang yang benar-benar mahir dalam olahraga, Anda harus membawa bakat ini sejak lahir.",
-      "Matematika lebih mudah dipelajari oleh pria atau seseorang yang berada dalam lingkungan yang menyukainya.",
-      "Makin keras Anda mengerjakan sesuatu makin mahir Anda dalam hal ini.",
-      "Tidak peduli tipe apapun Anda saat ini, Anda akan selalu dapat mengubahnya.",
-      "Mencoba sesuatu yang baru akan sangat menyulitkan Anda sehingga Anda ingin menghindarinya.",
-      "Sebagian orang baik dan pintar, sebagian lagi tidak. Tidak banyak yang dapat berubah.",
-      "Saya sangat menghargai kritik dan saran dari siapapun juga terkait dengan kinerja saya saat ini.",
-      "Saya kurang senang bila ada kritik dan saran dari orang lain.",
-      "Semua orang yang tanpa cacat-otak atau cacat-lahir memiliki kemampuan yang sama dalam belajar.",
-      "Anda bisa mempelajari sesuatu yang baru, tapi Anda tidak bisa mengubah kemampuan Anda.",
-      "Anda dapat melakukan sesuatu secara berbeda, tapi sebenarnya Anda tetap tidak dapat mengubah kemampuan Anda.",
-      "Semua orang pada dasarnya baik, tapi kadang-kadang membuat keputusan yang salah.",
-      "Alasan terpenting mengapa Anda melakukan pekerjaan Anda adalah keinginan untuk mempelajari sesuatu yang baru.",
-      "Orang yang benar-benar cerdas, tidak perlu bekerja keras."
+      "Saya dapat mengenali sejauh mana teman saya memahami suatu konsep saat berdiskusi.",
+      "Saya percaya bahwa setiap orang dapat meningkatkan pemahamannya jika mendapat umpan balik yang tepat.",
+      "Saya merasa mampu membantu teman untuk memahami suatu materi dengan cara saya sendiri.",
+      "Saya menyadari bahwa setiap teman memiliki gaya belajar yang berbeda dan perlu dihargai.",
+      "Saya mampu mengubah cara saya berinteraksi agar teman lebih mudah memahami pembelajaran.",
+      "Saya yakin kemampuan bekerja sama dapat dipelajari, bukan hanya bawaan sejak lahir.",
+      "Saya merasa hanya teman tertentu saja yang bisa benar-benar paham karena sudah memiliki kemampuan alami.",
+      "Saya berpikir hanya sebagian teman yang bisa cepat memahami matematika karena faktor lingkungan atau bakat.",
+      "Saya percaya bahwa semakin sering berdiskusi, semakin berkembang pula pemahaman saya dan teman saya.",
+      "Saya yakin bahwa kelompok belajar yang baik dapat saling mengubah kemampuan anggotanya menjadi lebih baik.",
+      "Saya sering merasa sulit untuk menilai pekerjaan teman karena takut menyinggung perasaannya.",
+      "Saya berpendapat bahwa tidak semua orang mampu berkembang secara akademik karena sudah berbeda dari awal.",
+      "Saya menghargai setiap komentar dan tanggapan teman mengenai cara saya bekerja.",
+      "Saya kurang nyaman jika teman menilai hasil kerja saya secara terbuka.",
+      "Saya percaya semua orang memiliki kesempatan yang sama untuk berkembang dalam belajar kelompok.",
+      "Saya dapat membantu teman memahami sesuatu, namun saya pikir itu tidak mengubah kemampuan mereka secara nyata.",
+      "Saya percaya setiap teman bisa mencoba cara berbeda untuk memahami sesuatu, meski hasilnya tidak selalu sama.",
+      "Saya yakin setiap orang memiliki potensi baik untuk berkembang meski kadang berbuat kesalahan.",
+      "Saya menilai bahwa tujuan utama bekerja sama adalah belajar memahami dari perspektif orang lain.",
+      "Saya percaya bahwa orang yang bijak bukan hanya cerdas, tetapi juga mau mendengar pandangan teman."
     ],
     scoring: [[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3]],
     analisisPerSoal: [
-  [
-    "Menunjukkan keyakinan kokoh bahwa kemampuan adalah bawaan yang permanen. Ini mencerminkan pola pikir tetap karena perubahan dianggap tidak mungkin. Pandangan semacam ini membuat seseorang mudah menutup diri dari peluang belajar dan lebih memilih menghindari tantangan",
-    "Memperlihatkan kecenderungan yang masih dekat dengan pola pikir tetap, namun tidak sekeras sikap sangat setuju.  mengakui adanya batasan dalam perkembangan, tetapi mungkin masih bersedia mencoba meski tanpa keyakinan penuh. Ini menandakan pola pikir tetap yang lebih ringan",
-    "Menandakan adanya pemahaman bahwa kemampuan tidaklah sepenuhnya kaku. Ada sinyal pola pikir bertumbuh karena percaya masih ada ruang untuk berkembang. Sikap ini dapat diperkuat oleh pengalaman positif yang membuktikan bahwa usaha dapat mengubah hasil",
-    "Menggambarkan pola pikir bertumbuh yang kuat.  yakin bahwa kemampuan bukanlah sesuatu yang statis, melainkan bisa ditingkatkan melalui usaha dan pembelajaran. Keyakinan ini menumbuhkan semangat menghadapi tantangan"
-  ],
-  [
-    "Menggambarkan pola pikir bertumbuh.  percaya bahwa perubahan selalu mungkin, bahkan dalam kondisi yang sangat sulit. Sikap ini mendorong optimisme dan keberanian menghadapi kesulitan",
-    "Menandakan kecenderungan growth mindset, meskipun dengan keyakinan yang lebih moderat.  melihat peluang perubahan, tetapi mungkin masih menaruh sedikit keraguan. Ini adalah landasan yang baik untuk menguatkan keyakinan bertumbuh",
-    "Memperlihatkan adanya hambatan menuju growth mindset.  merasa bahwa usaha hanya akan berdampak kecil atau bahkan tidak ada sama sekali. Hal ini lebih dekat ke pola pikir tetap",
-    "Menegaskan pola pikir tetap yang kuat.  menolak ide bahwa kemampuan bisa berubah. Sikap ini biasanya membuat seseorang cepat menyerah ketika menghadapi kesulitan"
-  ],
-  [
-    "Menegaskan keyakinan penuh pada growth mindset.  percaya kemampuan adalah sesuatu yang dinamis dan bisa ditingkatkan tanpa batas tertentu. Pandangan ini mendukung keberanian mencoba hal baru",
-    "Menggambarkan pola pikir bertumbuh, tetapi tidak sekuat sangat setuju.  percaya pada perkembangan, namun bisa saja masih menyimpan keraguan kecil",
-    "Memperlihatkan kecenderungan ke arah fixed mindset.  menolak gagasan bahwa kemampuan bisa berubah, meski mungkin masih membuka sedikit ruang",
-    "Menunjukkan pola pikir tetap yang tegas.  menganggap kemampuan tidak dapat diubah. Keyakinan ini dapat membatasi pengembangan diri"
-  ],
-  [
-    "Mencerminkan pola pikir tetap.  percaya bahwa keunikan diri adalah bawaan yang tidak dapat berubah. Hal ini membuat seseorang cenderung pasrah pada kondisi saat ini",
-    "Menandakan pola pikir tetap yang lebih lunak. Ada kesadaran bahwa diri unik dan sulit berubah, meski mungkin masih terbuka sedikit pada perkembangan kecil",
-    "Memperlihatkan tanda awal pola pikir bertumbuh.  percaya bahwa keunikan bukanlah alasan untuk berhenti berubah. Ada keyakinan bahwa diri bisa diperbaiki dan ditingkatkan",
-    "Menegaskan pola pikir bertumbuh yang kuat.  yakin bahwa meski setiap orang unik, perubahan tetap mungkin dilakukan. Sikap ini biasanya melahirkan dorongan untuk berkembang"
-  ],
-  [
-    "Menunjukkan pola pikir bertumbuh yang penuh keyakinan.  percaya diri selalu bisa berubah melalui usaha dan refleksi. Sikap ini mendukung komitmen jangka panjang untuk memperbaiki diri",
-    "Mencerminkan growth mindset, walau dengan keyakinan yang lebih moderat.  percaya pada kemungkinan berkembang, namun mungkin masih butuh dukungan untuk mempertahankan motivasi",
-    "Menandakan adanya hambatan menuju growth mindset.  merasa perubahan diri tidak selalu mungkin, yang mendekatkannya pada pola pikir tetap",
-    "Memperlihatkan pola pikir tetap.  yakin bahwa diri adalah sesuatu yang tidak bisa berubah. Pandangan ini dapat membatasi peluang perkembangan pribadi"
-  ],
-  [
-    "Memperlihatkan growth mindset yang kuat.  yakin bahwa seni dan musik bukanlah anugerah khusus melainkan keterampilan yang bisa dipelajari dengan latihan. Sikap ini membuka peluang untuk terus berlatih dan mengapresiasi proses belajar",
-    "Menunjukkan kecenderungan bertumbuh, meski tidak sekuat sangat setuju.  mengakui bahwa seni dan musik dapat dipelajari, namun mungkin masih percaya bahwa ada faktor bakat yang memengaruhi",
-    "Mengindikasikan pola pikir tetap.  ragu bahwa seni dan musik bisa dipelajari semua orang, sehingga lebih menekankan pada perbedaan bawaan",
-    "Menegaskan pola pikir tetap yang kuat.  menolak gagasan bahwa seni dan musik dapat dipelajari, dan menganggap hanya orang berbakat sejak lahir yang mampu menguasainya"
-  ],
-  [
-    "Menunjukkan pola pikir tetap.  percaya hanya bakat bawaan yang membuat seseorang bisa mahir berolahraga. Sikap ini berpotensi membatasi semangat latihan",
-    "Tetap berada di wilayah fixed mindset, namun dengan intensitas lebih ringan.  masih menganggap bakat lahir sebagai syarat, meski mungkin masih mengakui adanya sedikit pengaruh latihan",
-    "Menggambarkan kecenderungan bertumbuh.  mulai menyadari bahwa kemampuan berolahraga dapat diasah dengan usaha, meski mungkin masih percaya sedikit pada faktor bawaan",
-    "Menegaskan growth mindset.  yakin bahwa keterampilan olahraga bisa diraih siapa saja melalui latihan serius dan dedikasi"
-  ],
-  [
-    "Menandakan pola pikir tetap bercampur stereotip.  percaya kemampuan matematika ditentukan oleh faktor gender atau lingkungan sejak awal. Pandangan ini berpotensi menciptakan batasan sosial",
-    "Masih mendekati fixed mindset, dengan keyakinan bahwa lingkungan atau gender memberi pengaruh besar. Walau begitu,  mungkin masih mengakui adanya pengaruh usaha",
-    "Menggambarkan kecenderungan growth mindset.  menolak pandangan bahwa matematika hanya bisa dikuasai oleh kelompok tertentu, dan mulai percaya semua orang bisa mempelajarinya",
-    "Menegaskan growth mindset yang mantap.  yakin bahwa matematika bisa dipelajari siapa saja tanpa memandang gender maupun lingkungan asal"
-  ],
-  [
-    "Memperlihatkan pola pikir bertumbuh.  yakin bahwa kerja keras membawa peningkatan keterampilan. Keyakinan ini biasanya melahirkan ketekunan tinggi",
-    "Mengarah pada growth mindset, meski mungkin masih ada sedikit keraguan apakah usaha selalu berhasil. Sikap ini sudah cukup untuk membentuk kepercayaan diri dalam belajar",
-    "Menunjukkan pola pikir tetap.  meragukan hubungan langsung antara usaha dengan peningkatan kemampuan. Pandangan ini dapat melemahkan motivasi",
-    "Menandakan fixed mindset yang kuat.  menolak gagasan bahwa kerja keras membawa hasil, sehingga cenderung pasrah pada kemampuan bawaan"
-  ],
-  [
-    "Memperlihatkan growth mindset penuh.  percaya diri selalu bisa berubah apa pun tipe awalnya. Sikap ini menumbuhkan fleksibilitas dan kesiapan beradaptasi",
-    "Menggambarkan kecenderungan growth, meski dengan intensitas lebih lunak.  masih percaya perubahan mungkin, tetapi lebih berhati-hati dalam optimisme",
-    "Menunjukkan hambatan menuju growth mindset.  merasa tipe dasar diri sulit berubah. Ini mendekatkan pada pola pikir tetap",
-    "Menegaskan fixed mindset.  percaya tipe diri tidak bisa diubah, sehingga menghambat perkembangan lebih lanjut"
-  ],
-  [
-    "Mencerminkan fixed mindset.  melihat tantangan baru sebagai hambatan, bukan kesempatan. Sikap ini mendorong kecenderungan untuk tetap berada di zona nyaman dan menghindari resiko kegagalan",
-    "Menunjukkan pola pikir tetap meskipun lebih ringan.  cenderung menunda atau ragu mencoba hal baru karena merasa tidak akan mampu beradaptasi dengan baik",
-    "Menunjukkan sinyal growth mindset.  menolak anggapan bahwa sesuatu yang baru selalu menyulitkan, meski mungkin masih menyimpan keraguan kecil",
-    "Memperlihatkan growth mindset yang kuat.  melihat hal baru sebagai peluang untuk belajar dan berkembang, bukan sebagai ancaman"
-  ],
-  [
-    "Menegaskan pola pikir tetap.  percaya sifat baik dan kepintaran adalah bawaan yang tidak dapat berubah, sehingga menolak gagasan perkembangan",
-    "Mencerminkan fixed mindset, meski mungkin masih ada ruang kecil untuk percaya pada perubahan dalam kondisi tertentu",
-    "Menunjukkan tanda pola pikir bertumbuh.  mulai percaya bahwa kebaikan dan kepintaran bukanlah sesuatu yang sepenuhnya tetap, tetapi bisa dikembangkan",
-    "Menegaskan growth mindset.  yakin setiap orang dapat berubah menjadi lebih baik dan lebih cerdas melalui usaha, pengalaman, serta kesempatan belajar"
-  ],
-  [
-    "Mencerminkan growth mindset yang kuat.  membuka diri terhadap kritik sebagai sarana perbaikan. Pandangan ini memfasilitasi perkembangan diri yang berkelanjutan",
-    "Menggambarkan pola pikir bertumbuh, meskipun mungkin penerimaan kritik belum sepenuhnya mantap.  bersedia mendengar, walau bisa saja masih merasa tidak nyaman",
-    "Menunjukkan kecenderungan fixed mindset.  menolak kritik karena merasa kemampuan bersifat tetap dan tidak perlu masukan dari orang lain",
-    "Menandakan pola pikir tetap yang kuat.  menolak kritik dan saran sepenuhnya, sehingga menghambat kesempatan untuk berkembang"
-  ],
-  [
-    "Menunjukkan fixed mindset.  menganggap kritik sebagai ancaman terhadap harga diri, bukan peluang belajar. Sikap ini dapat membuat perkembangan terhambat",
-    "Memperlihatkan kecenderungan fixed mindset.  kurang nyaman dengan kritik meski mungkin masih mau mendengarkan dalam situasi tertentu",
-    "Menandakan adanya kecenderungan growth mindset.  menerima bahwa kritik tidak selalu menyenangkan tetapi bisa bermanfaat untuk kemajuan",
-    "Menegaskan growth mindset.  benar-benar melihat kritik sebagai hal penting untuk memperbaiki kualitas diri"
-  ],
-  [
-    "Menunjukkan growth mindset.  percaya bahwa setiap orang memiliki potensi yang sama untuk belajar, asalkan diberi kesempatan dan usaha yang tepat",
-    "Menandakan kecenderungan growth mindset.  percaya pada kesetaraan dalam belajar, meski mungkin masih mengakui adanya perbedaan kecil antarindividu",
-    "Menunjukkan kecenderungan fixed mindset.  merasa hanya sebagian orang yang memiliki kapasitas belajar yang baik",
-    "Menegaskan pola pikir tetap yang kuat.  menolak gagasan kesetaraan dalam kemampuan belajar, dan percaya bahwa kemampuan bawaan adalah penentu utama"
-  ],
-  [
-    "Menunjukkan fixed mindset.  percaya bahwa mempelajari hal baru mungkin saja dilakukan, tetapi kemampuan dasar dianggap tetap. Keyakinan ini membatasi pandangan tentang pertumbuhan jangka panjang",
-    "Menandakan pola pikir tetap, meski lebih ringan.  menerima gagasan belajar hal baru, tetapi tidak yakin hal itu mengubah kapasitas diri secara mendasar",
-    "Memperlihatkan tanda menuju growth mindset.  mulai menolak gagasan bahwa kemampuan bersifat kaku, dan percaya pembelajaran dapat mengubah kapasitas",
-    "Menegaskan growth mindset yang kuat.  meyakini belajar hal baru sekaligus mengubah kemampuan secara nyata"
-  ],
-  [
-    "Mencerminkan pola pikir tetap.  menganggap variasi cara hanya memengaruhi metode, bukan peningkatan kemampuan",
-    "Masih mengarah pada fixed mindset.  mengakui variasi dalam tindakan, tetapi tetap memandang kapasitas sebagai hal yang tidak berubah",
-    "Memperlihatkan sinyal growth mindset.  percaya bahwa mencoba cara berbeda juga berarti mengembangkan kemampuan",
-    "Menegaskan growth mindset penuh.  yakin perubahan strategi dan cara dapat benar-benar meningkatkan kapasitas diri"
-  ],
-  [
-    "Menunjukkan kecenderungan growth mindset.  percaya pada kebaikan dasar manusia dan melihat kesalahan sebagai sesuatu yang bisa diperbaiki",
-    "Mendukung pola pikir bertumbuh.  mengakui bahwa kesalahan tidak menghapus kebaikan dasar seseorang",
-    "Memperlihatkan pola pikir tetap.  menilai bahwa kebaikan dan kesalahan lebih bersifat bawaan dan tidak mudah berubah",
-    "Menegaskan fixed mindset yang kuat.  menolak gagasan bahwa semua orang pada dasarnya baik, sehingga melihat sifat sebagai sesuatu yang statis"
-  ],
-  [
-    "Menegaskan growth mindset.  menempatkan pembelajaran sebagai motivasi utama, sehingga melihat pekerjaan sebagai sarana pertumbuhan diri",
-    "Mencerminkan growth mindset, meskipun mungkin disertai alasan lain seperti hasil atau pengakuan.  masih menempatkan belajar sebagai faktor penting",
-    "Menunjukkan pola pikir tetap.  lebih menekankan faktor luar seperti status atau hasil akhir daripada keinginan belajar",
-    "Memperlihatkan fixed mindset yang kuat.  menolak menjadikan pembelajaran sebagai tujuan, dan lebih menekankan pada keuntungan instan"
-  ],
-  [
-    "Memperlihatkan pola pikir tetap.  percaya kecerdasan murni sudah cukup tanpa usaha, sehingga meremehkan kerja keras",
-    "Mengarah pada fixed mindset, meskipun mungkin masih mengakui kerja keras memiliki sedikit pengaruh",
-    "Menunjukkan tanda growth mindset.  menolak gagasan bahwa kecerdasan saja cukup, dan percaya kerja keras tetap penting",
-    "Menegaskan growth mindset yang kuat.  meyakini kecerdasan hanya bermanfaat jika disertai kerja keras dan ketekunan"
-  ]
-],
-    kategori: (tot)=> tot<=33?"FG": (tot<=44?"GF": (tot<=20?"F":"G")) // same thresholds, ordering resolved below
+      [
+        "Tahap 'extended abstract'. Responden mampu memahami kemampuan teman dalam konteks yang luas, melihat hubungan antara pemahaman individu dan kelompok.",
+        "Tahap 'relational'. Responden mulai memahami perbedaan tingkat pemahaman teman, namun belum sepenuhnya mengaitkannya dengan strategi pembelajaran bersama.",
+        "Tahap 'multistructural'. Responden menilai pemahaman teman secara permukaan tanpa refleksi lebih dalam.",
+        "Tahap 'prestructural'. Responden tidak memperhatikan pemahaman teman dalam proses belajar."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden yakin bahwa pemahaman dapat berkembang lewat umpan balik. Ini menunjukkan keyakinan penuh terhadap proses belajar sosial.",
+        "Tahap 'relational'. Responden memahami bahwa umpan balik berperan penting, tapi belum sepenuhnya percaya pada efektivitasnya bagi semua orang.",
+        "Tahap 'multistructural'. Responden tahu bahwa umpan balik membantu, tapi belum memahami bagaimana penerapannya.",
+        "Tahap 'prestructural'. Responden tidak percaya umpan balik dapat membantu perubahan pemahaman."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu membantu teman secara kreatif sesuai kebutuhan, menunjukkan kemampuan metakognitif tinggi.",
+        "Tahap 'relational'. Ia mampu membantu, namun belum selalu menyesuaikan cara dengan kondisi teman.",
+        "Tahap 'multistructural'. Ia membantu hanya berdasarkan kebiasaan sendiri tanpa mempertimbangkan efektivitas bagi teman.",
+        "Tahap 'prestructural'. Ia merasa tidak mampu atau tidak tertarik membantu teman memahami pelajaran."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa setiap gaya belajar unik dan penting untuk keberhasilan kelompok.",
+        "Tahap 'relational'. Ia menghargai perbedaan gaya belajar, tapi belum tahu bagaimana menyesuaikan pendekatannya.",
+        "Tahap 'multistructural'. Ia menyadari perbedaan tetapi mengabaikannya dalam praktik.",
+        "Tahap 'prestructural'. Ia menolak perbedaan gaya belajar, melihatnya sebagai hambatan."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu menyesuaikan komunikasi dan strategi agar teman lebih memahami materi.",
+        "Tahap 'relational'. Ia mulai menyesuaikan interaksi, tapi belum selalu efektif atau konsisten.",
+        "Tahap 'multistructural'. Ia menyadari pentingnya komunikasi, tapi belum menerapkannya secara sadar.",
+        "Tahap 'prestructural'. Ia tidak berupaya menyesuaikan diri dengan teman saat belajar."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia percaya kemampuan bekerja sama bisa dibentuk lewat pengalaman. Ini menunjukkan kesadaran sosial tinggi.",
+        "Tahap 'relational'. Ia setuju bekerja sama bisa dipelajari, tapi masih menganggap sebagian orang lebih cocok secara alami.",
+        "Tahap 'multistructural'. Ia memahami kerja sama penting, tapi belum mengaitkannya dengan proses belajar.",
+        "Tahap 'prestructural'. Ia melihat kerja sama sebagai bakat bawaan, bukan keterampilan yang bisa dikembangkan."
+      ],
+      [
+        "Tahap 'prestructural'. Responden percaya hanya orang berbakat yang bisa paham, mencerminkan pandangan tetap.",
+        "Tahap 'multistructural'. Ia mulai membuka diri bahwa latihan mungkin berperan, tapi masih menekankan faktor bawaan.",
+        "Tahap 'relational'. Ia memahami bahwa usaha bisa mengubah kemampuan, meskipun masih menganggap bakat berpengaruh.",
+        "Tahap 'extended abstract'. Ia yakin semua orang bisa berkembang dengan latihan tanpa tergantung bakat."
+      ],
+      [
+        "Tahap 'prestructural'. Ia masih mempercayai faktor luar seperti lingkungan atau gender menentukan kemampuan matematika.",
+        "Tahap 'multistructural'. Ia memahami lingkungan berpengaruh, tetapi mulai menyadari peran usaha individu.",
+        "Tahap 'relational'. Ia menolak stereotip dan percaya semua orang bisa belajar matematika dengan dukungan tepat.",
+        "Tahap 'extended abstract'. Ia menegaskan bahwa matematika adalah kemampuan universal yang tumbuh lewat latihan dan kolaborasi."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia meyakini bahwa diskusi kolektif memperluas pemahaman bersama.",
+        "Tahap 'relational'. Ia melihat diskusi membantu, tetapi belum memahami sepenuhnya dampak jangka panjangnya.",
+        "Tahap 'multistructural'. Ia menganggap diskusi hanya sebagai sarana bertukar ide.",
+        "Tahap 'prestructural'. Ia merasa diskusi tidak banyak membantu perkembangan pemahaman."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa kerja kelompok bukan hanya berbagi tugas, tapi membangun perubahan bersama.",
+        "Tahap 'relational'. Ia percaya kelompok belajar mendukung perkembangan, tapi belum melihat peran individu secara menyeluruh.",
+        "Tahap 'multistructural'. Ia memandang kerja kelompok hanya sebagai kegiatan rutin tanpa nilai reflektif.",
+        "Tahap 'prestructural'. Ia merasa kelompok tidak berpengaruh terhadap perubahan kemampuan."
+      ],
+      [
+        "Tahap 'relational'. Ia menyadari perasaan teman dalam menilai, tapi masih takut menghadapi konflik.",
+        "Tahap 'multistructural'. Ia memahami pentingnya menilai, tapi belum menguasai cara menyampaikan dengan aman.",
+        "Tahap 'relational'. Ia berusaha adil meski khawatir, menunjukkan empati tinggi.",
+        "Tahap 'prestructural'. Ia menolak menilai sama sekali karena menganggapnya tidak perlu."
+      ],
+      [
+        "Tahap 'prestructural'. Ia melihat kemampuan belajar sudah ditentukan sejak awal, pandangan tetap yang membatasi.",
+        "Tahap 'multistructural'. Ia menyadari perbedaan kemampuan, tapi belum melihat potensi perubahan.",
+        "Tahap 'relational'. Ia mulai memahami bahwa kemampuan bisa berkembang meskipun berbeda.",
+        "Tahap 'extended abstract'. Ia percaya semua individu bisa berkembang lewat proses reflektif dan kolaboratif."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia menerima kritik dengan terbuka dan menjadikannya sarana memperbaiki diri dan kelompok.",
+        "Tahap 'relational'. Ia mendengarkan kritik dengan baik tapi kadang masih merasa tidak nyaman.",
+        "Tahap 'multistructural'. Ia tahu kritik penting tapi sulit menerimanya secara objektif.",
+        "Tahap 'prestructural'. Ia menolak kritik sepenuhnya, melihatnya sebagai bentuk serangan pribadi."
+      ],
+      [
+        "Tahap 'prestructural'. Ia tidak nyaman dengan evaluasi teman, menunjukkan kecenderungan menolak refleksi eksternal.",
+        "Tahap 'multistructural'. Ia masih menolak penilaian terbuka tapi mulai memahami tujuannya.",
+        "Tahap 'relational'. Ia menerima kritik meski belum sepenuhnya nyaman.",
+        "Tahap 'extended abstract'. Ia terbuka pada evaluasi teman karena menyadari nilainya bagi pertumbuhan diri."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia percaya kesetaraan kesempatan belajar bagi semua anggota kelompok.",
+        "Tahap 'relational'. Ia percaya pada kesempatan belajar bersama tetapi masih mengakui adanya batasan tertentu.",
+        "Tahap 'multistructural'. Ia memahami konsep kesetaraan tapi belum menginternalisasikannya.",
+        "Tahap 'prestructural'. Ia menolak gagasan bahwa semua orang bisa berkembang."
+      ],
+      [
+        "Tahap 'prestructural'. Ia percaya membantu tidak akan mengubah kemampuan teman.",
+        "Tahap 'multistructural'. Ia bersedia membantu tapi belum melihat efek jangka panjangnya.",
+        "Tahap 'relational'. Ia mulai menyadari dampak membantu teman terhadap proses belajar bersama.",
+        "Tahap 'extended abstract'. Ia memahami bahwa membantu teman juga mengubah kemampuan diri sendiri dan kelompok."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia melihat variasi pendekatan belajar sebagai peluang pengembangan diri.",
+        "Tahap 'relational'. Ia menyadari bahwa mencoba cara baru membuka perspektif berbeda.",
+        "Tahap 'multistructural'. Ia mencoba cara lain tapi belum menghubungkannya dengan peningkatan kemampuan.",
+        "Tahap 'prestructural'. Ia menolak variasi cara belajar karena dianggap membingungkan."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa setiap kesalahan adalah kesempatan refleksi dan pertumbuhan.",
+        "Tahap 'relational'. Ia memandang kesalahan sebagai proses belajar yang wajar.",
+        "Tahap 'multistructural'. Ia memahami kesalahan bisa diperbaiki tapi belum menjadikannya kebiasaan refleksi.",
+        "Tahap 'prestructural'. Ia menilai kesalahan sebagai tanda ketidakmampuan teman."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa tujuan utama kolaborasi adalah memperluas perspektif dan makna pembelajaran.",
+        "Tahap 'relational'. Ia menyadari nilai belajar bersama, tetapi belum sepenuhnya melihat refleksi sebagai bagian penting.",
+        "Tahap 'multistructural'. Ia melihat kerja sama sebatas tugas kelompok.",
+        "Tahap 'prestructural'. Ia bekerja sama tanpa memahami manfaat reflektifnya."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia menilai kecerdasan bukan sekadar hasil, tetapi kebijaksanaan dalam memahami orang lain.",
+        "Tahap 'relational'. Ia menyadari bahwa mendengarkan teman memperkaya pemahaman.",
+        "Tahap 'multistructural'. Ia menghargai pendapat teman tapi belum mengaitkan dengan proses belajar.",
+        "Tahap 'prestructural'. Ia menolak pandangan teman dan merasa cukup dengan pemahamannya sendiri."
+      ]
+    ],
+    kategori: (tot)=> tot<=33?"FG": (tot<=44?"GF": (tot<=20?"F":"G"))
   },
   profesional: {
     statements: [
-      "Saya beranggapan bahwa kecerdasan dan kemampuan utama seseorang pada dasarnya sudah ditentukan sejak lahir, sehingga usaha dan pengalaman baru hanya sedikit berpengaruh untuk benar-benar mengubahnya.",
-      "Meskipun saya memiliki keterbatasan dalam kemampuan tertentu saat ini, saya yakin dengan usaha yang konsisten, refleksi diri, dan strategi yang tepat, kemampuan tersebut dapat meningkat meskipun secara bertahap.",
-      "Saya percaya bahwa sepanjang hidup, manusia selalu punya peluang untuk menumbuhkan keterampilan baru dan memperbaiki kelemahan, asalkan memiliki motivasi dan kesediaan untuk terus belajar.",
-      "Menurut saya, kepribadian dan pola pikir yang melekat dalam diri seseorang adalah sesuatu yang tetap, sehingga pengalaman baru jarang benar-benar dapat mengubah sifat dasar individu.",
-      "Saya meyakini bahwa diri saya selalu bisa berkembang menjadi versi yang lebih baik, karena setiap tantangan dan kesalahan adalah bagian penting dari proses pembelajaran yang berkelanjutan.",
-      "Saya percaya bahwa keterampilan seni maupun musik bukan semata-mata bakat bawaan, melainkan sesuatu yang tetap bisa dikuasai siapa pun, termasuk orang dewasa, jika mereka mau berlatih dengan konsisten.",
-      "Saya memandang bahwa dalam olahraga, hanya orang yang sudah memiliki bakat alami sejak kecil yang dapat benar-benar mencapai tingkat keahlian tinggi, sementara latihan saja tidak cukup.",
-      "Menurut saya, kemampuan matematika lebih banyak dipengaruhi oleh faktor bawaan atau lingkungan tertentu, sehingga usaha belajar tidak banyak mengubah hasil bagi sebagian besar orang.",
-      "Saya yakin bahwa semakin keras saya berlatih, semakin sering saya mencoba strategi berbeda, dan semakin berani menghadapi tantangan, maka kemampuan saya akan meningkat jauh lebih baik.",
-      "Saya percaya bahwa identitas, cara berpikir, maupun tipe diri seseorang tidak bersifat tetap, melainkan dapat berubah secara signifikan seiring pengalaman hidup dan pembelajaran yang terus berlangsung.",
-      "Saya sering merasa bahwa mencoba hal-hal baru terlalu berisiko dan melelahkan, sehingga saya lebih memilih menghindari pengalaman yang tidak familiar agar tidak menambah beban.",
-      "Saya beranggapan bahwa ada orang yang memang cerdas sejak lahir dan ada yang tidak, dan kenyataan ini adalah sesuatu yang tetap, sehingga sulit diubah melalui pendidikan atau pengalaman.",
-      "Saya menilai kritik, masukan, maupun saran dari orang lain sebagai peluang berharga untuk merefleksikan diri, memperbaiki kelemahan, serta mengembangkan cara kerja saya agar lebih efektif.",
-      "Saya merasa kurang nyaman ketika ada orang lain yang memberi kritik atau masukan, karena hal tersebut sering membuat saya defensif atau merasa tidak dihargai.",
-      "Saya percaya bahwa semua orang yang sehat secara fisik dan mental pada dasarnya memiliki kesempatan yang sama untuk belajar dan berkembang, hanya saja kecepatan belajarnya bisa berbeda-beda.",
-      "Saya merasa bahwa menambah pengetahuan baru memang mungkin, tetapi secara umum kemampuan dasar saya sudah terbentuk dan sulit berubah secara mendasar.",
-      "Saya beranggapan bahwa meskipun saya dapat mencoba pendekatan atau strategi baru, pada hakikatnya kemampuan inti saya tidak banyak berubah dari waktu ke waktu.",
-      "Saya percaya bahwa pada dasarnya setiap orang memiliki niat baik, namun dalam praktiknya seringkali mereka mengambil keputusan yang salah karena keterbatasan pengetahuan atau kondisi tertentu.",
-      "Bagi saya, motivasi utama dalam bekerja bukan hanya mendapatkan penghasilan, tetapi juga memperoleh kesempatan untuk mempelajari hal-hal baru yang menantang dan memperluas wawasan.",
-      "Saya berpandangan bahwa orang yang benar-benar cerdas dapat meraih keberhasilan tanpa harus berusaha keras, karena kecerdasan alami mereka sudah memberi keuntungan besar sejak awal."
+      "Saya mampu menilai kontribusi teman dalam suatu tim secara objektif tanpa dipengaruhi oleh hubungan pribadi.",
+      "Saya menyadari bahwa setiap rekan kerja memiliki potensi berkembang jika mendapat umpan balik yang jujur dan konstruktif.",
+      "Saya percaya bahwa proses saling memberi masukan antar teman sejawat dapat memperdalam pemahaman profesional masing-masing individu.",
+      "Saya memahami bahwa karakter dan cara berpikir seseorang dapat berubah melalui pengalaman kerja dan refleksi yang konsisten.",
+      "Saya memandang bahwa kesalahan dalam bekerja adalah bagian penting dari proses pembelajaran tim yang harus dibahas dengan terbuka dan tanpa menyalahkan.",
+      "Saya percaya kemampuan berkolaborasi dapat terus diasah melalui komunikasi yang efektif, empati, dan kemauan memahami perbedaan pandangan.",
+      "Saya menilai bahwa hanya orang tertentu yang memang memiliki kemampuan alami untuk memimpin, sementara yang lain sulit berkembang dalam peran tersebut.",
+      "Saya berpikir bahwa kemampuan berpikir kritis hanya dimiliki oleh sebagian orang, tergantung pada latar belakang pendidikan dan lingkungan kerja mereka.",
+      "Saya yakin bahwa semakin sering saya berdialog dan bertukar pandangan dengan rekan kerja, semakin berkembang pula cara berpikir saya.",
+      "Saya percaya bahwa budaya kerja yang terbuka terhadap evaluasi sejawat dapat membantu semua anggota tim tumbuh bersama.",
+      "Saya merasa sulit memberikan penilaian kepada teman sejawat karena khawatir menimbulkan ketegangan dalam hubungan profesional.",
+      "Saya beranggapan bahwa sebagian orang memang sulit berubah meskipun sudah diberi pelatihan dan kesempatan untuk berkembang.",
+      "Saya menilai umpan balik dari rekan sejawat sebagai sumber penting untuk mengoreksi pendekatan kerja saya secara lebih objektif.",
+      "Saya merasa kurang nyaman jika hasil pekerjaan saya dikritik oleh rekan sejawat, meskipun saya tahu kritik tersebut bersifat membangun.",
+      "Saya percaya bahwa setiap individu, terlepas dari jabatan atau latar belakang, memiliki potensi untuk berkembang melalui kerja tim yang baik.",
+      "Saya berpandangan bahwa pengetahuan baru dapat dipelajari, namun cara berpikir dasar seseorang jarang mengalami perubahan berarti.",
+      "Saya berpendapat bahwa walaupun saya mencoba pendekatan baru dalam bekerja, pola kemampuan saya cenderung tidak banyak berubah.",
+      "Saya yakin bahwa sebagian besar rekan kerja memiliki niat baik, namun terkadang keputusan yang mereka ambil tidak selalu tepat karena faktor situasional.",
+      "Saya menilai bahwa tujuan utama kolaborasi profesional bukan hanya untuk menyelesaikan tugas, tetapi untuk memperluas wawasan dan memperdalam pemahaman bersama.",
+      "Saya percaya bahwa seseorang tidak hanya dinilai dari kecerdasannya, tetapi dari kemampuan refleksi dan kemauan untuk terus belajar dari orang lain."
     ],
     scoring: [[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3]],
     analisisPerSoal: [
-  [
-    "Menunjukkan keyakinan yang sangat kuat pada Fixed Mindset.  meyakini bahwa kecerdasan adalah sesuatu yang sudah ditentukan sejak lahir dan hampir tidak mungkin berubah, sekeras apa pun usaha yang dilakukan. Pilihan ini biasanya muncul dari pengalaman atau keyakinan bahwa usaha tidak banyak berpengaruh, dan bisa mengarah pada sikap pasif, cepat menyerah, atau menghindari tantangan karena merasa hasil akhirnya sudah terkunci.",
-    "Mencerminkan kecenderungan Fixed Mindset, tetapi tidak sekuat pilihan SS.  mungkin percaya sebagian kecerdasan bisa berkembang, tetapi tetap berpikir bahwa faktor bawaan jauh lebih dominan. Artinya, ada sedikit ruang untuk perubahan, tetapi secara umum masih ada keraguan untuk mencoba berusaha lebih keras. Orang dengan pilihan ini mungkin masih mau belajar, tetapi akan cepat frustrasi jika tidak segera berhasil.",
-    "Mulai menunjukkan adanya pergeseran ke arah Growth Mindset.  menolak pandangan bahwa kecerdasan sepenuhnya tetap, meskipun masih menyisakan keraguan. Sikap ini menunjukkan bahwa orang mulai percaya pada kemungkinan adanya peningkatan kemampuan, namun mungkin masih membatasi diri pada aspek tertentu. Ini mencerminkan posisi Growth-Fixed Mindset, yakni membuka peluang tumbuh tetapi masih dibayangi keyakinan lama tentang batas kemampuan.",
-    "Menunjukkan keyakinan penuh pada Growth Mindset.  sepenuhnya menolak anggapan bahwa kecerdasan sudah ditentukan sejak lahir, dan sebaliknya percaya bahwa kecerdasan dapat berkembang melalui usaha, pembelajaran, dan pengalaman. Orang dengan jawaban ini biasanya lebih berani menghadapi tantangan, lebih ulet, dan lebih terbuka menerima kegagalan sebagai bagian dari proses belajar."
-  ],
-  [
-    "Menunjukkan sikap Growth Mindset yang sangat kuat.  percaya bahwa keterbatasan yang ada sekarang bukanlah penghalang permanen, melainkan tantangan yang dapat diatasi dengan usaha yang terarah. Jawaban ini menggambarkan individu yang optimis, tekun, dan siap melakukan refleksi untuk memperbaiki strategi. Orang dengan kecenderungan ini biasanya tahan menghadapi kegagalan karena yakin setiap kesalahan adalah peluang belajar.",
-    "Cenderung pada Growth Mindset tetapi tidak sekuat pilihan SS. Keyakinan terhadap perubahan kemampuan ada, namun mungkin dibatasi oleh kondisi tertentu seperti waktu, sumber daya, atau motivasi.  dengan jawaban ini masih berpikir positif, tetapi dalam praktiknya bisa saja mudah goyah jika menghadapi tantangan yang besar. Artinya,lebih moderat dalam melihat peluang perkembangan.",
-    "Menunjukkan adanya keraguan terhadap konsep Growth Mindset.  mulai condong pada Fixed-Growth Mindset, yaitu percaya bahwa kemampuan bisa sedikit meningkat, tetapi secara keseluruhan keterbatasan akan tetap ada. Sikap ini mencerminkan pandangan bahwa usaha mungkin berguna dalam jangka pendek, tetapi hasil jangka panjang sudah ditentukan. Orang dengan kecenderungan ini biasanya berusaha, tetapi sering membatasi diri sendiri.",
-    "Menegaskan Fixed Mindset.  menolak gagasan bahwa usaha dan strategi dapat meningkatkan kemampuan, dan justru meyakini bahwa keterbatasan adalah sesuatu yang menetap. Pilihan ini menggambarkan sikap pesimis, menghindari tantangan, dan cenderung menyalahkan faktor bawaan ketika menghadapi kesulitan. Dalam konteks pembelajaran orang dewasa, hal ini bisa menjadi hambatan besar untuk berkembang."
-  ],
-  [
-    "Mencerminkan keyakinan penuh pada Growth Mindset.  yakin bahwa belajar dan berkembang adalah proses seumur hidup, tidak terbatas oleh usia maupun kondisi saat ini. Orang dengan pilihan ini akan melihat tantangan sebagai peluang, terbuka pada perubahan, dan siap beradaptasi dalam situasi apa pun. Mereka cenderung memiliki ketekunan tinggi serta keberanian mencoba hal-hal baru tanpa takut gagal.",
-    "Sejalan dengan prinsip Growth Mindset meskipun tidak sepenuhnya optimis seperti pilihan SS. Keyakinan bahwa manusia bisa berkembang ada, tetapi dengan batasan tertentu. Misalnya, seseorang percaya bahwa kemampuan bisa meningkat di beberapa bidang saja, atau mungkin hanya dalam jangka waktu tertentu. Sikap ini positif, tetapi masih menyisakan keraguan dalam menghadapi kesulitan nyata.",
-    "Menunjukkan posisi Fixed-Growth Mindset.  mulai meragukan bahwa manusia bisa berkembang secara konsisten sepanjang hidup. Mereka mungkin menganggap ada bidang tertentu yang bisa dipelajari, tetapi keterampilan inti dianggap tidak banyak berubah. Hal ini bisa membuat individu membatasi dirinya sendiri, misalnya dengan berkata saya sudah terlalu tua untuk belajar hal ini.",
-    "Menganut Fixed Mindset.menolak gagasan bahwa kemampuan dapat bertumbuh sepanjang hidup, dan percaya bahwa keterampilan serta kelemahan sudah permanen. Orang dengan pandangan ini akan sulit menerima tantangan baru, menghindari risiko, dan cenderung pasrah pada keadaan."
-  ],
-  [
-    "Menunjukkan Fixed Mindset yang sangat kuat.  meyakini bahwa kepribadian dan pola pikir adalah sesuatu yang statis dan sulit diubah, tidak peduli seberapa banyak pengalaman hidup yang dijalani. Hal ini bisa membuat orang cenderung pesimis terhadap upaya pengembangan diri atau pelatihan, karena merasa sifat dasar manusia sudah terkunci.",
-    "Condong pada Fixed Mindset tetapi dengan intensitas yang lebih rendah. Mereka mungkin percaya bahwa ada sedikit perubahan yang bisa terjadi, tetapi tetap menilai bahwa inti kepribadian dan pola pikir tidak bisa digeser jauh. Sikap ini biasanya terlihat pada orang yang percaya orang sulit berubah, meskipun masih mengakui ada perkembangan kecil pada aspek tertentu.",
-    "Mencerminkan posisi Growth-Fixed Mindset.  menolak pandangan bahwa kepribadian sepenuhnya tetap, tetapi juga belum sepenuhnya percaya bahwa perubahan bisa signifikan. Mereka mungkin berpikir kepribadian dapat berkembang perlahan melalui pengalaman besar, tetapi secara umum tetap terbatas. Sikap ini setengah hati menerima gagasan perkembangan.",
-    "Menunjukkan sikap Growth Mindset yang jelas.  percaya bahwa pengalaman hidup, pembelajaran, dan refleksi diri dapat mengubah kepribadian serta pola pikir seseorang secara signifikan. Orang dengan keyakinan ini cenderung lebih terbuka pada perubahan, melihat diri sendiri sebagai proses yang terus berkembang, dan lebih optimis dalam memandang orang lain."
-  ],
-  [
-    "Menunjukkan Growth Mindset yang sangat kuat.  memiliki keyakinan penuh bahwa dirinya bisa selalu berkembang, dan bahkan memandang kesalahan sebagai sumber pembelajaran berharga. Orang dengan pandangan ini biasanya tidak mudah menyerah, lebih tahan terhadap kegagalan, dan memiliki rasa ingin tahu tinggi terhadap hal-hal baru.",
-    "Masih menunjukkan kecenderungan Growth Mindset, tetapi dengan intensitas yang lebih moderat.percaya pada perkembangan diri, tetapi mungkin masih melihat ada batas tertentu. Sikap ini tetap positif, namun ada kemungkinan  mudah goyah saat menghadapi tantangan yang lebih berat atau kegagalan yang berulang.",
-    "Mencerminkan posisi Fixed-Growth Mindset.  tidak sepenuhnya menolak gagasan berkembang, tetapi menganggap bahwa kesalahan dan tantangan tidak selalu membantu. Mereka mungkin percaya perkembangan diri hanya terbatas pada bidang tertentu, atau hanya sampai tahap tertentu. Sikap ini membuat individu ragu untuk mengambil peluang belajar dari kegagalan.",
-    "Menunjukkan Fixed Mindset.  menolak gagasan bahwa tantangan atau kesalahan dapat membuat seseorang berkembang. Pandangan ini cenderung membuat individu menghindari risiko, tidak tahan dengan kegagalan, dan merasa dirinya sulit berubah meskipun diberi kesempatan."
-  ],
-  [
-    "Menunjukkan sikap Growth Mindset yang kuat.percaya bahwa seni dan musik dapat dikuasai siapa saja, tanpa terkecuali, asalkan ada kemauan dan latihan yang konsisten. Pandangan ini mencerminkan keterbukaan terhadap pembelajaran sepanjang hayat, bahkan dalam bidang yang sering dianggap hanya bisa dikuasai oleh mereka yang berbakat. Orang dengan jawaban ini biasanya berani mencoba, tidak mudah menyerah, dan melihat latihan sebagai jalan menuju penguasaan.",
-    "Mengarah ke Growth Mindset, namun dengan keyakinan yang tidak sekuat SS.  mengakui bahwa latihan penting, tetapi mungkin masih menyisakan keyakinan bahwa faktor bakat tetap berperan dalam kecepatan belajar. Sikap ini cukup positif, meski bisa membuat  ragu untuk bertahan lama jika merasa perkembangannya lebih lambat daripada orang lain.",
-    "Mencerminkan posisi Fixed-Growth Mindset.  mulai meragukan bahwa seni dan musik benar-benar bisa dipelajari siapa saja, dan cenderung melihat bakat sebagai syarat penting. Hal ini bisa membuat individu tetap mau mencoba, tetapi cepat menyerah jika hasil latihannya tidak terlihat signifikan. Sikap ini menunjukkan setengah hati dalam menerima konsep berkembang melalui usaha.",
-    "Menunjukkan Fixed Mindset yang kuat.  yakin bahwa seni dan musik hanya bisa dikuasai oleh mereka yang sejak awal sudah berbakat. Sikap ini bisa menutup peluang pengembangan diri, karena individu cenderung menghindari mencoba hal baru jika merasa tidak memiliki bakat. Dengan keyakinan ini, kegigihan belajar hampir tidak mungkin berkembang."
-  ],
-  [
-    "Mencerminkan Fixed Mindset yang kuat.  meyakini bahwa bakat adalah penentu utama keberhasilan dalam olahraga, sementara latihan dianggap tidak banyak berpengaruh. Pandangan ini bisa membuat individu cepat menyerah, menghindari latihan keras, dan membatasi diri sejak awal dengan alasan saya memang tidak berbakat.",
-    "Condong pada Fixed Mindset, meskipun tidak sekuat SS.  masih mengakui latihan penting, tetapi menilai bakat jauh lebih menentukan. Dengan sikap ini, individu mungkin tetap berlatih, tetapi berhenti lebih cepat ketika hasil tidak sesuai harapan. Ini menunjukkan keraguan pada efektivitas usaha jangka panjang.",
-    "Mencerminkan posisi Growth-Fixed Mindset.  mulai menolak pandangan bahwa olahraga hanya soal bakat, namun masih menyimpan keraguan apakah semua orang bisa benar-benar mencapai tingkat mahir hanya dengan latihan. Orang dengan jawaban ini mungkin berlatih lebih tekun, tetapi tetap membatasi ekspektasi diri.",
-    "Menggambarkan Growth Mindset.  percaya bahwa siapa pun, tanpa memandang bakat awal, bisa mencapai keahlian tinggi dalam olahraga melalui latihan disiplin, strategi tepat, dan kegigihan. Orang dengan pandangan ini cenderung tidak mudah putus asa dan terus berusaha meskipun progres terasa lambat."
-  ],
-  [
-    "Menunjukkan Fixed Mindset yang sangat kuat.  percaya bahwa kemampuan matematika ditentukan oleh faktor bawaan seperti kecerdasan sejak lahir atau lingkungan yang mendukung. Usaha belajar dianggap tidak efektif, sehingga individu mungkin enggan mencoba lebih keras atau bahkan menghindari pelajaran matematika sepenuhnya.",
-    "Memilih setuju,masih condong pada Fixed Mindset namun lebih moderat.mengakui sedikit peran usaha, tetapi tetap menilai faktor bawaan atau lingkungan lebih dominan. Orang dengan pandangan ini biasanya belajar, tetapi berhenti ketika merasa hasilnya tidak sesuai ekspektasi, karena berpikir saya memang tidak cocok dengan matematika.",
-    "Menunjukkan posisi Growth-Fixed Mindset.  menolak gagasan bahwa matematika sepenuhnya ditentukan oleh bakat atau lingkungan, tetapi masih menyimpan keraguan apakah semua orang bisa berhasil hanya dengan usaha. Sikap ini bisa membuat orang mencoba, tetapi tetap mudah membatasi diri ketika mengalami kesulitan.",
-    "Menunjukkan Growth Mindset.  percaya bahwa siapa pun bisa belajar matematika jika memiliki usaha, strategi belajar yang tepat, dan lingkungan yang mendukung. Orang dengan sikap ini biasanya lebih gigih, lebih tahan menghadapi kesulitan, dan tidak mudah menyerah."
-  ],
-  [
-    "Mencerminkan Growth Mindset yang sangat kuat.  percaya bahwa peningkatan kemampuan sepenuhnya bergantung pada latihan, kreativitas dalam strategi, dan keberanian menghadapi tantangan. Pandangan ini menunjukkan optimisme tinggi dan keyakinan pada kekuatan usaha sebagai kunci kesuksesan.",
-    "Menunjukkan Growth Mindset, namun lebih moderat.  mengakui usaha penting, tetapi mungkin masih menyisakan keraguan apakah semua tantangan bisa diatasi dengan latihan. Sikap ini tetap positif, tetapi bisa goyah saat menghadapi kegagalan yang berulang.",
-    "Menunjukkan posisi Fixed-Growth Mindset.  meragukan bahwa latihan dan strategi baru benar-benar bisa meningkatkan kemampuan secara signifikan.mungkin percaya sedikit pada usaha, tetapi tetap melihat bakat sebagai faktor dominan. Sikap ini bisa membuat orang hanya berusaha setengah hati.",
-    "Menggambarkan Fixed Mindset.  menolak gagasan bahwa usaha, latihan, dan tantangan bisa membuat kemampuan meningkat. Orang dengan pandangan ini biasanya mudah menyerah, menghindari situasi sulit, dan percaya bahwa perkembangan diri sangat terbatas."
-  ],
-  [
-    "Menunjukkan Growth Mindset yang sangat kuat.  meyakini bahwa identitas dan cara berpikir seseorang dapat berubah seiring pengalaman hidup. Hal ini menggambarkan keterbukaan pada pembelajaran, refleksi diri, dan keyakinan bahwa manusia adalah makhluk yang dinamis.",
-    "Mendukung Growth Mindset namun lebih moderat. Mereka percaya perubahan mungkin terjadi, tetapi tidak selalu signifikan. Pandangan ini cukup positif, tetapi bisa membatasi optimisme  terhadap peluang perubahan besar dalam dirinya atau orang lain.",
-    "Menempatkan  pada posisi Fixed-Growth Mindset.menolak sebagian besar gagasan bahwa identitas dapat berubah, tetapi masih mengakui sedikit kemungkinan adanya pergeseran. Pandangan ini cenderung ragu-ragu dan membuat orang sulit melihat peluang besar dalam proses transformasi diri.",
-    "Mencerminkan Fixed Mindset.  meyakini identitas, tipe diri, dan pola pikir bersifat tetap. Pandangan ini membuat individu pasrah terhadap keadaan, sulit menerima perubahan, dan cenderung resisten terhadap pengalaman baru."
-  ],
-  [
-    "Menunjukkan Fixed Mindset.percaya bahwa tantangan baru adalah ancaman atau beban, bukan peluang. Pandangan ini membuat individu enggan keluar dari zona nyaman, cenderung defensif, dan menghindari risiko. Hal ini berdampak pada minimnya pertumbuhan diri, karena setiap peluang belajar baru akan dilihat dengan rasa takut atau penolakan.",
-    "Masih berada pada ranah Fixed Mindset, meski lebih moderat.mengakui hal baru bisa dilakukan, tetapi tetap menilai bahwa risikonya lebih besar daripada manfaatnya. Orang dengan sikap ini biasanya mencoba sesuatu hanya ketika benar-benar dipaksa atau mendesak, dan mudah berhenti saat menemui hambatan.",
-    "Menunjukkan Growth-Fixed Mindset.  mulai menolak gagasan bahwa hal baru selalu berisiko, namun masih menyimpan keraguan.mungkin berani mencoba hal baru, tetapi dengan perhitungan hati-hati, dan bisa mundur jika merasa tantangannya terlalu besar. Sikap ini masih membatasi peluang pembelajaran optimal.",
-    "Mencerminkan Growth Mindset.  percaya bahwa mencoba hal-hal baru justru memberi peluang belajar, meski penuh risiko. Orang dengan pandangan ini lebih berani, terbuka terhadap pengalaman, dan tidak takut gagal. Mereka melihat risiko sebagai bagian dari perjalanan untuk berkembang."
-  ],
-  [
-    "Mencerminkan Fixed Mindset yang kuat.  percaya kecerdasan adalah sesuatu yang permanen dan ditentukan sejak lahir, sehingga pendidikan maupun pengalaman tidak mampu mengubahnya. Pandangan ini membuat individu mudah putus asa, apatis, dan cenderung menghindari usaha jangka panjang karena dianggap sia-sia.",
-    "Masih mendukung Fixed Mindset, tetapi dengan intensitas lebih rendah.percaya sebagian orang mungkin bisa berubah, tetapi secara umum kecerdasan dilihat sebagai bawaan. Sikap ini membuat orang cepat menyimpulkan batas dirinya atau orang lain tanpa memberi ruang yang cukup untuk usaha dan proses belajar.",
-    "Menunjukkan posisi Growth-Fixed Mindset.  menolak pandangan bahwa kecerdasan sepenuhnya tetap, tetapi masih menyisakan keraguan. Misalnya,bisa percaya kecerdasan meningkat hanya dalam batas kecil atau dalam kondisi tertentu saja. Pandangan ini setengah hati terhadap konsep berkembang melalui pendidikan.",
-    "Mencerminkan Growth Mindset.  percaya kecerdasan dapat dikembangkan melalui pengalaman, latihan, dan pendidikan.optimis terhadap potensi diri maupun orang lain, dan melihat setiap kesempatan belajar sebagai peluang meningkatkan kemampuan."
-  ],
-  [
-    "Menunjukkan Growth Mindset yang kuat.  sepenuhnya terbuka pada kritik dan masukan, bahkan menganggapnya sebagai hadiah untuk memperbaiki diri. Orang dengan pandangan ini biasanya lebih cepat berkembang, karena mereka menjadikan umpan balik sebagai bagian dari proses belajar, bukan sebagai ancaman.",
-    "Masih menunjukkan kecenderungan Growth Mindset, namun tidak sekuat SS.menganggap kritik penting, tetapi mungkin kadang masih merasa tidak nyaman. Meski begitu,tetap terbuka untuk belajar dari masukan, meskipun tidak selalu menerapkannya secara penuh.",
-    "Mencerminkan posisi Fixed-Growth Mindset.  mulai menolak nilai kritik, tetapi masih bisa menerima dalam kondisi tertentu. Sikap ini bisa membuatnya berkembang, namun sangat terbatas, karenamungkin hanya menerima kritik yang sesuai dengan keinginannya.",
-    "Menunjukkan Fixed Mindset.  menolak kritik dan masukan, serta menganggapnya sebagai sesuatu yang mengganggu. Orang dengan sikap ini biasanya sulit berkembang, defensif, dan tidak mampu melihat kelemahan sebagai peluang untuk belajar."
-  ],
-  [
-    "Menunjukkan Fixed Mindset yang kuat.  memandang kritik sebagai sesuatu yang merugikan dan menyakitkan. Sikap ini membuatnya defensif, sulit menerima perbaikan, dan cenderung menolak kesempatan untuk berkembang.",
-    "Menunjukkan kecenderungan Fixed Mindset, meskipun tidak sekeras SS.mungkin sesekali bisa menerima kritik, tetapi lebih sering merasa tersinggung. Sikap ini membatasi peluang belajar karena masukan hanya diterima sebagian.",
-    "Menunjukkan posisi Growth-Fixed Mindset.  tidak sepenuhnya menolak kritik, tetapi masih merasa canggung atau tidak nyaman. Hal ini membuat mereka bisa menerima kritik dalam beberapa situasi, tetapi tetap mempertahankan sikap defensif dalam situasi lain.",
-    "Mencerminkan Growth Mindset.  terbuka pada kritik, bahkan jika kritik tersebut keras atau sulit didengar.tidak melihat kritik sebagai ancaman, melainkan peluang untuk memperbaiki diri. Orang dengan sikap ini biasanya lebih mudah berkembang dan beradaptasi."
-  ],
-  [
-    "Menunjukkan Growth Mindset yang kuat.  yakin bahwa setiap orang memiliki kesempatan belajar yang sama, tanpa terkecuali. Pandangan ini membuatnya lebih menghargai keberagaman individu, lebih inklusif, dan optimis terhadap potensi orang lain.",
-    "Masih mendukung Growth Mindset, tetapi lebih moderat.percaya setiap orang bisa belajar, tetapi mungkin masih melihat ada keterbatasan tertentu. Sikap ini positif, meski belum seoptimis SS dalam menilai kemampuan orang lain.",
-    "Menunjukkan posisi Fixed-Growth Mindset.  mulai meragukan bahwa semua orang benar-benar memiliki kesempatan yang sama untuk belajar.mungkin berpikir bahwa hanya sebagian orang yang bisa berhasil, tergantung kondisi tertentu. Hal ini membatasi keyakinannya pada potensi manusia.",
-    "Mencerminkan Fixed Mindset.  menolak gagasan bahwa setiap orang bisa belajar dengan kesempatan yang sama, dan percaya hanya sebagian orang saja yang bisa berkembang. Pandangan ini membuat individu pesimis terhadap peluang perubahan, baik bagi dirinya maupun orang lain."
-  ],
-  [
-    "Menunjukkan Fixed Mindset yang kuat.  percaya bahwa meski pengetahuan bisa bertambah, kemampuan inti dianggap permanen dan tidak bisa berubah. Sikap ini membuat orang lebih pasrah, kurang termotivasi untuk berlatih, dan cenderung menghindari tantangan karena merasa hasil akhirnya tidak bisa berbeda jauh dari keadaan sekarang.",
-    "Condong pada Fixed Mindset, meskipun tidak sekeras SS.masih mengakui ada peluang belajar, tetapi tetap yakin bahwa kemampuan inti tidak bisa berubah signifikan. Sikap ini membuat usaha belajar hanya dilakukan secara terbatas, tanpa keyakinan penuh untuk berkembang.",
-    "Mencerminkan posisi Growth-Fixed Mindset.  mulai menolak gagasan bahwa kemampuan dasar benar-benar tetap, namun masih menyisakan keraguan. Misalnya, mereka percaya beberapa aspek bisa berkembang, tetapi tetap merasa ada batasan tertentu yang sulit ditembus.",
-    "Mencerminkan Growth Mindset.  percaya bahwa pengetahuan dan kemampuan dasar dapat berubah secara mendasar melalui usaha, strategi, dan pengalaman hidup. Orang dengan sikap ini biasanya lebih gigih, lebih terbuka, dan optimis terhadap perkembangan jangka panjang."
-  ],
-  [
-    "Menunjukkan Fixed Mindset yang kuat.  meyakini bahwa kemampuan inti bersifat permanen, sehingga strategi baru tidak akan memberikan dampak signifikan. Sikap ini biasanya membuat orang malas bereksperimen dengan metode belajar baru, dan cenderung menerima keadaan seadanya.",
-    "Masih berada pada ranah Fixed Mindset tetapi lebih moderat.mengakui strategi baru bisa membantu, tetapi tetap merasa perkembangan hanya sedikit. Sikap ini bisa menghambat potensi, karena individu hanya berusaha dalam batas tertentu tanpa keyakinan penuh akan hasilnya.",
-    "Mencerminkan posisi Growth-Fixed Mindset.  menolak sebagian pandangan bahwa kemampuan inti tidak bisa berubah, tetapi masih menyimpan keraguan.mungkin mencoba strategi baru, namun tidak selalu yakin dengan hasilnya. Hal ini mencerminkan sikap setengah hati dalam mengadopsi Growth Mindset.",
-    "Menunjukkan Growth Mindset.  percaya bahwa kemampuan inti pun bisa berkembang jika didukung oleh strategi baru yang tepat. Orang dengan sikap ini biasanya lebih fleksibel, berani mencoba, dan yakin bahwa pendekatan yang berbeda dapat membuka peluang kemajuan yang signifikan."
-  ],
-  [
-    "Menunjukkan Growth Mindset yang kuat.  percaya bahwa manusia pada dasarnya baik dan keputusan buruk lebih banyak disebabkan oleh keterbatasan situasi. Sikap ini membuat orang lebih berempati, lebih terbuka untuk memberi kesempatan kedua, dan optimis bahwa orang bisa belajar dari kesalahan.",
-    "Masih condong ke Growth Mindset, meskipun tidak sekuat SS.percaya orang bisa berubah, tetapi mungkin lebih berhati-hati dalam menilai. Pandangan ini positif, tetapi bisa menjadi ragu-ragu ketika menghadapi kesalahan serius dari orang lain.",
-    "Menunjukkan posisi Fixed-Growth Mindset.  mulai meragukan bahwa setiap orang pada dasarnya baik, meskipun masih mengakui kemungkinan perubahan. Sikap ini membuatnya lebih skeptis terhadap manusia, meski tidak sepenuhnya menutup peluang perbaikan.",
-    "Mencerminkan Fixed Mindset.  menolak pandangan bahwa orang pada dasarnya baik, dan lebih percaya bahwa sifat dasar seseorang sulit diubah. Pandangan ini bisa membuat individu pesimis terhadap orang lain dan menolak kemungkinan perbaikan."
-  ],
-  [
-    "Menunjukkan Growth Mindset yang kuat.  menilai belajar dan tantangan baru sebagai motivasi utama dalam bekerja, bukan sekadar penghasilan. Sikap ini membuat individu lebih bersemangat menghadapi tantangan, lebih mudah berkembang, dan lebih tahan dalam menghadapi kesulitan kerja.",
-    "Mendukung Growth Mindset, meski tidak sekuat SS.melihat belajar sebagai motivasi penting, tetapi mungkin masih menempatkan penghasilan pada posisi utama. Sikap ini positif, namun bisa membuat individu cepat kehilangan motivasi ketika hasil kerja tidak sesuai ekspektasi materi.",
-    "Menunjukkan posisi Fixed-Growth Mindset.  mulai meragukan bahwa belajar adalah motivasi utama dalam bekerja.mungkin masih menghargai pembelajaran, tetapi lebih mengutamakan faktor stabilitas atau keuntungan praktis. Hal ini bisa membuat individu kurang terbuka pada pengalaman baru.",
-    "Mencerminkan Fixed Mindset.  menolak gagasan bahwa pembelajaran adalah motivasi penting dalam bekerja, dan lebih percaya bahwa tujuan utama bekerja hanya untuk penghasilan. Pandangan ini membatasi ruang berkembang, karena individu kurang tertarik pada pengalaman yang bisa memperluas wawasan."
-  ],
-  [
-    "Menunjukkan Fixed Mindset yang kuat.  percaya bahwa kecerdasan alami sudah cukup untuk meraih keberhasilan, tanpa memerlukan kerja keras. Pandangan ini membuat individu cenderung malas berusaha, dan menilai keberhasilan lebih pada faktor bawaan daripada proses.",
-    "Condong pada Fixed Mindset, meskipun lebih moderat.percaya kecerdasan alami memberi keuntungan besar, namun masih mengakui sedikit peran usaha. Sikap ini bisa membuat individu berusaha hanya seadanya.",
-    "Menunjukkan posisi Growth-Fixed Mindset.  menolak sebagian pandangan bahwa kecerdasan alami cukup, namun masih menyisakan keyakinan bahwa bakat tetap dominan. Sikap ini membuatnya berusaha, tetapi tidak sepenuhnya percaya pada pentingnya kerja keras.",
-    "Mencerminkan Growth Mindset.  percaya keberhasilan sejati hanya bisa dicapai melalui kerja keras, strategi, dan ketekunan, bukan semata-mata kecerdasan bawaan. Sikap ini membuat individu gigih, pantang menyerah, dan lebih realistis dalam mengejar tujuan."
-  ]
-],
+      [
+        "Tahap 'extended abstract'. Responden mampu menilai kontribusi rekan kerja secara objektif, menunjukkan kematangan profesional dan kesadaran etis tinggi.",
+        "Tahap 'relational'. Responden menilai secara cukup adil, tetapi masih terpengaruh oleh hubungan personal dalam beberapa situasi.",
+        "Tahap 'multistructural'. Responden memahami konsep objektivitas, tetapi penerapannya belum konsisten.",
+        "Tahap 'prestructural'. Responden belum mampu memisahkan penilaian profesional dari preferensi pribadi."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa potensi setiap rekan dapat tumbuh melalui umpan balik konstruktif, menandakan kesadaran reflektif yang matang.",
+        "Tahap 'relational'. Responden menyadari pentingnya umpan balik, namun penerapannya mungkin belum menyeluruh di semua konteks.",
+        "Tahap 'multistructural'. Responden tahu umpan balik penting, tapi belum memahami bagaimana cara memberikannya secara efektif.",
+        "Tahap 'prestructural'. Responden tidak yakin bahwa umpan balik berperan dalam perkembangan profesional seseorang."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa berbagi masukan sejawat memperkaya wawasan dan memperkuat kompetensi kolektif.",
+        "Tahap 'relational'. Responden mendukung kolaborasi sejawat, namun belum melihat dampak reflektif jangka panjangnya.",
+        "Tahap 'multistructural'. Responden memandang umpan balik sejawat hanya sebagai rutinitas evaluasi formal.",
+        "Tahap 'prestructural'. Responden menganggap umpan balik sejawat tidak terlalu penting bagi pengembangan profesional."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memiliki kesadaran bahwa karakter dan cara berpikir dapat berubah melalui pengalaman dan refleksi diri.",
+        "Tahap 'relational'. Responden menyadari perubahan mungkin terjadi, namun belum melihat refleksi diri sebagai kunci utama.",
+        "Tahap 'multistructural'. Responden mengakui pengalaman dapat memengaruhi perilaku, tapi tidak mengaitkannya dengan perubahan pola pikir.",
+        "Tahap 'prestructural'. Responden percaya bahwa kepribadian tidak dapat berubah meskipun melalui banyak pengalaman."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat kesalahan sebagai sumber pembelajaran kolektif dan mampu menciptakan lingkungan diskusi terbuka.",
+        "Tahap 'relational'. Responden memahami bahwa kesalahan penting untuk dievaluasi, tetapi masih sulit membahasnya tanpa menyalahkan.",
+        "Tahap 'multistructural'. Responden mengetahui kesalahan bisa menjadi pelajaran, namun belum membangun budaya diskusi terbuka.",
+        "Tahap 'prestructural'. Responden cenderung menyalahkan individu daripada mempelajari proses dari kesalahan."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memandang kolaborasi sebagai keterampilan yang berkembang melalui latihan komunikasi dan empati.",
+        "Tahap 'relational'. Responden memahami pentingnya kolaborasi, namun belum selalu menerapkannya secara efektif.",
+        "Tahap 'multistructural'. Responden berpartisipasi dalam kerja tim tanpa refleksi mendalam terhadap prosesnya.",
+        "Tahap 'prestructural'. Responden melihat kolaborasi sebagai keharusan formal, bukan sarana pengembangan profesional."
+      ],
+      [
+        "Tahap 'prestructural'. Responden masih percaya kemampuan memimpin adalah bakat bawaan, bukan keterampilan yang bisa dikembangkan.",
+        "Tahap 'multistructural'. Responden mengakui latihan bisa membantu, tetapi tetap memandang kemampuan memimpin sebagai anugerah alami.",
+        "Tahap 'relational'. Responden mulai menyadari bahwa kepemimpinan dapat diasah melalui pengalaman dan bimbingan.",
+        "Tahap 'extended abstract'. Responden memahami bahwa kepemimpinan adalah hasil refleksi, pengalaman, dan komitmen belajar sepanjang waktu."
+      ],
+      [
+        "Tahap 'prestructural'. Responden meyakini kemampuan berpikir kritis tergantung faktor eksternal seperti pendidikan atau lingkungan.",
+        "Tahap 'multistructural'. Responden mengakui peran pengalaman dalam berpikir kritis, tapi belum memahami bahwa hal itu bisa dikembangkan secara pribadi.",
+        "Tahap 'relational'. Responden menolak pandangan deterministik dan melihat berpikir kritis sebagai hasil latihan berkelanjutan.",
+        "Tahap 'extended abstract'. Responden memahami berpikir kritis sebagai kompetensi yang berkembang dari refleksi diri dan dialog terbuka."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat dialog sejawat sebagai sarana mengasah pemikiran reflektif dan memperdalam profesionalisme.",
+        "Tahap 'relational'. Responden memahami manfaat diskusi, namun belum sepenuhnya mengoptimalkannya untuk pengembangan diri.",
+        "Tahap 'multistructural'. Responden menganggap diskusi penting tetapi hanya sebatas tukar pendapat tanpa refleksi mendalam.",
+        "Tahap 'prestructural'. Responden menilai dialog tidak berdampak signifikan terhadap perkembangan profesional."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa budaya evaluasi sejawat memperkuat pertumbuhan kolektif dalam organisasi.",
+        "Tahap 'relational'. Responden menghargai pentingnya evaluasi sejawat, namun belum berperan aktif dalam penerapannya.",
+        "Tahap 'multistructural'. Responden memandang evaluasi sejawat hanya sebagai prosedur administratif.",
+        "Tahap 'prestructural'. Responden menganggap evaluasi sejawat tidak relevan dalam konteks profesional."
+      ],
+      [
+        "Tahap 'relational'. Responden peduli terhadap keharmonisan hubungan kerja, namun masih takut bersikap objektif.",
+        "Tahap 'multistructural'. Responden memahami pentingnya memberi penilaian, tetapi belum percaya diri melakukannya.",
+        "Tahap 'relational'. Responden mampu memberi penilaian dengan empati, meski belum sepenuhnya tegas.",
+        "Tahap 'prestructural'. Responden menghindari penilaian sejawat karena takut menimbulkan konflik."
+      ],
+      [
+        "Tahap 'prestructural'. Responden percaya bahwa pelatihan dan pengalaman tidak banyak mengubah individu, mencerminkan pandangan statis.",
+        "Tahap 'multistructural'. Responden mengakui perubahan mungkin, tapi hanya dalam aspek tertentu.",
+        "Tahap 'relational'. Responden memahami bahwa perubahan bisa terjadi jika didukung lingkungan belajar yang tepat.",
+        "Tahap 'extended abstract'. Responden percaya transformasi diri terjadi melalui pengalaman reflektif berkelanjutan."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat kritik sejawat sebagai instrumen penting untuk memperbaiki kualitas kerja dan meningkatkan profesionalisme.",
+        "Tahap 'relational'. Responden menerima kritik dengan baik, meskipun masih perlu waktu untuk menyesuaikan diri secara emosional.",
+        "Tahap 'multistructural'. Responden memahami pentingnya kritik, tetapi penerimaannya belum konsisten.",
+        "Tahap 'prestructural'. Responden menolak kritik sejawat karena dianggap mengancam harga diri profesionalnya."
+      ],
+      [
+        "Tahap 'prestructural'. Responden merasa tidak nyaman terhadap evaluasi rekan sejawat, menandakan resistensi terhadap refleksi sosial.",
+        "Tahap 'multistructural'. Responden mulai menyadari nilai kritik, tetapi masih defensif dalam menerimanya.",
+        "Tahap 'relational'. Responden menerima kritik secara proporsional, meskipun masih perlu latihan untuk lebih terbuka.",
+        "Tahap 'extended abstract'. Responden sepenuhnya terbuka terhadap kritik sejawat dan melihatnya sebagai bagian integral dari pertumbuhan profesional."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden percaya semua individu memiliki kesempatan yang sama untuk berkembang dalam organisasi.",
+        "Tahap 'relational'. Responden mengakui peluang yang sama ada, namun masih melihat adanya perbedaan konteks individu.",
+        "Tahap 'multistructural'. Responden memahami konsep kesetaraan tetapi belum menerapkannya secara nyata.",
+        "Tahap 'prestructural'. Responden menolak gagasan kesetaraan dalam perkembangan profesional."
+      ],
+      [
+        "Tahap 'prestructural'. Responden beranggapan kemampuan berpikir dasar tidak mudah berubah, menandakan pandangan tetap.",
+        "Tahap 'multistructural'. Responden mengakui pembelajaran baru penting, namun tidak yakin dampaknya besar terhadap cara berpikir.",
+        "Tahap 'relational'. Responden menyadari bahwa pembelajaran dapat mengubah pola pikir secara bertahap.",
+        "Tahap 'extended abstract'. Responden memahami bahwa pembelajaran mendalam dapat merekonstruksi pola berpikir secara fundamental."
+      ],
+      [
+        "Tahap 'prestructural'. Responden merasa strategi baru tidak banyak memengaruhi kemampuan inti.",
+        "Tahap 'multistructural'. Responden mencoba pendekatan baru, namun tanpa keyakinan bahwa hal itu mengubah hasil.",
+        "Tahap 'relational'. Responden memahami bahwa pendekatan baru dapat memperluas wawasan dan cara berpikir.",
+        "Tahap 'extended abstract'. Responden yakin pendekatan baru mampu mengubah kompetensi inti secara signifikan."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa niat baik seringkali terbatas oleh konteks, namun tetap memegang prinsip empati.",
+        "Tahap 'relational'. Responden menyadari faktor situasional memengaruhi keputusan seseorang tanpa menghakimi.",
+        "Tahap 'multistructural'. Responden memahami perilaku bisa salah, tetapi belum mampu menilai secara objektif.",
+        "Tahap 'prestructural'. Responden menilai kesalahan orang lain sebagai bukti sifat yang sulit berubah."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat kolaborasi sebagai sarana memperluas wawasan dan mengembangkan profesionalisme lintas disiplin.",
+        "Tahap 'relational'. Responden memahami pentingnya kerja sama, tetapi belum sepenuhnya mengaitkannya dengan refleksi diri.",
+        "Tahap 'multistructural'. Responden bekerja sama untuk menyelesaikan tugas tanpa fokus pada pembelajaran bersama.",
+        "Tahap 'prestructural'. Responden menilai kolaborasi sebatas pembagian tugas tanpa nilai reflektif."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden menilai kecerdasan sejati ditandai oleh kemampuan merefleksi, belajar dari orang lain, dan menyesuaikan diri dengan situasi kompleks.",
+        "Tahap 'relational'. Responden memahami pentingnya refleksi, tetapi belum menjadikannya kebiasaan profesional.",
+        "Tahap 'multistructural'. Responden menghargai pembelajaran dari orang lain, namun belum menerapkannya secara konsisten.",
+        "Tahap 'prestructural'. Responden masih menganggap kecerdasan hanya diukur dari kemampuan analitis, bukan reflektif."
+      ]
+    ],
     kategori: (tot)=> tot<=33?"FG": (tot<=44?"GF": (tot<=20?"F":"G"))
   }
 };
@@ -1759,77 +1784,77 @@ function interpretasiKategori(cat, skor, paket){
   switch(cat){
     // ================== FIXED ==================
     case "F":
-      if (paket === "dasar") {
-        if (skor <= 5) return `Fixed Mindset Rendah — Tantangan dihindari, hambatan dianggap penghalang mutlak, usaha dipandang sia-sia, kritik terasa menyakitkan, dan sukses orang lain melemahkan diri.`;
-        else if (skor <= 10) return `Fixed Mindset Sedang — Usaha mulai dihargai, tapi hambatan sering membuat mundur, kritik dipahami negatif, dan keberhasilan orang lain menimbulkan rasa tertekan.`;
-        else return `Fixed Mindset Tinggi — Hambatan dianggap bukti keterbatasan, tantangan dipandang berisiko, kritik ditolak, dan sukses orang lain membuat minder.`;
+      if (paket === "solo") {
+        if (skor <= 5) return `Fixed Rendah — Penilaian diri dan teman masih dipengaruhi persepsi kaku. Tantangan dianggap ancaman, kesalahan teman dilihat sebagai kelemahan permanen, dan kritik sulit diterima.`;
+        else if (skor <= 10) return `Fixed Sedang — Mulai memahami adanya potensi teman, tetapi masih cepat menyimpulkan dan kurang memberi ruang perubahan. Hambatan dianggap batas kemampuan.`;
+        else return `Fixed Tinggi — Melihat kemampuan diri dan teman sebagai sesuatu yang tetap. Tantangan dihindari, kritik dianggap serangan, dan kolaborasi menjadi sulit berkembang.`;
       }
       if (paket === "menengah") {
-        if (skor <= 10) return `Fixed Mindset Rendah — Tantangan dianggap ancaman, hambatan seolah permanen, usaha diremehkan, kritik ditolak, dan sukses orang lain membuat iri hati.`;
-        else if (skor <= 15) return `Fixed Mindset Sedang — Tantangan sesekali dicoba, hambatan cepat melemahkan, kritik sulit diterima, dan keberhasilan orang lain jarang dijadikan inspirasi.`;
-        else return `Fixed Mindset Tinggi — Tantangan enggan dihadapi, usaha jarang dilakukan, kritik dianggap serangan, dan sukses orang lain memperbesar rasa rendah diri.`;
+        if (skor <= 10) return `Fixed Rendah — Tantangan kerja sama dihindari, kesalahan teman mudah dihakimi, dan usaha dianggap tidak akan banyak mengubah hasil.`;
+        else if (skor <= 15) return `Fixed Sedang — Mulai terbuka terhadap pendapat teman, tetapi masih sulit menerima perbedaan dan lebih sering menghindar dari diskusi menantang.`;
+        else return `Fixed Tinggi — Menilai kemampuan diri dan rekan kerja secara absolut. Perubahan dianggap mustahil, dan kritik dari rekan dirasakan mengganggu harga diri.`;
       }
       if (paket === "profesional") {
-        if (skor <= 10) return `Fixed Mindset Rendah — Tantangan dihindari, hambatan membuat cepat menyerah, usaha nyaris tidak tampak, kritik sangat mengganggu, dan sukses orang lain menurunkan motivasi.`;
-        else if (skor <= 15) return `Fixed Mindset Sedang — Masih sulit menerima tantangan, hambatan menimbulkan frustasi, usaha minim, kritik diabaikan, dan sukses orang lain terasa menekan.`;
-        else return `Fixed Mindset Tinggi — Hampir menolak seluruh tantangan, usaha tidak dianggap penting, kritik dipandang ancaman, dan keberhasilan orang lain memperkuat rasa gagal.`;
+        if (skor <= 10) return `Fixed Rendah — Pemahaman masih terbatas pada kepercayaan bahwa kemampuan sudah ditentukan. Tantangan sosial dihindari dan refleksi minim.`;
+        else if (skor <= 15) return `Fixed Sedang — Masih sulit menerima umpan balik dari rekan sejawat, cenderung defensif, dan menganggap upaya perbaikan kurang berarti.`;
+        else return `Fixed Tinggi — Meyakini diri dan orang lain tidak bisa berubah. Menolak kritik, menutup diri terhadap refleksi, dan sulit beradaptasi dalam dinamika profesional.`;
       }
       break;
 
     // ================== FIXED → GROWTH ==================
     case "FG":
-      if (paket === "dasar") {
-        if (skor <= 17) return `Transisi Awal — Tantangan mulai dicoba, namun hambatan masih menahan langkah, usaha belum konsisten, kritik terasa berat, dan sukses orang lain membuat ragu.`;
-        else if (skor <= 19) return `Transisi Tengah — Usaha semakin dihargai, hambatan diterima setengah hati, kritik mulai dipahami, dan sukses orang lain kadang memberi dorongan.`;
-        else return `Transisi Tinggi — Tantangan diterima lebih positif, hambatan dianggap latihan, kritik diterima, dan sukses orang lain dilihat sebagai inspirasi.`;
+      if (paket === "solo") {
+        if (skor <= 17) return `Transisi Awal — Mulai melihat sisi positif teman, namun masih terjebak dalam penilaian cepat. Tantangan diterima sebagian, dan kritik terasa berat.`;
+        else if (skor <= 19) return `Transisi Tengah — Penilaian mulai seimbang antara kekurangan dan potensi teman. Hambatan tidak lagi dianggap akhir, dan kritik mulai dipahami.`;
+        else return `Transisi Tinggi — Mulai mampu melihat perbedaan sebagai peluang belajar. Kritik diterima lebih terbuka dan kolaborasi tumbuh lebih sehat.`;
       }
       if (paket === "menengah") {
-        if (skor <= 25) return `Transisi Awal — Tantangan belum sepenuhnya disambut, hambatan menimbulkan keraguan, usaha masih terbatas, kritik terasa berat, dan sukses orang lain membebani diri.`;
-        else if (skor <= 30) return `Transisi Tengah — Tantangan lebih berani dihadapi, hambatan dijalani, usaha mulai stabil, kritik kadang diterima, dan sukses orang lain memotivasi.`;
-        else return `Transisi Tinggi — Tantangan disambut dengan percaya diri, hambatan dianggap bagian dari proses, kritik dihargai, dan sukses orang lain dijadikan dorongan.`;
+        if (skor <= 25) return `Transisi Awal — Tantangan dalam kolaborasi mulai dijalani, meski keyakinan pada perubahan masih fluktuatif. Kritik masih terasa personal.`;
+        else if (skor <= 30) return `Transisi Tengah — Mulai ada keseimbangan antara penilaian diri dan teman. Kritik dianggap bermanfaat, walau belum selalu mudah diterima.`;
+        else return `Transisi Tinggi — Berani menerima perbedaan, reflektif terhadap kritik, dan mulai membantu teman berkembang tanpa rasa menghakimi.`;
       }
       if (paket === "profesional") {
-        if (skor <= 25) return `Transisi Awal — Tantangan masih menimbulkan cemas, hambatan sering dianggap sulit, usaha kadang goyah, kritik mudah mempengaruhi, dan sukses orang lain terasa menekan.`;
-        else if (skor <= 30) return `Transisi Tengah — Usaha sudah lebih konsisten, tantangan diterima, hambatan dilihat realistis, kritik lebih sering diterima, dan sukses orang lain mendorong langkah.`;
-        else return `Transisi Tinggi — Tantangan dijalani penuh keyakinan, hambatan dilihat sebagai peluang belajar, usaha berkelanjutan, kritik diapresiasi, dan sukses orang lain jadi inspirasi kuat.`;
+        if (skor <= 25) return `Transisi Awal — Kesadaran reflektif mulai tumbuh. Kritik diterima dengan hati-hati, dan mulai muncul keinginan memperbaiki diri dalam interaksi profesional.`;
+        else if (skor <= 30) return `Transisi Tengah — Pandangan mulai matang: menyadari kemampuan bisa berubah, menghargai kritik, dan belajar dari rekan sejawat.`;
+        else return `Transisi Tinggi — Sudah terbiasa menerima umpan balik dan melihatnya sebagai alat peningkatan profesionalisme. Tumbuh ke arah growth mindset sejati.`;
       }
       break;
 
     // ================== GROWTH → FIXED ==================
     case "GF":
-      if (paket === "dasar") {
-        if (skor <= 22) return `Growth Awal — Usaha dipercaya, tapi hambatan mudah melemahkan, kritik menurunkan semangat, dan sukses orang lain kadang memunculkan perbandingan negatif.`;
-        else if (skor <= 24) return `Growth Sedang — Tantangan diterima, hambatan dijalani, kritik mulai dimanfaatkan, dan sukses orang lain sesekali menginspirasi meski masih ada keraguan.`;
-        else return `Growth Kuat — Hambatan diterima sebagai proses, usaha konsisten, kritik dipandang bermanfaat, dan sukses orang lain menjadi energi untuk berkembang.`;
+      if (paket === "solo") {
+        if (skor <= 22) return `Growth Awal — Sudah mulai percaya teman dapat berkembang, meski kadang masih menilai hasil lebih dari proses.`;
+        else if (skor <= 24) return `Growth Sedang — Penilaian semakin objektif. Kesalahan teman dilihat sebagai kesempatan untuk membantu, bukan untuk menilai.`;
+        else return `Growth Kuat — Mampu melihat proses belajar sebagai nilai utama. Kritik disampaikan dengan empati dan kolaborasi semakin kuat.`;
       }
       if (paket === "menengah") {
-        if (skor <= 37) return `Growth Awal — Usaha dianggap penting, tapi hambatan besar membuat cepat menyerah, kritik terasa berat, dan sukses orang lain menurunkan keyakinan.`;
-        else if (skor <= 41) return `Growth Sedang — Tantangan dihadapi dengan optimisme, hambatan menguji kesabaran, kritik lebih diterima, dan sukses orang lain mendorong usaha lebih lanjut.`;
-        else return `Growth Kuat — Hambatan diterima positif, usaha terjaga, kritik dicari sebagai masukan, dan sukses orang lain semakin menguatkan tekad.`;
+        if (skor <= 37) return `Growth Awal — Mulai menerima variasi kemampuan dalam tim, namun terkadang masih kesulitan menyesuaikan standar pribadi dengan orang lain.`;
+        else if (skor <= 41) return `Growth Sedang — Sudah dapat memberikan umpan balik membangun, menghargai proses, dan terbuka terhadap cara pandang teman.`;
+        else return `Growth Kuat — Kolaborasi berjalan matang. Setiap perbedaan dilihat sebagai kekayaan tim, bukan penghalang produktivitas.`;
       }
       if (paket === "profesional") {
-        if (skor <= 37) return `Growth Awal — Tantangan diterima sebagian, hambatan membuat ragu, usaha tidak konsisten, kritik sering terasa berat, dan sukses orang lain menimbulkan tekanan.`;
-        else if (skor <= 41) return `Growth Sedang — Usaha makin stabil, hambatan dianggap ujian, kritik mulai diapresiasi, dan sukses orang lain cukup menguatkan semangat.`;
-        else return `Growth Kuat — Tantangan disambut penuh keyakinan, hambatan dipandang membangun, usaha konsisten, kritik dihargai, dan sukses orang lain jadi inspirasi nyata.`;
+        if (skor <= 37) return `Growth Awal — Refleksi diri kuat, namun penerimaan terhadap kekurangan rekan masih perlu diperluas. Belajar melihat tim sebagai ruang bertumbuh.`;
+        else if (skor <= 41) return `Growth Sedang — Sikap profesional meningkat, mampu menilai objektif, terbuka terhadap kritik, dan menghargai proses tim.`;
+        else return `Growth Kuat — Sudah matang secara profesional: reflektif, empatik, dan melihat kolaborasi sebagai sarana pertumbuhan bersama.`;
       }
       break;
 
     // ================== GROWTH ==================
     case "G":
-      if (paket === "dasar") {
-        if (skor <= 27) return `Growth Stabil — Tantangan diterima wajar, hambatan dijalani tekun, usaha konsisten, kritik dipahami, dan sukses orang lain dijadikan teladan.`;
-        else if (skor <= 29) return `Growth Kuat — Tantangan dicari, hambatan memperkuat, usaha penuh semangat, kritik dihargai, dan sukses orang lain mendorong kepercayaan diri.`;
-        else return `Growth Sangat Kuat — Tantangan disambut antusias, hambatan membuat tangguh, usaha pantang menyerah, kritik dipelajari, dan sukses orang lain menjadi bahan bakar semangat.`;
+      if (paket === "solo") {
+        if (skor <= 27) return `Growth Stabil — Mampu menilai diri dan teman secara proporsional. Tantangan sosial diterima, kritik dihargai, dan empati tinggi.`;
+        else if (skor <= 29) return `Growth Kuat — Reflektif terhadap penilaian teman, mampu menginspirasi rekan, dan menghargai setiap perbedaan sebagai proses belajar.`;
+        else return `Growth Sangat Kuat — Menjadi panutan dalam kolaborasi. Selalu terbuka, mendukung teman berkembang, dan menjadikan setiap interaksi sebagai peluang belajar bersama.`;
       }
       if (paket === "menengah") {
-        if (skor <= 48) return `Growth Stabil — Tantangan dihadapi berani, hambatan memperkuat, usaha tekun, kritik diterima positif, dan sukses orang lain menginspirasi langkah.`;
-        else if (skor <= 55) return `Growth Kuat — Tantangan menumbuhkan gairah, hambatan jadi latihan, usaha terus berlanjut, kritik dijadikan masukan, dan sukses orang lain memperkuat semangat.`;
-        else return `Growth Sangat Kuat — Tantangan dipandang peluang, hambatan menumbuhkan daya tahan, usaha berkesinambungan, kritik jadi hadiah, dan sukses orang lain menjadi energi kolektif.`;
+        if (skor <= 48) return `Growth Stabil — Terbuka terhadap berbagai sudut pandang, mampu menilai adil, dan berorientasi pada perbaikan diri serta tim.`;
+        else if (skor <= 55) return `Growth Kuat — Melibatkan rekan dalam proses belajar bersama. Tantangan dijalani dengan refleksi kolektif dan semangat mendukung.`;
+        else return `Growth Sangat Kuat — Menjadi motor penggerak dalam lingkungan belajar. Kolaborasi, refleksi, dan empati menyatu dalam praktik profesional.`;
       }
       if (paket === "profesional") {
-        if (skor <= 48) return `Growth Stabil — Tantangan dijalani penuh keyakinan, hambatan membuat matang, usaha konsisten, kritik dihargai, dan sukses orang lain menguatkan visi.`;
-        else if (skor <= 55) return `Growth Kuat — Tantangan dipandang sebagai jalan berkembang, hambatan menambah pengalaman, usaha teguh, kritik dicari, dan sukses orang lain menjadi inspirasi kuat.`;
-        else return `Growth Sangat Kuat — Tantangan selalu dicari, hambatan dianggap peluang, usaha tak tergoyahkan, kritik sangat dihargai, dan sukses orang lain menjadi energi positif untuk berkembang.`;
+        if (skor <= 48) return `Growth Stabil — Menunjukkan kematangan profesional. Kritik dijadikan energi, tantangan dihadapi dengan integritas, dan kolaborasi dijaga dengan empati.`;
+        else if (skor <= 55) return `Growth Kuat — Berpikir strategis, reflektif, dan inspiratif. Memandang perbedaan sebagai modal sinergi antar rekan.`;
+        else return `Growth Sangat Kuat — Profesional yang visioner. Menginspirasi pertumbuhan bersama melalui teladan, empati, dan komitmen belajar sepanjang hayat.`;
       }
       break;
 
@@ -1840,13 +1865,19 @@ function interpretasiKategori(cat, skor, paket){
 
 function motivasiKategori(cat){
   switch(cat){
-    case "F": return "Setiap usaha sekecil apapun membuka peluang untuk tumbuh. Beranilah melangkah, karena perubahan selalu mungkin terjadi.";
-    case "FG": return "Hargai setiap keberhasilan kecil sebagai bukti pertumbuhan. Dari pengalaman itu, keyakinan akan bertumbuh semakin kuat.";
-    case "GF": return "Jadikan kegagalan sebagai latihan untuk menguatkan diri. Dengan konsistensi, keyakinan bertumbuh akan menjadi semakin kokoh.";
-    case "G": return "Setiap pengalaman adalah kesempatan untuk melangkah lebih jauh. Dengan keyakinan ini, inspirasi dapat lahir dan tumbuh bersama orang lain.";
-    default: return "";
+    case "F": 
+      return "Setiap usaha kecil dari diri maupun rekan adalah langkah menuju perubahan. Bukalah ruang untuk mencoba lagi, karena kemampuan bukanlah hal yang tetap.";
+    case "FG": 
+      return "Kamu sedang berada di titik perubahan. Teruslah membuka diri terhadap kritik dan pengalaman baru — karena di situlah potensi berkembang.";
+    case "GF": 
+      return "Pertumbuhan sudah kamu rasakan. Pertahankan semangat belajar, bantu teman untuk tumbuh bersama, dan jangan berhenti berefleksi.";
+    case "G": 
+      return "Kamu menunjukkan karakter pembelajar sejati. Jadilah inspirasi bagi teman-temanmu untuk terus belajar, berkolaborasi, dan bertumbuh bersama.";
+    default: 
+      return "";
   }
 }
+
 
 function cetakTanpaAnalisis(){
   if(!lastResult){ Swal.fire('Belum Ada Hasil','Silakan isi kuis dan tekan SUBMIT dulu.','info'); return; }

@@ -8,129 +8,112 @@
    POLA PIKIR TEMAN
   </title>
 <style>
-body {
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(160deg, #ebffea, #f3fbf2);
-  margin: 0;
-  padding: 20px;
-  color: #334155;
-}
-
-/* Container utama */
+   body{font-family:Arial,sans-serif;background:#e6f0fa;margin:0;padding:20px}
 .container {
   max-width: 995px;
   margin: auto;
-  background: linear-gradient(145deg, #ffffff, #edf4ff);
+  background: linear-gradient(145deg, #ffffff, #f3f4f6);
   padding: 30px;
   border-radius: 20px;
-  box-shadow:
-    6px 6px 20px rgba(0, 0, 0, 0.08),
-    -6px -6px 20px rgba(255, 255, 255, 0.8);
+  box-shadow: 10px 10px 30px rgba(0,0,0,0.15),
+              -10px -10px 30px rgba(255,255,255,0.9);
 }
-
-/* Judul */
 h1 {
   text-align: center;
   font-size: 30px;
-  font-weight: 900;
-  margin: 5px 0 15px;
-  color: #2563eb;
-  text-shadow: 2px 2px 6px rgba(37, 99, 235, 0.15);
-  letter-spacing: 0.5px;
+  font-weight: 970;
+  margin: 1px 0 2px;
+  color: #1e3a8a;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+  letter-spacing: 1px;
 }
 
-/* Area tombol */
+/* Kotak container tombol */
 .btn-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin: 5px auto;
-  padding: 12px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #f0faff, #e9f5ff);
-  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05), inset -2px -2px 6px rgba(255,255,255,0.8);
-  max-width: 970px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  margin:3px auto;
+  padding:10px;
+  border-radius:7px;
+  background:linear-gradient(135deg,#f8fafc,#e0e7ff);
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  max-width:970px;
 }
 
-/* Tombol umum */
+/* Style tombol */
 .btn {
-  flex: 1;
-  min-width: 80px;
-  padding: 12px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: transform 0.25s, box-shadow 0.25s;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+  flex:1;
+  min-width:80px;
+  padding:12px 18px;
+  font-size:16px;
+  font-weight:bold;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition:transform 0.2s, box-shadow 0.2s;
+  box-shadow:0 6px 10px rgba(0,0,0,0.2);
 }
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 14px rgba(0,0,0,0.25);
+  transform:translateY(-2px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.25);
 }
 
-/* Warna tombol baru yang sejuk */
-.primary { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-.danger { background: linear-gradient(135deg, #fca5a5, #ef4444); }
-.info { background: linear-gradient(135deg, #a5b4fc, #6366f1); }
-.warning { background: linear-gradient(135deg, #fde68a, #f59e0b); color: #3b3b3b; }
-.success { background: linear-gradient(135deg, #6ee7b7, #10b981); }
-.home { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+/* Warna tombol */
+.primary { background:linear-gradient(135deg,#2563eb,#1e3a8a); }
+.danger { background:linear-gradient(135deg,#ef4444,#b91c1c); }
+.info { background:linear-gradient(135deg,#e39bf1,#830094); }
+.warning { background:linear-gradient(135deg,#f59e0b,#b45309); }
+.success { background:linear-gradient(135deg,#22c55e,#15803d); }
 
-/* Paket tombol */
-.paket-btns { text-align: center; margin: 0px 0 8px 0; }
-.paket-btns button {
-  padding: 10px 12px;
-  margin: 2px;
+    .paket-btns{text-align:center;margin:0px 0 8px 0}
+    .paket-btns button {
+  padding: 10px 10px;
+  margin: 1px;
   border: none;
   border-radius: 24px;
   cursor: pointer;
-  font-weight: 800;
-  font-size: 11px;
-  color: white;
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.15), -3px -3px 10px rgba(255,255,255,0.8);
+  font-weight: 970;
+  font-size: 10px;
+  box-shadow: 5px 5px 12px rgba(0,0,0,0.2),
+              -5px -5px 12px rgba(255,255,255,0.8);
   transition: all 0.3s ease;
 }
+
 .paket-btns button:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 6px 6px 18px rgba(0,0,0,0.2), -4px -4px 10px rgba(255,255,255,0.8);
+  box-shadow: 8px 8px 18px rgba(0,0,0,0.25),
+              -4px -4px 10px rgba(255,255,255,0.7);
 }
-.paket-dasar { background: linear-gradient(135deg, #fca5a5, #f43f5e); }
-.paket-menengah { background: linear-gradient(135deg, #60a5fa, #2563eb); }
-.paket-profesional { background: linear-gradient(135deg, #c084fc, #9333ea); }
+
+    .paket-dasar{background:#f83898;color:#fff}
+    .paket-menengah{background:#2563eb;color:#fff}
+    .paket-profesional{background:#a904db;color:#fff}
     .form-group{margin-top: 10px; margin-bottom:8px}
     .form-group label{display:block;font-weight:700;margin-bottom:3px;font-size: 14px;}
     .form-group input{width:98%;padding:8px;border:1px solid #ccc;border-radius:6px;box-shadow:inset 1px 1px 3px #bbb;font-size:14px}
-    /* Pertanyaan dan opsi */
-.q {
-  font-size: 14px;
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #dbeafe;
-  border-radius: 8px;
-  background: #f8fbff;
-  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05);
-}
-.opt label {
-  background: #eef2ff;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-  transition: all 0.2s ease;
-}
-.opt label:hover {
-  background: #e0f2fe;
-  transform: scale(1.03);
-}
-.opt input:checked + span {
-  color: #2563eb;
-  font-weight: 700;
-}
+    .q{font-size: 14px;margin-bottom:20px;padding:10px;border:1px solid #ddd;border-radius:8px;background:#f9fbff}
+    .opt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:3px;padding-left: 0;}
+    .opt label{background:#f0f4ff;padding:10px;border-radius:8px;border:0px solid #ccc;cursor:pointer;box-shadow:0 4px #aaa;text-align:center;font-weight:500;font-size:13px}
+    .opt input[type=radio]{width:7px;height:7px;margin-left: 0;margin-right: 4px;vertical-align: top;accent-color:#2563eb}
+    .opt input:checked+span{color:#2563eb;font-weight:700}
+     @keyframes bounce {
+       0%   { transform: scale(1); }
+       30%  { transform: scale(1.2); }
+       50%  { transform: scale(0.9); }
+       70%  { transform: scale(1.1); }
+       100% { transform: scale(1); }
+     }
+     .opt label:hover,
+     .opt label:focus-within {
+       animation: bounce 0.5s;
+     }
+     .opt input:checked + span {
+       animation: bounce 0.5s;
+       display: inline-block;
+    }
     button{display:inline-block;padding:2px 7px;border:none;border-radius:6px;cursor:pointer;margin:2px 2px;font-weight:970;transition:all .2s ease;box-shadow:0 4px #999}
     button:active{transform:translateY(2px);box-shadow:0 2px #666}
     button{padding:5px 7px;border:none;border-radius:2px;cursor:pointer;margin:2px 2px;font-weight:970;box-shadow:0 4px #999}    
@@ -138,25 +121,13 @@ h1 {
     .btns button{display:inline-block;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:970;box-shadow:0 3px #999}
     .primary{background:#2563eb;color:#fff}
     .soft{background:#f0f0f0;color:#333}
-    .result {
-  margin-top: 15px;
-  padding: 12px;
-  border: 1px dashed #93c5fd;
-  border-radius: 8px;
-  display: none;
-  text-align: center;
-  background: #f0f9ff;
-}
-.score {
-  font-size: 4em;
-  font-weight: 900;
-  color: #2563eb;
-}
-/* Badge warna kategori */
-.badge.F { background: #fee2e2; color: #b91c1c; }
-.badge.FG { background: #fef9c3; color: #92400e; }
-.badge.GF { background: #dbeafe; color: #1e3a8a; }
-.badge.G { background: #dcfce7; color: #15803d; }
+    .result{margin-top:12px;padding:12px;border:1px dashed #888;border-radius:8px;display:none;text-align:center}
+    .score{font-size:4em;font-weight:970;color:#2563eb;display:inline-block;margin-right:14px}
+    .badge{display:inline-block;font-size:1.3em;vertical-align:middle;font-weight:970;padding:6px 18px;border-radius:10px}
+    .badge.F{background:#fee2e2;color:#b91c1c}
+    .badge.FG{background:#fef3c7;color:#92400e}
+    .badge.GF{background:#e0f2fe;color:#0369a1}
+    .badge.G{background:#dcfce7;color:#166534}
     .analysis{margin-top:20px;padding:10px;background:#f9fafc;border-radius:8px;display:none}
     .analysis h3{margin-bottom:10px;color:#333}
     .analysis-item{margin-bottom:10px;padding:8px;border-bottom:1px solid #eee}
@@ -243,10 +214,9 @@ h1 {
   height: auto;
 }
 
-/* QR efek glowing lembut */
 #qrcodeCanvas:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(147, 197, 253, 0.6);
+  box-shadow: 0 0 20px rgba(30, 58, 138, 0.6); /* glowing biru */
 }
 
 .qr-credit {
@@ -259,14 +229,14 @@ h1 {
   animation: fadeInUp 1.5s ease;
 }
 
-/* Animasi lembut */
 @keyframes fadeIn {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
-@keyframes bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .judul-utama {
   display: block;
@@ -284,16 +254,21 @@ h1 {
   color: #1e40af;
   line-height: 1.1;  /* rapat juga */
 }
-/* Footer */
 .footer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 13px;
-  color: #475569;
+  text-align:center;
+  margin-top:2px;
+  margin-bottom: 5px;
+  font-size:14px;
+  line-height:1.6;
+  opacity:0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.5s;
 }
 .footer .nama {
-  font-weight: bold;
-  color: #6d28d9;
+  font-weight:bold;
+  font-size:17px;
+  color:purple;
 }
 .soal {
     border: 1px solid #ccc;
@@ -303,11 +278,11 @@ h1 {
     transition: background-color 0.3s ease;
   }
 
-/* Warna lembut untuk skala penilaian */
-.warna-SS  { background-color: #ffe4e6; }  /* pink pastel */
-.warna-S   { background-color: #fff7cc; }  /* kuning lembut */
-.warna-TS  { background-color: #d1fae5; }  /* hijau mint */
-.warna-STS { background-color: #e0e7ff; }  /* biru lavender */
+  /* Warna lembut */
+  .warna-SS  { background-color: #f8d7da; }   /* merah lembut */
+  .warna-S   { background-color: #fff3cd; }   /* kuning lembut */
+  .warna-TS  { background-color: #d4edda; }   /* hijau lembut */
+  .warna-STS { background-color: #e2d9f3; }   /* ungu lembut */
   </style>
 <!-- Choices.js (CSS + JS) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">

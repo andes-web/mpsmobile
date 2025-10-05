@@ -3346,5 +3346,41 @@ document.addEventListener("click", function(e){
   }
 });
 </script>
+<script>
+// Fungsi pembuka jendela baru penuh proporsional
+function bukaHalamanBaru(file) {
+  const width  = screen.availWidth;
+  const height = screen.availHeight;
+
+  const newWin = window.open(file, "_blank",
+    `toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=${width},height=${height}`
+  );
+
+  if (newWin) {
+    newWin.focus();
+  } else {
+    alert("Izinkan pop-up untuk membuka halaman ini.");
+  }
+}
+
+// Ubah semua tombol/tautan terkait Form agar buka di jendela baru
+document.querySelectorAll("a, button").forEach(el => {
+  const href = el.getAttribute("href");
+  const onclick = el.getAttribute("onclick");
+
+  if (href && (href.includes("Form_Individu.html") || href.includes("Form_Kelompok.html") || href.includes("pola_pikirMPS.html"))) {
+    el.removeAttribute("href");
+    el.setAttribute("onclick", `bukaHalamanBaru('${href}')`);
+  }
+
+  if (onclick && (onclick.includes("Form_Individu.html") || onclick.includes("Form_Kelompok.html") || onclick.includes("pola_pikirMPS.html"))) {
+    const match = onclick.match(/(['"])(.*?)\\1/);
+    if (match && match[2]) {
+      el.setAttribute("onclick", `bukaHalamanBaru('${match[2]}')`);
+    }
+  }
+});
+</script>
+
 </body>
 </html>

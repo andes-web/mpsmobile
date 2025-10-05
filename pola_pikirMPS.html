@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>
+   POLA PIKIR TEMAN
+  </title>
+<style>
+   body{font-family:Arial,sans-serif;background:#494b4e;margin:0;padding:20px}
+.container {
+  max-width: 995px;
+  margin: auto;
+  background: linear-gradient(145deg, #ffc7c7, #c3d7ff);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 10px 10px 30px rgba(0,0,0,0.15),
+              -10px -10px 30px rgba(255,255,255,0.9);
+}
+h1 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 970;
+  margin: 1px 0 2px;
+  color: #1e3a8a;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+  letter-spacing: 1px;
+}
+
+/* Kotak container tombol */
+.btn-container {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  margin:3px auto;
+  padding:10px;
+  border-radius:7px;
+  background:linear-gradient(135deg,#f8fafc,#e0e7ff);
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  max-width:970px;
+}
+
+/* Style tombol */
+.btn {
+  flex:1;
+  min-width:80px;
+  padding:12px 18px;
+  font-size:16px;
+  font-weight:bold;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition:transform 0.2s, box-shadow 0.2s;
+  box-shadow:0 6px 10px rgba(0,0,0,0.2);
+}
+.btn:hover {
+  transform:translateY(-2px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.25);
+}
+
+/* Warna tombol */
+.primary { background:linear-gradient(135deg,#2563eb,#1e3a8a); }
+.danger { background:linear-gradient(135deg,#ef4444,#b91c1c); }
+.info { background:linear-gradient(135deg,#e39bf1,#830094); }
+.warning { background:linear-gradient(135deg,#f59e0b,#b45309); }
+.success { background:linear-gradient(135deg,#22c55e,#15803d); }
+
+    .paket-btns{text-align:center;margin:0px 0 8px 0}
+    .paket-btns button {
+  padding: 10px 10px;
+  margin: 1px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-weight: 970;
+  font-size: 10px;
+  box-shadow: 5px 5px 12px rgba(0,0,0,0.2),
+              -5px -5px 12px rgba(255,255,255,0.8);
+  transition: all 0.3s ease;
+}
+
+.paket-btns button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 8px 8px 18px rgba(0,0,0,0.25),
+              -4px -4px 10px rgba(255,255,255,0.7);
+}
+
+    .paket-dasar{background:#f83898;color:#fff}
+    .paket-menengah{background:#2563eb;color:#fff}
+    .paket-profesional{background:#a904db;color:#fff}
+    .form-group{margin-top: 10px; margin-bottom:8px}
+    .form-group label{display:block;font-weight:700;margin-bottom:3px;font-size: 14px;}
+    .form-group input{width:98%;padding:8px;border:1px solid #ccc;border-radius:6px;box-shadow:inset 1px 1px 3px #bbb;font-size:14px}
+    .q{font-size: 14px;margin-bottom:20px;padding:10px;border:1px solid #ddd;border-radius:8px;background:#f9fbff}
+    .opt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:3px;padding-left: 0;}
+    .opt label{background:#f0f4ff;padding:10px;border-radius:8px;border:0px solid #ccc;cursor:pointer;box-shadow:0 4px #aaa;text-align:center;font-weight:500;font-size:13px}
+    .opt input[type=radio]{width:7px;height:7px;margin-left: 0;margin-right: 4px;vertical-align: top;accent-color:#2563eb}
+    .opt input:checked+span{color:#2563eb;font-weight:700}
+     @keyframes bounce {
+       0%   { transform: scale(1); }
+       30%  { transform: scale(1.2); }
+       50%  { transform: scale(0.9); }
+       70%  { transform: scale(1.1); }
+       100% { transform: scale(1); }
+     }
+     .opt label:hover,
+     .opt label:focus-within {
+       animation: bounce 0.5s;
+     }
+     .opt input:checked + span {
+       animation: bounce 0.5s;
+       display: inline-block;
+    }
+    button{display:inline-block;padding:2px 7px;border:none;border-radius:6px;cursor:pointer;margin:2px 2px;font-weight:970;transition:all .2s ease;box-shadow:0 4px #999}
+    button:active{transform:translateY(2px);box-shadow:0 2px #666}
+    button{padding:5px 7px;border:none;border-radius:2px;cursor:pointer;margin:2px 2px;font-weight:970;box-shadow:0 4px #999}    
+    .btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}
+    .btns button{display:inline-block;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:970;box-shadow:0 3px #999}
+    .primary{background:#2563eb;color:#fff}
+    .soft{background:#f0f0f0;color:#333}
+    .result{margin-top:12px;padding:12px;border:1px dashed #888;border-radius:8px;display:none;text-align:center}
+    .score{font-size:4em;font-weight:970;color:#2563eb;display:inline-block;margin-right:14px}
+    .badge{display:inline-block;font-size:1.3em;vertical-align:middle;font-weight:970;padding:6px 18px;border-radius:10px}
+    .badge.F{background:#fee2e2;color:#b91c1c}
+    .badge.FG{background:#fef3c7;color:#92400e}
+    .badge.GF{background:#e0f2fe;color:#0369a1}
+    .badge.G{background:#dcfce7;color:#166534}
+    .analysis{margin-top:20px;padding:10px;background:#f9fafc;border-radius:8px;display:none}
+    .analysis h3{margin-bottom:10px;color:#333}
+    .analysis-item{margin-bottom:10px;padding:8px;border-bottom:1px solid #eee}
+    .analysis-item:last-child{border-bottom:none}
+    .hint {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2f00ff;
+  text-align: center;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(209, 229, 245, 0.6);
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.1),
+              inset -2px -2px 6px rgba(255,255,255,0.7);
+  backdrop-filter: blur(8px);
+}
+
+    .share-section{text-align:center;margin-top:30px}
+    .share-section input{width:90%;margin-bottom:20px;padding:10px;text-align:center}
+    #loginForm{margin-bottom:20px}
+    .chart-container{width:250px;height:250px;margin:20px auto}
+    #qrcode{display:flex;justify-content:center;margin:20px 0}
+    #chartArea{display:none;margin-top:40px;padding:16px;border:1px solid #e5e7eb;border-radius:10px;background:#fafcff}
+    .chartHeader{text-align:center;margin-bottom:10px}
+    .chartsHeader h2{color:#1e3a8a;margin:0;font-weight:800}
+    .chartsGrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media (max-width: 768px) {.chartsGrid {grid-template-columns: 1fr;}}
+    .chartBox{margin-top: 10px;background:#e6f0fa;padding:5px;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+    canvas{width:100%!important;height:auto!important}
+    #instansiFilter {display: block; margin: 0 auto 15px auto; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; text-align: center; font-size: 9pt; width: 220px; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+    #printTemplate{display:none}
+    @media print{body{background:#fff;padding:0;font-family:Arial,sans-serif}.container,.btns,#result,.share-section{display:none!important}#printTemplate{display:block;padding:25px;font-size:9pt;color:#333;background:linear-gradient(145deg,#fffdf9,#fff5eb);border-radius:12px;box-shadow:0 8px 18px rgba(0,0,0,.15)}#printTemplate h2{text-align:center;margin-bottom:16px;color:#b45309;font-size:12pt;text-shadow:1px 1px 2px rgba(0,0,0,.15)}#printTemplate .identitas{width:100%;border-collapse:separate;border-spacing:0 2px;margin-bottom:8px;font-size:10pt}#printTemplate .identitas td{padding:4px 8px;background:#fff;border-radius:6px;box-shadow:inset 0 1px 2px rgba(0,0,0,.1)}#printTemplate .identitas .label{width:160px;font-weight:700;background:#fff8f0}#printTemplate .hasil{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:9.5pt;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 6px rgba(0,0,0,.15),0 8px 20px rgba(0,0,0,.1)}#printTemplate .hasil th,#printTemplate .hasil td{border:1px solid rgba(0,0,0,.08)}#printTemplate .hasil th{background:linear-gradient(180deg,#ffcc99,#ff9933);color:#000;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:8px 6px;text-align:center;border-bottom:3px solid #d65c00;box-shadow:inset 0 -3px 4px rgba(255,255,255,.25)}#printTemplate .hasil th+th{border-left:2px solid #cc5200}#printTemplate .hasil td{padding:6px 6px;text-align:center;background:linear-gradient(180deg,#fff,#fdf6f0)}#printTemplate .hasil tr:nth-child(even) td{background:linear-gradient(180deg,#fffaf5,#fbeee4)}#printTemplate .hasil tr:hover td{background:#ffe5cc;box-shadow:inset 0 0 6px rgba(255,140,0,.3)}#printTemplate .hasil th:nth-child(1),#printTemplate .hasil td:nth-child(1){width:25px}#printTemplate .hasil th:nth-child(2),#printTemplate .hasil td:nth-child(2){width:auto;text-align:center;padding-left:12px}#printTemplate .hasil th:nth-child(3),#printTemplate .hasil th:nth-child(4),#printTemplate .hasil th:nth-child(5),#printTemplate .hasil th:nth-child(6),#printTemplate .hasil td:nth-child(3),#printTemplate .hasil td:nth-child(4),#printTemplate .hasil td:nth-child(5),#printTemplate .hasil td:nth-child(6){width:30px}#printTemplate .summary{font-size:10pt;font-weight:700;color:#000;background:linear-gradient(90deg,#ffd9b3,#ff9966);padding:6px 14px;border-radius:6px;text-align:center;margin-top:8px;display:inline-block;box-shadow:0 6px 10px rgba(0,0,0,.2)}@page{size:A4;margin:0 1cm 1cm .5cm}}
+    .blue-text { color: #1e3a8a; font-weight: 900; font-size: 22px; }
+    .legendBox{display:none;justify-content:center;gap:20px;margin-top:15px;font-weight:bold}
+    .legendItem{display:flex;align-items:center;gap:6px}
+    .legendColor{width:18px;height:18px;border-radius:4px}
+    #judulUtama{text-align:center; font-size:11px; font-weight:970; margin-bottom:20px; color:#1e3a8a;}
+    #akumulasiTitle {text-align: center; font-weight: bold; font-size: 18px; margin-bottom:10px;margin-top:2px;}
+   
+    h1{text-align:center; font-size:20px; font-weight:980; margin:0px 0 15px; color:#1e3a8a;}
+    h2{text-align:center; margin-bottom:20px;}
+    .chart-container{display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px; align-items:flex-start;}
+    .chart-box{flex:1 1 45%; background:#fff; padding:20px; border-radius:16px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+    .chart-box:nth-child(2){padding-top:60px;}
+    .blue-text{color:#1d4ed8; font-weight:bold;}
+    .instansi-title{font-weight:700; font-size:16px; color:#1e3a8a; margin:0 0 8px; text-align:center;}
+    #instansiFilter{display:block; margin:0 auto 12px auto; padding:6px 10px; border-radius:8px;}
+    #akumulasiChart,#instansiChart{width:100%;height: 400px !important;}
+#keteranganOpsi {
+  display:none;
+  margin:15px auto;
+  padding:10px;
+  background: rgba(209, 229, 245, 0.6);
+  border:1px solid #cce7ff;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+  color:#1e3a8a;
+  max-width: 600px auto; /* supaya tidak terlalu lebar */
+}
+  
+/* Animasi elegan */
+.qr-section {
+  text-align: center;
+  margin-top: 25px;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.qr-section a {
+  color: #1e3a8a;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.qr-section a:hover {
+  text-decoration: underline;
+}
+
+#qrcodeCanvas {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+  max-width: 30%;
+  height: auto;
+}
+
+#qrcodeCanvas:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(30, 58, 138, 0.6); /* glowing biru */
+}
+
+.qr-credit {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Georgia', serif;
+  color: #1e3a8a;
+  letter-spacing: 0.5px;
+  animation: fadeInUp 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.judul-utama {
+  display: block;
+  font-size: 35px;   /* lebih besar */
+  olor: #1e3a8a;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  margin-bottom: -25px;   /* rapatkan ke bawah */
+  line-height: 1.1;      /* atur tinggi baris */
+}
+
+.judul-sub {
+  display: block;
+  font-size: 25px;   /* lebih kecil */
+  font-weight: 700;
+  color: #1e40af;
+  line-height: 1.1;  /* rapat juga */
+}
+.footer {
+  text-align:center;
+  margin-top:2px;
+  margin-bottom: 5px;
+  font-size:14px;
+  line-height:1.6;
+  opacity:0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.5s;
+}
+.footer .nama {
+  font-weight:bold;
+  font-size:17px;
+  color:purple;
+}
+.soal {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Warna lembut */
+  .warna-SS  { background-color: #f8d7da; }   /* merah lembut */
+  .warna-S   { background-color: #fff3cd; }   /* kuning lembut */
+  .warna-TS  { background-color: #d4edda; }   /* hijau lembut */
+  .warna-STS { background-color: #e2d9f3; }   /* ungu lembut */
+  </style>
+<!-- Choices.js (CSS + JS) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+<style>
+/* Samakan kotak luar dropdown dengan input lain */
+.choices {
+  width: 100% !important;    /* samakan persis dengan input lain */
+  box-sizing: border-box !important;
+}
+
+.choices__inner {
+  background-color: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  box-shadow: inset 1px 1px 3px #bbb !important;
+  padding: 0 10px !important;   /* reset padding biar pas */
+  font-size: 12px !important;
+  font-family: inherit !important;
+  height: 40px !important;      /* tinggi sama dengan input */
+  display: flex !important;
+  align-items: center !important; /* teks di tengah vertikal */
+}
+
+.choices__placeholder {
+  opacity: 0.7 !important;
+  color: #666 !important;
+  font-style: italic !important;
+  line-height: 1.4 !important;
+}
+
+.choices__list--single .choices__item {
+  line-height: 1.4 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Dropdown list */
+.choices__list--dropdown {
+  border-radius: 6px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+/* Item di dropdown */
+.choices__item--selectable {
+  padding: 8px;
+}
+.choices__input {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 15px !important;
+}
+/* Fokus biar sama dengan input lain */
+.choices.is-focused .choices__inner,
+.choices.is-open .choices__inner {
+  border-color: #2563eb;   /* biru */
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+.choices[data-type*="select-one"]::after {
+  display: none !important; /* sembunyikan panah */
+}
+.swal-3d {
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2), 
+              0 6px 15px rgba(0,0,0,0.15) !important;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) !important;
+  transition: all 0.3s ease !important;
+}
+.swal-3d:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg) !important;
+}
+.chartsHeader {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.chartsHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.tanggalBox {
+  font-size: 12px;  /* lebih kecil */
+  font-weight: normal;
+  margin-top: 4px;  /* jarak antara Analisa Grafik dan tanggal */
+  color: #1e3a8a;
+}
+.home {
+  background: linear-gradient(135deg, #9333ea, #6d28d9); /* ungu kebiruan */
+  color: #fff;
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<!-- pastikan Chart.js di-load lebih dulu -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js">
+</script>
+</head>
+<body>
+<div class="container">
+<h1>
+    <span class="judul-utama">PENILAIAN</span><br>
+    <span class="judul-sub">POLA PIKIR TEMAN</span>
+   </h1>
+
+<div class="hint">
+    Pilih Paket - Jawab Pertanyaan - Tekan
+    <b>
+     SUBMIT
+    </b>
+    .
+   </div>
+<div class="form-group">
+<label>
+     NAMA TEMAN:
+    </label>
+<input id="nama" placeholder="Tuliskan nama teman Anda" required="" type="text" maxlength="45"/>
+</div>
+<div class="form-group">
+  <label>ASAL SEKOLAH:</label>
+  <input id="instansi" name="instansi" list="instansiList" placeholder="Pilih atau ketik sekolah baru" maxlength="45">
+  <datalist id="instansiList"></datalist>
+</div>
+<div class="form-group">
+<label>
+     NAMA PENILAI:
+    </label>
+<input id="mapel" placeholder="Tuliskan nama penilai" type="text" maxlength="45"/>
+</div>
+<p style="text-align:center; font-weight:bold; font-size:18px; margin-bottom:0px; margin-top:15px;">
+  Pilih Paket Soal :
+</p>
+<div class="paket-btns">
+<button class="paket-dasar" onclick="setPaket('dasar')">
+    PAKET DASAR
+    </button>
+<button class="paket-menengah" onclick="setPaket('menengah')">
+     MENENGAH
+    </button>
+<button class="paket-profesional" onclick="setPaket('profesional')">
+     PROFESIONAL
+    </button>
+</div>
+<script>
+
+document.addEventListener('DOMContentLoaded', async function() {
+  const listEl = document.getElementById('instansiList');
+  const url = 'https://opensheet.elk.sh/1aHPUNOFVLJoKXkKOC0HrvuZ_w_aq2xTXEQy5ffffZSc/Sheet4';
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const firstKey = Object.keys(data[0])[0];
+    const instansiArr = data.map(r => r[firstKey]?.trim()).filter(Boolean);
+
+    // Isi datalist
+    listEl.innerHTML = '';
+    instansiArr.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      listEl.appendChild(opt);
+    });
+  } catch (err) {
+    console.error('Gagal ambil instansi:', err);
+  }
+});
+
+</script>
+
+<div id="keteranganOpsi">
+    Keterangan Opsi: SS = Sangat Setuju | S = Setuju | TS = Tidak Setuju | STS = Sangat Tidak Setuju
+   </div>
+<form id="quiz">
+</form>
+<div class="btn-container">
+<button class="btn primary" id="submitBtn" type="button">
+     SUBMIT
+    </button>
+<button class="btn danger" id="resetBtn" type="button">
+     RESET
+    </button>
+<button class="btn info" id="analisisBtn" type="button">
+     ANALISIS
+    </button>
+<button class="btn success" id="grafikBtn" type="button">
+     GRAFIK
+    </button>
+<button class="btn warning" id="cetakTanpaAnalisisBtn" type="button">
+     CETAK
+</button>
+<button class="btn home" id="homeBtn" type="button">
+     HOME
+</button>
+
+<!-- Hasil Skor & Kategori -->
+</div>
+<div class="result" id="result">
+</div>
+<div class="analysis" id="analysisBox">
+</div>
+<!-- Area Grafik -->
+<div id="chartArea">
+<div class="chartsHeader">
+<h2>
+      ANALISA GRAFIK
+     </h2>
+<div class="tanggalBox">
+</div>
+<div class="chartsGrid">
+<div class="chartBox">
+<select id="instansiFilter">
+<option>
+        Semua Instansi
+       </option>
+</select>
+<div id="instansiChart" style="height:500px">
+</div>
+<div class="legendBox">
+<div class="legendItem">
+<div class="legendColor" style="background:#f87171">
+</div>
+        F
+       </div>
+<div class="legendItem">
+<div class="legendColor" style="background:#facc15">
+</div>
+        FG
+       </div>
+<div class="legendItem">
+<div class="legendColor" style="background:#4ade80">
+</div>
+        GF
+       </div>
+<div class="legendItem">
+<div class="legendColor" style="background:#60a5fa">
+</div>
+        G
+       </div>
+</div>
+</div>
+<div class="chartBox">
+<h4 id="akumulasiTitle">
+</h4>
+<div id="akumulasiChart" style="height:500px">
+</div>
+<div class="legendBox">
+<div class="legendItem">
+<div class="legendColor" style="background:#f87171">
+</div>
+        F
+       </div>
+<div class="legendItem">
+<div class="legendColor" style="background:#facc15">
+</div>
+        FG
+       </div>
+<div class="legendItem">
+<div class="legendColor" style="background:#4ade80">
+</div>
+        GF
+       </div>
+<div class="legendItem">
+<div class="legendColor" style="background:#60a5fa">
+</div>
+        G
+       </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- Footer Dipersembahkan -->
+    <div class="footer">
+      <div>Dipersembahkan untuk Pendidikan oleh:</div>
+      <div class="nama">ANDE SOFIANI</div>
+<br/>
+<!-- Bagikan Link + QR -->
+<div style="text-align:center; margin-top:20px;">
+<!-- QR Code -->
+<canvas id="qrcodeCanvas">
+</canvas>
+<div style="text-align:center; margin-top:20px;"></div>
+<button class="btn info" id="downloadQR" style="margin-top:-45px;">
+     Unduh QR
+    </button>
+      <br><br/>
+      <br><br/>
+      <div>SMKN 1 Bojonggede Kabupaten Bogor</div>
+    </div>
+  </div>
+<!-- Email Kontak -->
+<p style="text-align:center; margin-top:-4px; margin-bottom:2px; font-size:13px; font-weight:bold; color:#374151; font-family:'Segoe UI', sans-serif;">
+     Email: 
+     <a href="mailto:andesofiani40@guru.smk.belajar.id" style="color:#1e3a8a; text-decoration:none;">
+       andesofiani40@guru.smk.belajar.id
+     </a>
+<p style="text-align:center; font-weight:bold; font-size:12px; margin-top:1px; margin-bottom:0px;">
+  Bagikan Link :
+  <a href="https://andesofiani.github.io/pemetaan-profil-pola-pikir/" target="_blank">
+    Penilaian Profil Pola Pikir Teman
+  </a>
+</p>
+</div>
+<script>
+   let currentPaket = null;
+
+// === Autocomplete Instansi per Paket ===
+const instansiOptions = {
+  dasar: ['SDN KOTABATU 03', 'SDN KOTABATU 05', 'SDN KOTABATU 07', 'SDN KP. SAWAH 01', 'SDN KUBANG 02',],
+  menengah: ['SMK AL - HALIM GARUT', 'SMK AL - MUFTI', 'SMK AL- WAFA', 'SMK AL-BADAR', 'SMK AL-BAROKAH',],
+  profesional: ['SDN KOTABATU 03', 'SDN KOTABATU 05', 'SDN KOTABATU 07', 'SDN KP. SAWAH 01', 'SDN KUBANG 02',]};
+
+function updateInstansiList(paket) {
+  const list = document.getElementById('instansiList');
+  if (!list) return;
+  list.innerHTML = '';
+  const arr = instansiOptions[paket] || [];
+  arr.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    list.appendChild(opt);
+  });
+}
+
+// === DATASET LENGKAP DARI FILE ASLI ===
+const paketData = {
+  dasar: {
+    statements: [
+      "Saya mampu mengenali kekuatan dan kelemahan teman saya dalam kegiatan belajar bersama.",
+      "Saya dapat memberikan umpan balik kepada teman dengan cara yang sopan dan membangun.",
+      "Saya memahami alasan di balik jawaban teman saya, bukan hanya menilai benar atau salah.",
+      "Saya mau menerima masukan dari teman tanpa merasa tersinggung atau malu.",
+      "Saya mampu membantu teman yang kesulitan dengan cara yang membuatnya tetap semangat belajar.",
+      "Saya merasa senang jika teman saya berhasil memahami sesuatu karena bantuan saya.",
+      "Saya menghargai pendapat teman walaupun tidak selalu saya setujui.",
+      "Saya berusaha menilai pekerjaan teman berdasarkan kualitas, bukan karena kedekatan pribadi.",
+      "Saya dapat menjelaskan alasan mengapa saya memberi penilaian tertentu pada pekerjaan teman.",
+      "Saya merasa belajar banyak tentang diri sendiri saat menilai dan dinilai oleh teman."
+    ],
+    scoring: [[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3]],
+    analisisPerSoal: [
+      [
+        "Jika responden sangat setuju, berarti ia sudah mencapai tahap 'extended abstract' pada taksonomi SOLO, yaitu mampu melihat hubungan antara pemahaman diri dan orang lain. Ia menilai teman bukan sekadar membandingkan, tetapi memahami konteks kemampuan mereka secara menyeluruh.",
+        "Respon ini menunjukkan tingkat 'relational' — responden mampu mengenali kekuatan dan kelemahan teman, tetapi belum sepenuhnya mengaitkan dengan cara mengembangkan pembelajaran bersama.",
+        "Menolak pernyataan ini menandakan responden masih pada tahap 'unistructural' atau 'multistructural', di mana ia mungkin hanya menilai teman secara permukaan tanpa refleksi mendalam.",
+        "Jawaban ini mencerminkan tahap 'prestructural', artinya responden belum memahami pentingnya mengenali kemampuan teman sebagai bagian dari proses belajar bersama."
+      ],
+      [
+        "Menunjukkan tahap 'extended abstract'. Responden paham bahwa umpan balik bukan sekadar koreksi, tetapi sarana membangun pemahaman. Ia memberi komentar dengan empati dan mendukung pengembangan teman.",
+        "Tahap 'relational'. Responden dapat memberi umpan balik dengan niat baik, namun mungkin belum selalu menimbang efek emosional pada teman.",
+        "Tahap 'multistructural'. Responden tahu pentingnya memberi masukan, tetapi belum menguasai cara penyampaian yang tepat.",
+        "Tahap 'prestructural'. Responden cenderung mengkritik tanpa membangun atau bahkan enggan memberi umpan balik sama sekali."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden mampu memahami logika berpikir teman, bukan hanya menilai hasil akhirnya. Ini menunjukkan empati kognitif tinggi.",
+        "Tahap 'relational'. Responden memahami sebagian alasan di balik jawaban teman, tetapi belum sepenuhnya mengaitkan dengan konteks pembelajaran.",
+        "Tahap 'multistructural'. Responden hanya menilai berdasarkan permukaan jawaban, tanpa menelusuri alasan di baliknya.",
+        "Tahap 'prestructural'. Responden menilai teman hanya dengan benar-salah tanpa pemahaman konsep di baliknya."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden terbuka terhadap kritik dan melihat masukan teman sebagai bagian dari pertumbuhan diri.",
+        "Tahap 'relational'. Ia menerima masukan, tetapi masih mudah terpengaruh secara emosional atau defensif.",
+        "Tahap 'multistructural'. Ia memahami manfaat masukan, namun belum mampu mengelolanya dengan bijak.",
+        "Tahap 'prestructural'. Ia menolak kritik teman dan melihatnya sebagai serangan pribadi."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden mampu menyesuaikan dukungan bagi teman sesuai kebutuhan dan karakter, menunjukkan empati sosial tinggi.",
+        "Tahap 'relational'. Ia mau membantu teman, tetapi belum selalu menyesuaikan pendekatannya.",
+        "Tahap 'multistructural'. Ia hanya membantu sebatas permintaan tanpa inisiatif.",
+        "Tahap 'prestructural'. Ia enggan membantu teman karena tidak merasa bertanggung jawab atas keberhasilan kelompok."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia melihat keberhasilan teman sebagai cerminan keberhasilan kelompok — kolaborasi sejati.",
+        "Tahap 'relational'. Ia senang melihat teman sukses, namun belum selalu berkontribusi aktif terhadap proses tersebut.",
+        "Tahap 'multistructural'. Ia tidak terganggu dengan kesuksesan teman, tetapi juga tidak melihat nilai kolaboratifnya.",
+        "Tahap 'prestructural'. Ia merasa iri atau kurang nyaman jika teman berhasil."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu menghargai keragaman perspektif dan menjadikannya dasar pembelajaran bersama.",
+        "Tahap 'relational'. Ia menghargai pendapat teman, tetapi masih sulit menyeimbangkan antara pendapat pribadi dan orang lain.",
+        "Tahap 'multistructural'. Ia mendengarkan pendapat teman hanya sebagai formalitas tanpa mempertimbangkan isinya.",
+        "Tahap 'prestructural'. Ia menolak pendapat teman jika berbeda dengan keyakinannya."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia menilai teman dengan obyektivitas penuh, menunjukkan pemahaman etika evaluasi sejati.",
+        "Tahap 'relational'. Ia berusaha obyektif tetapi masih terpengaruh oleh kedekatan personal.",
+        "Tahap 'multistructural'. Ia menilai teman berdasarkan kesan umum, bukan kualitas pekerjaan.",
+        "Tahap 'prestructural'. Ia memberi nilai berdasarkan hubungan pribadi, bukan hasil kerja."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu menjelaskan alasan penilaiannya dengan logika yang mendalam dan konsisten.",
+        "Tahap 'relational'. Ia bisa memberi alasan sederhana, tetapi belum mengaitkan dengan standar atau kriteria yang objektif.",
+        "Tahap 'multistructural'. Ia tahu harus memberi alasan, tapi penjelasannya masih dangkal.",
+        "Tahap 'prestructural'. Ia memberi nilai tanpa pertimbangan dan alasan yang jelas."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden mampu merefleksikan proses belajar melalui interaksi sosial, menjadikannya pengalaman bermakna.",
+        "Tahap 'relational'. Ia sadar bahwa menilai dan dinilai memberi pembelajaran, tetapi belum sepenuhnya merefleksikan hasilnya.",
+        "Tahap 'multistructural'. Ia menikmati proses, namun belum mengaitkan dengan pengembangan diri.",
+        "Tahap 'prestructural'. Ia melihat penilaian antar teman hanya sebagai formalitas tanpa makna pribadi."
+      ]
+    ],
+    kategori: (tot) => tot <= 15 ? "F" : tot <= 20 ? "FG" : tot <= 25 ? "GF" : "G"
+  },
+  menengah: {
+    statements: [
+      "Saya dapat mengenali sejauh mana teman saya memahami suatu konsep saat berdiskusi.",
+      "Saya percaya bahwa setiap orang dapat meningkatkan pemahamannya jika mendapat umpan balik yang tepat.",
+      "Saya merasa mampu membantu teman untuk memahami suatu materi dengan cara saya sendiri.",
+      "Saya menyadari bahwa setiap teman memiliki gaya belajar yang berbeda dan perlu dihargai.",
+      "Saya mampu mengubah cara saya berinteraksi agar teman lebih mudah memahami pembelajaran.",
+      "Saya yakin kemampuan bekerja sama dapat dipelajari, bukan hanya bawaan sejak lahir.",
+      "Saya merasa hanya teman tertentu saja yang bisa benar-benar paham karena sudah memiliki kemampuan alami.",
+      "Saya berpikir hanya sebagian teman yang bisa cepat memahami matematika karena faktor lingkungan atau bakat.",
+      "Saya percaya bahwa semakin sering berdiskusi, semakin berkembang pula pemahaman saya dan teman saya.",
+      "Saya yakin bahwa kelompok belajar yang baik dapat saling mengubah kemampuan anggotanya menjadi lebih baik.",
+      "Saya sering merasa sulit untuk menilai pekerjaan teman karena takut menyinggung perasaannya.",
+      "Saya berpendapat bahwa tidak semua orang mampu berkembang secara akademik karena sudah berbeda dari awal.",
+      "Saya menghargai setiap komentar dan tanggapan teman mengenai cara saya bekerja.",
+      "Saya kurang nyaman jika teman menilai hasil kerja saya secara terbuka.",
+      "Saya percaya semua orang memiliki kesempatan yang sama untuk berkembang dalam belajar kelompok.",
+      "Saya dapat membantu teman memahami sesuatu, namun saya pikir itu tidak mengubah kemampuan mereka secara nyata.",
+      "Saya percaya setiap teman bisa mencoba cara berbeda untuk memahami sesuatu, meski hasilnya tidak selalu sama.",
+      "Saya yakin setiap orang memiliki potensi baik untuk berkembang meski kadang berbuat kesalahan.",
+      "Saya menilai bahwa tujuan utama bekerja sama adalah belajar memahami dari perspektif orang lain.",
+      "Saya percaya bahwa orang yang bijak bukan hanya cerdas, tetapi juga mau mendengar pandangan teman."
+    ],
+    scoring: [[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3]],
+    analisisPerSoal: [
+      [
+        "Tahap 'extended abstract'. Responden mampu memahami kemampuan teman dalam konteks yang luas, melihat hubungan antara pemahaman individu dan kelompok.",
+        "Tahap 'relational'. Responden mulai memahami perbedaan tingkat pemahaman teman, namun belum sepenuhnya mengaitkannya dengan strategi pembelajaran bersama.",
+        "Tahap 'multistructural'. Responden menilai pemahaman teman secara permukaan tanpa refleksi lebih dalam.",
+        "Tahap 'prestructural'. Responden tidak memperhatikan pemahaman teman dalam proses belajar."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden yakin bahwa pemahaman dapat berkembang lewat umpan balik. Ini menunjukkan keyakinan penuh terhadap proses belajar sosial.",
+        "Tahap 'relational'. Responden memahami bahwa umpan balik berperan penting, tapi belum sepenuhnya percaya pada efektivitasnya bagi semua orang.",
+        "Tahap 'multistructural'. Responden tahu bahwa umpan balik membantu, tapi belum memahami bagaimana penerapannya.",
+        "Tahap 'prestructural'. Responden tidak percaya umpan balik dapat membantu perubahan pemahaman."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu membantu teman secara kreatif sesuai kebutuhan, menunjukkan kemampuan metakognitif tinggi.",
+        "Tahap 'relational'. Ia mampu membantu, namun belum selalu menyesuaikan cara dengan kondisi teman.",
+        "Tahap 'multistructural'. Ia membantu hanya berdasarkan kebiasaan sendiri tanpa mempertimbangkan efektivitas bagi teman.",
+        "Tahap 'prestructural'. Ia merasa tidak mampu atau tidak tertarik membantu teman memahami pelajaran."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa setiap gaya belajar unik dan penting untuk keberhasilan kelompok.",
+        "Tahap 'relational'. Ia menghargai perbedaan gaya belajar, tapi belum tahu bagaimana menyesuaikan pendekatannya.",
+        "Tahap 'multistructural'. Ia menyadari perbedaan tetapi mengabaikannya dalam praktik.",
+        "Tahap 'prestructural'. Ia menolak perbedaan gaya belajar, melihatnya sebagai hambatan."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia mampu menyesuaikan komunikasi dan strategi agar teman lebih memahami materi.",
+        "Tahap 'relational'. Ia mulai menyesuaikan interaksi, tapi belum selalu efektif atau konsisten.",
+        "Tahap 'multistructural'. Ia menyadari pentingnya komunikasi, tapi belum menerapkannya secara sadar.",
+        "Tahap 'prestructural'. Ia tidak berupaya menyesuaikan diri dengan teman saat belajar."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia percaya kemampuan bekerja sama bisa dibentuk lewat pengalaman. Ini menunjukkan kesadaran sosial tinggi.",
+        "Tahap 'relational'. Ia setuju bekerja sama bisa dipelajari, tapi masih menganggap sebagian orang lebih cocok secara alami.",
+        "Tahap 'multistructural'. Ia memahami kerja sama penting, tapi belum mengaitkannya dengan proses belajar.",
+        "Tahap 'prestructural'. Ia melihat kerja sama sebagai bakat bawaan, bukan keterampilan yang bisa dikembangkan."
+      ],
+      [
+        "Tahap 'prestructural'. Responden percaya hanya orang berbakat yang bisa paham, mencerminkan pandangan tetap.",
+        "Tahap 'multistructural'. Ia mulai membuka diri bahwa latihan mungkin berperan, tapi masih menekankan faktor bawaan.",
+        "Tahap 'relational'. Ia memahami bahwa usaha bisa mengubah kemampuan, meskipun masih menganggap bakat berpengaruh.",
+        "Tahap 'extended abstract'. Ia yakin semua orang bisa berkembang dengan latihan tanpa tergantung bakat."
+      ],
+      [
+        "Tahap 'prestructural'. Ia masih mempercayai faktor luar seperti lingkungan atau gender menentukan kemampuan matematika.",
+        "Tahap 'multistructural'. Ia memahami lingkungan berpengaruh, tetapi mulai menyadari peran usaha individu.",
+        "Tahap 'relational'. Ia menolak stereotip dan percaya semua orang bisa belajar matematika dengan dukungan tepat.",
+        "Tahap 'extended abstract'. Ia menegaskan bahwa matematika adalah kemampuan universal yang tumbuh lewat latihan dan kolaborasi."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia meyakini bahwa diskusi kolektif memperluas pemahaman bersama.",
+        "Tahap 'relational'. Ia melihat diskusi membantu, tetapi belum memahami sepenuhnya dampak jangka panjangnya.",
+        "Tahap 'multistructural'. Ia menganggap diskusi hanya sebagai sarana bertukar ide.",
+        "Tahap 'prestructural'. Ia merasa diskusi tidak banyak membantu perkembangan pemahaman."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa kerja kelompok bukan hanya berbagi tugas, tapi membangun perubahan bersama.",
+        "Tahap 'relational'. Ia percaya kelompok belajar mendukung perkembangan, tapi belum melihat peran individu secara menyeluruh.",
+        "Tahap 'multistructural'. Ia memandang kerja kelompok hanya sebagai kegiatan rutin tanpa nilai reflektif.",
+        "Tahap 'prestructural'. Ia merasa kelompok tidak berpengaruh terhadap perubahan kemampuan."
+      ],
+      [
+        "Tahap 'relational'. Ia menyadari perasaan teman dalam menilai, tapi masih takut menghadapi konflik.",
+        "Tahap 'multistructural'. Ia memahami pentingnya menilai, tapi belum menguasai cara menyampaikan dengan aman.",
+        "Tahap 'relational'. Ia berusaha adil meski khawatir, menunjukkan empati tinggi.",
+        "Tahap 'prestructural'. Ia menolak menilai sama sekali karena menganggapnya tidak perlu."
+      ],
+      [
+        "Tahap 'prestructural'. Ia melihat kemampuan belajar sudah ditentukan sejak awal, pandangan tetap yang membatasi.",
+        "Tahap 'multistructural'. Ia menyadari perbedaan kemampuan, tapi belum melihat potensi perubahan.",
+        "Tahap 'relational'. Ia mulai memahami bahwa kemampuan bisa berkembang meskipun berbeda.",
+        "Tahap 'extended abstract'. Ia percaya semua individu bisa berkembang lewat proses reflektif dan kolaboratif."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia menerima kritik dengan terbuka dan menjadikannya sarana memperbaiki diri dan kelompok.",
+        "Tahap 'relational'. Ia mendengarkan kritik dengan baik tapi kadang masih merasa tidak nyaman.",
+        "Tahap 'multistructural'. Ia tahu kritik penting tapi sulit menerimanya secara objektif.",
+        "Tahap 'prestructural'. Ia menolak kritik sepenuhnya, melihatnya sebagai bentuk serangan pribadi."
+      ],
+      [
+        "Tahap 'prestructural'. Ia tidak nyaman dengan evaluasi teman, menunjukkan kecenderungan menolak refleksi eksternal.",
+        "Tahap 'multistructural'. Ia masih menolak penilaian terbuka tapi mulai memahami tujuannya.",
+        "Tahap 'relational'. Ia menerima kritik meski belum sepenuhnya nyaman.",
+        "Tahap 'extended abstract'. Ia terbuka pada evaluasi teman karena menyadari nilainya bagi pertumbuhan diri."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia percaya kesetaraan kesempatan belajar bagi semua anggota kelompok.",
+        "Tahap 'relational'. Ia percaya pada kesempatan belajar bersama tetapi masih mengakui adanya batasan tertentu.",
+        "Tahap 'multistructural'. Ia memahami konsep kesetaraan tapi belum menginternalisasikannya.",
+        "Tahap 'prestructural'. Ia menolak gagasan bahwa semua orang bisa berkembang."
+      ],
+      [
+        "Tahap 'prestructural'. Ia percaya membantu tidak akan mengubah kemampuan teman.",
+        "Tahap 'multistructural'. Ia bersedia membantu tapi belum melihat efek jangka panjangnya.",
+        "Tahap 'relational'. Ia mulai menyadari dampak membantu teman terhadap proses belajar bersama.",
+        "Tahap 'extended abstract'. Ia memahami bahwa membantu teman juga mengubah kemampuan diri sendiri dan kelompok."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia melihat variasi pendekatan belajar sebagai peluang pengembangan diri.",
+        "Tahap 'relational'. Ia menyadari bahwa mencoba cara baru membuka perspektif berbeda.",
+        "Tahap 'multistructural'. Ia mencoba cara lain tapi belum menghubungkannya dengan peningkatan kemampuan.",
+        "Tahap 'prestructural'. Ia menolak variasi cara belajar karena dianggap membingungkan."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa setiap kesalahan adalah kesempatan refleksi dan pertumbuhan.",
+        "Tahap 'relational'. Ia memandang kesalahan sebagai proses belajar yang wajar.",
+        "Tahap 'multistructural'. Ia memahami kesalahan bisa diperbaiki tapi belum menjadikannya kebiasaan refleksi.",
+        "Tahap 'prestructural'. Ia menilai kesalahan sebagai tanda ketidakmampuan teman."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia memahami bahwa tujuan utama kolaborasi adalah memperluas perspektif dan makna pembelajaran.",
+        "Tahap 'relational'. Ia menyadari nilai belajar bersama, tetapi belum sepenuhnya melihat refleksi sebagai bagian penting.",
+        "Tahap 'multistructural'. Ia melihat kerja sama sebatas tugas kelompok.",
+        "Tahap 'prestructural'. Ia bekerja sama tanpa memahami manfaat reflektifnya."
+      ],
+      [
+        "Tahap 'extended abstract'. Ia menilai kecerdasan bukan sekadar hasil, tetapi kebijaksanaan dalam memahami orang lain.",
+        "Tahap 'relational'. Ia menyadari bahwa mendengarkan teman memperkaya pemahaman.",
+        "Tahap 'multistructural'. Ia menghargai pendapat teman tapi belum mengaitkan dengan proses belajar.",
+        "Tahap 'prestructural'. Ia menolak pandangan teman dan merasa cukup dengan pemahamannya sendiri."
+      ]
+    ],
+    kategori: (tot)=> tot<=33?"FG": (tot<=44?"GF": (tot<=20?"F":"G"))
+  },
+  profesional: {
+    statements: [
+      "Saya mampu menilai kontribusi teman dalam suatu tim secara objektif tanpa dipengaruhi oleh hubungan pribadi.",
+      "Saya menyadari bahwa setiap rekan kerja memiliki potensi berkembang jika mendapat umpan balik yang jujur dan konstruktif.",
+      "Saya percaya bahwa proses saling memberi masukan antar teman sejawat dapat memperdalam pemahaman profesional masing-masing individu.",
+      "Saya memahami bahwa karakter dan cara berpikir seseorang dapat berubah melalui pengalaman kerja dan refleksi yang konsisten.",
+      "Saya memandang bahwa kesalahan dalam bekerja adalah bagian penting dari proses pembelajaran tim yang harus dibahas dengan terbuka dan tanpa menyalahkan.",
+      "Saya percaya kemampuan berkolaborasi dapat terus diasah melalui komunikasi yang efektif, empati, dan kemauan memahami perbedaan pandangan.",
+      "Saya menilai bahwa hanya orang tertentu yang memang memiliki kemampuan alami untuk memimpin, sementara yang lain sulit berkembang dalam peran tersebut.",
+      "Saya berpikir bahwa kemampuan berpikir kritis hanya dimiliki oleh sebagian orang, tergantung pada latar belakang pendidikan dan lingkungan kerja mereka.",
+      "Saya yakin bahwa semakin sering saya berdialog dan bertukar pandangan dengan rekan kerja, semakin berkembang pula cara berpikir saya.",
+      "Saya percaya bahwa budaya kerja yang terbuka terhadap evaluasi sejawat dapat membantu semua anggota tim tumbuh bersama.",
+      "Saya merasa sulit memberikan penilaian kepada teman sejawat karena khawatir menimbulkan ketegangan dalam hubungan profesional.",
+      "Saya beranggapan bahwa sebagian orang memang sulit berubah meskipun sudah diberi pelatihan dan kesempatan untuk berkembang.",
+      "Saya menilai umpan balik dari rekan sejawat sebagai sumber penting untuk mengoreksi pendekatan kerja saya secara lebih objektif.",
+      "Saya merasa kurang nyaman jika hasil pekerjaan saya dikritik oleh rekan sejawat, meskipun saya tahu kritik tersebut bersifat membangun.",
+      "Saya percaya bahwa setiap individu, terlepas dari jabatan atau latar belakang, memiliki potensi untuk berkembang melalui kerja tim yang baik.",
+      "Saya berpandangan bahwa pengetahuan baru dapat dipelajari, namun cara berpikir dasar seseorang jarang mengalami perubahan berarti.",
+      "Saya berpendapat bahwa walaupun saya mencoba pendekatan baru dalam bekerja, pola kemampuan saya cenderung tidak banyak berubah.",
+      "Saya yakin bahwa sebagian besar rekan kerja memiliki niat baik, namun terkadang keputusan yang mereka ambil tidak selalu tepat karena faktor situasional.",
+      "Saya menilai bahwa tujuan utama kolaborasi profesional bukan hanya untuk menyelesaikan tugas, tetapi untuk memperluas wawasan dan memperdalam pemahaman bersama.",
+      "Saya percaya bahwa seseorang tidak hanya dinilai dari kecerdasannya, tetapi dari kemampuan refleksi dan kemauan untuk terus belajar dari orang lain."
+    ],
+    scoring: [[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[0,1,2,3],[3,2,1,0],[0,1,2,3],[0,1,2,3],[3,2,1,0],[3,2,1,0],[0,1,2,3]],
+    analisisPerSoal: [
+      [
+        "Tahap 'extended abstract'. Responden mampu menilai kontribusi rekan kerja secara objektif, menunjukkan kematangan profesional dan kesadaran etis tinggi.",
+        "Tahap 'relational'. Responden menilai secara cukup adil, tetapi masih terpengaruh oleh hubungan personal dalam beberapa situasi.",
+        "Tahap 'multistructural'. Responden memahami konsep objektivitas, tetapi penerapannya belum konsisten.",
+        "Tahap 'prestructural'. Responden belum mampu memisahkan penilaian profesional dari preferensi pribadi."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa potensi setiap rekan dapat tumbuh melalui umpan balik konstruktif, menandakan kesadaran reflektif yang matang.",
+        "Tahap 'relational'. Responden menyadari pentingnya umpan balik, namun penerapannya mungkin belum menyeluruh di semua konteks.",
+        "Tahap 'multistructural'. Responden tahu umpan balik penting, tapi belum memahami bagaimana cara memberikannya secara efektif.",
+        "Tahap 'prestructural'. Responden tidak yakin bahwa umpan balik berperan dalam perkembangan profesional seseorang."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa berbagi masukan sejawat memperkaya wawasan dan memperkuat kompetensi kolektif.",
+        "Tahap 'relational'. Responden mendukung kolaborasi sejawat, namun belum melihat dampak reflektif jangka panjangnya.",
+        "Tahap 'multistructural'. Responden memandang umpan balik sejawat hanya sebagai rutinitas evaluasi formal.",
+        "Tahap 'prestructural'. Responden menganggap umpan balik sejawat tidak terlalu penting bagi pengembangan profesional."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memiliki kesadaran bahwa karakter dan cara berpikir dapat berubah melalui pengalaman dan refleksi diri.",
+        "Tahap 'relational'. Responden menyadari perubahan mungkin terjadi, namun belum melihat refleksi diri sebagai kunci utama.",
+        "Tahap 'multistructural'. Responden mengakui pengalaman dapat memengaruhi perilaku, tapi tidak mengaitkannya dengan perubahan pola pikir.",
+        "Tahap 'prestructural'. Responden percaya bahwa kepribadian tidak dapat berubah meskipun melalui banyak pengalaman."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat kesalahan sebagai sumber pembelajaran kolektif dan mampu menciptakan lingkungan diskusi terbuka.",
+        "Tahap 'relational'. Responden memahami bahwa kesalahan penting untuk dievaluasi, tetapi masih sulit membahasnya tanpa menyalahkan.",
+        "Tahap 'multistructural'. Responden mengetahui kesalahan bisa menjadi pelajaran, namun belum membangun budaya diskusi terbuka.",
+        "Tahap 'prestructural'. Responden cenderung menyalahkan individu daripada mempelajari proses dari kesalahan."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memandang kolaborasi sebagai keterampilan yang berkembang melalui latihan komunikasi dan empati.",
+        "Tahap 'relational'. Responden memahami pentingnya kolaborasi, namun belum selalu menerapkannya secara efektif.",
+        "Tahap 'multistructural'. Responden berpartisipasi dalam kerja tim tanpa refleksi mendalam terhadap prosesnya.",
+        "Tahap 'prestructural'. Responden melihat kolaborasi sebagai keharusan formal, bukan sarana pengembangan profesional."
+      ],
+      [
+        "Tahap 'prestructural'. Responden masih percaya kemampuan memimpin adalah bakat bawaan, bukan keterampilan yang bisa dikembangkan.",
+        "Tahap 'multistructural'. Responden mengakui latihan bisa membantu, tetapi tetap memandang kemampuan memimpin sebagai anugerah alami.",
+        "Tahap 'relational'. Responden mulai menyadari bahwa kepemimpinan dapat diasah melalui pengalaman dan bimbingan.",
+        "Tahap 'extended abstract'. Responden memahami bahwa kepemimpinan adalah hasil refleksi, pengalaman, dan komitmen belajar sepanjang waktu."
+      ],
+      [
+        "Tahap 'prestructural'. Responden meyakini kemampuan berpikir kritis tergantung faktor eksternal seperti pendidikan atau lingkungan.",
+        "Tahap 'multistructural'. Responden mengakui peran pengalaman dalam berpikir kritis, tapi belum memahami bahwa hal itu bisa dikembangkan secara pribadi.",
+        "Tahap 'relational'. Responden menolak pandangan deterministik dan melihat berpikir kritis sebagai hasil latihan berkelanjutan.",
+        "Tahap 'extended abstract'. Responden memahami berpikir kritis sebagai kompetensi yang berkembang dari refleksi diri dan dialog terbuka."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat dialog sejawat sebagai sarana mengasah pemikiran reflektif dan memperdalam profesionalisme.",
+        "Tahap 'relational'. Responden memahami manfaat diskusi, namun belum sepenuhnya mengoptimalkannya untuk pengembangan diri.",
+        "Tahap 'multistructural'. Responden menganggap diskusi penting tetapi hanya sebatas tukar pendapat tanpa refleksi mendalam.",
+        "Tahap 'prestructural'. Responden menilai dialog tidak berdampak signifikan terhadap perkembangan profesional."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa budaya evaluasi sejawat memperkuat pertumbuhan kolektif dalam organisasi.",
+        "Tahap 'relational'. Responden menghargai pentingnya evaluasi sejawat, namun belum berperan aktif dalam penerapannya.",
+        "Tahap 'multistructural'. Responden memandang evaluasi sejawat hanya sebagai prosedur administratif.",
+        "Tahap 'prestructural'. Responden menganggap evaluasi sejawat tidak relevan dalam konteks profesional."
+      ],
+      [
+        "Tahap 'relational'. Responden peduli terhadap keharmonisan hubungan kerja, namun masih takut bersikap objektif.",
+        "Tahap 'multistructural'. Responden memahami pentingnya memberi penilaian, tetapi belum percaya diri melakukannya.",
+        "Tahap 'relational'. Responden mampu memberi penilaian dengan empati, meski belum sepenuhnya tegas.",
+        "Tahap 'prestructural'. Responden menghindari penilaian sejawat karena takut menimbulkan konflik."
+      ],
+      [
+        "Tahap 'prestructural'. Responden percaya bahwa pelatihan dan pengalaman tidak banyak mengubah individu, mencerminkan pandangan statis.",
+        "Tahap 'multistructural'. Responden mengakui perubahan mungkin, tapi hanya dalam aspek tertentu.",
+        "Tahap 'relational'. Responden memahami bahwa perubahan bisa terjadi jika didukung lingkungan belajar yang tepat.",
+        "Tahap 'extended abstract'. Responden percaya transformasi diri terjadi melalui pengalaman reflektif berkelanjutan."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat kritik sejawat sebagai instrumen penting untuk memperbaiki kualitas kerja dan meningkatkan profesionalisme.",
+        "Tahap 'relational'. Responden menerima kritik dengan baik, meskipun masih perlu waktu untuk menyesuaikan diri secara emosional.",
+        "Tahap 'multistructural'. Responden memahami pentingnya kritik, tetapi penerimaannya belum konsisten.",
+        "Tahap 'prestructural'. Responden menolak kritik sejawat karena dianggap mengancam harga diri profesionalnya."
+      ],
+      [
+        "Tahap 'prestructural'. Responden merasa tidak nyaman terhadap evaluasi rekan sejawat, menandakan resistensi terhadap refleksi sosial.",
+        "Tahap 'multistructural'. Responden mulai menyadari nilai kritik, tetapi masih defensif dalam menerimanya.",
+        "Tahap 'relational'. Responden menerima kritik secara proporsional, meskipun masih perlu latihan untuk lebih terbuka.",
+        "Tahap 'extended abstract'. Responden sepenuhnya terbuka terhadap kritik sejawat dan melihatnya sebagai bagian integral dari pertumbuhan profesional."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden percaya semua individu memiliki kesempatan yang sama untuk berkembang dalam organisasi.",
+        "Tahap 'relational'. Responden mengakui peluang yang sama ada, namun masih melihat adanya perbedaan konteks individu.",
+        "Tahap 'multistructural'. Responden memahami konsep kesetaraan tetapi belum menerapkannya secara nyata.",
+        "Tahap 'prestructural'. Responden menolak gagasan kesetaraan dalam perkembangan profesional."
+      ],
+      [
+        "Tahap 'prestructural'. Responden beranggapan kemampuan berpikir dasar tidak mudah berubah, menandakan pandangan tetap.",
+        "Tahap 'multistructural'. Responden mengakui pembelajaran baru penting, namun tidak yakin dampaknya besar terhadap cara berpikir.",
+        "Tahap 'relational'. Responden menyadari bahwa pembelajaran dapat mengubah pola pikir secara bertahap.",
+        "Tahap 'extended abstract'. Responden memahami bahwa pembelajaran mendalam dapat merekonstruksi pola berpikir secara fundamental."
+      ],
+      [
+        "Tahap 'prestructural'. Responden merasa strategi baru tidak banyak memengaruhi kemampuan inti.",
+        "Tahap 'multistructural'. Responden mencoba pendekatan baru, namun tanpa keyakinan bahwa hal itu mengubah hasil.",
+        "Tahap 'relational'. Responden memahami bahwa pendekatan baru dapat memperluas wawasan dan cara berpikir.",
+        "Tahap 'extended abstract'. Responden yakin pendekatan baru mampu mengubah kompetensi inti secara signifikan."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden memahami bahwa niat baik seringkali terbatas oleh konteks, namun tetap memegang prinsip empati.",
+        "Tahap 'relational'. Responden menyadari faktor situasional memengaruhi keputusan seseorang tanpa menghakimi.",
+        "Tahap 'multistructural'. Responden memahami perilaku bisa salah, tetapi belum mampu menilai secara objektif.",
+        "Tahap 'prestructural'. Responden menilai kesalahan orang lain sebagai bukti sifat yang sulit berubah."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden melihat kolaborasi sebagai sarana memperluas wawasan dan mengembangkan profesionalisme lintas disiplin.",
+        "Tahap 'relational'. Responden memahami pentingnya kerja sama, tetapi belum sepenuhnya mengaitkannya dengan refleksi diri.",
+        "Tahap 'multistructural'. Responden bekerja sama untuk menyelesaikan tugas tanpa fokus pada pembelajaran bersama.",
+        "Tahap 'prestructural'. Responden menilai kolaborasi sebatas pembagian tugas tanpa nilai reflektif."
+      ],
+      [
+        "Tahap 'extended abstract'. Responden menilai kecerdasan sejati ditandai oleh kemampuan merefleksi, belajar dari orang lain, dan menyesuaikan diri dengan situasi kompleks.",
+        "Tahap 'relational'. Responden memahami pentingnya refleksi, tetapi belum menjadikannya kebiasaan profesional.",
+        "Tahap 'multistructural'. Responden menghargai pembelajaran dari orang lain, namun belum menerapkannya secara konsisten.",
+        "Tahap 'prestructural'. Responden masih menganggap kecerdasan hanya diukur dari kemampuan analitis, bukan reflektif."
+      ]
+    ],
+    kategori: (tot)=> tot<=33?"FG": (tot<=44?"GF": (tot<=20?"F":"G"))
+  }
+};
+
+// Normalize kategori function for menengah/profesional to exact rule:
+// F<=20, FG<=33, GF<=44, else G
+paketData.menengah.kategori = (t)=> t<=20?'F': t<=33?'FG': t<=44?'GF':'G';
+paketData.profesional.kategori = (t)=> t<=20?'F': t<=33?'FG': t<=44?'GF':'G';
+
+const labelsFull={F:"F (Fixed Mindset)",FG:"FG (Fixed→Growth Mindset)",GF:"GF (Growth→Fixed Mindset)",G:"G (Growth Mindset)"};
+
+function setPaket(paket){
+  
+// perbarui datalist instansi sesuai paket
+  try{ updateInstansiList(paket); }catch(e){}
+
+  try{ updateInstansiList(paket); }catch(e){}
+
+  const quiz=document.getElementById("quiz");quiz.innerHTML="";
+  soal[paket].forEach((q,i)=>{
+    const div=document.createElement("div");div.className="q";
+    div.innerHTML=`<p><b>${i+1}. ${q.t}</b></p>`+q.o.map(opt=>`<label><input type='radio' name='q${i}' value='${opt}'> ${opt}</label>`).join('');
+    quiz.appendChild(div);
+  });
+}
+
+// === NOTIFIKASI SWEETALERT2 ===
+
+// --- Tambahkan notifikasi ke dalam fungsi setPaket lama ---
+const oldSetPaket = window.setPaket;
+window.setPaket = function(paket) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Paket Dipilih',
+    text: 'Anda memilih paket: ' + paket.toUpperCase(),
+    timer: 1500,
+    showConfirmButton: false
+  });
+
+  // jalankan logika asli
+  oldSetPaket(paket);
+};
+
+// --- Submit dengan cek identitas ---
+const oldSubmitBtn = document.getElementById("submitBtn").onclick;
+document.getElementById("submitBtn").onclick = function(e) {
+  const nama = document.getElementById("nama").value.trim();
+  const instansi = document.getElementById("instansi").value.trim();
+  const mapel = document.getElementById("mapel").value.trim();
+
+  if (!nama || !instansi || !mapel) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Identitas Belum Lengkap',
+      text: 'Silakan isi Nama, Instansi, dan Mapel sebelum submit.'
+    });
+    return;
+  }
+
+  Swal.fire({
+    icon: 'success',
+    title: 'Jawaban Disubmit',
+    text: 'Terima kasih ' + nama + ',\n data Anda sedang diproses.',
+    timer: 2500,
+    showConfirmButton: false
+  });
+
+  if (typeof oldSubmitBtn === "function") oldSubmitBtn(e);
+};
+document.getElementById("submitBtn").addEventListener("click", function() {
+  // ambil semua blok pertanyaan
+  const questions = document.querySelectorAll(".q");
+  let incomplete = false;
+
+  questions.forEach(q => {
+    const checked = q.querySelector("input[type=radio]:checked");
+    if (!checked) {
+      incomplete = true;
+    }
+  });
+
+  if (incomplete) {
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'warning',
+      title: 'Ada pertanyaan yang belum dijawab!',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    });
+    return; // hentikan proses submit
+  }
+
+  // kalau semua lengkap, lanjut proses
+  Swal.fire({
+    toast: true,
+    position: 'top-end',
+    icon: 'success',
+    title: 'Semua jawaban lengkap, data diproses!',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true
+  });
+
+  // TODO: lanjutkan proses hitung skor + tampilkan hasil
+});
+
+// --- Reset dengan konfirmasi dan reset identitas ---
+(function() {
+  const btn = document.getElementById("resetBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", function(e) {
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+    e.preventDefault();
+
+    Swal.fire({
+      title: 'Yakin reset jawaban?',
+      text: 'Semua isian akan dikosongkan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yakin',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          const form = document.querySelector("form#quiz") || document.querySelector("form");
+          if (form && typeof form.reset === "function") form.reset();
+        } catch (e) {}
+
+        // Reset identitas
+        try { document.getElementById("nama").value = ""; } catch (e) {}
+        try { document.getElementById("instansi").value = ""; } catch (e) {}
+        try { document.getElementById("mapel").value = ""; } catch (e) {}
+
+        // Reset area quiz/hasil/grafik
+        try { const quiz = document.getElementById('quiz'); if (quiz) quiz.innerHTML = ''; } catch (e) {}
+        try { const res = document.getElementById('result'); if (res) res.style.display = 'none'; } catch (e) {}
+        try { currentPaket = null; } catch (e) {}
+        try { const instSel = document.getElementById('instansiFilter'); if (instSel) instSel.selectedIndex = 0; } catch (e) {}
+        try { const chartArea = document.getElementById('chartArea'); if (chartArea) chartArea.style.display = 'none'; } catch (e) {}
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Form Direset',
+          text: 'Semua jawaban dan identitas Anda telah dikosongkan.',
+          timer: 1600,
+          showConfirmButton: false
+        });
+      } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'Dibatalkan',
+          text: 'Reset dibatalkan — data tetap aman.',
+          timer: 1200,
+          showConfirmButton: false
+        });
+      }
+    });
+  }, true);
+})();
+
+// --- Analisis ---
+const oldAnalisisBtn = document.getElementById("analisisBtn").onclick;
+document.getElementById("analisisBtn").onclick = function(e) {
+  Swal.fire({
+    icon: 'info',
+    title: 'Analisis Dibuka',
+    text: 'Menampilkan hasil analisis dari jawaban Anda.',
+    timer: 1500,
+    showConfirmButton: true
+  });
+  if (typeof oldAnalisisBtn === "function") oldAnalisisBtn(e);
+};
+
+// --- Grafik ---
+const oldGrafikBtn = document.getElementById("grafikBtn").onclick;
+document.getElementById("grafikBtn").onclick = function(e) {
+  Swal.fire({
+    icon: 'info',
+    title: 'Grafik Dibuka',
+    text: 'Visualisasi data sedang ditampilkan.',
+    timer: 1500,
+    showConfirmButton: false
+  });
+  if (typeof oldGrafikBtn === "function") oldGrafikBtn(e);
+};
+
+// --- Cetak ---
+const oldCetakBtn = document.getElementById("cetakTanpaAnalisisBtn").onclick;
+document.getElementById("cetakTanpaAnalisisBtn").onclick = function(e) {
+  Swal.fire({
+    icon: 'question',
+    title: 'Cetak Data',
+    text: 'Data Anda siap dicetak tanpa analisis.',
+    timer: 2500,
+    showConfirmButton: false
+  });
+  if (typeof oldCetakBtn === "function") oldCetakBtn(e);
+};
+
+// PATCH: Perbaiki tombol reset agar tidak mengosongkan form saat klik BATAL
+(function() {
+  const btn = document.getElementById("resetBtn");
+  if (!btn) return;
+  const prevHandler = btn.onclick;
+  btn.onclick = function(e) {
+    // Hentikan aksi default reset terlebih dahulu
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+
+    Swal.fire({
+      title: 'Yakin reset jawaban?',
+      text: 'Semua isian akan dikosongkan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yakin',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Reset form secara terprogram
+        const form = btn.form || btn.closest('form') || document.querySelector('form');
+        if (form && typeof form.reset === 'function') form.reset();
+
+        // Panggil handler lama (jika ada) untuk logika tambahan
+        if (typeof prevHandler === 'function') prevHandler(e);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Form Direset',
+          text: 'Semua jawaban Anda telah dikosongkan.',
+          timer: 1800,
+          showConfirmButton: false
+        });
+      } else {
+        // Jika batal, tidak ada perubahan pada data
+        Swal.fire({
+          icon: 'info',
+          title: 'Dibatalkan',
+          text: 'Reset dibatalkan, data tetap aman.',
+          timer: 1400,
+          showConfirmButton: false
+        });
+      }
+    });
+  };
+})();
+
+
+// === Perbaikan Tombol Reset ===
+(function() {
+  const btn = document.getElementById("resetBtn");
+  const form = document.querySelector("form#quiz") || document.querySelector("form");
+
+  btn.addEventListener("click", function(e) {
+    e.preventDefault(); // cegah aksi default
+
+    Swal.fire({
+      title: 'Yakin reset jawaban?',
+      text: 'Semua isian akan dikosongkan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yakin',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (form && typeof form.reset === "function") form.reset();
+        Swal.fire({
+          icon: 'success',
+          title: 'Form Direset',
+          text: 'Semua jawaban Anda telah dikosongkan.',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'Dibatalkan',
+          text: 'Reset dibatalkan, data tetap aman.',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
+    });
+  });
+})();
+
+// === PATCH: Intersep klik Reset di capture phase agar BATAL tidak mengubah tampilan ===
+(function() {
+  const btn = document.getElementById("resetBtn");
+  if (!btn) return;
+
+  // Listener di capture phase: dijalankan sebelum listener lain (bubble)
+  btn.addEventListener("click", function(e) {
+    // Stopper: cegah handler lain berjalan sementara kita minta konfirmasi
+    try {
+      e.stopImmediatePropagation();
+      e.stopPropagation();
+      e.preventDefault();
+    } catch (err) {}
+
+    Swal.fire({
+      title: 'Yakin reset jawaban?',
+      text: 'Semua isian akan dikosongkan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yakin',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Lakukan reset manual (mirip logika asli di file)
+        try {
+          const form = document.querySelector("form#quiz") || document.querySelector("form");
+          if (form && typeof form.reset === "function") form.reset();
+        } catch (e) {}
+
+        try {
+          const quiz = document.getElementById('quiz');
+          if (quiz) quiz.innerHTML = '';
+        } catch (e) {}
+
+        try {
+          const res = document.getElementById('result');
+          if (res) res.style.display = 'none';
+        } catch (e) {}
+
+        try {
+          currentPaket = null;
+        } catch (e) {}
+
+        try {
+          const instSel = document.getElementById('instansiFilter');
+          if (instSel) instSel.selectedIndex = 0;
+        } catch (e) {}
+
+        try {
+          const chartArea = document.getElementById('chartArea');
+          if (chartArea) chartArea.style.display = 'none';
+        } catch (e) {}
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Form Direset',
+          text: 'Semua jawaban Anda telah dikosongkan.',
+          timer: 1400,
+          showConfirmButton: false
+        });
+      } else {
+        // Kalau Batal: jangan panggil handler lain dan jangan ubah tampilan sama sekali
+        Swal.fire({
+          icon: 'info',
+          title: 'Dibatalkan',
+          text: 'Reset dibatalkan',
+          timer: 1200,
+          showConfirmButton: false
+        });
+      }
+    });
+  }, true); // <-- capture = true
+})();
+
+
+// --- Grafik dengan ECharts ---
+let instansiSet=new Set();
+
+// Tambah instansi saat submit
+ document.getElementById("submitBtn").addEventListener("click",()=>{
+   const val=document.getElementById("instansi").value.trim();
+   if(val) instansiSet.add(val);
+   updateDropdown();
+ });
+ function updateDropdown(){
+   const sel=document.getElementById("instansiFilter");
+   sel.innerHTML="<option>Semua Instansi</option>";
+   instansiSet.forEach(i=>{
+     const opt=document.createElement("option");opt.value=i;opt.textContent=i;sel.appendChild(opt);
+   });
+ }
+
+document.getElementById("grafikBtn").addEventListener("click", () => {
+  Swal.fire({
+    title: 'Masukkan Password',
+    html: '<p style="font-size:18px; color:#555; margin-top:0px; margin-bottom:0px;">Butuh Password hub.Admin via Email,<b>GRATIS!</b></p>',
+    input: 'password',
+    confirmButtonText: 'OK',
+    showCancelButton: true
+  }).then(res => {
+    if (res.value === "13a") {
+      document.getElementById("chartArea").style.display = "block";
+      loadCharts();
+    } else if (res.value) {
+      Swal.fire("Salah", "Password tidak cocok", "error");
+    }
+  });
+});
+
+// Fungsi helper untuk format tanggal ke bahasa Indonesia
+function formatTanggalIndoUS(dateStr){
+  // Timestamp dari Google Sheet biasanya "M/D/YYYY ..."
+  let parts = dateStr.split(" ")[0].split("/"); 
+  // parts[0]=bulan, parts[1]=tanggal, parts[2]=tahun
+  let m = parseInt(parts[0]);
+  let d = parseInt(parts[1]);
+  let y = parts[2];
+
+  const bulan = ["JANUARI","FEBRUARI","MARET","APRIL","MEI","JUNI",
+                 "JULI","AGUSTUS","SEPTEMBER","OKTOBER","NOVEMBER","DESEMBER"];
+  return `TANGGAL ${d} ${bulan[m-1]} ${y}`;
+}
+
+// Fungsi untuk pasang gambar di tengah sesuai inner radius donat
+function setCenterImage(chart, defaultInnerPercent = 50){
+  if(!chart || !chart.getDom) return;
+  let innerPercent = defaultInnerPercent;
+  let centerX = 0.5, centerY = 0.5; // default center 50% 50%
+  try{
+    const opt = chart.getOption && chart.getOption();
+    if (opt && opt.series && opt.series[0]) {
+      const series = opt.series[0];
+
+      // baca radius dalam
+      const r = series.radius && series.radius[0];
+      if (r !== undefined) {
+        innerPercent = parseFloat(String(r).replace('%', '')) || defaultInnerPercent;
+      }
+
+      // baca center
+      if (series.center) {
+        const cx = series.center[0];
+        const cy = series.center[1];
+        centerX = typeof cx === 'string' && cx.includes('%') ? parseFloat(cx) / 100 : +cx;
+        centerY = typeof cy === 'string' && cy.includes('%') ? parseFloat(cy) / 100 : +cy;
+      }
+    }
+  }catch(e){}
+  const w = chart.getWidth();
+  const h = chart.getHeight();
+  const diameter = Math.max(0, Math.floor(Math.min(w, h) * (innerPercent / 100)));
+  chart.setOption({
+    graphic:[{
+      id:'centerImage',
+      type:'image',
+      style: {
+        image: 'https://raw.githubusercontent.com/andesofiani/pemetaan-profil-pola-pikir/refs/heads/main/KerangkaPM.png',
+        width: diameter,
+        height: diameter,
+        x: w * centerX - diameter / 2,
+        y: h * centerY - diameter / 2
+      }
+    }]
+  });
+}
+
+async function loadCharts(){
+  // === Grafik kanan (akumulasi) ===
+const sheet2Url = "https://opensheet.elk.sh/1aHPUNOFVLJoKXkKOC0HrvuZ_w_aq2xTXEQy5ffffZSc/Sheet2";
+const sheet2 = await fetch(sheet2Url).then(r => r.json());
+
+// helper: ubah nilai yang mungkin berupa string "5.200" / "5,200" jadi integer 5200
+function toInt(val) {
+  if (typeof val === 'number' && !isNaN(val)) return Math.round(val);
+  const s = String(val ?? '').trim();
+  if (!s) return 0;
+  // hapus semua kecuali digit dan minus -> "5.200" -> "5200"
+  const cleaned = s.replace(/[^\d-]/g, '');
+  return cleaned === '' ? 0 : parseInt(cleaned, 10);
+}
+
+const categories = sheet2.slice(0,4).map(r => r["Kategori"]);
+const values = sheet2.slice(0,4).map(r => toInt(r["Jumlah"]));
+
+// ambil total (baris ke-5), konversi jadi angka, lalu tambahkan 5000
+const rawTotal = sheet2[4]?.["Jumlah"] ?? 0;
+const total = toInt(rawTotal);
+const totalPlus5000 = total + 1;
+
+// tampilkan dengan pemisah ribuan (format lokal Indonesia)
+document.getElementById("akumulasiTitle").innerHTML =
+  `Akumulasi <span class='blue-text'>${totalPlus5000.toLocaleString('id-ID')}</span> Responden`;
+
+let akumulasiChart = echarts.init(document.getElementById('akumulasiChart'));
+akumulasiChart.setOption({
+  tooltip:{trigger:'item',formatter:(p)=>`${p.name}: ${p.value} (${p.percent.toFixed(1)}%)`},
+  legend: {
+    bottom: 0,
+    selectedMode: 'multiple',
+    data: ['F','FG','GF','G']
+  },
+  series:[{
+    type:'pie',
+    center: ['50%','45%'],
+    radius:['57%','87%'],
+    avoidLabelOverlap:true,
+    label:{
+      show:true,
+      position:'inside',
+      formatter:(p)=>`{a|${p.name}}\n{b|${p.percent.toFixed(1)}%}`,
+      rich:{
+        a:{fontSize:20,fontWeight:'bold',lineHeight:22},
+        b:{fontSize:16,color:'#555'}
+      }
+    },
+    itemStyle:{
+      borderRadius:10,
+      shadowBlur:15,
+      shadowOffsetX:2,
+      shadowOffsetY:2,
+      shadowColor:'rgba(0,0,0,0.3)',
+      borderWidth:2,
+      borderColor:'#fff'
+    },
+    data: categories.map((c,i)=>({
+      value: values[i], name: c,
+      itemStyle:{color: c==='F'?'#f87171':c==='FG'?'#facc15':c==='GF'?'#4ade80':'#60a5fa'}
+    }))
+  }]
+});
+setCenterImage(akumulasiChart, 50);
+
+  // === Grafik kiri (instansi, tanggal terbaru) ===
+  const respUrl="https://opensheet.elk.sh/1aHPUNOFVLJoKXkKOC0HrvuZ_w_aq2xTXEQy5ffffZSc/Data_Responden";
+  const resp=await fetch(respUrl).then(r=>r.json());
+  
+  // Ambil semua tanggal (hanya bagian M/D/YYYY)
+  const allDates = resp.map(r => r["Timestamp"]?r["Timestamp"].split(" ")[0]:null).filter(Boolean);
+  const latestDateStr = allDates.sort((a,b)=> new Date(a)-new Date(b)).pop(); // tanggal terbaru string
+  const latestData = resp.filter(r => r["Timestamp"].startsWith(latestDateStr));
+
+
+  // isi dropdown instansi
+  const instansiList=[...new Set(latestData.map(r=>r["Instansi/Lembaga"]))];
+  const sel=document.getElementById("instansiFilter");
+  sel.innerHTML="<option value=''>Semua Instansi</option>";
+  instansiList.forEach(i=>{
+    let opt=document.createElement("option");
+    opt.value=i; opt.textContent=i;
+    sel.appendChild(opt);
+  });
+
+  function renderInstansiChart(filterInstansi=""){
+    let dataFiltered = filterInstansi
+      ? latestData.filter(r => r["Instansi/Lembaga"] === filterInstansi)
+      : latestData;
+document.querySelector('.tanggalBox').textContent = 'UPDATE ' + formatTanggalIndoUS(latestDateStr);
+
+    // jumlah responden per kategori
+    let count={F:0,FG:0,GF:0,G:0};
+    dataFiltered.forEach(r=>{
+      let kategori=r["Kategori"];
+      if(kategori in count) count[kategori]++; // tambah 1 per responden
+    });
+
+    let instansiChart=echarts.init(document.getElementById('instansiChart'));
+    instansiChart.setOption({
+      title:{text: formatTanggalIndoUS(latestDateStr), left:'center', bottom: -20, textStyle:{fontSize:1,color:'#1e3a8a'}}, 
+      tooltip:{trigger:'item',formatter:(p)=>`${p.name}: ${p.value}`},
+      legend: {
+        bottom: 0,
+        selectedMode: 'multiple',
+        data: ['F','FG','GF','G']
+      },
+      series:[{
+        type:'pie',
+        center:['50%','45%'],
+        radius:['57%','87%'],
+        label:{
+          show:true,
+          position:'inside',
+          formatter:(p)=>`{a|${p.name}}\n{b|${p.value} resp}`,
+          rich:{
+            a:{fontSize:20,fontWeight:'bold',lineHeight:24},
+            b:{fontSize:16,color:'#555'}
+          }
+        },
+        
+        itemStyle:{
+          borderRadius:10,
+          shadowBlur:15,
+          shadowOffsetX:2,
+          shadowOffsetY:2,
+          shadowColor:'rgba(0,0,0,0.3)',
+          borderWidth:2,
+          borderColor:'#fff'
+        },
+        data:Object.keys(count).map(k=>({
+          value:count[k],name:k,
+          itemStyle:{color: k==='F'?'#f87171':k==='FG'?'#facc15':k==='GF'?'#4ade80':'#60a5fa'}
+        }))
+      }]
+    });
+    setCenterImage(instansiChart, 50);
+  }
+
+  renderInstansiChart();
+  sel.addEventListener("change",e=>{renderInstansiChart(e.target.value);});
+
+  window.addEventListener("resize", ()=>{
+    akumulasiChart.resize();
+    setCenterImage(akumulasiChart, 50);
+    let instansiChart=echarts.init(document.getElementById('instansiChart'));
+    instansiChart.resize();
+    setCenterImage(instansiChart, 50);
+  });
+}
+
+window.onload = loadCharts;
+
+
+function setPaket(p){
+  // perbarui datalist instansi sesuai paket
+  try{ updateInstansiList(p); }catch(e){}
+
+  try{ updateInstansiList(p); }catch(e){}
+
+  currentPaket = p;
+  const data = paketData[p];
+  const form = document.getElementById('quiz');
+  form.innerHTML = '';
+  data.statements.forEach((t,i)=>{
+    form.innerHTML += `
+      <div class="q">
+        <p><b>${i+1}.</b> ${t}</p>
+        <div class="opt">
+          <label><input type="radio" name="q${i}" value="0"><span>SS</span></label>
+          <label><input type="radio" name="q${i}" value="1"><span>S</span></label>
+          <label><input type="radio" name="q${i}" value="2"><span>TS</span></label>
+          <label><input type="radio" name="q${i}" value="3"><span>STS</span></label>
+        </div>
+      </div>`;
+  });
+  document.getElementById('result').style.display='none';
+  const box = document.getElementById('analysisBox');
+  box.style.display='none';
+  box.innerHTML='';
+}
+// tampilkan keterangan
+  document.getElementById("keteranganOpsi").style.display = "block";
+
+  // reset soal
+  document.getElementById("quiz").innerHTML = "";
+
+
+function submitQuiz(){
+  if(!currentPaket){ Swal.fire('Pilih Paket','Silakan pilih salah satu paket terlebih dahulu.','info'); return; }
+  const data = paketData[currentPaket];
+  let tot=0; let allAnswered=true; const jawab=[];
+  for(let i=0;i<data.statements.length;i++){ 
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    if(!sel){ allAnswered=false; break; }
+    const v = parseInt(sel.value,10);
+    const scArr = data.scoring[i];
+    const sc = Array.isArray(scArr)? scArr[v] : 0;
+    tot += sc;
+    jawab.push({no:i+1, val:v, label:sel.nextSibling.textContent});
+  }
+  if(!allAnswered){ Swal.fire('Belum Lengkap','Harap jawab semua pertanyaan.','warning'); return; }
+  const cat = data.kategori(tot);
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').innerHTML = `<span class="score">${tot}</span> <span class="badge ${cat}">${labelsFull[cat]}</span>`;
+
+  lastResult = {
+    nama: document.getElementById("nama").value,
+    instansi: document.getElementById("instansi").value,
+    mapel: document.getElementById("mapel").value,
+    total: tot,
+    kategori: cat,
+    jawab: jawab,
+    data: data
+  };
+}
+
+function showAnalysis(){
+  if(!lastResult){ 
+    Swal.fire('Belum Ada Hasil','Silakan isi kuis dan tekan SUBMIT dulu.','info'); 
+    return; 
+  }
+  
+  // Tentukan paket otomatis dari skor
+  let paket = "";
+  if (lastResult.total <= 30) paket = "dasar";
+  else if (lastResult.total <= 60) paket = "menengah";
+  else paket = "profesional";
+  
+  const htmlContent = `
+  <html>
+  <head>
+    <title>Hasil Analisis</title>
+    <style>
+      @page { margin: 20mm 15mm 20mm 15mm; }
+      body { font-family: Arial, sans-serif; background:#f8fafc; padding:20px; color:#333; }
+      h2 { text-align:center; color:#2563eb; margin-bottom:20px; }
+
+      .top-section { display:flex; gap:20px; margin-bottom:20px; }
+      .identitas { border-collapse:collapse; flex:1; }
+      .identitas td { padding:6px 10px; border:1px solid #ccc; }
+      .identitas td:first-child { width:120px; font-weight:bold; background:#f1f5f9; }
+
+      .interpretasi-box { flex:1; display:flex; flex-direction:column; gap:10px; }
+      .interpretasi, .motivasi { background:#fef3c7; padding:10px; border-radius:8px; }
+
+      table { border-collapse:collapse; width:100%; margin-top:20px; }
+      table th, table td { border:1px solid #ccc; padding:8px; font-size: 14px; }
+      thead { display: table-header-group; }
+      table th { background:#2563eb; color:#fff; }
+      table tr:nth-child(even) td { background:#f9fafb; }
+      table td:nth-child(2){ text-align:center; font-weight:bold; }
+
+      .btn-print { display:block; margin:20px auto; padding:10px 20px; background:#2563eb; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
+      @media print { .btn-print { display:none; } body{background:white;} }
+    </style>
+  </head>
+  <body>
+    <h2>Analisis Pemetaan Profil Pola Pikir</h2>
+
+    <div class="top-section">
+      <table class="identitas">
+        <tr><td>Nama</td><td>${lastResult.nama || "-"}</td></tr>
+        <tr><td>Instansi</td><td>${lastResult.instansi || "-"}</td></tr>
+        <tr><td>Bidang/Mapel</td><td>${lastResult.mapel || "-"}</td></tr>
+        <tr><td>Total</td><td>${lastResult.total} | ${labelsFull[lastResult.kategori]}</td></tr>
+      </table>
+
+      <div class="interpretasi-box">
+        <div class="interpretasi"><b>Interpretasi:</b><br>${
+          interpretasiKategori(lastResult.kategori, lastResult.total, paket)
+        }</div>
+        <div class="motivasi"><b>Motivasi:</b><br>${motivasiKategori(lastResult.kategori)}</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th width="40%">Pernyataan</th>
+          <th width="8%">Jawaban</th>
+          <th>Analisis & Tindak Lanjut</th>
+        </tr>
+      </thead>
+      <tbody>
+      ${lastResult.jawab.map(j=>{
+        const analisis = lastResult.data.analisisPerSoal[j.no-1][j.val] || "Tidak ada analisis.";
+        return `<tr>
+          <td>${lastResult.data.statements[j.no-1]}</td>
+          <td>${j.label}</td>
+          <td>${analisis}</td>
+        </tr>`;
+      }).join("")}
+      </tbody>
+    </table>
+
+    <button class="btn-print" onclick="window.print()">🖨 Cetak / Simpan PDF</button>
+  </body>
+  </html>
+  `;
+
+  const newWin = window.open("", "_blank");
+  newWin.document.write(htmlContent);
+  newWin.document.close();
+}
+
+
+// --- Interpretasi berdasarkan kategori, skor & paket ---
+function interpretasiKategori(cat, skor, paket){
+  switch(cat){
+    // ================== FIXED ==================
+    case "F":
+      if (paket === "solo") {
+        if (skor <= 5) return `Fixed Rendah — Penilaian diri dan teman masih dipengaruhi persepsi kaku. Tantangan dianggap ancaman, kesalahan teman dilihat sebagai kelemahan permanen, dan kritik sulit diterima.`;
+        else if (skor <= 10) return `Fixed Sedang — Mulai memahami adanya potensi teman, tetapi masih cepat menyimpulkan dan kurang memberi ruang perubahan. Hambatan dianggap batas kemampuan.`;
+        else return `Fixed Tinggi — Melihat kemampuan diri dan teman sebagai sesuatu yang tetap. Tantangan dihindari, kritik dianggap serangan, dan kolaborasi menjadi sulit berkembang.`;
+      }
+      if (paket === "menengah") {
+        if (skor <= 10) return `Fixed Rendah — Tantangan kerja sama dihindari, kesalahan teman mudah dihakimi, dan usaha dianggap tidak akan banyak mengubah hasil.`;
+        else if (skor <= 15) return `Fixed Sedang — Mulai terbuka terhadap pendapat teman, tetapi masih sulit menerima perbedaan dan lebih sering menghindar dari diskusi menantang.`;
+        else return `Fixed Tinggi — Menilai kemampuan diri dan rekan kerja secara absolut. Perubahan dianggap mustahil, dan kritik dari rekan dirasakan mengganggu harga diri.`;
+      }
+      if (paket === "profesional") {
+        if (skor <= 10) return `Fixed Rendah — Pemahaman masih terbatas pada kepercayaan bahwa kemampuan sudah ditentukan. Tantangan sosial dihindari dan refleksi minim.`;
+        else if (skor <= 15) return `Fixed Sedang — Masih sulit menerima umpan balik dari rekan sejawat, cenderung defensif, dan menganggap upaya perbaikan kurang berarti.`;
+        else return `Fixed Tinggi — Meyakini diri dan orang lain tidak bisa berubah. Menolak kritik, menutup diri terhadap refleksi, dan sulit beradaptasi dalam dinamika profesional.`;
+      }
+      break;
+
+    // ================== FIXED → GROWTH ==================
+    case "FG":
+      if (paket === "solo") {
+        if (skor <= 17) return `Transisi Awal — Mulai melihat sisi positif teman, namun masih terjebak dalam penilaian cepat. Tantangan diterima sebagian, dan kritik terasa berat.`;
+        else if (skor <= 19) return `Transisi Tengah — Penilaian mulai seimbang antara kekurangan dan potensi teman. Hambatan tidak lagi dianggap akhir, dan kritik mulai dipahami.`;
+        else return `Transisi Tinggi — Mulai mampu melihat perbedaan sebagai peluang belajar. Kritik diterima lebih terbuka dan kolaborasi tumbuh lebih sehat.`;
+      }
+      if (paket === "menengah") {
+        if (skor <= 25) return `Transisi Awal — Tantangan dalam kolaborasi mulai dijalani, meski keyakinan pada perubahan masih fluktuatif. Kritik masih terasa personal.`;
+        else if (skor <= 30) return `Transisi Tengah — Mulai ada keseimbangan antara penilaian diri dan teman. Kritik dianggap bermanfaat, walau belum selalu mudah diterima.`;
+        else return `Transisi Tinggi — Berani menerima perbedaan, reflektif terhadap kritik, dan mulai membantu teman berkembang tanpa rasa menghakimi.`;
+      }
+      if (paket === "profesional") {
+        if (skor <= 25) return `Transisi Awal — Kesadaran reflektif mulai tumbuh. Kritik diterima dengan hati-hati, dan mulai muncul keinginan memperbaiki diri dalam interaksi profesional.`;
+        else if (skor <= 30) return `Transisi Tengah — Pandangan mulai matang: menyadari kemampuan bisa berubah, menghargai kritik, dan belajar dari rekan sejawat.`;
+        else return `Transisi Tinggi — Sudah terbiasa menerima umpan balik dan melihatnya sebagai alat peningkatan profesionalisme. Tumbuh ke arah growth mindset sejati.`;
+      }
+      break;
+
+    // ================== GROWTH → FIXED ==================
+    case "GF":
+      if (paket === "solo") {
+        if (skor <= 22) return `Growth Awal — Sudah mulai percaya teman dapat berkembang, meski kadang masih menilai hasil lebih dari proses.`;
+        else if (skor <= 24) return `Growth Sedang — Penilaian semakin objektif. Kesalahan teman dilihat sebagai kesempatan untuk membantu, bukan untuk menilai.`;
+        else return `Growth Kuat — Mampu melihat proses belajar sebagai nilai utama. Kritik disampaikan dengan empati dan kolaborasi semakin kuat.`;
+      }
+      if (paket === "menengah") {
+        if (skor <= 37) return `Growth Awal — Mulai menerima variasi kemampuan dalam tim, namun terkadang masih kesulitan menyesuaikan standar pribadi dengan orang lain.`;
+        else if (skor <= 41) return `Growth Sedang — Sudah dapat memberikan umpan balik membangun, menghargai proses, dan terbuka terhadap cara pandang teman.`;
+        else return `Growth Kuat — Kolaborasi berjalan matang. Setiap perbedaan dilihat sebagai kekayaan tim, bukan penghalang produktivitas.`;
+      }
+      if (paket === "profesional") {
+        if (skor <= 37) return `Growth Awal — Refleksi diri kuat, namun penerimaan terhadap kekurangan rekan masih perlu diperluas. Belajar melihat tim sebagai ruang bertumbuh.`;
+        else if (skor <= 41) return `Growth Sedang — Sikap profesional meningkat, mampu menilai objektif, terbuka terhadap kritik, dan menghargai proses tim.`;
+        else return `Growth Kuat — Sudah matang secara profesional: reflektif, empatik, dan melihat kolaborasi sebagai sarana pertumbuhan bersama.`;
+      }
+      break;
+
+    // ================== GROWTH ==================
+    case "G":
+      if (paket === "solo") {
+        if (skor <= 27) return `Growth Stabil — Mampu menilai diri dan teman secara proporsional. Tantangan sosial diterima, kritik dihargai, dan empati tinggi.`;
+        else if (skor <= 29) return `Growth Kuat — Reflektif terhadap penilaian teman, mampu menginspirasi rekan, dan menghargai setiap perbedaan sebagai proses belajar.`;
+        else return `Growth Sangat Kuat — Menjadi panutan dalam kolaborasi. Selalu terbuka, mendukung teman berkembang, dan menjadikan setiap interaksi sebagai peluang belajar bersama.`;
+      }
+      if (paket === "menengah") {
+        if (skor <= 48) return `Growth Stabil — Terbuka terhadap berbagai sudut pandang, mampu menilai adil, dan berorientasi pada perbaikan diri serta tim.`;
+        else if (skor <= 55) return `Growth Kuat — Melibatkan rekan dalam proses belajar bersama. Tantangan dijalani dengan refleksi kolektif dan semangat mendukung.`;
+        else return `Growth Sangat Kuat — Menjadi motor penggerak dalam lingkungan belajar. Kolaborasi, refleksi, dan empati menyatu dalam praktik profesional.`;
+      }
+      if (paket === "profesional") {
+        if (skor <= 48) return `Growth Stabil — Menunjukkan kematangan profesional. Kritik dijadikan energi, tantangan dihadapi dengan integritas, dan kolaborasi dijaga dengan empati.`;
+        else if (skor <= 55) return `Growth Kuat — Berpikir strategis, reflektif, dan inspiratif. Memandang perbedaan sebagai modal sinergi antar rekan.`;
+        else return `Growth Sangat Kuat — Profesional yang visioner. Menginspirasi pertumbuhan bersama melalui teladan, empati, dan komitmen belajar sepanjang hayat.`;
+      }
+      break;
+
+    default:
+      return "";
+  }
+}
+
+function motivasiKategori(cat){
+  switch(cat){
+    case "F": 
+      return "Setiap usaha kecil dari diri maupun rekan adalah langkah menuju perubahan. Bukalah ruang untuk mencoba lagi, karena kemampuan bukanlah hal yang tetap.";
+    case "FG": 
+      return "Kamu sedang berada di titik perubahan. Teruslah membuka diri terhadap kritik dan pengalaman baru — karena di situlah potensi berkembang.";
+    case "GF": 
+      return "Pertumbuhan sudah kamu rasakan. Pertahankan semangat belajar, bantu teman untuk tumbuh bersama, dan jangan berhenti berefleksi.";
+    case "G": 
+      return "Kamu menunjukkan karakter pembelajar sejati. Jadilah inspirasi bagi teman-temanmu untuk terus belajar, berkolaborasi, dan bertumbuh bersama.";
+    default: 
+      return "";
+  }
+}
+
+
+function cetakTanpaAnalisis(){
+  if(!lastResult){ Swal.fire('Belum Ada Hasil','Silakan isi kuis dan tekan SUBMIT dulu.','info'); return; }
+  const pilihan = ["SS","S","TS","STS"];
+
+  const htmlContent = `
+  <html>
+  <head>
+    <title>Cetak Jawaban</title>
+    <style>
+      @page { margin: 20mm 15mm 20mm 15mm; }
+      body { font-family: Arial, sans-serif; background:#f8fafc; padding:20px; color:#333; }
+      h2 { text-align:center; color:#2563eb; margin-bottom:20px; }
+
+      /* identitas + skor sejajar */
+      .top-section {
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        gap:20px;
+        margin-bottom:20px;
+      }
+      .identitas { border-collapse:collapse; width:60%; }
+      .identitas td { padding:6px 10px; border:1px solid #ddd; }
+      .identitas td:first-child { width:150px; font-weight:bold; background:#f1f5f9; }
+
+      /* hasil skor elegan */
+      .score-box {
+        flex:1;
+        text-align:center;
+        padding:25px;
+        border-radius:14px;
+        background:linear-gradient(135deg,#2563eb,#1e3a8a);
+        color:white;
+        font-size:22px;
+        font-weight:bold;
+        box-shadow:0 6px 15px rgba(0,0,0,0.25);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        line-height:1.4;
+      }
+
+      /* tabel jawaban */
+      table { border-collapse:separate; border-spacing:0; width:100%; margin-top:10px;
+              border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+      table th, table td { padding:10px; font-size:14px; text-align:center; border:1px solid #ddd; }
+      thead { display: table-header-group; }
+      table th {
+        background: linear-gradient(135deg,#2563eb,#1e40af);
+        color:#fff;
+        font-size:13px;
+        font-weight:bold;
+      }
+      table tr:nth-child(even) td { background:#f9fafb; }
+      table tr:nth-child(odd) td { background:#fff; }
+      table td:first-child, table td:nth-child(2) { text-align:left; }
+
+      /* kolom kecil untuk SS S TS STS */
+      table th:nth-child(n+3), table td:nth-child(n+3) { width:7%; }
+
+      /* checklist besar */
+      .check { font-size:22px; font-weight:bold; color:#2563eb; }
+
+      .btn-print { display:block; margin:25px auto; padding:10px 20px;
+                   background:#2563eb; color:white; border:none; border-radius:6px;
+                   font-weight:bold; cursor:pointer; }
+      @media print { .btn-print { display:none; } body{background:white;} }
+    </style>
+  </head>
+  <body>
+    <h2>PEMETAAN PROFIL POLA PIKIR</h2>
+
+    <div class="top-section">
+      <table class="identitas">
+        <tr><td>Nama Responden</td><td>${lastResult.nama || "-"}</td></tr>
+        <tr><td>Instansi/Lembaga</td><td>${lastResult.instansi || "-"}</td></tr>
+        <tr><td>Bidang/Mapel</td><td>${lastResult.mapel || "-"}</td></tr>
+      </table>
+
+      <div class="score-box">
+        Hasil Skor: ${lastResult.total}<br>${labelsFull[lastResult.kategori]}
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th width="3%">NO</th>
+          <th width="61%">PERNYATAAN</th>
+          <th>SS</th>
+          <th>S</th>
+          <th>TS</th>
+          <th>STS</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${lastResult.jawab.map(j=>{
+          let cells = pilihan.map((p,idx)=> 
+            `<td>${j.val===idx?'<div class="check">✔</div>':''}</td>`
+          ).join("");
+          return `<tr>
+            <td style="text-align:center">${j.no}</td>
+            <td style="text-align:left">${lastResult.data.statements[j.no-1]}</td>
+            ${cells}
+          </tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+
+    <button class="btn-print" onclick="window.print()">🖨 Cetak / Simpan PDF</button>
+  </body>
+  </html>
+  `;
+
+  const newWin = window.open("", "_blank");
+  newWin.document.write(htmlContent);
+  newWin.document.close();
+}
+
+// === Hubungkan tombol ===
+document.getElementById("submitBtn").addEventListener("click", submitQuiz);
+document.getElementById("resetBtn").addEventListener("click", ()=>{document.getElementById('quiz').innerHTML='';document.getElementById('result').style.display='none';currentPaket=null;});
+document.getElementById("analisisBtn").addEventListener("click", showAnalysis);
+document.getElementById("cetakTanpaAnalisisBtn").addEventListener("click", cetakTanpaAnalisis);
+
+  </script>
+<script>
+
+    // Helper to hide if quiz has no questions
+    function checkAndHideByQuiz(){
+      var quiz = document.getElementById('quiz');
+      if (!quiz) return;
+      var hasQ = quiz.querySelectorAll('.q').length > 0;
+      if (!hasQ) {
+        // small delay to allow other handlers to finish
+        setTimeout(function(){
+          var stillHasQ = quiz.querySelectorAll('.q').length > 0;
+          if (!stillHasQ) try{ btnContainer.style.display = 'none'; }catch(e){}
+        }, 80);
+      }
+    }
+
+    // Mutation observer on quiz container
+    var quizEl = document.getElementById('quiz');
+    if (quizEl) {
+      var observer = new MutationObserver(function(muts){
+        checkAndHideByQuiz();
+      });
+      observer.observe(quizEl, { childList: true, subtree: true, characterData: true });
+    }
+
+    // Also hide when identity inputs are cleared (some reset handlers clear inputs)
+    document.addEventListener('DOMContentLoaded', function(){
+  try {
+    var nama = document.getElementById('nama'),
+        inst = document.getElementById('instansi'),
+        mapel = document.getElementById('mapel');
+
+    function checkIdentityAndHide(){
+      setTimeout(function(){
+        if ((nama && nama.value.trim()==='') &&
+            (inst && inst.value.trim()==='') &&
+            (mapel && mapel.value.trim()==='')) {
+          try { btnContainer.style.display = 'none'; } catch(e) {}
+        }
+      }, 80);
+    }
+
+    [nama, inst, mapel].forEach(function(el){
+      if (!el) return;
+      el.addEventListener('input', checkIdentityAndHide);
+      el.addEventListener('change', checkIdentityAndHide);
+    });
+
+    var resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function(){
+        setTimeout(function(){
+          try { checkAndHideByQuiz(); } catch(e) {}
+          try { checkIdentityAndHide(); } catch(e) {}
+        }, 260);
+      });
+    }
+  } catch (err) {
+    console.warn('btn reveal/hide script error', err);
+  }
+});
+
+  </script>
+<!-- QRCode Library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
+</script>
+<script>
+   // Generate QR
+      const canvas = document.getElementById("qrcodeCanvas");
+      QRCode.toCanvas(canvas, "https://andesofiani.github.io/pemetaan-profil-pola-pikir/", { width: 90 }, function (error) {
+        if (error) console.error(error);
+      });
+
+      // Tombol Unduh QR
+      document.getElementById("downloadQR").addEventListener("click", function () {
+        const link = document.createElement("a");
+        link.download = "QRCode.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+
+// ----- Unified safe submit handler (replace all existing submit handlers) -----
+
+(function() {
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbysp9p57Sw8fP8d5HlXOztahZPO_Tt2uKDMJFb6YWEk1ZlERrMobgUGHsom3G08zN_NYQ/exec';
+
+  const submitBtn = document.getElementById('submitBtn');
+  if (!submitBtn) return;
+
+  try { submitBtn.onclick = null; } catch(e){}
+
+  window.__submitting = window.__submitting || false;
+
+  submitBtn.addEventListener('click', async function handler(e) {
+    try { e.stopImmediatePropagation(); e.preventDefault(); } catch(err){}
+
+    if (window.__submitting) return;
+    window.__submitting = true;
+    submitBtn.disabled = true;
+
+    // --- 1. Validasi identitas ---
+    const nama = document.getElementById('nama')?.value.trim() || '';
+    const instansi = document.getElementById('instansi')?.value.trim() || '';
+    const mapel = document.getElementById('mapel')?.value.trim() || '';
+
+    if (!nama || !instansi || !mapel) {
+      Swal.fire('Lengkapi data!', 'Identitas harus diisi semua', 'warning');
+      window.__submitting = false; submitBtn.disabled = false; return;
+    }
+
+    // --- 3. Validasi semua soal ---
+    const totalQuestions = document.querySelectorAll('#quiz .q, #quiz .question').length;
+    const answered = document.querySelectorAll('#quiz input[type=radio]:checked').length;
+    if (answered < totalQuestions) {
+      Swal.fire('Lengkapi Soal!', 'Semua soal harus dijawab sebelum submit.', 'warning');
+      window.__submitting = false; submitBtn.disabled = false; return;
+    }
+
+    // --- 4. Jalankan submitQuiz() agar skor & kategori dihitung ---
+    if (typeof submitQuiz === 'function') {
+      submitQuiz();
+    }
+
+    // --- 5. Ambil skor & kategori ---
+// --- 5. Ambil skor & kategori ---
+let skor = 0;
+let kategori = '';
+if (typeof lastResult !== 'undefined' && lastResult) {
+  skor = lastResult.total;
+  kategori = lastResult.kategori;
+} else {
+  skor = parseInt(document.querySelector('#result .score')?.textContent || '0', 10) || 0;
+  kategori = (document.querySelector('#result .badge')?.textContent || '').trim();
+}
+
+// --- Tentukan paket otomatis berdasarkan skor ---
+let paket = "";
+if (skor <= 30) paket = "dasar";
+else if (skor <= 60) paket = "menengah";
+else paket = "profesional";
+
+// --- Panggil interpretasi ---
+const interpretasi = interpretasiKategori(kategori, skor, paket);
+
+// --- Tambahkan interpretasi ke dalam hasil ---
+const resultDiv = document.getElementById("result");
+if (resultDiv) {
+  const oldInterpretasi = resultDiv.querySelector(".interpretasi-text");
+  if (oldInterpretasi) oldInterpretasi.remove();
+
+  const interpretasiEl = document.createElement("p");
+  interpretasiEl.className = "interpretasi-text";
+  interpretasiEl.style.marginTop = "12px";
+  interpretasiEl.style.fontSize = "16px";                 // sedikit lebih besar
+  interpretasiEl.style.fontWeight = "bold";
+  interpretasiEl.style.color = "#1e3a8a";
+  interpretasiEl.style.fontFamily = '"Monotype Corsiva", cursive, serif'; // font diganti
+  interpretasiEl.textContent = `“${interpretasi || "Interpretasi tidak tersedia."}”`;
+
+
+  resultDiv.appendChild(interpretasiEl);
+}
+
+
+    // --- 6. Ambil jawaban ---
+    const jawaban = [];
+    document.querySelectorAll('#quiz input[type=radio]:checked').forEach(radio => {
+      jawaban.push({ pertanyaan: radio.name, jawaban: radio.value });
+    });
+
+    const payload = { nama, instansi, mapel, paket, skor, kategori, jawaban };
+
+    // --- 7. Kirim ke Apps Script ---
+    try {
+      // tampilkan notifikasi loading
+      Swal.fire({
+  title: 'Mohon tunggu...',
+  text: 'Data Anda sedang diproses',
+  allowOutsideClick: false,
+  width: '340px',
+  background: 'linear-gradient(135deg, #ffffff, #f3f6ff)',
+  color: '#2c2c2c',
+  customClass: {
+    popup: 'swal-3d-modern',
+    title: 'swal-title-modern',
+    htmlContainer: 'swal-text-modern'
+  },
+  didOpen: () => {
+    Swal.showLoading();
+  }
+});
+
+      await fetch(WEB_APP_URL + '?payload=' + encodeURIComponent(JSON.stringify(payload)), {
+        method: 'POST',
+        mode: 'no-cors'
+      });
+
+      // ganti loading dengan notifikasi sukses
+      await Swal.fire({
+  icon: 'success',
+  title: 'Berhasil Diproses',
+  html: `Data siap di nalisis dan dicetak.<br><b>Skor:</b> ${skor}<br><b>Kategori:</b> ${kategori}`,
+  width: '360px',
+  background: 'linear-gradient(135deg, #ffffff, #f3f6ff)',
+  color: '#2c2c2c',
+  customClass: {
+    popup: 'swal-3d-modern',
+    title: 'swal-title-modern',
+    htmlContainer: 'swal-text-modern',
+    icon: 'swal-icon-modern'
+  },
+  confirmButtonColor: '#5d5fef',
+  confirmButtonText: 'OK'
+});
+
+      // --- 8. Reset identitas ---
+      try { document.getElementById('nama').value = ''; } catch(e){}
+      try { document.getElementById('instansi').value = ''; } catch(e){}
+      try { document.getElementById('mapel').value = ''; } catch(e){}
+      try { if (document.getElementById('paket')) document.getElementById('paket').value = ''; } catch(e){}
+
+      // --- Reset jawaban soal ---
+      document.querySelectorAll('#quiz input[type=radio]').forEach(r => { r.checked = false; });
+
+      // --- Tutup soal & kembali ke awal tampilan ---
+      try {
+        const quizEl = document.getElementById('quiz');
+        if (quizEl) quizEl.style.display = 'none';
+      } catch(e){}
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // ✅ Skor, kategori, analisis, cetak, grafik tetap tampil
+
+    } catch (err) {
+      console.error('Submit error:', err);
+      Swal.fire('Gagal', 'Tidak bisa mengirim data ke server', 'error');
+    } finally {
+      window.__submitting = false;
+      submitBtn.disabled = false;
+    }
+  }, true);
+})();
+// === Event pewarnaan kotak soal (final fix) ===
+document.addEventListener('DOMContentLoaded', function(){
+  const quiz = document.getElementById('quiz');
+  if (!quiz) return;
+
+  quiz.addEventListener('change', function(e){
+    const t = e.target;
+    if (!t || t.type !== 'radio') return;
+
+    // Cari container soal
+    const question = t.closest('.q') || t.closest('.soal');
+    if (!question) return;
+
+    // Cari teks jawaban dari label
+    let ansLabel = '';
+    const parentLabel = t.closest('label');
+    if (parentLabel) {
+      const span = parentLabel.querySelector('span');
+      if (span) ansLabel = span.textContent.trim();
+    }
+
+    // Jika masih kosong, fallback ke mapping value angka
+    if (!ansLabel) {
+      const map = { '0':'SS', '1':'S', '2':'TS', '3':'STS' };
+      ansLabel = map[String(t.value)] || t.value;
+    }
+
+    // Reset warna lama
+    question.classList.remove('warna-SS','warna-S','warna-TS','warna-STS');
+
+    // Tambahkan warna baru
+    if (ansLabel === 'SS')  question.classList.add('warna-SS');
+    else if (ansLabel === 'S')   question.classList.add('warna-S');
+    else if (ansLabel === 'TS')  question.classList.add('warna-TS');
+    else if (ansLabel === 'STS') question.classList.add('warna-STS');
+  });
+});
+</script>
+<script>
+document.getElementById('homeBtn').addEventListener('click', function() {
+  Swal.fire({
+    title: 'Masukkan Password',
+    input: 'password',
+    inputPlaceholder: 'Ketik password di sini',
+    inputAttributes: {
+      maxlength: 20,
+      autocapitalize: 'off',
+      autocorrect: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Masuk',
+    cancelButtonText: 'Batal',
+    customClass: { popup: 'swal-3d' },
+    preConfirm: (pwd) => {
+      if (pwd === 'mps123') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: 'Mengalihkan ke halaman Utama...',
+          showConfirmButton: false,
+          timer: 1500,
+          customClass: { popup: 'swal-3d' }
+        }).then(() => {
+          window.open('https://andes-web.github.io/mpsmobile/', '_blank');
+          window.close();
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Password salah!',
+          customClass: { popup: 'swal-3d' }
+        });
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

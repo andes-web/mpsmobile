@@ -15,7 +15,7 @@
   @media (min-width: 769px) {
   body {
   transform: scale(0.8);
-  transform-origin: top left;
+  transform-origin: top center;
   width: 125%; /* kompensasi supaya lebar tetap proporsional */
   overflow: hidden;
   margin: 0;
@@ -128,9 +128,7 @@
   <div id="rubrik-body" class="rubrik"></div>
 
   <div class="controls-row">
-    
-    <button onclick="window.top.location.href='https://andes-web.github.io/mpsmobile/index.html'">🏠 HOME</button>
-
+    <button onclick="window.top.location.href='https://andes-web.github.io/mpsmobile/index.html'" class="btn btn-home">HOME</button>
     <button id="submitBtn" class="btn btn-submit">SUBMIT</button>
     <button id="resetBtn" class="btn btn-reset">RESET</button>
     <button id="downloadExcel" class="btn btn-undi">UNDUH</button>
@@ -265,7 +263,7 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 </script>
 <script>
 document.getElementById("homeBtn").addEventListener("click", ()=>{
-  const url = "https://andes-web.github.io/mpsmobile/";
+  const url = "window.top.location.href='https://andes-web.github.io/mpsmobile/";
 
   if(window.innerWidth <= 768){
     // 🔹 MOBILE → buka tab baru + coba tutup tab lama
@@ -281,4 +279,3 @@ document.getElementById("homeBtn").addEventListener("click", ()=>{
 
 </body>
 </html>
-

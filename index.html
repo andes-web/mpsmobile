@@ -2769,7 +2769,6 @@ document.addEventListener("click", function(e){
   }
 });
 </script>
-</script>
 <!-- === Buka Penilaian Diklat di tab baru khusus MOBILE === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -2809,6 +2808,168 @@ document.addEventListener("DOMContentLoaded", function() {
           window.open("Form_Individu.html", "_blank");
         }, { once: true });
         console.log("✅ Event Penilaian Diklat (mobile) terpasang.");
+        return;
+      }
+    }
+  }
+
+  // Coba jalankan awal
+  document.addEventListener("DOMContentLoaded", bukaDiTabBaruJikaMobile);
+
+  // Jika menu muncul belakangan, amati perubahan DOM
+  const observer = new MutationObserver(() => {
+    bukaDiTabBaruJikaMobile();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+<!-- === Buka Penilaian Diklat di tab baru khusus MOBILE === -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Jalankan hanya di layar mobile
+  if (window.innerWidth <= 768) {
+    // Tunggu tombol Penilaian Diklat muncul di DOM
+    const observer = new MutationObserver(() => {
+      const diklatBtn = [...document.querySelectorAll(".h4-button")]
+        .find(btn => btn.textContent.trim().toLowerCase() === "penilaian k-diklat");
+      if (diklatBtn) {
+        diklatBtn.addEventListener("click", function(e) {
+          e.stopPropagation(); // cegah event default panel
+          window.open("Form_Kelompok.html", "_blank");
+        });
+        observer.disconnect(); // berhenti memantau
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+});
+</script>
+<!-- === Versi fix: Buka "Penilaian K-Diklat" di tab baru (khusus MOBILE) === -->
+<script>
+(function() {
+  function bukaDiTabBaruJikaMobile() {
+    // Jalankan hanya jika lebar layar <= 768px (mobile)
+    if (window.innerWidth > 768) return;
+
+    // Cari tombol dengan teks "Penilaian K-Diklat"
+    const semuaTombol = document.querySelectorAll(".h4-button, button, a");
+    for (const btn of semuaTombol) {
+      if (btn.textContent.trim().toLowerCase() === "penilaian k-diklat") {
+        // Cegah event default bawaan accordion
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open("Form_Kelompok.html", "_blank");
+        }, { once: true });
+        console.log("✅ Event Penilaian Diklat (mobile) terpasang.");
+        return;
+      }
+    }
+  }
+
+  // Coba jalankan awal
+  document.addEventListener("DOMContentLoaded", bukaDiTabBaruJikaMobile);
+
+  // Jika menu muncul belakangan, amati perubahan DOM
+  const observer = new MutationObserver(() => {
+    bukaDiTabBaruJikaMobile();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+<!-- === Buka Penilaian T-Diklat di tab baru khusus MOBILE === -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Jalankan hanya di layar mobile
+  if (window.innerWidth <= 768) {
+    // Tunggu tombol Penilaian Diklat muncul di DOM
+    const observer = new MutationObserver(() => {
+      const diklatBtn = [...document.querySelectorAll(".h4-button")]
+        .find(btn => btn.textContent.trim().toLowerCase() === "penilaian d-diklat");
+      if (diklatBtn) {
+        diklatBtn.addEventListener("click", function(e) {
+          e.stopPropagation(); // cegah event default panel
+          window.open("https://andesofiani.github.io/pemetaan-profil-pola-pikir/", "_blank");
+        });
+        observer.disconnect(); // berhenti memantau
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+});
+</script>
+<!-- === Versi fix: Buka "Penilaian T-Diklat" di tab baru (khusus MOBILE) === -->
+<script>
+(function() {
+  function bukaDiTabBaruJikaMobile() {
+    // Jalankan hanya jika lebar layar <= 768px (mobile)
+    if (window.innerWidth > 768) return;
+
+    // Cari tombol dengan teks "Penilaian D-Diklat"
+    const semuaTombol = document.querySelectorAll(".h4-button, button, a");
+    for (const btn of semuaTombol) {
+      if (btn.textContent.trim().toLowerCase() === "penilaian d-diklat") {
+        // Cegah event default bawaan accordion
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open("https://andesofiani.github.io/pemetaan-profil-pola-pikir/", "_blank");
+        }, { once: true });
+        console.log("✅ Event Penilaian Diklat (mobile) terpasang.");
+        return;
+      }
+    }
+  }
+
+  // Coba jalankan awal
+  document.addEventListener("DOMContentLoaded", bukaDiTabBaruJikaMobile);
+
+  // Jika menu muncul belakangan, amati perubahan DOM
+  const observer = new MutationObserver(() => {
+    bukaDiTabBaruJikaMobile();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+<!-- === Buka Penilaian T-Diklat di tab baru khusus MOBILE === -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Jalankan hanya di layar mobile
+  if (window.innerWidth <= 768) {
+    // Tunggu tombol Penilaian T-Diklat muncul di DOM
+    const observer = new MutationObserver(() => {
+      const diklatBtn = [...document.querySelectorAll(".h4-button")]
+        .find(btn => btn.textContent.trim().toLowerCase() === "penilaian t-diklat");
+      if (diklatBtn) {
+        diklatBtn.addEventListener("click", function(e) {
+          e.stopPropagation(); // cegah event default panel
+          window.open("pola_pikirMPS.html", "_blank");
+        });
+        observer.disconnect(); // berhenti memantau
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+});
+</script>
+<!-- === Versi fix: Buka "Penilaian T-Diklat" di tab baru (khusus MOBILE) === -->
+<script>
+(function() {
+  function bukaDiTabBaruJikaMobile() {
+    // Jalankan hanya jika lebar layar <= 768px (mobile)
+    if (window.innerWidth > 768) return;
+
+    // Cari tombol dengan teks "Penilaian D-Diklat"
+    const semuaTombol = document.querySelectorAll(".h4-button, button, a");
+    for (const btn of semuaTombol) {
+      if (btn.textContent.trim().toLowerCase() === "penilaian t-diklat") {
+        // Cegah event default bawaan accordion
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open("pola_pikirMPS.html", "_blank");
+        }, { once: true });
+        console.log("✅ Event Penilaian T-Diklat (mobile) terpasang.");
         return;
       }
     }

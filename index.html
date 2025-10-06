@@ -2770,25 +2770,38 @@ document.addEventListener("click", function(e){
 });
 </script>
 	<!-- === Buka Penilaian Diklat di tab baru khusus MOBILE === -->
+<!-- === Versi fix: Buka "Penilaian Diklat" di tab baru (khusus MOBILE) === -->
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Jalankan hanya di layar mobile
-  if (window.innerWidth <= 768) {
-    // Tunggu tombol Penilaian Diklat muncul di DOM
-    const observer = new MutationObserver(() => {
-      const diklatBtn = [...document.querySelectorAll(".h4-button")]
-        .find(btn => btn.textContent.trim().toLowerCase() === "penilaian diklat");
-      if (diklatBtn) {
-        diklatBtn.addEventListener("click", function(e) {
-          e.stopPropagation(); // cegah event default panel
+(function() {
+  function bukaDiTabBaruJikaMobile() {
+    // Jalankan hanya jika lebar layar <= 768px (mobile)
+    if (window.innerWidth > 768) return;
+
+    // Cari tombol dengan teks "Penilaian Diklat"
+    const semuaTombol = document.querySelectorAll(".h4-button, button, a");
+    for (const btn of semuaTombol) {
+      if (btn.textContent.trim().toLowerCase() === "penilaian diklat") {
+        // Cegah event default bawaan accordion
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
           window.open("Penilaian_Diklat.html", "_blank");
-        });
-        observer.disconnect(); // berhenti memantau
+        }, { once: true });
+        console.log("✅ Event Penilaian Diklat (mobile) terpasang.");
+        return;
       }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
+    }
   }
-});
+
+  // Coba jalankan awal
+  document.addEventListener("DOMContentLoaded", bukaDiTabBaruJikaMobile);
+
+  // Jika menu muncul belakangan, amati perubahan DOM
+  const observer = new MutationObserver(() => {
+    bukaDiTabBaruJikaMobile();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
 </script>
 </body>
 </html>

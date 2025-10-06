@@ -2769,5 +2769,26 @@ document.addEventListener("click", function(e){
   }
 });
 </script>
+<script>
+document.getElementById('Penilaian T-Diklat').addEventListener('click', function() {
+  const targetUrl = 'https://andes-web.github.io/pola_pikirMPS.html';
+
+  // deteksi mobile
+  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // 👇 di mobile langsung buka tab baru (keluar dari iframe)
+    window.open(targetUrl, '_blank');
+  } else {
+    // 👇 di desktop boleh tetap ganti konten di iframe (atau halaman yang sama)
+    const iframe = document.getElementById('mainFrame'); // sesuaikan ID iframe kamu
+    if (iframe) {
+      iframe.src = targetUrl;
+    } else {
+      window.location.href = targetUrl;
+    }
+  }
+});
+</script>
 </body>
 </html>

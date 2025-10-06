@@ -2769,5 +2769,26 @@ document.addEventListener("click", function(e){
   }
 });
 </script>
+	<!-- === Buka Penilaian Diklat di tab baru khusus MOBILE === -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Jalankan hanya di layar mobile
+  if (window.innerWidth <= 768) {
+    // Tunggu tombol Penilaian Diklat muncul di DOM
+    const observer = new MutationObserver(() => {
+      const diklatBtn = [...document.querySelectorAll(".h4-button")]
+        .find(btn => btn.textContent.trim().toLowerCase() === "penilaian diklat");
+      if (diklatBtn) {
+        diklatBtn.addEventListener("click", function(e) {
+          e.stopPropagation(); // cegah event default panel
+          window.open("Penilaian_Diklat.html", "_blank");
+        });
+        observer.disconnect(); // berhenti memantau
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+});
+</script>
 </body>
 </html>

@@ -2769,7 +2769,28 @@ document.addEventListener("click", function(e){
   }
 });
 </script>
-	<!-- === Buka Penilaian Diklat di tab baru khusus MOBILE === -->
+</script>
+<!-- === Buka Penilaian Diklat di tab baru khusus MOBILE === -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Jalankan hanya di layar mobile
+  if (window.innerWidth <= 768) {
+    // Tunggu tombol Penilaian Diklat muncul di DOM
+    const observer = new MutationObserver(() => {
+      const diklatBtn = [...document.querySelectorAll(".h4-button")]
+        .find(btn => btn.textContent.trim().toLowerCase() === "penilaian diklat");
+      if (diklatBtn) {
+        diklatBtn.addEventListener("click", function(e) {
+          e.stopPropagation(); // cegah event default panel
+          window.open("Form_Individu.html", "_blank");
+        });
+        observer.disconnect(); // berhenti memantau
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+});
+</script>
 <!-- === Versi fix: Buka "Penilaian Diklat" di tab baru (khusus MOBILE) === -->
 <script>
 (function() {
@@ -2785,7 +2806,7 @@ document.addEventListener("click", function(e){
         btn.addEventListener("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
-          window.open("Penilaian_Diklat.html", "_blank");
+          window.open("Form_Individu.html", "_blank");
         }, { once: true });
         console.log("✅ Event Penilaian Diklat (mobile) terpasang.");
         return;

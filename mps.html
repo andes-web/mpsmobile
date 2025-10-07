@@ -1423,8 +1423,7 @@ const logoProfiles = {
     ]
   }
 };
-</script>
-<script>
+
 document.addEventListener("DOMContentLoaded", function() {
   const content = document.getElementById("content");
   const logos = document.querySelectorAll(".logo-grid img");
@@ -1449,22 +1448,61 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
       `).join("");
 
+      // ✅ Tambahkan fotoUtama di bawah deskripsi
       content.innerHTML = `
-        <div class="profil-container">
-          <div class="profil-logo">
-            <img src="${logo.src}" alt="${profil.nama}">
-          </div>
-          <div class="profil-detail">
-            <h2>${profil.nama}</h2>
-            <p>${profil.deskripsi}</p>
-            <div class="anggota-grid">${anggotaHTML}</div>
-          </div>
-        </div>
-      `;
+  <div class="profil-container" style="text-align:center;">
+    <div class="profil-logo">
+      <img src="${logo.src}" alt="${profil.nama}" style="
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        margin-top: 10px;
+      ">
+    </div>
+
+    <div class="profil-detail" style="margin-top:10px;">
+      <h2>${profil.nama}</h2>
+      <p>${profil.deskripsi}</p>
+
+      <div class="anggota-grid" style="
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        align-items:center;
+        gap:15px;
+        margin:20px 0;
+      ">
+        ${anggotaHTML}
+      </div>
+
+      <!-- FOTO UTAMA DIPINDAH KE BAWAH ANGGOTA -->
+      <div class="foto-utama-wrapper" style="
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        margin:25px auto;
+      ">
+        <img src="${profil.fotoUtama}" alt="${profil.nama}" style="
+          width: 90%;
+          max-width: 900px;
+          height: auto;
+          border-radius: 12px;
+          object-fit: cover;
+          box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+          transition: transform 0.3s ease;
+        " 
+        onmouseover="this.style.transform='scale(1.03)'" 
+        onmouseout="this.style.transform='scale(1)'">
+      </div>
+    </div>
+  </div>
+`;
+
     });
   });
 });
 </script>
+
 <script>
 const jurlamChildren = [
   {

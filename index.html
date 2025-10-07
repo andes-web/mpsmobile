@@ -1109,30 +1109,6 @@ header .visitor-counter {
 .anggota-card img:hover {
   transform: scale(1.1);
 }
-
-/* Animasi lembut saat konten berubah */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsif agar rapi di HP */
-@media (max-width: 768px) {
-  .profil-container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .profil-logo img {
-    width: 140px;
-    margin-bottom: 10px;
-  }
-
-  .anggota-grid {
-    justify-content: center;
-  }
-}
 /* ===== PERBAIKAN POSISI FOTO DI MOBILE ===== */
 @media (max-width: 768px) {
 
@@ -1157,7 +1133,7 @@ header .visitor-counter {
 
   /* Foto utama langsung di bawah deskripsi */
   .foto-utama-wrapper {
-    margin-top: 0 !important;
+    margin-top: -10px !important;
     margin-bottom: 10px !important;
     display: flex !important;
     justify-content: center !important;
@@ -1183,8 +1159,6 @@ header .visitor-counter {
     position: relative !important;
   }
 }
-
-
 </style>
 </head>
 <body>

@@ -1183,7 +1183,42 @@ header .visitor-counter {
     position: relative !important;
   }
 }
+@media (min-width: 769px) {
+  /* ===== FOOTER LOGO TANPA CONTAINER & TRANSPARAN ===== */
+.footer-wrapper {
+  background: transparent !important; /* hilangkan warna latar */
+  box-shadow: none !important;       /* hilangkan bayangan */
+  border-top: none !important;       /* hilangkan garis atas */
+}
 
+.footer-logo .logo-grid {
+  background: transparent !important; /* hilangkan container logo */
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Logo transparan & menyatu */
+.footer-logo .logo-grid img {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  width: 40px;
+  height: auto;
+  transition: transform 0.25s ease;
+}
+
+.footer-logo .logo-grid img:hover {
+  transform: scale(1.1);
+  box-shadow: none !important;
+}
+}
 
 </style>
 </head>

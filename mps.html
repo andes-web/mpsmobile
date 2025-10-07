@@ -1441,63 +1441,63 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
 
-      let anggotaHTML = profil.anggota.map(a => `
-        <div class="anggota-card">
-          <img src="${a.foto}" alt="${a.nama}">
-          <p>${a.nama}</p>
-        </div>
-      `).join("");
-
-      // ✅ Tambahkan fotoUtama di bawah deskripsi
+      // ✅ Tata letak dua kolom: kiri = logo, nama, deskripsi | kanan = foto besar
       content.innerHTML = `
-  <div class="profil-container" style="text-align:center;">
-    <div class="profil-logo">
-      <img src="${logo.src}" alt="${profil.nama}" style="
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-        margin-top: 10px;
-      ">
-    </div>
+        <div class="profil-container" style="
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 30px;
+          padding: 20px;
+          animation: fadeIn 0.6s ease;
+        ">
+          
+          <!-- Kolom kiri -->
+          <div class="profil-info" style="
+            flex: 1 1 300px;
+            max-width: 350px;
+            text-align: left;
+          ">
+            <img src="${logo.src}" alt="${profil.nama}" style="
+              width: 100px;
+              height: 100px;
+              object-fit: contain;
+              display: block;
+              margin-bottom: 10px;
+            ">
+            <h2 style="
+              font-size: 1.8rem;
+              margin: 5px 0;
+            ">${profil.nama}</h2>
+            <p style="
+              font-size: 1rem;
+              color: #444;
+              line-height: 1.4;
+            ">${profil.deskripsi}</p>
+          </div>
 
-    <div class="profil-detail" style="margin-top:10px;">
-      <h2>${profil.nama}</h2>
-      <p>${profil.deskripsi}</p>
-
-      <div class="anggota-grid" style="
-        display:flex;
-        flex-wrap:wrap;
-        justify-content:center;
-        align-items:center;
-        gap:15px;
-        margin:20px 0;
-      ">
-        ${anggotaHTML}
-      </div>
-
-      <!-- FOTO UTAMA DIPINDAH KE BAWAH ANGGOTA -->
-      <div class="foto-utama-wrapper" style="
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        margin:25px auto;
-      ">
-        <img src="${profil.fotoUtama}" alt="${profil.nama}" style="
-          width: 90%;
-          max-width: 900px;
-          height: auto;
-          border-radius: 12px;
-          object-fit: cover;
-          box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-          transition: transform 0.3s ease;
-        " 
-        onmouseover="this.style.transform='scale(1.03)'" 
-        onmouseout="this.style.transform='scale(1)'">
-      </div>
-    </div>
-  </div>
-`;
-
+          <!-- Kolom kanan (foto utama besar) -->
+          <div class="foto-utama-wrapper" style="
+            flex: 2 1 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          ">
+            <img src="${profil.fotoUtama}" alt="${profil.nama}" style="
+              width: 100%;
+              max-width: 800px;
+              height: auto;
+              border-radius: 10px;
+              object-fit: cover;
+              box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+              transition: transform 0.3s ease;
+            "
+            onmouseover="this.style.transform='scale(1.02)'"
+            onmouseout="this.style.transform='scale(1)'">
+          </div>
+        </div>
+      `;
     });
   });
 });

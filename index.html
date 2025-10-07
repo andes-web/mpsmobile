@@ -637,6 +637,109 @@ header .visitor-counter {
     border: none !important;
   }
 }
+
+/* ===== FOOTER DESKTOP ===== */
+.footer-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #f9fcff;
+  border-top: 1px solid #d0d8e8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+}
+
+.footer-left, .footer-right {
+  flex: 0 0 250px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.footer-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-logo .logo-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-logo .logo-grid img {
+  width: 38px;
+  height: auto;
+  border: none;
+  background: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-logo .logo-grid img:hover {
+  transform: scale(1.2) translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+/* ===== FOOTER MOBILE KHUSUS ===== */
+@media (max-width: 768px) {
+
+  /* Footer jadi hanya logo saja */
+  .footer-wrapper {
+    position: static !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 8px 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border-top: 1px solid #ccc;
+  }
+
+  /* Sembunyikan teks kiri dan kanan di mobile */
+  .footer-left,
+  .footer-right {
+    display: none !important;
+  }
+
+  /* Logo di tengah */
+  .footer-logo .logo-grid img {
+    width: 45px !important;
+  }
+
+  /* Pastikan tidak menutupi konten */
+  html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  /* Layout profil vertikal */
+  .profil-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 20px !important;
+  }
+
+  .profil-info, .foto-utama-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .profil-info img {
+    margin: 0 auto 10px auto !important;
+  }
+}
+
 </style>
 <!-- STRONG DESKTOP OVERRIDES: buat header, kedua sidebar, dan footer logo FIXED (hanya .content yang scroll) -->
 <style>
@@ -1191,6 +1294,109 @@ header .visitor-counter {
   padding: 0;
   width: 100%;
 }
+
+/* ===== FOOTER DESKTOP ===== */
+.footer-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #f9fcff;
+  border-top: 1px solid #d0d8e8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+}
+
+.footer-left, .footer-right {
+  flex: 0 0 250px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.footer-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-logo .logo-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-logo .logo-grid img {
+  width: 38px;
+  height: auto;
+  border: none;
+  background: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-logo .logo-grid img:hover {
+  transform: scale(1.2) translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+/* ===== FOOTER MOBILE KHUSUS ===== */
+@media (max-width: 768px) {
+
+  /* Footer jadi hanya logo saja */
+  .footer-wrapper {
+    position: static !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 8px 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border-top: 1px solid #ccc;
+  }
+
+  /* Sembunyikan teks kiri dan kanan di mobile */
+  .footer-left,
+  .footer-right {
+    display: none !important;
+  }
+
+  /* Logo di tengah */
+  .footer-logo .logo-grid img {
+    width: 45px !important;
+  }
+
+  /* Pastikan tidak menutupi konten */
+  html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  /* Layout profil vertikal */
+  .profil-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 20px !important;
+  }
+
+  .profil-info, .foto-utama-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .profil-info img {
+    margin: 0 auto 10px auto !important;
+  }
+}
+
 </style>
 
 
@@ -1343,10 +1549,178 @@ header {
   }
 }
 
+
+/* ===== FOOTER DESKTOP ===== */
+.footer-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #f9fcff;
+  border-top: 1px solid #d0d8e8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+}
+
+.footer-left, .footer-right {
+  flex: 0 0 250px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.footer-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-logo .logo-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-logo .logo-grid img {
+  width: 38px;
+  height: auto;
+  border: none;
+  background: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-logo .logo-grid img:hover {
+  transform: scale(1.2) translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+/* ===== FOOTER MOBILE KHUSUS ===== */
+@media (max-width: 768px) {
+
+  /* Footer jadi hanya logo saja */
+  .footer-wrapper {
+    position: static !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 8px 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
+    border-top: 1px solid #ccc;
+  }
+
+  /* Sembunyikan teks kiri dan kanan di mobile */
+  .footer-left,
+  .footer-right {
+    display: none !important;
+  }
+
+  /* Logo di tengah */
+  .footer-logo .logo-grid img {
+    width: 45px !important;
+  }
+
+  /* Pastikan tidak menutupi konten */
+  html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  /* Layout profil vertikal */
+  .profil-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 20px !important;
+  }
+
+  .profil-info, .foto-utama-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .profil-info img {
+    margin: 0 auto 10px auto !important;
+  }
+}
+/* ===== KHUSUS MOBILE (≤768px) ===== */
+@media (max-width: 768px) {
+
+  /* Header instansi tetap di atas */
+  header, .header-container {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: #fff;
+  }
+
+  /* Menu horizontal menempel ke header */
+  .menu-container {
+    position: fixed !important;
+    top: 60px; /* menempel di bawah header, sesuaikan tinggi header */
+    left: 0;
+    right: 0;
+    z-index: 9998;
+    background: #f9fcff;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* Area konten utama — hanya ini yang bisa di-scroll */
+  .content {
+    position: absolute !important;
+    top: 110px; /* menyesuaikan tinggi header + menu */
+    bottom: 60px; /* menyesuaikan tinggi footer */
+    left: 0;
+    right: 0;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    height: auto !important;
+  }
+
+  /* Footer logo menempel ke bawah */
+  .footer-wrapper {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #f9fcff;
+    border-top: 1px solid #ccc;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 60px !important;
+    z-index: 9999;
+  }
+
+  /* Hanya tampilkan logo di footer */
+  .footer-left, .footer-right {
+    display: none !important;
+  }
+
+  /* Rapatkan logo ke garis konten */
+  .footer-logo .logo-grid img {
+    width: 45px !important;
+    margin: 0 6px;
+  }
+
+  /* Pastikan hanya konten yang scroll */
+  html, body {
+    overflow: hidden !important;
+    height: 100% !important;
+  }
+}
+
 </style>
-<!-- END CHATGPT FIX v2 -->
-
-
 </head>
 <body>
 <header>

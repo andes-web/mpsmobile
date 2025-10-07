@@ -2985,5 +2985,28 @@ document.addEventListener("DOMContentLoaded", function() {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
+<!-- === Visitor Counter (tampilkan & tambah hanya di halaman utama) === -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const counterEl = document.getElementById("visitorNumber");
+  const endpoint = "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
+
+  // Ambil data total pengunjung saat ini (tanpa menambah)
+  fetch(endpoint + "?read=true")
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.visitors !== undefined) {
+        counterEl.textContent = data.visitors.toLocaleString("id-ID");
+      } else {
+        counterEl.textContent = "–";
+      }
+    })
+    .catch(err => {
+      console.error("Visitor counter error:", err);
+      counterEl.textContent = "?";
+    });
+});
+</script>
+
 </body>
 </html>

@@ -185,6 +185,7 @@ header span.instansi {
     white-space: nowrap;
   }
   .panel {
+    position: fixed;
     z-index: 2147483647;
     display: none;
   }
@@ -278,6 +279,7 @@ header {
     overflow-x: hidden !important; /* tidak perlu scroll kalau sudah proporsional */
     padding: 6px 8px !important;
     width: 100% !important;
+    position: fixed !important;
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
@@ -303,6 +305,7 @@ header {
 
 /* --- ADDED (no deletions): fixed header/footer + scrollable middle for mobile --- */
 header {
+  position: fixed !important;
   top: 0;
   left: 0;
   right: 0;
@@ -311,6 +314,7 @@ header {
   height: 55px;
 }
 .logo-grid {
+  position: fixed !important;
   bottom: 0;
   left: 0;
   right: 0;
@@ -373,6 +377,7 @@ html, body {
 
 /* --- FIX: Menu utama tetap statis di bawah header --- */
 .menu-bar {
+  position: fixed;
   top: 55px; /* tepat di bawah header */
   left: 0;
   right: 0;
@@ -395,6 +400,7 @@ html, body {
 
 /* --- FIX v2: gunakan sidebar-left asli sebagai menu bar fixed --- */
 .sidebar-left {
+  position: fixed !important;
   top: 55px;   /* tepat di bawah header */
   left: 0;
   right: 0;
@@ -425,6 +431,7 @@ html, body {
   }
 
   header {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -434,6 +441,7 @@ html, body {
 
   .layout {
     display: flex;
+    position: fixed;
     top: 55px;   /* tepat di bawah header */
     left: 0;
     right: 0;
@@ -487,6 +495,7 @@ html, body {
   }
 
   header {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -496,6 +505,7 @@ html, body {
 
   .layout {
     display: flex;
+    position: fixed;
     top: 55px;   /* tepat di bawah header */
     left: 0;
     right: 0;
@@ -503,6 +513,7 @@ html, body {
   }
 
   .sidebar-left {
+    position: fixed;
     top: 55px;
     left: 0;
     bottom: 0;
@@ -513,6 +524,7 @@ html, body {
   }
 
   .sidebar-right {
+    position: fixed;
     top: 55px;
     right: 0;
     bottom: 0;
@@ -523,6 +535,7 @@ html, body {
   }
 
   .content {
+    position: fixed;
     top: 55px;
     left: 260px;
     right: 250px;
@@ -638,108 +651,6 @@ header .visitor-counter {
   }
 }
 
-/* ===== FOOTER DESKTOP ===== */
-.footer-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #f9fcff;
-  border-top: 1px solid #d0d8e8;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 1000;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-}
-
-.footer-left, .footer-right {
-  flex: 0 0 250px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.footer-logo {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-logo .logo-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-logo .logo-grid img {
-  width: 38px;
-  height: auto;
-  border: none;
-  background: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.footer-logo .logo-grid img:hover {
-  transform: scale(1.2) translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-}
-
-/* ===== FOOTER MOBILE KHUSUS ===== */
-@media (max-width: 768px) {
-
-  /* Footer jadi hanya logo saja */
-  .footer-wrapper {
-    position: static !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 8px 0 !important;
-    height: auto !important;
-    box-shadow: none !important;
-    border-top: 1px solid #ccc;
-  }
-
-  /* Sembunyikan teks kiri dan kanan di mobile */
-  .footer-left,
-  .footer-right {
-    display: none !important;
-  }
-
-  /* Logo di tengah */
-  .footer-logo .logo-grid img {
-    width: 45px !important;
-  }
-
-  /* Pastikan tidak menutupi konten */
-  html, body {
-    overflow-y: auto !important;
-    height: auto !important;
-  }
-
-  /* Layout profil vertikal */
-  .profil-container {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 20px !important;
-  }
-
-  .profil-info, .foto-utama-wrapper {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  .profil-info img {
-    margin: 0 auto 10px auto !important;
-  }
-}
-
 </style>
 <!-- STRONG DESKTOP OVERRIDES: buat header, kedua sidebar, dan footer logo FIXED (hanya .content yang scroll) -->
 <style>
@@ -752,6 +663,7 @@ header .visitor-counter {
 
   /* Header tetap di atas */
   header {
+    position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
@@ -761,6 +673,7 @@ header .visitor-counter {
 
   /* Sidebar kiri dan kanan fixed antara header dan footer */
   .sidebar-left {
+    position: fixed !important;
     top: 55px !important;
     bottom: 70px !important; /* ruang untuk logo-grid footer */
     left: 0 !important;
@@ -771,6 +684,7 @@ header .visitor-counter {
   }
 
   .sidebar-right {
+    position: fixed !important;
     top: 55px !important;
     bottom: 70px !important; /* ruang untuk logo-grid footer */
     right: 0 !important;
@@ -782,6 +696,7 @@ header .visitor-counter {
 
   /* Footer logo fixed di bawah, namun hanya mengisi ruang di antara sidebars */
   .logo-grid {
+    position: fixed !important;
     bottom: 0 !important;
     left: 260px !important;  /* lebarnya sama dengan sidebar-left */
     right: 250px !important; /* lebarnya sama dengan sidebar-right */
@@ -811,6 +726,7 @@ header .visitor-counter {
 }
   /* Konten utama fixed di area yang tersisa; hanya area ini yang scroll */
   .content {
+    position: fixed !important;
     top: 55px !important;            /* di bawah header */
     left: 260px !important;          /* setelah sidebar-left */
     right: 250px !important;         /* sebelum sidebar-right */
@@ -1217,508 +1133,7 @@ header .visitor-counter {
     justify-content: center;
   }
 }
-/* === Footer tunggal tetap terlihat di bawah layar === */
-.footer-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #f9fcff;
-  border-top: 1px solid #d0d8e8;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 1000;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-}
 
-/* Bagiannya */
-.footer-left,
-.footer-right {
-  flex: 0 0 250px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.footer-logo {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-logo .logo-grid {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-}
-
-.footer-logo .logo-grid img {
-  width: 38px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.footer-logo .logo-grid img:hover {
-  transform: scale(1.3) translateY(-6px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-}
-
-/* Responsif di HP: tumpuk vertikal */
-@media (max-width: 768px) {
-  .footer-wrapper {
-    flex-direction: column;
-    height: auto;
-    padding: 10px 0;
-  }
-  .footer-left, .footer-right {
-    flex: none;
-    text-align: center;
-    margin-bottom: 6px;
-  }
-  .footer-logo .logo-grid {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .footer-logo .logo-grid img {
-    width: 32px;
-  }
-}
-/* Hilangkan pengaruh container agar logo menyatu dengan footer */
-.footer-logo, .footer-logo .logo-grid {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-/* ===== FOOTER DESKTOP ===== */
-.footer-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #f9fcff;
-  border-top: 1px solid #d0d8e8;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 1000;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-}
-
-.footer-left, .footer-right {
-  flex: 0 0 250px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.footer-logo {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-logo .logo-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-logo .logo-grid img {
-  width: 38px;
-  height: auto;
-  border: none;
-  background: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.footer-logo .logo-grid img:hover {
-  transform: scale(1.2) translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-}
-
-/* ===== FOOTER MOBILE KHUSUS ===== */
-@media (max-width: 768px) {
-
-  /* Footer jadi hanya logo saja */
-  .footer-wrapper {
-    position: static !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 8px 0 !important;
-    height: auto !important;
-    box-shadow: none !important;
-    border-top: 1px solid #ccc;
-  }
-
-  /* Sembunyikan teks kiri dan kanan di mobile */
-  .footer-left,
-  .footer-right {
-    display: none !important;
-  }
-
-  /* Logo di tengah */
-  .footer-logo .logo-grid img {
-    width: 45px !important;
-  }
-
-  /* Pastikan tidak menutupi konten */
-  html, body {
-    overflow-y: auto !important;
-    height: auto !important;
-  }
-
-  /* Layout profil vertikal */
-  .profil-container {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 20px !important;
-  }
-
-  .profil-info, .foto-utama-wrapper {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  .profil-info img {
-    margin: 0 auto 10px auto !important;
-  }
-}
-
-</style>
-
-
-<!-- CHATGPT FIX v2: Ensure scrolling works and content isn't hidden behind footer -->
-<style>
-/* Global: allow page vertical scroll as fallback and smooth scrolling */
-html, body {
-  height: 100% !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-}
-
-/* Keep header fixed at top */
-header {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 9999 !important;
-}
-
-/* Reserve footer height variable (match .footer-wrapper height) */
-:root {
-  --footer-height: 60px;
-  --header-height: 55px;
-  --sidebar-left-width: 260px;
-  --sidebar-right-width: 250px;
-}
-
-/* Desktop: fix sidebars and content between header and footer, allow inner scrolling */
-@media (min-width: 769px) {
-  .sidebar-left {
-    position: fixed !important;
-    top: var(--header-height) !important;
-    bottom: var(--footer-height) !important;
-    left: 0 !important;
-    width: var(--sidebar-left-width) !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .sidebar-left::-webkit-scrollbar { display: none; }
-
-  .sidebar-right {
-    position: fixed !important;
-    top: var(--header-height) !important;
-    bottom: var(--footer-height) !important;
-    right: 0 !important;
-    width: var(--sidebar-right-width) !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .sidebar-right::-webkit-scrollbar { display: none; }
-
-  .content {
-    position: fixed !important;
-    top: var(--header-height) !important;
-    left: calc(var(--sidebar-left-width) + 10px) !important;
-    right: calc(var(--sidebar-right-width) + 10px) !important;
-    bottom: var(--footer-height) !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: calc(var(--footer-height) + 20px) !important; /* ensure last content not hidden */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    box-sizing: border-box !important;
-  }
-  .content::-webkit-scrollbar { display: none; }
-}
-
-/* Mobile: normal flow; keep footer fixed but give content extra bottom padding so footer doesn't cover it */
-@media (max-width: 768px) {
-  .sidebar-left, .sidebar-right {
-    position: static !important;
-    width: 100% !important;
-    overflow: visible !important;
-  }
-  .content {
-    position: relative !important;
-    padding-bottom: calc(var(--footer-height) + 20px) !important;
-    overflow: visible !important;
-  }
-  html, body {
-    overflow-y: auto !important;
-  }
-}
-
-/* Footer/logo merge adjustments */
-.footer-wrapper, .footer-logo, .footer-logo .logo-grid {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-}
-.footer-logo .logo-grid img {
-  background: none !important;
-  border: none !important;
-  height: auto !important;
-  max-height: 38px !important;
-  margin: 0 6px !important;
-}
-
-/* Final safety: hide scrollbars in main panels */
-.sidebar-left, .content, .sidebar-right { scrollbar-width: none; -ms-overflow-style: none; }
-.sidebar-left::-webkit-scrollbar, .content::-webkit-scrollbar, .sidebar-right::-webkit-scrollbar { display: none; }
-/* === PERBAIKAN TAMPILAN MOBILE === */
-@media (max-width: 768px) {
-
-  /* Kembalikan layout satu kolom di mobile */
-  .profil-container {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    padding: 10px !important;
-  }
-
-  .profil-info, .foto-utama-wrapper {
-    flex: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .profil-info img {
-    margin: 0 auto 10px auto !important;
-  }
-
-  /* Kembalikan footer agar tidak menimpa konten */
-  .footer-wrapper {
-    position: relative !important;
-    height: auto !important;
-    box-shadow: none !important;
-  }
-
-  /* Aktifkan scroll halaman penuh */
-  html, body {
-    overflow-y: auto !important;
-    height: auto !important;
-  }
-
-  /* Pastikan sidebar dan konten tidak fixed di mobile */
-  .sidebar-left, .sidebar-right, .content {
-    position: relative !important;
-    overflow: visible !important;
-    height: auto !important;
-  }
-}
-
-
-/* ===== FOOTER DESKTOP ===== */
-.footer-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #f9fcff;
-  border-top: 1px solid #d0d8e8;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 1000;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-}
-
-.footer-left, .footer-right {
-  flex: 0 0 250px;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.footer-logo {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer-logo .logo-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-logo .logo-grid img {
-  width: 38px;
-  height: auto;
-  border: none;
-  background: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.footer-logo .logo-grid img:hover {
-  transform: scale(1.2) translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-}
-
-/* ===== FOOTER MOBILE KHUSUS ===== */
-@media (max-width: 768px) {
-
-  /* Footer jadi hanya logo saja */
-  .footer-wrapper {
-    position: static !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 8px 0 !important;
-    height: auto !important;
-    box-shadow: none !important;
-    border-top: 1px solid #ccc;
-  }
-
-  /* Sembunyikan teks kiri dan kanan di mobile */
-  .footer-left,
-  .footer-right {
-    display: none !important;
-  }
-
-  /* Logo di tengah */
-  .footer-logo .logo-grid img {
-    width: 45px !important;
-  }
-
-  /* Pastikan tidak menutupi konten */
-  html, body {
-    overflow-y: auto !important;
-    height: auto !important;
-  }
-
-  /* Layout profil vertikal */
-  .profil-container {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 20px !important;
-  }
-
-  .profil-info, .foto-utama-wrapper {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  .profil-info img {
-    margin: 0 auto 10px auto !important;
-  }
-}
-/* ===== KHUSUS MOBILE (≤768px) ===== */
-@media (max-width: 768px) {
-
-  /* Header instansi tetap di atas */
-  header, .header-container {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    background: #fff;
-  }
-
-  /* Menu horizontal menempel ke header */
-  .menu-container {
-    position: fixed !important;
-    top: 60px; /* menempel di bawah header, sesuaikan tinggi header */
-    left: 0;
-    right: 0;
-    z-index: 9998;
-    background: #f9fcff;
-    border-bottom: 1px solid #ddd;
-  }
-
-  /* Area konten utama — hanya ini yang bisa di-scroll */
-  .content {
-    position: absolute !important;
-    top: 110px; /* menyesuaikan tinggi header + menu */
-    bottom: 60px; /* menyesuaikan tinggi footer */
-    left: 0;
-    right: 0;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    height: auto !important;
-  }
-
-  /* Footer logo menempel ke bawah */
-  .footer-wrapper {
-    position: fixed !important;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #f9fcff;
-    border-top: 1px solid #ccc;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    height: 60px !important;
-    z-index: 9999;
-  }
-
-  /* Hanya tampilkan logo di footer */
-  .footer-left, .footer-right {
-    display: none !important;
-  }
-
-  /* Rapatkan logo ke garis konten */
-  .footer-logo .logo-grid img {
-    width: 45px !important;
-    margin: 0 6px;
-  }
-
-  /* Pastikan hanya konten yang scroll */
-  html, body {
-    overflow: hidden !important;
-    height: 100% !important;
-  }
-}
 
 </style>
 </head>
@@ -1738,14 +1153,8 @@ header {
     Sidebar Kanan
   </aside>
 </div>
-
-<!-- Footer -->
-<footer class="footer-wrapper">
-<div class="footer-left">
-<p>© 2025 MPS</p>
-</div>
-<div class="footer-logo">
 <div class="logo-grid">
+<!-- Sisipkan hingga 10 logo kecil di sini -->
 <img alt="Logo 1" src="12-removebg-preview.png"/>
 <img alt="Logo 2" src="16-removebg-preview.png"/>
 <img alt="Logo 3" src="6-removebg-preview (1).png"/>
@@ -1755,17 +1164,12 @@ header {
 <img alt="Logo 7" src="1_Citeureup.png"/>
 <img alt="Logo 8" src="SMP_32.png"/>
 </div>
-</div>
-<div class="footer-right">
-<p>Supported by MPS Developer</p>
-</div>
-</footer>
+
 <script>
 const logoProfiles = {
   "12-removebg-preview.png": {
     nama: "BREGADA WIRABRAJA",
     deskripsi: "Tim SMPN 12 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN12Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rizal.jpg" },
       { nama: "Pasukan B", foto: "nanda.jpg" },
@@ -1775,7 +1179,6 @@ const logoProfiles = {
   "16-removebg-preview.png": {
     nama: "GANENDRA PRAWIRA",
     deskripsi: "Tim SMPN 16 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN16Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "dewi.jpg" },
       { nama: "Pasukan B", foto: "tio.jpg" }
@@ -1784,7 +1187,6 @@ const logoProfiles = {
   "6-removebg-preview (1).png": {
     nama: "SATRIA WIRASATYA",
     deskripsi: "Tim SMPN 6 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN6Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rafi.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
@@ -1792,9 +1194,8 @@ const logoProfiles = {
     ]
   },
   "8-removebg-preview.png": {
-    nama: "PASUKAN GARDA PATI",
+    nama: "GARDA PATI",
     deskripsi: "Tim SMPN 8 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN8Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rizal.jpg" },
       { nama: "Pasukan B", foto: "nanda.jpg" },
@@ -1802,9 +1203,8 @@ const logoProfiles = {
     ]
   },
   "31-removebg-preview.png": {
-    nama: "PANDEGA SASMAKA",
+    nama: "GANENDRA PRAWIRA",
     deskripsi: "Tim SMPN 31 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN31Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "dewi.jpg" },
       { nama: "Pasukan B", foto: "tio.jpg" }
@@ -1813,7 +1213,6 @@ const logoProfiles = {
   "7.png": {
     nama: "MAHAWIRA",
     deskripsi: "Tim SMPN 7 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/MAHAWIRA.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rafi.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
@@ -1821,27 +1220,27 @@ const logoProfiles = {
     ]
   },
   "1_Citeureup.png": {
-    nama: "TRI YUDHA SAKTI",
+    nama: "MAHAWIRA",
     deskripsi: "Tim SMPN 1 Citeureup",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN1Citeureup.jpg",
-    anggota: [
-      { nama: "Pasukan A", foto: "ripuh.jpg" },
-      { nama: "Pasukan B", foto: "lina.jpg" },
-      { nama: "Pasukan C", foto: "andri.jpg" }
-    ]
-  },
-  "SMP_32.png": {
-    nama: "ARSHAKA WIRATAMA",
-    deskripsi: "Tim SMPN 32 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN32Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rafi.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
       { nama: "Pasukan C", foto: "andri.jpg" }
     ]
-  }
+  },
+  "SMP_32.png": {
+    nama: "ASTAMA",
+    deskripsi: "Tim SMPN 32 Depok",
+    anggota: [
+      { nama: "Pasukan A", foto: "rafi.jpg" },
+      { nama: "Pasukan B", foto: "lina.jpg" },
+      { nama: "Pasukan C", foto: "andri.jpg" }
+    ]
+  },
+  // Tambahkan logo lainnya sesuai kebutuhan
 };
-
+</script>
+<script>
 document.addEventListener("DOMContentLoaded", function() {
   const content = document.getElementById("content");
   const logos = document.querySelectorAll(".logo-grid img");
@@ -1859,66 +1258,22 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
 
-      // ✅ Dua kolom seimbang & simetris (kiri = logo+info, kanan = foto utama)
-      content.innerHTML = `
-        <div class="profil-container" style="
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-          padding: 20px;
-          text-align: center;
-          animation: fadeIn 0.6s ease;
-        ">
-          
-          <!-- Kolom kiri -->
-          <div class="profil-info" style="
-            flex: 1 1 350px;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-          ">
-            <img src="${logo.src}" alt="${profil.nama}" style="
-              width: 110px;
-              height: 110px;
-              object-fit: contain;
-              margin-bottom: 15px;
-            ">
-            <h2 style="
-              font-size: 1.8rem;
-              margin: 5px 0;
-            ">${profil.nama}</h2>
-            <p style="
-              font-size: 1rem;
-              color: #444;
-              line-height: 1.4;
-              margin: 0 auto;
-              max-width: 90%;
-            ">${profil.deskripsi}</p>
-          </div>
+      let anggotaHTML = profil.anggota.map(a => `
+        <div class="anggota-card">
+          <img src="${a.foto}" alt="${a.nama}">
+          <p>${a.nama}</p>
+        </div>
+      `).join("");
 
-          <!-- Kolom kanan -->
-          <div class="foto-utama-wrapper" style="
-            flex: 2 1 700px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          ">
-            <img src="${profil.fotoUtama}" alt="${profil.nama}" style="
-              width: 100%;
-              max-width: 850px;
-              height: auto;
-              border-radius: 12px;
-              object-fit: cover;
-              box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-              transition: transform 0.3s ease;
-            "
-            onmouseover="this.style.transform='scale(1.02)'"
-            onmouseout="this.style.transform='scale(1)'">
+      content.innerHTML = `
+        <div class="profil-container">
+          <div class="profil-logo">
+            <img src="${logo.src}" alt="${profil.nama}">
+          </div>
+          <div class="profil-detail">
+            <h2>${profil.nama}</h2>
+            <p>${profil.deskripsi}</p>
+            <div class="anggota-grid">${anggotaHTML}</div>
           </div>
         </div>
       `;
@@ -1926,7 +1281,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-
 <script>
 const jurlamChildren = [
   {
@@ -3543,6 +2897,7 @@ if(!isMobile()){
 }
 
 </script>
+
 <script>
 // Toggle active emboss effect persistently
 document.addEventListener("DOMContentLoaded", function() {
@@ -3863,5 +3218,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
 </body>
 </html>

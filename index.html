@@ -1133,8 +1133,37 @@ header .visitor-counter {
     justify-content: center;
   }
 }
+/* ===== RAPIHKAN FOTO PROFIL DI MOBILE ===== */
+@media (max-width: 768px) {
+  .profil-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
 
+  .profil-info {
+    margin-bottom: 0 !important;
+  }
 
+  .profil-detail p {
+    margin-bottom: 6px !important; /* rapatkan deskripsi dengan foto */
+  }
+
+  .foto-utama-wrapper {
+    margin-top: 0 !important; /* hilangkan jarak di atas foto */
+    margin-bottom: 15px !important; /* beri sedikit ruang bawah */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .foto-utama-wrapper img {
+    width: 95% !important;
+    height: auto !important;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+}
 </style>
 </head>
 <body>
@@ -3267,6 +3296,5 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-
 </body>
 </html>

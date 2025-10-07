@@ -1441,30 +1441,34 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
 
-      // ✅ Tata letak dua kolom: kiri = logo, nama, deskripsi | kanan = foto besar
+      // ✅ Dua kolom seimbang & simetris (kiri = logo+info, kanan = foto utama)
       content.innerHTML = `
         <div class="profil-container" style="
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
-          align-items: flex-start;
-          gap: 30px;
+          align-items: center;
+          gap: 40px;
           padding: 20px;
+          text-align: center;
           animation: fadeIn 0.6s ease;
         ">
           
           <!-- Kolom kiri -->
           <div class="profil-info" style="
-            flex: 1 1 300px;
-            max-width: 350px;
-            text-align: left;
+            flex: 1 1 350px;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
           ">
             <img src="${logo.src}" alt="${profil.nama}" style="
-              width: 100px;
-              height: 100px;
+              width: 110px;
+              height: 110px;
               object-fit: contain;
-              display: block;
-              margin-bottom: 10px;
+              margin-bottom: 15px;
             ">
             <h2 style="
               font-size: 1.8rem;
@@ -1474,23 +1478,25 @@ document.addEventListener("DOMContentLoaded", function() {
               font-size: 1rem;
               color: #444;
               line-height: 1.4;
+              margin: 0 auto;
+              max-width: 90%;
             ">${profil.deskripsi}</p>
           </div>
 
-          <!-- Kolom kanan (foto utama besar) -->
+          <!-- Kolom kanan -->
           <div class="foto-utama-wrapper" style="
-            flex: 2 1 600px;
+            flex: 2 1 700px;
             display: flex;
             justify-content: center;
             align-items: center;
           ">
             <img src="${profil.fotoUtama}" alt="${profil.nama}" style="
               width: 100%;
-              max-width: 800px;
+              max-width: 850px;
               height: auto;
-              border-radius: 10px;
+              border-radius: 12px;
               object-fit: cover;
-              box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+              box-shadow: 0 8px 18px rgba(0,0,0,0.35);
               transition: transform 0.3s ease;
             "
             onmouseover="this.style.transform='scale(1.02)'"

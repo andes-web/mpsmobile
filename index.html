@@ -1116,54 +1116,57 @@ header .visitor-counter {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsif agar rapi di HP */
+/* ===== PERBAIKAN POSISI FOTO DI MOBILE ===== */
 @media (max-width: 768px) {
-  .profil-container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
 
-  .profil-logo img {
-    width: 140px;
-    margin-bottom: 10px;
-  }
-
-  .anggota-grid {
-    justify-content: center;
-  }
-}
-/* ===== RAPIHKAN FOTO PROFIL DI MOBILE ===== */
-@media (max-width: 768px) {
+  /* Susun vertikal rapi */
   .profil-container {
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
+    gap: 0 !important;
+    padding-bottom: 70px !important; /* beri ruang aman dari footer */
   }
 
-  .profil-info {
+  /* Info di atas (logo, nama, deskripsi) */
+  .profil-info, .profil-detail {
     margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
   }
 
   .profil-detail p {
-    margin-bottom: 0px !important; /* rapatkan deskripsi dengan foto */
+    margin-bottom: 5px !important; /* rapat antara deskripsi dan foto */
   }
 
+  /* Foto utama langsung di bawah deskripsi */
   .foto-utama-wrapper {
-    margin-top: 0 !important; /* hilangkan jarak di atas foto */
-    margin-bottom: 75px !important; /* beri sedikit ruang bawah */
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
     display: flex !important;
     justify-content: center !important;
-    align-items: top center !important;
+    align-items: flex-start !important;
+    width: 100% !important;
   }
 
   .foto-utama-wrapper img {
     width: 95% !important;
+    max-width: 600px !important;
     height: auto !important;
     border-radius: 10px;
     object-fit: cover;
   }
+
+  /* Pastikan tidak tertutup footer */
+  html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  .footer-wrapper {
+    position: relative !important;
+  }
 }
+
 </style>
 </head>
 <body>

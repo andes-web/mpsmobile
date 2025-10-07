@@ -1164,12 +1164,12 @@ header .visitor-counter {
 <img alt="Logo 7" src="1_Citeureup.png"/>
 <img alt="Logo 8" src="SMP_32.png"/>
 </div>
-
 <script>
 const logoProfiles = {
   "12-removebg-preview.png": {
     nama: "BREGADA WIRABRAJA",
     deskripsi: "Tim SMPN 12 Depok",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN12Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rizal.jpg" },
       { nama: "Pasukan B", foto: "nanda.jpg" },
@@ -1179,6 +1179,7 @@ const logoProfiles = {
   "16-removebg-preview.png": {
     nama: "GANENDRA PRAWIRA",
     deskripsi: "Tim SMPN 16 Depok",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN16Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "dewi.jpg" },
       { nama: "Pasukan B", foto: "tio.jpg" }
@@ -1187,6 +1188,7 @@ const logoProfiles = {
   "6-removebg-preview (1).png": {
     nama: "SATRIA WIRASATYA",
     deskripsi: "Tim SMPN 6 Depok",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN6Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rafi.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
@@ -1194,8 +1196,9 @@ const logoProfiles = {
     ]
   },
   "8-removebg-preview.png": {
-    nama: "GARDA PATI",
+    nama: "PASUKAN GARDA PATI",
     deskripsi: "Tim SMPN 8 Depok",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN8Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rizal.jpg" },
       { nama: "Pasukan B", foto: "nanda.jpg" },
@@ -1203,8 +1206,9 @@ const logoProfiles = {
     ]
   },
   "31-removebg-preview.png": {
-    nama: "GANENDRA PRAWIRA",
+    nama: "PANDEGA SASMAKA",
     deskripsi: "Tim SMPN 31 Depok",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN31Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "dewi.jpg" },
       { nama: "Pasukan B", foto: "tio.jpg" }
@@ -1213,6 +1217,7 @@ const logoProfiles = {
   "7.png": {
     nama: "MAHAWIRA",
     deskripsi: "Tim SMPN 7 Depok",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/MAHAWIRA.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rafi.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
@@ -1220,27 +1225,27 @@ const logoProfiles = {
     ]
   },
   "1_Citeureup.png": {
-    nama: "MAHAWIRA",
+    nama: "TRI YUDHA SAKTI",
     deskripsi: "Tim SMPN 1 Citeureup",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN1Citeureup.jpg",
     anggota: [
-      { nama: "Pasukan A", foto: "rafi.jpg" },
+      { nama: "Pasukan A", foto: "ripuh.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
       { nama: "Pasukan C", foto: "andri.jpg" }
     ]
   },
   "SMP_32.png": {
-    nama: "ASTAMA",
+    nama: "ARSHAKA WIRATAMA",
     deskripsi: "Tim SMPN 32 Depok",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN32Depok.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rafi.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
       { nama: "Pasukan C", foto: "andri.jpg" }
     ]
-  },
-  // Tambahkan logo lainnya sesuai kebutuhan
+  }
 };
-</script>
-<script>
+
 document.addEventListener("DOMContentLoaded", function() {
   const content = document.getElementById("content");
   const logos = document.querySelectorAll(".logo-grid img");
@@ -1258,22 +1263,66 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
 
-      let anggotaHTML = profil.anggota.map(a => `
-        <div class="anggota-card">
-          <img src="${a.foto}" alt="${a.nama}">
-          <p>${a.nama}</p>
-        </div>
-      `).join("");
-
+      // ✅ Dua kolom seimbang & simetris (kiri = logo+info, kanan = foto utama)
       content.innerHTML = `
-        <div class="profil-container">
-          <div class="profil-logo">
-            <img src="${logo.src}" alt="${profil.nama}">
+        <div class="profil-container" style="
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+          padding: 20px;
+          text-align: center;
+          animation: fadeIn 0.6s ease;
+        ">
+          
+          <!-- Kolom kiri -->
+          <div class="profil-info" style="
+            flex: 1 1 350px;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          ">
+            <img src="${logo.src}" alt="${profil.nama}" style="
+              width: 110px;
+              height: 110px;
+              object-fit: contain;
+              margin-bottom: 15px;
+            ">
+            <h2 style="
+              font-size: 1.8rem;
+              margin: 5px 0;
+            ">${profil.nama}</h2>
+            <p style="
+              font-size: 1rem;
+              color: #444;
+              line-height: 1.4;
+              margin: 0 auto;
+              max-width: 90%;
+            ">${profil.deskripsi}</p>
           </div>
-          <div class="profil-detail">
-            <h2>${profil.nama}</h2>
-            <p>${profil.deskripsi}</p>
-            <div class="anggota-grid">${anggotaHTML}</div>
+
+          <!-- Kolom kanan -->
+          <div class="foto-utama-wrapper" style="
+            flex: 2 1 700px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          ">
+            <img src="${profil.fotoUtama}" alt="${profil.nama}" style="
+              width: 100%;
+              max-width: 850px;
+              height: auto;
+              border-radius: 12px;
+              object-fit: cover;
+              box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+              transition: transform 0.3s ease;
+            "
+            onmouseover="this.style.transform='scale(1.02)'"
+            onmouseout="this.style.transform='scale(1)'">
           </div>
         </div>
       `;

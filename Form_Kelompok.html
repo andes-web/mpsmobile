@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Nilai Individu MPS</title>
+<title>Nilai Kelompok MPS</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
   :root{
     --accent:#2563eb; --success:#16a34a;
-    --c1:#fff1f2; --c2:#eef6ff; --c3:#ecfff6; --c4:#fffbea; --c5:#f5f3ff;
+    --c1:#dce4ff; --c2:#ebf7a9; --c3:#fcc6f7; --c4:#fffbea; --c5:#f5f3ff;
     --v1:#be185d; --v2:#1e40af; --v3:#059669; --v4:#b45309; --v5:#6d28d9;
   }
   @media (min-width: 769px) {
@@ -25,14 +25,14 @@
 }
   body{font-family:"Segoe UI",sans-serif;margin:0;padding:20px;
        background:linear-gradient(135deg,#e0f2fe 0%,#fef9c3 100%);}
-  .container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;
+  .container{max-width:900px;margin:0 auto;background:#b3fdf3;border-radius:12px;
              padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
   h2.title-main{font-size:1.5rem;font-weight:950;text-align:center;margin:0;
   text-shadow:2px 2px 3px rgba(0,0,0,0.25);}
   h2.title-sub{font-size:1rem;font-weight:600;text-align:center;margin:2px 0 10px 0;}
 
   .top-container{display:flex;justify-content:space-between;align-items:flex-start;
-    gap:8px;padding:12px;border:1px solid #ccc;border-radius:8px;background:#f9f9f9;margin-bottom:4px;}
+    gap:8px;padding:12px;border:3px solid #000000;border-radius:8px;background:#d9fcd9;margin-bottom:4px;}
   .form-left{flex:1;display:flex;flex-direction:column;gap:5px;margin-top:5px}
   .form-pos{flex:0 0 auto;margin-left:4px;}
   .form-left input,.form-left select,.form-pos select{
@@ -92,22 +92,25 @@
 </head>
 <body>
 <div class="container">
-  <h2 class="title-main">NILAI INDIVIDU</h2>
+  <h2 class="title-main">NILAI KELOMPOK</h2>
   <h2 class="title-sub">PENDIDIKAN DAN LATIHAN</h2>
 
   <div class="top-container">
     <div class="form-left">
-      <input id="nama" type="text" maxlength="20" placeholder="NAMA ANGGOTA">
+      <input id="nama" type="text" maxlength="20" placeholder="NAMA KETUA">
       <select id="anggota">
-        <option value="">-- Pilih Unit --</option>
-        <option value="SMPN 1 Citeureup">SMPN 1 Citeureup</option>
-        <option value="SMPN 6 Depok">SMPN 6 Depok</option>
-        <option value="SMPN 7 Depok">SMPN 7 Depok</option>
-        <option value="SMPN 8 Depok">SMPN 8 Depok</option>
-        <option value="SMPN 12 Depok">SMPN 12 Depok</option>
-        <option value="SMPN 16 Depok">SMPN 16 Depok</option>
-        <option value="SMPN 31 Depok">SMPN 31 Depok</option>
-        <option value="SMPN 32 Depok">SMPN 32 Depok</option>
+        <option value="">-- Pilih Kelompok --</option>
+        <option value="Kelompok 1">Kelompok 1</option>
+        <option value="Kelompok 2">Kelompok 2</option>
+        <option value="Kelompok 3">Kelompok 3</option>
+        <option value="Kelompok 4">Kelompok 4</option>
+        <option value="Kelompok 5">Kelompok 5</option>
+        <option value="Kelompok 6">Kelompok 6</option>
+        <option value="Kelompok 7">Kelompok 7</option>
+        <option value="Kelompok 8">Kelompok 8</option>
+        <option value="Kelompok 9">Kelompok 9</option>
+        <option value="Kelompok 10">Kelompok 10</option>
+
       </select>
     </div>
     <div class="form-pos">
@@ -136,21 +139,21 @@
 const scriptURL="https://script.google.com/macros/s/AKfycby0rKtfwleVJes0fUNuwziSaqOXKxjRBh8_R-FnVuGYM5TqWH2NDiAPQj9LWyYA4IZs/exec";
 
 /* ==== Data Rubrik ==== */
-const rubrik={1:[{aspek:"Kedisiplinan",indikator:`1: Tidak mengikuti aba-aba<br>2: Mengikuti sebagian aba-aba<br>3: Mengikuti semua aba-aba tapi beluma<br>4: Serentak, rapi, konsisten<br>5: Serempak, rapi, inisiatif memberi contoh kepada teman`},
-{aspek:"Kekompakan",indikator:`1: Bergerak sendiri-sendiri<br>2: Ada sebagian mengikuti<br>3: Mayoritas mengikuti dengan kompak<br>4: Kompak penuh<br>5: Kompak penuh, mengatur ritme sendiri`},
-{aspek:"Pemahaman Aba-aba",indikator:`1: Tidak memahami aba-aba<br>2: Memahami 1 aba-aba<br>3: Memahami beberapa aba-aba<br>4: Memahami seluruh aba-aba dengan tepat<br>5: Memahami dan mengimprovisasi dengan tepat`}],
-2:[{aspek:"Pemahaman Materi Kebangsaan",indikator:`1: Tidak mengenali simbol/nama<br>2: Mengenali satu simbol/nama<br>3: Mengenali beberapa simbol/nama<br>4: Mengenal semua simbol/nama dan menjelaskan<br>5: Menjelaskan simbol/nama plus makna mendalam`},
-{aspek:"Kerja Sama Tim",indikator:`1: Tidak bekerja sama<br>2: Hanya 1–2 orang bekerja<br>3: Bekerja bersama tapi belum efektif<br>4: Bekerja bersama efektif<br>5: Bekerja bersama efektif + mengkoordinasi anggota lain`},
-{aspek:"Strategi Penyusunan Puzzle",indikator:`1: Acak tanpa strategi<br>2: Strategi sederhana<br>3: Strategi lebih dari satu tetapi tidak terkoordinasi<br>4: Strategi sistematis dan kooperatif<br>5: Strategi inovatif, efektif, dan kreatif`}],
-3:[{aspek:"Keterampilan Dasar P3K",indikator:`1: Tidak tahu langkah P3K<br>2: Mengetahui satu langkah<br>3: Melaksanakan beberapa langkah<br>4: Melaksanakan seluruh langkah dengan benar<br>5: Melaksanakan seluruh langkah dengan tepat & improvisasi aman`},
-{aspek:"Kepedulian pada Korban",indikator:`1: Acuh tak acuh<br>2: Menyapa korban tanpa tindakan<br>3: Memberi tindakan dasar<br>4: Memberi tindakan sesuai SOP<br>5: Memberi tindakan sesuai SOP & menenangkan korban`},
-{aspek:"Koordinasi Tim Penyelamatan",indikator:`1: Tidak ada koordinasi<br>2: Koordinasi terbatas<br>3: Koordinasi sebagian anggota<br>4: Koordinasi penuh & jelas<br>5: Koordinasi penuh + pembagian tugas kreatif`}],
-4:[{aspek:"Pemahaman Nilai Juang",indikator:`1: Tidak memahami<br>2: Menyebut satu nilai<br>3: Menyebut beberapa nilai<br>4: Menyebut dan mengaitkan nilai dengan pengalaman<br>5: Menyebut, mengaitkan, dan mengekspresikan nilai secara kreatif (tulisan, komitmen)`},
-{aspek:"Kemampuan Refleksi Diri",indikator:`1: Tidak dapat merefleksi<br>2: Refleksi sederhana<br>3: Refleksi beberapa aspek terpisah<br>4: Refleksi komprehensif<br>5: Refleksi komprehensif & membuat rencana aksi`},
-{aspek:"Ekspresi Komitmen",indikator:`1: Tidak membuat komitmen<br>2: Komitmen sederhana<br>3: Komitmen lebih dari satu aspek<br>4: Komitmen konkret & realistis<br>5: Komitmen konkret & inovatif (inisiatif pribadi/kelompok)`}],
-5:[{aspek:"Perumusan Strategi",indikator:`1: Tidak ada strategi<br>2: Strategi tunggal sederhana<br>3: Strategi lebih dari satu tetapi tidak sinergis<br>4: Strategi sistematis & realistis<br>5: Strategi sistematis, kreatif, adaptif`},
-{aspek:"Kerja Sama dalam Implementasi",indikator:`1: Tidak bekerja sama<br>2: Hanya 1–2 orang bekerja<br>3: Bekerja sama belum efektif<br>4: Bekerja sama efektif<br>5: Bekerja sama efektif & mengkoordinasi sendiri + mengkoordinasi anggota lain`},
-{aspek:"Hasil & Dampak Strategi",indikator:`1: Tidak tercapai<br>2: Sebagian kecil tercapai<br>3: Mayoritas<br>4: Tercapai sesuai target<br>5: Tercapai melebihi target dengan inovasi baru`}],
+const rubrik={1:[{aspek:"Kekompakan Formasi",indikator:`1: Tidak terbentuk formasi yang jelas<br>2: Formasi terbentuk sebagian namun tidak rapi<br>3: Formasi terbentuk rapi tapi masih belum seragam<br>4: Formasi seragam, rapi, dan konsisten<br>5: Formasi sangat seragam, rapi, dengan koordinasi yang cepat dan tepat.`},
+{aspek:"Kerja Sama & Koordinasi",indikator:`1: Tidak ada kerja sama, tiap anggota bergerak sendiri<br>2: Ada sebagian bekerja sama namun tidak konsisten<br>3: Mayoritas bekerja sama, meskipun masih ada kesalahan koordinasi.<br>4: Seluruh anggota bekerja sama, koordinasi cukup baik<br>5: Seluruh anggota bekerja sama kompak, saling menguatkan dan koordinasi sangat baik`},
+{aspek:"Ketekunan & Daya Juang",indikator:`1: Kelompok mudah menyerah, tidak menyelesaikan tantangan<br>2: Kelompok berusaha tapi cepat lelah dan kehilangan fokus<br>3: Kelompok berusaha menyelesaikan meskipun ada kendala<br>4: Kelompok berusaha keras, gigih, dan menyelesaikan tugas<br>5: Kelompok gigih, penuh semangat, saling menyemangati hingga menyelesaikan dengan hasil terbaik`}],
+2:[{aspek:"Kekompakan Diskusi",indikator:`1: Tidak ada diskusi kelompok, semua diam/bergerak sendiri<br>2: Diskusi terjadi tetapi hanya sebagian kecil yang terlibat<br>3: Diskusi melibatkan sebagian besar anggota namun belum terarah<br>4: Diskusi melibatkan semua anggota, cukup terarah dan fokus<br>5: Diskusi melibatkan semua anggota, sangat terarah, fokus, dan saling menghargai pendapat`},
+{aspek:"Kolaborasi Penyusunan Puzzle",indikator:`1: Tidak ada kerja sama, puzzle dikerjakan individu<br>2: Ada sebagian anggota yang membantu tapi tidak kompak<br>3: Sebagian besar anggota terlibat namun masih tumpang tindih<br>4: Semua anggota berperan sesuai bagian masing-masing dengan baik<br>5: Semua anggota berperan optimal, saling melengkapi, dan menyelesaikan puzzle secara harmonis`},
+{aspek:"Strategi Kelompok",indikator:`1: Tidak ada strategi jelas, hanya coba-coba<br>2: Strategi sederhana, belum terkoordinasi.<br>3: Strategi mulai terarah namun masih kurang efektif<br>4: Strategi sistematis, efektif, dan kooperatif<br>5: Strategi kreatif, inovatif, efisien, dan menunjukkan kepemimpinan kelompok yang baik`}],
+3:[{aspek:"Kerja Sama Tim Penyelamatan",indikator:`1: Anggota tidak bekerja sama, saling berjalan sendiri<br>2: Ada sebagian yang bekerja sama tapi tidak terarah<br>3: Mayoritas anggota mulai bekerja sama, meski masih ada tumpang tindih<br>4: Semua anggota bekerja sama secara terarah dan cukup efektif<br>5: Semua anggota bekerja sama sangat solid, saling melengkapi, dan bergerak kompak sesuai peran`},
+{aspek:"Efektivitas Tindakan Penyelamatan",indikator:`1: Tindakan penyelamatan tidak jelas atau tidak terkoordinasi<br>2: Ada tindakan penyelamatan dasar namun tidak efektif.<br>3: Tindakan penyelamatan dilakukan dengan sebagian langkah benar<br>4: Tindakan penyelamatan dilakukan sesuai prosedur, cukup efektif<br>5: Tindakan penyelamatan dilakukan cepat, tepat, efektif, dan menyeluruh`},
+{aspek:"Komunikasi & Koordinasi Kelompok",indikator:`1: Tidak ada komunikasi antar anggota.<br>2: Komunikasi terjadi tapi membingungkan/tidak jelas<br>3: Komunikasi cukup jelas, namun belum semua anggota mendengar/ikut.<br>4: Komunikasi jelas, koordinasi cukup baik antar anggota.<br>5: Komunikasi sangat jelas, semua anggota terkoordinasi penuh dengan pembagian peran efektif.`}],
+4:[{aspek:"Diskusi Kelompok",indikator:`1: Tidak ada diskusi atau tidak membahas nilai juang<br>2: Diskusi terjadi namun hanya membahas 1 nilai secara dangkal<br>3: Diskusi membahas beberapa nilai, namun masih terpisah-pisah<br>4: Diskusi membahas beberapa nilai dengan saling mengaitkan pengalaman kelompok<br>5: Diskusi membahas nilai juang secara mendalam, menyeluruh, dan terhubung dengan kehidupan nyata kelompok`},
+{aspek:"Refleksi Bersama",indikator:`1: Tidak ada refleksi bersama<br>2: Refleksi dilakukan oleh sedikit anggota saja<br>3: Refleksi dilakukan sebagian besar anggota, tapi belum terarah<br>4: Refleksi dilakukan semua anggota dengan alur cukup jelas<br>5: Refleksi dilakukan seluruh anggota dengan sistematis, mendalam, dan menghasilkan kesimpulan kolektif.`},
+{aspek:"Kreativitas Ekspresi",indikator:`1: Tidak ada ekspresi<br>2: Ekspresi sangat sederhana (misalnya hanya lisan tanpa penjelasan)<br>3: Ekspresi cukup jelas tetapi terbatas (misalnya poster/tulisan singkat)<br>4: Ekspresi kreatif melalui media (tulisan, yel-yel, simbol) dengan makna jelas.<br>5: Ekspresi sangat kreatif & inspiratif melalui berbagai media (lagu, drama, poster, aksi nyata) yang mewakili nilai juang kelompok`}],
+5:[{aspek:"Kolaborasi Perumusan Strategi",indikator:`1: Tidak ada perumusan strategi kelompok<br>2: Hanya sebagian kecil anggota terlibat dalam merumuskan strategi<br>3: Mayoritas anggota terlibat, namun strategi masih belum terarah<br>4: Semua anggota terlibat, strategi cukup sistematis & realistis<br>5: Semua anggota aktif terlibat, strategi inovatif, kreatif, dan adaptif.`},
+{aspek:"Efektivitas Implementasi Strategi",indikator:`1: Strategi tidak dapat diterapkan.<br>2: Strategi diterapkan tetapi hasilnya tidak efektif.<br>3: Strategi diterapkan dengan hasil sebagian sesuai target<br>4: Strategi diterapkan dengan hasil efektif, sesuai target<br>5: Strategi diterapkan sangat efektif, mencapai target dengan efisiensi tinggi`},
+{aspek:"Inovasi & Dampak Tim",indikator:`1: Tidak ada inovasi atau dampak terlihat.<br>2: Dampak sangat terbatas, inovasi minim<br>3: Dampak cukup terlihat, ada sedikit inovasi<br>4: Dampak signifikan dengan inovasi sederhana<br>5: Dampak besar, inovasi tinggi, mampu memberi inspirasi/ide baru bagi kelompok lain.`}],
 };
 const cardColors=['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)'];
 const valueColors=['var(--v1)','var(--v2)','var(--v3)','var(--v4)','var(--v5)'];
@@ -293,13 +296,13 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
   const ws=XLSX.utils.aoa_to_sheet(rows);
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,"Nilai");
-  XLSX.writeFile(wb,"Nilai_Bintal.xlsx");
+  XLSX.writeFile(wb,"Nilai_Kelompok.xlsx");
 });
 
 </script>
 <script>
 document.getElementById("homeBtn").addEventListener("click", ()=>{
-  const url = "window.top.location.href='https://andes-web.github.io/mpsmobile/'";
+  const url = "window.top.location.href='https://andes-web.github.io/mpsmobile/";
 
   if(window.innerWidth <= 768){
     // 🔹 MOBILE → buka tab baru + coba tutup tab lama

@@ -195,63 +195,55 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   const pos = posSelect.value;
 
   if (!nama) {
-    Swal.fire({icon:'warning',title:'Perhatian',text:'Nama wajib diisi',confirmButtonColor:'#facc15'});
+    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Nama wajib diisi', confirmButtonColor: '#facc15' });
     return;
   }
   if (!unit) {
-    Swal.fire({icon:'warning',title:'Perhatian',text:'Unit wajib dipilih',confirmButtonColor:'#facc15'});
+    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Unit/Kelompok wajib dipilih', confirmButtonColor: '#facc15' });
     return;
   }
 
   const aspekRubrik = rubrik[pos] || [];
-  const arr = aspekRubrik.map((a,idx)=>({aspek:a.aspek, nilai:nilaiData[pos][idx]}));
+  const nilaiArr = aspekRubrik.map((a, idx) => ({
+    aspek: a.aspek,
+    nilai: nilaiData[pos]?.[idx] || ""
+  }));
 
+  // 🔹 Pastikan kirim data JSON bersih (bukan objek bersarang)
   const payload = {
-    form: "individu",
-    nama: nama,
-    unit: unit,
-    nilai: arr
+    form: document.title.includes("Kelompok") ? "kelompok" : "individu",
+    nama,
+    unit,
+    nilai: nilaiArr
   };
 
   fetch(scriptURL, {
-  method: "POST",
-  body: new URLSearchParams({
-    data: JSON.stringify({
-      form: "individu",
-      nama,
-      unit: anggota,
-      nilai: arr
-    })
+    method: "POST",
+    body: new URLSearchParams({ data: JSON.stringify(payload) })
   })
-})
-  .then(async r => {
-    const res = await r.text();
-    console.log("Server response:", res);
-    Swal.fire({
-      icon: 'success',
-      title: 'Berhasil!',
-      text: 'Data tersimpan di sheet Rekap.',
-      confirmButtonColor: '#16a34a',
-      timer: 2000,
-      showConfirmButton: false
-    });
-    document.getElementById("nama").value="";
-    document.getElementById("anggota").selectedIndex=0;
-    posSelect.value="1";
-    nilaiData={};
-    renderRubrik(1);
-  })
-  .catch(err => {
-    console.error("Fetch error:", err);
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Gagal menyimpan data!',
-      confirmButtonColor: '#dc2626'
-    });
-  });
-});
+    .then(async r => {
+      const res = await r.text();
+      console.log("Server response:", res);
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Data tersimpan ke Google Sheet',
+        confirmButtonColor: '#16a34a',
+        timer: 2000,
+        showConfirmButton: false
+      });
 
+      document.getElementById("nama").value = "";
+      document.getElementById("anggota").selectedIndex = 0;
+      posSelect.value = "1";
+      nilaiData = {};
+      renderRubrik(1);
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+      Swal.fire({ icon: 'error', title: 'Oops...', text: 'Gagal menyimpan data!', confirmButtonColor: '#dc2626' });
+    });
+});
 /* ==== Reset ==== */
 document.getElementById("resetBtn").addEventListener("click",()=>{
   nilaiData={};renderRubrik(posSelect.value);
@@ -291,6 +283,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 

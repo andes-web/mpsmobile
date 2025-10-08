@@ -192,65 +192,76 @@ function setNilai(pos,idx,n,btn,idxForColor){
 renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.value));
 
 /* ==== Submit ==== */
-document.getElementById("submitBtn").addEventListener("click", async () => {
+document.getElementById("submitBtn").addEventListener("click", () => {
   const nama = document.getElementById("nama").value.trim();
-  const anggota = document.getElementById("anggota").value.trim();
+  const unit = document.getElementById("anggota").value.trim();
   const pos = posSelect.value;
 
   if (!nama) {
-    Swal.fire({ icon: "warning", title: "Perhatian", text: "Nama kelompok wajib diisi", confirmButtonColor: "#facc15" });
+    Swal.fire({
+      icon: "warning",
+      title: "Perhatian",
+      text: "Nama ketua wajib diisi",
+      confirmButtonColor: "#facc15",
+    });
     return;
   }
-  if (!anggota) {
-    Swal.fire({ icon: "warning", title: "Perhatian", text: "Unit wajib dipilih", confirmButtonColor: "#facc15" });
+
+  if (!unit) {
+    Swal.fire({
+      icon: "warning",
+      title: "Perhatian",
+      text: "Kelompok wajib dipilih",
+      confirmButtonColor: "#facc15",
+    });
     return;
   }
 
   const aspekRubrik = rubrik[pos] || [];
-  const adaKosong = aspekRubrik.some((a, idx) => !nilaiData[pos] || nilaiData[pos][idx] === undefined);
-  if (adaKosong) {
-    Swal.fire({ icon: "warning", title: "Perhatian", text: "Semua skor rubrik wajib diisi", confirmButtonColor: "#facc15" });
-    return;
-  }
+  const arr = aspekRubrik.map((a, idx) => ({
+    aspek: a.aspek,
+    nilai: nilaiData[pos][idx],
+  }));
 
-  const arr = aspekRubrik.map((a, idx) => ({ aspek: a.aspek, nilai: nilaiData[pos][idx] }));
-
-  // buat payload untuk Apps Script
   const payload = {
-    form: "kelompok", // penting! agar server tahu ini form kelompok
+    form: "kelompok",
     nama: nama,
-    unit: anggota,
-    pos: pos,
-    nilai: arr
+    unit: unit,
+    nilai: arr,
   };
 
-  try {
-    const res = await fetch(scriptURL, {
-      method: "POST",
-      body: new URLSearchParams({ data: JSON.stringify(payload) })
+  fetch(scriptURL, {
+    method: "POST",
+    body: new URLSearchParams({
+      data: JSON.stringify(payload),
+    }),
+  })
+    .then(async (r) => {
+      const res = await r.text();
+      console.log("Server response:", res);
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "Data kelompok tersimpan di sheet RekapKelompok.",
+        confirmButtonColor: "#16a34a",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      document.getElementById("nama").value = "";
+      document.getElementById("anggota").selectedIndex = 0;
+      posSelect.value = "1";
+      nilaiData = {};
+      renderRubrik(1);
+    })
+    .catch((err) => {
+      console.error("Fetch error:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Gagal menyimpan data!",
+        confirmButtonColor: "#dc2626",
+      });
     });
-    const text = await res.text();
-    console.log("Server:", text);
-
-    Swal.fire({
-      icon: "success",
-      title: "Berhasil!",
-      text: "Data tersimpan ke sheet RekapKelompok.",
-      confirmButtonColor: "#16a34a",
-      timer: 1500,
-      showConfirmButton: false
-    });
-
-    // Reset form
-    document.getElementById("nama").value = "";
-    document.getElementById("anggota").selectedIndex = 0;
-    posSelect.value = "1";
-    nilaiData = {};
-    renderRubrik(1);
-  } catch (err) {
-    console.error("Fetch error:", err);
-    Swal.fire({ icon: "error", title: "Oops...", text: "Gagal menyimpan data!", confirmButtonColor: "#dc2626" });
-  }
 });
 
 
@@ -279,21 +290,6 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
   XLSX.writeFile(wb,"Nilai_Kelompok.xlsx");
 });
 
-</script>
-<script>
-document.getElementById("homeBtn").addEventListener("click", ()=>{
-  const url = "window.top.location.href='https://andes-web.github.io/mpsmobile/";
-
-  if(window.innerWidth <= 768){
-    // 🔹 MOBILE → buka tab baru + coba tutup tab lama
-    window.open(url, "_blank");
-    window.open("", "_self");
-    window.close();
-  } else {
-    // 🔹 DESKTOP → cukup buka tab baru (biarkan tab lama terbuka)
-    window.open(url, "_blank");
-  }
-});
 </script>
 <!-- === Tambah hitungan pengunjung (tidak menampilkan angka) === -->
 <script>

@@ -214,7 +214,7 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   // Kirim ke Sheet Data (seperti semula)
   fetch(scriptURL,{
     method:"POST",
-    body:new URLSearchParams({nama,anggota,pos,nilai:JSON.stringify(arr)})
+    body:new URLSearchParams({form: "individu",nama,anggota,pos,nilai:JSON.stringify(arr)})
   })
   .then(async r=>{
      let res=await r.text();

@@ -189,67 +189,59 @@ function setNilai(pos,idx,n,btn,idxForColor){
 renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.value));
 
 /* ==== Submit ==== */
-document.getElementById("submitBtn").addEventListener("click",()=>{
-  const nama=document.getElementById("nama").value.trim();
-  const anggota=document.getElementById("anggota").value.trim();
-  const pos=posSelect.value;
+document.getElementById("submitBtn").addEventListener("click", async () => {
+  const nama = document.getElementById("nama").value.trim();
+  const anggota = document.getElementById("anggota").value.trim();
+  const pos = posSelect.value;
 
-  if(!nama){
-    Swal.fire({icon:'warning',title:'Perhatian',text:'Nama anggota wajib diisi',confirmButtonColor:'#facc15'});
+  if (!nama) {
+    Swal.fire({ icon: "warning", title: "Perhatian", text: "Nama anggota wajib diisi", confirmButtonColor: "#facc15" });
     return;
   }
-  if(!anggota){
-    Swal.fire({icon:'warning',title:'Perhatian',text:'Unit wajib dipilih',confirmButtonColor:'#facc15'});
-    return;
-  }
-  const aspekRubrik=rubrik[pos]||[];
-  let adaKosong=aspekRubrik.some((a,idx)=>!nilaiData[pos]||!nilaiData[pos][idx]);
-  if(adaKosong){
-    Swal.fire({icon:'warning',title:'Perhatian',text:'Semua skor rubrik wajib diisi',confirmButtonColor:'#facc15'});
+  if (!anggota) {
+    Swal.fire({ icon: "warning", title: "Perhatian", text: "Unit wajib dipilih", confirmButtonColor: "#facc15" });
     return;
   }
 
-  const arr=aspekRubrik.map((a,idx)=>({aspek:a.aspek,nilai:nilaiData[pos][idx]}));
+  const aspekRubrik = rubrik[pos] || [];
+  const adaKosong = aspekRubrik.some((a, idx) => !nilaiData[pos] || nilaiData[pos][idx] === undefined);
+  if (adaKosong) {
+    Swal.fire({ icon: "warning", title: "Perhatian", text: "Semua skor rubrik wajib diisi", confirmButtonColor: "#facc15" });
+    return;
+  }
 
-  // Kirim ke Sheet Data (seperti semula)
-  fetch(scriptURL,{
-    method:"POST",
-    body:new URLSearchParams({form: "individu",nama,anggota,pos,nilai:JSON.stringify(arr)})
-  })
-  .then(async r=>{
-     let res=await r.text();
-     console.log("Server response:",res);
+  // Susun array aspek/nilai sesuai input user
+  const arr = aspekRubrik.map((a, idx) => ({ aspek: a.aspek, nilai: nilaiData[pos][idx] }));
 
-     // 🔹 Tambahan: juga kirim ke Sheet Rekap
-     const rekapData = arr.map(a => ({
-       nama, anggota, pos, aspek: a.aspek, nilai: a.nilai
-     }));
+  // data yang dikirim ke server (doPost)
+  const payload = {
+    form: "individu",   // penting: beri tahu server ini form individu
+    nama: nama,
+    unit: anggota,      // gunakan key 'unit'
+    pos: pos,
+    nilai: arr
+  };
 
-     fetch(scriptURL + "?rekap=1", {
-       method: "POST",
-       body: new URLSearchParams({
-         data: JSON.stringify(rekapData)
-       })
-     })
-     .then(() => console.log("✅ Data juga dikirim ke Sheet Rekap"))
-     .catch(err => console.warn("⚠️ Gagal kirim ke Sheet Rekap:", err));
+  try {
+    const res = await fetch(scriptURL, {
+      method: "POST",
+      body: new URLSearchParams({ data: JSON.stringify(payload) })
+    });
+    const text = await res.text();
+    console.log("Server:", text);
 
-     Swal.fire({
-       icon:'success',title:'Berhasil!',text:'Data Tersimpan',
-       confirmButtonColor:'#16a34a',timer:2000,showConfirmButton:false
-     });
+    Swal.fire({ icon: "success", title: "Berhasil!", text: "Data tersimpan ke sheet Rekap.", confirmButtonColor: "#16a34a", timer: 1500, showConfirmButton: false });
 
-     // Reset form
-     document.getElementById("nama").value="";
-     document.getElementById("anggota").selectedIndex=0;
-     posSelect.value="1";
-     nilaiData={};
-     renderRubrik(1);
-  })
-  .catch(err=>{
-     console.error("Fetch error:",err);
-     Swal.fire({icon:'error',title:'Oops...',text:'Gagal menyimpan data!',confirmButtonColor:'#dc2626'});
-  });
+    // reset form
+    document.getElementById("nama").value = "";
+    document.getElementById("anggota").selectedIndex = 0;
+    posSelect.value = "1";
+    nilaiData = {};
+    renderRubrik(1);
+  } catch (err) {
+    console.error("Fetch error:", err);
+    Swal.fire({ icon: "error", title: "Oops...", text: "Gagal menyimpan data!", confirmButtonColor: "#dc2626" });
+  }
 });
 
 /* ==== Reset ==== */

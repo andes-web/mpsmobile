@@ -211,26 +211,44 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
 
   const arr=aspekRubrik.map((a,idx)=>({aspek:a.aspek,nilai:nilaiData[pos][idx]}));
 
-  fetch(scriptURL,{
-    method:"POST",
-    body:new URLSearchParams({nama,anggota,pos,nilai:JSON.stringify(arr)})
+  fetch(scriptURL, {
+    method: "POST",
+    body: new URLSearchParams({
+      nama,
+      unit: anggota,     // tetap gunakan variabel lama (jika ini berarti Unit)
+      tipe: "individu",  // tambahkan tipe agar Apps Script tahu
+      nilai: JSON.stringify(arr)
+    })
   })
-  .then(async r=>{
-     let res=await r.text();
-     console.log("Server response:",res);
-     Swal.fire({icon:'success',title:'Berhasil!',text:'Data Tersimpan',
-       confirmButtonColor:'#16a34a',timer:2000,showConfirmButton:false});
-     document.getElementById("nama").value="";
-     document.getElementById("anggota").selectedIndex=0;
-     posSelect.value="1";
-     nilaiData={};
-     renderRubrik(1);
+  .then(async r => {
+    let res = await r.text();
+    console.log("Server response:", res);
+    Swal.fire({
+      icon: 'success',
+      title: 'Berhasil!',
+      text: 'Data individu tersimpan ke sheet Rekap.',
+      confirmButtonColor: '#16a34a',
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+    // reset form
+    document.getElementById("nama").value = "";
+    document.getElementById("anggota").selectedIndex = 0;
+    posSelect.value = "1";
+    nilaiData = {};
+    renderRubrik(1);
   })
-  .catch(err=>{
-     console.error("Fetch error:",err);
-     Swal.fire({icon:'error',title:'Oops...',text:'Gagal menyimpan data!',confirmButtonColor:'#dc2626'});
+  .catch(err => {
+    console.error("Fetch error:", err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Gagal menyimpan data!',
+      confirmButtonColor: '#dc2626'
+    });
   });
-});
+
 
 /* ==== Reset ==== */
 document.getElementById("resetBtn").addEventListener("click",()=>{
@@ -286,3 +304,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+

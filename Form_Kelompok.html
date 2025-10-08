@@ -214,11 +214,11 @@ document.getElementById("submitBtn").addEventListener("click", () => {
 
   // 🔹 Pastikan kirim data JSON bersih (bukan objek bersarang)
   const payload = {
-    form: document.title.includes("Kelompok") ? "kelompok" : "individu",
-    nama,
-    unit,
-    nilai: nilaiArr
-  };
+  form: "kelompok",          // atau "kelompok" di form_kelompok.html
+  nama: nama,
+  unit: String(anggota).trim(),  // pastikan unit jadi string
+  nilai: aspekRubrik.map((a, idx) => ({ aspek: a.aspek, nilai: Number(nilaiData[pos]?.[idx] || 0) }))
+};
 
   fetch(scriptURL, {
     method: "POST",
@@ -286,6 +286,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 

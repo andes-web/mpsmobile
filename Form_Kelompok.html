@@ -237,7 +237,7 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   // === Kirim ke Google Apps Script ===
   fetch(scriptURL, {
     method: "POST",
-    body: new URLSearchParams({
+    body: new URLSearchParams({form: "individu",
       nama,
       unit: anggota,
       tipe: "kelompok", // pembeda penting untuk diarahkan ke sheet RekapKelompok

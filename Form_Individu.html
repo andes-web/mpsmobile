@@ -214,9 +214,16 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   };
 
   fetch(scriptURL, {
-    method: "POST",
-    body: new URLSearchParams({ data: JSON.stringify(payload) })
+  method: "POST",
+  body: new URLSearchParams({
+    data: JSON.stringify({
+      form: "individu",
+      nama,
+      unit: anggota,
+      nilai: arr
+    })
   })
+})
   .then(async r => {
     const res = await r.text();
     console.log("Server response:", res);
@@ -284,6 +291,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 

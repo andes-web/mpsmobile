@@ -187,11 +187,10 @@ function setNilai(pos,idx,n,btn,idxForColor){
   box.style.color=valueColors[idxForColor%valueColors.length];
 }
 renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.value));
-
 /* ==== Submit ==== */
 document.getElementById("submitBtn").addEventListener("click", () => {
   const nama = document.getElementById("nama").value.trim();
-  const unit = document.getElementById("anggota").value.trim();
+  const unit = document.getElementById("anggota").value.trim(); // ✅ .value WAJIB
   const pos = posSelect.value;
 
   if (!nama) {
@@ -206,16 +205,17 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   const aspekRubrik = rubrik[pos] || [];
   const nilaiArr = aspekRubrik.map((a, idx) => ({
     aspek: a.aspek,
-    nilai: nilaiData[pos]?.[idx] || ""
+    nilai: Number(nilaiData[pos]?.[idx] || 0)
   }));
 
-  // 🔹 Pastikan kirim data JSON bersih (bukan objek bersarang)
   const payload = {
-  form: "individu",          // atau "kelompok" di form_kelompok.html
-  nama: nama,
-  unit: String(anggota).trim(),  // pastikan unit jadi string
-  nilai: aspekRubrik.map((a, idx) => ({ aspek: a.aspek, nilai: Number(nilaiData[pos]?.[idx] || 0) }))
-};
+    form: document.title.includes("Kelompok") ? "kelompok" : "individu",
+    nama,
+    unit, // ✅ sekarang isinya teks, bukan object
+    nilai: nilaiArr
+  };
+
+  console.log("Payload dikirim:", payload);
 
   fetch(scriptURL, {
     method: "POST",
@@ -244,6 +244,7 @@ document.getElementById("submitBtn").addEventListener("click", () => {
       Swal.fire({ icon: 'error', title: 'Oops...', text: 'Gagal menyimpan data!', confirmButtonColor: '#dc2626' });
     });
 });
+
 /* ==== Reset ==== */
 document.getElementById("resetBtn").addEventListener("click",()=>{
   nilaiData={};renderRubrik(posSelect.value);
@@ -283,6 +284,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 

@@ -1778,6 +1778,51 @@ header {
   }
 }
 </style>
+<!-- MENU BAR FIX MOBILE -->
+<style>
+@media (max-width: 768px) {
+  .sidebar-left {
+    position: fixed !important;
+    top: 55px !important; /* tepat di bawah header */
+    left: 0 !important;
+    right: 0 !important;
+    height: 45px !important; /* tinggi menu seperti semula */
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    overflow-x: auto !important;
+    background: linear-gradient(90deg, #ff9800, #ffc107) !important;
+    padding: 0 6px !important;
+    gap: 8px !important;
+    border-bottom: 1px solid #e2e2e2 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+    z-index: 1500 !important;
+  }
+
+  /* tombol menu tidak melebar, proporsional */
+  .accordion {
+    flex: 0 0 auto !important;
+    font-size: 0.85rem !important;
+    padding: 6px 10px !important;
+    white-space: nowrap !important;
+    border-radius: 8px !important;
+    background: #fff7e6 !important;
+    color: #222 !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+
+  .accordion:active {
+    transform: scale(0.97);
+  }
+
+  /* konten utama bergeser sedikit ke bawah agar tidak ketutupan menu */
+  .content {
+    margin-top: 100px !important; /* 55 header + 45 menu */
+  }
+}
+</style>
 
 </head>
 <body>
@@ -3910,46 +3955,38 @@ document.addEventListener("DOMContentLoaded", function() {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
-<!-- === Visitor Counter (tampilkan & tambah hanya di halaman utama) === -->
+<!-- === VISITOR COUNTER SYNC (DESKTOP & MOBILE) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const counterEl = document.getElementById("visitorNumber");
-  const endpoint = "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
+  const endpoint =
+    "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
 
-  // Ambil data total pengunjung saat ini (tanpa menambah)
-  fetch(endpoint + "?read=true")
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.visitors !== undefined) {
-        counterEl.textContent = data.visitors.toLocaleString("id-ID");
-      } else {
-        counterEl.textContent = "–";
-      }
-    })
-    .catch(err => {
-      console.error("Visitor counter error:", err);
-      counterEl.textContent = "?";
-    });
-});
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // ambil dan tambah counter
-  let count = parseInt(localStorage.getItem("visitorCount") || "12345");
-  count++;
-  localStorage.setItem("visitorCount", count);
-
-  // format angka 5 digit
-  const formatted = count.toString().padStart(5, "0");
-
-  // isi ke dua elemen
   const elDesktop = document.getElementById("visitorNumber");
   const elMobile = document.getElementById("visitorNumberMobile");
 
-  if (elDesktop) elDesktop.textContent = formatted;
-  if (elMobile) elMobile.textContent = formatted;
+  // Ambil total pengunjung dari Google Apps Script
+  fetch(endpoint + "?read=true")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data.visitors !== undefined) {
+        const total = data.visitors.toLocaleString("id-ID");
+
+        // tampilkan ke dua elemen jika ada
+        if (elDesktop) elDesktop.textContent = total;
+        if (elMobile) elMobile.textContent = total;
+      } else {
+        if (elDesktop) elDesktop.textContent = "–";
+        if (elMobile) elMobile.textContent = "–";
+      }
+    })
+    .catch((err) => {
+      console.error("Visitor counter error:", err);
+      if (elDesktop) elDesktop.textContent = "?";
+      if (elMobile) elMobile.textContent = "?";
+    });
 });
 </script>
+
 <style>
 /* === TAMPILAN MOBILE: header/footer statis, konten scroll, warna berbeda === */
 @media (max-width: 768px) {
@@ -4056,7 +4093,7 @@ document.addEventListener("DOMContentLoaded", () => {
     top: "0",       // di bawah header
     right: "0",
     bottom: "60px",    // di atas footer
-    width: "270px",
+    width: "278px",
     height: "100vh",
     border: "none",
     zIndex: "99999",   // paling atas dari semua
@@ -4068,7 +4105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(sidebar);
 
   // geser konten utama supaya tidak ketutupan
-  document.body.style.marginRight = "270px";
+  document.body.style.marginRight = "278px";
 });
 </script>
 </body>

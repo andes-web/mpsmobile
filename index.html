@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
@@ -354,6 +353,7 @@ html, body {
 @media (max-width: 768px) {
   .sidebar-left {
     display: flex !important;
+    height: 45px !important; /* tinggi menu seperti semula */
     flex-direction: row !important;
     overflow-x: auto !important;
     gap: 0px;
@@ -1463,6 +1463,14 @@ header {
     padding-bottom: 70px !important;
   }
 }
+@media (max-width: 768px) {
+  #rekapFrame {
+    display: none;
+  }
+  body {
+    margin-right: 0 !important;
+  }
+}
 </style>
 
 
@@ -1541,16 +1549,378 @@ header {
   .profil-container, .profil-info, .foto-utama-wrapper { margin: 0 !important; padding: 0 !important; }
 }
 </style>
-<!-- END ADDED -->
+<!-- VISITOR DIGITAL FOOTER TRANSPARENT STYLE -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* ===== Visitor Counter sejajar logo footer kiri ===== */
+.visitor-counter-digital {
+  position: fixed;
+  left: 0;
+  bottom: 0;                  /* sejajar persis dengan footer logo */
+  width: 260px;               /* sama dengan lebar sidebar kiri */
+  height: 40px;               /* tinggi menyesuaikan footer logo */
+  background: transparent !important;  /* transparan penuh */
+  color: #002679;
+  text-align: center;
+  font-family: 'Orbitron', monospace;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 2px;
+  z-index: 9998;              /* di atas footer tapi di bawah sidebar kanan */
+  pointer-events: none;       /* biar tidak blok klik logo */
+}
+
+.visitor-counter-digital .visitor-label {
+  font-size: 0.7rem;
+  color: #000000;
+  text-shadow: 0 0 4px rgb(243, 201, 252);
+  margin-bottom: 0;
+  line-height: 1;
+}
+
+.visitor-counter-digital .visitor-digits {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #d0ff00;
+  text-shadow: 0 0 8px #000000, 0 0 15px #000000;
+  line-height: 1;
+}
+
+/* Tambahkan ruang di sidebar kiri agar tidak terpotong */
+.sidebar-left {
+  padding-bottom: 45px !important;
+}
+
+/* Responsif (mobile): tampil normal di bawah menu */
+@media (max-width: 768px) {
+  .visitor-counter-digital {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    background: none !important;
+    text-shadow: none !important;
+    color: #00ffcc !important;
+    pointer-events: auto !important;
+    margin-top: 10px !important;
+  }
+}
+</style>
+<!-- VISITOR MOBILE HEADER STYLE -->
+<style>
+/* ===== Visitor di Header (Mobile) ===== */
+.visitor-counter-mobile {
+  display: none; /* default disembunyikan (desktop) */
+}
+
+/* tampilkan hanya di layar kecil */
+@media (max-width: 768px) {
+  .visitor-counter-mobile {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    height: 45px;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 2px;
+  }
+
+  .visitor-counter-mobile .visitor-label {
+    font-size: 0.5rem;
+    color: #000000;
+    text-shadow: 0 0 4px rgb(243, 201, 252);
+    margin-bottom: 2px;
+  }
+
+  .visitor-counter-mobile .visitor-digits {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #d0ff00;
+    text-shadow: 0 0 8px #000000, 0 0 15px #000000;
+  }
+}
+
+/* Sembunyikan visitor footer di mobile */
+@media (max-width: 768px) {
+  .visitor-counter-digital {
+    display: none !important;
+  }
+}
+</style>
+<!-- HEADER & VISITOR FIX MOBILE -->
+<style>
+@media (max-width: 768px) {
+  /* Header tetap dua kolom: kiri logo, tengah instansi, kanan visitor */
+  header {
+    display: flex !important;
+    align-items: left !important;
+    justify-content: space-between !important;
+    height: 55px !important;
+    padding: 0 10px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: linear-gradient(90deg, #1aa08d, #2cc6a6) !important;
+    z-index: 2000 !important;
+  }
+
+  /* Logo instansi di kiri */
+  header img.logo {
+    height: 40px !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Teks instansi di tengah, tidak tertutup visitor */
+  header span.instansi {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 0.9rem !important;
+    color: white !important;
+    margin: 0 auto !important;
+    white-space: normal !important;
+  }
+
+  /* Visitor digital di pojok kanan atas header */
+  .visitor-counter-mobile {
+    position: absolute !important;
+    right: 10px !important;
+    top: 8px !important;
+    text-align: right !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    background: transparent !important;
+  }
+
+  .visitor-counter-mobile .visitor-label {
+    font-size: 0.6rem !important;
+    color: #cfffff !important;
+    text-shadow: 0 0 5px #0ff;
+    margin-bottom: 1px;
+  }
+
+  .visitor-counter-mobile .visitor-digits {
+    font-size: 1rem !important;
+    color: #00ffcc !important;
+    text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
+    line-height: 1 !important;
+  }
+}
+</style>
+<!-- HEADER & VISITOR FIX MOBILE -->
+<style>
+@media (max-width: 768px) {
+  /* Header tetap dua kolom: kiri logo, tengah instansi, kanan visitor */
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 55px !important;
+    padding: 0 10px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: linear-gradient(90deg, #1aa08d, #2cc6a6) !important;
+    z-index: 2000 !important;
+  }
+
+  /* Logo instansi di kiri */
+  header img.logo {
+    height: 40px !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Teks instansi di tengah, tidak tertutup visitor */
+  header span.instansi {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 0.9rem !important;
+    color: white !important;
+    margin: 0 auto !important;
+    white-space: normal !important;
+  }
+
+  /* Visitor digital di pojok kanan atas header */
+  .visitor-counter-mobile {
+    position: absolute !important;
+    right: 10px !important;
+    top: 8px !important;
+    text-align: right !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    background: transparent !important;
+  }
+
+  .visitor-counter-mobile .visitor-label {
+    font-size: 0.6rem !important;
+    color: #cfffff !important;
+    text-shadow: 0 0 5px #0ff;
+    margin-bottom: 1px;
+  }
+
+  .visitor-counter-mobile .visitor-digits {
+    font-size: 1rem !important;
+    color: #00ffcc !important;
+    text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
+    line-height: 1 !important;
+  }
+}
+</style>
+<!-- MENU BAR FIX MOBILE -->
+<style>
+@media (max-width: 768px) {
+
+/* PAKSA 4 TOMBOL PAS 100% LAYAR TANPA SISA */
+.sidebar-left {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important; /* ✅ Bagi 4 kolom rata */
+  width: 100vw !important; /* ✅ Paksa penuh satu layar */
+  max-width: 100vw !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: linear-gradient(90deg, #ffda96, #f8d588) !important;
+  overflow: hidden !important;
+}
+
+/* ====== TOMBOL GAYA SOFT GLASS MINT ====== */
+.accordion {
+  background: rgba(214, 255, 240, 0.85) !important; /* efek kaca lembut */
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important; /* support iOS */
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    inset 0 0 5px rgba(255, 255, 255, 0.25) !important;
+  color: #0e4f3a !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important; /* ✅ Rounded elegan */
+  transition: all 0.25s ease-in-out !important;
+}
+
+/* Efek Hover: Glow tipis lembut */
+.accordion:hover {
+  background: rgba(230, 255, 245, 0.95) !important;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.12),
+    0 0 6px rgba(111, 255, 209, 0.4) !important;
+  transform: translateY(-2px) !important; /* sedikit melayang elegan */
+}
+
+/* Tekan */
+.accordion:active {
+  transform: translateY(1px) !important;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  background: rgba(200, 245, 233, 0.92) !important;
+}
+
+/* Ikon berada di tengah tetap elegan */
+.accordion i, .accordion svg {
+  opacity: 0.9 !important;
+  filter: drop-shadow(0 1px 1px rgba(255,255,255,0.3));
+}
+}
+</style>
+
+<style>
+/* ==== FIX HEADER MOBILE: INSTANSI DEKAT LOGO, WRAP SAAT SEMPIT ==== */
+@media (max-width: 768px) {
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 8px !important;
+    height: 54px !important;
+    background: linear-gradient(90deg, #1aa08d, #2cc6a6) !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 2000 !important;
+    gap: 6px !important;
+  }
+
+  /* Logo kiri */
+  header img.logo {
+    height: 38px !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Instansi: menempel ke logo, bisa wrapping */
+  header span.instansi {
+    flex: 1 1 auto !important;
+    text-align: left !important;
+    font-size: 0.9rem !important;
+    color: #ffffff !important;
+    margin-left: 6px !important;
+    margin-right: 10px !important;
+    line-height: 1.1 !important;
+    white-space: normal !important;      /* allow wrapping */
+    word-break: break-word !important;   /* wrap long words */
+  }
+
+  /* Visitor counter di kanan atas */
+  .visitor-counter-mobile {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    text-align: right !important;
+    background: transparent !important;
+    height: 100% !important;
+    line-height: 1 !important;
+    transform: translateY(-1px); /* 💡 menaikkan posisi visitor */
+  }
+
+  .visitor-counter-mobile .visitor-label {
+    font-size: 0.45rem !important;
+    color: #e0ffff !important;
+    text-shadow: 0 0 4px #0ff;
+    margin-bottom: 1px !important;
+  }
+
+  .visitor-counter-mobile .visitor-digits {
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    color: #00ffcc !important;
+    text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
+  }
+}
+</style>
 
 </head>
 <body>
 <header>
 <img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
-<div class="visitor-counter"><div class="label">Visitors:</div><div class="number" id="visitorNumber">0</div></div></header>
+<!-- Visitor Counter (Mobile Only, muncul di header kanan) -->
+<div class="visitor-counter-mobile">
+  <div class="visitor-label">VISITOR</div>
+  <div class="visitor-digits" id="visitorNumberMobile">00000</div>
+</div>
+
+</header>
 <div class="layout">
 <aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
+<!-- Visitor Counter Digital -->
+<div class="visitor-counter-digital">
+  <div class="visitor-label">VISITOR</div>
+  <div class="visitor-digits" id="visitorNumber">00000</div>
+</div>
 </aside>
 <main class="content" id="content">
 <h2>Selamat Datang</h2>
@@ -1635,7 +2005,7 @@ const logoProfiles = {
   "7.png": {
     nama: "MAHAWIRA",
     deskripsi: "Tim SMPN 7 Depok",
-    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/SMPN7Depok.jpg",
+    fotoUtama: "https://raw.githubusercontent.com/andes-web/mpsmobile/main/images/MAHAWIRA.jpg",
     anggota: [
       { nama: "Pasukan A", foto: "rafi.jpg" },
       { nama: "Pasukan B", foto: "lina.jpg" },
@@ -1748,7 +2118,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-
 <script>
 const jurlamChildren = [
   {
@@ -3365,6 +3734,7 @@ if(!isMobile()){
 }
 
 </script>
+	
 <script>
 // Toggle active emboss effect persistently
 document.addEventListener("DOMContentLoaded", function() {
@@ -3663,29 +4033,37 @@ document.addEventListener("DOMContentLoaded", function() {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
-<!-- === Visitor Counter (tampilkan & tambah hanya di halaman utama) === -->
+<!-- === VISITOR COUNTER SYNC (DESKTOP & MOBILE) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const counterEl = document.getElementById("visitorNumber");
-  const endpoint = "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
+  const endpoint =
+    "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
 
-  // Ambil data total pengunjung saat ini (tanpa menambah)
+  const elDesktop = document.getElementById("visitorNumber");
+  const elMobile = document.getElementById("visitorNumberMobile");
+
+  // Ambil total pengunjung dari Google Apps Script
   fetch(endpoint + "?read=true")
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       if (data && data.visitors !== undefined) {
-        counterEl.textContent = data.visitors.toLocaleString("id-ID");
+        const total = data.visitors.toLocaleString("id-ID");
+
+        // tampilkan ke dua elemen jika ada
+        if (elDesktop) elDesktop.textContent = total;
+        if (elMobile) elMobile.textContent = total;
       } else {
-        counterEl.textContent = "–";
+        if (elDesktop) elDesktop.textContent = "–";
+        if (elMobile) elMobile.textContent = "–";
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Visitor counter error:", err);
-      counterEl.textContent = "?";
+      if (elDesktop) elDesktop.textContent = "?";
+      if (elMobile) elMobile.textContent = "?";
     });
 });
 </script>
-</body>
 
 <style>
 /* === TAMPILAN MOBILE: header/footer statis, konten scroll, warna berbeda === */
@@ -3752,13 +4130,13 @@ document.addEventListener("DOMContentLoaded", function() {
   header, .header-container { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; z-index: 9999 !important; }
   header { height: 60px !important; }
 
-  .menu-bar, .sidebar-left { position: fixed !important; top: 60px !important; left: 0 !important; right: 0 !important; height: 48px !important; z-index: 9998 !important; overflow-x: auto !important; }
+  .menu-bar, .sidebar-left { position: fixed !important; top: 60px !important; left: 0 !important; right: 0 !important; height: 35px !important; z-index: 9998 !important; overflow-x: auto !important; }
 
   /* Main content occupies area between header+menu and footer */
   main, .content, .main-content, #content {
     position: fixed !important;
-    top: calc(60px + 48px) !important;
-    bottom: 56px !important;
+    top: calc(40px + 20px) !important;
+    bottom: 40px !important;
     left: 0 !important;
     right: 0 !important;
     overflow-y: auto !important;
@@ -3779,5 +4157,34 @@ document.addEventListener("DOMContentLoaded", function() {
   body * { -webkit-overflow-scrolling: touch !important; }
 }
 </style>
+<!-- === SIDEBAR REKAP INTERAKTIF === -->
+<div id="rekapSidebar"></div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.createElement("iframe");
+  sidebar.src = "rightsidebar.html"; // file rekap
+  sidebar.id = "rekapFrame";
 
+  // gaya untuk desktop
+  Object.assign(sidebar.style, {
+    position: "fixed",
+    top: "0",       // di bawah header
+    right: "0",
+    bottom: "60px",    // di atas footer
+    width: "278px",
+    height: "100vh",
+    border: "none",
+    zIndex: "99999",   // paling atas dari semua
+    boxShadow: "0 0 12px rgba(0,0,0,0.15)",
+    background: "transparent",
+	scrolling: "none",
+  });
+
+  document.body.appendChild(sidebar);
+
+  // geser konten utama supaya tidak ketutupan
+  document.body.style.marginRight = "278px";
+});
+</script>
+</body>
 </html>

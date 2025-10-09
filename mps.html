@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
@@ -12,7 +11,6 @@ body {
   background: linear-gradient(135deg, #e0f7fa, #f0f9ff);
   color: #222;
 }
-
 /* Header */
 header {
   position: sticky;
@@ -43,13 +41,11 @@ header span.instansi {
   word-wrap: break-word;
   margin: 0 10px;
 }
-
 /* Layout dasar */
 .layout {
   display: flex;
   min-height: calc(100vh - 50px);
 }
-
 /* Sidebar kiri */
 .sidebar-left {
   width: 280px;
@@ -59,7 +55,6 @@ header span.instansi {
   overflow-y: auto;
   box-shadow: inset -2px 0 8px rgba(0,0,0,0.05);
 }
-
 /* Konten utama */
 .content {
   flex: 1;
@@ -70,7 +65,6 @@ header span.instansi {
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
   backdrop-filter: blur(6px);
 }
-
 /* Sidebar kanan */
 .sidebar-right {
   width: 250px;
@@ -79,7 +73,6 @@ header span.instansi {
   padding: 15px;
   box-shadow: inset 2px 0 8px rgba(0,0,0,0.05);
 }
-
 /* Accordion menu */
 .accordion {
   display: flex;
@@ -104,7 +97,6 @@ header span.instansi {
 .accordion:active {
   box-shadow: inset 2px 2px 6px rgba(0,0,0,0.25);
 }
-
 /* Panel isi */
 .panel {
   display: none;
@@ -118,7 +110,6 @@ header span.instansi {
   max-height: 60vh;
   overflow: auto;
 }
-
 /* Level H2, H3, H4 */
 .h2-accordion,
 .h3-accordion,
@@ -130,7 +121,6 @@ header span.instansi {
   text-align: left;
   width: 80%;
 }
-
 .h2-accordion {
   padding: 4px 6px;
   font-weight: bold;
@@ -149,7 +139,6 @@ header span.instansi {
   margin: 2px 0;
   border-bottom: 2px solid #c9d7e5;
 }
-
 /* Arrow icon */
 .h2-accordion::after,
 .h3-accordion::after {
@@ -162,13 +151,11 @@ header span.instansi {
 .h3-accordion.active::after {
   transform: rotate(90deg);
 }
-
 /* Subpanel */
 .subpanel {
   display: none;
   margin-left: 10px;
 }
-
 /* Responsive */
 @media(max-width:768px) {
   .layout {
@@ -203,12 +190,10 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
 }
-
 /* Header dan sidebar simetris */
 header {
   justify-content: space-between;
 }
-
 /* Menu agar sejajar rapi di HP */
 @media(max-width:768px) {
   .sidebar-left {
@@ -219,7 +204,6 @@ header {
     font-size: 0.95rem;
   }
 }
-
 /* Area logo */
 .logo-grid {
   display: grid;
@@ -246,7 +230,6 @@ header {
   box-shadow: 0 6px 12px rgba(0,0,0,0.25);
   z-index: 10;
 }
-
 /* Sidebar menu lebih rapat dan proporsional */
 .accordion {
   padding: 4px 6px;
@@ -266,7 +249,6 @@ header {
   padding: 2px 4px;
   font-size: 0.8rem;
 }
-
 @media (max-width: 768px) {
   .logo-grid {
     display: flex !important;
@@ -300,7 +282,6 @@ header {
   box-shadow: 0 6px 12px rgba(0,0,0,0.25);
   z-index: 10;
 }
-
 /* --- ADDED (no deletions): fixed header/footer + scrollable middle for mobile --- */
 header {
   top: 0;
@@ -347,9 +328,6 @@ html, body {
   max-width: 100% !important;
   overflow-x: hidden !important;
 }
-
-
-
 /* --- FIX: tampilkan menu DIKLAT, BINTAL, BINTUR, FORM di HP --- */
 @media (max-width: 768px) {
   .sidebar-left {
@@ -369,9 +347,6 @@ html, body {
     white-space: nowrap;
   }
 }
-
-
-
 /* --- FIX: Menu utama tetap statis di bawah header --- */
 .menu-bar {
   top: 25px; /* tepat di bawah header */
@@ -386,14 +361,10 @@ html, body {
   background: #f9fcff;
   border-bottom: 1px solid #ddd;
 }
-
 /* Sesuaikan margin top konten agar tidak ketutupan menu */
 .layout {
   margin-top: 100px !important; /* 55 header + ±45 menu */
 }
-
-
-
 /* --- FIX v2: gunakan sidebar-left asli sebagai menu bar fixed --- */
 .sidebar-left {
   top: 55px;   /* tepat di bawah header */
@@ -415,8 +386,6 @@ html, body {
 .layout {
   margin-top: 100px !important; /* 55 header + 45 menu */
 }
-
-
 /* ====== Desktop Layout ala layout3.png ====== */
 @media (min-width: 769px) {
   html, body {
@@ -424,7 +393,6 @@ html, body {
     margin: 0;
     overflow: hidden; /* cegah scroll global */
   }
-
   header {
     top: 0;
     left: 0;
@@ -440,21 +408,18 @@ html, body {
     right: 0;
     bottom: 0;
   }
-
   .sidebar-left {
     width: 260px;
     background: #f6fbff;
     border-right: 1px solid #cfdff5;
     overflow-y: auto;
   }
-
   .sidebar-right {
     width: 260px;
     background: #f7fbff;
     border-left: 1px solid #cfdff5;
     overflow-y: auto;
   }
-
   .content {
     flex: 1;
     overflow-y: auto;   /* hanya konten yang discroll */
@@ -464,8 +429,6 @@ html, body {
     margin: 0;
   }
 }
-
-
 /* ====== Desktop Layout Fix sejajarkan konten dan sidebar kanan ====== */
 @media (min-width: 769px) {
   .layout {
@@ -486,7 +449,6 @@ html, body {
     margin: 0;
     overflow: hidden; /* cegah scroll global */
   }
-
   header {
     top: 0;
     left: 0;
@@ -494,7 +456,6 @@ html, body {
     height: 55px;
     z-index: 2000;
   }
-
   .layout {
     display: flex;
     top: 55px;   /* tepat di bawah header */
@@ -502,7 +463,6 @@ html, body {
     right: 0;
     bottom: 0;
   }
-
   .sidebar-left {
     top: 55px;
     left: 0;

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
@@ -1790,7 +1791,7 @@ header {
   padding: 0 !important;
   margin: 0 !important;
   border: none !important;
-  background: linear-gradient(90deg, #ffda96, #f8d588) !important;
+  background: linear-gradient(90deg, #fcdec0, #fcdec0) !important;
   overflow: hidden !important;
 }
 
@@ -1900,6 +1901,77 @@ header {
     text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
   }
 }
+/* === MOBILE FORCE-FIX: HILANGKAN SEGITIGA & PAKSA SUBMENU 1 BARIS === */
+@media (max-width: 768px) {
+
+  /* 1) Matikan pseudo-elements panah yang ada di stylesheet Anda */
+  .h2-accordion::after,
+  .h3-accordion::after,
+  .h2-accordion::before,
+  .h3-accordion::before {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* 2) Safety: remove any pseudo-elements inside panel-inner */
+  .panel-inner *::before,
+  .panel-inner *::after {
+    content: none !important;
+    display: none !important;
+    background-image: none !important;
+  }
+
+  /* 3) Hide inline caret/chev elements (font-icon or svg) inside panels */
+  .panel-inner [class*="caret"],
+  .panel-inner [class*="chev"],
+  .panel-inner svg[class*="caret"],
+  .panel-inner svg[class*="chev"],
+  .panel-inner i[class*="caret"],
+  .panel-inner i[class*="chev"] {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* 4) Paksa setiap tombol/label dalam panel agar tetap 1 baris dengan ellipsis */
+  .panel-inner .h2-accordion,
+  .panel-inner .h3-accordion,
+  .panel-inner .h4-button,
+  .panel-inner button {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding-right: 12px !important; /* beri ruang kanan kalau ada ikon */
+    line-height: 1.2 !important;
+  }
+
+  /* 5) Pastikan ellipsis bekerja dalam flex: paksa min-width:0 pada kontainer */
+  .panel-inner,
+  .panel-inner .subpanel,
+  .panel-inner .subpanel * {
+    min-width: 0 !important;
+  }
+
+  /* 6) Jika ada arrow literal (karakter) yang masih muncul, pastikan empty fallback */
+  .h2-accordion::after { content: "" !important; }
+  .h3-accordion::after { content: "" !important; }
+
+  /* 7) Jaga ikon utama tetap terlihat (jika ada) */
+  .panel-inner .icon,
+  .panel-inner img,
+  .panel-inner svg,
+  .panel-inner i {
+    vertical-align: middle !important;
+  }
+}
+
 </style>
 
 </head>

@@ -1609,32 +1609,64 @@ header {
     margin-top: 10px !important;
   }
 }
-</style>
-<!-- HIDE SCROLLBAR FROM RIGHT SIDEBAR IFRAME -->
+<!-- VISITOR MOBILE HEADER STYLE -->
 <style>
-/* Hilangkan scrollbar tapi tetap bisa scroll di iframe rightsidebar */
-#rekapFrame {
-  scrollbar-width: none !important;     /* Firefox */
-  -ms-overflow-style: none !important;  /* IE & Edge lama */
+/* ===== Visitor di Header (Mobile) ===== */
+.visitor-counter-mobile {
+  display: none; /* default disembunyikan (desktop) */
 }
 
-#rekapFrame::-webkit-scrollbar {
-  display: none !important;             /* Chrome, Safari, Edge */
+/* tampilkan hanya di layar kecil */
+@media (max-width: 768px) {
+  .visitor-counter-mobile {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    height: 45px;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 2px;
+  }
+
+  .visitor-counter-mobile .visitor-label {
+    font-size: 0.55rem;
+    color: #000000;
+    text-shadow: 0 0 4px rgb(243, 201, 252);
+    margin-bottom: 2px;
+  }
+
+  .visitor-counter-mobile .visitor-digits {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #d0ff00;
+    text-shadow: 0 0 8px #000000, 0 0 15px #000000;
+  }
 }
 
-/* Pastikan iframe tetap bisa digulir */
-#rekapFrame {
-  overflow: auto !important;
-  -webkit-overflow-scrolling: touch !important; /* smooth di mobile */
-  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+/* Sembunyikan visitor footer di mobile */
+@media (max-width: 768px) {
+  .visitor-counter-digital {
+    display: none !important;
+  }
 }
 </style>
+
 
 </head>
 <body>
 <header>
 <img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
+<!-- Visitor Counter (Mobile Only, muncul di header kanan) -->
+<div class="visitor-counter-mobile">
+  <div class="visitor-label">VISITOR</div>
+  <div class="visitor-digits" id="visitorNumberMobile">00000</div>
+</div>
+
 </header>
 <div class="layout">
 <aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
@@ -3883,7 +3915,7 @@ document.addEventListener("DOMContentLoaded", () => {
     top: "0",       // di bawah header
     right: "0",
     bottom: "60px",    // di atas footer
-    width: "275px",
+    width: "270px",
     height: "100vh",
     border: "none",
     zIndex: "99999",   // paling atas dari semua
@@ -3895,7 +3927,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(sidebar);
 
   // geser konten utama supaya tidak ketutupan
-  document.body.style.marginRight = "275px";
+  document.body.style.marginRight = "270px";
 });
 </script>
 </body>

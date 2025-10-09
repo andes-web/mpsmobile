@@ -1564,8 +1564,6 @@ header {
 <h2>Selamat Datang</h2>
 <p>Di Manajer Paskibra Solution (MPS) Mobile.</p>
 </main>
-	<!-- === SIDEBAR REKAP INTERAKTIF === -->
-<div id="rekapSidebar"></div>
 <aside class="sidebar-right">
     Sidebar Kanan
   </aside>
@@ -1757,27 +1755,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 });
-</script>
-
-
-<script>
-  // sisipkan sidebar di kanan secara dinamis
-  const sidebar = document.createElement("iframe");
-  sidebar.src = "rightsidebar.html";  // nama file rekap
-  sidebar.id = "rekapFrame";
-  sidebar.style.position = "fixed";
-  sidebar.style.top = "0";
-  sidebar.style.right = "0";
-  sidebar.style.width = "270px";
-  sidebar.style.height = "100vh";
-  sidebar.style.border = "none";
-  sidebar.style.zIndex = "9999";
-  sidebar.style.boxShadow = "0 0 12px rgba(0,0,0,0.1)";
-  sidebar.style.background = "transparent";
-  document.getElementById("rekapSidebar").appendChild(sidebar);
-
-  // atur supaya konten utama tetap kelihatan
-  document.body.style.marginRight = "270px";
 </script>
 <script>
 const jurlamChildren = [
@@ -3808,5 +3785,26 @@ document.addEventListener("DOMContentLoaded", function() {
   body * { -webkit-overflow-scrolling: touch !important; }
 }
 </style>
+	<!-- === SIDEBAR REKAP INTERAKTIF === -->
+<div id="rekapSidebar"></div>
+<script>
+  // sisipkan sidebar di kanan secara dinamis
+  const sidebar = document.createElement("iframe");
+  sidebar.src = "rightsidebar.html";  // nama file rekap
+  sidebar.id = "rekapFrame";
+  sidebar.style.position = "fixed";
+  sidebar.style.top = "0";
+  sidebar.style.right = "0";
+  sidebar.style.width = "270px";
+  sidebar.style.height = "100vh";
+  sidebar.style.border = "none";
+  sidebar.style.zIndex = "9999";
+  sidebar.style.boxShadow = "0 0 12px rgba(0,0,0,0.1)";
+  sidebar.style.background = "transparent";
+  document.getElementById("rekapSidebar").appendChild(sidebar);
+
+  // atur supaya konten utama tetap kelihatan
+  document.body.style.marginRight = "270px";
+</script>
 </body>
 </html>

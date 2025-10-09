@@ -205,6 +205,14 @@ footer {
   color: #64748b;
   border-top: 1px solid #e2e8f0;
 }
+@media (max-width: 768px) {
+  #rekapFrame {
+    display: none;
+  }
+  body {
+    margin-right: 0 !important;
+  }
+}
 </style>
 </head>
 

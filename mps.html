@@ -354,6 +354,7 @@ html, body {
 @media (max-width: 768px) {
   .sidebar-left {
     display: flex !important;
+    height: 45px !important; /* tinggi menu seperti semula */
     flex-direction: row !important;
     overflow-x: auto !important;
     gap: 0px;
@@ -1609,6 +1610,7 @@ header {
     margin-top: 10px !important;
   }
 }
+</style>
 <!-- VISITOR MOBILE HEADER STYLE -->
 <style>
 /* ===== Visitor di Header (Mobile) ===== */
@@ -1654,7 +1656,128 @@ header {
   }
 }
 </style>
+<!-- HEADER & VISITOR FIX MOBILE -->
+<style>
+@media (max-width: 768px) {
+  /* Header tetap dua kolom: kiri logo, tengah instansi, kanan visitor */
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 55px !important;
+    padding: 0 10px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: linear-gradient(90deg, #1aa08d, #2cc6a6) !important;
+    z-index: 2000 !important;
+  }
 
+  /* Logo instansi di kiri */
+  header img.logo {
+    height: 40px !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Teks instansi di tengah, tidak tertutup visitor */
+  header span.instansi {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 0.9rem !important;
+    color: white !important;
+    margin: 0 auto !important;
+    white-space: normal !important;
+  }
+
+  /* Visitor digital di pojok kanan atas header */
+  .visitor-counter-mobile {
+    position: absolute !important;
+    right: 10px !important;
+    top: 8px !important;
+    text-align: right !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    background: transparent !important;
+  }
+
+  .visitor-counter-mobile .visitor-label {
+    font-size: 0.6rem !important;
+    color: #cfffff !important;
+    text-shadow: 0 0 5px #0ff;
+    margin-bottom: 1px;
+  }
+
+  .visitor-counter-mobile .visitor-digits {
+    font-size: 1rem !important;
+    color: #00ffcc !important;
+    text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
+    line-height: 1 !important;
+  }
+}
+</style>
+<!-- HEADER & VISITOR FIX MOBILE -->
+<style>
+@media (max-width: 768px) {
+  /* Header tetap dua kolom: kiri logo, tengah instansi, kanan visitor */
+  header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 55px !important;
+    padding: 0 10px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: linear-gradient(90deg, #1aa08d, #2cc6a6) !important;
+    z-index: 2000 !important;
+  }
+
+  /* Logo instansi di kiri */
+  header img.logo {
+    height: 40px !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Teks instansi di tengah, tidak tertutup visitor */
+  header span.instansi {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 0.9rem !important;
+    color: white !important;
+    margin: 0 auto !important;
+    white-space: normal !important;
+  }
+
+  /* Visitor digital di pojok kanan atas header */
+  .visitor-counter-mobile {
+    position: absolute !important;
+    right: 10px !important;
+    top: 8px !important;
+    text-align: right !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    background: transparent !important;
+  }
+
+  .visitor-counter-mobile .visitor-label {
+    font-size: 0.6rem !important;
+    color: #cfffff !important;
+    text-shadow: 0 0 5px #0ff;
+    margin-bottom: 1px;
+  }
+
+  .visitor-counter-mobile .visitor-digits {
+    font-size: 1rem !important;
+    color: #00ffcc !important;
+    text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
+    line-height: 1 !important;
+  }
+}
+</style>
 
 </head>
 <body>
@@ -3809,6 +3932,24 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // ambil dan tambah counter
+  let count = parseInt(localStorage.getItem("visitorCount") || "12345");
+  count++;
+  localStorage.setItem("visitorCount", count);
+
+  // format angka 5 digit
+  const formatted = count.toString().padStart(5, "0");
+
+  // isi ke dua elemen
+  const elDesktop = document.getElementById("visitorNumber");
+  const elMobile = document.getElementById("visitorNumberMobile");
+
+  if (elDesktop) elDesktop.textContent = formatted;
+  if (elMobile) elMobile.textContent = formatted;
+});
+</script>
 <style>
 /* === TAMPILAN MOBILE: header/footer statis, konten scroll, warna berbeda === */
 @media (max-width: 768px) {
@@ -3874,7 +4015,7 @@ document.addEventListener("DOMContentLoaded", function() {
   header, .header-container { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; z-index: 9999 !important; }
   header { height: 60px !important; }
 
-  .menu-bar, .sidebar-left { position: fixed !important; top: 60px !important; left: 0 !important; right: 0 !important; height: 48px !important; z-index: 9998 !important; overflow-x: auto !important; }
+  .menu-bar, .sidebar-left { position: fixed !important; top: 60px !important; left: 0 !important; right: 0 !important; height: 35px !important; z-index: 9998 !important; overflow-x: auto !important; }
 
   /* Main content occupies area between header+menu and footer */
   main, .content, .main-content, #content {
@@ -3915,7 +4056,7 @@ document.addEventListener("DOMContentLoaded", () => {
     top: "0",       // di bawah header
     right: "0",
     bottom: "60px",    // di atas footer
-    width: "278px",
+    width: "270px",
     height: "100vh",
     border: "none",
     zIndex: "99999",   // paling atas dari semua
@@ -3927,7 +4068,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(sidebar);
 
   // geser konten utama supaya tidak ketutupan
-  document.body.style.marginRight = "278px";
+  document.body.style.marginRight = "270px";
 });
 </script>
 </body>

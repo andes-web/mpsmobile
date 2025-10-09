@@ -1781,48 +1781,67 @@ header {
 <!-- MENU BAR FIX MOBILE -->
 <style>
 @media (max-width: 768px) {
-  .accordion {
-  display: inline-block;
-  background: linear-gradient(145deg, #f5f5f5, #dcdcdc);
-  color: #111;
-  font-weight: 700;
-  font-size: 0.95rem;              /* sedikit lebih besar */
-  padding: 10px 14px;              /* ukuran tombol lebih tinggi & lebar */
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
+  .sidebar-left {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 6px 8px !important;
+  gap: 0 !important;                     /* tanpa jarak antar tombol */
+  background: linear-gradient(145deg, #c7c7c7, #f1f1f1) !important;
   box-shadow:
-    inset 2px 2px 4px rgba(255,255,255,0.6),   /* embos atas kiri terang */
-    inset -3px -3px 6px rgba(0,0,0,0.2);       /* embos bawah kanan gelap */
-  transition: all 0.2s ease;
-  margin: 4px 6px;                 /* jarak antar tombol */
-  text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+    inset 3px 3px 7px rgba(0,0,0,0.25),
+    inset -3px -3px 7px rgba(255,255,255,0.7);
+  overflow: hidden !important;
+  border-radius: 10px;
 }
 
-/* efek tekan */
-.accordion:active {
+/* Tombol menu utama */
+.accordion {
+  flex: 1 1 0 !important;
+  text-align: center !important;
+  background: linear-gradient(145deg, #d4d4d4, #bdbdbd);
+  color: #111;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 10px 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  cursor: pointer;
+  margin: 0 !important;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
   box-shadow:
-    inset 3px 3px 5px rgba(0,0,0,0.25),
-    inset -1px -1px 3px rgba(255,255,255,0.5);
+    inset 4px 4px 6px rgba(0,0,0,0.4),     /* bayangan bawah kanan */
+    inset -4px -4px 6px rgba(255,255,255,0.9), /* highlight atas kiri */
+    0 1px 2px rgba(0,0,0,0.15);            /* bayangan luar lembut */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efek hover – sedikit muncul ke atas */
+.accordion:hover {
+  background: linear-gradient(145deg, #cfcfcf, #b8b8b8);
+  box-shadow:
+    inset 2px 2px 4px rgba(0,0,0,0.3),
+    inset -2px -2px 4px rgba(255,255,255,0.8),
+    0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Efek saat ditekan (lebih dalam) */
+.accordion:active {
+  background: linear-gradient(145deg, #bdbdbd, #a0a0a0);
+  box-shadow:
+    inset 5px 5px 8px rgba(0,0,0,0.5),
+    inset -3px -3px 6px rgba(255,255,255,0.7);
   transform: translateY(1px);
 }
 
-/* saat hover */
-.accordion:hover {
-  background: linear-gradient(145deg, #e6e6e6, #ffffff);
-}
-
-/* agar posisi tombol proporsional dan sejajar dengan batas sisi container */
-.sidebar-left {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;  /* tombol kiri-kanan menempel ke batas */
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;               /* jarak dalam container */
-  background: #fafafa;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+/* Responsif di HP */
+@media (max-width: 768px) {
+  .accordion {
+    font-size: 0.85rem !important;
+    padding: 9px 0 !important;
+  }
 }}
 </style>
 <style>
@@ -1873,7 +1892,7 @@ header {
     background: transparent !important;
     height: 100% !important;
     line-height: 1 !important;
-    transform: translateY(-3px); /* 💡 menaikkan posisi visitor */
+    transform: translateY(-1px); /* 💡 menaikkan posisi visitor */
   }
 
   .visitor-counter-mobile .visitor-label {

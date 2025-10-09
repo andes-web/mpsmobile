@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Interaktif MPS</title>
+<title>Rekap Nilai MPS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -261,12 +261,12 @@ footer {
     </div>
   </main>
 
-  <footer>© 2025 Rayya | MPS System</footer>
+  <footer>© 2025 Andes | MPS System</footer>
 </div>
 
 <script>
 lucide.createIcons();
-const sheetAPI = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; 
+const sheetAPI = "https://script.google.com/macros/s/16H6HL6B7Rm1itiqk4xdycuMCn9jPVZf6q8AesZxJZDY/exec"; 
 let chartUnit, latestData=[];
 
 async function loadRekap(sheetName="Rekap") {

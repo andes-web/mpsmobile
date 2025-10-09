@@ -1561,7 +1561,7 @@ header {
   width: 260px;               /* sama dengan lebar sidebar kiri */
   height: 40px;               /* tinggi menyesuaikan footer logo */
   background: transparent !important;  /* transparan penuh */
-  color: #00ffcc;
+  color: #002679;
   text-align: center;
   font-family: 'Orbitron', monospace;
   border: none !important;
@@ -1577,8 +1577,8 @@ header {
 
 .visitor-counter-digital .visitor-label {
   font-size: 0.7rem;
-  color: #99e9ff;
-  text-shadow: 0 0 4px #0ff;
+  color: #000000;
+  text-shadow: 0 0 4px rgb(243, 201, 252);
   margin-bottom: 0;
   line-height: 1;
 }
@@ -1586,8 +1586,8 @@ header {
 .visitor-counter-digital .visitor-digits {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #00ffcc;
-  text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
+  color: #d0ff00;
+  text-shadow: 0 0 8px #000000, 0 0 15px #000000;
   line-height: 1;
 }
 
@@ -1608,6 +1608,25 @@ header {
     pointer-events: auto !important;
     margin-top: 10px !important;
   }
+}
+</style>
+<!-- HIDE SCROLLBAR FROM RIGHT SIDEBAR IFRAME -->
+<style>
+/* Hilangkan scrollbar tapi tetap bisa scroll di iframe rightsidebar */
+#rekapFrame {
+  scrollbar-width: none !important;     /* Firefox */
+  -ms-overflow-style: none !important;  /* IE & Edge lama */
+}
+
+#rekapFrame::-webkit-scrollbar {
+  display: none !important;             /* Chrome, Safari, Edge */
+}
+
+/* Pastikan iframe tetap bisa digulir */
+#rekapFrame {
+  overflow: auto !important;
+  -webkit-overflow-scrolling: touch !important; /* smooth di mobile */
+  box-shadow: -2px 0 8px rgba(0,0,0,0.1);
 }
 </style>
 
@@ -3879,6 +3898,5 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.style.marginRight = "270px";
 });
 </script>
-
 </body>
 </html>

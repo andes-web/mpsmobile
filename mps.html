@@ -1549,56 +1549,68 @@ header {
   .profil-container, .profil-info, .foto-utama-wrapper { margin: 0 !important; padding: 0 !important; }
 }
 </style>
-<!-- VISITOR DIGITAL FIXED FOOTER STYLE -->
+<!-- VISITOR DIGITAL FOOTER TRANSPARENT STYLE -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
-/* ===== Visitor Counter di Footer Sidebar Kiri ===== */
+/* ===== Visitor Counter sejajar logo footer kiri ===== */
 .visitor-counter-digital {
-  position: fixed;            /* tetap di bawah sidebar kiri */
+  position: fixed;
   left: 0;
-  bottom: 60px;               /* beri jarak dari footer logo (±60px tinggi footer) */
+  bottom: 0;                  /* sejajar persis dengan footer logo */
   width: 260px;               /* sama dengan lebar sidebar kiri */
-  background: linear-gradient(145deg, #0f172a, #1e293b);
-  color: #00ff9d;
+  height: 40px;               /* tinggi menyesuaikan footer logo */
+  background: transparent !important;  /* transparan penuh */
+  color: #00ffcc;
   text-align: center;
-  border-top: 2px solid #1a2b4a;
-  border-right: 1px solid #0d1a33;
-  border-radius: 0 8px 0 0;
   font-family: 'Orbitron', monospace;
-  box-shadow:
-    inset 2px 2px 5px rgba(0,0,0,0.4),
-    inset -2px -2px 5px rgba(255,255,255,0.1);
-  padding: 8px 0;
-  z-index: 950;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   letter-spacing: 2px;
+  z-index: 9998;              /* di atas footer tapi di bawah sidebar kanan */
+  pointer-events: none;       /* biar tidak blok klik logo */
 }
 
 .visitor-counter-digital .visitor-label {
-  font-size: 0.75rem;
-  color: #9ef0ff;
-  text-shadow: 0 0 6px #0ff;
-  margin-bottom: 2px;
-  font-weight: bold;
+  font-size: 0.7rem;
+  color: #99e9ff;
+  text-shadow: 0 0 4px #0ff;
+  margin-bottom: 0;
+  line-height: 1;
 }
 
 .visitor-counter-digital .visitor-digits {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #00ffcc;
   text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
+  line-height: 1;
 }
 
-/* Responsif untuk HP */
-@media(max-width:768px){
-  .visitor-counter-digital{
-    position: static;
-    width: 100%;
-    margin: 10px auto;
-    padding: 8px;
+/* Tambahkan ruang di sidebar kiri agar tidak terpotong */
+.sidebar-left {
+  padding-bottom: 45px !important;
+}
+
+/* Responsif (mobile): tampil normal di bawah menu */
+@media (max-width: 768px) {
+  .visitor-counter-digital {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    background: none !important;
+    text-shadow: none !important;
+    color: #00ffcc !important;
+    pointer-events: auto !important;
+    margin-top: 10px !important;
   }
 }
 </style>
+
 </head>
 <body>
 <header>

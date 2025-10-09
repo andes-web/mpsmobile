@@ -1792,7 +1792,7 @@ header {
     justify-content: flex-start !important;
     align-items: center !important;
     overflow-x: auto !important;
-    background: linear-gradient(90deg, #f5c799, #f5c799) !important;
+    background: linear-gradient(90deg, #f5cfaa, #f5cfaa) !important;
     padding: 0 6px !important;
     gap: 8px !important;
     border-bottom: 1px solid #e2e2e2 !important;
@@ -1803,14 +1803,14 @@ header {
   /* tombol menu tidak melebar, proporsional */
   .accordion {
     flex: 0 0 auto !important;
-    font-size: 0.8rem !important;
-    padding: 0px 0px !important;
+    font-size: 0.85rem !important;
+    padding: 2px 4px !important;
     white-space: nowrap !important;
     border-radius: 8px !important;
     background: #d8d8d8 !important;
     color: #222 !important;
     font-weight: 600 !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
   }
 
   .accordion:active {
@@ -1824,59 +1824,59 @@ header {
 }
 </style>
 <style>
-/* ==== FIX HEADER MOBILE AGAR INSTANSI & VISITOR TIDAK TUMPUK ==== */
+/* ==== FIX HEADER MOBILE: INSTANSI DEKAT LOGO, WRAP SAAT SEMPIT ==== */
 @media (max-width: 768px) {
   header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    height: 55px !important;
-    padding: 0 10px !important;
+    padding: 0 8px !important;
+    height: 58px !important;
+    background: linear-gradient(90deg, #1aa08d, #2cc6a6) !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    background: linear-gradient(90deg, #1aa08d, #2cc6a6) !important;
     z-index: 2000 !important;
+    gap: 6px !important;
   }
 
-  /* Logo di kiri */
+  /* Logo kiri */
   header img.logo {
     height: 38px !important;
     flex: 0 0 auto !important;
   }
 
-  /* Teks instansi di tengah */
+  /* Instansi: menempel ke logo, bisa wrapping */
   header span.instansi {
     flex: 1 1 auto !important;
-    text-align: center !important;
+    text-align: left !important;
     font-size: 0.9rem !important;
     color: #ffffff !important;
-    margin: 0 60px 0 50px !important; /* beri ruang kiri-kanan agar tidak tertabrak */
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    margin-left: 6px !important;
+    margin-right: 10px !important;
+    line-height: 1.1 !important;
+    white-space: normal !important;      /* allow wrapping */
+    word-break: break-word !important;   /* wrap long words */
   }
 
-  /* Visitor di kanan */
+  /* Visitor counter di kanan atas */
   .visitor-counter-mobile {
-    position: absolute !important;
-    right: 8px !important;
-    top: 4px !important;
+    flex: 0 0 auto !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-end !important;
     justify-content: center !important;
-    height: 45px !important;
-    background: transparent !important;
     text-align: right !important;
-    line-height: 1.1 !important;
+    background: transparent !important;
+    height: 100% !important;
+    line-height: 1 !important;
   }
 
   .visitor-counter-mobile .visitor-label {
     font-size: 0.55rem !important;
     color: #e0ffff !important;
-    text-shadow: 0 0 5px #0ff;
+    text-shadow: 0 0 4px #0ff;
     margin-bottom: 1px !important;
   }
 
@@ -1888,6 +1888,7 @@ header {
   }
 }
 </style>
+
 
 </head>
 <body>

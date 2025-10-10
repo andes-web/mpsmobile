@@ -4259,67 +4259,57 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <script>
-// 🔹 Tambah submenu "Rekap Nilai" hanya di mode MOBILE
 document.addEventListener("DOMContentLoaded", function() {
-  if (window.innerWidth <= 768) {
-    // Cari tombol accordion FORM
-    const formAccordion = [...document.querySelectorAll(".accordion")].find(btn =>
-      btn.textContent.trim().toUpperCase().includes("FORM")
-    );
+  const isMobile = window.innerWidth <= 768;
 
-    if (formAccordion) {
-      const formPanel = formAccordion.nextElementSibling;
+  // 🔹 Temukan tombol accordion FORM
+  const formAccordion = [...document.querySelectorAll(".accordion")]
+    .find(btn => btn.textContent.toUpperCase().includes("FORM"));
+  if (!formAccordion) return;
+  const formPanel = formAccordion.nextElementSibling;
+  if (!formPanel) return;
 
-      // 🔹 Cegah duplikasi submenu
-      if (formPanel && !formPanel.querySelector(".submenu-rekap")) {
-        const rekapLink = document.createElement("a");
-        rekapLink.href = "#";
-        rekapLink.textContent = "📊 Rekap Nilai";
-        rekapLink.className = "submenu submenu-rekap";
+  // 🔹 Jika MOBILE → tambahkan submenu "📊 Rekap Nilai"
+  if (isMobile && !formPanel.querySelector(".submenu-rekap")) {
+    const rekapLink = document.createElement("a");
+    rekapLink.href = "#";
+    rekapLink.textContent = "📊 Rekap Nilai";
+    rekapLink.className = "submenu submenu-rekap";
+    rekapLink.style.display = "block";
+    rekapLink.style.padding = "8px 18px";
+    rekapLink.style.fontSize = "14px";
+    rekapLink.style.color = "#0f172a";
+    rekapLink.style.borderBottom = "1px solid #e2e8f0";
+    rekapLink.style.textDecoration = "none";
 
-        // Gaya menyesuaikan sub menu lain
-        rekapLink.style.display = "block";
-        rekapLink.style.padding = "8px 18px";
-        rekapLink.style.fontSize = "14px";
-        rekapLink.style.color = "#0f172a";
-        rekapLink.style.borderBottom = "1px solid #e2e8f0";
-        rekapLink.style.textDecoration = "none";
-
-        // 🔹 Saat diklik, tampilkan rightsidebar.html di area utama
-        rekapLink.addEventListener("click", function(e) {
-          e.preventDefault();
-          const frame = document.getElementById("mainFrame");
-
-          if (frame) {
-            frame.src = "rightsidebar.html";
-
-            // Sesuaikan ukuran penuh layar mobile
-            frame.style.width = "100%";
-            frame.style.height = "100vh";
-            frame.style.border = "none";
-            frame.style.margin = "0";
-            frame.style.padding = "0";
-          }
-
-          // Tutup sidebar bila terbuka
-          const sidebar = document.querySelector(".sidebar");
-          if (sidebar && sidebar.classList.contains("open")) {
-            sidebar.classList.remove("open");
-          }
-
-          // Gulir ke atas agar tampil penuh
-          window.scrollTo(0, 0);
-        });
-
-        // 🔹 Sisipkan setelah submenu ke-4
-        const submenus = formPanel.querySelectorAll("a.submenu");
-        if (submenus.length >= 4) {
-          formPanel.insertBefore(rekapLink, submenus[4]); // setelah antar teman
-        } else {
-          formPanel.appendChild(rekapLink); // fallback jika jumlah kurang
-        }
+    // klik → tampilkan rightsidebar.html penuh di mainFrame
+    rekapLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      const frame = document.getElementById("mainFrame");
+      if (frame) {
+        frame.src = "rightsidebar.html";
+        frame.style.width = "100%";
+        frame.style.height = "100vh";
+        frame.style.border = "none";
+        frame.style.margin = "0";
+        frame.style.padding = "0";
       }
-    }
+      const sidebar = document.querySelector(".sidebar");
+      if (sidebar && sidebar.classList.contains("open")) sidebar.classList.remove("open");
+      window.scrollTo(0, 0);
+    });
+
+    // Sisipkan setelah submenu ke-4 (“Penilaian Antar Teman”)
+    const submenus = formPanel.querySelectorAll("a.submenu");
+    if (submenus.length >= 4) submenus[3].insertAdjacentElement("afterend", rekapLink);
+    else formPanel.appendChild(rekapLink);
+  }
+
+  // 🔹 Jika DESKTOP → sembunyikan “Rekap Penilaian”
+  if (!isMobile) {
+    const rekapPenilaian = [...formPanel.querySelectorAll("a.submenu")]
+      .find(a => a.textContent.trim().toUpperCase().includes("REKAP PENILAIAN"));
+    if (rekapPenilaian) rekapPenilaian.style.display = "none";
   }
 });
 </script>

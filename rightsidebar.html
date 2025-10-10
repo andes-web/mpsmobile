@@ -19,8 +19,6 @@ body {
   background: transparent;
   color: #1e293b;
 }
-
-/* === SIDEBAR === */
 .sidebar {
   position: fixed;
   right: 0;
@@ -35,8 +33,6 @@ body {
   flex-direction: column;
   z-index: 9999;
 }
-
-/* === HEADER === */
 .sidebar header {
   text-align: center;
   padding: 14px 10px;
@@ -53,14 +49,11 @@ body {
   align-items: center;
   gap: 6px;
 }
-
-/* === ISI === */
 .sidebar main {
   flex: 1;
   overflow-y: auto;
   padding: 10px 14px;
 }
-
 select {
   width: 100%;
   padding: 6px;
@@ -71,7 +64,6 @@ select {
   margin-bottom: 10px;
   outline: none;
 }
-
 .action-btns {
   display: flex;
   gap: 6px;
@@ -91,8 +83,6 @@ select {
 .btn-pdf { background: #dc2626; }
 .btn-excel { background: #16a34a; }
 .action-btns button:hover { opacity: 0.85; }
-
-/* === TABEL PESERTA === */
 .tableBox {
   border-radius: 10px;
   background: #ffffff;
@@ -122,8 +112,6 @@ tr:hover td {
   background: #e0f2fe;
   cursor: pointer;
 }
-
-/* === STATISTIK BOX === */
 .statBox {
   display: flex;
   justify-content: space-between;
@@ -154,8 +142,6 @@ tr:hover td {
   font-weight: 600;
   color: #2563eb;
 }
-
-/* === REKAP UNIT === */
 .unit-recap {
   margin-top: 15px;
   background: #f8fafc;
@@ -185,8 +171,6 @@ tr:hover td {
 .unit-recap tr:nth-child(even) td {
   background: #f1f5f9;
 }
-
-/* === CHART === */
 .chartBox {
   width: 100%;
   height: 180px;
@@ -196,22 +180,12 @@ canvas {
   width: 100% !important;
   height: 180px !important;
 }
-
-/* === FOOTER === */
 footer {
   padding: 6px;
   font-size: 0.7rem;
   text-align: center;
   color: #64748b;
   border-top: 1px solid #e2e8f0;
-}
-@media (max-width: 768px) {
-  #rekapFrame {
-    display: none;
-  }
-  body {
-    margin-right: 0 !important;
-  }
 }
 </style>
 </head>
@@ -240,7 +214,6 @@ footer {
       </table>
     </div>
 
-    <!-- === STATISTIK BOX === -->
     <div class="statBox" id="statBox">
       <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
       <div class="statItem"><h5>Rata-rata</h5><p id="statRata">0</p></div>
@@ -266,7 +239,7 @@ footer {
 
 <script>
 lucide.createIcons();
-const sheetAPI = "https://script.google.com/macros/s/1-ayEgomX4VBCSgVFtuFOQfq9WVLrg5Dd53exfNv_CzyN5QEuYANGVZ8X/exec"; 
+const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec"; 
 let chartUnit, latestData=[];
 
 async function loadRekap(sheetName="Rekap") {
@@ -284,13 +257,13 @@ async function loadRekap(sheetName="Rekap") {
     document.getElementById("tableHead").innerHTML = "<tr><th>No</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
     document.getElementById("tableBody").innerHTML = rows.map((r,i)=>`
       <tr data-index="${i}">
-        <td>${i+1}</td>
+        <td>${r[0]||i+1}</td>
         <td>${r[namaIdx]||""}</td>
         <td>${r[unitIdx]||""}</td>
-        <td>${r[jumlahIdx]||""}</td>
+        <td>${r[jumlahIdx]||0}</td>
       </tr>`).join("");
 
-    // === POPUP DETAIL ===
+    // Popup detail
     document.querySelectorAll("#rekapTable tbody tr").forEach(tr=>{
       tr.addEventListener("click",()=>{
         const idx=tr.getAttribute("data-index");
@@ -301,7 +274,7 @@ async function loadRekap(sheetName="Rekap") {
         headers.forEach((h,i)=>{
           if(["No","Nama","Unit","Jumlah"].includes(h))return;
           const val=peserta[i];
-          if(val){
+          if(val!=="" && val!=null){
             let bg="#d1fae5";if(val<=2)bg="#fee2e2";else if(val==3)bg="#fef9c3";
             html+=`<div style="display:flex;justify-content:space-between;background:${bg};
               padding:4px 6px;margin:2px 0;border-radius:6px">
@@ -320,27 +293,25 @@ async function loadRekap(sheetName="Rekap") {
       });
     });
 
-    // === STATISTIK ===
-    const jumlahArr = rows
-  .map(r => Number(r[jumlahIdx]))
-  .filter(v => !isNaN(v) && v > 0);
+    // Statistik
+    const jumlahArr = rows.map(r=>Number(r[jumlahIdx])).filter(v=>!isNaN(v) && v>0);
     const peserta = jumlahArr.length;
-const totalNilai = jumlahArr.reduce((a, b) => a + b, 0);
-const rata = peserta ? (totalNilai / peserta).toFixed(1) : 0;
-const max = peserta ? Math.max(...jumlahArr) : 0;
-const min = peserta ? Math.min(...jumlahArr) : 0;
-    document.getElementById("statPeserta").innerText = peserta || 0;
-document.getElementById("statRata").innerText = rata || 0;
-document.getElementById("statMax").innerText = max || 0;
-document.getElementById("statMin").innerText = min || 0;
+    const totalNilai = jumlahArr.reduce((a,b)=>a+b,0);
+    const rata = peserta ? (totalNilai / peserta).toFixed(1) : 0;
+    const max = peserta ? Math.max(...jumlahArr) : 0;
+    const min = peserta ? Math.min(...jumlahArr) : 0;
+    document.getElementById("statPeserta").innerText = peserta;
+    document.getElementById("statRata").innerText = rata;
+    document.getElementById("statMax").innerText = max;
+    document.getElementById("statMin").innerText = min;
 
-
-    // === REKAP UNIT ===
+    // Rekap per Unit
     const unitMap={};
     rows.forEach(r=>{
       const unit=r[unitIdx];
       const total=Number(r[jumlahIdx]||0);
-      if(!unitMap[unit])unitMap[unit]=[];
+      if(!unit) return;
+      if(!unitMap[unit]) unitMap[unit]=[];
       unitMap[unit].push(total);
     });
     const unitLabels=[], unitAverages=[];
@@ -349,10 +320,10 @@ document.getElementById("statMin").innerText = min || 0;
       unitLabels.push(unit);
       unitAverages.push(Number(avg));
       return `<tr><td>${unit}</td><td>${avg}</td></tr>`;
-    }).join("");
+    }).join("") || "<tr><td colspan='2'>Belum ada data</td></tr>";
     document.getElementById("unitBody").innerHTML=unitRows;
 
-    // === CHART ===
+    // Chart
     const ctx=document.getElementById("chartUnit").getContext("2d");
     if(chartUnit) chartUnit.destroy();
     chartUnit = new Chart(ctx, {
@@ -383,7 +354,7 @@ document.getElementById("statMin").innerText = min || 0;
 document.getElementById("jenisRekap").addEventListener("change",e=>loadRekap(e.target.value));
 loadRekap();
 
-/* === DOWNLOAD EXCEL === */
+// Export Excel
 document.getElementById("btnExcel").addEventListener("click",()=>{
   const ws=XLSX.utils.aoa_to_sheet(latestData);
   const wb=XLSX.utils.book_new();
@@ -391,7 +362,7 @@ document.getElementById("btnExcel").addEventListener("click",()=>{
   XLSX.writeFile(wb,"Rekap_MPS.xlsx");
 });
 
-/* === DOWNLOAD PDF === */
+// Export PDF
 document.getElementById("btnPDF").addEventListener("click",()=>{
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });

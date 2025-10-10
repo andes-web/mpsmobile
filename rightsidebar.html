@@ -249,6 +249,8 @@ async function loadRekap(sheetName="Rekap") {
     latestData = data;
     const headers = data[0];
     const rows = data.slice(1);
+    console.log("Headers:", headers);
+    console.log("Index Jumlah:", headers.indexOf("Jumlah"));
 
     const namaIdx = headers.indexOf("Nama");
     const unitIdx = headers.indexOf("Unit");

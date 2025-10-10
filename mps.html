@@ -4259,43 +4259,65 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <script>
-// 🔹 Jalankan hanya pada mode MOBILE
+// 🔹 Tambah submenu "Rekap Nilai" hanya di mode MOBILE
 document.addEventListener("DOMContentLoaded", function() {
   if (window.innerWidth <= 768) {
-    const formMenu = [...document.querySelectorAll(".accordion")].find(btn =>
+    // Cari tombol accordion FORM
+    const formAccordion = [...document.querySelectorAll(".accordion")].find(btn =>
       btn.textContent.trim().toUpperCase().includes("FORM")
     );
 
-    if (formMenu) {
-      const panel = formMenu.nextElementSibling;
+    if (formAccordion) {
+      const formPanel = formAccordion.nextElementSibling;
 
-      // Cegah duplikasi
-      if (!panel.querySelector(".submenu-rekap")) {
-        const newLink = document.createElement("a");
-        newLink.textContent = "📊 Rekap Nilai";
-        newLink.href = "#";
-        newLink.className = "submenu submenu-rekap";
-        newLink.style.display = "block";
-        newLink.style.padding = "8px 14px";
-        newLink.style.fontSize = "14px";
-        newLink.style.color = "#1e40af";
-        newLink.style.textDecoration = "none";
-        newLink.style.borderRadius = "8px";
-        newLink.addEventListener("click", function(e) {
+      // 🔹 Cegah duplikasi submenu
+      if (formPanel && !formPanel.querySelector(".submenu-rekap")) {
+        const rekapLink = document.createElement("a");
+        rekapLink.href = "#";
+        rekapLink.textContent = "📊 Rekap Nilai";
+        rekapLink.className = "submenu submenu-rekap";
+
+        // Gaya menyesuaikan sub menu lain
+        rekapLink.style.display = "block";
+        rekapLink.style.padding = "8px 18px";
+        rekapLink.style.fontSize = "14px";
+        rekapLink.style.color = "#0f172a";
+        rekapLink.style.borderBottom = "1px solid #e2e8f0";
+        rekapLink.style.textDecoration = "none";
+
+        // 🔹 Saat diklik, tampilkan rightsidebar.html di area utama
+        rekapLink.addEventListener("click", function(e) {
           e.preventDefault();
           const frame = document.getElementById("mainFrame");
+
           if (frame) {
             frame.src = "rightsidebar.html";
+
+            // Sesuaikan ukuran penuh layar mobile
+            frame.style.width = "100%";
+            frame.style.height = "100vh";
+            frame.style.border = "none";
+            frame.style.margin = "0";
+            frame.style.padding = "0";
           }
 
-          // Tutup sidebar otomatis (jika ada fungsi toggle)
+          // Tutup sidebar bila terbuka
           const sidebar = document.querySelector(".sidebar");
           if (sidebar && sidebar.classList.contains("open")) {
             sidebar.classList.remove("open");
           }
+
+          // Gulir ke atas agar tampil penuh
+          window.scrollTo(0, 0);
         });
 
-        panel.appendChild(newLink);
+        // 🔹 Sisipkan setelah submenu ke-4
+        const submenus = formPanel.querySelectorAll("a.submenu");
+        if (submenus.length >= 4) {
+          formPanel.insertBefore(rekapLink, submenus[4]); // setelah antar teman
+        } else {
+          formPanel.appendChild(rekapLink); // fallback jika jumlah kurang
+        }
       }
     }
   }

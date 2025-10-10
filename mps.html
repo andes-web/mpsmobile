@@ -1781,72 +1781,61 @@ header {
 <!-- MENU BAR FIX MOBILE -->
 <style>
 @media (max-width: 768px) {
-  /* ==== MENU UTAMA: EFEK EMBOS DALAM + WARNA ORI ==== */
+
+/* PAKSA 4 TOMBOL PAS 100% LAYAR TANPA SISA */
 .sidebar-left {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  padding: 4px 6px !important;
-  gap: 0 !important;                     /* hilangkan jarak antar tombol */
-  background: linear-gradient(90deg, #ff9800, #ffc107) !important; /* warna oranye kuning */
-  overflow: hidden !important;
-  border: none !important;
-  box-shadow:
-    inset 2px 2px 4px rgba(255,255,255,0.4),
-    inset -2px -2px 6px rgba(0,0,0,0.25);
-}
-
-/* Tombol menu utama */
-.accordion {
-  flex: 1 1 0 !important;
-  text-align: center !important;
-  background: linear-gradient(145deg, #ffb84d, #e38b00);  /* warna menyesuaikan gradasi footer */
-  color: #111 !important;
-  font-weight: 700 !important;
-  font-size: 0.9rem !important;
-  padding: 8px 0 !important;
-  border-radius: 0 !important;
-  border: none !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important; /* ✅ Bagi 4 kolom rata */
+  width: 100vw !important; /* ✅ Paksa penuh satu layar */
+  max-width: 100vw !important;
+  padding: 0 !important;
   margin: 0 !important;
-  letter-spacing: 0.3px;
-  cursor: pointer;
-  box-shadow:
-    inset 4px 4px 6px rgba(0,0,0,0.45),    /* bayangan dalam kanan bawah */
-    inset -4px -4px 6px rgba(255,255,255,0.7), /* highlight kiri atas */
-    0 1px 2px rgba(0,0,0,0.15);            /* bayangan luar tipis */
-  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-  transition: all 0.2s ease-in-out;
+  border: none !important;
+  background: linear-gradient(90deg, #fcdec0, #fcdec0) !important;
+  overflow: hidden !important;
 }
 
-/* Hover: sedikit muncul ke atas */
+/* ====== TOMBOL GAYA SOFT GLASS MINT ====== */
+.accordion {
+  background: rgba(214, 255, 240, 0.85) !important; /* efek kaca lembut */
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important; /* support iOS */
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    inset 0 0 5px rgba(255, 255, 255, 0.25) !important;
+  color: #0e4f3a !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important; /* ✅ Rounded elegan */
+  transition: all 0.25s ease-in-out !important;
+}
+
+/* Efek Hover: Glow tipis lembut */
 .accordion:hover {
-  background: linear-gradient(145deg, #ffc562, #e09a23);
+  background: rgba(230, 255, 245, 0.95) !important;
   box-shadow:
-    inset 2px 2px 4px rgba(0,0,0,0.3),
-    inset -2px -2px 4px rgba(255,255,255,0.8),
-    0 2px 4px rgba(0,0,0,0.2);
+    0 4px 8px rgba(0, 0, 0, 0.12),
+    0 0 6px rgba(111, 255, 209, 0.4) !important;
+  transform: translateY(-2px) !important; /* sedikit melayang elegan */
 }
-/* Active: makin masuk ke dalam */
+
+/* Tekan */
 .accordion:active {
-  background: linear-gradient(145deg, #e09a23, #c97f00);
+  transform: translateY(1px) !important;
   box-shadow:
-    inset 5px 5px 8px rgba(0,0,0,0.55),
-    inset -3px -3px 6px rgba(255,255,255,0.7);
-  transform: translateY(1px);
+    inset 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  background: rgba(200, 245, 233, 0.92) !important;
 }
-/* ==== MOBILE TAMPILAN PADAT ==== */
-  .sidebar-left {
-    padding: 2px 3px !important;
-    gap: 0 !important;
-  }
-  .accordion {
-    font-size: 0.8rem !important;
-    padding: 7px 0 !important;
-    margin: 0 !important;
-  }
+
+/* Ikon berada di tengah tetap elegan */
+.accordion i, .accordion svg {
+  opacity: 0.9 !important;
+  filter: drop-shadow(0 1px 1px rgba(255,255,255,0.3));
+}
 }
 </style>
+
 <style>
 /* ==== FIX HEADER MOBILE: INSTANSI DEKAT LOGO, WRAP SAAT SEMPIT ==== */
 @media (max-width: 768px) {
@@ -1912,8 +1901,78 @@ header {
     text-shadow: 0 0 8px #00ffcc, 0 0 15px #009977;
   }
 }
-</style>
+/* === MOBILE FORCE-FIX: HILANGKAN SEGITIGA & PAKSA SUBMENU 1 BARIS === */
+@media (max-width: 768px) {
 
+  /* 1) Matikan pseudo-elements panah yang ada di stylesheet Anda */
+  .h2-accordion::after,
+  .h3-accordion::after,
+  .h2-accordion::before,
+  .h3-accordion::before {
+    content: none !important;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* 2) Safety: remove any pseudo-elements inside panel-inner */
+  .panel-inner *::before,
+  .panel-inner *::after {
+    content: none !important;
+    display: none !important;
+    background-image: none !important;
+  }
+
+  /* 3) Hide inline caret/chev elements (font-icon or svg) inside panels */
+  .panel-inner [class*="caret"],
+  .panel-inner [class*="chev"],
+  .panel-inner svg[class*="caret"],
+  .panel-inner svg[class*="chev"],
+  .panel-inner i[class*="caret"],
+  .panel-inner i[class*="chev"] {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* 4) Paksa setiap tombol/label dalam panel agar tetap 1 baris dengan ellipsis */
+  .panel-inner .h2-accordion,
+  .panel-inner .h3-accordion,
+  .panel-inner .h4-button,
+  .panel-inner button {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding-right: 12px !important; /* beri ruang kanan kalau ada ikon */
+    line-height: 1.2 !important;
+  }
+
+  /* 5) Pastikan ellipsis bekerja dalam flex: paksa min-width:0 pada kontainer */
+  .panel-inner,
+  .panel-inner .subpanel,
+  .panel-inner .subpanel * {
+    min-width: 0 !important;
+  }
+
+  /* 6) Jika ada arrow literal (karakter) yang masih muncul, pastikan empty fallback */
+  .h2-accordion::after { content: "" !important; }
+  .h3-accordion::after { content: "" !important; }
+
+  /* 7) Jaga ikon utama tetap terlihat (jika ada) */
+  .panel-inner .icon,
+  .panel-inner img,
+  .panel-inner svg,
+  .panel-inner i {
+    vertical-align: middle !important;
+  }
+}
+
+</style>
 
 </head>
 <body>
@@ -4148,8 +4207,8 @@ document.addEventListener("DOMContentLoaded", function() {
   /* Main content occupies area between header+menu and footer */
   main, .content, .main-content, #content {
     position: fixed !important;
-    top: calc(60px + 48px) !important;
-    bottom: 56px !important;
+    top: calc(40px + 20px) !important;
+    bottom: 40px !important;
     left: 0 !important;
     right: 0 !important;
     overflow-y: auto !important;
@@ -4197,6 +4256,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // geser konten utama supaya tidak ketutupan
   document.body.style.marginRight = "278px";
+});
+</script>
+<script>
+// 🔹 Jalankan hanya pada mode MOBILE
+document.addEventListener("DOMContentLoaded", function() {
+  if (window.innerWidth <= 768) {
+    const formMenu = [...document.querySelectorAll(".accordion")].find(btn =>
+      btn.textContent.trim().toUpperCase().includes("FORM")
+    );
+
+    if (formMenu) {
+      const panel = formMenu.nextElementSibling;
+
+      // Cegah duplikasi
+      if (!panel.querySelector(".submenu-rekap")) {
+        const newLink = document.createElement("a");
+        newLink.textContent = "📊 Rekap Nilai";
+        newLink.href = "#";
+        newLink.className = "submenu submenu-rekap";
+        newLink.style.display = "block";
+        newLink.style.padding = "8px 14px";
+        newLink.style.fontSize = "14px";
+        newLink.style.color = "#1e40af";
+        newLink.style.textDecoration = "none";
+        newLink.style.borderRadius = "8px";
+        newLink.addEventListener("click", function(e) {
+          e.preventDefault();
+          const frame = document.getElementById("mainFrame");
+          if (frame) {
+            frame.src = "rightsidebar.html";
+          }
+
+          // Tutup sidebar otomatis (jika ada fungsi toggle)
+          const sidebar = document.querySelector(".sidebar");
+          if (sidebar && sidebar.classList.contains("open")) {
+            sidebar.classList.remove("open");
+          }
+        });
+
+        panel.appendChild(newLink);
+      }
+    }
+  }
 });
 </script>
 </body>

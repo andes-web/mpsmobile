@@ -4258,77 +4258,87 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.style.marginRight = "278px";
 });
 </script>
+<!-- INSERT: Rekap Nilai (mobile only) -->
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const isMobile = window.innerWidth <= 768;
-  const allAccordions = document.querySelectorAll(".accordion");
+(function(){
+  function isMobile(){ return window.innerWidth <= 768; }
 
-  // Cari tombol accordion FORM
-  let formAccordion = null;
-  allAccordions.forEach(btn => {
-    if (btn.textContent.trim().toUpperCase().includes("FORM")) {
-      formAccordion = btn;
+  // Cari dan sisipkan item "Rekap Nilai" tepat setelah item "Penilaian Antar Teman"
+  function insertRekapOnce(){
+    if(!isMobile()) return; // hanya mobile
+    const sidebar = document.getElementById('sidebar-left') || document.querySelector('.sidebar-left');
+    if(!sidebar) return;
+
+    // cari elemen yang berisi teks tepat "Penilaian Antar Teman"
+    let target = null;
+    const all = sidebar.querySelectorAll('*');
+    for(const el of all){
+      if(el.childElementCount === 0 && el.textContent && el.textContent.trim() === 'Penilaian Antar Teman'){
+        target = el;
+        break;
+      }
     }
-  });
 
-  if (!formAccordion) return;
-  const formPanel = formAccordion.nextElementSibling;
-  if (!formPanel) return;
+    // fallback: cari dalam panel-inner bila belum ketemu
+    if(!target){
+      const panels = sidebar.querySelectorAll('.panel-inner, .panel');
+      for(const p of panels){
+        if(p.textContent && p.textContent.includes('Penilaian Antar Teman')){
+          const child = Array.from(p.children).find(c => c.textContent && c.textContent.trim() === 'Penilaian Antar Teman');
+          if(child){ target = child; break; }
+        }
+      }
+    }
 
-  // === 1. TAMBAHKAN SUBMENU REKAP NILAI (MOBILE SAJA) ===
-  if (isMobile && !formPanel.querySelector(".submenu-rekap")) {
-    const rekapLink = document.createElement("a");
-    rekapLink.href = "#";
-    rekapLink.textContent = "📊 Rekap Nilai";
-    rekapLink.className = "submenu submenu-rekap";
-    rekapLink.style.display = "block";
-    rekapLink.style.padding = "8px 18px";
-    rekapLink.style.fontSize = "14px";
-    rekapLink.style.color = "#0f172a";
-    rekapLink.style.borderBottom = "1px solid #e2e8f0";
-    rekapLink.style.textDecoration = "none";
+    if(!target) return;
 
-    rekapLink.addEventListener("click", function(e) {
+    // tidak duplikasi
+    if(sidebar.querySelector('.rekap-nilai-item')) return;
+
+    // Buat elemen submenu mirip h4-button (agar tampil konsisten)
+    const item = document.createElement('div');
+    item.className = 'h4-button rekap-nilai-item';
+    item.textContent = '📊 Rekap Nilai';
+    item.style.cursor = 'pointer';
+    // copy sedikit gaya agar terlihat seperti submenu (boleh di-tweak)
+    item.style.padding = '6px 8px';
+    item.style.margin = '4px 0';
+    item.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
+
+    // sisipkan setelah target
+    target.insertAdjacentElement('afterend', item);
+
+    // klik => muat rightsidebar.html di #content (full mobile)
+    item.addEventListener('click', function(e){
       e.preventDefault();
-      const frame = document.getElementById("mainFrame");
-      if (frame) {
-        frame.src = "rightsidebar.html";
-        frame.style.width = "100%";
-        frame.style.height = "100vh";
-        frame.style.border = "none";
-        frame.style.margin = "0";
-        frame.style.padding = "0";
+      const content = document.getElementById('content') || document.querySelector('.content');
+      if(content){
+        content.innerHTML = "<iframe src='rightsidebar.html' style='width:100%;height:100vh;border:none;display:block;' sandbox='allow-same-origin allow-scripts allow-top-navigation allow-forms' scrolling='no'></iframe>";
+        // scroll ke atas supaya terlihat full
+        window.scrollTo(0,0);
+      } else {
+        // fallback: buka sebagai halaman baru
+        window.location.href = 'rightsidebar.html';
       }
-
-      // Tutup sidebar jika ada
-      const sidebar = document.querySelector(".sidebar");
-      if (sidebar && sidebar.classList.contains("open")) {
-        sidebar.classList.remove("open");
-      }
-
-      window.scrollTo(0, 0);
     });
-
-    // Sisipkan setelah submenu ke-4 (Penilaian Antar Teman)
-    const submenus = formPanel.querySelectorAll("a.submenu");
-    if (submenus.length >= 4) {
-      submenus[3].insertAdjacentElement("afterend", rekapLink);
-    } else {
-      formPanel.appendChild(rekapLink);
-    }
   }
 
-  // === 2. SEMBUNYIKAN REKAP PENILAIAN (HANYA DESKTOP) ===
-  if (!isMobile) {
-    const rekapPenilaian = [...formPanel.querySelectorAll("a.submenu")]
-      .find(a => a.textContent.trim().toUpperCase().includes("REKAP PENILAIAN"));
-    if (rekapPenilaian) {
-      // bisa pakai remove() supaya hilang total
-      rekapPenilaian.remove();
-    }
-  }
-});
+  // jalankan segera setelah DOM siap
+  document.addEventListener('DOMContentLoaded', insertRekapOnce);
+
+  // jika menu dibuat secara dinamis, observe perubahan di sidebar
+  (function observeSidebar(){
+    const root = document.getElementById('sidebar-left') || document.querySelector('.sidebar-left') || document.body;
+    if(!root) return;
+    const mo = new MutationObserver(()=> {
+      insertRekapOnce();
+    });
+    mo.observe(root, { childList: true, subtree: true });
+    // juga panggil sekali sekarang
+    insertRekapOnce();
+  })();
+})();
 </script>
-
+<!-- END INSERT -->
 </body>
 </html>

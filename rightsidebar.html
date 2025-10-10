@@ -140,6 +140,20 @@ footer {
   border-top: 1px solid #e2e8f0;
   padding: 4px;
 }
+.posTable {
+  margin-top: 6px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.posTable h4 {
+  text-align: center;
+  background: #1e40af;
+  color: white;
+  margin: 0;
+  padding: 4px;
+  font-size: 0.75rem;
+}
 </style>
 </head>
 
@@ -150,8 +164,6 @@ footer {
     <select id="jenisRekap">
       <option value="Rekap">Rekap Individu</option>
       <option value="RekapKelompok">Rekap Kelompok</option>
-      <option value="PosIndividu">Rekap Pos Individu</option>
-      <option value="PosKelompok">Rekap Pos Kelompok</option>
     </select>
 
     <div class="action-btns">
@@ -159,7 +171,6 @@ footer {
       <button class="btn-excel" id="btnExcel">Excel</button>
     </div>
 
-    <!-- Statistik dipindah ke sini -->
     <div class="statBox">
       <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
       <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
@@ -171,6 +182,15 @@ footer {
       <table id="rekapTable">
         <thead id="tableHead"></thead>
         <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Tambahan untuk POS -->
+    <div class="posTable" id="posSection" style="display:none;">
+      <h4 id="posTitle"></h4>
+      <table id="posTable">
+        <thead id="posHead"></thead>
+        <tbody id="posBody"></tbody>
       </table>
     </div>
 
@@ -200,24 +220,23 @@ function getMedalIcon(rank){
   return rank;
 }
 
+async function fetchSheet(sheetName){
+  const res = await fetch(`${sheetAPI}?sheet=${sheetName}`);
+  return await res.json();
+}
+
 async function loadRekap(sheetName="Rekap") {
   try {
-    const res = await fetch(`${sheetAPI}?sheet=${sheetName}`);
-    const data = await res.json();
+    const data = await fetchSheet(sheetName);
     latestData = data;
     const headers = data[0];
     const rows = data.slice(1);
-
     const namaIdx = headers.indexOf("Nama");
     const unitIdx = headers.indexOf("Unit");
     const jumlahIdx = headers.indexOf("Jumlah");
 
     const sortedRows = rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
-
-    // Batas tampil
-    let limit = rows.length;
-    if(sheetName==="Rekap") limit=3;
-    if(sheetName==="RekapKelompok") limit=8;
+    let limit = sheetName==="Rekap" ? 3 : 8;
     const limitedRows = sortedRows.slice(0,limit);
 
     document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
@@ -229,6 +248,7 @@ async function loadRekap(sheetName="Rekap") {
         <td>${r[jumlahIdx]||0}</td>
       </tr>`).join("");
 
+    // Statistik
     const jumlahArr = rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
     const peserta = jumlahArr.length;
     const total = jumlahArr.reduce((a,b)=>a+b,0);
@@ -241,6 +261,18 @@ async function loadRekap(sheetName="Rekap") {
     document.getElementById("statMax").innerText=max;
     document.getElementById("statMin").innerText=min;
 
+    // Pos tambahan
+    const posSheet = sheetName==="Rekap" ? "PosIndividu" : "PosKelompok";
+    const posData = await fetchSheet(posSheet);
+    const posHeaders = posData[0];
+    const posRows = posData.slice(1);
+
+    document.getElementById("posSection").style.display="block";
+    document.getElementById("posTitle").innerText = sheetName==="Rekap" ? "Rekap POS Individu" : "Rekap POS Kelompok";
+    document.getElementById("posHead").innerHTML="<tr>"+posHeaders.map(h=>`<th>${h}</th>`).join("")+"</tr>";
+    document.getElementById("posBody").innerHTML=posRows.map(r=>`<tr>${r.map(c=>`<td>${c||""}</td>`).join("")}</tr>`).join("");
+
+    // Rekap per unit
     const unitMap={};
     rows.forEach(r=>{
       const unit=r[unitIdx];

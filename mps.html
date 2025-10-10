@@ -4258,87 +4258,143 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.style.marginRight = "278px";
 });
 </script>
-<!-- INSERT: Rekap Nilai (mobile only) -->
 <script>
-(function(){
-  function isMobile(){ return window.innerWidth <= 768; }
+(function() {
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
 
-  // Cari dan sisipkan item "Rekap Nilai" tepat setelah item "Penilaian Antar Teman"
-  function insertRekapOnce(){
-    if(!isMobile()) return; // hanya mobile
+  // Fungsi untuk menambahkan submenu Rekap Nilai
+  function insertRekapOnce() {
+    if (!isMobile()) return; // hanya untuk mobile
+
     const sidebar = document.getElementById('sidebar-left') || document.querySelector('.sidebar-left');
-    if(!sidebar) return;
+    if (!sidebar) return;
 
-    // cari elemen yang berisi teks tepat "Penilaian Antar Teman"
+    // Cari elemen "Penilaian Antar Teman"
     let target = null;
     const all = sidebar.querySelectorAll('*');
-    for(const el of all){
-      if(el.childElementCount === 0 && el.textContent && el.textContent.trim() === 'Penilaian Antar Teman'){
+    for (const el of all) {
+      if (
+        el.childElementCount === 0 &&
+        el.textContent &&
+        el.textContent.trim() === 'Penilaian Antar Teman'
+      ) {
         target = el;
         break;
       }
     }
 
-    // fallback: cari dalam panel-inner bila belum ketemu
-    if(!target){
+    // fallback kalau belum ketemu
+    if (!target) {
       const panels = sidebar.querySelectorAll('.panel-inner, .panel');
-      for(const p of panels){
-        if(p.textContent && p.textContent.includes('Penilaian Antar Teman')){
-          const child = Array.from(p.children).find(c => c.textContent && c.textContent.trim() === 'Penilaian Antar Teman');
-          if(child){ target = child; break; }
+      for (const p of panels) {
+        if (p.textContent && p.textContent.includes('Penilaian Antar Teman')) {
+          const child = Array.from(p.children).find(
+            (c) => c.textContent && c.textContent.trim() === 'Penilaian Antar Teman'
+          );
+          if (child) {
+            target = child;
+            break;
+          }
         }
       }
     }
 
-    if(!target) return;
+    if (!target) return;
+    if (sidebar.querySelector('.rekap-nilai-item')) return; // hindari duplikasi
 
-    // tidak duplikasi
-    if(sidebar.querySelector('.rekap-nilai-item')) return;
-
-    // Buat elemen submenu mirip h4-button (agar tampil konsisten)
+    // Buat elemen submenu baru
     const item = document.createElement('div');
     item.className = 'h4-button rekap-nilai-item';
     item.textContent = '📊 Rekap Nilai';
     item.style.cursor = 'pointer';
-    // copy sedikit gaya agar terlihat seperti submenu (boleh di-tweak)
     item.style.padding = '6px 8px';
     item.style.margin = '4px 0';
     item.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
+    item.style.opacity = '0';
+    item.style.transition = 'opacity 0.5s ease';
 
-    // sisipkan setelah target
     target.insertAdjacentElement('afterend', item);
 
-    // klik => muat rightsidebar.html di #content (full mobile)
-    item.addEventListener('click', function(e){
+    // Fade-in smooth
+    requestAnimationFrame(() => {
+      item.style.opacity = '1';
+    });
+
+    // Saat diklik, tampilkan rightsidebar.html di konten utama
+    item.addEventListener('click', function(e) {
       e.preventDefault();
       const content = document.getElementById('content') || document.querySelector('.content');
-      if(content){
-        content.innerHTML = "<iframe src='rightsidebar.html' style='width:100%;height:100vh;border:none;display:block;' sandbox='allow-same-origin allow-scripts allow-top-navigation allow-forms' scrolling='no'></iframe>";
-        // scroll ke atas supaya terlihat full
-        window.scrollTo(0,0);
+      if (content) {
+        const iframe = document.createElement('iframe');
+        iframe.src = 'rightsidebar.html';
+        iframe.sandbox = 'allow-same-origin allow-scripts allow-top-navigation allow-forms';
+        iframe.scrolling = 'auto';
+        iframe.style.border = 'none';
+        iframe.style.display = 'block';
+        iframe.style.margin = '0';
+        iframe.style.padding = '0';
+        iframe.style.opacity = '0';
+        iframe.style.transition = 'opacity 0.5s ease';
+
+        // Set ukuran awal berdasarkan perangkat
+        if (window.innerWidth <= 768) {
+          iframe.style.width = '100vw';
+          iframe.style.height = '100vh';
+        } else {
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+        }
+
+        content.innerHTML = ''; // kosongkan konten sebelumnya
+        content.appendChild(iframe);
+
+        // Fade-in iframe setelah dimuat
+        setTimeout(() => {
+          iframe.style.opacity = '1';
+        }, 100);
+
+        // Scroll ke atas agar tampil penuh
+        window.scrollTo(0, 0);
       } else {
-        // fallback: buka sebagai halaman baru
+        // fallback: buka langsung
         window.location.href = 'rightsidebar.html';
       }
     });
   }
 
-  // jalankan segera setelah DOM siap
+  // Jalankan setelah DOM siap
   document.addEventListener('DOMContentLoaded', insertRekapOnce);
 
-  // jika menu dibuat secara dinamis, observe perubahan di sidebar
-  (function observeSidebar(){
-    const root = document.getElementById('sidebar-left') || document.querySelector('.sidebar-left') || document.body;
-    if(!root) return;
-    const mo = new MutationObserver(()=> {
+  // Observer agar tetap muncul jika menu dibuat dinamis
+  (function observeSidebar() {
+    const root =
+      document.getElementById('sidebar-left') ||
+      document.querySelector('.sidebar-left') ||
+      document.body;
+    if (!root) return;
+    const mo = new MutationObserver(() => {
       insertRekapOnce();
     });
     mo.observe(root, { childList: true, subtree: true });
-    // juga panggil sekali sekarang
     insertRekapOnce();
   })();
+
+  // Responsif realtime: ubah ukuran iframe saat orientasi berubah
+  window.addEventListener('resize', () => {
+    const iframe = document.querySelector('#content iframe');
+    if (!iframe) return;
+    if (window.innerWidth <= 768) {
+      iframe.style.width = '100vw';
+      iframe.style.height = '100vh';
+    } else {
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+    }
+  });
 })();
 </script>
-<!-- END INSERT -->
+
 </body>
 </html>

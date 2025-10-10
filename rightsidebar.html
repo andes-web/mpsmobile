@@ -321,15 +321,19 @@ async function loadRekap(sheetName="Rekap") {
     });
 
     // === STATISTIK ===
-    const jumlahArr = rows.map(r => Number(r[jumlahIdx]) || 0);
+    const jumlahArr = rows
+  .map(r => Number(r[jumlahIdx]))
+  .filter(v => !isNaN(v) && v > 0);
     const peserta = jumlahArr.length;
-    const rata = peserta ? (jumlahArr.reduce((a,b)=>a+b,0)/peserta).toFixed(1) : 0;
-    const max = Math.max(...jumlahArr);
-    const min = Math.min(...jumlahArr);
-    document.getElementById("statPeserta").innerText = peserta;
-    document.getElementById("statRata").innerText = rata;
-    document.getElementById("statMax").innerText = max;
-    document.getElementById("statMin").innerText = min;
+const totalNilai = jumlahArr.reduce((a, b) => a + b, 0);
+const rata = peserta ? (totalNilai / peserta).toFixed(1) : 0;
+const max = peserta ? Math.max(...jumlahArr) : 0;
+const min = peserta ? Math.min(...jumlahArr) : 0;
+    document.getElementById("statPeserta").innerText = peserta || 0;
+document.getElementById("statRata").innerText = rata || 0;
+document.getElementById("statMax").innerText = max || 0;
+document.getElementById("statMin").innerText = min || 0;
+
 
     // === REKAP UNIT ===
     const unitMap={};

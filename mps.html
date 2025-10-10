@@ -4259,142 +4259,101 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <script>
-(function() {
-  function isMobile() {
-    return window.innerWidth <= 768;
-  }
+(function(){
+  function isMobile(){ return window.innerWidth <= 768; }
 
-  // Fungsi untuk menambahkan submenu Rekap Nilai
-  function insertRekapOnce() {
-    if (!isMobile()) return; // hanya untuk mobile
+  // Tambah submenu "📊 Rekap Nilai"
+  function insertRekapOnce(){
+    if(!isMobile()) return;
+    const sidebar=document.getElementById('sidebar-left')||document.querySelector('.sidebar-left');
+    if(!sidebar)return;
 
-    const sidebar = document.getElementById('sidebar-left') || document.querySelector('.sidebar-left');
-    if (!sidebar) return;
-
-    // Cari elemen "Penilaian Antar Teman"
-    let target = null;
-    const all = sidebar.querySelectorAll('*');
-    for (const el of all) {
-      if (
-        el.childElementCount === 0 &&
-        el.textContent &&
-        el.textContent.trim() === 'Penilaian Antar Teman'
-      ) {
-        target = el;
-        break;
+    // Cari elemen "Penilaian Individu"
+    let target=null;
+    const all=sidebar.querySelectorAll('*');
+    for(const el of all){
+      if(el.childElementCount===0 && el.textContent && el.textContent.trim()==='Penilaian Individu'){
+        target=el;break;
       }
     }
 
-    // fallback kalau belum ketemu
-    if (!target) {
-      const panels = sidebar.querySelectorAll('.panel-inner, .panel');
-      for (const p of panels) {
-        if (p.textContent && p.textContent.includes('Penilaian Antar Teman')) {
-          const child = Array.from(p.children).find(
-            (c) => c.textContent && c.textContent.trim() === 'Penilaian Antar Teman'
-          );
-          if (child) {
-            target = child;
-            break;
-          }
+    // fallback
+    if(!target){
+      const panels=sidebar.querySelectorAll('.panel-inner,.panel');
+      for(const p of panels){
+        if(p.textContent && p.textContent.includes('Penilaian Individu')){
+          const child=Array.from(p.children).find(c=>c.textContent&&c.textContent.trim()==='Penilaian Individu');
+          if(child){target=child;break;}
         }
       }
     }
+    if(!target)return;
+    if(sidebar.querySelector('.rekap-nilai-item'))return;
 
-    if (!target) return;
-    if (sidebar.querySelector('.rekap-nilai-item')) return; // hindari duplikasi
+    // Elemen submenu
+    const item=document.createElement('div');
+    item.className='h4-button rekap-nilai-item';
+    item.textContent='📊 Rekap Nilai';
+    item.style.cursor='pointer';
+    item.style.padding='6px 8px';
+    item.style.margin='4px 0';
+    item.style.borderBottom='1px solid rgba(0,0,0,0.06)';
+    item.style.opacity='0';
+    item.style.transition='opacity .5s ease';
+    target.insertAdjacentElement('beforebegin',item);
+    requestAnimationFrame(()=>{item.style.opacity='1';});
 
-    // Buat elemen submenu baru
-    const item = document.createElement('div');
-    item.className = 'h4-button rekap-nilai-item';
-    item.textContent = '📊 Rekap Nilai';
-    item.style.cursor = 'pointer';
-    item.style.padding = '6px 8px';
-    item.style.margin = '4px 0';
-    item.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
-    item.style.opacity = '0';
-    item.style.transition = 'opacity 0.5s ease';
-
-    target.insertAdjacentElement('afterend', item);
-
-    // Fade-in smooth
-    requestAnimationFrame(() => {
-      item.style.opacity = '1';
-    });
-
-    // Saat diklik, tampilkan rightsidebar.html di konten utama
-    item.addEventListener('click', function(e) {
+    // Klik → tampilkan rightsidebar.html di konten utama
+    item.addEventListener('click',function(e){
       e.preventDefault();
-      const content = document.getElementById('content') || document.querySelector('.content');
-      if (content) {
-        const iframe = document.createElement('iframe');
-        iframe.src = 'rightsidebar.html';
-        iframe.sandbox = 'allow-same-origin allow-scripts allow-top-navigation allow-forms';
-        iframe.scrolling = 'auto';
-        iframe.style.border = 'none';
-        iframe.style.display = 'block';
-        iframe.style.margin = '0';
-        iframe.style.padding = '0';
-        iframe.style.opacity = '0';
-        iframe.style.transition = 'opacity 0.5s ease';
+      const content=document.getElementById('content')||document.querySelector('.content');
+      if(content){
+        const iframe=document.createElement('iframe');
+        iframe.src='rightsidebar.html';
+        iframe.sandbox='allow-same-origin allow-scripts allow-top-navigation allow-forms';
+        iframe.scrolling='auto';
+        iframe.style.border='none';
+        iframe.style.display='block';
+        iframe.style.margin='0 auto';
+        iframe.style.padding='0';
+        iframe.style.opacity='0';
+        iframe.style.transition='opacity .5s ease';
+        iframe.style.width='100%';
+        iframe.style.maxWidth='100%';
+        iframe.style.height='calc(100vh - 10px)'; // sedikit jarak agar tidak potong footer
 
-        // Set ukuran awal berdasarkan perangkat
-        if (window.innerWidth <= 768) {
-          iframe.style.width = '100vw';
-          iframe.style.height = '100vh';
-        } else {
-          iframe.style.width = '100%';
-          iframe.style.height = '100%';
-        }
-
-        content.innerHTML = ''; // kosongkan konten sebelumnya
+        // bersihkan konten utama
+        content.innerHTML='';
         content.appendChild(iframe);
-
-        // Fade-in iframe setelah dimuat
-        setTimeout(() => {
-          iframe.style.opacity = '1';
-        }, 100);
-
-        // Scroll ke atas agar tampil penuh
-        window.scrollTo(0, 0);
-      } else {
-        // fallback: buka langsung
-        window.location.href = 'rightsidebar.html';
+        setTimeout(()=>{iframe.style.opacity='1';},100);
+        window.scrollTo(0,0);
+      }else{
+        window.location.href='rightsidebar.html';
       }
     });
   }
 
   // Jalankan setelah DOM siap
-  document.addEventListener('DOMContentLoaded', insertRekapOnce);
+  document.addEventListener('DOMContentLoaded',insertRekapOnce);
 
-  // Observer agar tetap muncul jika menu dibuat dinamis
-  (function observeSidebar() {
-    const root =
-      document.getElementById('sidebar-left') ||
-      document.querySelector('.sidebar-left') ||
-      document.body;
-    if (!root) return;
-    const mo = new MutationObserver(() => {
-      insertRekapOnce();
-    });
-    mo.observe(root, { childList: true, subtree: true });
+  // Observer untuk sidebar dinamis
+  (function observeSidebar(){
+    const root=document.getElementById('sidebar-left')||document.querySelector('.sidebar-left')||document.body;
+    if(!root)return;
+    const mo=new MutationObserver(()=>{insertRekapOnce();});
+    mo.observe(root,{childList:true,subtree:true});
     insertRekapOnce();
   })();
 
-  // Responsif realtime: ubah ukuran iframe saat orientasi berubah
-  window.addEventListener('resize', () => {
-    const iframe = document.querySelector('#content iframe');
-    if (!iframe) return;
-    if (window.innerWidth <= 768) {
-      iframe.style.width = '100vw';
-      iframe.style.height = '100vh';
-    } else {
-      iframe.style.width = '100%';
-      iframe.style.height = '100%';
-    }
+  // Realtime responsif saat orientasi berubah
+  window.addEventListener('resize',()=>{
+    const iframe=document.querySelector('#content iframe');
+    if(!iframe)return;
+    iframe.style.width='100%';
+    iframe.style.maxWidth='100%';
+    iframe.style.height='calc(100vh - 10px)';
   });
 })();
 </script>
-
 </body>
 </html>

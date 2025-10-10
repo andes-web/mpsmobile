@@ -73,6 +73,27 @@ select {
 .btn-pdf { background: #dc2626; }
 .btn-excel { background: #16a34a; }
 
+.statBox {
+  display: flex;
+  justify-content: space-around;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 8px;
+}
+.statItem { text-align: center; }
+.statItem h5 {
+  font-size: 0.6rem;
+  margin: 0;
+  color: #475569;
+}
+.statItem p {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin: 0;
+}
+
 .tableBox {
   border-radius: 8px;
   background: #ffffff;
@@ -89,28 +110,6 @@ th, td { padding: 5px 6px; text-align: center; }
 th { background: #2563eb; color: #fff; position: sticky; top: 0; }
 tr:nth-child(even) td { background: #f8fafc; }
 
-.statBox {
-  display: flex;
-  justify-content: space-around;
-  background: #f1f5f9;
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 6px;
-}
-.statItem {
-  text-align: center;
-}
-.statItem h5 {
-  font-size: 0.6rem;
-  margin: 0;
-  color: #475569;
-}
-.statItem p {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #2563eb;
-  margin: 0;
-}
 .unit-recap {
   margin-top: 10px;
   background: #f8fafc;
@@ -133,10 +132,7 @@ tr:nth-child(even) td { background: #f8fafc; }
   height: 160px;
   margin-top: 8px;
 }
-canvas {
-  width: 100% !important;
-  height: 160px !important;
-}
+canvas { width: 100% !important; height: 160px !important; }
 footer {
   font-size: 0.65rem;
   text-align: center;
@@ -163,18 +159,19 @@ footer {
       <button class="btn-excel" id="btnExcel">Excel</button>
     </div>
 
-    <div class="tableBox">
-      <table id="rekapTable">
-        <thead id="tableHead"></thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-
+    <!-- Statistik dipindah ke sini -->
     <div class="statBox">
       <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
       <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
       <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
       <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
+    </div>
+
+    <div class="tableBox">
+      <table id="rekapTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
     </div>
 
     <div class="unit-recap">
@@ -196,6 +193,13 @@ footer {
 const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
 let chartUnit, latestData=[];
 
+function getMedalIcon(rank){
+  if(rank===1) return "🥇";
+  if(rank===2) return "🥈";
+  if(rank===3) return "🥉";
+  return rank;
+}
+
 async function loadRekap(sheetName="Rekap") {
   try {
     const res = await fetch(`${sheetAPI}?sheet=${sheetName}`);
@@ -208,25 +212,23 @@ async function loadRekap(sheetName="Rekap") {
     const unitIdx = headers.indexOf("Unit");
     const jumlahIdx = headers.indexOf("Jumlah");
 
-    // sort descending by jumlah
     const sortedRows = rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
 
-    // limit per sheet type
-    let limit = 10;
+    // Batas tampil
+    let limit = rows.length;
     if(sheetName==="Rekap") limit=3;
     if(sheetName==="RekapKelompok") limit=8;
     const limitedRows = sortedRows.slice(0,limit);
 
-    document.getElementById("tableHead").innerHTML = "<tr><th>No</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
-    document.getElementById("tableBody").innerHTML = limitedRows.map((r,i)=>`
+    document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
+    document.getElementById("tableBody").innerHTML=limitedRows.map((r,i)=>`
       <tr>
-        <td>${i+1}</td>
+        <td>${getMedalIcon(i+1)}</td>
         <td>${r[namaIdx]||""}</td>
         <td>${r[unitIdx]||""}</td>
         <td>${r[jumlahIdx]||0}</td>
       </tr>`).join("");
 
-    // Statistik
     const jumlahArr = rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
     const peserta = jumlahArr.length;
     const total = jumlahArr.reduce((a,b)=>a+b,0);
@@ -239,7 +241,6 @@ async function loadRekap(sheetName="Rekap") {
     document.getElementById("statMax").innerText=max;
     document.getElementById("statMin").innerText=min;
 
-    // Rekap per Unit
     const unitMap={};
     rows.forEach(r=>{
       const unit=r[unitIdx];
@@ -258,7 +259,6 @@ async function loadRekap(sheetName="Rekap") {
     }).join("")||"<tr><td colspan='2'>Belum ada data</td></tr>";
     document.getElementById("unitBody").innerHTML=unitRows;
 
-    // Chart
     const ctx=document.getElementById("chartUnit").getContext("2d");
     if(chartUnit)chartUnit.destroy();
     chartUnit=new Chart(ctx,{

@@ -154,6 +154,11 @@ footer {
   padding: 4px;
   font-size: 0.75rem;
 }
+.posTable th:nth-child(1) { background: #93c5fd; }
+.posTable th:nth-child(2) { background: #86efac; }
+.posTable th:nth-child(3) { background: #fde68a; }
+.posTable th:nth-child(4) { background: #fdba74; }
+.posTable th:nth-child(5) { background: #c4b5fd; }
 </style>
 </head>
 
@@ -185,7 +190,7 @@ footer {
       </table>
     </div>
 
-    <!-- Tambahan untuk POS -->
+    <!-- Tabel POS tambahan -->
     <div class="posTable" id="posSection" style="display:none;">
       <h4 id="posTitle"></h4>
       <table id="posTable">
@@ -211,115 +216,65 @@ footer {
 
 <script>
 const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
-let chartUnit, latestData=[];
+let chartUnit, latestData=[], refreshTimer=null;
+function getMedalIcon(rank){return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;}
+async function fetchSheet(sheet){const res=await fetch(`${sheetAPI}?sheet=${sheet}`);return await res.json();}
 
-function getMedalIcon(rank){
-  if(rank===1) return "🥇";
-  if(rank===2) return "🥈";
-  if(rank===3) return "🥉";
-  return rank;
-}
+async function loadRekap(sheetName="Rekap"){
+ try{
+  const data=await fetchSheet(sheetName);latestData=data;
+  const headers=data[0],rows=data.slice(1);
+  const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
+  const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
+  const limit=sheetName==="Rekap"?3:8;const topRows=sorted.slice(0,limit);
+  document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
+  document.getElementById("tableBody").innerHTML=topRows.map((r,i)=>`
+   <tr><td>${getMedalIcon(i+1)}</td><td>${r[namaIdx]||""}</td><td>${r[unitIdx]||""}</td><td>${r[jumlahIdx]||0}</td></tr>
+  `).join("");
+  const arr=rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
+  const n=arr.length,sum=arr.reduce((a,b)=>a+b,0);document.getElementById("statPeserta").innerText=n;
+  document.getElementById("statRata").innerText=n?(sum/n).toFixed(1):0;
+  document.getElementById("statMax").innerText=n?Math.max(...arr):0;
+  document.getElementById("statMin").innerText=n?Math.min(...arr):0;
 
-async function fetchSheet(sheetName){
-  const res = await fetch(`${sheetAPI}?sheet=${sheetName}`);
-  return await res.json();
-}
-
-async function loadRekap(sheetName="Rekap") {
-  try {
-    const data = await fetchSheet(sheetName);
-    latestData = data;
-    const headers = data[0];
-    const rows = data.slice(1);
-    const namaIdx = headers.indexOf("Nama");
-    const unitIdx = headers.indexOf("Unit");
-    const jumlahIdx = headers.indexOf("Jumlah");
-
-    const sortedRows = rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
-    let limit = sheetName==="Rekap" ? 3 : 8;
-    const limitedRows = sortedRows.slice(0,limit);
-
-    document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
-    document.getElementById("tableBody").innerHTML=limitedRows.map((r,i)=>`
-      <tr>
-        <td>${getMedalIcon(i+1)}</td>
-        <td>${r[namaIdx]||""}</td>
-        <td>${r[unitIdx]||""}</td>
-        <td>${r[jumlahIdx]||0}</td>
-      </tr>`).join("");
-
-    // Statistik
-    const jumlahArr = rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
-    const peserta = jumlahArr.length;
-    const total = jumlahArr.reduce((a,b)=>a+b,0);
-    const rata = peserta?(total/peserta).toFixed(1):0;
-    const max = peserta?Math.max(...jumlahArr):0;
-    const min = peserta?Math.min(...jumlahArr):0;
-
-    document.getElementById("statPeserta").innerText=peserta;
-    document.getElementById("statRata").innerText=rata;
-    document.getElementById("statMax").innerText=max;
-    document.getElementById("statMin").innerText=min;
-
-    // Pos tambahan
-    const posSheet = sheetName==="Rekap" ? "PosIndividu" : "PosKelompok";
-    const posData = await fetchSheet(posSheet);
-    const posHeaders = posData[0];
-    const posRows = posData.slice(1);
-
+  // POS data
+  const posSheet=sheetName==="Rekap"?"PosIndividu":"PosKelompok";
+  const posData=await fetchSheet(posSheet);
+  if(posData.length>1){
+    const posHeaders=posData[0],posRows=posData.slice(1);
     document.getElementById("posSection").style.display="block";
-    document.getElementById("posTitle").innerText = sheetName==="Rekap" ? "Rekap POS Individu" : "Rekap POS Kelompok";
+    document.getElementById("posTitle").innerText=sheetName==="Rekap"?"Rekap POS Individu":"Rekap POS Kelompok";
     document.getElementById("posHead").innerHTML="<tr>"+posHeaders.map(h=>`<th>${h}</th>`).join("")+"</tr>";
     document.getElementById("posBody").innerHTML=posRows.map(r=>`<tr>${r.map(c=>`<td>${c||""}</td>`).join("")}</tr>`).join("");
+  }else{
+    document.getElementById("posSection").style.display="none";
+  }
 
-    // Rekap per unit
-    const unitMap={};
-    rows.forEach(r=>{
-      const unit=r[unitIdx];
-      const total=parseFloat(r[jumlahIdx])||0;
-      if(!unit)return;
-      if(!unitMap[unit])unitMap[unit]=[];
-      unitMap[unit].push(total);
-    });
-
-    const unitLabels=[],unitAverages=[];
-    const unitRows=Object.entries(unitMap).map(([unit,vals])=>{
-      const avg=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
-      unitLabels.push(unit);
-      unitAverages.push(Number(avg));
-      return `<tr><td>${unit}</td><td>${avg}</td></tr>`;
-    }).join("")||"<tr><td colspan='2'>Belum ada data</td></tr>";
-    document.getElementById("unitBody").innerHTML=unitRows;
-
-    const ctx=document.getElementById("chartUnit").getContext("2d");
-    if(chartUnit)chartUnit.destroy();
-    chartUnit=new Chart(ctx,{
-      type:"bar",
-      data:{labels:unitLabels,datasets:[{data:unitAverages,backgroundColor:"rgba(37,99,235,0.7)",borderRadius:6}]},
-      options:{plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8}}},y:{beginAtZero:true,max:100}}}
-    });
-
-  } catch(err){ console.error("Gagal memuat:",err); }
+  // per unit
+  const map={};rows.forEach(r=>{const u=r[unitIdx],v=parseFloat(r[jumlahIdx])||0;if(!u)return;(map[u]??=[]).push(v);});
+  const labels=[],avg=[];document.getElementById("unitBody").innerHTML=Object.entries(map).map(([u,vals])=>{
+    const a=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);labels.push(u);avg.push(Number(a));return `<tr><td>${u}</td><td>${a}</td></tr>`;
+  }).join("")||"<tr><td colspan='2'>Belum ada data</td></tr>";
+  const ctx=document.getElementById("chartUnit").getContext("2d");
+  if(chartUnit)chartUnit.destroy();
+  chartUnit=new Chart(ctx,{type:"bar",data:{labels,datasets:[{data:avg,backgroundColor:"rgba(37,99,235,0.7)",borderRadius:6}]},
+    options:{plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8}}},y:{beginAtZero:true,max:100}}}});
+ }catch(e){console.error(e);}
 }
 
 document.getElementById("jenisRekap").addEventListener("change",e=>loadRekap(e.target.value));
 loadRekap();
+if(refreshTimer)clearInterval(refreshTimer);
+refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").value;loadRekap(val);},10000);
 
-// Export Excel
+// Export
 document.getElementById("btnExcel").addEventListener("click",()=>{
-  const ws=XLSX.utils.aoa_to_sheet(latestData);
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,"Rekap");
-  XLSX.writeFile(wb,"Rekap_MPS.xlsx");
+ const ws=XLSX.utils.aoa_to_sheet(latestData);const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,ws,"Rekap");XLSX.writeFile(wb,"Rekap_MPS.xlsx");
 });
-
-// Export PDF
 document.getElementById("btnPDF").addEventListener("click",()=>{
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation:"portrait",unit:"pt",format:"a4" });
-  doc.text("Rekap Nilai MPS", 220,40);
-  doc.autoTable({ html:"#rekapTable", startY:60 });
-  doc.save("Rekap_MPS.pdf");
+ const {jsPDF}=window.jspdf;const doc=new jsPDF({orientation:"portrait",unit:"pt",format:"a4"});
+ doc.text("Rekap Nilai MPS",220,40);doc.autoTable({html:"#rekapTable",startY:60});doc.save("Rekap_MPS.pdf");
 });
 </script>
 </body>

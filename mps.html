@@ -4260,124 +4260,71 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 <script>
 (function(){
-  function isMobile() { return window.innerWidth <= 768; }
+  function isMobile(){return window.innerWidth<=768;}
 
   function insertRekapOnce(){
-    if(!isMobile()) return;
-    const sidebar=document.getElementById('sidebar-left')||document.querySelector('.sidebar-left');
+    if(!isMobile())return;
+    const sidebar=document.querySelector('#sidebar-left,.sidebar-left');
     if(!sidebar)return;
 
-    // cari posisi "Penilaian Individu"
-    let target=null;
-    const all=sidebar.querySelectorAll('*');
-    for(const el of all){
-      if(el.childElementCount===0 && el.textContent && el.textContent.trim()==='Penilaian Individu'){
-        target=el;break;
-      }
-    }
-    if(!target)return;
-    if(sidebar.querySelector('.rekap-nilai-item'))return;
+    // cari elemen "Penilaian Individu"
+    const target=[...sidebar.querySelectorAll('*')]
+      .find(el=>el.textContent?.trim()==='Penilaian Individu');
+    if(!target||sidebar.querySelector('.rekap-nilai-item'))return;
 
+    // buat tombol
     const item=document.createElement('div');
     item.className='h4-button rekap-nilai-item';
     item.textContent='📊 Rekap Nilai';
-    item.style.cursor='pointer';
-    item.style.padding='6px 8px';
-    item.style.margin='4px 0';
-    item.style.borderBottom='1px solid rgba(0,0,0,0.06)';
+    item.style.cssText='cursor:pointer;padding:6px 8px;margin:4px 0;border-bottom:1px solid rgba(0,0,0,.06);opacity:0;transition:.4s';
     target.insertAdjacentElement('beforebegin',item);
+    requestAnimationFrame(()=>item.style.opacity='1');
 
-    // Klik: muat rightsidebar di konten utama
-    item.addEventListener('click',function(e){
+    // klik: muat rightsidebar
+    item.addEventListener('click',e=>{
       e.preventDefault();
-      const content=document.getElementById('content')||document.querySelector('.content');
+      const content=document.querySelector('#content,.content');
       if(!content)return;
-
-      // kosongkan isi konten & buat iframe
       content.innerHTML='';
-      const iframe=document.createElement('iframe');
-      iframe.src='rightsidebar.html';
-      iframe.id='rekapFrame';
-      iframe.sandbox='allow-same-origin allow-scripts allow-top-navigation allow-forms';
-      iframe.scrolling='auto';
-      iframe.style.position='relative';
-      iframe.style.display='block';
-      iframe.style.border='none';
-      iframe.style.margin='0';
-      iframe.style.padding='0';
-      iframe.style.width='100vw';
-      iframe.style.height='100vh';
-      iframe.style.left='0';
-      iframe.style.top='0';
-      iframe.style.background='white';
-      iframe.style.zIndex='99';
-      iframe.style.transition='opacity .4s ease';
-      iframe.style.opacity='0';
-      content.appendChild(iframe);
-      requestAnimationFrame(()=>iframe.style.opacity='1');
 
-      // Scroll ke atas
+      const frame=document.createElement('iframe');
+      frame.src='rightsidebar.html';
+      frame.className='rekap-frame';
+      frame.setAttribute('sandbox','allow-same-origin allow-scripts allow-top-navigation allow-forms');
+      frame.scrolling='auto';
+      content.appendChild(frame);
+
+      // efek fade-in
+      requestAnimationFrame(()=>frame.classList.add('show'));
       window.scrollTo(0,0);
-
-      // Terapkan mode paksa penuh
-      forceFullWidth();
     });
-  }
-
-  // Fungsi paksa: hilangkan padding/margin semua kontainer utama
-  function forceFullWidth(){
-    if(!isMobile()) return;
-    const html=document.documentElement;
-    const body=document.body;
-    const content=document.getElementById('content')||document.querySelector('.content');
-    [html,body,content].forEach(el=>{
-      if(!el)return;
-      el.style.margin='0';
-      el.style.padding='0';
-      el.style.width='100vw';
-      el.style.maxWidth='100vw';
-      el.style.overflowX='hidden';
-    });
-    const iframe=document.getElementById('rekapFrame');
-    if(iframe){
-      iframe.style.width='100vw';
-      iframe.style.height='100vh';
-    }
   }
 
   document.addEventListener('DOMContentLoaded',insertRekapOnce);
-
-  // pantau jika sidebar dibentuk dinamis
-  const mo=new MutationObserver(insertRekapOnce);
-  mo.observe(document.body,{childList:true,subtree:true});
-
-  // pantau perubahan ukuran layar
-  window.addEventListener('resize',()=>{
-    if(isMobile()) forceFullWidth();
-  });
+  new MutationObserver(insertRekapOnce).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
 <style>
-/* 🌐 Mobile-only CSS paksa */
-@media (max-width:768px){
-  html,body,#content,.content{
-    margin:0!important;
-    padding:0!important;
-    width:100vw!important;
-    max-width:100vw!important;
-    overflow-x:hidden!important;
-    background:#fff!important;
-  }
-  #rekapFrame, #content iframe, .content iframe{
-    display:block!important;
+/* hanya aktif di mobile */
+@media(max-width:768px){
+  .rekap-frame{
+    display:block;
+    width:100%!important;          /* isi penuh area konten utama */
+    max-width:100%!important;
+    height:calc(100vh - 12px)!important; /* tinggi layar dikurangi sedikit agar tidak potong footer */
     border:none!important;
-    width:100vw!important;
-    height:100vh!important;
     margin:0!important;
     padding:0!important;
     background:#fff!important;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+    opacity:0;
+    transition:opacity .4s ease;
   }
+  .rekap-frame.show{opacity:1;}
 }
 </style>
+
 </body>
 </html>

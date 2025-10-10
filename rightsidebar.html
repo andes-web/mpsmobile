@@ -34,171 +34,128 @@ body {
 }
 .sidebar header {
   text-align: center;
-  padding: 14px 10px;
+  padding: 10px 6px;
   border-bottom: 1px solid #e2e8f0;
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-.sidebar header h2 {
-  margin: 0;
-  font-size: 1.05rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
+  font-size: 0.95rem;
 }
 .sidebar main {
   flex: 1;
   overflow-y: auto;
-  padding: 10px 14px;
+  padding: 8px 10px;
 }
 select {
   width: 100%;
-  padding: 6px;
+  padding: 5px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   background: #f9fafb;
-  font-size: 0.9rem;
-  margin-bottom: 10px;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
   outline: none;
 }
 .action-btns {
   display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 4px;
+  margin-bottom: 6px;
 }
 .action-btns button {
   flex: 1;
-  padding: 6px;
-  font-size: 0.75rem;
+  padding: 5px;
+  font-size: 0.7rem;
   border: none;
   border-radius: 6px;
   color: #fff;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.2s ease;
 }
 .btn-pdf { background: #dc2626; }
 .btn-excel { background: #16a34a; }
-.action-btns button:hover { opacity: 0.85; }
+
 .tableBox {
-  border-radius: 10px;
+  border-radius: 8px;
   background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   overflow: hidden;
+  margin-bottom: 6px;
 }
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
-th, td {
-  padding: 6px 8px;
-  text-align: center;
-}
-th {
-  background: #2563eb;
-  color: #fff;
-  font-weight: 500;
-  position: sticky;
-  top: 0;
-}
-tr:nth-child(even) td {
-  background: #f8fafc;
-}
-tr:hover td {
-  background: #e0f2fe;
-  cursor: pointer;
-}
+th, td { padding: 5px 6px; text-align: center; }
+th { background: #2563eb; color: #fff; position: sticky; top: 0; }
+tr:nth-child(even) td { background: #f8fafc; }
+
 .statBox {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  background: linear-gradient(135deg, #eff6ff 0%, #f1f5f9 100%);
-  border-radius: 10px;
-  margin-top: 10px;
-  padding: 8px 6px;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
+  justify-content: space-around;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 6px;
 }
 .statItem {
-  flex: 1 1 48%;
-  margin: 4px 0;
-  background: #fff;
-  border-radius: 8px;
   text-align: center;
-  padding: 6px 4px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 .statItem h5 {
+  font-size: 0.6rem;
   margin: 0;
-  font-size: 0.65rem;
   color: #475569;
 }
 .statItem p {
-  margin: 2px 0 0 0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #2563eb;
+  margin: 0;
 }
 .unit-recap {
-  margin-top: 15px;
+  margin-top: 10px;
   background: #f8fafc;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 6px;
   box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
 }
 .unit-recap h4 {
-  margin: 0 0 6px 0;
-  font-size: 0.9rem;
+  margin: 0 0 4px 0;
+  font-size: 0.8rem;
   color: #2563eb;
   text-align: center;
 }
 .unit-recap table {
   width: 100%;
-  font-size: 0.75rem;
-  border-collapse: collapse;
-}
-.unit-recap th, .unit-recap td {
-  padding: 4px 6px;
-  text-align: center;
-}
-.unit-recap th {
-  background: #1d4ed8;
-  color: #fff;
-}
-.unit-recap tr:nth-child(even) td {
-  background: #f1f5f9;
+  font-size: 0.7rem;
 }
 .chartBox {
   width: 100%;
-  height: 180px;
-  margin-top: 12px;
+  height: 160px;
+  margin-top: 8px;
 }
 canvas {
   width: 100% !important;
-  height: 180px !important;
+  height: 160px !important;
 }
 footer {
-  padding: 6px;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   text-align: center;
   color: #64748b;
   border-top: 1px solid #e2e8f0;
+  padding: 4px;
 }
 </style>
 </head>
 
 <body>
 <div class="sidebar">
-  <header>
-    <h2>📊 Rekap Interaktif</h2>
-  </header>
-
+  <header>📊 Rekap Interaktif</header>
   <main>
     <select id="jenisRekap">
       <option value="Rekap">Rekap Individu</option>
       <option value="RekapKelompok">Rekap Kelompok</option>
+      <option value="PosIndividu">Rekap Pos Individu</option>
+      <option value="PosKelompok">Rekap Pos Kelompok</option>
     </select>
 
     <div class="action-btns">
@@ -215,9 +172,9 @@ footer {
 
     <div class="statBox">
       <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
-      <div class="statItem"><h5>Rata-rata</h5><p id="statRata">0</p></div>
-      <div class="statItem"><h5>Tertinggi</h5><p id="statMax">0</p></div>
-      <div class="statItem"><h5>Terendah</h5><p id="statMin">0</p></div>
+      <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
+      <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
+      <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
     </div>
 
     <div class="unit-recap">
@@ -232,13 +189,12 @@ footer {
       <canvas id="chartUnit"></canvas>
     </div>
   </main>
-
   <footer>© 2025 Andes | MPS System</footer>
 </div>
 
 <script>
 const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
-let chartUnit, latestData = [];
+let chartUnit, latestData=[];
 
 async function loadRekap(sheetName="Rekap") {
   try {
@@ -252,65 +208,66 @@ async function loadRekap(sheetName="Rekap") {
     const unitIdx = headers.indexOf("Unit");
     const jumlahIdx = headers.indexOf("Jumlah");
 
-    console.log("Headers:", headers);
-    console.log("Index Jumlah:", jumlahIdx);
+    // sort descending by jumlah
+    const sortedRows = rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
+
+    // limit per sheet type
+    let limit = 10;
+    if(sheetName==="Rekap") limit=3;
+    if(sheetName==="RekapKelompok") limit=8;
+    const limitedRows = sortedRows.slice(0,limit);
 
     document.getElementById("tableHead").innerHTML = "<tr><th>No</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
-    document.getElementById("tableBody").innerHTML = rows.map((r,i)=>`
-      <tr data-index="${i}">
-        <td>${r[0]||i+1}</td>
+    document.getElementById("tableBody").innerHTML = limitedRows.map((r,i)=>`
+      <tr>
+        <td>${i+1}</td>
         <td>${r[namaIdx]||""}</td>
         <td>${r[unitIdx]||""}</td>
         <td>${r[jumlahIdx]||0}</td>
       </tr>`).join("");
 
-    const jumlahArr = rows.map(r=>{
-      const val = r[jumlahIdx];
-      return (val === "" || val == null) ? 0 : parseFloat(val);
-    }).filter(v=>!isNaN(v) && v>0);
-
-    console.log("Jumlah values:", jumlahArr);
-
+    // Statistik
+    const jumlahArr = rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
     const peserta = jumlahArr.length;
     const total = jumlahArr.reduce((a,b)=>a+b,0);
-    const rata = peserta ? (total/peserta).toFixed(1) : 0;
-    const max = peserta ? Math.max(...jumlahArr) : 0;
-    const min = peserta ? Math.min(...jumlahArr) : 0;
+    const rata = peserta?(total/peserta).toFixed(1):0;
+    const max = peserta?Math.max(...jumlahArr):0;
+    const min = peserta?Math.min(...jumlahArr):0;
 
-    document.getElementById("statPeserta").innerText = peserta;
-    document.getElementById("statRata").innerText = rata;
-    document.getElementById("statMax").innerText = max;
-    document.getElementById("statMin").innerText = min;
+    document.getElementById("statPeserta").innerText=peserta;
+    document.getElementById("statRata").innerText=rata;
+    document.getElementById("statMax").innerText=max;
+    document.getElementById("statMin").innerText=min;
 
     // Rekap per Unit
     const unitMap={};
     rows.forEach(r=>{
       const unit=r[unitIdx];
-      const total=Number(r[jumlahIdx]||0);
-      if(!unit) return;
-      if(!unitMap[unit]) unitMap[unit]=[];
+      const total=parseFloat(r[jumlahIdx])||0;
+      if(!unit)return;
+      if(!unitMap[unit])unitMap[unit]=[];
       unitMap[unit].push(total);
     });
 
-    const unitLabels=[], unitAverages=[];
+    const unitLabels=[],unitAverages=[];
     const unitRows=Object.entries(unitMap).map(([unit,vals])=>{
       const avg=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
       unitLabels.push(unit);
       unitAverages.push(Number(avg));
       return `<tr><td>${unit}</td><td>${avg}</td></tr>`;
-    }).join("") || "<tr><td colspan='2'>Belum ada data</td></tr>";
+    }).join("")||"<tr><td colspan='2'>Belum ada data</td></tr>";
     document.getElementById("unitBody").innerHTML=unitRows;
 
     // Chart
     const ctx=document.getElementById("chartUnit").getContext("2d");
-    if(chartUnit) chartUnit.destroy();
-    chartUnit = new Chart(ctx, {
-      type: "bar",
-      data: { labels: unitLabels, datasets: [{ label: "Rata-rata Nilai", data: unitAverages, borderRadius: 6, backgroundColor: "rgba(37,99,235,0.7)" }] },
-      options: { plugins:{legend:{display:false}}, scales:{x:{ticks:{font:{size:9}}, grid:{display:false}}, y:{beginAtZero:true, max:100, ticks:{font:{size:8}}}} }
+    if(chartUnit)chartUnit.destroy();
+    chartUnit=new Chart(ctx,{
+      type:"bar",
+      data:{labels:unitLabels,datasets:[{data:unitAverages,backgroundColor:"rgba(37,99,235,0.7)",borderRadius:6}]},
+      options:{plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8}}},y:{beginAtZero:true,max:100}}}
     });
 
-  } catch(e){ console.error("Gagal memuat:",e); }
+  } catch(err){ console.error("Gagal memuat:",err); }
 }
 
 document.getElementById("jenisRekap").addEventListener("change",e=>loadRekap(e.target.value));
@@ -327,9 +284,9 @@ document.getElementById("btnExcel").addEventListener("click",()=>{
 // Export PDF
 document.getElementById("btnPDF").addEventListener("click",()=>{
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-  doc.text("Rekap Nilai MPS", 220, 40);
-  doc.autoTable({ html: "#rekapTable", startY: 60 });
+  const doc = new jsPDF({ orientation:"portrait",unit:"pt",format:"a4" });
+  doc.text("Rekap Nilai MPS", 220,40);
+  doc.autoTable({ html:"#rekapTable", startY:60 });
   doc.save("Rekap_MPS.pdf");
 });
 </script>

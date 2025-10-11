@@ -321,7 +321,7 @@ select:focus {
 
 /* Copyright di Tengah */
 footer {
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   padding: 3px;
   text-align: center;
 }
@@ -434,7 +434,7 @@ footer {
       </div>
 
       <div class="unit-recap-bar">
-        <h4>Rata-rata Nilai per Unit</h4>
+        <h4 id="unitRecapTitle">Rata-rata Nilai per Unit</h4>
         <div id="unitBarContainer" class="bar-container">
           </div>
       </div>
@@ -570,8 +570,13 @@ async function loadRekap(sheetName="Rekap"){
     document.getElementById("posSection").style.display="none";
   }
 
-  // Unit Recap
+  // Unit Recap - Logic ini dijalankan di setiap pembaruan (real-time)
   const unitMap={};rows.forEach(r=>{const u=r[unitIdx],v=parseFloat(r[jumlahIdx])||0;if(!u)return;(unitMap[u]??=[]).push(v);});
+  
+  // MODIFIKASI: Tambahkan indikator waktu refresh untuk debugging
+  const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('unitRecapTitle').innerHTML = `Rata-rata Nilai per Unit <span style="font-weight:400;font-size:0.7em;color:#6b7280;">(Diperbarui: ${now})</span>`;
+  
   renderUnitBars(unitMap);
   
  }catch(e){console.error(e);}
@@ -580,6 +585,7 @@ async function loadRekap(sheetName="Rekap"){
 document.getElementById("jenisRekap").addEventListener("change",e=>loadRekap(e.target.value));
 loadRekap();
 if(refreshTimer)clearInterval(refreshTimer);
+// Pembaruan data dilakukan setiap 10 detik (10000 ms)
 refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").value;loadRekap(val);},10000);
 
 // Export

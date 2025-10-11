@@ -160,17 +160,120 @@ footer {
 .posTable th:nth-child(4) { background: #fdba74; }
 .posTable th:nth-child(5) { background: #c4b5fd; }
 </style>
+<style>
+    /* 🌐 Tampilan umum */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+    }
+
+    /* ===== Tampilan penuh hanya di MOBILE ===== */
+    @media (max-width: 768px) {
+      html, body {
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+      }
+
+      /* 🧭 Header biru */
+      #mobileHeader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 50px;
+        background: #2563eb;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 14px;
+        font-weight: 600;
+        font-size: 16px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        z-index: 10000;
+      }
+
+      /* 🏠 Ikon Home */
+      #btnHome {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      #btnHome:hover {
+        background: rgba(255,255,255,0.4);
+      }
+
+      /* 📊 Area konten penuh layar */
+      .content {
+        width: 100vw;
+        height: calc(100vh - 50px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: relative;
+        top: 50px;
+        background: #fff;
+      }
+
+      /* 📱 Landscape → penuh horizontal */
+      @media (orientation: landscape) {
+        .content {
+          width: 100vw !important;
+          height: calc(100vh - 50px);
+        }
+      }
+    }
+
+    /* 💻 Desktop tetap normal */
+    @media (min-width: 769px) {
+      #mobileHeader {
+        display: none;
+      }
+      .content {
+        padding: 20px;
+        height: auto;
+      }
+    }
+
+    /* Gaya tabel atau rekap (contoh sederhana) */
+    table {
+      width: 95%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+    th {
+      background: #f2f2f2;
+    }
+  </style>
 </head>
 
 <body>
 <!-- 🧭 HEADER UTAMA -->
-<div class="sidebar">
-  <header>📊 Rekap Interaktif</header>
+  <header id="mobileHeader">
+    <span>Rekap Interaktif</span>
     <div id="btnHome" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-      <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
-    </svg>
-  </div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
+        <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
+      </svg>
+    </div>
+  </header>
   <main>
     <select id="jenisRekap">
       <option value="Rekap">Rekap Individu</option>

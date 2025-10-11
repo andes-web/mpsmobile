@@ -260,22 +260,6 @@ footer {
   <footer>© 2025 Andes | MPS System</footer>
 </div>
 <script>
-  // Tampilkan tombol hanya di tampilan mobile
-  function toggleHomeButton() {
-    const btn = document.getElementById('backHome');
-    if (window.innerWidth <= 768) {
-      btn.style.display = 'block';
-    } else {
-      btn.style.display = 'none';
-    }
-  }
-
-  window.addEventListener('load', toggleHomeButton);
-  window.addEventListener('resize', toggleHomeButton);
-</script>
-
-
-<script>
 const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
 let chartUnit, latestData=[], refreshTimer=null;
 function getMedalIcon(rank){return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;}
@@ -339,7 +323,7 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 });
 </script>
 <style>
-/* 🌐 Tampilan penuh hanya di mobile */
+/* 🌐 Tampilan penuh hanya di MOBILE */
 @media (max-width: 768px) {
   html, body {
     margin: 0 !important;
@@ -355,18 +339,67 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     flex-direction: column;
   }
 
+  /* 🧭 Header tetap di atas */
   #mobileHeader {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     width: 100vw;
-    max-width: 100vw;
     height: 50px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     z-index: 10000;
   }
 
-  /* Area konten utama di bawah header */
+  /* 🏠 Ikon Home di kanan header */
+  #btnHome {
+    position: fixed !important;
+    top: 6px !important;
+    right: 12px !important;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 11000;
+  }
+  #btnHome:hover { background: rgba(255,255,255,0.4); }
+
+  /* 📊 Sidebar area */
+  .sidebar {
+    position: absolute !important;
+    right: 0;
+    top: 50px; /* di bawah header */
+    width: 300px !important;
+    height: calc(100vh - 50px);
+    border-left: none;
+    box-shadow: none;
+    background: #fff !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+  }
+
+  /* 📱 Saat landscape → sidebar full */
+  @media (orientation: landscape) {
+    .sidebar {
+      width: 100vw !important;
+    }
+  }
+
+  /* Konten utama menyesuaikan penuh */
   main, .content, .container {
     flex: 1 1 auto;
     width: 100vw;
@@ -377,15 +410,8 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     margin: 0 !important;
     padding: 0 !important;
   }
-
-  /* Ikon home tetap terlihat meskipun discroll */
-  #btnHome {
-    position: fixed !important;
-    top: 6px;
-    right: 10px;
-    z-index: 11000;
-  }
 }
 </style>
+
 </body>
 </html>

@@ -1974,91 +1974,6 @@ header {
 
 </style>
 
-
-<!-- START: Rekap Mobile Full-Width Patch (mobile-only) -->
-<style>
-@media (max-width: 768px) {
-  body.show-rekap-mobile .sidebar-left,
-  body.show-rekap-mobile .sidebar-right,
-  body.show-rekap-mobile .footer-wrapper,
-  body.show-rekap-mobile .menu-bar {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    height: 0 !important;
-    width: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  body.show-rekap-mobile header {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 99999 !important;
-  }
-
-  body.show-rekap-mobile .content {
-    position: fixed !important;
-    top: var(--header-height,55px) !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    background: #ffffff !important;
-    box-shadow: none !important;
-    overflow: hidden !important;
-    z-index: 12000 !important;
-  }
-
-  body.show-rekap-mobile .content > * {
-    height: 100% !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Force iframe to truly fill the content area */
-  #rekapFrame, .content iframe {
-    display: block !important;
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    border: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-    background: transparent !important;
-  }
-
-  /* Small close button placed under header (mobile) */
-  .rekap-close-btn {
-    position: fixed !important;
-    top: calc(var(--header-height,55px) + 8px) !important;
-    right: 8px !important;
-    z-index: 13000 !important;
-    background: rgba(0,0,0,0.6) !important;
-    color: #fff !important;
-    border: none !important;
-    padding: 6px 10px !important;
-    border-radius: 6px !important;
-    font-weight: 600 !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
-  }
-
-  /* Prevent accidental horizontal scroll */
-  html, body {
-    overflow-x: hidden !important;
-    max-width: 100% !important;
-  }
-}
-</style>
-<!-- END: Rekap Mobile Full-Width Patch -->
-
 </head>
 <body>
 <header>
@@ -4389,139 +4304,37 @@ document.addEventListener("DOMContentLoaded", () => {
   new MutationObserver(insertRekapOnce).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-
 <style>
 @media(max-width:768px){
+  /* ... kode lain untuk mobile ... */
+  
+  .content {
+    /* Pastikan padding dan margin di .content diatur ulang agar tidak mengganggu rekap-frame */
+    padding: 0px !important; 
+    margin: 0px !important;
+  }
+  
   .rekap-frame{
     display:block;
     position:relative;
-    left:-8px;                           /* dorong sedikit ke kiri */
-    width:calc(100% + 16px)!important;   /* perlebar melewati padding container */
-    max-width:calc(100% + 16px)!important;
-    height:calc(100vh - 10px)!important; /* tetap penuh tinggi layar */
+    /* Ubah ini menjadi 0 untuk menempel ke kiri, 
+       atau gunakan margin negatif untuk mengabaikan padding */
+    left: 0 !important;                           
+    /* Ubah width menjadi 100% penuh */
+    width: 100% !important;   
+    max-width: 100% !important;
+    /* Tinggi dibuat penuh layar vertikal (viewport height) dikurangi tinggi header dan/atau menu bar jika ada */
+    height:calc(100vh - 100px)!important; /* Sesuaikan 100px ini jika tinggi header/menu berbeda */
     border:none!important;
-    margin:0!important;
-    padding:0!important;
-    background:#fff!important;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-    opacity:0;
-    transition:opacity .4s ease;
+    margin:0!important; /* Pastikan margin 0 */
   }
-  .rekap-frame.show{opacity:1;}
+  
+  /* Jika masih ada padding di body/html yang mengganggu, tambahkan ini */
+  html, body {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
 }
 </style>
-
-
-
-<!-- START: Rekap Mobile Open/Close Script -->
-<script>
-(function(){
-  'use strict';
-
-  // Open rekap in #content iframe and force mobile fullscreen layout
-  function openRekapMobile(src){
-    var content = document.getElementById('content');
-    if(!content) {
-      console.warn('openRekapMobile: #content not found');
-      return;
-    }
-
-    // Create or reuse iframe
-    var iframe = document.getElementById('rekapFrame');
-    if(!iframe){
-      iframe = document.createElement('iframe');
-      iframe.id = 'rekapFrame';
-      iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-same-origin allow-popups');
-      iframe.style.width = '100%';
-      iframe.style.height = '100%';
-      iframe.style.border = '0';
-      iframe.style.display = 'block';
-      // Clear and append
-      content.innerHTML = '';
-      content.appendChild(iframe);
-    }
-    // Set source (use setAttribute to avoid some browser quirks)
-    iframe.setAttribute('src', src || 'rightsidebar.html');
-
-    // Add class to body to trigger mobile-only CSS
-    document.body.classList.add('show-rekap-mobile');
-
-    // prevent page behind from scrolling
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-
-    // Add close button if missing
-    if(!document.querySelector('.rekap-close-btn')){
-      var btn = document.createElement('button');
-      btn.className = 'rekap-close-btn';
-      btn.type = 'button';
-      btn.innerText = 'Tutup';
-      btn.addEventListener('click', closeRekapMobile, {passive:true});
-      document.body.appendChild(btn);
-    }
-
-    // focus iframe for keyboard/navigation after a short delay
-    setTimeout(function(){
-      try { iframe.focus(); } catch(e){}
-    }, 200);
-  }
-
-  // Close and restore original layout
-  function closeRekapMobile(){
-    document.body.classList.remove('show-rekap-mobile');
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    // remove close button
-    var btn = document.querySelector('.rekap-close-btn');
-    if(btn) btn.remove();
-    // remove iframe or keep it but hide
-    var iframe = document.getElementById('rekapFrame');
-    if(iframe){
-      // remove to restore previous content; if you want to keep, comment out next line
-      iframe.remove();
-    }
-  }
-
-  // Intercept clicks on elements that point to rightsidebar.html (or have data-rekap attribute)
-  document.addEventListener('click', function(e){
-    var target = e.target;
-    while(target && target !== document){
-      // link with href contains rightsidebar.html
-      if(target.matches && (target.matches('a[href*="rightsidebar.html"]') || (target.dataset && target.dataset.rekap !== undefined) || target.matches('[data-rekap="true"]'))){
-        e.preventDefault();
-        var src = target.getAttribute('href') || target.dataset.src || 'rightsidebar.html';
-        if(window.innerWidth <= 768){
-          openRekapMobile(src);
-        } else {
-          // desktop: allow default behavior but also try to load in #content
-          var content = document.getElementById('content');
-          if(content){
-            var iframe = document.getElementById('rekapFrame');
-            if(!iframe){
-              iframe = document.createElement('iframe');
-              iframe.id = 'rekapFrame';
-              iframe.style.width = '100%';
-              iframe.style.height = '100%';
-              iframe.style.border = '0';
-              content.innerHTML = '';
-              content.appendChild(iframe);
-            }
-            iframe.setAttribute('src', src);
-          }
-        }
-        return;
-      }
-      target = target.parentNode;
-    }
-  }, true);
-
-  // expose APIs for manual control if needed
-  window.openRekapMobile = openRekapMobile;
-  window.closeRekapMobile = closeRekapMobile;
-})();
-</script>
-<!-- END: Rekap Mobile Open/Close Script -->
-
 </body>
 </html>

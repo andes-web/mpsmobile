@@ -598,18 +598,23 @@ async function loadRekap(sheetName="Rekap"){
 
     if (denominator > 0) {
         const percentage = (totalPosScore / denominator) * 100;
-        // MODIFIKASI: Pembulatan tanpa desimal (menggunakan Math.round)
-        const displayPercentage = Math.round(percentage); 
         
-        // MODIFIKASI: Tentukan warna berdasarkan nilai prosentase
+        let displayPercentage;
         let colorClass = 'statProsentase-red';
-        if (displayPercentage >= 100) {
+
+        if (percentage >= 100) {
+            // Jika >= 100%, bulatkan ke bawah dan tampilkan tanpa desimal.
+            displayPercentage = Math.floor(percentage); 
             colorClass = 'statProsentase-green';
+        } else {
+            // Jika < 100%, tampilkan dengan 1 desimal.
+            displayPercentage = percentage.toFixed(1); 
         }
         
         // Tampilkan Prosentase
         statProsentaseElement.innerText = `${displayPercentage}%`; 
         statProsentaseElement.className = `statProsentase ${colorClass}`; // Set class baru
+
     } else {
         statProsentaseElement.innerText = `0%`;
         statProsentaseElement.className = `statProsentase statProsentase-red`;

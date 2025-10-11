@@ -367,7 +367,7 @@ select:focus {
 
 /* Copyright di Tengah */
 footer {
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   padding: 3px;
   text-align: center;
 }
@@ -586,16 +586,18 @@ async function loadRekap(sheetName="Rekap"){
     
     posRows.forEach(r => {
         posIndices.forEach(idx => {
-            // Memastikan kolom yang dijumlahkan adalah Pos1 s/d Pos5 dan menganggap nilainya sebagai angka.
-            const score = parseFloat(r[idx]) || 0; 
+            // *** FIX KRITIS: Mengganti koma (,) dengan titik (.) untuk penanganan desimal ***
+            const cleanValue = String(r[idx]).replace(',', '.'); 
+            const score = parseFloat(cleanValue) || 0; 
             totalPosScore += score;
         });
     });
     
     // 2. Calculate Percentage
-    // Maksimal skor per peserta = 5 (karena 5 Pos).
+    // Maksimal skor per peserta = 5 (karena 5 Pos, diasumsikan skor max Pos=1).
     const maxPossibleScorePerParticipant = 5; 
-    const denominator = n * maxPossibleScorePerParticipant; // n = jumlah peserta dari rekap (Peserta > 0)
+    // Menggunakan posRows.length sebagai jumlah peserta di Pos sheet yang dihitung
+    const denominator = posRows.length * maxPossibleScorePerParticipant; 
 
     if (denominator > 0) {
         // PERBAIKAN: Pembagian skor dengan denominator
@@ -629,7 +631,7 @@ async function loadRekap(sheetName="Rekap"){
     
     document.getElementById("posBody").innerHTML=posRows.map(r=>{
         let rowHtml = '<tr>';
-        const posValues = r.slice(1).map(c => parseFloat(c) || NaN).filter(c => !isNaN(c));
+        const posValues = r.slice(1).map(c => parseFloat(String(c).replace(',', '.')) || NaN).filter(c => !isNaN(c));
         
         if (posValues.length > 0) {
             const max = Math.max(...posValues);
@@ -637,7 +639,7 @@ async function loadRekap(sheetName="Rekap"){
             
             r.forEach((c, i) => {
                 let className = '';
-                const value = parseFloat(c);
+                const value = parseFloat(String(c).replace(',', '.')); // Gunakan clean value juga di sini
 
                 if (i === 0) {
                     rowHtml += `<td>${c||""}</td>`;

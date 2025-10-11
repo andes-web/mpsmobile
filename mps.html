@@ -4280,78 +4280,39 @@ document.addEventListener("DOMContentLoaded", () => {
     target.insertAdjacentElement('beforebegin',item);
     requestAnimationFrame(()=>item.style.opacity='1');
 
-    // klik: muat rightsidebar
-    item.addEventListener('click',e=>{
-      e.preventDefault();
-      const content=document.querySelector('#content,.content');
-      if(!content)return;
-      content.innerHTML='';
-
-      const frame=document.createElement('iframe');
-      frame.src='rightsidebar.html';
-      frame.className='rekap-frame';
-      frame.setAttribute('sandbox','allow-same-origin allow-scripts allow-top-navigation allow-forms');
-      frame.scrolling='auto';
-      content.appendChild(frame);
-
-      // efek fade-in
-      requestAnimationFrame(()=>frame.classList.add('show'));
-      window.scrollTo(0,0);
-    });
+    // Saat diklik, buka halaman di jendela baru (mobile only)
+item.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (window.innerWidth <= 768) {
+    // buka di tab/jendela penuh
+    window.open('rightsidebar.html', '_blank');
+  } else {
+    // tetap tampil di konten utama untuk desktop
+    const content = document.getElementById('content') || document.querySelector('.content');
+    if (content) {
+      content.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.src = 'rightsidebar.html';
+      iframe.className = 'rekap-frame';
+      iframe.sandbox = 'allow-same-origin allow-scripts allow-forms';
+      iframe.scrolling = 'auto';
+      iframe.style.width = '100%';
+      iframe.style.height = 'calc(100vh - 10px)';
+      iframe.style.border = 'none';
+      iframe.style.opacity = '0';
+      iframe.style.transition = 'opacity .4s ease';
+      content.appendChild(iframe);
+      requestAnimationFrame(() => iframe.style.opacity = '1');
+      window.scrollTo(0, 0);
+    } else {
+      window.location.href = 'rightsidebar.html';
+    }
   }
+});
 
   document.addEventListener('DOMContentLoaded',insertRekapOnce);
   new MutationObserver(insertRekapOnce).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<style>
-/* === MOBILE FIX v3: Paksa iframe Rekap Nilai benar-benar di tengah === */
-@media (max-width: 768px) {
-
-  /* Pastikan .content jadi kontainer relatif */
-  .content {
-    position: relative !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #fff !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    overflow-x: hidden !important;
-  }
-
-  /* Iframe di dalam content */
-  #content #rekapFrame,
-  #content iframe[src*="rightsidebar.html"] {
-    position: absolute !important;
-    top: 0 !important;
-    left: 50% !important;                  /* pusat horizontal */
-    transform: translateX(-50%) !important;/* geser ke tengah */
-    width: 100% !important;                /* penuh dalam kontainer */
-    max-width: 100% !important;
-    height: calc(100vh - 120px) !important;/* sesuaikan tinggi konten */
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    background: #fff !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Hilangkan kemungkinan pengaruh flex lain */
-  .layout, .sidebar-left, .sidebar-right {
-    overflow-x: hidden !important;
-  }
-
-  /* Pastikan tidak ada scroll horizontal global */
-  html, body {
-    overflow-x: hidden !important;
-    max-width: 100% !important;
-  }
-}
-
-</style>
 </body>
 </html>

@@ -163,7 +163,7 @@ footer {
 </head>
 
 <body>
-<!-- 🏠 Tombol Home (ikon saja, tampil hanya di MOBILE) -->
+<!-- 🧭 Header Utama -->
 <header id="mobileHeader"
   style="
     position: fixed;
@@ -172,18 +172,23 @@ footer {
     width: 100%;
     height: 50px;
     background: #2563eb;
+    color: #fff;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding-left: 12px;
+    justify-content: space-between;
+    padding: 0 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     z-index: 9999;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
   ">
+  <span>Rekap Interaktif</span>
   <div id="btnHome"
     onclick="window.location.href='https://andes-web.github.io/mpsmobile/'"
     style="
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -191,6 +196,8 @@ footer {
       cursor: pointer;
       background: rgba(255,255,255,0.2);
       transition: background 0.3s;
+      position: relative;
+      right: 0;
     "
     onmouseover="this.style.background='rgba(255,255,255,0.35)'"
     onmouseout="this.style.background='rgba(255,255,255,0.2)'">
@@ -199,7 +206,6 @@ footer {
     </svg>
   </div>
 </header>
-
 <!-- Spacer agar konten tidak ketimpa header -->
 <div style="height: 55px;"></div>
 
@@ -253,29 +259,6 @@ footer {
   </main>
   <footer>© 2025 Andes | MPS System</footer>
 </div>
-<!-- Tombol Home untuk mobile -->
-<!-- 🏠 Tombol Home (muncul hanya di Mobile) -->
-<div id="backHome"
-  style="
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    background: #2563eb;
-    color: white;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    z-index: 9999;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    display: none; /* default: disembunyikan */
-  "
-  onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
-  🏠 Home
-</div>
-
 <script>
   // Tampilkan tombol hanya di tampilan mobile
   function toggleHomeButton() {
@@ -356,37 +339,53 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 });
 </script>
 <style>
-/* 🌐 Hanya untuk tampilan mobile */
+/* 🌐 Tampilan penuh hanya di mobile */
 @media (max-width: 768px) {
   html, body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
-    background: #ffffff;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background: #fff !important;
   }
+
   body {
     display: flex;
     flex-direction: column;
   }
+
   #mobileHeader {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    width: 100vw;
+    max-width: 100vw;
     height: 50px;
+    z-index: 10000;
   }
-  /* Pastikan semua konten di bawah header ikut stretch */
+
+  /* Area konten utama di bawah header */
   main, .content, .container {
-    flex: 1;
-    width: 100%;
-    max-width: 100%;
-    height: calc(100vh - 55px);
+    flex: 1 1 auto;
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - 50px);
     overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Ikon home tetap terlihat meskipun discroll */
+  #btnHome {
+    position: fixed !important;
+    top: 6px;
+    right: 10px;
+    z-index: 11000;
   }
 }
 </style>
-
 </body>
 </html>

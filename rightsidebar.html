@@ -294,6 +294,7 @@ select:focus {
   flex-direction: column;
   gap: 4px;
 }
+/* MODIFIKASI: Ubah overflow menjadi visible agar panah muncul */
 .bar-item {
   height: 22px;
   background: #f3f4f6;
@@ -301,7 +302,7 @@ select:focus {
   display: flex;
   align-items: center;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Diubah dari hidden */
 }
 .bar-fill {
   height: 100%;
@@ -310,7 +311,27 @@ select:focus {
   top: 0;
   left: 0;
   z-index: 1;
+  position: relative; /* Anchor untuk ::after */
 }
+
+/* MODIFIKASI: MENAMBAHKAN KEPALA PANAH (ARROWHEAD) */
+.bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -11px; /* Jarak agar ujung panah berada tepat di akhir batang */
+  width: 0;
+  height: 0;
+  /* Membuat segitiga dengan border */
+  border-top: 11px solid transparent; 
+  border-bottom: 11px solid transparent; 
+  /* Warna diambil dari variabel CSS yang diset di JavaScript */
+  border-left: 11px solid var(--bar-color); 
+  z-index: 2; 
+}
+/* END MODIFIKASI KEPALA PANAH */
+
+
 .bar-label {
   position: absolute;
   left: 6px;
@@ -318,7 +339,7 @@ select:focus {
   color: #1f2937;
   font-size: 0.65rem;
   font-weight: 600;
-  z-index: 2;
+  z-index: 3; /* Pastikan label berada di atas panah */
   display: flex;
   justify-content: space-between;
 }
@@ -332,7 +353,7 @@ select:focus {
 
 /* Copyright di Tengah */
 footer {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   padding: 3px;
   text-align: center;
 }
@@ -493,7 +514,7 @@ function renderUnitBars(unitMap){
 
     const barItem = `
       <div class="bar-item">
-        <div class="bar-fill" style="width: ${barWidth}%; background-color: ${color};"></div>
+        <div class="bar-fill" style="width: ${barWidth}%; background-color: ${color}; --bar-color: ${color};"></div>
         <div class="bar-label" style="color: ${barWidth > 35 ? '#1f2937' : '#1f2937'};">
           <span>${unit}</span>
           <span>${avg}</span>
@@ -511,7 +532,7 @@ async function loadRekap(sheetName="Rekap"){
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
   const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
   
-  // MODIFIKASI: Batasi Top 5 untuk Individu dan Kelompok
+  // Batasi Top 5 untuk Individu dan Kelompok
   const limit=5; 
   const topRows=sorted.slice(0,limit);
   

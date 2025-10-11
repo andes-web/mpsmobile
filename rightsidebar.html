@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Rekap Nilai MPS</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -181,6 +181,14 @@ select:focus {
   font-weight: 600;
   border-bottom: 1px solid #3b82f6;
 }
+/* Modifikasi: Kolom peringkat di tengah */
+.tableBox th:nth-child(1) { 
+    width: 12%; 
+}
+.tableBox td:nth-child(1) {
+    width: 12%; 
+    font-weight: 700;
+}
 .tableBox td:nth-child(2) { text-align: left; font-weight: 500; }
 .tableBox td:nth-child(3) { color: #4b5563; font-size: 0.65rem; }
 .tableBox tr:nth-child(even) td { background: #f9faff; }
@@ -229,22 +237,20 @@ select:focus {
     text-align: center;
 }
 
-/* Styling Dasar untuk Angka POS (bold, besar, default BIRU) */
+/* --- CSS PEMBEDAAN JELAS PADA MAX/MIN --- */
 .posTable .pos-value {
     font-size: 0.8rem; 
-    font-weight: 800;
-    color: #1d4ed8; /* Default Blue */
+    font-weight: 700;
+    color: #3b82f6; /* Lighter Blue (Blue 500) */
     vertical-align: middle;
 }
-/* Angka Tertinggi (Max) - TETAP BIRU KUAT (default) */
 .posTable .pos-max {
-    color: #1d4ed8 !important; 
-    font-weight: 900; /* Sedikit lebih tebal */
+    color: #1d4ed8 !important; /* Strong Blue (Blue 800) */
+    font-weight: 900; 
 }
-/* Angka Terendah (Min) - MERAH KUAT */
 .posTable .pos-min {
     color: #ef4444 !important; /* Strong Red */
-    font-weight: 800;
+    font-weight: 900; 
 }
 
 /* Pastikan sel data non-angka (misal, teks) di kolom pertama tetap berukuran normal */
@@ -277,6 +283,11 @@ select:focus {
   text-align: center;
   border-bottom: 1px dashed #d1d5db;
   padding-bottom: 4px;
+}
+.unit-recap-bar h4 span {
+  font-weight:400;
+  font-size:0.7em;
+  color:#6b7280;
 }
 .bar-container {
   display: flex;
@@ -434,7 +445,7 @@ footer {
       </div>
 
       <div class="unit-recap-bar">
-        <h4 id="unitRecapTitle">Rata-rata Nilai per Unit</h4>
+        <h4 id="unitRecapTitle">Rata-rata Nilai per Unit<span></span></h4>
         <div id="unitBarContainer" class="bar-container">
           </div>
       </div>
@@ -451,7 +462,10 @@ const softColors = [
     '#f97316', '#34d399', '#22d3ee', '#f472b6', '#a78bfa'
 ];
 
-function getMedalIcon(rank){return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;}
+// FUNGSI PERINGKAT: Menggunakan ikon hanya untuk 3 besar
+function getRankDisplay(rank){
+    return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;
+} 
 async function fetchSheet(sheet){const res=await fetch(`${sheetAPI}?sheet=${sheet}`);return await res.json();}
 
 function renderUnitBars(unitMap){
@@ -497,14 +511,18 @@ async function loadRekap(sheetName="Rekap"){
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
   const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
   
-  // Batasi Top 3 (untuk Individu) dan Top 8 (untuk Kelompok)
-  const limit=sheetName==="Rekap"?3:8; 
+  // MODIFIKASI: Batasi Top 5 untuk Individu dan Kelompok
+  const limit=5; 
   const topRows=sorted.slice(0,limit);
   
+  // Header tetap "🏅"
   document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
+  
+  // Menerapkan fungsi getRankDisplay
   document.getElementById("tableBody").innerHTML=topRows.map((r,i)=>`
-   <tr><td>${getMedalIcon(i+1)}</td><td>${r[namaIdx]||""}</td><td>${r[unitIdx]||""}</td><td>${r[jumlahIdx]||0}</td></tr>
+   <tr><td>${getRankDisplay(i+1)}</td><td>${r[namaIdx]||""}</td><td>${r[unitIdx]||""}</td><td>${r[jumlahIdx]||0}</td></tr>
   `).join("");
+  
   const arr=rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
   const n=arr.length,sum=arr.reduce((a,b)=>a+b,0);document.getElementById("statPeserta").innerText=n;
   document.getElementById("statRata").innerText=n?(sum/n).toFixed(1):0;
@@ -538,7 +556,7 @@ async function loadRekap(sheetName="Rekap"){
                 if (i === 0) {
                     rowHtml += `<td>${c||""}</td>`;
                 } else {
-                    // Kolom data POS (index 1 dst)
+                    // Kolom data POS (index 1 dst - POS1 adalah index 1)
                     
                     if (!isNaN(value)) {
                         if (value === max) {
@@ -546,10 +564,10 @@ async function loadRekap(sheetName="Rekap"){
                         } else if (value === min) {
                             className = 'pos-value pos-min'; // Merah Kuat (Min)
                         } else {
-                            className = 'pos-value'; // Default Biru
+                            className = 'pos-value'; // Default Biru Muda
                         }
                     } else {
-                        // Jika data non-numerik di kolom POS
+                        // Jika data non-numerik, tetap beri class default agar tetap ter-align dengan benar
                         className = 'pos-value'; 
                     }
                     
@@ -573,7 +591,7 @@ async function loadRekap(sheetName="Rekap"){
   // Unit Recap - Logic ini dijalankan di setiap pembaruan (real-time)
   const unitMap={};rows.forEach(r=>{const u=r[unitIdx],v=parseFloat(r[jumlahIdx])||0;if(!u)return;(unitMap[u]??=[]).push(v);});
   
-  // MODIFIKASI: Tambahkan indikator waktu refresh untuk debugging
+  // Tambahkan indikator waktu refresh
   const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   document.getElementById('unitRecapTitle').innerHTML = `Rata-rata Nilai per Unit <span style="font-weight:400;font-size:0.7em;color:#6b7280;">(Diperbarui: ${now})</span>`;
   

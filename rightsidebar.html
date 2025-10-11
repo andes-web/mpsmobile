@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Rekap Nilai MPS</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -12,11 +12,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
 <style>
+/* 1. Kerapatan dan Elegan/Modern */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: transparent;
   color: #1e293b;
+  font-size: 0.85rem;
 }
 .sidebar {
   position: fixed;
@@ -24,214 +26,344 @@ body {
   top: 0;
   width: 280px;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   border-left: 1px solid #e2e8f0;
-  box-shadow: -4px 0 16px rgba(0,0,0,0.08);
+  box-shadow: -6px 0 20px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   z-index: 9999;
 }
+/* Header: Rata Tengah dan Icon Home (Disembunyikan di Desktop) */
 .sidebar header {
-  text-align: center;
-  padding: 10px 6px;
-  border-bottom: 1px solid #e2e8f0;
+  padding: 8px 6px;
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
+.header-title {
+  flex-grow: 1;
+  text-align: center;
+}
+.home-icon-btn {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.home-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.home-icon-btn svg {
+  fill: white;
+  width: 16px;
+  height: 16px;
+}
+
+/* Modifikasi: Sembunyikan Icon Home di tampilan Desktop */
+@media (min-width: 769px) {
+    .sidebar header .home-icon-btn {
+        visibility: hidden;
+    }
+    .sidebar header span:first-child {
+        visibility: hidden;
+    }
+}
+
+
 .sidebar main {
   flex: 1;
-  overflow-y: auto;
-  padding: 8px 10px;
+  overflow-y: hidden;
+  padding: 6px 8px;
 }
-select {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background: #f9fafb;
-  font-size: 0.8rem;
-  margin-bottom: 8px;
-  outline: none;
-}
-.action-btns {
+
+/* Top Controls */
+.top-controls {
   display: flex;
   gap: 4px;
   margin-bottom: 6px;
+  align-items: center;
 }
+select {
+  flex-grow: 1.5;
+  padding: 4px;
+  border: 1px solid #93c5fd;
+  border-radius: 6px;
+  background: #f1f5f9;
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  transition: border-color 0.3s;
+}
+select:focus {
+  border-color: #2563eb;
+}
+.action-btns {
+    display: flex;
+    gap: 3px;
+    flex-grow: 1;
+}
+/* Tombol 3D Warna Terang */
 .action-btns button {
   flex: 1;
-  padding: 5px;
-  font-size: 0.7rem;
+  padding: 4px 6px;
+  font-size: 0.65rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   color: #fff;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.1s ease;
+  
+  /* Styling 3D */
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
 }
-.btn-pdf { background: #dc2626; }
-.btn-excel { background: #16a34a; }
 
+.btn-pdf { background: #60a5fa; } /* Blue 400 */
+.btn-excel { background: #4ade80; } /* Green 400 */
+
+.action-btns button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Stat Box (1 baris) */
 .statBox {
   display: flex;
-  justify-content: space-around;
-  background: #f1f5f9;
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
-.statItem { text-align: center; }
-.statItem h5 {
-  font-size: 0.6rem;
-  margin: 0;
-  color: #475569;
+.statItem { 
+  text-align: center;
+  flex: 1;
+  padding: 0 3px;
 }
-.statItem p {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #2563eb;
-  margin: 0;
-}
+.statItem h5 { font-size: 0.5rem; margin: 0 0 1px 0; color: #64748b; font-weight: 400; }
+.statItem p { font-size: 0.8rem; font-weight: 800; color: #1d4ed8; margin: 0; }
 
+
+/* Tabel Rekap (Peringkat) Elegan */
 .tableBox {
   border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   margin-bottom: 6px;
+  overflow: hidden;
+  border: 1px solid #e0e7ff;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.75rem;
-}
-th, td { padding: 5px 6px; text-align: center; }
-th { background: #2563eb; color: #fff; position: sticky; top: 0; }
-tr:nth-child(even) td { background: #f8fafc; }
-
-.unit-recap {
-  margin-top: 10px;
-  background: #f8fafc;
-  border-radius: 8px;
-  padding: 6px;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
-}
-.unit-recap h4 {
-  margin: 0 0 4px 0;
-  font-size: 0.8rem;
-  color: #2563eb;
-  text-align: center;
-}
-.unit-recap table {
+.tableBox table {
   width: 100%;
   font-size: 0.7rem;
+  border-collapse: collapse;
 }
-.chartBox {
-  width: 100%;
-  height: 160px;
-  margin-top: 8px;
-}
-canvas { width: 100% !important; height: 160px !important; }
-footer {
-  font-size: 0.65rem;
+.tableBox th, .tableBox td { 
+  padding: 5px 6px;
   text-align: center;
-  color: #64748b;
-  border-top: 1px solid #e2e8f0;
-  padding: 4px;
+  border: none;
 }
+.tableBox th { 
+  background: #1d4ed8; 
+  color: #fff; 
+  font-weight: 600;
+  border-bottom: 1px solid #3b82f6;
+}
+.tableBox td:nth-child(2) { text-align: left; font-weight: 500; }
+.tableBox td:nth-child(3) { color: #4b5563; font-size: 0.65rem; }
+.tableBox tr:nth-child(even) td { background: #f9faff; }
+.tableBox tr:hover td { background: #eff6ff; }
+.tableBox tr:hover td:nth-child(1) { background: #bfdbfe; }
+
+/* Tabel POS Elegan dan Proporsional */
 .posTable {
-  margin-top: 6px;
+  margin-top: 5px;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #e0e7ff;
 }
 .posTable h4 {
-  text-align: center;
-  background: #1e40af;
+  padding: 5px 8px;
+  font-size: 0.75rem;
+  background: #374151;
   color: white;
   margin: 0;
-  padding: 4px;
-  font-size: 0.75rem;
 }
-.posTable th:nth-child(1) { background: #93c5fd; }
-.posTable th:nth-child(2) { background: #86efac; }
-.posTable th:nth-child(3) { background: #fde68a; }
-.posTable th:nth-child(4) { background: #fdba74; }
-.posTable th:nth-child(5) { background: #c4b5fd; }
+.posTable table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+.posTable th {
+  background: #4b5563 !important;
+  color: white;
+  border-bottom: 1px solid #9ca3af;
+  font-weight: 500;
+}
+/* Lebar Kolom POS */
+.posTable table th:nth-child(1),
+.posTable table td:nth-child(1) { 
+    width: 25%;
+}
+.posTable table th:not(:first-child),
+.posTable table td:not(:first-child) { 
+    width: 18.75%;
+}
+
+.posTable td { 
+    font-size: 0.65rem; 
+    background: #fefefe;
+    text-align: center;
+}
+
+/* Styling Dasar untuk Angka POS (bold, besar, default BIRU) */
+.posTable .pos-value {
+    font-size: 0.8rem; 
+    font-weight: 800;
+    color: #1d4ed8; /* Default Blue */
+    vertical-align: middle;
+}
+/* Angka Tertinggi (Max) - TETAP BIRU KUAT (default) */
+.posTable .pos-max {
+    color: #1d4ed8 !important; 
+    font-weight: 900; /* Sedikit lebih tebal */
+}
+/* Angka Terendah (Min) - MERAH KUAT */
+.posTable .pos-min {
+    color: #ef4444 !important; /* Strong Red */
+    font-weight: 800;
+}
+
+/* Pastikan sel data non-angka (misal, teks) di kolom pertama tetap berukuran normal */
+.posTable td:first-child {
+    font-size: 0.65rem;
+    font-weight: normal;
+}
+
+/* Warna Header POS */
+.posTable th:nth-child(1) { background: #a5b4fc !important; }
+.posTable th:nth-child(2) { background: #6ee7b7 !important; }
+.posTable th:nth-child(3) { background: #fcd34d !important; }
+.posTable th:nth-child(4) { background: #fb923c !important; }
+.posTable th:nth-child(5) { background: #c084fc !important; }
+
+
+/* Bar Chart Horizontal */
+.unit-recap-bar {
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e0e7ff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.unit-recap-bar h4 {
+  margin: 0 0 6px 0;
+  font-size: 0.8rem;
+  color: #1d4ed8;
+  text-align: center;
+  border-bottom: 1px dashed #d1d5db;
+  padding-bottom: 4px;
+}
+.bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bar-item {
+  height: 22px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  transition: width 0.5s ease-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.bar-label {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  color: #1f2937;
+  font-size: 0.65rem;
+  font-weight: 600;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+}
+.bar-label span:last-child {
+  background: rgba(255, 255, 255, 0.4);
+  color: #1d4ed8;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+/* Copyright di Tengah */
+footer {
+  font-size: 0.6rem;
+  padding: 3px;
+  text-align: center;
+}
 </style>
 <style>
     /* 🌐 Tampilan umum */
     html, body {
-      margin: 0;
-      padding: 0;
       width: 100%;
       height: 100%;
       font-family: 'Poppins', sans-serif;
       background: #fff;
     }
 
-    /* ===== Tampilan penuh hanya di MOBILE ===== */
+    /* ===== Tampilan penuh hanya di MOBILE (Dibuat Rapat) ===== */
     @media (max-width: 768px) {
-      html, body {
-        width: 100vw !important;
-        height: 100vh !important;
-        overflow: hidden !important;
-      }
-
-      /* 🧭 Header biru */
+      /* MODIFIKASI: Sembunyikan header utama di mobile */
       #mobileHeader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        width: 100vw;
-        height: 50px;
-        background: #2563eb;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 14px;
-        font-weight: 600;
-        font-size: 16px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-        z-index: 10000;
+        display: none !important;
       }
 
-      /* 🏠 Ikon Home */
-      #btnHome {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.25);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background 0.3s;
-      }
-      #btnHome:hover {
-        background: rgba(255,255,255,0.4);
+      .sidebar {
+        position: static !important;
+        width: 100vw !important;
+        height: auto !important;
+        min-height: calc(100vh - 30px); /* Disesuaikan, 30px untuk footer */
+        margin-top: 0; /* Menghilangkan margin yang dipicu oleh header */
+        border: none !important;
+        box-shadow: none !important;
+        overflow-y: hidden;
       }
 
-      /* 📊 Area konten penuh layar */
-      .content {
-        width: 100vw;
-        height: calc(100vh - 50px);
+      .sidebar main {
+        padding: 8px 10px;
         overflow-y: auto;
-        overflow-x: hidden;
-        position: relative;
-        top: 50px;
-        background: #fff;
+        height: calc(100vh - 30px); /* Disesuaikan, hanya dikurangi tinggi footer */
       }
-
-      /* 📱 Landscape → penuh horizontal */
-      @media (orientation: landscape) {
-        .content {
-          width: 100vw !important;
-          height: calc(100vh - 50px);
-        }
+      
+      .sidebar footer {
+        flex-shrink: 0;
+        height: 30px;
+        padding: 5px;
+        background: #f1f5f9;
       }
     }
 
@@ -240,93 +372,123 @@ footer {
       #mobileHeader {
         display: none;
       }
-      .content {
-        padding: 20px;
-        height: auto;
+      .sidebar main {
+        overflow-y: auto;
       }
-    }
-
-    /* Gaya tabel atau rekap (contoh sederhana) */
-    table {
-      width: 95%;
-      margin: 20px auto;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-    }
-    th {
-      background: #f2f2f2;
     }
   </style>
 </head>
 
 <body>
-<!-- 🧭 HEADER UTAMA -->
-  <header id="mobileHeader">
+<header id="mobileHeader">
     <span>Rekap Interaktif</span>
     <div id="btnHome" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
         <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
       </svg>
     </div>
   </header>
-  <main>
-    <select id="jenisRekap">
-      <option value="Rekap">Rekap Individu</option>
-      <option value="RekapKelompok">Rekap Kelompok</option>
-    </select>
+  <div class="sidebar"> <header>
+      <span style="width: 25px;"></span> 
+      <span class="header-title">Rekap Nilai MPS</span>
+      <div class="home-icon-btn" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </div>
+    </header>
+    <main>
+      
+      <div class="top-controls">
+        <select id="jenisRekap">
+          <option value="Rekap">Rekap Individu</option>
+          <option value="RekapKelompok">Rekap Kelompok</option>
+        </select>
 
-    <div class="action-btns">
-      <button class="btn-pdf" id="btnPDF">PDF</button>
-      <button class="btn-excel" id="btnExcel">Excel</button>
-    </div>
+        <div class="action-btns">
+          <button class="btn-pdf" id="btnPDF">PDF</button>
+          <button class="btn-excel" id="btnExcel">Excel</button>
+        </div>
+      </div>
 
-    <div class="statBox">
-      <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
-      <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
-      <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
-      <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
-    </div>
+      <div class="statBox">
+        <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
+        <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
+        <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
+        <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
+      </div>
 
-    <div class="tableBox">
-      <table id="rekapTable">
-        <thead id="tableHead"></thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
+      <div class="tableBox">
+        <table id="rekapTable">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
 
-    <!-- Tabel POS tambahan -->
-    <div class="posTable" id="posSection" style="display:none;">
-      <h4 id="posTitle"></h4>
-      <table id="posTable">
-        <thead id="posHead"></thead>
-        <tbody id="posBody"></tbody>
-      </table>
-    </div>
+      <div class="posTable" id="posSection" style="display:none;">
+        <h4 id="posTitle"></h4>
+        <table id="posTable">
+          <thead id="posHead"></thead>
+          <tbody id="posBody"></tbody>
+        </table>
+      </div>
 
-    <div class="unit-recap">
-      <h4>Rekap per Unit</h4>
-      <table>
-        <thead><tr><th>Unit</th><th>Rata-rata</th></tr></thead>
-        <tbody id="unitBody"></tbody>
-      </table>
-    </div>
-
-    <div class="chartBox">
-      <canvas id="chartUnit"></canvas>
-    </div>
-  </main>
-  <footer>© 2025 Andes | MPS System</footer>
-</div>
+      <div class="unit-recap-bar">
+        <h4>Rata-rata Nilai per Unit</h4>
+        <div id="unitBarContainer" class="bar-container">
+          </div>
+      </div>
+    </main>
+    <footer>© 2025 Andes | MPS System</footer>
+  </div>
 <script>
 const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
-let chartUnit, latestData=[], refreshTimer=null;
+let latestData=[], refreshTimer=null;
+
+// Warna soft untuk batang unit
+const softColors = [
+    '#93c5fd', '#6ee7b7', '#fcd34d', '#fb923c', '#c4b5fd', 
+    '#f97316', '#34d399', '#22d3ee', '#f472b6', '#a78bfa'
+];
+
 function getMedalIcon(rank){return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;}
 async function fetchSheet(sheet){const res=await fetch(`${sheetAPI}?sheet=${sheet}`);return await res.json();}
+
+function renderUnitBars(unitMap){
+  const container = document.getElementById("unitBarContainer");
+  container.innerHTML = "";
+  const unitAvgs = Object.entries(unitMap)
+    .map(([u, vals]) => {
+      const avg = vals.reduce((a,b)=>a+b,0) / vals.length;
+      return { unit: u, avg: Number(avg.toFixed(1)) };
+    })
+    .sort((a,b) => b.avg - a.avg);
+
+  if (unitAvgs.length === 0) {
+    container.innerHTML = "<p style='text-align:center;font-size:0.7rem;color:#6b7280;margin:0;'>Belum ada data unit</p>";
+    return;
+  }
+
+  const maxScore = Math.max(...unitAvgs.map(item => item.avg));
+  const maxBarWidth = maxScore > 0 ? 100 : 1;
+
+  unitAvgs.forEach(({unit, avg}, index) => {
+    const color = softColors[index % softColors.length];
+    const percentage = (avg / maxBarWidth) * 100;
+    const barWidth = Math.max(percentage, 5);
+
+    const barItem = `
+      <div class="bar-item">
+        <div class="bar-fill" style="width: ${barWidth}%; background-color: ${color};"></div>
+        <div class="bar-label" style="color: ${barWidth > 35 ? '#1f2937' : '#1f2937'};">
+          <span>${unit}</span>
+          <span>${avg}</span>
+        </div>
+      </div>
+    `;
+    container.innerHTML += barItem;
+  });
+}
 
 async function loadRekap(sheetName="Rekap"){
  try{
@@ -334,7 +496,11 @@ async function loadRekap(sheetName="Rekap"){
   const headers=data[0],rows=data.slice(1);
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
   const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
-  const limit=sheetName==="Rekap"?3:8;const topRows=sorted.slice(0,limit);
+  
+  // Batasi Top 3 (untuk Individu) dan Top 8 (untuk Kelompok)
+  const limit=sheetName==="Rekap"?3:8; 
+  const topRows=sorted.slice(0,limit);
+  
   document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
   document.getElementById("tableBody").innerHTML=topRows.map((r,i)=>`
    <tr><td>${getMedalIcon(i+1)}</td><td>${r[namaIdx]||""}</td><td>${r[unitIdx]||""}</td><td>${r[jumlahIdx]||0}</td></tr>
@@ -352,21 +518,62 @@ async function loadRekap(sheetName="Rekap"){
     const posHeaders=posData[0],posRows=posData.slice(1);
     document.getElementById("posSection").style.display="block";
     document.getElementById("posTitle").innerText=sheetName==="Rekap"?"Rekap POS Individu":"Rekap POS Kelompok";
-    document.getElementById("posHead").innerHTML="<tr>"+posHeaders.map(h=>`<th>${h}</th>`).join("")+"</tr>";
-    document.getElementById("posBody").innerHTML=posRows.map(r=>`<tr>${r.map(c=>`<td>${c||""}</td>`).join("")}</tr>`).join("");
+    document.getElementById("posHead").innerHTML="<tr>"+posHeaders.map(h=>`<th>${h.replace('POS','P')}</th>`).join("")+"</tr>";
+    
+    // Logika penentuan nilai Max dan Min per baris
+    document.getElementById("posBody").innerHTML=posRows.map(r=>{
+        let rowHtml = '<tr>';
+        // Ambil dan filter semua nilai POS menjadi angka
+        const posValues = r.slice(1).map(c => parseFloat(c) || NaN).filter(c => !isNaN(c));
+        
+        if (posValues.length > 0) {
+            const max = Math.max(...posValues);
+            const min = Math.min(...posValues);
+            
+            r.forEach((c, i) => {
+                let className = '';
+                const value = parseFloat(c);
+
+                // Kolom pertama (index 0) adalah teks/nama/peringkat
+                if (i === 0) {
+                    rowHtml += `<td>${c||""}</td>`;
+                } else {
+                    // Kolom data POS (index 1 dst)
+                    
+                    if (!isNaN(value)) {
+                        if (value === max) {
+                            className = 'pos-value pos-max'; // Biru Kuat (Max)
+                        } else if (value === min) {
+                            className = 'pos-value pos-min'; // Merah Kuat (Min)
+                        } else {
+                            className = 'pos-value'; // Default Biru
+                        }
+                    } else {
+                        // Jika data non-numerik di kolom POS
+                        className = 'pos-value'; 
+                    }
+                    
+                    rowHtml += `<td class="${className}">${c||""}</td>`;
+                }
+            });
+        } else {
+            // Fallback untuk baris kosong
+            r.forEach(c => {
+                rowHtml += `<td>${c||""}</td>`;
+            });
+        }
+
+        rowHtml += '</tr>';
+        return rowHtml;
+    }).join("");
   }else{
     document.getElementById("posSection").style.display="none";
   }
 
-  // per unit
-  const map={};rows.forEach(r=>{const u=r[unitIdx],v=parseFloat(r[jumlahIdx])||0;if(!u)return;(map[u]??=[]).push(v);});
-  const labels=[],avg=[];document.getElementById("unitBody").innerHTML=Object.entries(map).map(([u,vals])=>{
-    const a=(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);labels.push(u);avg.push(Number(a));return `<tr><td>${u}</td><td>${a}</td></tr>`;
-  }).join("")||"<tr><td colspan='2'>Belum ada data</td></tr>";
-  const ctx=document.getElementById("chartUnit").getContext("2d");
-  if(chartUnit)chartUnit.destroy();
-  chartUnit=new Chart(ctx,{type:"bar",data:{labels,datasets:[{data:avg,backgroundColor:"rgba(37,99,235,0.7)",borderRadius:6}]},
-    options:{plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:8}}},y:{beginAtZero:true,max:100}}}});
+  // Unit Recap
+  const unitMap={};rows.forEach(r=>{const u=r[unitIdx],v=parseFloat(r[jumlahIdx])||0;if(!u)return;(unitMap[u]??=[]).push(v);});
+  renderUnitBars(unitMap);
+  
  }catch(e){console.error(e);}
 }
 
@@ -385,75 +592,6 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
  doc.text("Rekap Nilai MPS",220,40);doc.autoTable({html:"#rekapTable",startY:60});doc.save("Rekap_MPS.pdf");
 });
 </script>
-<style>
-/* ===== Tampilan penuh hanya di mobile ===== */
-@media (max-width: 768px) {
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    overflow: hidden !important;
-    background: #fff !important;
-  }
-
-  body {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* 🧭 Header biru di atas */
-  /* 🏠 Tombol Home di kanan header */
-  #btnHome {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  #btnHome:hover {
-    background: rgba(255,255,255,0.4);
-  }
-
-  /* 📊 Sidebar area */
-  .sidebar {
-    position: top center !important;
-    right: 4px;
-    top: 50px;
-    width: 300px !important;
-    height: calc(100vh - 50px);
-    background: #fff !important;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border: none !important;
-    box-shadow: none !important;
-    transition: width 0.3s ease;
-  }
-
-  /* 📱 Landscape: sidebar full */
-  @media (orientation: landscape) {
-    .sidebar {
-      width: 100vw !important;
-    }
-  }
-
-  /* Konten utama penuh layar di bawah header */
-  main, .content, .container {
-    flex: 1 1 auto;
-    width: 100vw;
-    max-width: 100vw;
-    height: calc(100vh - 50px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-}
-</style>
 
 </body>
 </html>

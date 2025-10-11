@@ -164,20 +164,13 @@ footer {
 
 <body>
 <!-- 🧭 HEADER UTAMA -->
-<header id="mobileHeader">
-  <span>Rekap Interaktif</span>
-  <div id="btnHome" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
+<div class="sidebar">
+  <header>📊 Rekap Interaktif</header>
+    <div id="btnHome" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
       <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
     </svg>
   </div>
-</header>
-
-<!-- Spacer agar konten tidak ketimpa header -->
-<div style="height:55px;"></div>
-
-<div class="sidebar">
-  <header>📊 Rekap Interaktif</header>
   <main>
     <select id="jenisRekap">
       <option value="Rekap">Rekap Individu</option>
@@ -307,25 +300,6 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
   }
 
   /* 🧭 Header biru di atas */
-  #mobileHeader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    height: 50px;
-    background: #2563eb;
-    color: #fff;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 14px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    z-index: 10000;
-  }
-
   /* 🏠 Tombol Home di kanan header */
   #btnHome {
     width: 38px;

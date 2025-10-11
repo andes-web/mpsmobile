@@ -4305,36 +4305,34 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 </script>
 <style>
+/* === MOBILE ONLY: Rekap Nilai tampil penuh (stretch) === */
 @media (max-width: 768px) {
-  #content, .content {
-    padding: 0 !important;
-    margin: 0 auto !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: stretch !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-  }
-
-  .rekap-frame {
-    display: block;
-    flex: 1 1 auto;                     /* biar menyesuaikan penuh area */
-    width: 100% !important;             /* isi penuh area konten */
-    height: calc(100vh - 10px) !important;
-    border: none !important;
+  #content iframe,
+  #content #rekapFrame {
+    display: block !important;
+    width: 100vw !important;        /* penuh lebar layar */
+    height: calc(100vh - 110px) !important; /* isi tinggi penuh sisa ruang (sesuaikan jika header/footer berbeda tinggi) */
     margin: 0 !important;
     padding: 0 !important;
-    background: #fff !important;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    border: none !important;
+    position: fixed !important;
+    top: 55px !important;           /* tepat di bawah header */
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1200 !important;
+    box-sizing: border-box !important;
+    background: #fff !important;    /* biar konten jelas */
   }
 
-  .rekap-frame.show {
-    opacity: 1;
+  /* Hilangkan padding dan margin di kontainer content */
+  .content {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
   }
 }
 </style>
-
 </body>
 </html>

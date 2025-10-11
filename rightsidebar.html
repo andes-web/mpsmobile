@@ -603,9 +603,11 @@ async function loadRekap(sheetName="Rekap"){
     });
 
 // --- Prosentase berdasarkan total nilai aktual dibagi total sel ---
-// Ambil jumlah peserta dari sheet Rekap
-const rekapData = await fetchSheet('Rekap');
+// Ambil jumlah peserta sesuai mode (Individu atau Kelompok)
+const pesertaSheet = sheetName === 'Rekap' ? 'Rekap' : 'RekapKelompok';
+const rekapData = await fetchSheet(pesertaSheet);
 const pesertaCount = rekapData.length > 1 ? rekapData.length - 1 : posRows.length;
+
 
 // Jumlah kolom POS
 const totalPosColumns = posIndices.length > 0 ? posIndices.length : 5;

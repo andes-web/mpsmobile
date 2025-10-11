@@ -4304,27 +4304,34 @@ document.addEventListener("DOMContentLoaded", () => {
   new MutationObserver(insertRekapOnce).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-
 <style>
-/* hanya aktif di mobile */
 @media(max-width:768px){
   .rekap-frame{
     display:block;
-    width:100%!important;          /* isi penuh area konten utama */
-    max-width:100%!important;
-    height:calc(100vh - 12px)!important; /* tinggi layar dikurangi sedikit agar tidak potong footer */
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);         /* pastikan center sempurna */
+    width:100vw!important;              /* paksa penuh layar HP */
+    max-width:100vw!important;
+    height:100vh!important;             /* tinggi penuh layar */
     border:none!important;
     margin:0!important;
     padding:0!important;
     background:#fff!important;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
+    border-radius:0!important;          /* hilangkan radius agar rapat */
+    box-shadow:none!important;          /* hilangkan bayangan agar natural */
     opacity:0;
     transition:opacity .4s ease;
   }
   .rekap-frame.show{opacity:1;}
+  html,body,#content,.content{
+    margin:0!important;
+    padding:0!important;
+    width:100vw!important;
+    max-width:100vw!important;
+    overflow-x:hidden!important;
+  }
 }
 </style>
-
 </body>
 </html>

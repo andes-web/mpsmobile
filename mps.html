@@ -4314,5 +4314,97 @@ item.addEventListener('click', function (e) {
   new MutationObserver(insertRekapOnce).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+<script>
+(function() {
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  function insertRekapNilai() {
+    if (!isMobile()) return; // hanya aktif di mobile
+
+    const sidebar = document.querySelector('#sidebar-left, .sidebar-left');
+    if (!sidebar) return;
+
+    // Jangan duplikat
+    if (sidebar.querySelector('.rekap-nilai-item')) return;
+
+    // Cari elemen "Penilaian Individu"
+    let target = null;
+    const all = sidebar.querySelectorAll('*');
+    for (const el of all) {
+      if (
+        el.childElementCount === 0 &&
+        el.textContent &&
+        el.textContent.trim() === 'Penilaian Individu'
+      ) {
+        target = el;
+        break;
+      }
+    }
+
+    if (!target) return;
+
+    // Buat tombol baru
+    const item = document.createElement('div');
+    item.className = 'h4-button rekap-nilai-item slide-down';
+    item.textContent = '📊 Rekap Nilai';
+    item.style.cursor = 'pointer';
+    item.style.padding = '6px 8px';
+    item.style.margin = '4px 0';
+    item.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
+    item.style.display = 'block';
+
+    // Sisipkan di atas Penilaian Individu
+    target.insertAdjacentElement('beforebegin', item);
+
+    // Klik → buka di jendela penuh (mobile)
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (isMobile()) {
+        window.open('rightsidebar.html', '_blank');
+      }
+    });
+  }
+
+  // Jalankan pengecekan berkala sampai menu muncul
+  function waitForMenu() {
+    insertRekapNilai();
+    if (isMobile() && !document.querySelector('.rekap-nilai-item')) {
+      setTimeout(waitForMenu, 500);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', waitForMenu);
+
+  // Hapus otomatis saat pindah ke desktop
+  window.addEventListener('resize', () => {
+    const btn = document.querySelector('.rekap-nilai-item');
+    if (!isMobile() && btn) btn.remove();
+    if (isMobile() && !btn) waitForMenu();
+  });
+})();
+</script>
+
+<style>
+/* 🌈 Animasi muncul halus hanya di mobile */
+@media (max-width: 768px) {
+  .slide-down {
+    animation: slideFadeIn 0.5s ease forwards;
+    transform-origin: top;
+  }
+
+  @keyframes slideFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+</style>
 </body>
 </html>

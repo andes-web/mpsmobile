@@ -367,7 +367,7 @@ select:focus {
 
 /* Copyright di Tengah */
 footer {
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   padding: 3px;
   text-align: center;
 }
@@ -429,9 +429,9 @@ footer {
 <header id="mobileHeader">
     <span>Rekap Interaktif</span>
     <div id="btnHome" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
-        <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
+        </svg>
     </div>
   </header>
   <div class="sidebar"> <header>
@@ -586,17 +586,19 @@ async function loadRekap(sheetName="Rekap"){
     
     posRows.forEach(r => {
         posIndices.forEach(idx => {
-            const score = parseFloat(r[idx]) || 0;
+            // Memastikan kolom yang dijumlahkan adalah Pos1 s/d Pos5 dan menganggap nilainya sebagai angka.
+            const score = parseFloat(r[idx]) || 0; 
             totalPosScore += score;
         });
     });
     
     // 2. Calculate Percentage
-    // Denominator = (Jumlah Peserta * 5)
+    // Maksimal skor per peserta = 5 (karena 5 Pos).
     const maxPossibleScorePerParticipant = 5; 
     const denominator = n * maxPossibleScorePerParticipant; // n = jumlah peserta dari rekap (Peserta > 0)
 
     if (denominator > 0) {
+        // PERBAIKAN: Pembagian skor dengan denominator
         const percentage = (totalPosScore / denominator) * 100;
         
         let displayPercentage;

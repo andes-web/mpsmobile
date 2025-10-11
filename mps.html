@@ -4305,36 +4305,43 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 </script>
 <style>
-@media(max-width:768px){
-  /* ... kode lain untuk mobile ... */
-  
-  .content {
-    /* Pastikan padding dan margin di .content diatur ulang agar tidak mengganggu rekap-frame */
-    padding: 0px !important; 
-    margin: 0px !important;
-  }
-  
-  .rekap-frame{
-    display:block;
-    position:relative;
-    /* Ubah ini menjadi 0 untuk menempel ke kiri, 
-       atau gunakan margin negatif untuk mengabaikan padding */
-    left: 0 !important;                           
-    /* Ubah width menjadi 100% penuh */
-    width: 100% !important;   
-    max-width: 100% !important;
-    /* Tinggi dibuat penuh layar vertikal (viewport height) dikurangi tinggi header dan/atau menu bar jika ada */
-    height:calc(100vh - 100px)!important; /* Sesuaikan 100px ini jika tinggi header/menu berbeda */
-    border:none!important;
-    margin:0!important; /* Pastikan margin 0 */
-  }
-  
-  /* Jika masih ada padding di body/html yang mengganggu, tambahkan ini */
-  html, body {
-    padding: 0 !important;
+/* === MOBILE FIX: Rekap Nilai isi penuh area konten utama === */
+@media (max-width: 768px) {
+
+  /* Target iframe Rekap Nilai */
+  #content #rekapFrame,
+  #content iframe[src*="rightsidebar.html"] {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;          /* penuh kiri-kanan konten utama */
+    height: calc(100vh - 120px) !important;  /* isi tinggi, minus header + footer */
     margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: #fff !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Pastikan area konten utama tidak punya padding/margin */
+  .content {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Hapus ruang horizontal tersembunyi */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
   }
 }
+
 </style>
 </body>
 </html>

@@ -4305,40 +4305,41 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 </script>
 <style>
-/* === MOBILE FIX: Rekap Nilai isi penuh area konten utama === */
+	/* === MOBILE FIX v2: Rekap Nilai simetris di tengah area konten === */
 @media (max-width: 768px) {
 
-  /* Target iframe Rekap Nilai */
+  /* Atur container konten agar bisa memusatkan isi */
+  .content {
+    display: flex !important;
+    justify-content: center !important;  /* rata tengah horizontal */
+    align-items: flex-start !important;  /* mulai dari atas */
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    width: 100% !important;
+  }
+
+  /* Atur iframe agar lebar tetap 100% dari area konten, tapi center */
   #content #rekapFrame,
   #content iframe[src*="rightsidebar.html"] {
     display: block !important;
     position: relative !important;
-    width: 100% !important;          /* penuh kiri-kanan konten utama */
-    height: calc(100vh - 120px) !important;  /* isi tinggi, minus header + footer */
-    margin: 0 !important;
+    width: 96% !important;               /* sedikit beri jarak kiri-kanan biar seimbang */
+    max-width: 100% !important;
+    height: calc(100vh - 120px) !important; /* penuh vertikal di area konten */
+    margin: 0 auto !important;           /* pusatkan di tengah */
     padding: 0 !important;
     border: none !important;
     background: #fff !important;
     box-sizing: border-box !important;
   }
 
-  /* Pastikan area konten utama tidak punya padding/margin */
-  .content {
-    margin: 0 !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: #fff !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    justify-content: flex-start !important;
-  }
-
-  /* Hapus ruang horizontal tersembunyi */
+  /* Pastikan tidak ada scroll horizontal */
   html, body {
     overflow-x: hidden !important;
-    max-width: 120% !important;
+    max-width: 100% !important;
   }
 }
 

@@ -156,6 +156,20 @@ select:focus {
 .statItem h5 { font-size: 0.5rem; margin: 0 0 1px 0; color: #64748b; font-weight: 400; }
 .statItem p { font-size: 0.8rem; font-weight: 800; color: #1d4ed8; margin: 0; }
 
+/* CSS BARU: Prosentase */
+.statBox .statProsentase {
+    font-size: 1.1rem !important; /* Larger */
+    font-weight: 900 !important; /* Bolder */
+}
+/* Warna Default: Merah (untuk < 100%) */
+.statBox .statProsentase-red {
+    color: #dc2626 !important; /* Stronger Red (Red 600) */
+}
+/* Warna 100%: Hijau */
+.statBox .statProsentase-green {
+    color: #10b981 !important; /* Strong Green (Green 500) */
+}
+
 
 /* Tabel Rekap (Peringkat) Elegan */
 .tableBox {
@@ -448,6 +462,7 @@ footer {
         <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
         <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
         <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
+        <div class="statItem"><h5>Prosentase</h5><p id="statProsentase" class="statProsentase statProsentase-red">0%</p></div> 
       </div>
 
       <div class="tableBox">
@@ -545,24 +560,68 @@ async function loadRekap(sheetName="Rekap"){
   `).join("");
   
   const arr=rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
-  const n=arr.length,sum=arr.reduce((a,b)=>a+b,0);document.getElementById("statPeserta").innerText=n;
+  const n=arr.length,sum=arr.reduce((a,b)=>a+b,0);
+  
+  // UPDATE STATS (Peserta, Rata, Max, Min)
+  document.getElementById("statPeserta").innerText=n;
   document.getElementById("statRata").innerText=n?(sum/n).toFixed(1):0;
   document.getElementById("statMax").innerText=n?Math.max(...arr):0;
   document.getElementById("statMin").innerText=n?Math.min(...arr):0;
 
-  // POS data
+  // POS data & PROSENTASE CALCULATION
   const posSheet=sheetName==="Rekap"?"PosIndividu":"PosKelompok";
   const posData=await fetchSheet(posSheet);
-  if(posData.length>1){
-    const posHeaders=posData[0],posRows=posData.slice(1);
+
+  let totalPosScore = 0;
+  const posColumnsToSum = ["POS1", "POS2", "POS3", "POS4", "POS5"];
+  
+  const statProsentaseElement = document.getElementById("statProsentase");
+  
+  if(posData.length > 1){
+    const posHeaders=posData[0];
+    const posRows=posData.slice(1);
+    
+    // 1. Sum up all POS scores (POS1 to POS5)
+    const posIndices = posColumnsToSum.map(col => posHeaders.indexOf(col)).filter(idx => idx !== -1);
+    
+    posRows.forEach(r => {
+        posIndices.forEach(idx => {
+            const score = parseFloat(r[idx]) || 0;
+            totalPosScore += score;
+        });
+    });
+    
+    // 2. Calculate Percentage
+    // Denominator = (Jumlah Peserta * 5)
+    const maxPossibleScorePerParticipant = 5; 
+    const denominator = n * maxPossibleScorePerParticipant; // n = jumlah peserta dari rekap (Peserta > 0)
+
+    if (denominator > 0) {
+        const percentage = (totalPosScore / denominator) * 100;
+        // MODIFIKASI: Pembulatan tanpa desimal (menggunakan Math.round)
+        const displayPercentage = Math.round(percentage); 
+        
+        // MODIFIKASI: Tentukan warna berdasarkan nilai prosentase
+        let colorClass = 'statProsentase-red';
+        if (displayPercentage >= 100) {
+            colorClass = 'statProsentase-green';
+        }
+        
+        // Tampilkan Prosentase
+        statProsentaseElement.innerText = `${displayPercentage}%`; 
+        statProsentaseElement.className = `statProsentase ${colorClass}`; // Set class baru
+    } else {
+        statProsentaseElement.innerText = `0%`;
+        statProsentaseElement.className = `statProsentase statProsentase-red`;
+    }
+    
+    // Logika penentuan nilai Max dan Min per baris (PosTable)
     document.getElementById("posSection").style.display="block";
     document.getElementById("posTitle").innerText=sheetName==="Rekap"?"Rekap POS Individu":"Rekap POS Kelompok";
     document.getElementById("posHead").innerHTML="<tr>"+posHeaders.map(h=>`<th>${h.replace('POS','P')}</th>`).join("")+"</tr>";
     
-    // Logika penentuan nilai Max dan Min per baris
     document.getElementById("posBody").innerHTML=posRows.map(r=>{
         let rowHtml = '<tr>';
-        // Ambil dan filter semua nilai POS menjadi angka
         const posValues = r.slice(1).map(c => parseFloat(c) || NaN).filter(c => !isNaN(c));
         
         if (posValues.length > 0) {
@@ -573,22 +632,18 @@ async function loadRekap(sheetName="Rekap"){
                 let className = '';
                 const value = parseFloat(c);
 
-                // Kolom pertama (index 0) adalah teks/nama/peringkat
                 if (i === 0) {
                     rowHtml += `<td>${c||""}</td>`;
                 } else {
-                    // Kolom data POS (index 1 dst - POS1 adalah index 1)
-                    
                     if (!isNaN(value)) {
                         if (value === max) {
-                            className = 'pos-value pos-max'; // Biru Kuat (Max)
+                            className = 'pos-value pos-max'; 
                         } else if (value === min) {
-                            className = 'pos-value pos-min'; // Merah Kuat (Min)
+                            className = 'pos-value pos-min'; 
                         } else {
-                            className = 'pos-value'; // Default Biru Muda
+                            className = 'pos-value'; 
                         }
                     } else {
-                        // Jika data non-numerik, tetap beri class default agar tetap ter-align dengan benar
                         className = 'pos-value'; 
                     }
                     
@@ -596,7 +651,6 @@ async function loadRekap(sheetName="Rekap"){
                 }
             });
         } else {
-            // Fallback untuk baris kosong
             r.forEach(c => {
                 rowHtml += `<td>${c||""}</td>`;
             });
@@ -607,6 +661,8 @@ async function loadRekap(sheetName="Rekap"){
     }).join("");
   }else{
     document.getElementById("posSection").style.display="none";
+    statProsentaseElement.innerText = `0%`; // Set to 0% if no POS data
+    statProsentaseElement.className = `statProsentase statProsentase-red`;
   }
 
   // Unit Recap - Logic ini dijalankan di setiap pembaruan (real-time)

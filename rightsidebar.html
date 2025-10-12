@@ -35,7 +35,6 @@ body {
   z-index: 9999;
 }
 /* Header: Rata Tengah dan Icon Home (Disembunyikan di Desktop) */
-/* Header default (MOBILE) — tetap kecil dan rapat */
 .sidebar header {
   padding: 8px 6px;
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
@@ -46,9 +45,7 @@ body {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  height: auto; /* biarkan tinggi fleksibel di mobile */
 }
-
 /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
 @media (min-width: 769px) {
   .sidebar header {
@@ -71,8 +68,8 @@ body {
 }
 
 .home-icon-btn {
-  width: 45px;
-  height: 45px;
+  width: 25px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,8 +83,8 @@ body {
 }
 .home-icon-btn svg {
   fill: white;
-  width: 26px;
-  height: 26px;
+  width: 16px;
+  height: 16px;
 }
 
 /* Modifikasi: Sembunyikan Icon Home di tampilan Desktop */

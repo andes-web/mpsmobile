@@ -48,11 +48,23 @@ body {
   align-items: center;
   position: relative;
 }
+/* Dalam file mobileHeader_fixed6.html, di dalam tag <style> */
+
+/* Targetkan elemen di tampilan Desktop (min-width: 769px) */
 @media (min-width: 769px) {
-  .sidebar header #menuToggle,
-  .sidebar header .home-icon-btn {
-    display: none !important;
-  }
+    
+    /* Aturan dengan Spesifisitas Maksimum untuk menyembunyikan elemen */
+    /* Menggunakan selektor BODY dan .sidebar-desktop (yang ditambahkan JS Anda) */
+    body .sidebar.sidebar-desktop header #menuToggle,
+    body .sidebar.sidebar-desktop header .home-icon-btn {
+        display: none !important;
+    }
+    
+    /* Jika kode di atas masih gagal, coba yang paling sederhana dan umum */
+    .sidebar header #menuToggle,
+    .sidebar header .home-icon-btn {
+        display: none !important; 
+    }
 }
 
 /* 🌐 DESKTOP OVERRIDES (min-width: 769px) */

@@ -451,23 +451,28 @@ footer {
 
   </style>
 <style>
-/* 🌐 Penyesuaian Header di Desktop */
+/* 🌐 Penyesuaian Header di Desktop: FIX FONT, CENTER, dan TINGGI */
 @media (min-width: 769px) {
   .sidebar header {
-    height: 54px !important;
+    height: 54px !important; /* TINGGI: 54px (Sesuai permintaan) */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     padding: 0 12px !important;
   }
+    
+  /* Sembunyikan ikon mobile yang berada di dalam header sidebar, agar tidak mengganggu centering */
+  .sidebar header #menuToggle,
+  .sidebar header .home-icon-btn {
+    display: none !important;
+  }
 
   .sidebar header .header-title {
-    flex: 0 0 auto !important;
-    text-align: center !important;
-    font-size: 1.4rem !important; /* perbesar ukuran title */
+    flex: 1 !important; /* Memaksa judul untuk mengambil seluruh lebar header */
+    text-align: center !important; /* Geser ke Tengah */
+    font-size: 1.4rem !important; /* Ukuran font lebih besar (Sesuai permintaan) */
     font-weight: 800 !important;
     color: white !important;
-    width: 100%;
     text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
   }
 }

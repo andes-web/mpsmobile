@@ -60,6 +60,40 @@ header span.instansi {
   box-shadow: inset -2px 0 8px rgba(0,0,0,0.05);
 }
 
+/* TAMBAHKAN ATAU UBAH DI index.html di dalam tag <style> */
+@media (min-width: 769px) {
+
+  /* 1. Definisi Kontainer Sidebar Kanan */
+  /* Asumsi ini adalah elemen (IFRAME/DIV) yang memuat mobileHeader_fixed.html */
+  .sidebar-right {
+    position: fixed !important;
+    top: 55px !important; /* Sesuaikan dengan tinggi header index.html */
+    bottom: 70px !important; /* Sesuaikan dengan tinggi footer index.html */
+    right: 0 !important;
+    
+    /* KRUSIAL: Lebar 280px harus dipaksakan */
+    width: 280px !important; 
+    
+    z-index: 900 !important;
+    background-color: #f8f9fa !important; 
+    border-left: 1px solid #e2e8f0 !important;
+  }
+
+  /* 2. Beri Jarak Kanan pada Area Konten Utama (.content) */
+  .content {
+    /* HANYA ATUR right: 280px jika .content sudah position: fixed */
+    right: 280px !important;
+    
+    /* JIKA .content TIDAK fixed, coba gunakan margin-right: */
+    /* margin-right: 280px !important; */
+  }
+
+  /* 3. Atur Jarak Kanan Footer Logo */
+  .logo-grid {
+    right: 280px !important;
+  }
+}
+
 /* Konten utama */
 .content {
   flex: 1;
@@ -1971,62 +2005,7 @@ header {
     vertical-align: middle !important;
   }
 }
-/* BLOK CSS YANG HARUS DITAMBAHKAN KE index.html */
-@media (min-width: 769px) {
 
-  /* 1. Atur Tampilan Fixed pada Content Utama */
-  .content {
-    /* Angka-angka ini umumnya dibutuhkan untuk layout fixed */
-    top: 55px !important;
-    left: 260px !important; /* Asumsi sidebar kiri 260px */
-    bottom: 40px !important;
-    
-    /* PENTING: Memberi Jarak 280px dari Kanan */
-    right: 280px !important; 
-    
-    /* Properti lain agar konten bisa discroll */
-    position: fixed !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 20px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* 2. Definisi Posisi dan Lebar Sidebar Kanan (280px) */
-  /* Elemen ini adalah IFRAME atau div yang memuat mobileHeader_fixed.html */
-  .sidebar-right {
-    position: fixed !important;
-    top: 55px !important; /* Di bawah header utama */
-    bottom: 70px !important; /* Di atas footer utama */
-    right: 0 !important;
-    
-    /* PENTING: Tetapkan Lebar 280px */
-    width: 280px !important;
-    
-    /* Properti lain */
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    z-index: 900 !important;
-  }
-
-  /* 3. Atur Jarak Kanan Footer Logo */
-  .logo-grid {
-    /* Properti dasar fixed footer */
-    bottom: 0 !important;
-    left: 260px !important;
-    height: 40px !important;
-    
-    /* PENTING: Memberi Jarak 280px dari Kanan */
-    right: 280px !important;
-    
-    /* Properti lain */
-    position: fixed !important;
-    background: #fff !important;
-    z-index: 1000 !important;
-    padding: 5px 15px !important;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1) !important;
-  }
-}
 </style>
 
 </head>

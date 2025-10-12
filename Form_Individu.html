@@ -131,7 +131,44 @@
     <button id="downloadExcel" class="btn btn-undi">UNDUH</button>
   </div>
 </div>
+<script>
+// ==== Proteksi Password ====
+document.addEventListener("DOMContentLoaded", async () => {
+  const allowedPassword = "@mps#";
+  let authenticated = false;
 
+  while (!authenticated) {
+    const { value: password } = await Swal.fire({
+      title: "Masukkan Password",
+      input: "password",
+      inputLabel: "Halaman ini dilindungi",
+      inputPlaceholder: "Masukkan password...",
+      confirmButtonText: "Masuk",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor: "#2563eb"
+    });
+
+    if (password === allowedPassword) {
+      authenticated = true;
+      Swal.fire({
+        icon: "success",
+        title: "Akses Diterima",
+        text: "Selamat datang di Penilaian Individu",
+        timer: 1200,
+        showConfirmButton: false
+      });
+    } else {
+      await Swal.fire({
+        icon: "error",
+        title: "Password Salah",
+        text: "Silakan coba lagi.",
+        confirmButtonColor: "#dc2626"
+      });
+    }
+  }
+});
+</script>
 <script>
 const scriptURL="https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec";
 
@@ -284,12 +321,3 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-

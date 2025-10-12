@@ -391,60 +391,49 @@ footer {
 }
 </style>
 <style>
-    /* 🌐 Tampilan umum */
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: #fff;
-    }
+/* 🌐 Tampilan umum */
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+}
 
-    /* ===== Tampilan penuh hanya di MOBILE (Dibuat Rapat) ===== */
-    @media (max-width: 768px) {
-      /* MODIFIKASI: Sembunyikan header utama di mobile */
-      #mobileHeader {
-        display: none !important;
-      }
+/* ===== MOBILE: tetap seperti semula ===== */
+@media (max-width: 768px) {
+  #mobileHeader {
+    display: none !important;
+  }
+  .sidebar {
+    position: static !important;
+    width: 100vw !important;
+    height: auto !important;
+    min-height: calc(100vh - 30px);
+    border: none !important;
+    box-shadow: none !important;
+    overflow-y: hidden;
+  }
+  .sidebar main {
+    padding: 8px 10px;
+    overflow-y: auto;
+    height: calc(100vh - 30px);
+  }
+  .sidebar footer {
+    flex-shrink: 0;
+    height: 30px;
+    padding: 5px;
+    background: #f1f5f9;
+  }
+}
 
-      .sidebar {
-        position: static !important;
-        width: 100vw !important;
-        height: auto !important;
-        min-height: calc(100vh - 30px); /* Disesuaikan, 30px untuk footer */
-        margin-top: 0; /* Menghilangkan margin yang dipicu oleh header */
-        border: none !important;
-        box-shadow: none !important;
-        overflow-y: hidden;
-      }
+/* 💻 ===== DESKTOP ===== */
+@media screen and (min-width: 769px) {
+  #mobileHeader {
+    display: none !important;
+  }
 
-      .sidebar main {
-        padding: 8px 10px;
-        overflow-y: auto;
-        height: calc(100vh - 30px); /* Disesuaikan, hanya dikurangi tinggi footer */
-      }
-      
-      .sidebar footer {
-        flex-shrink: 0;
-        height: 30px;
-        padding: 5px;
-        background: #f1f5f9;
-      }
-    }
-
-    /* 💻 Desktop tetap normal */
-    @media (min-width: 769px) {
-      #mobileHeader {
-        display: none;
-      }
-      .sidebar main {
-        overflow-y: auto;
-      }
-    }
-
-    /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
-@media (min-width: 769px) {
   .sidebar header {
-    height: 55px !important; /* gunakan !important untuk menembus prioritas */
+    height: 55px !important;
     padding: 0 12px !important;
     background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
     font-size: 1rem !important;
@@ -453,6 +442,7 @@ footer {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
     border-bottom: 1px solid #ccc !important;
   }
+
   .header-title {
     flex: 1 !important;
     text-align: center !important;
@@ -460,9 +450,17 @@ footer {
     font-weight: 700 !important;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
   }
-}
 
-  </style>
+  .home-icon-btn {
+    visibility: visible !important;
+  }
+
+  .sidebar main {
+    overflow-y: auto !important;
+  }
+}
+</style>
+
 </head>
 
 <body>

@@ -50,22 +50,23 @@ body {
 }
 /* Dalam file mobileHeader_fixed6.html, di dalam tag <style> */
 
-/* Targetkan elemen di tampilan Desktop (min-width: 769px) */
-@media (min-width: 769px) {
-    
-    /* Aturan dengan Spesifisitas Maksimum untuk menyembunyikan elemen */
-    /* Menggunakan selektor BODY dan .sidebar-desktop (yang ditambahkan JS Anda) */
-    body .sidebar.sidebar-desktop header #menuToggle,
-    body .sidebar.sidebar-desktop header .home-icon-btn {
-        display: none !important;
-    }
-    
-    /* Jika kode di atas masih gagal, coba yang paling sederhana dan umum */
-    .sidebar header #menuToggle,
-    .sidebar header .home-icon-btn {
-        display: none !important; 
-    }
+/* ========================================================== */
+/* ATURAN UNTUK MENYEMBUNYIKAN IKON DI SIDEBAR DESKTOP (250px) */
+/* ========================================================== */
+
+/* Aturan ini akan dieksekusi karena class .sidebar-desktop
+   ditambahkan secara paksa oleh JavaScript Anda, terlepas dari lebar layar. */
+.sidebar.sidebar-desktop header #menuToggle,
+.sidebar.sidebar-desktop header .home-icon-btn {
+    display: none !important;
 }
+
+/* Biarkan aturan CSS lama Anda yang lain tetap ada di dalam Media Query, 
+   hanya aturan penyembunyi ikon ini yang dikeluarkan. */
+/* @media (min-width: 769px) {
+    ... KODE LAMA ANDA ...
+} 
+*/
 
 /* 🌐 DESKTOP OVERRIDES (min-width: 769px) */
 @media (min-width: 769px) {

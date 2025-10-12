@@ -35,6 +35,10 @@ body {
   flex-direction: column;
   z-index: 9999;
 }
+
+/* 1. Kerapatan dan Elegan/Modern */
+/* ... (aturan body dan sidebar lainnya tetap di sini) ... */
+
 /* Header: Rata Tengah */
 .sidebar header {
   padding: 8px 6px;
@@ -47,6 +51,44 @@ body {
   justify-content: space-between;
   align-items: center;
   position: relative;
+}
+
+/* FIX AGGRESIF UNTUK DESKTOP (min-width: 769px) */
+@media (min-width: 769px) {
+  /* Hapus FIX AGGRESIF (lebar) di sini, biar JS yang atur. */
+  .sidebar {
+    width: 280px; 
+    position: fixed;
+    height: 100vh;
+  }
+    
+  /* FIX UTAMA: Tinggi, Warna, dan Centering Header Desktop */
+  .sidebar header {
+    height: 54px !important; /* TINGGI: 54px */
+    padding: 0 12px !important;
+    /* Memaksa gradien warna Desktop (Biru Muda) */
+    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    border-bottom: 1px solid #ccc !important;
+    
+    /* Pastikan ikon mobile disembunyikan di sini juga */
+    justify-content: center !important; 
+  }
+  
+  .sidebar header #menuToggle,
+  .sidebar header .home-icon-btn {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  .header-title {
+    flex: 1 !important; /* Ambil seluruh lebar */
+    text-align: center !important; /* GESER KE TENGAH */
+    font-size: 1.4rem !important; /* PERBESAR FONT */
+    font-weight: 800 !important;
+    color: white !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
+  }
 }
 
 /* 🌐 DESKTOP OVERRIDES (min-width: 769px) */
@@ -427,56 +469,7 @@ footer {
         overflow-y: auto;
       }
     }
-
-    /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
-@media (min-width: 769px) {
-  .sidebar header {
-    height: 55px !important; 
-    padding: 0 12px !important;
-    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
-    font-size: 1rem !important;
-    font-weight: bold !important;
-    color: white !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
-    border-bottom: 1px solid #ccc !important;
-  }
-  .header-title {
-    flex: 1 !important;
-    text-align: center !important;
-    font-size: 1.2rem !important;
-    font-weight: 700 !important;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
-  }
-}
-
   </style>
-<style>
-/* 🌐 Penyesuaian Header di Desktop: FIX FONT, CENTER, dan TINGGI */
-@media (min-width: 769px) {
-  .sidebar header {
-    height: 54px !important; /* TINGGI: 54px (Sesuai permintaan) */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 12px !important;
-  }
-    
-  /* Sembunyikan ikon mobile yang berada di dalam header sidebar, agar tidak mengganggu centering */
-  .sidebar header #menuToggle,
-  .sidebar header .home-icon-btn {
-    display: none !important;
-  }
-
-  .sidebar header .header-title {
-    flex: 1 !important; /* Memaksa judul untuk mengambil seluruh lebar header */
-    text-align: center !important; /* Geser ke Tengah */
-    font-size: 1.4rem !important; /* Ukuran font lebih besar (Sesuai permintaan) */
-    font-weight: 800 !important;
-    color: white !important;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
-  }
-}
-</style>
 <style>
 /* CSS UNTUK MOBILE HEADER (yang hanya muncul di mobile) */
 #mobileHeader {

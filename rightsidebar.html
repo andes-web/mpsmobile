@@ -21,6 +21,7 @@ body {
   font-size: 0.85rem;
 }
 .sidebar {
+  /* Aturan Default untuk Desktop */
   position: fixed;
   right: 0;
   top: 0;
@@ -37,6 +38,7 @@ body {
 /* Header: Rata Tengah dan Icon Home (Disembunyikan di Desktop) */
 .sidebar header {
   padding: 8px 6px;
+  /* Warna Default (Mobile) */
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #fff;
   font-size: 0.9rem;
@@ -48,15 +50,23 @@ body {
 }
 /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
 @media (min-width: 769px) {
+  /* FIX: Memastikan lebar sidebar kembali ke 280px jika general rule tidak diindahkan */
+  .sidebar {
+    width: 280px !important;
+    position: fixed !important;
+    height: 100vh !important;
+  }
+    
   .sidebar header {
-    height: 55px; /* tinggi sama seperti index.html */
-    padding: 0 12px;
-    background: linear-gradient(90deg, #4facfe, #00f2fe);
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    border-bottom: 1px solid #ccc;
+    height: 55px !important; /* tinggi sama seperti index.html */
+    padding: 0 12px !important;
+    /* FIX: Memaksa gradien warna Desktop */
+    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    border-bottom: 1px solid #ccc !important;
   }
   .header-title {
     flex: 1;
@@ -87,16 +97,21 @@ body {
   height: 16px;
 }
 
-/* Modifikasi: Sembunyikan Icon Home di tampilan Desktop */
+/* Modifikasi: Sembunyikan Icon Home dan Menu Toggle di tampilan Desktop */
 @media (min-width: 769px) {
     .sidebar header .home-icon-btn {
         visibility: hidden;
     }
     
-    /* BARU: Sembunyikan Menu Toggle (☰) di tampilan Desktop */
+    /* Hapus logika untuk span:first-child karena struktur HTML sudah diubah */
+    /* FIX: Menyembunyikan 3 garis (menuToggle) di Desktop */
     .sidebar header #menuToggle {
         display: none;
     }
+    
+    /* FIX: Hapus elemen span kosong yang mengganggu tata letak di Desktop */
+    /* Karena kita sudah menghapus span kosong di HTML, aturan ini dihilangkan. */
+    /* .sidebar header span:first-child { visibility: hidden; } */
 }
 
 
@@ -272,7 +287,7 @@ select:focus {
   font-weight: 700 !important;
   vertical-align: middle;
   transition: all 0.2s ease-in-out;
-  color: #1e293b; /* Warna netral default (Biru Sangat Tua/Hampir Hitam) - Akan ditimpa oleh pos-max/min */
+  color: #1e293b; 
 }
 
 .posTable td.pos-max {
@@ -504,7 +519,7 @@ footer {
   font-size: 1.1rem;
   font-weight: 700;
   color: white;
-  /* margin-left: -30px; <= DIHAPUS */
+  margin-left: -30px;
 }
 
 /* Icon home kanan */
@@ -791,7 +806,7 @@ document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
     if (numVal !== null) {
       display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
       
-      // LOGIKA BARU: Maksimum BIRU, SELAIN MAKSIMUM MERAH
+      // LOGIKA: Maksimum BIRU, SELAIN MAKSIMUM MERAH
       if (max !== null && numVal === max) {
           // Jika nilai adalah MAKSIMUM, terapkan pos-max (BIRU)
           className = "pos-value pos-max";

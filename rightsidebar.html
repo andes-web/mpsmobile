@@ -35,7 +35,7 @@ body {
   flex-direction: column;
   z-index: 9999;
 }
-/* Header: Rata Tengah dan Icon Home (Disembunyikan di Desktop) */
+/* Header: Rata Tengah */
 .sidebar header {
   padding: 8px 6px;
   /* Warna Default (Mobile): Biru Tua */
@@ -51,23 +51,23 @@ body {
 
 /* 🌐 DESKTOP OVERRIDES (min-width: 769px) */
 @media (min-width: 769px) {
-  /* FIX AGGRESIF: Memastikan sidebar kembali ke 280px dan fixed di kanan */
+  /* Hapus FIX AGGRESIF (lebar) di sini, biar JS yang atur. */
   .sidebar {
-    width: 280px !important; 
-    position: fixed !important;
-    height: 100vh !important;
+    width: 280px; 
+    position: fixed;
+    height: 100vh;
   }
     
   .sidebar header {
-    height: 55px !important; 
-    padding: 0 12px !important;
-    /* FIX AGGRESIF: Memaksa gradien warna Desktop (Biru Muda) */
-    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
-    font-size: 1rem !important;
-    font-weight: bold !important;
-    color: white !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
-    border-bottom: 1px solid #ccc !important;
+    height: 55px; 
+    padding: 0 12px;
+    /* Memaksa gradien warna Desktop (Biru Muda) */
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border-bottom: 1px solid #ccc;
   }
   .header-title {
     flex: 1;
@@ -78,38 +78,7 @@ body {
   }
 }
 
-.home-icon-btn {
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.2s;
-  flex-shrink: 0;
-}
-.home-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-.home-icon-btn svg {
-  fill: white;
-  width: 16px;
-  height: 16px;
-}
-
-/* Modifikasi: Sembunyikan Icon Home dan Menu Toggle di tampilan Desktop */
-@media (min-width: 769px) {
-    /* FIX AGGRESIF: Sembunyikan ikon Home (di header sidebar) */
-    .sidebar header .home-icon-btn {
-        display: none !important; 
-    }
-    
-    /* FIX AGGRESIF: Menyembunyikan 3 garis (menuToggle) di Desktop */
-    .sidebar header #menuToggle {
-        display: none !important; 
-    }
-}
+/* Hapus CSS penyembunyian ikon di Desktop sebelumnya */
 
 
 .sidebar main {
@@ -575,9 +544,9 @@ footer {
 
   <div class="sidebar"> 
     <header>
-      <div id="menuToggle" style="font-size: 24px; font-weight: 900; color: white; cursor: pointer;">☰</div>
+      <div id="menuToggle" class="mobile-only" style="font-size: 24px; font-weight: 900; color: white; cursor: pointer;">☰</div>
       <span class="header-title">Rekap Nilai MPS</span>
-      <div class="home-icon-btn" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
+      <div class="home-icon-btn mobile-only" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
         </svg>
@@ -791,7 +760,6 @@ document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
   // ambil hanya nilai valid
   const availableNums = numericValues.filter(v => v !== null);
   const max = availableNums.length ? Math.max(...availableNums) : null;
-  // const min = availableNums.length ? Math.min(...availableNums) : null; // Nilai min tidak digunakan lagi
 
   console.log(`POS DEBUG row#${rowIdx + 1}:`, numericValues, "max:", max);
 
@@ -864,29 +832,37 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 
 
 <script>
+// Fungsi untuk Memaksa Tampilan Desktop (Menghilangkan Elemen Mobile)
+function enforceDesktopLayout() {
+    // 1. Cek jika lebar layar adalah Desktop (atau iframe cukup lebar)
+    if (window.innerWidth >= 769) {
+        const sidebar = document.querySelector('.sidebar');
+        const header = document.querySelector('.sidebar header');
+        
+        // 2. Terapkan lebar 280px secara langsung (mengatasi masalah iframe/frame)
+        if (sidebar) {
+            sidebar.style.width = '280px';
+        }
+
+        // 3. Sembunyikan elemen mobile
+        const mobileOnly = document.querySelectorAll('.mobile-only, #mobileHeader, #mobileSubmenu');
+        mobileOnly.forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // 4. Pastikan header sidebar menggunakan warna Desktop
+        if (header) {
+            header.style.background = 'linear-gradient(90deg, #4facfe, #00f2fe)';
+            header.style.color = 'white';
+        }
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
-  const toggle = document.getElementById("menuToggle");
-  const submenu = document.getElementById("mobileSubmenu");
-
-  if (toggle && submenu) {
-    toggle.addEventListener("click", () => {
-      submenu.style.display = submenu.style.display === "block" ? "none" : "block";
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!submenu.contains(e.target) && e.target !== toggle) {
-        submenu.style.display = "none";
-      }
-    });
-  }
-});
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const toggle = document.getElementById("menuToggle");
-  const submenu = document.getElementById("mobileSubmenu");
+  const toggle = document.querySelector("#menuToggle");
+  const submenu = document.querySelector("#mobileSubmenu");
+  
+  // Hapus listener yang tidak digunakan (untuk menuToggle, hanya jika ini adalah mobile)
   if (toggle && submenu) {
     toggle.addEventListener("click", function() {
       submenu.classList.toggle("show");
@@ -897,7 +873,13 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   }
+
+  // Terapkan layout Desktop saat halaman dimuat
+  enforceDesktopLayout();
+  // Terapkan lagi saat ukuran jendela berubah (misal: saat maximize/restore)
+  window.addEventListener('resize', enforceDesktopLayout);
 });
+
 </script>
 
 </body>

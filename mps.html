@@ -1193,6 +1193,8 @@ header .visitor-counter {
   width: 100%;
 }
 </style>
+
+
 <!-- CHATGPT FIX v2: Ensure scrolling works and content isn't hidden behind footer -->
 <style>
 /* Global: allow page vertical scroll as fallback and smooth scrolling */
@@ -1344,6 +1346,9 @@ header {
 
 </style>
 <!-- END CHATGPT FIX v2 -->
+
+
+
 <!-- ADDED: Desktop-only footer logo transparent (no container) -->
 <style>
 @media (min-width: 769px) {
@@ -1377,6 +1382,8 @@ header {
 }
 </style>
 <!-- END ADDED -->
+
+
 <style>
 /* ===== PERBAIKAN TAMPILAN FOOTER & MOBILE ===== */
 
@@ -1466,6 +1473,8 @@ header {
   }
 }
 </style>
+
+
 <!-- ADDED: MOBILE FIX v6 - header/menu/footer fixed; only .content scrolls -->
 <style>
 @media (max-width: 768px) {
@@ -1826,6 +1835,7 @@ header {
 }
 }
 </style>
+
 <style>
 /* ==== FIX HEADER MOBILE: INSTANSI DEKAT LOGO, WRAP SAAT SEMPIT ==== */
 @media (max-width: 768px) {
@@ -1961,8 +1971,64 @@ header {
     vertical-align: middle !important;
   }
 }
+/* BLOK CSS YANG HARUS DITAMBAHKAN KE index.html */
+@media (min-width: 769px) {
 
+  /* 1. Atur Tampilan Fixed pada Content Utama */
+  .content {
+    /* Angka-angka ini umumnya dibutuhkan untuk layout fixed */
+    top: 55px !important;
+    left: 260px !important; /* Asumsi sidebar kiri 260px */
+    bottom: 40px !important;
+    
+    /* PENTING: Memberi Jarak 280px dari Kanan */
+    right: 280px !important; 
+    
+    /* Properti lain agar konten bisa discroll */
+    position: fixed !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. Definisi Posisi dan Lebar Sidebar Kanan (280px) */
+  /* Elemen ini adalah IFRAME atau div yang memuat mobileHeader_fixed.html */
+  .sidebar-right {
+    position: fixed !important;
+    top: 55px !important; /* Di bawah header utama */
+    bottom: 70px !important; /* Di atas footer utama */
+    right: 0 !important;
+    
+    /* PENTING: Tetapkan Lebar 280px */
+    width: 280px !important;
+    
+    /* Properti lain */
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 900 !important;
+  }
+
+  /* 3. Atur Jarak Kanan Footer Logo */
+  .logo-grid {
+    /* Properti dasar fixed footer */
+    bottom: 0 !important;
+    left: 260px !important;
+    height: 40px !important;
+    
+    /* PENTING: Memberi Jarak 280px dari Kanan */
+    right: 280px !important;
+    
+    /* Properti lain */
+    position: fixed !important;
+    background: #fff !important;
+    z-index: 1000 !important;
+    padding: 5px 15px !important;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1) !important;
+  }
+}
 </style>
+
 </head>
 <body>
 <header>
@@ -1970,16 +2036,17 @@ header {
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
 <!-- Visitor Counter (Mobile Only, muncul di header kanan) -->
 <div class="visitor-counter-mobile">
-<div class="visitor-label">VISITOR</div>
-<div class="visitor-digits" id="visitorNumberMobile">00000</div>
+  <div class="visitor-label">VISITOR</div>
+  <div class="visitor-digits" id="visitorNumberMobile">00000</div>
 </div>
+
 </header>
 <div class="layout">
 <aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
 <!-- Visitor Counter Digital -->
 <div class="visitor-counter-digital">
-<div class="visitor-label">VISITOR</div>
-<div class="visitor-digits" id="visitorNumber">00000</div>
+  <div class="visitor-label">VISITOR</div>
+  <div class="visitor-digits" id="visitorNumber">00000</div>
 </div>
 </aside>
 <main class="content" id="content">
@@ -1990,6 +2057,7 @@ header {
     Sidebar Kanan
   </aside>
 </div>
+
 <!-- Footer -->
 <footer class="footer-wrapper">
 <div class="footer-left">
@@ -3793,6 +3861,7 @@ if(!isMobile()){
 }
 
 </script>
+	
 <script>
 // Toggle active emboss effect persistently
 document.addEventListener("DOMContentLoaded", function() {
@@ -4122,6 +4191,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
 <style>
 /* === TAMPILAN MOBILE: header/footer statis, konten scroll, warna berbeda === */
 @media (max-width: 768px) {
@@ -4171,6 +4241,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 }
 </style>
+
+
 <style>
 /* OVERRIDE: Force mobile scrollability and ensure content area scrolls */
 @media (max-width: 768px) {
@@ -4368,6 +4440,7 @@ item.addEventListener('click', function (e) {
   });
 })();
 </script>
+
 <style>
 /* 🌈 Animasi muncul halus hanya di mobile */
 @media (max-width: 768px) {

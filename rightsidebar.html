@@ -48,6 +48,12 @@ body {
   align-items: center;
   position: relative;
 }
+@media (min-width: 769px) {
+  .sidebar header #menuToggle,
+  .sidebar header .home-icon-btn {
+    display: none !important;
+  }
+}
 
 /* 🌐 DESKTOP OVERRIDES (min-width: 769px) */
 @media (min-width: 769px) {
@@ -524,6 +530,7 @@ footer {
 #mobileSubmenu.show {
   display: block;
 }
+
 </style>
 
 </head>

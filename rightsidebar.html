@@ -842,56 +842,126 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 });
 </script>
 
-
 <script>
-// Fungsi untuk Memaksa Tampilan Desktop (Menghilangkan Elemen Mobile)
-function enforceDesktopLayout() {
-    // 1. Cek jika lebar layar adalah Desktop (atau iframe cukup lebar)
-    if (window.innerWidth >= 769) {
-        const sidebar = document.querySelector('.sidebar');
-        const header = document.querySelector('.sidebar header');
-        
-        // 2. Terapkan lebar 280px secara langsung (mengatasi masalah iframe/frame)
-        if (sidebar) {
-            sidebar.style.width = '280px';
-        }
+// ===== Versi Perbaikan: Sembunyikan ikon mobile berdasarkan lebar .sidebar atau konteks Desktop =====
 
-        // 3. Sembunyikan elemen mobile
-        const mobileOnly = document.querySelectorAll('.mobile-only, #mobileHeader, #mobileSubmenu');
-        mobileOnly.forEach(el => {
-            el.style.display = 'none';
-        });
+(function() {
+  const menuSel = '#menuToggle';
+  const homeSel = '.home-icon-btn';
+  const mobileHeaderSel = '#mobileHeader';
+  const mobileSubmenuSel = '#mobileSubmenu';
 
-        // 4. Pastikan header sidebar menggunakan warna Desktop
-        if (header) {
-            header.style.background = 'linear-gradient(90deg, #4facfe, #00f2fe)';
-            header.style.color = 'white';
-        }
-    }
-}
+  function hideMobileElements() {
+    const sidebar = document.querySelector('.sidebar');
+    const menu = document.querySelector(menuSel);
+    const home = document.querySelector(homeSel);
+    const mobileHeader = document.querySelector(mobileHeaderSel);
+    const mobileSubmenu = document.querySelector(mobileSubmenuSel);
 
-document.addEventListener("DOMContentLoaded", function() {
-  const toggle = document.querySelector("#menuToggle");
-  const submenu = document.querySelector("#mobileSubmenu");
-  
-  // Hapus listener yang tidak digunakan (untuk menuToggle, hanya jika ini adalah mobile)
-  if (toggle && submenu) {
-    toggle.addEventListener("click", function() {
-      submenu.classList.toggle("show");
-    });
-    document.addEventListener("click", (e) => {
-      if (!submenu.contains(e.target) && e.target !== toggle) {
-        submenu.classList.remove("show");
+    // Default: jangan ubah display kalau elemen tidak ada
+    if (!sidebar) return;
+
+    // Ambil lebar aktual sidebar (pixel)
+    const sidebarWidth = Math.round(sidebar.getBoundingClientRect().width || 0);
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+    // Kondisi: Treat as "desktop-sidebar" when either:
+    //  - sidebar width is <= 280 (embedded narrow sidebar on desktop)
+    //  - OR top-level viewport >= 769 (normal desktop)
+    const shouldHide = (sidebarWidth > 0 && sidebarWidth <= 280) || (viewportWidth >= 769);
+
+    if (shouldHide) {
+      if (menu) {
+        menu.style.display = 'none';
+        menu.style.visibility = 'hidden';
       }
-    });
+      if (home) {
+        home.style.display = 'none';
+        home.style.visibility = 'hidden';
+      }
+      if (mobileHeader) {
+        mobileHeader.style.display = 'none';
+        mobileHeader.style.visibility = 'hidden';
+      }
+      if (mobileSubmenu) {
+        mobileSubmenu.style.display = 'none';
+        mobileSubmenu.style.visibility = 'hidden';
+      }
+
+      // juga tambahkan CSS class pada sidebar (jika diperlukan oleh styling lain)
+      sidebar.classList.add('desktop-forced-hide-mobile');
+    } else {
+      // kembalikan ke default (biarkan CSS mobile mengatur)
+      if (menu) {
+        menu.style.display = '';
+        menu.style.visibility = '';
+      }
+      if (home) {
+        home.style.display = '';
+        home.style.visibility = '';
+      }
+      if (mobileHeader) {
+        mobileHeader.style.display = '';
+        mobileHeader.style.visibility = '';
+      }
+      if (mobileSubmenu) {
+        mobileSubmenu.style.display = 'none'; // keep submenu hidden until toggled on mobile
+        mobileSubmenu.style.visibility = '';
+      }
+      if (sidebar) sidebar.classList.remove('desktop-forced-hide-mobile');
+    }
   }
 
-  // Terapkan layout Desktop saat halaman dimuat
-  enforceDesktopLayout();
-  // Terapkan lagi saat ukuran jendela berubah (misal: saat maximize/restore)
-  window.addEventListener('resize', enforceDesktopLayout);
-});
+  // Panggil saat DOM sudah siap
+  document.addEventListener('DOMContentLoaded', function() {
+    // Pasang event toggle untuk menuToggle (hanya aktif jika terlihat)
+    const toggle = document.querySelector("#menuToggle");
+    const submenu = document.querySelector("#mobileSubmenu");
+    if (toggle && submenu) {
+      // pastikan tidak terpasang dua kali
+      if (!toggle._mps_toggle_bound) {
+        toggle.addEventListener("click", function(e){
+          e.stopPropagation();
+          submenu.classList.toggle("show");
+          submenu.style.display = submenu.classList.contains('show') ? 'block' : 'none';
+        });
+        // klik di luar menutup submenu
+        document.addEventListener("click", (ev) => {
+          if (!submenu.contains(ev.target) && ev.target !== toggle) {
+            submenu.classList.remove("show");
+            submenu.style.display = 'none';
+          }
+        });
+        toggle._mps_toggle_bound = true;
+      }
+    }
 
+    // Inisialisasi pertama kali
+    hideMobileElements();
+
+    // Resize & orientation change
+    window.addEventListener('resize', hideMobileElements);
+    window.addEventListener('orientationchange', hideMobileElements);
+
+    // Jika sidebar lebarnya diubah lewat script lain (inline style), pantau perubahan atribut style
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+      const mo = new MutationObserver(muts => {
+        for (const m of muts) {
+          if (m.type === 'attributes' && (m.attributeName === 'style' || m.attributeName === 'class')) {
+            // Delay kecil supaya perubahan sudah diterapkan
+            setTimeout(hideMobileElements, 50);
+            break;
+          }
+        }
+      });
+      mo.observe(sidebar, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
+
+    // Safety: jalankan lagi setelah 300ms (untuk iframe/async layout)
+    setTimeout(hideMobileElements, 300);
+  });
+})();
 </script>
 
 </body>

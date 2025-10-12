@@ -48,9 +48,10 @@ body {
   align-items: center;
   position: relative;
 }
+
 /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
 @media (min-width: 769px) {
-  /* FIX: Memastikan lebar sidebar kembali ke 280px jika general rule tidak diindahkan */
+  /* FIX AGGRESIF: Memastikan sidebar kembali ke 280px dan fixed di kanan */
   .sidebar {
     width: 280px !important;
     position: fixed !important;
@@ -60,7 +61,7 @@ body {
   .sidebar header {
     height: 55px !important; /* tinggi sama seperti index.html */
     padding: 0 12px !important;
-    /* FIX: Memaksa gradien warna Desktop */
+    /* FIX AGGRESIF: Memaksa gradien warna Desktop */
     background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
     font-size: 1rem !important;
     font-weight: bold !important;
@@ -99,19 +100,15 @@ body {
 
 /* Modifikasi: Sembunyikan Icon Home dan Menu Toggle di tampilan Desktop */
 @media (min-width: 769px) {
+    /* FIX AGGRESIF: Sembunyikan ikon Home */
     .sidebar header .home-icon-btn {
-        visibility: hidden;
+        visibility: hidden !important; 
     }
     
-    /* Hapus logika untuk span:first-child karena struktur HTML sudah diubah */
-    /* FIX: Menyembunyikan 3 garis (menuToggle) di Desktop */
+    /* FIX AGGRESIF: Menyembunyikan 3 garis (menuToggle) di Desktop */
     .sidebar header #menuToggle {
-        display: none;
+        display: none !important; 
     }
-    
-    /* FIX: Hapus elemen span kosong yang mengganggu tata letak di Desktop */
-    /* Karena kita sudah menghapus span kosong di HTML, aturan ini dihilangkan. */
-    /* .sidebar header span:first-child { visibility: hidden; } */
 }
 
 
@@ -454,7 +451,7 @@ footer {
     /* 💻 Desktop tetap normal */
     @media (min-width: 769px) {
       #mobileHeader {
-        display: none;
+        display: none !important; /* FIX: Hiding mobile header is always safe here */
       }
       .sidebar main {
         overflow-y: auto;
@@ -485,6 +482,7 @@ footer {
   </style>
 
 <style>
+/* CSS UNTUK MOBILE HEADER (yang hanya muncul di mobile) */
 #mobileHeader {
   position: fixed;
   top: 0;

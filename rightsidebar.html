@@ -35,10 +35,6 @@ body {
   flex-direction: column;
   z-index: 9999;
 }
-
-/* 1. Kerapatan dan Elegan/Modern */
-/* ... (aturan body dan sidebar lainnya tetap di sini) ... */
-
 /* Header: Rata Tengah */
 .sidebar header {
   padding: 8px 6px;
@@ -51,44 +47,6 @@ body {
   justify-content: space-between;
   align-items: center;
   position: relative;
-}
-
-/* FIX AGGRESIF UNTUK DESKTOP (min-width: 769px) */
-@media (min-width: 769px) {
-  /* Hapus FIX AGGRESIF (lebar) di sini, biar JS yang atur. */
-  .sidebar {
-    width: 280px; 
-    position: fixed;
-    height: 100vh;
-  }
-    
-  /* FIX UTAMA: Tinggi, Warna, dan Centering Header Desktop */
-  .sidebar header {
-    height: 54px !important; /* TINGGI: 54px */
-    padding: 0 12px !important;
-    /* Memaksa gradien warna Desktop (Biru Muda) */
-    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
-    border-bottom: 1px solid #ccc !important;
-    
-    /* Pastikan ikon mobile disembunyikan di sini juga */
-    justify-content: center !important; 
-  }
-  
-  .sidebar header #menuToggle,
-  .sidebar header .home-icon-btn {
-    display: none !important;
-    visibility: hidden !important;
-  }
-  
-  .header-title {
-    flex: 1 !important; /* Ambil seluruh lebar */
-    text-align: center !important; /* GESER KE TENGAH */
-    font-size: 1.4rem !important; /* PERBESAR FONT */
-    font-weight: 800 !important;
-    color: white !important;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
-  }
 }
 
 /* 🌐 DESKTOP OVERRIDES (min-width: 769px) */
@@ -469,7 +427,51 @@ footer {
         overflow-y: auto;
       }
     }
+
+    /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
+@media (min-width: 769px) {
+  .sidebar header {
+    height: 55px !important; 
+    padding: 0 12px !important;
+    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+  .header-title {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
+  }
+}
+
   </style>
+<style>
+/* 🌐 Penyesuaian Header di Desktop */
+@media (min-width: 769px) {
+  .sidebar header {
+    height: 54px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 12px !important;
+  }
+
+  .sidebar header .header-title {
+    flex: 0 0 auto !important;
+    text-align: center !important;
+    font-size: 1.4rem !important; /* perbesar ukuran title */
+    font-weight: 800 !important;
+    color: white !important;
+    width: 100%;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  }
+}
+</style>
 <style>
 /* CSS UNTUK MOBILE HEADER (yang hanya muncul di mobile) */
 #mobileHeader {
@@ -862,75 +864,6 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 </script>
 
 <script>
-// ===== Versi Perbaikan: Sembunyikan ikon mobile berdasarkan lebar .sidebar atau konteks Desktop =====
-
-(function() {
-  const menuSel = '#menuToggle';
-  const homeSel = '.home-icon-btn';
-  const mobileHeaderSel = '#mobileHeader';
-  const mobileSubmenuSel = '#mobileSubmenu';
-
-  function hideMobileElements() {
-    const sidebar = document.querySelector('.sidebar');
-    const menu = document.querySelector(menuSel);
-    const home = document.querySelector(homeSel);
-    const mobileHeader = document.querySelector(mobileHeaderSel);
-    const mobileSubmenu = document.querySelector(mobileSubmenuSel);
-
-    // Default: jangan ubah display kalau elemen tidak ada
-    if (!sidebar) return;
-
-    // Ambil lebar aktual sidebar (pixel)
-    const sidebarWidth = Math.round(sidebar.getBoundingClientRect().width || 0);
-    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-    // Kondisi: Treat as "desktop-sidebar" when either:
-    //  - sidebar width is <= 280 (embedded narrow sidebar on desktop)
-    //  - OR top-level viewport >= 769 (normal desktop)
-    const shouldHide = (sidebarWidth > 0 && sidebarWidth <= 280) || (viewportWidth >= 769);
-
-    if (shouldHide) {
-      if (menu) {
-        menu.style.display = 'none';
-        menu.style.visibility = 'hidden';
-      }
-      if (home) {
-        home.style.display = 'none';
-        home.style.visibility = 'hidden';
-      }
-      if (mobileHeader) {
-        mobileHeader.style.display = 'none';
-        mobileHeader.style.visibility = 'hidden';
-      }
-      if (mobileSubmenu) {
-        mobileSubmenu.style.display = 'none';
-        mobileSubmenu.style.visibility = 'hidden';
-      }
-
-      // juga tambahkan CSS class pada sidebar (jika diperlukan oleh styling lain)
-      sidebar.classList.add('desktop-forced-hide-mobile');
-    } else {
-      // kembalikan ke default (biarkan CSS mobile mengatur)
-      if (menu) {
-        menu.style.display = '';
-        menu.style.visibility = '';
-      }
-      if (home) {
-        home.style.display = '';
-        home.style.visibility = '';
-      }
-      if (mobileHeader) {
-        mobileHeader.style.display = '';
-        mobileHeader.style.visibility = '';
-      }
-      if (mobileSubmenu) {
-        mobileSubmenu.style.display = 'none'; // keep submenu hidden until toggled on mobile
-        mobileSubmenu.style.visibility = '';
-      }
-      if (sidebar) sidebar.classList.remove('desktop-forced-hide-mobile');
-    }
-  }
-
   // Panggil saat DOM sudah siap
   document.addEventListener('DOMContentLoaded', function() {
     // Pasang event toggle untuk menuToggle (hanya aktif jika terlihat)
@@ -980,8 +913,41 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     // Safety: jalankan lagi setelah 300ms (untuk iframe/async layout)
     setTimeout(hideMobileElements, 300);
   });
-})();
 </script>
+<style>
+/* === FIX DESKTOP HEADER ALIGNMENT IN SIDEBAR RIGHT (250px) === */
+@media (min-width: 769px) {
+  .sidebar {
+    width: 250px !important;  /* sesuaikan lebar sidebar kanan index.html */
+  }
 
+  .sidebar header {
+    height: 54px !important;  /* samakan tinggi header index.html */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 10px !important;
+    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+    border-bottom: 1px solid #cfdff5 !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  }
+
+  .sidebar header .header-title {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* Sembunyikan ikon agar title benar-benar di tengah */
+  .sidebar header #menuToggle,
+  .sidebar header .home-icon-btn {
+    display: none !important;
+  }
+}
+</style>
 </body>
 </html>

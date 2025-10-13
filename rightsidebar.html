@@ -1201,66 +1201,109 @@ body.desktop-mode #btnHome {
 </style>
 
 
-<!-- === FIX: Tampilkan Icon HOME & ☰ di MOBILE === -->
+<!-- === SIDEBAR DETECTION + HEADER FIX === -->
 <style>
-/* Sembunyikan di desktop */
+body.desktop-mode header,
+.desktop-mode header,
+.sidebar header {
+  height: 55px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+  border-bottom: 1px solid #cfdff5 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  padding: 0 10px !important;
+}
+
+body.desktop-mode .header-title,
+.desktop-mode .header-title,
+.sidebar header .header-title {
+  text-align: center !important;
+  width: 100% !important;
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Hide icons in desktop mode */
 @media (min-width: 769px) {
   #menuToggle,
   #btnHome,
   .home-icon-btn,
-  .icon-menu,
-  .icon-home {
+  .mobile-only,
+  .icon-home,
+  .icon-menu {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
   }
 }
+</style>
 
-/* Tampilkan di mobile */
-@media (max-width: 768px) {
-  #menuToggle,
-  #btnHome,
-  .home-icon-btn {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    cursor: pointer;
+<script>
+(function(){
+  function checkSidebarMode(){
+    const isInFrame = window.self !== window.top;
+    const width = window.innerWidth;
+    if (isInFrame && width <= 300){
+      document.body.classList.add('desktop-mode');
+    } else if (!isInFrame && width > 768){
+      document.body.classList.add('desktop-mode');
+    }
   }
+  document.addEventListener('DOMContentLoaded', checkSidebarMode);
+  window.addEventListener('resize', checkSidebarMode);
+})();
+</script>
+<!-- === END SIDEBAR DETECTION + HEADER FIX === -->
+ <!-- === FINAL UNIVERSAL HEADER FIX === -->
+<style>
+/* Terapkan untuk semua tampilan (mobile & desktop) */
+header,
+.sidebar header {
+  height: 55px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+  border-bottom: 1px solid #cfdff5 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  padding: 0 10px !important;
+}
 
-  #menuToggle {
-    font-size: 26px !important;
-    font-weight: 900 !important;
-    color: #fff !important;
-    margin-left: 10px !important;
-  }
+/* Judul di tengah dan tebal */
+.header-title {
+  flex: 1 1 auto !important;
+  text-align: center !important;
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
 
-  .home-icon-btn svg,
-  #btnHome svg {
-    width: 24px !important;
-    height: 24px !important;
-    fill: #fff !important;
-  }
-
-  /* Tata letak agar icon & title sejajar */
-  .sidebar header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    height: 55px !important;
-    padding: 0 10px !important;
-  }
-
-  .header-title {
-    flex: 1 !important;
-    text-align: center !important;
-    font-weight: 700 !important;
-    color: #fff !important;
-    font-size: 1.2rem !important;
-  }
+/* Sembunyikan ikon home dan 3 garis di semua mode */
+#menuToggle,
+#btnHome,
+.home-icon-btn,
+.mobile-only,
+.icon-home,
+.icon-menu,
+header svg,
+header img.icon,
+header button.icon,
+header a.icon,
+header div[onclick],
+.sidebar header svg,
+.sidebar header div[onclick] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 </style>
-<!-- === END FIX === -->
+<!-- === END UNIVERSAL HEADER FIX === -->
+
 </body>
 </html>

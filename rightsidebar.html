@@ -864,75 +864,6 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 </script>
 
 <script>
-// ===== Versi Perbaikan: Sembunyikan ikon mobile berdasarkan lebar .sidebar atau konteks Desktop =====
-
-(function() {
-  const menuSel = '#menuToggle';
-  const homeSel = '.home-icon-btn';
-  const mobileHeaderSel = '#mobileHeader';
-  const mobileSubmenuSel = '#mobileSubmenu';
-
-  function hideMobileElements() {
-    const sidebar = document.querySelector('.sidebar');
-    const menu = document.querySelector(menuSel);
-    const home = document.querySelector(homeSel);
-    const mobileHeader = document.querySelector(mobileHeaderSel);
-    const mobileSubmenu = document.querySelector(mobileSubmenuSel);
-
-    // Default: jangan ubah display kalau elemen tidak ada
-    if (!sidebar) return;
-
-    // Ambil lebar aktual sidebar (pixel)
-    const sidebarWidth = Math.round(sidebar.getBoundingClientRect().width || 0);
-    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-    // Kondisi: Treat as "desktop-sidebar" when either:
-    //  - sidebar width is <= 280 (embedded narrow sidebar on desktop)
-    //  - OR top-level viewport >= 769 (normal desktop)
-    const shouldHide = (sidebarWidth > 0 && sidebarWidth <= 280) || (viewportWidth >= 769);
-
-    if (shouldHide) {
-      if (menu) {
-        menu.style.display = 'none';
-        menu.style.visibility = 'hidden';
-      }
-      if (home) {
-        home.style.display = 'none';
-        home.style.visibility = 'hidden';
-      }
-      if (mobileHeader) {
-        mobileHeader.style.display = 'none';
-        mobileHeader.style.visibility = 'hidden';
-      }
-      if (mobileSubmenu) {
-        mobileSubmenu.style.display = 'none';
-        mobileSubmenu.style.visibility = 'hidden';
-      }
-
-      // juga tambahkan CSS class pada sidebar (jika diperlukan oleh styling lain)
-      sidebar.classList.add('desktop-forced-hide-mobile');
-    } else {
-      // kembalikan ke default (biarkan CSS mobile mengatur)
-      if (menu) {
-        menu.style.display = '';
-        menu.style.visibility = '';
-      }
-      if (home) {
-        home.style.display = '';
-        home.style.visibility = '';
-      }
-      if (mobileHeader) {
-        mobileHeader.style.display = '';
-        mobileHeader.style.visibility = '';
-      }
-      if (mobileSubmenu) {
-        mobileSubmenu.style.display = 'none'; // keep submenu hidden until toggled on mobile
-        mobileSubmenu.style.visibility = '';
-      }
-      if (sidebar) sidebar.classList.remove('desktop-forced-hide-mobile');
-    }
-  }
-
   // Panggil saat DOM sudah siap
   document.addEventListener('DOMContentLoaded', function() {
     // Pasang event toggle untuk menuToggle (hanya aktif jika terlihat)
@@ -982,223 +913,71 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     // Safety: jalankan lagi setelah 300ms (untuk iframe/async layout)
     setTimeout(hideMobileElements, 300);
   });
-})();
 </script>
-
-
-
-<!-- FORCIBLE DESKTOP HIDE: Injected CSS + JS to remove any menu / home icons and guard against dynamic insertion -->
-<style id="force-hide-icons-css">
+<style>
+/* === FIX DESKTOP HEADER ALIGNMENT IN SIDEBAR RIGHT (250px) === */
 @media (min-width: 769px) {
-  /* Broad selectors to hide possible icons/rendered nodes */
+  .sidebar {
+    width: 250px !important;  /* sesuaikan lebar sidebar kanan index.html */
+  }
+
+  /* Sembunyikan ikon agar title benar-benar di tengah */
+  .sidebar header #menuToggle,
+  .sidebar header .home-icon-btn {
+    display: none !important;
+  }
+}
+
+/* === FINAL DESKTOP FIX: SEMBUNYIKAN SEMUA ICON MENU DAN HOME === */
+@media (min-width: 769px) {
+  /* Hilangkan semua versi header mobile dan ikon di dalam/luarnya */
   #mobileHeader,
   #menuToggle,
-  .mobile-only,
   .home-icon-btn,
   #btnHome,
-  .btn-home,
-  .icon-home,
-  .icon-menu,
-  [data-role="mobile-toggle"],
-  [data-role="mobile-home"],
+  .mobile-only,
+  div#btnHome,
+  header #menuToggle,
+  header .home-icon-btn,
   header svg,
-  header .svg-icon,
-  header img.icon,
-  header button.icon,
-  header a.icon,
+  header div[onclick*="home"],
   header div[onclick],
+  .sidebar header div[onclick],
   .sidebar header svg,
-  .sidebar header div[onclick] {
+  .sidebar header .mobile-only {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
   }
 
-  /* Keep header title centered and nice */
+  /* Pastikan sidebar header tetap proporsional */
+  .sidebar {
+    width: 250px !important; /* sesuai sidebar kanan index.html */
+  }
+
   .sidebar header {
     height: 54px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0 8px !important;
+    padding: 0 10px !important;
+    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+    border-bottom: 1px solid #cfdff5 !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
   }
+
   .sidebar header .header-title {
+    flex: 0 0 auto !important;
     width: 100% !important;
     text-align: center !important;
-    font-size: 1.15rem !important;
-    font-weight: 700 !important;
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
     color: #fff !important;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
   }
 }
+
 </style>
-
-<script id="force-hide-icons-js">
-(function(){
-  // run only for desktop width to avoid interfering with mobile UI
-  function isDesktop(){
-    try { return window.matchMedia && window.matchMedia('(min-width: 769px)').matches; }
-    catch(e){ return document.documentElement.clientWidth >= 769; }
-  }
-
-  // selectors to remove if present
-  var selectors = [
-    '#mobileHeader',
-    '#menuToggle',
-    '.mobile-only',
-    '.home-icon-btn',
-    '#btnHome',
-    '.btn-home',
-    '.icon-home',
-    '.icon-menu',
-    '[data-role="mobile-toggle"]',
-    '[data-role="mobile-home"]',
-    'header svg',
-    'header .svg-icon',
-    'header img.icon',
-    'header button.icon',
-    'header a.icon',
-    'header div[onclick]',
-    '.sidebar header svg',
-    '.sidebar header div[onclick]'
-  ];
-
-  function removeMatches(){
-    if(!isDesktop()) return;
-    selectors.forEach(function(sel){
-      document.querySelectorAll(sel).forEach(function(node){
-        try{
-          node.remove ? node.remove() : node.parentNode && node.parentNode.removeChild(node);
-        }catch(e){ 
-          // fallback: hide strongly
-          node.style.display = 'none!important';
-          node.style.visibility = 'hidden';
-          node.style.opacity = '0';
-          node.style.pointerEvents = 'none';
-        }
-      });
-    });
-    // Additional: remove inline svgs inside header (safer)
-    document.querySelectorAll('.sidebar header svg, header svg').forEach(function(s){
-      s.remove && s.remove();
-    });
-    // Force reflow for safety
-    document.body.offsetHeight;
-  }
-
-  // initial attempt on DOMContentLoaded
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', function(){ removeMatches(); });
-  } else {
-    removeMatches();
-  }
-
-  // second pass after window load (some scripts might inject later)
-  window.addEventListener('load', function(){ setTimeout(removeMatches, 50); });
-
-  // Observe DOM for nodes added later (dynamic insertion)
-  var observer = new MutationObserver(function(mutations){
-    if(!isDesktop()) return;
-    var found = false;
-    for(var i=0;i<mutations.length;i++){
-      var mut = mutations[i];
-      if(mut.addedNodes && mut.addedNodes.length){
-        mut.addedNodes.forEach(function(n){
-          if(n.nodeType === 1){
-            // if any added node matches our selectors, remove after short delay
-            selectors.forEach(function(sel){
-              try{
-                if(n.matches && n.matches(sel)){
-                  found = true;
-                  n.remove && n.remove();
-                }
-              }catch(e){}
-            });
-            // also check descendants
-            selectors.forEach(function(sel){
-              try{
-                var inside = n.querySelectorAll && n.querySelectorAll(sel);
-                if(inside && inside.length){
-                  found = true;
-                  inside.forEach(function(x){ x.remove && x.remove(); });
-                }
-              }catch(e){}
-            });
-          }
-        });
-      }
-    }
-    if(found){
-      // small debounce to run full clean again
-      setTimeout(removeMatches, 40);
-    }
-  });
-
-  // start observing document.body if present
-  function startObserver(){
-    try {
-      if(document.body) observer.observe(document.body, { childList: true, subtree: true });
-    } catch(e){ /* ignore */ }
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', startObserver);
-  } else {
-    startObserver();
-  }
-
-  // Also listen for resize to re-apply when switching desktop/mobile
-  var resizeTimer;
-  window.addEventListener('resize', function(){
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function(){
-      if(isDesktop()) removeMatches();
-    }, 120);
-  });
-})();
-</script>
-
-<!-- END FORCIBLE DESKTOP HIDE -->
- <style>
-/* === PENYESUAIAN HEADER UNTUK MODE DESKTOP DI SIDEBAR === */
-body.desktop-mode .sidebar header,
-html.desktop-mode .sidebar header,
-.desktop-mode header {
-  height: 55px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 10px !important;
-  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
-  border-bottom: 1px solid #cfdff5 !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
-}
-
-/* Pusatkan teks judul */
-body.desktop-mode .header-title,
-html.desktop-mode .header-title,
-.desktop-mode .header-title {
-  width: 100% !important;
-  text-align: center !important;
-  font-size: 1.2rem !important;
-  font-weight: 800 !important;
-  color: #fff !important;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-  margin: 0 auto !important;
-}
-
-/* Pastikan ikon tetap tersembunyi di mode desktop */
-body.desktop-mode #menuToggle,
-body.desktop-mode .home-icon-btn,
-body.desktop-mode #btnHome {
-  display: none !important;
-  visibility: hidden !important;
-}
-</style>
-
 </body>
 </html>

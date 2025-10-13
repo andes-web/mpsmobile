@@ -2006,7 +2006,7 @@ header {
 <!-- Footer -->
 <footer class="footer-wrapper">
 <div class="footer-left">
-<p>© 2025 MPS</p>
+<p>© 2025 ANDES MPS Support System</p>
 </div>
 <div class="footer-logo">
 <div class="logo-grid">
@@ -4406,30 +4406,108 @@ item.addEventListener('click', function (e) {
   }
 }
 </style>
-<!-- === SAMAKAN WARNA HEADER MOBILE DAN DESKTOP === -->
-<style>
-/* Terapkan warna header desktop ke semua mode (mobile & desktop) */
-header,
-#mobileHeader,
-.sidebar header,
-header.mobile-only,
-#mobileHeader header {
-  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
-  color: #fff !important;
-  border-bottom: 1px solid #cfdff5 !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
-}
 
-/* Pastikan tinggi dan teks konsisten */
-header span,
-#mobileHeader span,
-.sidebar header span {
-  color: #fff !important;
-  font-weight: 700 !important;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.25);
+<!-- === INTRO PAGE (Isolated CSS Version) === -->
+<div id="introOverlay">
+  <header>Manager Paskibra Solution</header>
+  <main>
+    <h1>Selamat Datang di Portal MPS</h1>
+    <p>Silakan masuk untuk melanjutkan ke halaman utama.</p>
+    <button class="btn-enter" id="btnEnterApp">Masuk ke Aplikasi</button>
+  </main>
+  <footer>© 2025 ANDES MPS Support System</footer>
+</div>
+
+<style>
+#introOverlay, #introOverlay * {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+#introOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 9999;
+}
+#introOverlay header {
+  width: 100%;
+  height: 55px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+#introOverlay main {
+  margin-top: 120px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+#introOverlay h1 {
+  font-size: 2.4rem;
+  margin-bottom: 15px;
+}
+#introOverlay p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 35px;
+}
+#introOverlay .btn-enter {
+  padding: 12px 30px;
+  font-size: 1.05rem;
+  background-color: #fff;
+  color: #0078ff;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+#introOverlay .btn-enter:hover {
+  background-color: #0078ff;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+}
+#introOverlay footer {
+  position: absolute;
+  bottom: 15px;
+  text-align: center;
+  width: 100%;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
-<!-- === END HEADER COLOR SYNC === -->
 
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const btn = document.getElementById('btnEnterApp');
+  if(btn){
+    btn.addEventListener('click', function(){
+      const overlay = document.getElementById('introOverlay');
+      overlay.style.transition = 'opacity 0.6s ease';
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.remove(), 600);
+    });
+  }
+});
+</script>
+<!-- === END INTRO PAGE === -->
 </body>
 </html>

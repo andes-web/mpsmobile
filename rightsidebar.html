@@ -1262,5 +1262,62 @@ body.desktop-mode #btnHome {
 }
 </style>
 <!-- === END FIX === -->
+<!-- === FIX: FUNGSI 3 GARIS UNTUK MEMUNCULKAN SUB MENU === -->
+<style>
+#mobileSubmenu {
+  display: none;
+  position: fixed;
+  top: 55px;
+  right: 0;
+  width: 280px;
+  background: white;
+  border-left: 1px solid #ddd;
+  box-shadow: -4px 4px 10px rgba(0,0,0,0.1);
+  z-index: 9999;
+  border-bottom-left-radius: 8px;
+}
+#mobileSubmenu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #1d4ed8;
+  font-weight: 600;
+  border-bottom: 1px solid #f1f1f1;
+}
+#mobileSubmenu a:hover {
+  background: #f4f7ff;
+}
+#mobileSubmenu.show {
+  display: block !important;
+  animation: slideDown 0.25s ease-out;
+}
+@keyframes slideDown {
+  from {opacity: 0; transform: translateY(-8px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const menuToggle = document.getElementById("menuToggle");
+  const submenu = document.getElementById("mobileSubmenu");
+
+  if (menuToggle && submenu) {
+    // Klik tombol ☰ untuk menampilkan / menutup submenu
+    menuToggle.addEventListener("click", function(e) {
+      e.stopPropagation(); // cegah event bubbling
+      submenu.classList.toggle("show");
+    });
+
+    // Klik di luar submenu untuk menutup
+    document.addEventListener("click", function(e) {
+      if (!submenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        submenu.classList.remove("show");
+      }
+    });
+  }
+});
+</script>
+<!-- === END FIX === -->
 </body>
 </html>

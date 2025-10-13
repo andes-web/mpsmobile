@@ -4406,5 +4406,30 @@ item.addEventListener('click', function (e) {
   }
 }
 </style>
+<!-- === SAMAKAN WARNA HEADER MOBILE DAN DESKTOP === -->
+<style>
+/* Terapkan warna header desktop ke semua mode (mobile & desktop) */
+header,
+#mobileHeader,
+.sidebar header,
+header.mobile-only,
+#mobileHeader header {
+  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+  color: #fff !important;
+  border-bottom: 1px solid #cfdff5 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+}
+
+/* Pastikan tinggi dan teks konsisten */
+header span,
+#mobileHeader span,
+.sidebar header span {
+  color: #fff !important;
+  font-weight: 700 !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.25);
+}
+</style>
+<!-- === END HEADER COLOR SYNC === -->
+
 </body>
 </html>

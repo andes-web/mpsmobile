@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Nilai MPS - FIXED POS</title>
+<title>Rekap Nilai MPS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1200,5 +1200,63 @@ body.desktop-mode #btnHome {
 }
 </style>
 
+
+<!-- === SIDEBAR DETECTION + HEADER FIX === -->
+<style>
+body.desktop-mode header,
+.desktop-mode header,
+.sidebar header {
+  height: 55px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+  border-bottom: 1px solid #cfdff5 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  padding: 0 10px !important;
+}
+
+body.desktop-mode .header-title,
+.desktop-mode .header-title,
+.sidebar header .header-title {
+  text-align: center !important;
+  width: 100% !important;
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Hide icons in desktop mode */
+@media (min-width: 769px) {
+  #menuToggle,
+  #btnHome,
+  .home-icon-btn,
+  .mobile-only,
+  .icon-home,
+  .icon-menu {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+}
+</style>
+
+<script>
+(function(){
+  function checkSidebarMode(){
+    const isInFrame = window.self !== window.top;
+    const width = window.innerWidth;
+    if (isInFrame && width <= 300){
+      document.body.classList.add('desktop-mode');
+    } else if (!isInFrame && width > 768){
+      document.body.classList.add('desktop-mode');
+    }
+  }
+  document.addEventListener('DOMContentLoaded', checkSidebarMode);
+  window.addEventListener('resize', checkSidebarMode);
+})();
+</script>
+<!-- === END SIDEBAR DETECTION + HEADER FIX === -->
 </body>
 </html>

@@ -1258,5 +1258,51 @@ body.desktop-mode .header-title,
 })();
 </script>
 <!-- === END SIDEBAR DETECTION + HEADER FIX === -->
+<!-- === FINAL UNIVERSAL HEADER FIX === -->
+<style>
+/* Terapkan untuk semua tampilan (mobile & desktop) */
+header,
+.sidebar header {
+  height: 55px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+  border-bottom: 1px solid #cfdff5 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  padding: 0 10px !important;
+}
+
+/* Judul di tengah dan tebal */
+.header-title {
+  flex: 1 1 auto !important;
+  text-align: center !important;
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Sembunyikan ikon home dan 3 garis di semua mode */
+#menuToggle,
+#btnHome,
+.home-icon-btn,
+.mobile-only,
+.icon-home,
+.icon-menu,
+header svg,
+header img.icon,
+header button.icon,
+header a.icon,
+header div[onclick],
+.sidebar header svg,
+.sidebar header div[onclick] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+</style>
+<!-- === END UNIVERSAL HEADER FIX === -->
 </body>
 </html>

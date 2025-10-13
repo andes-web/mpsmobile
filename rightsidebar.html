@@ -41,7 +41,7 @@ body {
   /* Warna Default (Mobile): Biru Tua */
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 600;
   display: flex;
   justify-content: space-between;
@@ -385,37 +385,37 @@ footer {
       background: #fff;
     }
 
-    /* ===== Tampilan penuh hanya di MOBILE (Dibuat Rapat) ===== */
-    @media (max-width: 768px) {
-      /* MODIFIKASI: Sembunyikan header utama di mobile */
-      #mobileHeader {
+    /* ===== Tampilan penuh hanya di MOBILE (Diperbaiki untuk Scrolling) ===== */
+@media (max-width: 768px) {
+    #mobileHeader {
         display: none !important;
-      }
-
-      .sidebar {
+    }
+    
+    .sidebar {
         position: static !important;
         width: 100vw !important;
-        height: auto !important;
-        min-height: calc(100vh - 30px); /* Disesuaikan, 30px untuk footer */
-        margin-top: 0; /* Menghilangkan margin yang dipicu oleh header */
+        height: 100vh !important; /* PENTING: Tinggi penuh */
+        min-height: 100vh !important;
+        margin-top: 0; 
         border: none !important;
         box-shadow: none !important;
-        overflow-y: hidden;
-      }
-
-      .sidebar main {
-        padding: 8px 10px;
-        overflow-y: auto;
-        height: calc(100vh - 30px); /* Disesuaikan, hanya dikurangi tinggi footer */
-      }
-      
-      .sidebar footer {
-        flex-shrink: 0;
-        height: 30px;
-        padding: 5px;
-        background: #f1f5f9;
-      }
+        /* WAJIB: Menggunakan Flexbox untuk membagi ruang */
+        display: flex;
+        flex-direction: column;
+        overflow-y: hidden; /* Sidebar sendiri tidak boleh di scroll */
     }
+
+    /* Header sudah diatur dengan flex-shrink: 0; secara default */
+    
+    .sidebar main {
+        flex: 1; /* PENTING: Mengambil semua ruang sisa */
+        overflow-y: auto; /* PENTING: Area yang bisa di scroll */
+        padding: 8px 10px;
+        height: auto; /* Hapus height fix */
+    }
+    
+    /* Footer sudah diatur dengan flex-shrink: 0; secara default */
+}
 
     /* 💻 Desktop tetap normal */
     @media (min-width: 769px) {

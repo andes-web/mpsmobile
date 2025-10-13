@@ -4259,61 +4259,72 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 <script>
-(function(){
-  function isMobile(){return window.innerWidth<=768;}
+(function () {
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
 
-  function insertRekapOnce(){
-    if(!isMobile())return;
-    const sidebar=document.querySelector('#sidebar-left,.sidebar-left');
-    if(!sidebar)return;
+  function insertRekapOnce() {
+    if (!isMobile()) return;
+    const sidebar = document.querySelector('#sidebar-left, .sidebar-left');
+    if (!sidebar) return;
 
     // cari elemen "Penilaian Individu"
-    const target=[...sidebar.querySelectorAll('*')]
-      .find(el=>el.textContent?.trim()==='Penilaian Individu');
-    if(!target||sidebar.querySelector('.rekap-nilai-item'))return;
+    const target = [...sidebar.querySelectorAll('*')].find(
+      (el) => el.textContent?.trim() === 'Penilaian Individu'
+    );
+    if (!target || sidebar.querySelector('.rekap-nilai-item')) return;
 
     // buat tombol
-    const item=document.createElement('div');
-    item.className='h4-button rekap-nilai-item';
-    item.textContent='📊 Rekap Nilai';
-    item.style.cssText='cursor:pointer;padding:6px 8px;margin:4px 0;border-bottom:1px solid rgba(0,0,0,.06);opacity:0;transition:.4s';
-    target.insertAdjacentElement('beforebegin',item);
-    requestAnimationFrame(()=>item.style.opacity='1');
+    const item = document.createElement('div');
+    item.className = 'h4-button rekap-nilai-item';
+    item.textContent = '📊 Rekap Nilai';
+    item.style.cssText =
+      'cursor:pointer;padding:6px 8px;margin:4px 0;border-bottom:1px solid rgba(0,0,0,.06);opacity:0;transition:.4s';
+    target.insertAdjacentElement('beforebegin', item);
+    requestAnimationFrame(() => (item.style.opacity = '1'));
 
     // Saat diklik, buka halaman di jendela baru (mobile only)
-item.addEventListener('click', function (e) {
-  e.preventDefault();
-  if (window.innerWidth <= 768) {
-    // buka di tab/jendela penuh
-    window.open('rightsidebar.html', '_blank');
-  } else {
-    // tetap tampil di konten utama untuk desktop
-    const content = document.getElementById('content') || document.querySelector('.content');
-    if (content) {
-      content.innerHTML = '';
-      const iframe = document.createElement('iframe');
-      iframe.src = 'rightsidebar.html';
-      iframe.className = 'rekap-frame';
-      iframe.sandbox = 'allow-same-origin allow-scripts allow-forms';
-      iframe.scrolling = 'auto';
-      iframe.style.width = '100%';
-      iframe.style.height = 'calc(100vh - 10px)';
-      iframe.style.border = 'none';
-      iframe.style.opacity = '0';
-      iframe.style.transition = 'opacity .4s ease';
-      content.appendChild(iframe);
-      requestAnimationFrame(() => iframe.style.opacity = '1');
-      window.scrollTo(0, 0);
-    } else {
-      window.location.href = 'rightsidebar.html';
-    }
-  }
-});
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.innerWidth <= 768) {
+        // buka di tab/jendela penuh (mobile)
+        window.open('rightsidebar.html', '_blank');
+      } else {
+        // tetap tampil di konten utama untuk desktop
+        const content =
+          document.getElementById('content') ||
+          document.querySelector('.content');
+        if (content) {
+          content.innerHTML = '';
+          const iframe = document.createElement('iframe');
+          iframe.src = 'rightsidebar.html';
+          iframe.className = 'rekap-frame';
+          iframe.sandbox = 'allow-same-origin allow-scripts allow-forms';
+          iframe.scrolling = 'auto';
+          iframe.style.width = '100%';
+          iframe.style.height = 'calc(100vh - 10px)';
+          iframe.style.border = 'none';
+          iframe.style.opacity = '0';
+          iframe.style.transition = 'opacity .4s ease';
+          content.appendChild(iframe);
+          requestAnimationFrame(() => (iframe.style.opacity = '1'));
+          window.scrollTo(0, 0);
+        } else {
+          window.location.href = 'rightsidebar.html';
+        }
+      }
+    });
+  } 
 
-  document.addEventListener('DOMContentLoaded',insertRekapOnce);
-  new MutationObserver(insertRekapOnce).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('DOMContentLoaded', insertRekapOnce);
+  new MutationObserver(insertRekapOnce).observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 })();
 </script>
+
 <script>
 (function() {
   function isMobile() {
@@ -4407,98 +4418,131 @@ item.addEventListener('click', function (e) {
 }
 </style>
 
-<!-- === INTRO PAGE (Isolated CSS Version) === -->
-<div id="introOverlay">
-  <header>Manager Paskibra Solution</header>
-  <main>
-    <h1>Selamat Datang di Portal MPS</h1>
-    <p>Silakan masuk untuk melanjutkan ke halaman utama.</p>
-    <button class="btn-enter" id="btnEnterApp">Masuk ke Aplikasi</button>
-  </main>
-  <footer>© 2025 ANDES MPS Support System</footer>
-</div>
-
-<style>
-#introOverlay, #introOverlay * {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Arial, sans-serif;
-}
-#introOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  z-index: 9999;
-}
-#introOverlay header {
-  width: 100%;
-  height: 55px;
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-}
-#introOverlay main {
-  margin-top: 120px;
-  text-align: center;
-  animation: fadeIn 1s ease-in-out;
-}
-#introOverlay h1 {
-  font-size: 2.4rem;
-  margin-bottom: 15px;
-}
-#introOverlay p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  margin-bottom: 35px;
-}
-#introOverlay .btn-enter {
-  padding: 12px 30px;
-  font-size: 1.05rem;
-  background-color: #fff;
-  color: #0078ff;
-  font-weight: 600;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-#introOverlay .btn-enter:hover {
-  background-color: #0078ff;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transform: translateY(-2px);
-}
-#introOverlay footer {
-  position: absolute;
-  bottom: 15px;
-  text-align: center;
-  width: 100%;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-</style>
-
+<!-- === INTRO PAGE (DESKTOP ONLY, WITH LOGO LEFT SIDE) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+  // Cek apakah ini tampilan desktop
+  if (window.innerWidth <= 768) return; // ← Jangan tampilkan di mobile
+
+  // Buat elemen intro hanya untuk desktop
+  const introHTML = `
+    <div id="introOverlay">
+      <header>Manager Paskibra Solution</header>
+      <main>
+        <div class="intro-container">
+          <div class="intro-left">
+            <img src="Logo_MPS.png" alt="Logo MPS" class="intro-logo">
+          </div>
+          <div class="intro-right">
+            <h1>Selamat Datang di Portal MPS</h1>
+            <p>Silakan masuk untuk melanjutkan ke halaman utama.</p>
+            <button class="btn-enter" id="btnEnterApp">Masuk ke Aplikasi</button>
+          </div>
+        </div>
+      </main>
+      <footer>© 2025 ANDES MPS Support System</footer>
+    </div>
+    <style>
+      #introOverlay, #introOverlay * {
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Arial, sans-serif;
+      }
+      #introOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        z-index: 9999;
+      }
+      #introOverlay header {
+        width: 100%;
+        height: 55px;
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      }
+      #introOverlay main {
+        margin-top: 100px;
+        text-align: center;
+        animation: fadeIn 1s ease-in-out;
+      }
+      .intro-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+      }
+      .intro-left {
+        flex: 0 0 auto;
+      }
+      .intro-logo {
+        width: 250px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      }
+      .intro-right {
+        max-width: 420px;
+        text-align: left;
+      }
+      .intro-right h1 {
+        font-size: 2.4rem;
+        margin-bottom: 15px;
+      }
+      .intro-right p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 35px;
+      }
+      .intro-right .btn-enter {
+        padding: 12px 30px;
+        font-size: 1.05rem;
+        background-color: #fff;
+        color: #0078ff;
+        font-weight: 600;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      }
+      .intro-right .btn-enter:hover {
+        background-color: #0078ff;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transform: translateY(-2px);
+      }
+      #introOverlay footer {
+        position: absolute;
+        bottom: 15px;
+        text-align: center;
+        width: 100%;
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', introHTML);
+
   const btn = document.getElementById('btnEnterApp');
-  if(btn){
+  if (btn) {
     btn.addEventListener('click', function(){
       const overlay = document.getElementById('introOverlay');
       overlay.style.transition = 'opacity 0.6s ease';
@@ -4508,6 +4552,7 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 });
 </script>
+
 <!-- === END INTRO PAGE === -->
 </body>
 </html>

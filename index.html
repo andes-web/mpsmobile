@@ -4418,7 +4418,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 </style>
 
-<!-- === INTRO PAGE (DESKTOP ONLY, WITH LOGO LEFT SIDE) === -->
+<!-- === INTRO PAGE (DESKTOP ONLY, LOGO TANPA BORDER) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function(){
   // Cek apakah ini tampilan desktop
@@ -4488,10 +4488,12 @@ document.addEventListener("DOMContentLoaded", function(){
         flex: 0 0 auto;
       }
       .intro-logo {
-        width: 250px;
+        width: 260px;
         height: auto;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        display: block;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
       }
       .intro-right {
         max-width: 420px;
@@ -4552,6 +4554,7 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 });
 </script>
+
 
 <!-- === END INTRO PAGE === -->
 </body>

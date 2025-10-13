@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Nilai MPS</title>
+<title>Rekap Nilai MPS - FIXED POS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1163,5 +1163,42 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 </script>
 
 <!-- END FORCIBLE DESKTOP HIDE -->
+ <style>
+/* === PENYESUAIAN HEADER UNTUK MODE DESKTOP DI SIDEBAR === */
+body.desktop-mode .sidebar header,
+html.desktop-mode .sidebar header,
+.desktop-mode header {
+  height: 55px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 10px !important;
+  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+  border-bottom: 1px solid #cfdff5 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+}
+
+/* Pusatkan teks judul */
+body.desktop-mode .header-title,
+html.desktop-mode .header-title,
+.desktop-mode .header-title {
+  width: 100% !important;
+  text-align: center !important;
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  margin: 0 auto !important;
+}
+
+/* Pastikan ikon tetap tersembunyi di mode desktop */
+body.desktop-mode #menuToggle,
+body.desktop-mode .home-icon-btn,
+body.desktop-mode #btnHome {
+  display: none !important;
+  visibility: hidden !important;
+}
+</style>
+
 </body>
 </html>

@@ -927,26 +927,35 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     display: none !important;
   }
 }
-/* === FIX FINAL: SEMBUNYIKAN ICON 3 GARIS & HOME DI DESKTOP === */
+
+/* === FINAL DESKTOP FIX: SEMBUNYIKAN SEMUA ICON MENU DAN HOME === */
 @media (min-width: 769px) {
-  /* Semua kemungkinan ikon di header */
+  /* Hilangkan semua versi header mobile dan ikon di dalam/luarnya */
+  #mobileHeader,
   #menuToggle,
-  .mobile-only,
   .home-icon-btn,
   #btnHome,
+  .mobile-only,
+  div#btnHome,
+  header #menuToggle,
+  header .home-icon-btn,
   header svg,
-  header div#btnHome,
-  header div.home-icon-btn,
-  header span + div,
-  header > div[onclick],
-  #mobileHeader {
+  header div[onclick*="home"],
+  header div[onclick],
+  .sidebar header div[onclick],
+  .sidebar header svg,
+  .sidebar header .mobile-only {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
   }
 
-  /* Pastikan header tetap proporsional dan title di tengah */
+  /* Pastikan sidebar header tetap proporsional */
+  .sidebar {
+    width: 250px !important; /* sesuai sidebar kanan index.html */
+  }
+
   .sidebar header {
     height: 54px !important;
     display: flex !important;
@@ -968,6 +977,7 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
   }
 }
+
 </style>
 </body>
 </html>

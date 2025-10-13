@@ -1304,6 +1304,67 @@ header div[onclick],
 }
 </style>
 <!-- === END UNIVERSAL HEADER FIX === -->
+<!-- === FIX: Tampilkan Icon HOME & ☰ di MOBILE === -->
+<style>
+/* Sembunyikan di desktop */
+@media (min-width: 769px) {
+  #menuToggle,
+  #btnHome,
+  .home-icon-btn,
+  .icon-menu,
+  .icon-home {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+}
+
+/* Tampilkan di mobile */
+@media (max-width: 768px) {
+  #menuToggle,
+  #btnHome,
+  .home-icon-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    cursor: pointer;
+  }
+
+  #menuToggle {
+    font-size: 26px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    margin-left: 10px !important;
+  }
+
+  .home-icon-btn svg,
+  #btnHome svg {
+    width: 24px !important;
+    height: 24px !important;
+    fill: #fff !important;
+  }
+
+  /* Tata letak agar icon & title sejajar */
+  .sidebar header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 55px !important;
+    padding: 0 10px !important;
+  }
+
+  .header-title {
+    flex: 1 !important;
+    text-align: center !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    font-size: 1.2rem !important;
+  }
+}
+</style>
+<!-- === END FIX === -->
 
 </body>
 </html>

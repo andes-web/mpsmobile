@@ -926,7 +926,7 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
         mobileHeader.style.visibility = '';
       }
       if (mobileSubmenu) {
-        mobileSubmenu.style.display = 'none'; // keep submenu hidden until toggled on mobile
+        // KODE DIPERBAIKI: Hapus style.display = 'none' agar tidak menimpa click handler.
         mobileSubmenu.style.visibility = '';
       }
       if (sidebar) sidebar.classList.remove('desktop-forced-hide-mobile');

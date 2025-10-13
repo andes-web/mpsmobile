@@ -1262,8 +1262,9 @@ body.desktop-mode #btnHome {
 }
 </style>
 <!-- === END FIX === -->
-<!-- === FIX: FUNGSI 3 GARIS UNTUK MEMUNCULKAN SUB MENU === -->
+<!-- === FIX: SUB MENU HANYA AKTIF DI MOBILE === -->
 <style>
+/* Submenu dasar (hanya aktif di mobile) */
 #mobileSubmenu {
   display: none;
   position: fixed;
@@ -1275,7 +1276,9 @@ body.desktop-mode #btnHome {
   box-shadow: -4px 4px 10px rgba(0,0,0,0.1);
   z-index: 9999;
   border-bottom-left-radius: 8px;
+  transition: all 0.25s ease;
 }
+
 #mobileSubmenu a {
   display: block;
   padding: 10px 15px;
@@ -1284,9 +1287,12 @@ body.desktop-mode #btnHome {
   font-weight: 600;
   border-bottom: 1px solid #f1f1f1;
 }
+
 #mobileSubmenu a:hover {
   background: #f4f7ff;
 }
+
+/* Efek tampil halus */
 #mobileSubmenu.show {
   display: block !important;
   animation: slideDown 0.25s ease-out;
@@ -1295,25 +1301,46 @@ body.desktop-mode #btnHome {
   from {opacity: 0; transform: translateY(-8px);}
   to {opacity: 1; transform: translateY(0);}
 }
+
+/* Di desktop: submenu selalu tersembunyi */
+@media (min-width: 769px) {
+  #mobileSubmenu {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+}
 </style>
 
 <script>
+// === SCRIPT MENU: HANYA AKTIF DI MOBILE ===
 document.addEventListener("DOMContentLoaded", function() {
   const menuToggle = document.getElementById("menuToggle");
   const submenu = document.getElementById("mobileSubmenu");
 
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
   if (menuToggle && submenu) {
-    // Klik tombol ☰ untuk menampilkan / menutup submenu
+    // Klik ikon ☰ di MOBILE → tampilkan submenu
     menuToggle.addEventListener("click", function(e) {
-      e.stopPropagation(); // cegah event bubbling
+      if (!isMobile()) return; // Hanya aktif di mobile
+      e.stopPropagation();
       submenu.classList.toggle("show");
     });
 
-    // Klik di luar submenu untuk menutup
+    // Klik di luar submenu → tutup submenu (mobile only)
     document.addEventListener("click", function(e) {
+      if (!isMobile()) return; // Abaikan jika desktop
       if (!submenu.contains(e.target) && !menuToggle.contains(e.target)) {
         submenu.classList.remove("show");
       }
+    });
+
+    // Jika resize dari mobile ke desktop, pastikan submenu tertutup
+    window.addEventListener("resize", function() {
+      if (!isMobile()) submenu.classList.remove("show");
     });
   }
 });

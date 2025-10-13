@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Nilai MPS</title>
+<title>Rekap Nilai MPS - FIXED POS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1304,5 +1304,96 @@ header div[onclick],
 }
 </style>
 <!-- === END UNIVERSAL HEADER FIX === -->
+ <!-- === FIX: Fungsi Menu 3 Garis di MOBILE === -->
+<style>
+/* Pastikan submenu tampil rapi */
+#mobileSubmenu {
+  display: none;
+  position: fixed;
+  top: 55px;
+  right: 0;
+  width: 280px;
+  background: #ffffff;
+  border-left: 1px solid #ddd;
+  box-shadow: -4px 4px 10px rgba(0,0,0,0.1);
+  z-index: 9999;
+  border-bottom-left-radius: 8px;
+}
+
+#mobileSubmenu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #1d4ed8;
+  font-weight: 600;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background 0.2s ease;
+}
+#mobileSubmenu a:hover {
+  background: #f4f7ff;
+}
+
+/* Animasi buka tutup submenu */
+#mobileSubmenu.show {
+  display: block !important;
+  animation: slideDown 0.25s ease-out;
+}
+@keyframes slideDown {
+  from {opacity: 0; transform: translateY(-8px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Di desktop submenu tetap tersembunyi */
+@media (min-width: 769px) {
+  #mobileSubmenu { display: none !important; }
+}
+</style>
+
+<script>
+// === SCRIPT MENU MOBILE ===
+document.addEventListener("DOMContentLoaded", function() {
+  const toggle = document.getElementById("menuToggle");
+  const submenu = document.getElementById("mobileSubmenu");
+
+  if (toggle && submenu) {
+    toggle.addEventListener("click", function(e) {
+      e.stopPropagation();
+      submenu.classList.toggle("show");
+    });
+
+    // Klik di luar submenu -> tutup
+    document.addEventListener("click", function(e) {
+      if (!submenu.contains(e.target) && !toggle.contains(e.target)) {
+        submenu.classList.remove("show");
+      }
+    });
+  }
+});
+</script>
+<!-- === END FIX === -->
+ <!-- === SAMAKAN WARNA HEADER MOBILE DAN DESKTOP === -->
+<style>
+/* Terapkan warna header desktop ke semua mode (mobile & desktop) */
+header,
+#mobileHeader,
+.sidebar header,
+header.mobile-only,
+#mobileHeader header {
+  background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+  color: #fff !important;
+  border-bottom: 1px solid #cfdff5 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+}
+
+/* Pastikan tinggi dan teks konsisten */
+header span,
+#mobileHeader span,
+.sidebar header span {
+  color: #fff !important;
+  font-weight: 700 !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.25);
+}
+</style>
+<!-- === END HEADER COLOR SYNC === -->
 </body>
 </html>

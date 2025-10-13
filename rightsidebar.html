@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Nilai MPS - FIXED POS</title>
+<title>Rekap Nilai MPS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -921,45 +921,32 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     width: 250px !important;  /* sesuaikan lebar sidebar kanan index.html */
   }
 
-  .sidebar header {
-    height: 54px !important;  /* samakan tinggi header index.html */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 10px !important;
-    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
-    border-bottom: 1px solid #cfdff5 !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
-  }
-
-  .sidebar header .header-title {
-    flex: 0 0 auto !important;
-    width: 100% !important;
-    text-align: center !important;
-    font-size: 1.1rem !important;
-    font-weight: 700 !important;
-    color: #fff !important;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  }
-
   /* Sembunyikan ikon agar title benar-benar di tengah */
   .sidebar header #menuToggle,
   .sidebar header .home-icon-btn {
     display: none !important;
   }
 }
-
-/* === FIX: SEMBUNYIKAN ICON ☰ DAN 🏠 DI DESKTOP === */
+/* === FIX FINAL: SEMBUNYIKAN ICON 3 GARIS & HOME DI DESKTOP === */
 @media (min-width: 769px) {
-  /* Sembunyikan tombol menu dan home hanya di desktop */
+  /* Semua kemungkinan ikon di header */
   #menuToggle,
+  .mobile-only,
   .home-icon-btn,
-  #btnHome {
+  #btnHome,
+  header svg,
+  header div#btnHome,
+  header div.home-icon-btn,
+  header span + div,
+  header > div[onclick],
+  #mobileHeader {
     display: none !important;
     visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 
-  /* Pastikan header dan title tetap rapi di tengah */
+  /* Pastikan header tetap proporsional dan title di tengah */
   .sidebar header {
     height: 54px !important;
     display: flex !important;
@@ -981,7 +968,6 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
   }
 }
-
 </style>
 </body>
 </html>

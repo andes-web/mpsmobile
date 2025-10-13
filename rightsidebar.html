@@ -1303,7 +1303,105 @@ header div[onclick],
   pointer-events: none !important;
 }
 </style>
+<style
 <!-- === END UNIVERSAL HEADER FIX === -->
+ /* ===== HEADER UNTUK MOBILE ===== */
+/* Tombol 3 garis */
+.menu-btn {
+font-size: 34px;
+font-weight: 900;
+color: white;
+cursor: pointer;
+}
+
+
+/* Ikon Home */
+.home-btn svg {
+width: 34px;
+height: 34px;
+fill: white;
+cursor: pointer;
+}
+
+
+/* Submenu kecil */
+.submenu {
+display: none;
+position: fixed;
+top: 60px;
+left: 10px;
+background: #fff;
+border: 1px solid #ddd;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+width: 180px;
+z-index: 999;
+}
+.submenu a {
+display: block;
+padding: 10px 16px;
+text-decoration: none;
+color: #1d4ed8;
+font-weight: 600;
+font-size: 0.9rem;
+}
+.submenu a:hover {
+background: #f3f4f6;
+}
+.submenu.show {
+display: block;
+}
+
+
+/* Spacer untuk konten */
+main {
+margin-top: 70px;
+padding: 10px;
+}
+
+
+/* Desktop tidak berubah */
+@media (min-width: 769px) {
+header.mobile-header, .submenu { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="mobile-header">
+<div class="menu-btn" id="menuToggle">☰</div>
+<div class="home-btn" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/></svg>
+</div>
+</header>
+
+
+<div class="submenu" id="mobileSubmenu">
+<a href="Form_Individu.html">Penilaian Individu</a>
+<a href="Form_Kelompok.html">Penilaian Kelompok</a>
+</div>
+
+
+<main>
+<h2>Halaman Mobile</h2>
+<p>Ini adalah contoh tampilan Rightsidebar versi MOBILE dengan menu kiri ☰ dan tombol Home kanan.</p>
+</main>
+
+
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const submenu = document.getElementById('mobileSubmenu');
+
+
+document.addEventListener('click', (e) => {
+if (menuToggle.contains(e.target)) {
+submenu.classList.toggle('show');
+} else if (!submenu.contains(e.target)) {
+submenu.classList.remove('show');
+}
+});
+</script>
 
 </body>
 </html>

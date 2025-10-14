@@ -144,8 +144,8 @@ select:focus {
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   border: 1px solid #bfdbfe;
   border-radius: 6px;
-  padding: 4px 6px;
-  margin-bottom: 6px;
+  padding: 0px 2px;
+  margin-bottom: 2px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 .statItem { 
@@ -153,8 +153,8 @@ select:focus {
   flex: 1;
   padding: 0 3px;
 }
-.statItem h5 { font-size: 0.5rem; margin: 0 0 1px 0; color: #64748b; font-weight: 400; }
-.statItem p { font-size: 0.8rem; font-weight: 800; color: #1d4ed8; margin: 0; }
+.statItem h5 { font-size: 0.45rem; margin: 0 0 1px 0; color: #64748b; font-weight: 400; }
+.statItem p { font-size: 0.9rem; font-weight: 800; color: #1d4ed8; margin: 0; }
 
 /* CSS BARU: Prosentase */
 .statBox .statProsentase {
@@ -175,7 +175,7 @@ select:focus {
 .tableBox {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin-bottom: 6px;
+  margin-bottom: 2px;
   overflow: hidden;
   border: 1px solid #e0e7ff;
 }
@@ -185,7 +185,7 @@ select:focus {
   border-collapse: collapse;
 }
 .tableBox th, .tableBox td { 
-  padding: 5px 6px;
+  padding: 2px 4px !important;
   text-align: center;
   border: none;
 }
@@ -211,7 +211,7 @@ select:focus {
 
 /* Tabel POS Elegan dan Proporsional */
 .posTable {
-  margin-top: 5px;
+  margin-top: 2px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -310,11 +310,11 @@ select:focus {
 .bar-container {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px !important;
 }
 /* MODIFIKASI: Ubah overflow menjadi visible agar panah muncul */
 .bar-item {
-  height: 22px;
+  height: 18px !important;
   background: #f3f4f6;
   border-radius: 4px;
   display: flex;
@@ -628,7 +628,7 @@ footer {
       </div>
 
       <div class="unit-recap-bar">
-        <h4 id="unitRecapTitle">Rata-rata Nilai per Unit<span></span></h4>
+        <h4 id="unitRecapTitle">Rerata Nilai Unit<span></span></h4>
         <div id="unitBarContainer" class="bar-container">
           </div>
       </div>
@@ -693,9 +693,9 @@ async function loadRekap(sheetName="Rekap"){
   const headers=data[0],rows=data.slice(1);
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
   const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
-  
-  // Batasi Top 5 untuk Individu dan Kelompok
-  const limit=5; 
+
+  // Batasi Top 10 untuk Individu dan Kelompok
+  const limit=10; 
   const topRows=sorted.slice(0,limit);
   
   // Header tetap "🏅"
@@ -844,7 +844,7 @@ document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
   
   // Tambahkan indikator waktu refresh
   const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  document.getElementById('unitRecapTitle').innerHTML = `Rata-rata Nilai per Unit <span style="font-weight:400;font-size:0.7em;color:#6b7280;">(Diperbarui: ${now})</span>`;
+  document.getElementById('unitRecapTitle').innerHTML = `Rerata Nilai Unit <span style="font-weight:400;font-size:0.7em;color:#6b7280;">(Update: ${now})</span>`;
   
   renderUnitBars(unitMap);
   

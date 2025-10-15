@@ -6,103 +6,103 @@
 <title>FORM REFLEKSI SPREADSHEET</title>
 <style>
 :root{
-  --bg: #f5f8ff; 
-  --accent: #007bff; 
-  --muted: #334e68; 
-  --card: #ffffff; 
-  --input: #f7f9fc; 
-  --nav-bg: #eaf1fa; 
-  --shadow-light: rgba(0, 0, 0, 0.05);
-  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --bg: #f5f8ff; 
+  --accent: #007bff; 
+  --muted: #334e68; 
+  --card: #ffffff; 
+  --input: #f7f9fc; 
+  --nav-bg: #eaf1fa; 
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
 }
 *{box-sizing:border-box; transition: all 0.2s ease-out;}
-body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px} 
+body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px} 
 
 /* --- KOREKSI HEADER UNTUK IKON HOME --- */
 header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  background:linear-gradient(90deg, #007bff, #0056b3);
-  color:#fff;
-  padding:10px 8px;
-  z-index:220; 
-  box-shadow: 0 2px 5px var(--shadow-medium);
-  display: flex; /* Aktifkan Flexbox */
-  justify-content: space-between; /* Pisahkan konten */
-  align-items: center;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background:linear-gradient(90deg, #007bff, #0056b3);
+  color:#fff;
+  padding:10px 8px;
+  z-index:220; 
+  box-shadow: 0 2px 5px var(--shadow-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 header h1{
-  margin:0;
-  font-weight:700;
-  font-size:16px;
-  text-align:center;
-  flex-grow: 1; /* Biarkan judul mengambil ruang tengah */
+  margin:0;
+  font-weight:700;
+  font-size:16px;
+  text-align:center;
+  flex-grow: 1;
 }
 .home-icon-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px; /* Ukuran ikon HOME */
-    padding: 0 5px;
-    line-height: 1;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 0 5px;
+    line-height: 1;
 }
 .home-icon-link:hover {
-    color: #ffd700; 
+    color: #ffd700; 
 }
 /* --- END KOREKSI HEADER --- */
 
-.identity-bar{position:fixed;top:40px; left:0;right:0;background:var(--nav-bg);padding:8px 10px;z-index:215;border-bottom:1px solid #dcdfe4; box-shadow: 0 1px 3px var(--shadow-light);} 
-.identity-inner{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px} 
-.identity-row{display:flex;gap:8px;flex-wrap:wrap} 
+.identity-bar{position:fixed;top:40px; left:0;right:0;background:var(--nav-bg);padding:8px 10px;z-index:215;border-bottom:1px solid #dcdfe4; box-shadow: 0 1px 3px var(--shadow-light);} 
+.identity-inner{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px} 
+.identity-row{display:flex;gap:8px;flex-wrap:wrap} 
 .identity-field{flex:1}
-label{display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bottom:2px} 
-input[type="text"], select{width:100%;padding:6px 8px;border-radius:6px;border:1px solid #c9d6e4;background:var(--input);font-size:13px; color:var(--muted);} 
+label{display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bottom:2px} 
+input[type="text"], select{width:100%;padding:6px 8px;border-radius:6px;border:1px solid #c9d6e4;background:var(--input);font-size:13px; color:var(--muted);} 
 input[type="text"]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);}
 
 /* CSS untuk Nama Peserta Didik (Label) */
 .label-nama {
-    font-size: 14px; /* Ukuran yang lebih besar */
-    font-weight: 700; 
-    color: var(--muted); 
+    font-size: 14px;
+    font-weight: 700; 
+    color: var(--muted); 
 }
 
 /* --- FIXED NAVIGATION CSS --- */
 .question-nav-fixed-bar {
-    position: fixed;
-    top: 175px; /* DITINGKATKAN dari 160px menjadi 175px */
-    left: 0;
-    right: 0;
-    background: #fff; 
-    padding: 5px 0;
-    z-index: 200; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid #e0e8f0;
+    position: fixed;
+    top: 175px;
+    left: 0;
+    right: 0;
+    background: #fff; 
+    padding: 5px 0;
+    z-index: 200; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e0e8f0;
 }
 .fixed-nav-inner {
-    max-width: 980px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 0 10px;
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: center;
-    gap: 4px; 
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 10px;
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 4px; 
 }
 .fixed-nav-inner button{
-    display:inline-block;
-    margin:0; 
-    padding:4px 6px; 
-    border-radius:4px;
-    border:none;
-    background:#d8e8ff;
-    color:#0056b3;
-    font-size:11px;
-    cursor:pointer;
-    min-width:28px; 
-    font-weight: 600; 
-    box-shadow: 0 1px 2px var(--shadow-light);
-    flex-shrink: 0; 
+    display:inline-block;
+    margin:0; 
+    padding:4px 6px; 
+    border-radius:4px;
+    border:none;
+    background:#d8e8ff;
+    color:#0056b3;
+    font-size:11px;
+    cursor:pointer;
+    min-width:28px; 
+    font-weight: 600; 
+    box-shadow: 0 1px 2px var(--shadow-light);
+    flex-shrink: 0; 
 }
 .fixed-nav-inner button:hover { background: #c6daff; }
 .fixed-nav-inner button.current-q { background: var(--accent)!important; color: #fff!important; box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);}
@@ -113,400 +113,394 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 .main{max-width:980px;margin:0 auto;padding:220px 10px 80px;}
 
 .question-card{background:var(--card);border-left:4px solid var(--accent);padding:10px; border-radius:8px;margin-bottom:15px; box-shadow:0 4px 8px var(--shadow-light); position: relative;}
-.q-text{font-size:16px;margin:0 0 6px 0;font-weight:700;color:var(--accent);} 
-.options{display:flex;flex-direction:column;gap:4px} 
-.opt{display:flex;align-items:flex-start;gap:8px;padding:6px 8px; border-radius:6px;background:var(--input);border:1px solid #e0e8f0;font-size:17px; cursor: pointer; position: relative;} 
+.q-text{font-size:16px;margin:0 0 6px 0;font-weight:700;color:var(--accent);} 
+.options{display:flex;flex-direction:column;gap:4px} 
+.opt{display:flex;align-items:flex-start;gap:8px;padding:6px 8px; border-radius:6px;background:var(--input);border:1px solid #e0e8f0;font-size:17px; cursor: pointer; position: relative;} 
 .opt:hover{background: #eaf1fa; border-color: #c9d6e4;}
 
 /* Emboss/Selected effect for option */
 .opt input[type="radio"]:checked + span {font-weight: 700;color: #0056b3;}
 .opt input[type="radio"]{display: none;}
 .opt.checked-option {
-    background: #e8f0fe;
-    border: 2px solid var(--accent);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+    background: #e8f0fe;
+    border: 2px solid var(--accent);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
 }
-.opt span{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:1.3} 
+.opt span{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:1.3} 
 
 .fixed-send{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(90deg, #007bff, #0056b3);padding:8px 10px; z-index:230;box-shadow:0 -2px 8px rgba(0,0,0,0.1);}
 .fixed-inner{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.footer-note { color: #fff; font-size: 11px; font-weight: 400; margin: 0;} 
+.footer-note { color: #fff; font-size: 11px; font-weight: 400; margin: 0;} 
 .btn-send{background:#fff;color:var(--accent);padding:8px 12px; border-radius:6px;border:none;font-weight:700;cursor:pointer; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);}
 .btn-send:hover{background:#f0f0f0; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);}
 .btn-send:active{transform: translateY(1px);}
 
 /* --- NEW SUCCESS OVERLAY CSS --- */
 #success-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex; /* Ubah dari 'none' ke 'flex' di JS */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    opacity: 0;
-    pointer-events: none; /* Penting: agar bisa klik di bawahnya saat tersembunyi */
-    transition: opacity 0.3s ease-in-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
 }
 #success-overlay.show {
-    opacity: 1;
-    pointer-events: auto; /* Aktifkan klik saat terlihat */
+    opacity: 1;
+    pointer-events: auto;
 }
 #success-box {
-    background: var(--card);
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    transform: scale(0.8);
-    transition: transform 0.3s ease-in-out;
+    background: var(--card);
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s ease-in-out;
 }
 #success-overlay.show #success-box {
-    transform: scale(1);
+    transform: scale(1);
 }
 #success-box h2 {
-    color: var(--accent);
-    margin-top: 0;
-    font-size: 24px;
+    color: var(--accent);
+    margin-top: 0;
+    font-size: 24px;
 }
 #success-box p {
-    color: var(--muted);
-    margin-bottom: 20px;
+    color: var(--muted);
+    margin-bottom: 20px;
 }
 #success-box button {
-    background: #28a745; /* Hijau Sukses */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 700;
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
 }
 .checkmark {
-    font-size: 50px;
-    color: #28a745; 
-    line-height: 1;
-    margin-bottom: 10px;
-    display: block;
+    font-size: 50px;
+    color: #28a745; 
+    line-height: 1;
+    margin-bottom: 10px;
+    display: block;
 }
 /* --- END NEW SUCCESS OVERLAY CSS --- */
 
 @media (max-width:480px){
-  .main{padding-top:250px;padding-bottom:70px}
-  .identity-bar{top:44px;}
-  .question-nav-fixed-bar { top: 170px; } /* DITINGKATKAN untuk mobile */
-  .fixed-nav-inner button{padding:3px 5px; min-width:24px; font-size:13px;}
+  .main{padding-top:250px;padding-bottom:70px}
+  .identity-bar{top:44px;}
+  .question-nav-fixed-bar { top: 170px; }
+  .fixed-nav-inner button{padding:3px 5px; min-width:24px; font-size:13px;}
 }
 </style>
 </head>
 <body>
 
 <div id="success-overlay">
-  <div id="success-box">
-    <span class="checkmark">✔</span>
-    <h2>Refleksi Berhasil Terkirim!</h2>
-    <p>Terima kasih atas partisipasi Anda. Data refleksi telah tersimpan dengan aman.</p>
-    <button onclick="closeSuccessOverlay()">Tutup</button>
-  </div>
+  <div id="success-box">
+    <span class="checkmark">✔</span>
+    <h2>Refleksi Berhasil Terkirim!</h2>
+    <p>Terima kasih atas partisipasi Anda. Data refleksi telah tersimpan dengan aman.</p>
+    <button onclick="closeSuccessOverlay()">Tutup</button>
+  </div>
 </div>
 <header>
-  <a href="https://andes-web.github.io/mpsmobile/" target="_blank" class="home-icon-link" title="Beranda">
-    🏠
-  </a>
-  
-  <h1>FORM REFLEKSI SPREADSHEET</h1>
-  
-  <div style="width: 30px;"></div>
+  <a href="https://andes-web.github.io/mpsmobile/" target="_blank" class="home-icon-link" title="Beranda">
+    🏠
+  </a>
+  
+  <h1>FORM REFLEKSI SPREADSHEET</h1>
+  
+  <div style="width: 30px;"></div>
 </header>
 
 <div class="identity-bar">
-  <div class="identity-inner">
-    <div class="identity-field">
-      <label for="nama" class="label-nama">Nama Peserta Didik</label> <input id="nama" name="nama" type="text" placeholder="Tuliskan nama lengkap Anda" required>
-    </div>
-    <div class="identity-row">
-      <div class="identity-field">
-        <label for="kelas">Kelas</label>
-        <select id="kelas" name="kelas" required>
-          <option value="">Pilih Kelas</option>
-          <option value="KELAS X AKL1">KELAS X AKL1</option>
-          <option value="KELAS X AKL2">KELAS X AKL2</option>
-          <option value="KELAS X AKL3">KELAS X AKL3</option>
-          <option value="KELAS X AKL4">KELAS X AKL4</option>
-        </select>
-      </div>
-      <div class="identity-field">
-        <label for="sesi">Sesi</label>
-        <select id="sesi" name="sesi" required>
-          <option value="">Pilih Sesi</option>
-          <option value="As Learning">As Learning</option>
-          <option value="For Learning">For Learning</option>
-          <option value="Of Learning">Of Learning</option>
-        </select>
-      </div>
-    </div>
-  </div>
+  <div class="identity-inner">
+    <div class="identity-field">
+      <label for="nama" class="label-nama">Nama Peserta Didik</label> <input id="nama" name="nama" type="text" placeholder="Tuliskan nama lengkap Anda" required>
+    </div>
+    <div class="identity-row">
+      <div class="identity-field">
+        <label for="kelas">Kelas</label>
+        <select id="kelas" name="kelas" required>
+          <option value="">Pilih Kelas</option>
+          <option value="KELAS X AKL1">KELAS X AKL1</option>
+          <option value="KELAS X AKL2">KELAS X AKL2</option>
+          <option value="KELAS X AKL3">KELAS X AKL3</option>
+          <option value="KELAS X AKL4">KELAS X AKL4</option>
+        </select>
+      </div>
+      <div class="identity-field">
+        <label for="sesi">Sesi</label>
+        <select id="sesi" name="sesi" required>
+          <option value="">Pilih Sesi</option>
+          <option value="As Learning">As Learning</option>
+          <option value="For Learning">For Learning</option>
+          <option value="Of Learning">Of Learning</option>
+        </select>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="question-nav-fixed-bar">
-  <div class="fixed-nav-inner" id="fixedNavButtons">
-    </div>
+  <div class="fixed-nav-inner" id="fixedNavButtons">
+    </div>
 </div>
 
 <main class="main">
-  <form id="refleksiForm" method="POST" action="https://script.google.com/macros/s/AKfycbyUb3JGhRAe0Z4nfmCOuSsXVuaonNHuKqA0EPLNdfJLQfeXowmmW18imKZoiV640Whp0Q/exec">
-    <div id="questions"></div>
-  </form>
+  <form id="refleksiForm" method="POST" action="https://script.google.com/macros/s/AKfycbyUb3JGhRAe0Z4nfmCOuSsXVuaonNHuKqA0EPLNdfJLQfeXowmmW18imKZoiV640Whp0Q/exec">
+    <div id="questions"></div>
+  </form>
 </main>
 
 <div class="fixed-send">
-  <div class="fixed-inner">
-    <p class="footer-note">@2025 Andes</p>
-    <button id="btnNext" class="btn-send">KIRIM REFLEKSI</button>
-  </div>
+  <div class="fixed-inner">
+    <p class="footer-note">@2025 Andes</p>
+    <button id="btnNext" class="btn-send">KIRIM REFLEKSI</button>
+  </div>
 </div>
 
 <script>
 const questions = [
- "Bagaimana Anda memahami peran spreadsheet dalam pengelolaan uang jajan atau kas sekolah?",
- "Bagaimana Anda menuliskan operasi aritmatika sederhana (+, -, *, /) di spreadsheet untuk menghitung total?",
- "Bagaimana Anda memanfaatkan fungsi SUM untuk menghitung total pemasukan atau pengeluaran?",
- "Bagaimana Anda menggunakan AVERAGE untuk mengetahui rata-rata pengeluaran mingguan?",
- "Bagaimana Anda memakai COUNT dan COUNTA untuk menghitung entri angka dan teks di tabel?",
- "Bagaimana Anda menggunakan COUNTIF dan COUNTBLANK untuk memeriksa data tertentu dan sel kosong?",
- "Bagaimana Anda menerapkan SUMIF untuk menjumlahkan transaksi berdasarkan kategori tertentu?",
- "Bagaimana Anda menggunakan fungsi IF/AND/OR untuk memberi status otomatis (mis: Lunas/Tidak)?",
- "Bagaimana Anda memakai VLOOKUP atau HLOOKUP untuk mengambil data dari tabel lain?",
- "Bagaimana Anda menggabungkan beberapa fungsi agar laporan keuangan lebih otomatis dan akurat?",
- "Bagaimana Anda membaca hasil perhitungan untuk mengambil keputusan sederhana pada pengeluaran?",
- "Bagaimana Anda menggunakan spreadsheet untuk merencanakan anggaran kegiatan kecil atau proyek kelas?",
- "Bagaimana Anda mencari dan memperbaiki kesalahan rumus yang menyebabkan hasil tidak sesuai?",
- "Bagaimana Anda menilai perkembangan kemampuan spreadsheet Anda sejak awal pembelajaran?",
- "Bagaimana rencana Anda agar kemampuan spreadsheet semakin meningkat setelah fase ini?"
+ "Bagaimana Anda memahami peran spreadsheet dalam pengelolaan uang jajan atau kas sekolah?",
+ "Bagaimana Anda menuliskan operasi aritmatika sederhana (+, -, *, /) di spreadsheet untuk menghitung total?",
+ "Bagaimana Anda memanfaatkan fungsi SUM untuk menghitung total pemasukan atau pengeluaran?",
+ "Bagaimana Anda menggunakan AVERAGE untuk mengetahui rata-rata pengeluaran mingguan?",
+ "Bagaimana Anda memakai COUNT dan COUNTA untuk menghitung entri angka dan teks di tabel?",
+ "Bagaimana Anda menggunakan COUNTIF dan COUNTBLANK untuk memeriksa data tertentu dan sel kosong?",
+ "Bagaimana Anda menerapkan SUMIF untuk menjumlahkan transaksi berdasarkan kategori tertentu?",
+ "Bagaimana Anda menggunakan fungsi IF/AND/OR untuk memberi status otomatis (mis: Lunas/Tidak)?",
+ "Bagaimana Anda memakai VLOOKUP atau HLOOKUP untuk mengambil data dari tabel lain?",
+ "Bagaimana Anda menggabungkan beberapa fungsi agar laporan keuangan lebih otomatis dan akurat?",
+ "Bagaimana Anda membaca hasil perhitungan untuk mengambil keputusan sederhana pada pengeluaran?",
+ "Bagaimana Anda menggunakan spreadsheet untuk merencanakan anggaran kegiatan kecil atau proyek kelas?",
+ "Bagaimana Anda mencari dan memperbaiki kesalahan rumus yang menyebabkan hasil tidak sesuai?",
+ "Bagaimana Anda menilai perkembangan kemampuan spreadsheet Anda sejak awal pembelajaran?",
+ "Bagaimana rencana Anda agar kemampuan spreadsheet semakin meningkat setelah fase ini?"
 ];
 
 const options = [
- ["Saya belum mencoba atau memahami penggunaannya sama sekali.",
-  "Saya tahu fungsi dasar spreadsheet namun belum menghubungkannya ke keuangan.",
-  "Saya mampu mencatat dan menghitung transaksi sederhana dalam tabel pribadi.",
-  "Saya bisa membuat tabel kas sederhana dan menjelaskan fungsinya ke teman.",
-  "Saya mampu merancang format laporan kas yang rapi dan terpakai di praktik nyata."],
- ["Saya belum tahu cara menulis operasi aritmatika di sel spreadsheet.",
-  "Saya pernah menulis rumus pada satu sel namun sering menghasilkan error.",
-  "Saya menulis operasi aritmatika untuk beberapa perhitungan sederhana dengan benar.",
-  "Saya menggabungkan beberapa operasi untuk menghitung total dan subtotal dengan benar.",
-  "Saya membuat rumus aritmatika kompleks untuk otomatisasi perhitungan berulang."]
+ ["Saya belum mencoba atau memahami penggunaannya sama sekali.",
+  "Saya tahu fungsi dasar spreadsheet namun belum menghubungkannya ke keuangan.",
+  "Saya mampu mencatat dan menghitung transaksi sederhana dalam tabel pribadi.",
+  "Saya bisa membuat tabel kas sederhana dan menjelaskan fungsinya ke teman.",
+  "Saya mampu merancang format laporan kas yang rapi dan terpakai di praktik nyata."],
+ ["Saya belum tahu cara menulis operasi aritmatika di sel spreadsheet.",
+  "Saya pernah menulis rumus pada satu sel namun sering menghasilkan error.",
+  "Saya menulis operasi aritmatika untuk beberapa perhitungan sederhana dengan benar.",
+  "Saya menggabungkan beberapa operasi untuk menghitung total dan subtotal dengan benar.",
+  "Saya membuat rumus aritmatika kompleks untuk otomatisasi perhitungan berulang."]
 ];
 
 const qContainer=document.getElementById('questions');
 let current=0;
 
 function createQuestions(){
-  for(let i=0;i<questions.length;i++){
-    const card=document.createElement('div');
-    card.className='question-card';
-    card.id='q'+i;
-    card.style.display='none';
+  for(let i=0;i<questions.length;i++){
+    const card=document.createElement('div');
+    card.className='question-card';
+    card.id='q'+i;
+    card.style.display='none';
 
-    const q=document.createElement('p');
-    q.className='q-text';
-    q.textContent=(i+1)+'. '+questions[i];
-    card.appendChild(q);
-    
-    const optWrap=document.createElement('div');
-    optWrap.className='options';
-    (options[i%2]).forEach((op,j)=>{
-      const label=document.createElement('label');
-      label.className='opt';
-      const input=document.createElement('input');
-      input.type='radio';input.name='q'+i;input.value=j+1;
-      
-      input.addEventListener('change', function() {
-          label.parentElement.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
-          if (this.checked) {
-              label.classList.add('checked-option');
-          }
-          updateNav();
-      });
-      
-      const span=document.createElement('span');
-      span.textContent=op;
-      
-      label.appendChild(input);
-      label.appendChild(span);
-      optWrap.appendChild(label);
-    });
-    card.appendChild(optWrap);
+    const q=document.createElement('p');
+    q.className='q-text';
+    q.textContent=(i+1)+'. '+questions[i];
+    card.appendChild(q);
+    
+    const optWrap=document.createElement('div');
+    optWrap.className='options';
+    (options[i%2]).forEach((op,j)=>{
+      const label=document.createElement('label');
+      label.className='opt';
+      const input=document.createElement('input');
+      input.type='radio';input.name='q'+i;input.value=j+1;
+      
+      input.addEventListener('change', function() {
+          label.parentElement.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
+          if (this.checked) {
+              label.classList.add('checked-option');
+          }
+          updateNav();
+      });
+      
+      const span=document.createElement('span');
+      span.textContent=op;
+      
+      label.appendChild(input);
+      label.appendChild(span);
+      optWrap.appendChild(label);
+    });
+    card.appendChild(optWrap);
 
-    qContainer.appendChild(card);
-  }
-  generateFixedNav();
+    qContainer.appendChild(card);
+  }
+  generateFixedNav();
 }
 
 function generateFixedNav() {
-    const navContainer = document.getElementById('fixedNavButtons');
-    for(let n=0; n < questions.length; n++) {
-        const btn = document.createElement('button');
-        btn.textContent = n + 1;
-        btn.type = 'button';
-        btn.onclick = () => show(n);
-        navContainer.appendChild(btn);
-    }
+    const navContainer = document.getElementById('fixedNavButtons');
+    for(let n=0; n < questions.length; n++) {
+        const btn = document.createElement('button');
+        btn.textContent = n + 1;
+        btn.type = 'button';
+        btn.onclick = () => show(n);
+        navContainer.appendChild(btn);
+    }
 }
 
 createQuestions();
 show(0);
 
 function show(i){
-  document.querySelectorAll('.question-card').forEach(c=>c.style.display='none');
-  const currentCard = document.getElementById('q'+i);
-  if (currentCard) {
-      currentCard.style.display='block';
-      current=i;
-      updateNav();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  document.querySelectorAll('.question-card').forEach(c=>c.style.display='none');
+  const currentCard = document.getElementById('q'+i);
+  if (currentCard) {
+      currentCard.style.display='block';
+      current=i;
+      updateNav();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function updateNav(){
-  const btns = document.getElementById('fixedNavButtons').querySelectorAll('button');
-  
-  btns.forEach((b,i)=>{
-    const radio = document.querySelector('input[name="q'+i+'"]:checked');
-    const answered=!!radio;
-    
-    if (i === current) {
-        b.classList.add('current-q');
-    } else {
-        b.classList.remove('current-q');
-    }
+  const btns = document.getElementById('fixedNavButtons').querySelectorAll('button');
+  
+  btns.forEach((b,i)=>{
+    const radio = document.querySelector('input[name="q'+i+'"]:checked');
+    const answered=!!radio;
+    
+    if (i === current) {
+        b.classList.add('current-q');
+    } else {
+        b.classList.remove('current-q');
+    }
 
-    if (answered) {
-        b.style.background = 'var(--accent)';
-        b.style.color = '#fff';
-        if (radio && document.querySelector('label.opt input[name="q'+i+'"][value="'+radio.value+'"]')) {
-            document.querySelector('label.opt input[name="q'+i+'"][value="'+radio.value+'"]').parentElement.classList.add('checked-option');
-        }
-    } else if (i !== current) { 
-        b.style.background = '#d8e8ff';
-        b.style.color = '#0056b3';
-        document.querySelectorAll('label.opt input[name="q'+i+'"]').forEach(r => r.parentElement.classList.remove('checked-option'));
-    }
-  });
+    if (answered) {
+        b.style.background = 'var(--accent)';
+        b.style.color = '#fff';
+        if (radio && document.querySelector('label.opt input[name="q'+i+'"][value="'+radio.value+'"]')) {
+            document.querySelector('label.opt input[name="q'+i+'"][value="'+radio.value+'"]').parentElement.classList.add('checked-option');
+        }
+    } else if (i !== current) { 
+        b.style.background = '#d8e8ff';
+        b.style.color = '#0056b3';
+        document.querySelectorAll('label.opt input[name="q'+i+'"]').forEach(r => r.parentElement.classList.remove('checked-option'));
+    }
+  });
 }
 // FUNGSI RESET LENGKAP
 function completeFormReset() {
-    const form = document.getElementById('refleksiForm');
-    
-    // 1. Reset input form
-    form.reset(); 
-    
-    // 2. Reset input identitas di luar form (jika ada)
-    document.getElementById('nama').value = '';
-    document.getElementById('kelas').selectedIndex = 0;
-    document.getElementById('sesi').selectedIndex = 0;
+    const form = document.getElementById('refleksiForm');
+    
+    // 1. Reset input form
+    form.reset(); 
+    
+    // 2. Reset input identitas di luar form (jika ada)
+    document.getElementById('nama').value = '';
+    document.getElementById('kelas').selectedIndex = 0;
+    document.getElementById('sesi').selectedIndex = 0;
 
-    // 3. Reset tampilan opsi (hapus emboss)
-    document.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
-    
-    // 4. Kembali ke pertanyaan pertama
-    show(0);
-    
-    // 5. Reset tampilan navigasi tombol
-    updateNav(); 
+    // 3. Reset tampilan opsi (hapus emboss)
+    document.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
+    
+    // 4. Kembali ke pertanyaan pertama
+    show(0);
+    
+    // 5. Reset tampilan navigasi tombol
+    updateNav(); 
 }
 
 // FUNGSI NOTIFIKASI
 function showSuccessOverlay() {
-    document.getElementById('success-overlay').classList.add('show');
+    document.getElementById('success-overlay').classList.add('show');
 }
 
 window.closeSuccessOverlay = function() {
-    document.getElementById('success-overlay').classList.remove('show');
+    document.getElementById('success-overlay').classList.remove('show');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    updateNav();
+    updateNav();
 });
 
-// ... (Bagian JavaScript di atas ini tidak berubah) ...
-
 document.getElementById('btnNext').onclick=()=>{
-  if(current<questions.length-1){
-    show(current+1);
-  } else {
-    let allAnswered = true;
-    for(let i=0; i<questions.length; i++) {
-        if (!document.querySelector('input[name="q'+i+'"]:checked')) {
-            alert('Harap jawab semua pertanyaan sebelum mengirim. Pertanyaan ' + (i+1) + ' belum dijawab.');
-            show(i);
-            allAnswered = false;
-            break;
-        }
-    }
-    if (allAnswered) {
-        sendData();
-    }
-  }
+  if(current<questions.length-1){
+    show(current+1);
+  } else {
+    let allAnswered = true;
+    for(let i=0; i<questions.length; i++) {
+        if (!document.querySelector('input[name="q'+i+'"]:checked')) {
+            alert('Harap jawab semua pertanyaan sebelum mengirim. Pertanyaan ' + (i+1) + ' belum dijawab.');
+            show(i);
+            allAnswered = false;
+            break;
+        }
+    }
+    if (allAnswered) {
+        sendData();
+    }
+  }
 };
 
 function sendData(){
-  const nama=document.getElementById('nama').value.trim();
-  const kelas=document.getElementById('kelas').value;
-  const sesi=document.getElementById('sesi').value;
-  if(!nama||!kelas||!sesi){
-      alert('Lengkapi identitas terlebih dahulu');
-      document.getElementById('nama').focus(); // Fokus ke input nama
-      return;
-  }
+  const nama=document.getElementById('nama').value.trim();
+  const kelas=document.getElementById('kelas').value;
+  const sesi=document.getElementById('sesi').value;
+  if(!nama||!kelas||!sesi){
+      alert('Lengkapi identitas terlebih dahulu');
+      document.getElementById('nama').focus();
+      return;
+  }
 
-  const form=document.getElementById('refleksiForm');
-  const fd=new FormData(form);
-  fd.append('nama', nama);
-  fd.append('kelas', kelas);
-  fd.append('sesi', sesi);
-  for(let i=0;i<questions.length;i++){if(!fd.has('q'+i))fd.append('q'+i,'0');}
+  const form=document.getElementById('refleksiForm');
+  const fd=new FormData(form);
+  fd.append('nama', nama);
+  fd.append('kelas', kelas);
+  fd.append('sesi', sesi);
+  for(let i=0;i<questions.length;i++){if(!fd.has('q'+i))fd.append('q'+i,'0');}
 
-  const params = new URLSearchParams();
-  fd.forEach((v, k) => params.append(k, v));
-  
-  document.getElementById('btnNext').textContent = 'Mengirim...';
-  document.getElementById('btnNext').disabled = true;
+  const params = new URLSearchParams();
+  fd.forEach((v, k) => params.append(k, v));
+  
+  document.getElementById('btnNext').textContent = 'Mengirim...';
+  document.getElementById('btnNext').disabled = true;
 
 
-  fetch(form.action, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params
-  })
-  .then(res => res.text())
-  .then(txt => {
-    // --- PERUBAHAN KRITIS UNTUK DEBUGGING ---
-    alert('STATUS SERVER: ' + txt);
-    
-    if (txt.includes('SUKSES_APEND_BERHASIL')) {
-        // Jika sukses, baru reset form
-        form.reset();
-        show(0);
-        document.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
-    } else {
-        // Jika gagal, berikan instruksi.
-        alert('PENTING: Pengiriman data GAGAL di sisi server. Cek kembali izin dan Web App URL Anda, atau pastikan ID dan Nama Sheet sudah benar.');
-    }
-    
-    document.getElementById('btnNext').textContent = 'KIRIM REFLEKSI';
-    document.getElementById('btnNext').disabled = false;
-    updateNav();
+  fetch(form.action, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params
+  })
+  .then(res => res.text())
+  .then(txt => {
+    // --- KODE AKHIR UNTUK NOTIFIKASI ELEGAN & RESET ---
+    if (txt.includes('SUKSES_APEND_BERHASIL')) { 
+        completeFormReset(); // Lakukan reset sempurna
+        showSuccessOverlay(); // Tampilkan notifikasi elegan
+    } else {
+        // Tampilkan pesan error mentah dari server Google jika gagal
+        alert('Pengiriman GAGAL (Apps Script Error). Pesan Server: ' + txt);
+    }
+    
+    document.getElementById('btnNext').textContent = 'KIRIM REFLEKSI';
+    document.getElementById('btnNext').disabled = false;
+    updateNav();
 
-  })
-  .catch(err => {
-    alert('Gagal mengirim data (Gagal Koneksi): ' + err.message);
-    document.getElementById('btnNext').textContent = 'KIRIM REFLEKSI';
-    document.getElementById('btnNext').disabled = false;
-  });
+  })
+  .catch(err => {
+    alert('Gagal mengirim data (Gagal Koneksi). Cek koneksi internet Anda. Error: ' + err.message);
+    document.getElementById('btnNext').textContent = 'KIRIM REFLEKSI';
+    document.getElementById('btnNext').disabled = false;
+  });
 }
 
 </script>

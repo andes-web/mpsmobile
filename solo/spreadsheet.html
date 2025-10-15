@@ -60,9 +60,8 @@ label{display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bot
 input[type="text"], select{width:100%;padding:6px 8px;border-radius:6px;border:1px solid #c9d6e4;background:var(--input);font-size:13px; color:var(--muted);} 
 input[type="text"]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);}
 
-/* CSS untuk Nama Peserta Didik (Label) */
 .label-nama {
-    font-size: 14px; /* Ukuran yang lebih besar */
+    font-size: 14px; 
     font-weight: 700; 
     color: var(--muted); 
 }
@@ -70,7 +69,7 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 /* --- FIXED NAVIGATION CSS --- */
 .question-nav-fixed-bar {
     position: fixed;
-    top: 175px; /* DITINGKATKAN dari 160px menjadi 175px */
+    top: 190px; 
     left: 0;
     right: 0;
     background: #fff; 
@@ -106,11 +105,8 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 }
 .fixed-nav-inner button:hover { background: #c6daff; }
 .fixed-nav-inner button.current-q { background: var(--accent)!important; color: #fff!important; box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);}
-/* --- END FIXED NAVIGATION CSS --- */
 
-
-/* PADDING MAIN DITINGKATKAN agar tidak tertutup FIXED NAV BAR */
-.main{max-width:980px;margin:0 auto;padding:220px 10px 80px;}
+.main{max-width:980px;margin:0 auto;padding:250px 10px 80px;}
 
 .question-card{background:var(--card);border-left:4px solid var(--accent);padding:10px; border-radius:8px;margin-bottom:15px; box-shadow:0 4px 8px var(--shadow-light); position: relative;}
 .q-text{font-size:16px;margin:0 0 6px 0;font-weight:700;color:var(--accent);} 
@@ -118,7 +114,6 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 .opt{display:flex;align-items:flex-start;gap:8px;padding:6px 8px; border-radius:6px;background:var(--input);border:1px solid #e0e8f0;font-size:17px; cursor: pointer; position: relative;} 
 .opt:hover{background: #eaf1fa; border-color: #c9d6e4;}
 
-/* Emboss/Selected effect for option */
 .opt input[type="radio"]:checked + span {font-weight: 700;color: #0056b3;}
 .opt input[type="radio"]{display: none;}
 .opt.checked-option {
@@ -135,83 +130,15 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 .btn-send:hover{background:#f0f0f0; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);}
 .btn-send:active{transform: translateY(1px);}
 
-/* --- NEW SUCCESS OVERLAY CSS --- */
-#success-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex; /* Ubah dari 'none' ke 'flex' di JS */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    opacity: 0;
-    pointer-events: none; /* Penting: agar bisa klik di bawahnya saat tersembunyi */
-    transition: opacity 0.3s ease-in-out;
-}
-#success-overlay.show {
-    opacity: 1;
-    pointer-events: auto; /* Aktifkan klik saat terlihat */
-}
-#success-box {
-    background: var(--card);
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    transform: scale(0.8);
-    transition: transform 0.3s ease-in-out;
-}
-#success-overlay.show #success-box {
-    transform: scale(1);
-}
-#success-box h2 {
-    color: var(--accent);
-    margin-top: 0;
-    font-size: 24px;
-}
-#success-box p {
-    color: var(--muted);
-    margin-bottom: 20px;
-}
-#success-box button {
-    background: #28a745; /* Hijau Sukses */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 700;
-}
-.checkmark {
-    font-size: 50px;
-    color: #28a745; 
-    line-height: 1;
-    margin-bottom: 10px;
-    display: block;
-}
-/* --- END NEW SUCCESS OVERLAY CSS --- */
-
 @media (max-width:480px){
   .main{padding-top:250px;padding-bottom:70px}
   .identity-bar{top:44px;}
-  .question-nav-fixed-bar { top: 170px; } /* DITINGKATKAN untuk mobile */
+  .question-nav-fixed-bar { top: 180px; }
   .fixed-nav-inner button{padding:3px 5px; min-width:24px; font-size:13px;}
 }
 </style>
 </head>
 <body>
-
-<div id="success-overlay">
-  <div id="success-box">
-    <span class="checkmark">✔</span>
-    <h2>Refleksi Berhasil Terkirim!</h2>
-    <p>Terima kasih atas partisipasi Anda. Data refleksi telah tersimpan dengan aman.</p>
-    <button onclick="closeSuccessOverlay()">Tutup</button>
-  </div>
-</div>
 <header>
   <a href="https://andes-web.github.io/mpsmobile/" target="_blank" class="home-icon-link" title="Beranda">
     🏠
@@ -219,13 +146,14 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
   
   <h1>FORM REFLEKSI SPREADSHEET</h1>
   
-  <div style="width: 30px;"></div>
+  <div style="width: 28px;"></div>
 </header>
 
 <div class="identity-bar">
   <div class="identity-inner">
     <div class="identity-field">
-      <label for="nama" class="label-nama">Nama Peserta Didik</label> <input id="nama" name="nama" type="text" placeholder="Tuliskan nama lengkap Anda" required>
+      <label for="nama" class="label-nama">Nama Peserta Didik</label>
+      <input id="nama" name="nama" type="text" placeholder="Tuliskan nama lengkap Anda" required>
     </div>
     <div class="identity-row">
       <div class="identity-field">
@@ -253,7 +181,7 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 
 <div class="question-nav-fixed-bar">
   <div class="fixed-nav-inner" id="fixedNavButtons">
-    </div>
+  </div>
 </div>
 
 <main class="main">
@@ -397,36 +325,6 @@ function updateNav(){
     }
   });
 }
-// FUNGSI RESET LENGKAP
-function completeFormReset() {
-    const form = document.getElementById('refleksiForm');
-    
-    // 1. Reset input form
-    form.reset(); 
-    
-    // 2. Reset input identitas di luar form (jika ada)
-    document.getElementById('nama').value = '';
-    document.getElementById('kelas').selectedIndex = 0;
-    document.getElementById('sesi').selectedIndex = 0;
-
-    // 3. Reset tampilan opsi (hapus emboss)
-    document.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
-    
-    // 4. Kembali ke pertanyaan pertama
-    show(0);
-    
-    // 5. Reset tampilan navigasi tombol
-    updateNav(); 
-}
-
-// FUNGSI NOTIFIKASI
-function showSuccessOverlay() {
-    document.getElementById('success-overlay').classList.add('show');
-}
-
-window.closeSuccessOverlay = function() {
-    document.getElementById('success-overlay').classList.remove('show');
-};
 
 document.addEventListener('DOMContentLoaded', () => {
     updateNav();

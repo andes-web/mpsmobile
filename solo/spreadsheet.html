@@ -17,8 +17,40 @@
 }
 *{box-sizing:border-box; transition: all 0.2s ease-out;}
 body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px} 
-header{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg, #007bff, #0056b3);color:#fff;padding:10px 8px;z-index:220; box-shadow: 0 2px 5px var(--shadow-medium);} 
-header h1{margin:0;font-weight:700;font-size:16px;text-align:center}
+
+/* --- KOREKSI HEADER UNTUK IKON HOME --- */
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background:linear-gradient(90deg, #007bff, #0056b3);
+  color:#fff;
+  padding:10px 8px;
+  z-index:220; 
+  box-shadow: 0 2px 5px var(--shadow-medium);
+  display: flex; /* Aktifkan Flexbox */
+  justify-content: space-between; /* Pisahkan konten */
+  align-items: center;
+}
+header h1{
+  margin:0;
+  font-weight:700;
+  font-size:16px;
+  text-align:center;
+  flex-grow: 1; /* Biarkan judul mengambil ruang tengah */
+}
+.home-icon-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px; /* Ukuran ikon HOME */
+    padding: 0 5px;
+    line-height: 1;
+}
+.home-icon-link:hover {
+    color: #ffd700; 
+}
+/* --- END KOREKSI HEADER --- */
 
 .identity-bar{position:fixed;top:40px; left:0;right:0;background:var(--nav-bg);padding:8px 10px;z-index:215;border-bottom:1px solid #dcdfe4; box-shadow: 0 1px 3px var(--shadow-light);} 
 .identity-inner{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px} 
@@ -112,7 +144,15 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 </style>
 </head>
 <body>
-<header><h1>FORM REFLEKSI SPREADSHEET</h1></header>
+<header>
+  <a href="https://andes-web.github.io/mpsmobile/" target="_blank" class="home-icon-link" title="Beranda">
+    🏠
+  </a>
+  
+  <h1>FORM REFLEKSI SPREADSHEET</h1>
+  
+  <div style="width: 30px;"></div>
+</header>
 
 <div class="identity-bar">
   <div class="identity-inner">

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>FORM REFLEKSI SPREADSHEET</title>
-<style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <style>
 :root{
   --bg: #f5f8ff; 
   --accent: #007bff; 
@@ -330,34 +330,52 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNav();
 });
 
-// ... (Bagian JavaScript di atas ini tidak berubah) ...
-
+// MODIFIKASI: Mengganti logika validasi tombol KIRIM REFLEKSI (btnNext.onclick)
 document.getElementById('btnNext').onclick=()=>{
   if(current<questions.length-1){
     show(current+1);
   } else {
     let allAnswered = true;
+    let firstUnansweredIndex = -1;
     for(let i=0; i<questions.length; i++) {
         if (!document.querySelector('input[name="q'+i+'"]:checked')) {
-            alert('Harap jawab semua pertanyaan sebelum mengirim. Pertanyaan ' + (i+1) + ' belum dijawab.');
-            show(i);
             allAnswered = false;
+            firstUnansweredIndex = i;
             break;
         }
     }
+    
     if (allAnswered) {
         sendData();
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Refleksi Belum Lengkap!',
+            text: 'Harap jawab semua pertanyaan sebelum mengirim. Pertanyaan ' + (firstUnansweredIndex + 1) + ' belum dijawab.',
+            confirmButtonColor: '#007bff'
+        }).then(() => {
+             show(firstUnansweredIndex);
+        });
     }
   }
 };
 
+// MODIFIKASI: Mengganti fungsi sendData() dengan SweetAlert2 dan Logika Reset
 function sendData(){
   const nama=document.getElementById('nama').value.trim();
   const kelas=document.getElementById('kelas').value;
   const sesi=document.getElementById('sesi').value;
+  const btnSend = document.getElementById('btnNext');
+
   if(!nama||!kelas||!sesi){
-      alert('Lengkapi identitas terlebih dahulu');
-      document.getElementById('nama').focus(); // Fokus ke input nama
+      Swal.fire({
+          icon: 'warning',
+          title: 'Perhatian!',
+          text: 'Harap lengkapi identitas (Nama, Kelas, dan Sesi) terlebih dahulu.',
+          confirmButtonColor: '#007bff'
+      }).then(() => {
+          document.getElementById('nama').focus(); 
+      });
       return;
   }
 
@@ -366,13 +384,24 @@ function sendData(){
   fd.append('nama', nama);
   fd.append('kelas', kelas);
   fd.append('sesi', sesi);
+  // Tambahkan jawaban yang tidak terpilih dengan nilai '0'
   for(let i=0;i<questions.length;i++){if(!fd.has('q'+i))fd.append('q'+i,'0');}
 
   const params = new URLSearchParams();
   fd.forEach((v, k) => params.append(k, v));
   
-  document.getElementById('btnNext').textContent = 'Mengirim...';
-  document.getElementById('btnNext').disabled = true;
+  // Tampilkan loading SweetAlert2
+  Swal.fire({
+    title: 'Mengirim Refleksi...',
+    text: 'Mohon tunggu, data sedang diproses.',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  btnSend.textContent = 'Mengirim...';
+  btnSend.disabled = true;
 
 
   fetch(form.action, {
@@ -382,28 +411,54 @@ function sendData(){
   })
   .then(res => res.text())
   .then(txt => {
-    // --- PERUBAHAN KRITIS UNTUK DEBUGGING ---
-    alert('STATUS SERVER: ' + txt);
+    Swal.close(); // Tutup loading
     
+    // Periksa respons dari Google Apps Script
     if (txt.includes('SUKSES_APEND_BERHASIL')) {
-        // Jika sukses, baru reset form
-        form.reset();
-        show(0);
-        document.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
+        // Notifikasi Sukses dan RESET
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Refleksi berhasil terkirim dan data Anda sudah terekam.',
+            confirmButtonColor: '#007bff'
+        }).then(() => {
+            // Logika RESET FORM (Poin 1)
+            form.reset();
+            document.getElementById('nama').value = ''; // Reset input nama
+            document.getElementById('kelas').selectedIndex = 0; // Reset select kelas
+            document.getElementById('sesi').selectedIndex = 0; // Reset select sesi
+            show(0);
+            document.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
+        });
+        
     } else {
-        // Jika gagal, berikan instruksi.
-        alert('PENTING: Pengiriman data GAGAL di sisi server. Cek kembali izin dan Web App URL Anda, atau pastikan ID dan Nama Sheet sudah benar.');
+        // Notifikasi Gagal Server (Poin 2)
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Kirim!',
+            html: 'Pengiriman data GAGAL di sisi server. Cek kembali URL Web App dan izin Anda. <br><br>Pesan Server: <b>' + txt.substring(0, 100) + '...</b>',
+            confirmButtonColor: '#d33'
+        });
     }
     
-    document.getElementById('btnNext').textContent = 'KIRIM REFLEKSI';
-    document.getElementById('btnNext').disabled = false;
+    btnSend.textContent = 'KIRIM REFLEKSI';
+    btnSend.disabled = false;
     updateNav();
 
   })
   .catch(err => {
-    alert('Gagal mengirim data (Gagal Koneksi): ' + err.message);
-    document.getElementById('btnNext').textContent = 'KIRIM REFLEKSI';
-    document.getElementById('btnNext').disabled = false;
+    Swal.close(); // Tutup loading
+    // Notifikasi Gagal Koneksi (Poin 2)
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal Koneksi!',
+        text: 'Tidak dapat mengirim data. Cek koneksi internet Anda. Rincian: ' + err.message,
+        confirmButtonColor: '#d33'
+    });
+    
+    btnSend.textContent = 'KIRIM REFLEKSI';
+    btnSend.disabled = false;
+    updateNav();
   });
 }
 

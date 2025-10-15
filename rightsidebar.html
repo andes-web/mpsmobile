@@ -375,6 +375,17 @@ footer {
   padding: 3px;
   text-align: center;
 }
+/* CSS BARU UNTUK LINK FOOTER */
+.footer-link {
+    font-weight: 700; /* BOLD */
+    text-decoration: none; /* NO UNDERLINE */
+    color: inherit; /* INHERIT COLOR */
+    cursor: pointer;
+}
+.footer-link:hover, .footer-link:visited {
+    color: inherit; 
+}
+
 </style>
 <style>
     /* 🌐 Tampilan umum */
@@ -633,8 +644,12 @@ footer {
           </div>
       </div>
     </main>
-    <footer>© 2025 Andes | MPS System</footer>
-  </div>
+    <footer>
+        <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank" class="footer-link">
+            © 2025 Andes | MPS System
+        </a>
+    </footer>
+    </div>
 <script>
 const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
 let latestData=[], refreshTimer=null;

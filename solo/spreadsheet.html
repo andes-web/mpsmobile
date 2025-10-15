@@ -4,7 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>FORM REFLEKSI SPREADSHEET</title>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+<style>
 :root{
   --bg: #f5f8ff; 
   --accent: #007bff; 
@@ -330,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNav();
 });
 
-// MODIFIKASI: Mengganti logika validasi tombol KIRIM REFLEKSI (btnNext.onclick)
+// MODIFIKASI: Mengganti logika validasi tombol KIRIM REFLEKSI (btnNext.onclick) agar menggunakan SweetAlert2
 document.getElementById('btnNext').onclick=()=>{
   if(current<questions.length-1){
     show(current+1);
@@ -360,7 +361,7 @@ document.getElementById('btnNext').onclick=()=>{
   }
 };
 
-// MODIFIKASI: Mengganti fungsi sendData() dengan SweetAlert2 dan Logika Reset
+// MODIFIKASI: Mengganti fungsi sendData() dengan SweetAlert2 dan Logika Reset yang lebih baik
 function sendData(){
   const nama=document.getElementById('nama').value.trim();
   const kelas=document.getElementById('kelas').value;
@@ -413,22 +414,28 @@ function sendData(){
   .then(txt => {
     Swal.close(); // Tutup loading
     
-    // Periksa respons dari Google Apps Script
+    // Periksa respons dari Google Apps Script (Asumsi 'SUKSES_APEND_BERHASIL' dikirim dari GAS)
     if (txt.includes('SUKSES_APEND_BERHASIL')) {
-        // Notifikasi Sukses dan RESET
+        // Notifikasi Sukses
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
             text: 'Refleksi berhasil terkirim dan data Anda sudah terekam.',
             confirmButtonColor: '#007bff'
         }).then(() => {
-            // Logika RESET FORM (Poin 1)
+            // Logika RESET FORM (Poin 1): Reset pertanyaan dan ID di luar form
             form.reset();
-            document.getElementById('nama').value = ''; // Reset input nama
-            document.getElementById('kelas').selectedIndex = 0; // Reset select kelas
-            document.getElementById('sesi').selectedIndex = 0; // Reset select sesi
-            show(0);
-            document.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
+            document.getElementById('nama').value = ''; 
+            document.getElementById('kelas').value = ''; 
+            document.getElementById('sesi').value = ''; 
+            // Reset tampilan radio button yang telah dicentang
+            document.querySelectorAll('.opt').forEach(l => {
+                l.classList.remove('checked-option');
+                l.querySelector('input[type="radio"]').checked = false; // Memastikan radio button ter-reset
+            });
+            show(0); // Kembali ke pertanyaan pertama
+            updateNav(); // Perbarui tampilan navigasi
+
         });
         
     } else {
@@ -443,7 +450,10 @@ function sendData(){
     
     btnSend.textContent = 'KIRIM REFLEKSI';
     btnSend.disabled = false;
-    updateNav();
+    // updateNav() dipanggil di dalam .then() jika sukses
+    if (!txt.includes('SUKSES_APEND_BERHASIL')) {
+        updateNav();
+    }
 
   })
   .catch(err => {

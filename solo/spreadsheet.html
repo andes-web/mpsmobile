@@ -152,10 +152,6 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 
 <div class="identity-bar">
   <div class="identity-inner">
-    <div class="identity-field">
-      <label for="nama" class="label-nama">Nama Peserta Didik</label>
-      <input id="nama" name="nama" type="text" placeholder="Tuliskan nama lengkap Anda" required>
-    </div>
     <div class="identity-row">
       <div class="identity-field">
         <label for="kelas">Kelas</label>
@@ -176,6 +172,11 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
           <option value="Of Learning">Of Learning</option>
         </select>
       </div>
+    </div>
+    <div class="identity-field">
+      <label for="nama" class="label-nama">Nama Peserta Didik</label>
+      <input id="nama" name="nama" type="text" placeholder="Pilih Kelas dahulu untuk memuat daftar nama" required list="student-names">
+      <datalist id="student-names"></datalist>
     </div>
   </div>
 </div>
@@ -199,6 +200,206 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 </div>
 
 <script>
+// DATA SISWA DIAMBIL LANGSUNG DARI GOOGLE SHEET YANG DIBERIKAN
+const ALL_STUDENTS_DATA = [
+  {"kelas":"KELAS X AKL1","nama":"Abel Oktafiani"},
+  {"kelas":"KELAS X AKL1","nama":"Adilla Surgaloka"},
+  {"kelas":"KELAS X AKL1","nama":"Adinda Risma Sari"},
+  {"kelas":"KELAS X AKL1","nama":"Alika Akilah"},
+  {"kelas":"KELAS X AKL1","nama":"Almira Najma Tazkia Amin"},
+  {"kelas":"KELAS X AKL1","nama":"Angga Sanjaya"},
+  {"kelas":"KELAS X AKL1","nama":"Aqilla Aisyah Putri"},
+  {"kelas":"KELAS X AKL1","nama":"Ariska Putri"},
+  {"kelas":"KELAS X AKL1","nama":"Ayub Bernaken Lumban Gaol"},
+  {"kelas":"KELAS X AKL1","nama":"Chabita Keysia"},
+  {"kelas":"KELAS X AKL1","nama":"Chika Inayah"},
+  {"kelas":"KELAS X AKL1","nama":"Desvita Marshellena"},
+  {"kelas":"KELAS X AKL1","nama":"Diandra Wardhatul Farha"},
+  {"kelas":"KELAS X AKL1","nama":"Dila Putri Ferdiansyah"},
+  {"kelas":"KELAS X AKL1","nama":"Dimas Abdul Khoir"},
+  {"kelas":"KELAS X AKL1","nama":"Dwi Nefta Amanda Putri"},
+  {"kelas":"KELAS X AKL1","nama":"Faisal Muttaqin"},
+  {"kelas":"KELAS X AKL1","nama":"Febyolla Putri Hardillah"},
+  {"kelas":"KELAS X AKL1","nama":"Gracia Aurora Tesalonika Yance"},
+  {"kelas":"KELAS X AKL1","nama":"Hanif Assyatir"},
+  {"kelas":"KELAS X AKL1","nama":"Jesika Melia Putri"},
+  {"kelas":"KELAS X AKL1","nama":"Kanaya Oktaviani"},
+  {"kelas":"KELAS X AKL1","nama":"Keysha Nur Syahira"},
+  {"kelas":"KELAS X AKL1","nama":"Khaila Nuriyah"},
+  {"kelas":"KELAS X AKL1","nama":"Miftahul Nur Alfi"},
+  {"kelas":"KELAS X AKL1","nama":"Muhammad Fadli"},
+  {"kelas":"KELAS X AKL1","nama":"Muhammad Fauzan"},
+  {"kelas":"KELAS X AKL1","nama":"Muhammad Rozak Nur Fajar"},
+  {"kelas":"KELAS X AKL1","nama":"Mustika Kirania Putri"},
+  {"kelas":"KELAS X AKL1","nama":"Mutiara Kusuma Dewi"},
+  {"kelas":"KELAS X AKL1","nama":"Nabila Illa Tresna"},
+  {"kelas":"KELAS X AKL1","nama":"Rafka Jaya Wibowo"},
+  {"kelas":"KELAS X AKL1","nama":"Raina Azalla"},
+  {"kelas":"KELAS X AKL1","nama":"Ratu Bilqis Khairunisa"},
+  {"kelas":"KELAS X AKL1","nama":"Riqza Maulana Hidayatulloh"},
+  {"kelas":"KELAS X AKL1","nama":"Riza Putra Andrian"},
+  {"kelas":"KELAS X AKL1","nama":"RizK1 Maulana Putra"},
+  {"kelas":"KELAS X AKL1","nama":"RizK1 Putra Wardhana"},
+  {"kelas":"KELAS X AKL1","nama":"Ri2K1 Tri Hadi Putra"},
+  {"kelas":"KELAS X AKL1","nama":"Sandi Permana"},
+  {"kelas":"KELAS X AKL1","nama":"Shofy Humairoh"},
+  {"kelas":"KELAS X AKL1","nama":"Sigit Bagus Prayoga"},
+  {"kelas":"KELAS X AKL1","nama":"Sigit Putra Ramadhan"},
+  {"kelas":"KELAS X AKL1","nama":"Siti Hardianti"},
+  {"kelas":"KELAS X AKL1","nama":"Syafa Syawalia"},
+  {"kelas":"KELAS X AKL1","nama":"Talitha Salsabila"},
+  {"kelas":"KELAS X AKL1","nama":"Wafda Nurahmah"},
+  {"kelas":"KELAS X AKL1","nama":"Willjo Satriani"},
+  {"kelas":"KELAS X AKL1","nama":"Yunita Nurohmawati"},
+  {"kelas":"KELAS X AKL2","nama":"Aisyah Fitria"},
+  {"kelas":"KELAS X AKL2","nama":"Amirah Parisya Anggraini"},
+  {"kelas":"KELAS X AKL2","nama":"Anisa Dwi Febrjna"},
+  {"kelas":"KELAS X AKL2","nama":"Anisah"},
+  {"kelas":"KELAS X AKL2","nama":"Aqila Syahla Ramadhani"},
+  {"kelas":"KELAS X AKL2","nama":"Aulia Nur Aini"},
+  {"kelas":"KELAS X AKL2","nama":"Bening Makailla Hidayat"},
+  {"kelas":"KELAS X AKL2","nama":"Chaesya Esa Claudia"},
+  {"kelas":"KELAS X AKL2","nama":"Cikal Kirana Prasetyo"},
+  {"kelas":"KELAS X AKL2","nama":"Citra Adinda"},
+  {"kelas":"KELAS X AKL2","nama":"Dewi Paramitha Larasati"},
+  {"kelas":"KELAS X AKL2","nama":"Dimas Wafiqia Dava"},
+  {"kelas":"KELAS X AKL2","nama":"Eirine Queensa Elizabeth Kappuw"},
+  {"kelas":"KELAS X AKL2","nama":"Fabiyan AzKa Anwar"},
+  {"kelas":"KELAS X AKL2","nama":"Farhataini Nurfitri"},
+  {"kelas":"KELAS X AKL2","nama":"Fatih Syamil"},
+  {"kelas":"KELAS X AKL2","nama":"Haysya Juliana Putri"},
+  {"kelas":"KELAS X AKL2","nama":"Heny Risky Aprillia"},
+  {"kelas":"KELAS X AKL2","nama":"Humairah Fitri Ramadhani"},
+  {"kelas":"KELAS X AKL2","nama":"Inka Putri Arvianti"},
+  {"kelas":"KELAS X AKL2","nama":"Iza Azmi Athifa"},
+  {"kelas":"KELAS X AKL2","nama":"Jesi Ramadini"},
+  {"kelas":"KELAS X AKL2","nama":"Kanza Zahran Al Baihaqi"},
+  {"kelas":"KELAS X AKL2","nama":"Khansa Kamiliya Shafa"},
+  {"kelas":"KELAS X AKL2","nama":"Lubna Al-Ghiffarl"},
+  {"kelas":"KELAS X AKL2","nama":"Lusi Sebriayani"},
+  {"kelas":"KELAS X AKL2","nama":"Mahmud Ahmed Dinejat"},
+  {"kelas":"KELAS X AKL2","nama":"Meyta Dini Haryanti"},
+  {"kelas":"KELAS X AKL2","nama":"Muhamad Aditya Ramadan"},
+  {"kelas":"KELAS X AKL2","nama":"Muhamad Faturahman As Sya'Bani"},
+  {"kelas":"KELAS X AKL2","nama":"Muhamad Fikry Al Latief"},
+  {"kelas":"KELAS X AKL2","nama":"Muhammad Hafjizhu Adzany"},
+  {"kelas":"KELAS X AKL2","nama":"Nabila Husen"},
+  {"kelas":"KELAS X AKL2","nama":"Nabilah Rahma"},
+  {"kelas":"KELAS X AKL2","nama":"Nazwa Azqiya Ginanjar"},
+  {"kelas":"KELAS X AKL2","nama":"Nazwa Maulidya"},
+  {"kelas":"KELAS X AKL2","nama":"Niswatul Aziza"},
+  {"kelas":"KELAS X AKL2","nama":"Nur Kayla"},
+  {"kelas":"KELAS X AKL2","nama":"Putri Indah Agustina"},
+  {"kelas":"KELAS X AKL2","nama":"Qotrunada Nirpataka Hibatullah"},
+  {"kelas":"KELAS X AKL2","nama":"Rismawati"},
+  {"kelas":"KELAS X AKL2","nama":"Safira Hayy Nurbaiti"},
+  {"kelas":"KELAS X AKL2","nama":"Siti Nurul Hidayati"},
+  {"kelas":"KELAS X AKL2","nama":"Suci Fitria Rahmadhani"},
+  {"kelas":"KELAS X AKL2","nama":"Syakila Erdila Sari"},
+  {"kelas":"KELAS X AKL2","nama":"Syifa Ghaziyah Anwar"},
+  {"kelas":"KELAS X AKL2","nama":"Vera Cantika"},
+  {"kelas":"KELAS X AKL2","nama":"Yeremia"},
+  {"kelas":"KELAS X AKL2","nama":"Zivara Mabela Sesanti"},
+  {"kelas":"KELAS X AKL3","nama":"Adilla Ramadani"},
+  {"kelas":"KELAS X AKL3","nama":"Adinda Putri Nur Arief"},
+  {"kelas":"KELAS X AKL3","nama":"Alisa Dwi Anggeraini"},
+  {"kelas":"KELAS X AKL3","nama":"Almira Shaka Andrea"},
+  {"kelas":"KELAS X AKL3","nama":"Alvina Rahma Novrianti"},
+  {"kelas":"KELAS X AKL3","nama":"Alva Asyla Mukhbita"},
+  {"kelas":"KELAS X AKL3","nama":"AnasyA"},
+  {"kelas":"KELAS X AKL3","nama":"Asyifa Nurajni Aulia Leksono"},
+  {"kelas":"KELAS X AKL3","nama":"Bima Sakti Rahmatulloh"},
+  {"kelas":"KELAS X AKL3","nama":"Clariza Adya Nathaneila"},
+  {"kelas":"KELAS X AKL3","nama":"Dela Maulida"},
+  {"kelas":"KELAS X AKL3","nama":"Destari Aulia"},
+  {"kelas":"KELAS X AKL3","nama":"Dhiha Mega Wangi Hidayat"},
+  {"kelas":"KELAS X AKL3","nama":"Dhikaloka Rahma"},
+  {"kelas":"KELAS X AKL3","nama":"Diana Syafitri"},
+  {"kelas":"KELAS X AKL3","nama":"Dinara Anindytha Putri Pratiwi"},
+  {"kelas":"KELAS X AKL3","nama":"Ervan Putra Pratama"},
+  {"kelas":"KELAS X AKL3","nama":"Farisha Nur Maulida"},
+  {"kelas":"KELAS X AKL3","nama":"Fathia Rizqiqa Amalia"},
+  {"kelas":"KELAS X AKL3","nama":"Fayrus Chalisa Zulfa"},
+  {"kelas":"KELAS X AKL3","nama":"Hana Alisa"},
+  {"kelas":"KELAS X AKL3","nama":"Hilda Aryani"},
+  {"kelas":"KELAS X AKL3","nama":"Indana Askia Putri"},
+  {"kelas":"KELAS X AKL3","nama":"Indira Okta Vira"},
+  {"kelas":"KELAS X AKL3","nama":"Iren Sakharina Sarfina Hady"},
+  {"kelas":"KELAS X AKL3","nama":"Irma Suryani"},
+  {"kelas":"KELAS X AKL3","nama":"Juanita"},
+  {"kelas":"KELAS X AKL3","nama":"Keisha Audreylia Shafiqa"},
+  {"kelas":"KELAS X AKL3","nama":"Marchello Tandian"},
+  {"kelas":"KELAS X AKL3","nama":"Muhamad Saputra"},
+  {"kelas":"KELAS X AKL3","nama":"Muhammad Azka Rayyan"},
+  {"kelas":"KELAS X AKL3","nama":"Muhammad Havip"},
+  {"kelas":"KELAS X AKL3","nama":"Muhammad Iqram Haryadi"},
+  {"kelas":"KELAS X AKL3","nama":"Muhammad Rafky Alfarezi"},
+  {"kelas":"KELAS X AKL3","nama":"Nadira Ayu Kusumaningtyas"},
+  {"kelas":"KELAS X AKL3","nama":"Nadzwa Adelia Suherman"},
+  {"kelas":"KELAS X AKL3","nama":"Nayla Asifa Syafira"},
+  {"kelas":"KELAS X AKL3","nama":"Nur Nadiah"},
+  {"kelas":"KELAS X AKL3","nama":"Rahelda Anaya Rasya"},
+  {"kelas":"KELAS X AKL3","nama":"Ratu Erica Qurfania"},
+  {"kelas":"KELAS X AKL3","nama":"Resty Audi"},
+  {"kelas":"KELAS X AKL3","nama":"Rizka Nadya Fitri"},
+  {"kelas":"KELAS X AKL3","nama":"Safa Asfia Almira"},
+  {"kelas":"KELAS X AKL3","nama":"Salfa Ainur Rofikah"},
+  {"kelas":"KELAS X AKL3","nama":"Sindi Septiani"},
+  {"kelas":"KELAS X AKL3","nama":"Siti Revalina"},
+  {"kelas":"KELAS X AKL3","nama":"Thalita Putri"},
+  {"kelas":"KELAS X AKL3","nama":"Umroh Agustin"},
+  {"kelas":"KELAS X AKL3","nama":"Zahra Yuanita Putri"},
+  {"kelas":"KELAS X AKL4","nama":"Aila Junisa"},
+  {"kelas":"KELAS X AKL4","nama":"Ajeng Pertiwi"},
+  {"kelas":"KELAS X AKL4","nama":"Alya Putri Amanda"},
+  {"kelas":"KELAS X AKL4","nama":"Anisa Putri"},
+  {"kelas":"KELAS X AKL4","nama":"Arista Putri Kirana"},
+  {"kelas":"KELAS X AKL4","nama":"Caturin Putri Fatimah"},
+  {"kelas":"KELAS X AKL4","nama":"Dhea Kesya Novriyanti"},
+  {"kelas":"KELAS X AKL4","nama":"Difa Julia Lestary"},
+  {"kelas":"KELAS X AKL4","nama":"Dika Rahadea Nizar"},
+  {"kelas":"KELAS X AKL4","nama":"Dinda Nuni Wulandari"},
+  {"kelas":"KELAS X AKL4","nama":"Dwi Indriani"},
+  {"kelas":"KELAS X AKL4","nama":"Fitri Nurkarimah"},
+  {"kelas":"KELAS X AKL4","nama":"Ghina Rifqoh Chasanah"},
+  {"kelas":"KELAS X AKL4","nama":"Jihan Khaerunisa"},
+  {"kelas":"KELAS X AKL4","nama":"Kevin Rafif"},
+  {"kelas":"KELAS X AKL4","nama":"Keyla Kanza Juliana"},
+  {"kelas":"KELAS X AKL4","nama":"Keyla Siti Zahra"},
+  {"kelas":"KELAS X AKL4","nama":"Khairul Ihwan"},
+  {"kelas":"KELAS X AKL4","nama":"Khairunisa"},
+  {"kelas":"KELAS X AKL4","nama":"Maharani Wanara"},
+  {"kelas":"KELAS X AKL4","nama":"Maulana Malik Ibrahim"},
+  {"kelas":"KELAS X AKL4","nama":"Meilina Wulandari"},
+  {"kelas":"KELAS X AKL4","nama":"Melati Cahaya Ramadhani"},
+  {"kelas":"KELAS X AKL4","nama":"Muhamad Fadly"},
+  {"kelas":"KELAS X AKL4","nama":"Muhammad Delly Akbar"},
+  {"kelas":"KELAS X AKL4","nama":"Muhammad Rizky Kurniawan"},
+  {"kelas":"KELAS X AKL4","nama":"Naila Nur Azizah"},
+  {"kelas":"KELAS X AKL4","nama":"Nindia Oktaviani Putri"},
+  {"kelas":"KELAS X AKL4","nama":"Nur Kayna Adhalia"},
+  {"kelas":"KELAS X AKL4","nama":"Putri Aisyah Rahman"},
+  {"kelas":"KELAS X AKL4","nama":"Rafael Kenzi"},
+  {"kelas":"KELAS X AKL4","nama":"Rahma Maulidya"},
+  {"kelas":"KELAS X AKL4","nama":"Ratu Anzani Dwi Putri"},
+  {"kelas":"KELAS X AKL4","nama":"Reyhana Putri Rahmadina"},
+  {"kelas":"KELAS X AKL4","nama":"Rimba Al Musyaffa"},
+  {"kelas":"KELAS X AKL4","nama":"Risma Putri Kirani"},
+  {"kelas":"KELAS X AKL4","nama":"Rosmalina Wijayanti"},
+  {"kelas":"KELAS X AKL4","nama":"Safa Azahra"},
+  {"kelas":"KELAS X AKL4","nama":"Salwa Khoerunisa"},
+  {"kelas":"KELAS X AKL4","nama":"Septiany Nur Aulia"},
+  {"kelas":"KELAS X AKL4","nama":"Shelina Putri"},
+  {"kelas":"KELAS X AKL4","nama":"Sherylua Puspa Westrj"},
+  {"kelas":"KELAS X AKL4","nama":"Suci Aulina"},
+  {"kelas":"KELAS X AKL4","nama":"Syifa Khoirunisa"},
+  {"kelas":"KELAS X AKL4","nama":"Syifah Syafwah"},
+  {"kelas":"KELAS X AKL4","nama":"Talita Sakhi"},
+  {"kelas":"KELAS X AKL4","nama":"Tia Amelia"},
+  {"kelas":"KELAS X AKL4","nama":"Zahirah Sarah Amirah"},
+  {"kelas":"KELAS X AKL4","nama":"Zahra Assita"}
+];
+
 const questions = [
  "Bagaimana Anda memahami peran spreadsheet dalam pengelolaan uang jajan atau kas sekolah?",
  "Bagaimana Anda menuliskan operasi aritmatika sederhana (+, -, *, /) di spreadsheet untuk menghitung total?",
@@ -327,9 +528,63 @@ function updateNav(){
   });
 }
 
+// LOGIKA BARU UNTUK DATALIST NAMA
 document.addEventListener('DOMContentLoaded', () => {
     updateNav();
+    // Langsung panggil updateNamaList() saat DOMContentLoaded
+    // Data siswa sudah dimuat di ALL_STUDENTS_DATA
+    
+    // Tambahkan event listener untuk pilihan Kelas
+    document.getElementById('kelas').addEventListener('change', updateNamaList);
 });
+
+// Fungsi untuk memfilter nama dan memperbarui datalist
+function updateNamaList() {
+    const selectedKelas = document.getElementById('kelas').value;
+    const datalist = document.getElementById('student-names');
+    const namaInput = document.getElementById('nama');
+
+    datalist.innerHTML = ''; // Kosongkan daftar nama yang ada
+    namaInput.value = ''; // Kosongkan input nama
+    
+    namaInput.placeholder = 'Pilih Kelas dahulu untuk memuat daftar nama';
+    if(ALL_STUDENTS_DATA.length > 0) {
+        namaInput.placeholder = 'Tuliskan nama lengkap Anda';
+    }
+
+
+    if (!selectedKelas) {
+        return; 
+    }
+    
+    // Implementasi logika pemetaan kelas yang diminta:
+    // AKL1, AKL3, AKL4 -> data kelas itu sendiri
+    // AKL2 -> data AKL1
+    let targetKelas = selectedKelas;
+    if (selectedKelas === 'KELAS X AKL2') {
+        targetKelas = 'KELAS X AKL1'; 
+    }
+
+    // Filter data siswa
+    const filteredStudents = ALL_STUDENTS_DATA.filter(student => 
+        student.kelas === targetKelas
+    );
+
+    // Tambahkan nama ke datalist
+    if (filteredStudents.length > 0) {
+        filteredStudents.forEach(student => {
+            const option = document.createElement('option');
+            option.value = student.nama;
+            datalist.appendChild(option);
+        });
+    } else {
+         // Tambahkan opsi jika tidak ada data ditemukan
+         const option = document.createElement('option');
+         option.value = `Tidak ada data nama ditemukan untuk ${targetKelas}`;
+         datalist.appendChild(option);
+    }
+}
+// AKHIR LOGIKA BARU UNTUK DATALIST NAMA
 
 // MODIFIKASI: Mengganti logika validasi tombol KIRIM REFLEKSI (btnNext.onclick) agar menggunakan SweetAlert2
 document.getElementById('btnNext').onclick=()=>{
@@ -435,6 +690,7 @@ function sendData(){
             });
             show(0); // Kembali ke pertanyaan pertama
             updateNav(); // Perbarui tampilan navigasi
+            updateNamaList(); // Perbarui daftar nama (mengosongkannya)
 
         });
         

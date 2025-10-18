@@ -137,6 +137,38 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
   .question-nav-fixed-bar { top: 180px; }
   .fixed-nav-inner button{padding:3px 5px; min-width:24px; font-size:13px;}
 }
+
+/* CSS BARU UNTUK FLOATING MENU */
+#floating-menu {
+    position: absolute;
+    top: 40px; /* Tepat di bawah header (tinggi header ~40px) */
+    right: 8px; /* Sejajar dengan tombol */
+    background: var(--card);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 235; 
+    min-width: 180px;
+    display: none;
+    animation: fadeIn 0.15s ease-out;
+}
+#floating-menu a {
+    display: block;
+    padding: 8px 12px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+#floating-menu a:hover {
+    background: #f7f7f7;
+    color: var(--accent);
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
@@ -147,9 +179,16 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
   
   <h1>FORM REFLEKSI SPREADSHEET</h1>
   
-  <div style="width: 28px;"></div>
-</header>
+  <button id="menu-btn" type="button" style="background:none; border:none; color:#fff; font-size:17px; cursor:pointer; padding:0 5px;" title="Menu Lain">
+    ☰
+  </button>
+  </header>
 
+<div id="floating-menu">
+    <a href="https://andes-web.github.io/mpsmobile/solo/asesmen.html" target="_blank">
+        Asesmen Spreadsheet
+    </a>
+</div>
 <div class="identity-bar">
   <div class="identity-inner">
     <div class="identity-row">
@@ -536,6 +575,39 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Tambahkan event listener untuk pilihan Kelas
     document.getElementById('kelas').addEventListener('change', updateNamaList);
+
+    // START: LOGIKA BARU FLOATING DROPDOWN MENU
+    const menuBtn = document.getElementById('menu-btn');
+    const floatingMenu = document.getElementById('floating-menu');
+
+    menuBtn.addEventListener('click', function(event) {
+        event.stopPropagation(); 
+        
+        const isHidden = floatingMenu.style.display === 'none' || floatingMenu.style.display === '';
+        floatingMenu.style.display = isHidden ? 'block' : 'none';
+
+        if (isHidden) {
+            // Pasang event listener untuk menutup menu saat klik di luar
+            setTimeout(() => { 
+                window.addEventListener('click', closeFloatingMenu, { once: true });
+            }, 50);
+        }
+    });
+
+    function closeFloatingMenu(event) {
+        if (floatingMenu.contains(event.target) || event.target === menuBtn) {
+            window.addEventListener('click', closeFloatingMenu, { once: true });
+            return;
+        }
+        floatingMenu.style.display = 'none';
+    }
+
+    floatingMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            floatingMenu.style.display = 'none';
+        });
+    });
+    // END: LOGIKA BARU FLOATING DROPDOWN MENU
 });
 
 // Fungsi untuk memfilter nama dan memperbarui datalist
@@ -678,7 +750,7 @@ function sendData(){
             text: 'Refleksi berhasil terkirim dan data Anda sudah terekam.',
             confirmButtonColor: '#007bff'
         }).then(() => {
-            // Logika RESET FORM (Poin 1): Reset pertanyaan dan ID di luar form
+            // Logika RESET FORM
             form.reset();
             document.getElementById('nama').value = ''; 
             document.getElementById('kelas').value = ''; 
@@ -686,7 +758,8 @@ function sendData(){
             // Reset tampilan radio button yang telah dicentang
             document.querySelectorAll('.opt').forEach(l => {
                 l.classList.remove('checked-option');
-                l.querySelector('input[type="radio"]').checked = false; // Memastikan radio button ter-reset
+                const radio = l.querySelector('input[type="radio"]');
+                if (radio) radio.checked = false; // Memastikan radio button ter-reset
             });
             show(0); // Kembali ke pertanyaan pertama
             updateNav(); // Perbarui tampilan navigasi
@@ -695,7 +768,7 @@ function sendData(){
         });
         
     } else {
-        // Notifikasi Gagal Server (Poin 2)
+        // Notifikasi Gagal Server
         Swal.fire({
             icon: 'error',
             title: 'Gagal Kirim!',
@@ -714,7 +787,7 @@ function sendData(){
   })
   .catch(err => {
     Swal.close(); // Tutup loading
-    // Notifikasi Gagal Koneksi (Poin 2)
+    // Notifikasi Gagal Koneksi
     Swal.fire({
         icon: 'error',
         title: 'Gagal Koneksi!',

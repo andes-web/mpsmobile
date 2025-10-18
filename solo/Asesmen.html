@@ -1,821 +1,266 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RUBRIK ASESMENT SPREADSHEET</title>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
-<style>
-:root{
-  --bg: #fff5fc; 
-  --accent: #000000; 
-  --muted: #334e68; 
-  --card: #ffffff; 
-  --input: #f7f9fc; 
-  --nav-bg: #ffcefd; 
-  --shadow-light: rgba(0, 0, 0, 0.05);
-  --shadow-medium: rgba(0, 0, 0, 0.1);
-}
-*{box-sizing:border-box; transition: all 0.2s ease-out;}
-body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px} 
-
-/* --- KOREKSI HEADER UNTUK IKON HOME --- */
-header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  background:linear-gradient(90deg, #ff00b3, #b30077);
-  color:#fff;
-  padding:10px 8px;
-  z-index:220; 
-  box-shadow: 0 2px 5px var(--shadow-medium);
-  display: flex; /* Aktifkan Flexbox */
-  justify-content: space-between; /* Pisahkan konten */
-  align-items: center;
-}
-header h1{
-  margin:0;
-  font-weight:700;
-  font-size:16px;
-  text-align:center;
-  flex-grow: 1; /* Biarkan judul mengambil ruang tengah */
-}
-.home-icon-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px; /* Ukuran ikon HOME */
-    padding: 0 5px;
-    line-height: 1;
-}
-.home-icon-link:hover {
-    color: #ffd700; 
-}
-/* --- END KOREKSI HEADER --- */
-
-.identity-bar{position:fixed;top:40px; left:0;right:0;background:var(--nav-bg);padding:8px 10px;z-index:215;border-bottom:1px solid #dcdfe4; box-shadow: 0 1px 3px var(--shadow-light);} 
-.identity-inner{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px} 
-.identity-row{display:flex;gap:8px;flex-wrap:wrap} 
-.identity-field{flex:1}
-label{display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bottom:2px} 
-input[type="text"], select{width:100%;padding:6px 8px;border-radius:6px;border:1px solid #c9d6e4;background:var(--input);font-size:13px; color:var(--muted);} 
-input[type="text"]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);}
-
-.label-nama {
-    font-size: 14px; 
-    font-weight: 700; 
-    color: var(--muted); 
-}
-
-/* --- FIXED NAVIGATION CSS --- */
-.question-nav-fixed-bar {
-    position: fixed;
-    top: 190px; 
-    left: 0;
-    right: 0;
-    background: #fff; 
-    padding: 5px 0;
-    z-index: 200; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid #e0e8f0;
-}
-.fixed-nav-inner {
-    max-width: 980px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 0 10px;
-    display: flex;
-    flex-wrap: wrap; 
-    justify-content: center;
-    gap: 4px; 
-}
-.fixed-nav-inner button{
-    display:inline-block;
-    margin:0; 
-    padding:4px 6px; 
-    border-radius:4px;
-    border:none;
-    background:#fff5fc;
-    color:#b3009b;
-    font-size:11px;
-    cursor:pointer;
-    min-width:28px; 
-    font-weight: 600; 
-    box-shadow: 0 1px 2px var(--shadow-light);
-    flex-shrink: 0; 
-}
-.fixed-nav-inner button:hover { background: #c6daff; }
-.fixed-nav-inner button.current-q { background: var(--accent)!important; color: #fff!important; box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);}
-
-.main{max-width:980px;margin:0 auto;padding:250px 10px 80px;}
-
-.question-card{background:var(--card);border-left:4px solid var(--accent);padding:10px; border-radius:8px;margin-bottom:15px; box-shadow:0 4px 8px var(--shadow-light); position: relative;}
-.q-text{font-size:16px;margin:0 0 6px 0;font-weight:700;color:var(--accent);} 
-.options{display:flex;flex-direction:column;gap:4px} 
-.opt{display:flex;align-items:flex-start;gap:8px;padding:6px 8px; border-radius:6px;background:var(--input);border:1px solid #e0e8f0;font-size:17px; cursor: pointer; position: relative;} 
-.opt:hover{background: #eaf1fa; border-color: #c9cde4;}
-
-.opt input[type="radio"]:checked + span {font-weight: 700;color: #0056b3;}
-.opt input[type="radio"]{display: none;}
-.opt.checked-option {
-    background: #e8f0fe;
-    border: 2px solid var(--accent);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
-}
-.opt span{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:1.3} 
-
-.fixed-send{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(90deg, #ff00d4, #b300a4);padding:8px 10px; z-index:230;box-shadow:0 -2px 8px rgba(0,0,0,0.1);}
-.fixed-inner{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.footer-note { color: #fff; font-size: 11px; font-weight: 400; margin: 0;} 
-.btn-send{background:#fff;color:var(--accent);padding:8px 12px; border-radius:6px;border:none;font-weight:700;cursor:pointer; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);}
-.btn-send:hover{background:#f0f0f0; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);}
-.btn-send:active{transform: translateY(1px);}
-
-@media (max-width:480px){
-  .main{padding-top:250px;padding-bottom:70px}
-  .identity-bar{top:44px;}
-  .question-nav-fixed-bar { top: 180px; }
-  .fixed-nav-inner button{padding:3px 5px; min-width:24px; font-size:13px;}
-}
-
-/* Tambahkan style untuk pesan peringatan jika Sesi belum dipilih */
-.alert-sesi {
-    background-color: #f8d7da; 
-    color: #721c24; 
-    padding: 8px 10px;
-    border-radius: 6px;
-    margin-top: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: center;
-    border: 1px solid #f5c6cb;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refleksi Pembelajaran</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background: #f7f7f7;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(90deg, #b30077, #ffb6e0);
+      color: white;
+      text-align: center;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    form {
+      max-width: 980px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    select, input[type=text] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #b30077;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button:hover {
+      background: #990066;
+    }
+    #nilaiContainer {
+      max-width: 980px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: none;
+    }
+    #nilaiContainer h3 {
+      margin-top: 0;
+      color: #b30077;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    table th {
+      background: #ffe3f6;
+    }
+    .success-msg {
+      text-align: center;
+      color: green;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .error-msg {
+      text-align: center;
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <a href="https://andes-web.github.io/mpsmobile/" target="_blank" class="home-icon-link" title="Beranda">
-    🏠
-  </a>
-  
-  <h1>RUBRIK ASESMENT SPREADSHEET</h1>
-  
-  <div style="width: 28px;"></div>
-</header>
 
-<div class="identity-bar">
-  <div class="identity-inner">
-    <div class="identity-row">
-      <div class="identity-field">
-        <label for="kelas">Kelas</label>
-        <select id="kelas" name="kelas" required>
-          <option value="">Pilih Kelas</option>
-          <option value="KELAS X AKL1">KELAS X AKL1</option>
-          <option value="KELAS X AKL2">KELAS X AKL2</option>
-          <option value="KELAS X AKL3">KELAS X AKL3</option>
-          <option value="KELAS X AKL4">KELAS X AKL4</option>
-        </select>
-      </div>
-      <div class="identity-field">
-        <label for="sesi">Sesi Refleksi</label>
-        <select id="sesi" name="sesi" required>
-          <option value="">Pilih Sesi</option>
-          <option value="As Learning">As Learning</option>
-          <option value="For Learning">For Learning</option>
-          <option value="Of Learning">Of Learning</option>
-        </select>
-      </div>
-    </div>
-    <div class="identity-field">
-      <label for="nama" class="label-nama">Nama Peserta Didik</label>
-      <input id="nama" name="nama" type="text" placeholder="Pilih Kelas dahulu untuk memuat daftar nama" required list="student-names">
-      <datalist id="student-names"></datalist>
-    </div>
-    <div id="sesi-alert" class="alert-sesi" style="display:block;">Harap pilih **Sesi Refleksi** terlebih dahulu untuk memuat pertanyaan.</div>
+<header>📋 Refleksi Pembelajaran</header>
+
+<form id="refleksiForm" method="POST" action="https://script.google.com/macros/s/AKfycbxqU5GfGFNM56rKSFPmxAXKBccgvpHll_CrVCk8VeUIDHEkBlTiktF1Ug6Nczbb74hU/exec">
+  <div class="form-group">
+    <label for="kelas">Kelas</label>
+    <select id="kelas" name="kelas" required>
+      <option value="">Memuat daftar kelas...</option>
+    </select>
   </div>
-</div>
 
-<div class="question-nav-fixed-bar">
-  <div class="fixed-nav-inner" id="fixedNavButtons">
+  <div class="form-group">
+    <label for="sesi">Sesi Refleksi</label>
+    <select id="sesi" name="sesi" required>
+      <option value="">Pilih Sesi</option>
+      <option value="As Learning">As Learning</option>
+      <option value="For Learning">For Learning</option>
+      <option value="Of Learning">Of Learning</option>
+    </select>
   </div>
-</div>
 
-<main class="main">
-  <form id="refleksiForm" method="POST" action="https://script.google.com/macros/s/AKfycbxqU5GfGFNM56rKSFPmxAXKBccgvpHll_CrVCk8VeUIDHEkBlTiktF1Ug6Nczbb74hU/exec">
-    <div id="questions">
-      </div>
-  </form>
-</main>
-
-<div class="fixed-send">
-  <div class="fixed-inner">
-    <p class="footer-note">@2025 Andes</p>
-    <button id="btnNext" class="btn-send">KIRIM RUBRIK</button>
+  <div class="form-group">
+    <label for="nama">Nama Peserta Didik</label>
+    <input list="student-names" id="nama" name="nama" required />
+    <datalist id="student-names"></datalist>
   </div>
+
+  <!-- Tambahkan input refleksi / pertanyaan lain di sini -->
+  <input type="hidden" name="q0" value="5">
+  <input type="hidden" name="q1" value="4">
+  <input type="hidden" name="q2" value="3">
+  <input type="hidden" name="q3" value="4">
+  <input type="hidden" name="q4" value="5">
+
+  <div style="text-align:center;margin-top:20px;">
+    <button type="submit">Kirim Refleksi</button>
+  </div>
+
+  <div id="msg" class="success-msg" style="display:none;">✅ Refleksi berhasil dikirim!</div>
+  <div id="err" class="error-msg" style="display:none;">❌ Gagal mengirim data!</div>
+</form>
+
+<!-- AREA VALIDASI NILAI -->
+<div id="nilaiContainer">
+  <h3>📊 Data Nilai Kelas</h3>
+  <table id="nilaiTable">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>As Learning</th>
+        <th>For Learning</th>
+        <th>Of Learning</th>
+        <th>Nilai Akhir</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 </div>
 
 <script>
-// DATA SISWA DIAMBIL LANGSUNG DARI GOOGLE SHEET YANG DIBERIKAN
-const ALL_STUDENTS_DATA = [
-  {"kelas":"KELAS X AKL1","nama":"Abel Oktafiani"},
-  {"kelas":"KELAS X AKL1","nama":"Adilla Surgaloka"},
-  {"kelas":"KELAS X AKL1","nama":"Adinda Risma Sari"},
-  {"kelas":"KELAS X AKL1","nama":"Alika Akilah"},
-  {"kelas":"KELAS X AKL1","nama":"Almira Najma Tazkia Amin"},
-  {"kelas":"KELAS X AKL1","nama":"Angga Sanjaya"},
-  {"kelas":"KELAS X AKL1","nama":"Aqilla Aisyah Putri"},
-  {"kelas":"KELAS X AKL1","nama":"Ariska Putri"},
-  {"kelas":"KELAS X AKL1","nama":"Ayub Bernaken Lumban Gaol"},
-  {"kelas":"KELAS X AKL1","nama":"Chabita Keysia"},
-  {"kelas":"KELAS X AKL1","nama":"Chika Inayah"},
-  {"kelas":"KELAS X AKL1","nama":"Desvita Marshellena"},
-  {"kelas":"KELAS X AKL1","nama":"Diandra Wardhatul Farha"},
-  {"kelas":"KELAS X AKL1","nama":"Dila Putri Ferdiansyah"},
-  {"kelas":"KELAS X AKL1","nama":"Dimas Abdul Khoir"},
-  {"kelas":"KELAS X AKL1","nama":"Dwi Nefta Amanda Putri"},
-  {"kelas":"KELAS X AKL1","nama":"Faisal Muttaqin"},
-  {"kelas":"KELAS X AKL1","nama":"Febyolla Putri Hardillah"},
-  {"kelas":"KELAS X AKL1","nama":"Gracia Aurora Tesalonika Yance"},
-  {"kelas":"KELAS X AKL1","nama":"Hanif Assyatir"},
-  {"kelas":"KELAS X AKL1","nama":"Jesika Melia Putri"},
-  {"kelas":"KELAS X AKL1","nama":"Kanaya Oktaviani"},
-  {"kelas":"KELAS X AKL1","nama":"Keysha Nur Syahira"},
-  {"kelas":"KELAS X AKL1","nama":"Khaila Nuriyah"},
-  {"kelas":"KELAS X AKL1","nama":"Miftahul Nur Alfi"},
-  {"kelas":"KELAS X AKL1","nama":"Muhammad Fadli"},
-  {"kelas":"KELAS X AKL1","nama":"Muhammad Fauzan"},
-  {"kelas":"KELAS X AKL1","nama":"Muhammad Rozak Nur Fajar"},
-  {"kelas":"KELAS X AKL1","nama":"Mustika Kirania Putri"},
-  {"kelas":"KELAS X AKL1","nama":"Mutiara Kusuma Dewi"},
-  {"kelas":"KELAS X AKL1","nama":"Nabila Illa Tresna"},
-  {"kelas":"KELAS X AKL1","nama":"Rafka Jaya Wibowo"},
-  {"kelas":"KELAS X AKL1","nama":"Raina Azalla"},
-  {"kelas":"KELAS X AKL1","nama":"Ratu Bilqis Khairunisa"},
-  {"kelas":"KELAS X AKL1","nama":"Riqza Maulana Hidayatulloh"},
-  {"kelas":"KELAS X AKL1","nama":"Riza Putra Andrian"},
-  {"kelas":"KELAS X AKL1","nama":"RizK1 Maulana Putra"},
-  {"kelas":"KELAS X AKL1","nama":"RizK1 Putra Wardhana"},
-  {"kelas":"KELAS X AKL1","nama":"Ri2K1 Tri Hadi Putra"},
-  {"kelas":"KELAS X AKL1","nama":"Sandi Permana"},
-  {"kelas":"KELAS X AKL1","nama":"Shofy Humairoh"},
-  {"kelas":"KELAS X AKL1","nama":"Sigit Bagus Prayoga"},
-  {"kelas":"KELAS X AKL1","nama":"Sigit Putra Ramadhan"},
-  {"kelas":"KELAS X AKL1","nama":"Siti Hardianti"},
-  {"kelas":"KELAS X AKL1","nama":"Syafa Syawalia"},
-  {"kelas":"KELAS X AKL1","nama":"Talitha Salsabila"},
-  {"kelas":"KELAS X AKL1","nama":"Wafda Nurahmah"},
-  {"kelas":"KELAS X AKL1","nama":"Willjo Satriani"},
-  {"kelas":"KELAS X AKL1","nama":"Yunita Nurohmawati"},
-  {"kelas":"KELAS X AKL2","nama":"Aisyah Fitria"},
-  {"kelas":"KELAS X AKL2","nama":"Amirah Parisya Anggraini"},
-  {"kelas":"KELAS X AKL2","nama":"Anisa Dwi Febrjna"},
-  {"kelas":"KELAS X AKL2","nama":"Anisah"},
-  {"kelas":"KELAS X AKL2","nama":"Aqila Syahla Ramadhani"},
-  {"kelas":"KELAS X AKL2","nama":"Aulia Nur Aini"},
-  {"kelas":"KELAS X AKL2","nama":"Bening Makailla Hidayat"},
-  {"kelas":"KELAS X AKL2","nama":"Chaesya Esa Claudia"},
-  {"kelas":"KELAS X AKL2","nama":"Cikal Kirana Prasetyo"},
-  {"kelas":"KELAS X AKL2","nama":"Citra Adinda"},
-  {"kelas":"KELAS X AKL2","nama":"Dewi Paramitha Larasati"},
-  {"kelas":"KELAS X AKL2","nama":"Dimas Wafiqia Dava"},
-  {"kelas":"KELAS X AKL2","nama":"Eirine Queensa Elizabeth Kappuw"},
-  {"kelas":"KELAS X AKL2","nama":"Fabiyan AzKa Anwar"},
-  {"kelas":"KELAS X AKL2","nama":"Farhataini Nurfitri"},
-  {"kelas":"KELAS X AKL2","nama":"Fatih Syamil"},
-  {"kelas":"KELAS X AKL2","nama":"Haysya Juliana Putri"},
-  {"kelas":"KELAS X AKL2","nama":"Heny Risky Aprillia"},
-  {"kelas":"KELAS X AKL2","nama":"Humairah Fitri Ramadhani"},
-  {"kelas":"KELAS X AKL2","nama":"Inka Putri Arvianti"},
-  {"kelas":"KELAS X AKL2","nama":"Iza Azmi Athifa"},
-  {"kelas":"KELAS X AKL2","nama":"Jesi Ramadini"},
-  {"kelas":"KELAS X AKL2","nama":"Kanza Zahran Al Baihaqi"},
-  {"kelas":"KELAS X AKL2","nama":"Khansa Kamiliya Shafa"},
-  {"kelas":"KELAS X AKL2","nama":"Lubna Al-Ghiffarl"},
-  {"kelas":"KELAS X AKL2","nama":"Lusi Sebriayani"},
-  {"kelas":"KELAS X AKL2","nama":"Mahmud Ahmed Dinejat"},
-  {"kelas":"KELAS X AKL2","nama":"Meyta Dini Haryanti"},
-  {"kelas":"KELAS X AKL2","nama":"Muhamad Aditya Ramadan"},
-  {"kelas":"KELAS X AKL2","nama":"Muhamad Faturahman As Sya'Bani"},
-  {"kelas":"KELAS X AKL2","nama":"Muhamad Fikry Al Latief"},
-  {"kelas":"KELAS X AKL2","nama":"Muhammad Hafjizhu Adzany"},
-  {"kelas":"KELAS X AKL2","nama":"Nabila Husen"},
-  {"kelas":"KELAS X AKL2","nama":"Nabilah Rahma"},
-  {"kelas":"KELAS X AKL2","nama":"Nazwa Azqiya Ginanjar"},
-  {"kelas":"KELAS X AKL2","nama":"Nazwa Maulidya"},
-  {"kelas":"KELAS X AKL2","nama":"Niswatul Aziza"},
-  {"kelas":"KELAS X AKL2","nama":"Nur Kayla"},
-  {"kelas":"KELAS X AKL2","nama":"Putri Indah Agustina"},
-  {"kelas":"KELAS X AKL2","nama":"Qotrunada Nirpataka Hibatullah"},
-  {"kelas":"KELAS X AKL2","nama":"Rismawati"},
-  {"kelas":"KELAS X AKL2","nama":"Safira Hayy Nurbaiti"},
-  {"kelas":"KELAS X AKL2","nama":"Siti Nurul Hidayati"},
-  {"kelas":"KELAS X AKL2","nama":"Suci Fitria Rahmadhani"},
-  {"kelas":"KELAS X AKL2","nama":"Syakila Erdila Sari"},
-  {"kelas":"KELAS X AKL2","nama":"Syifa Ghaziyah Anwar"},
-  {"kelas":"KELAS X AKL2","nama":"Vera Cantika"},
-  {"kelas":"KELAS X AKL2","nama":"Yeremia"},
-  {"kelas":"KELAS X AKL2","nama":"Zivara Mabela Sesanti"},
-  {"kelas":"KELAS X AKL3","nama":"Adilla Ramadani"},
-  {"kelas":"KELAS X AKL3","nama":"Adinda Putri Nur Arief"},
-  {"kelas":"KELAS X AKL3","nama":"Alisa Dwi Anggeraini"},
-  {"kelas":"KELAS X AKL3","nama":"Almira Shaka Andrea"},
-  {"kelas":"KELAS X AKL3","nama":"Alvina Rahma Novrianti"},
-  {"kelas":"KELAS X AKL3","nama":"Alva Asyla Mukhbita"},
-  {"kelas":"KELAS X AKL3","nama":"AnasyA"},
-  {"kelas":"KELAS X AKL3","nama":"Asyifa Nurajni Aulia Leksono"},
-  {"kelas":"KELAS X AKL3","nama":"Bima Sakti Rahmatulloh"},
-  {"kelas":"KELAS X AKL3","nama":"Clariza Adya Nathaneila"},
-  {"kelas":"KELAS X AKL3","nama":"Dela Maulida"},
-  {"kelas":"KELAS X AKL3","nama":"Destari Aulia"},
-  {"kelas":"KELAS X AKL3","nama":"Dhiha Mega Wangi Hidayat"},
-  {"kelas":"KELAS X AKL3","nama":"Dhikaloka Rahma"},
-  {"kelas":"KELAS X AKL3","nama":"Diana Syafitri"},
-  {"kelas":"KELAS X AKL3","nama":"Dinara Anindytha Putri Pratiwi"},
-  {"kelas":"KELAS X AKL3","nama":"Ervan Putra Pratama"},
-  {"kelas":"KELAS X AKL3","nama":"Farisha Nur Maulida"},
-  {"kelas":"KELAS X AKL3","nama":"Fathia Rizqiqa Amalia"},
-  {"kelas":"KELAS X AKL3","nama":"Fayrus Chalisa Zulfa"},
-  {"kelas":"KELAS X AKL3","nama":"Hana Alisa"},
-  {"kelas":"KELAS X AKL3","nama":"Hilda Aryani"},
-  {"kelas":"KELAS X AKL3","nama":"Indana Askia Putri"},
-  {"kelas":"KELAS X AKL3","nama":"Indira Okta Vira"},
-  {"kelas":"KELAS X AKL3","nama":"Iren Sakharina Sarfina Hady"},
-  {"kelas":"KELAS X AKL3","nama":"Irma Suryani"},
-  {"kelas":"KELAS X AKL3","nama":"Juanita"},
-  {"kelas":"KELAS X AKL3","nama":"Keisha Audreylia Shafiqa"},
-  {"kelas":"KELAS X AKL3","nama":"Marchello Tandian"},
-  {"kelas":"KELAS X AKL3","nama":"Muhamad Saputra"},
-  {"kelas":"KELAS X AKL3","nama":"Muhammad Azka Rayyan"},
-  {"kelas":"KELAS X AKL3","nama":"Muhammad Havip"},
-  {"kelas":"KELAS X AKL3","nama":"Muhammad Iqram Haryadi"},
-  {"kelas":"KELAS X AKL3","nama":"Muhammad Rafky Alfarezi"},
-  {"kelas":"KELAS X AKL3","nama":"Nadira Ayu Kusumaningtyas"},
-  {"kelas":"KELAS X AKL3","nama":"Nadzwa Adelia Suherman"},
-  {"kelas":"KELAS X AKL3","nama":"Nayla Asifa Syafira"},
-  {"kelas":"KELAS X AKL3","nama":"Nur Nadiah"},
-  {"kelas":"KELAS X AKL3","nama":"Rahelda Anaya Rasya"},
-  {"kelas":"KELAS X AKL3","nama":"Ratu Erica Qurfania"},
-  {"kelas":"KELAS X AKL3","nama":"Resty Audi"},
-  {"kelas":"KELAS X AKL3","nama":"Rizka Nadya Fitri"},
-  {"kelas":"KELAS X AKL3","nama":"Safa Asfia Almira"},
-  {"kelas":"KELAS X AKL3","nama":"Salfa Ainur Rofikah"},
-  {"kelas":"KELAS X AKL3","nama":"Sindi Septiani"},
-  {"kelas":"KELAS X AKL3","nama":"Siti Revalina"},
-  {"kelas":"KELAS X AKL3","nama":"Thalita Putri"},
-  {"kelas":"KELAS X AKL3","nama":"Umroh Agustin"},
-  {"kelas":"KELAS X AKL3","nama":"Zahra Yuanita Putri"},
-  {"kelas":"KELAS X AKL4","nama":"Aila Junisa"},
-  {"kelas":"KELAS X AKL4","nama":"Ajeng Pertiwi"},
-  {"kelas":"KELAS X AKL4","nama":"Alya Putri Amanda"},
-  {"kelas":"KELAS X AKL4","nama":"Anisa Putri"},
-  {"kelas":"KELAS X AKL4","nama":"Arista Putri Kirana"},
-  {"kelas":"KELAS X AKL4","nama":"Caturin Putri Fatimah"},
-  {"kelas":"KELAS X AKL4","nama":"Dhea Kesya Novriyanti"},
-  {"kelas":"KELAS X AKL4","nama":"Difa Julia Lestary"},
-  {"kelas":"KELAS X AKL4","nama":"Dika Rahadea Nizar"},
-  {"kelas":"KELAS X AKL4","nama":"Dinda Nuni Wulandari"},
-  {"kelas":"KELAS X AKL4","nama":"Dwi Indriani"},
-  {"kelas":"KELAS X AKL4","nama":"Fitri Nurkarimah"},
-  {"kelas":"KELAS X AKL4","nama":"Ghina Rifqoh Chasanah"},
-  {"kelas":"KELAS X AKL4","nama":"Jihan Khaerunisa"},
-  {"kelas":"KELAS X AKL4","nama":"Kevin Rafif"},
-  {"kelas":"KELAS X AKL4","nama":"Keyla Kanza Juliana"},
-  {"kelas":"KELAS X AKL4","nama":"Keyla Siti Zahra"},
-  {"kelas":"KELAS X AKL4","nama":"Khairul Ihwan"},
-  {"kelas":"KELAS X AKL4","nama":"Khairunisa"},
-  {"kelas":"KELAS X AKL4","nama":"Maharani Wanara"},
-  {"kelas":"KELAS X AKL4","nama":"Maulana Malik Ibrahim"},
-  {"kelas":"KELAS X AKL4","nama":"Meilina Wulandari"},
-  {"kelas":"KELAS X AKL4","nama":"Melati Cahaya Ramadhani"},
-  {"kelas":"KELAS X AKL4","nama":"Muhamad Fadly"},
-  {"kelas":"KELAS X AKL4","nama":"Muhammad Delly Akbar"},
-  {"kelas":"KELAS X AKL4","nama":"Muhammad Rizky Kurniawan"},
-  {"kelas":"KELAS X AKL4","nama":"Naila Nur Azizah"},
-  {"kelas":"KELAS X AKL4","nama":"Nindia Oktaviani Putri"},
-  {"kelas":"KELAS X AKL4","nama":"Nur Kayna Adhalia"},
-  {"kelas":"KELAS X AKL4","nama":"Putri Aisyah Rahman"},
-  {"kelas":"KELAS X AKL4","nama":"Rafael Kenzi"},
-  {"kelas":"KELAS X AKL4","nama":"Rahma Maulidya"},
-  {"kelas":"KELAS X AKL4","nama":"Ratu Anzani Dwi Putri"},
-  {"kelas":"KELAS X AKL4","nama":"Reyhana Putri Rahmadina"},
-  {"kelas":"KELAS X AKL4","nama":"Rimba Al Musyaffa"},
-  {"kelas":"KELAS X AKL4","nama":"Risma Putri Kirani"},
-  {"kelas":"KELAS X AKL4","nama":"Rosmalina Wijayanti"},
-  {"kelas":"KELAS X AKL4","nama":"Safa Azahra"},
-  {"kelas":"KELAS X AKL4","nama":"Salwa Khoerunisa"},
-  {"kelas":"KELAS X AKL4","nama":"Septiany Nur Aulia"},
-  {"kelas":"KELAS X AKL4","nama":"Shelina Putri"},
-  {"kelas":"KELAS X AKL4","nama":"Sherylua Puspa Westrj"},
-  {"kelas":"KELAS X AKL4","nama":"Suci Aulina"},
-  {"kelas":"KELAS X AKL4","nama":"Syifa Khoirunisa"},
-  {"kelas":"KELAS X AKL4","nama":"Syifah Syafwah"},
-  {"kelas":"KELAS X AKL4","nama":"Talita Sakhi"},
-  {"kelas":"KELAS X AKL4","nama":"Tia Amelia"},
-  {"kelas":"KELAS X AKL4","nama":"Zahirah Sarah Amirah"},
-  {"kelas":"KELAS X AKL4","nama":"Zahra Assita"}
-];
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqU5GfGFNM56rKSFPmxAXKBccgvpHll_CrVCk8VeUIDHEkBlTiktF1Ug6Nczbb74hU/exec";
 
-const ALL_QUESTIONS = {
-    // Pertanyaan untuk Assessment as Learning
-    "As Learning": [
-        "Bagaimana Murid menyusun JURNAL REFLEKSI nya?", // Kelengkapan Jurnal
-        "Bagaimana Murid MENGAITKAN KONSEP SPREADSHEET dengan materi yang dipelajari?", // Keterkaitan dengan Materi
-        "Bagaimana Murid menunjukkan KESADARAN DIRI terkait proses belajar (kesulitan, usaha, hasil)?", // Kesadaran Diri
-        "Bagaimana Murid menuliskan REFLEKSI MATERI terkait fungsi (logika, lookup, analisis data)?", // Refleksi Materi
-        "Bagaimana Murid MENGAITKAN PENGALAMAN PRIBADI nya dengan pembelajaran spreadsheet?" // Pengalaman Pribadi
-    ],
-    // Pertanyaan untuk Assessment for Learning
-    "For Learning": [
-        "Bagaimana Guru menilai KETERLIBATAN Murid dalam DISKUSI PROYEK?", // Keterlibatan dalam Diskusi Proyek
-        "Bagaimana Guru menilai PENGGUNAAN FITUR SPREADSHEET dalam PROYEK KELOMPOK?", // Penggunaan Spreadsheet dalam Proyek
-        "Bagaimana Guru menilai KERJA SAMA TIM Murid selama mengerjakan proyek?", // Kerja Sama Tim
-        "Bagaimana Guru menilai upaya PEMECAHAN MASALAH Murid saat menghadapi kendala proyek?", // Pemecahan Masalah
-        "Bagaimana Guru MENGGUNAKAN UMPAN BALIK dari guru/teman untuk perbaikan?" // Penggunaan Umpan Balik
-    ],
-    // Pertanyaan untuk Assessment of Learning
-    "Of Learning": [
-        "Bagaimana Guru menilai KUALITAS FILE SPREADSHEET (data, fungsi, relevansi)?", // Kualitas File Spreadsheet
-        "Bagaimana Guru menilai KETEPATAN PERHITUNGAN (rumus, logika, otomatisasi)?", // Ketepatan Perhitungan
-        "Bagaimana Guru menilai KREATIVITAS DESAIN DAN PRESENTASI DATA?", // Kreativitas Desain dan Presentasi Data
-        "Bagaimana Guru menilai KETERKAITAN DENGAN KEHIDUPAN NYATA (analisis, solusi)?", // Keterkaitan dengan Kehidupan Nyata
-        "Bagaimana Guru menilai PRESENTASI DAN PENJELASAN PROYEK (struktur, hasil, refleksi)?" // Presentasi dan Penjelasan Proyek
-    ]
-};
+// === LOAD DAFTAR KELAS OTOMATIS ===
+document.addEventListener("DOMContentLoaded", loadKelasList);
 
-const ALL_OPTIONS = {
-    // Opsi untuk Assessment as Learning (Prestructural-Extended Abstract)
-    "As Learning": [
-        ["Tidak menulis jurnal refleksi.", "Ada catatan satu aspek pengalaman belajar.", "Catatan mencakup beberapa aspek pengalaman pembelajaran.", "Catatan menyatukan seluruh aspek pembelajaran secara runtut.", "Catatan refleksi mendalam, menghasilkan ide baru untuk pembelajaran berikutnya."],
-        ["Tidak mengaitkan dengan materi spreadsheet.", "Mengaitkan satu konsep dengan pengalaman.", "Mengaitkan beberapa konsep fungsi spreadsheet.", "Mengaitkan konsep-konsep dengan penerapan logika dan fungsi dalam kehidupan nyata.", "Mengembangkan pemikiran baru berdasarkan hubungan antar konsep spreadsheet."],
-        ["Tidak menunjukkan kesadaran belajar.", "Menyebutkan satu kesadaran belajar.", "Menyebutkan beberapa kesadaran belajar terkait kesulitan dan keberhasilan.", "Menunjukkan pemahaman hubungan antara usaha dan hasil belajar.", "Menyusun rencana pengembangan diri berdasarkan refleksi."],
-        ["Tidak menulis refleksi tentang materi spreadsheet.", "Menulis refleksi satu topik (misal fungsi logika IF).", "Menulis refleksi beberapa topik (fungsi logika, statistik).", "Menghubungkan topik-topik (fungsi logika + lookup + analisis data).", "Menghubungkan topik dengan situasi nyata (misal laporan keuangan pribadi)."],
-        ["Tidak mengaitkan dengan pengalaman pribadi.", "Mengaitkan 1 pengalaman pribadi.", "Mengaitkan beberapa pengalaman pribadi.", "Mengaitkan pengalaman pribadi dengan tantangan belajar yang dihadapi.", "Mengaitkan pengalaman dan merencanakan tindakan untuk peningkatan hasil pribadi."]
-    ],
-    // Opsi untuk Assessment for Learning (Prestructural-Extended Abstract)
-    "For Learning": [
-        ["Tidak aktif dalam diskusi.", "Berpartisipasi pasif dalam satu sesi.", "Berpartisipasi aktif dalam beberapa sesi.", "Memberi masukan konstruktif kepada tim.", "Memimpin diskusi dan membantu teman memahami konsep."],
-        ["Tidak menggunakan fitur spreadsheet.", "Menggunakan fungsi dasar (penjumlahan).", "Menggunakan beberapa fungsi logika dan statistik.", "Menggunakan fitur lanjutan seperti VLOOKUP/HLOOKUP secara efektif.", "Mengembangkan cara baru atau kombinasi fitur untuk efisiensi proyek."],
-        ["Tidak bekerja sama.", "Melaksanakan tugas kecil dengan bimbingan.", "Bekerja sama dalam sebagian tahap proyek.", "Aktif membantu anggota tim lain.", "Menjadi fasilitator dan motivator dalam kelompok."],
-        ["Tidak mencoba memecahkan masalah.", "Mencoba solusi sederhana tanpa hasil.", "Menyusun beberapa alternatif solusi.", "Memilih solusi yang paling sesuai dan menerapkannya.", "Menciptakan solusi inovatif untuk memperbaiki hasil proyek."],
-        ["Tidak menanggapi umpan balik.", "Menerima umpan balik tanpa perubahan.", "Melakukan beberapa perbaikan kecil.", "Menerapkan umpan balik untuk peningkatan signifikan.", "Menggunakan umpan balik untuk merancang strategi belajar baru."]
-    ],
-    // Opsi untuk Assessment of Learning (Prestructural-Extended Abstract)
-    "Of Learning": [
-        ["File kosong/data tidak relevan.", "Mengandung data sederhana tanpa fungsi.", "Menggunakan beberapa fungsi dasar (SUM, AVERAGE).", "Menggunakan fungsi logika dan lookup secara benar.", "Menggabungkan berbagai fungsi kompleks untuk analisis data keuangan yang akurat."],
-        ["Banyak kesalahan perhitungan.", "Ada beberapa kesalahan kecil.", "Perhitungan sebagian besar benar.", "Semua perhitungan benar dan logis.", "Perhitungan akurat dan efisien dengan otomatisasi (misal kombinasi fungsi)."],
-        ["Tabel tidak terstruktur.", "Ada format dasar (tabel/sheet sederhana).", "Format rapi dengan beberapa fitur tampilan (warna, border).", "Tampilan profesional dengan visualisasi sederhana (grafik, conditional formatting).", "Desain menarik, interaktif, dan komunikatif (dashboard, hyperlink, visual dinamis)."],
-        ["Tidak relevan dengan konteks kehidupan siswa.", "Mengaitkan sedikit dengan contoh sehari-hari.", "Mengaitkan dengan konteks sekolah (misal laporan keuangan koperasi).", "Mengaitkan dengan dunia nyata (misal analisis pengeluaran pribadi).", "Menghasilkan solusi kreatif yang dapat digunakan dalam kehidupan nyata."],
-        ["Tidak mampu menjelaskan hasil proyek.", "Menjelaskan sebagian data tanpa makna.", "Menjelaskan struktur dan hasil dengan bantuan guru.", "Menjelaskan hubungan antar data dan fungsi secara logis.", "Menyampaikan penjelasan reflektif, inspiratif, dan mampu menjawab pertanyaan mendalam."]
-    ]
-};
-
-const qContainer=document.getElementById('questions');
-const sesiSelect = document.getElementById('sesi');
-const sesiAlert = document.getElementById('sesi-alert');
-let current=0;
-let currentQuestions = []; // Array of questions based on selected session
-
-// Event listener for Sesi selection
-sesiSelect.addEventListener('change', loadQuestions);
-
-function loadQuestions() {
-    const selectedSesi = sesiSelect.value;
-    qContainer.innerHTML = ''; // Clear previous questions
-    document.getElementById('fixedNavButtons').innerHTML = ''; // Clear nav buttons
-    current = 0; // Reset current question index
-    currentQuestions = []; // Reset current questions array
-
-    if (!selectedSesi) {
-        sesiAlert.style.display = 'block';
-        return;
-    }
-    
-    sesiAlert.style.display = 'none';
-    currentQuestions = ALL_QUESTIONS[selectedSesi];
-
-    if (!currentQuestions || currentQuestions.length === 0) {
-        sesiAlert.textContent = 'Data pertanyaan untuk Sesi ' + selectedSesi + ' tidak ditemukan.';
-        sesiAlert.style.display = 'block';
-        return;
-    }
-
-    createQuestions(selectedSesi);
-    generateFixedNav();
-    show(0);
-}
-
-function createQuestions(sesiKey){
-  const questionsToUse = ALL_QUESTIONS[sesiKey];
-  const optionsToUse = ALL_OPTIONS[sesiKey];
-
-  for(let i=0;i<questionsToUse.length;i++){
-    const card=document.createElement('div');
-    card.className='question-card';
-    card.id='q'+i;
-    card.style.display='none';
-
-    const q=document.createElement('p');
-    q.className='q-text';
-    q.textContent=(i+1)+'. '+questionsToUse[i];
-    card.appendChild(q);
-    
-    const optWrap=document.createElement('div');
-    optWrap.className='options';
-    (optionsToUse[i]).forEach((op,j)=>{
-      const label=document.createElement('label');
-      label.className='opt';
-      // Penting: name harus unik (q0, q1, q2, ...)
-      const input=document.createElement('input');
-      input.type='radio';input.name='q'+i;input.value=j+1; 
-      
-      input.addEventListener('change', function() {
-          label.parentElement.querySelectorAll('.opt').forEach(l => l.classList.remove('checked-option'));
-          if (this.checked) {
-              label.classList.add('checked-option');
-          }
-          updateNav();
+function loadKelasList() {
+  fetch(SCRIPT_URL)
+    .then(res => res.json())
+    .then(kelasList => {
+      const kelasSelect = document.getElementById("kelas");
+      kelasSelect.innerHTML = '<option value="">Pilih Kelas</option>';
+      kelasList.forEach(k => {
+        const opt = document.createElement("option");
+        opt.value = k;
+        opt.textContent = k;
+        kelasSelect.appendChild(opt);
       });
-      
-      const span=document.createElement('span');
-      span.textContent=op;
-      
-      label.appendChild(input);
-      label.appendChild(span);
-      optWrap.appendChild(label);
+    })
+    .catch(err => {
+      document.getElementById("kelas").innerHTML = `<option value="">Gagal memuat kelas (${err.message})</option>`;
     });
-    card.appendChild(optWrap);
-
-    qContainer.appendChild(card);
-  }
 }
 
-function generateFixedNav() {
-    const navContainer = document.getElementById('fixedNavButtons');
-    for(let n=0; n < currentQuestions.length; n++) {
-        const btn = document.createElement('button');
-        btn.textContent = n + 1;
-        btn.type = 'button';
-        btn.onclick = () => show(n);
-        navContainer.appendChild(btn);
-    }
-}
-
-
-function show(i){
-  document.querySelectorAll('.question-card').forEach(c=>c.style.display='none');
-  const currentCard = document.getElementById('q'+i);
-  if (currentCard) {
-      currentCard.style.display='block';
-      current=i;
-      updateNav();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-}
-
-function updateNav(){
-  const btns = document.getElementById('fixedNavButtons').querySelectorAll('button');
-  
-  btns.forEach((b,i)=>{
-    const radio = document.querySelector('input[name="q'+i+'"]:checked');
-    const answered=!!radio;
-    
-    if (i === current) {
-        b.classList.add('current-q');
-    } else {
-        b.classList.remove('current-q');
-    }
-
-    // Hanya ubah warna jika dijawab
-    if (answered) {
-        b.style.background = 'var(--accent)';
-        b.style.color = '#fff';
-        // Pastikan opsi yang dipilih tetap ditandai (diperlukan untuk navigasi)
-        document.querySelectorAll('label.opt input[name="q'+i+'"]').forEach(r => {
-             r.parentElement.classList.remove('checked-option');
-             if (r.checked) {
-                r.parentElement.classList.add('checked-option');
-             }
-        });
-    } else { // Belum dijawab
-        b.style.background = '#d8e8ff';
-        b.style.color = '#0056b3';
-        document.querySelectorAll('label.opt input[name="q'+i+'"]').forEach(r => r.parentElement.classList.remove('checked-option'));
-    }
-  });
-}
-
-// LOGIKA BARU UNTUK DATALIST NAMA
-document.addEventListener('DOMContentLoaded', () => {
-    // Event listener for Kelas and Sesi
-    document.getElementById('kelas').addEventListener('change', updateNamaList);
-    document.getElementById('sesi').addEventListener('change', loadQuestions); 
-    updateNamaList();
+// === UPDATE NAMA & NILAI BERDASARKAN KELAS ===
+document.getElementById("kelas").addEventListener("change", async function() {
+  const kelas = this.value;
+  updateNamaList(kelas);
+  loadNilaiKelas(kelas);
 });
 
-// Fungsi untuk memfilter nama dan memperbarui datalist
-function updateNamaList() {
-    const selectedKelas = document.getElementById('kelas').value;
-    const datalist = document.getElementById('student-names');
-    const namaInput = document.getElementById('nama');
+function updateNamaList(kelas) {
+  const datalist = document.getElementById("student-names");
+  datalist.innerHTML = '';
+  if (!kelas) return;
 
-    datalist.innerHTML = ''; 
-    namaInput.value = ''; 
-    
-    namaInput.placeholder = 'Pilih Kelas dahulu untuk memuat daftar nama';
-    if(ALL_STUDENTS_DATA.length > 0) {
-        namaInput.placeholder = 'Tuliskan nama lengkap Anda';
-    }
-
-
-    if (!selectedKelas) {
-        return; 
-    }
-    
-    // Implementasi logika pemetaan kelas yang diminta (sesuai file form_refleksi_spreadsheet_v7.html):
-    // AKL1, AKL3, AKL4 -> data kelas itu sendiri
-    // AKL2 -> data AKL1
-    let targetKelas = selectedKelas;
-    if (selectedKelas === 'KELAS X AKL2') {
-        targetKelas = 'KELAS X AKL1'; 
-    }
-
-    // Filter data siswa
-    const filteredStudents = ALL_STUDENTS_DATA.filter(student => 
-        student.kelas === targetKelas
-    );
-
-    // Tambahkan nama ke datalist
-    if (filteredStudents.length > 0) {
-        filteredStudents.forEach(student => {
-            const option = document.createElement('option');
-            option.value = student.nama;
-            datalist.appendChild(option);
-        });
-    } else {
-         const option = document.createElement('option');
-         option.value = `Tidak ada data nama ditemukan untuk ${targetKelas}`;
-         datalist.appendChild(option);
-    }
-}
-// AKHIR LOGIKA BARU UNTUK DATALIST NAMA
-
-// MODIFIKASI: Mengganti logika validasi tombol KIRIM REFLEKSI (btnNext.onclick) agar menggunakan SweetAlert2
-document.getElementById('btnNext').onclick=()=>{
-  // Jika Sesi belum dipilih, jangan lakukan apapun selain tampilkan alert
-  if(!document.getElementById('sesi').value){
-      Swal.fire({
-          icon: 'warning',
-          title: 'Perhatian!',
-          text: 'Harap pilih Sesi Refleksi (As/For/Of Learning) terlebih dahulu.',
-          confirmButtonColor: '#007bff'
-      }).then(() => {
-          document.getElementById('sesi').focus(); 
+  fetch(SCRIPT_URL + "?kelas=" + encodeURIComponent(kelas))
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(s => {
+        const option = document.createElement('option');
+        option.value = s.nama;
+        datalist.appendChild(option);
       });
-      return;
-  }
-    
-  if(current<currentQuestions.length-1){
-    show(current+1);
-  } else {
-    let allAnswered = true;
-    let firstUnansweredIndex = -1;
-    for(let i=0; i<currentQuestions.length; i++) {
-        if (!document.querySelector('input[name="q'+i+'"]:checked')) {
-            allAnswered = false;
-            firstUnansweredIndex = i;
-            break;
-        }
-    }
-    
-    if (allAnswered) {
-        sendData();
-    } else {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Refleksi Belum Lengkap!',
-            text: 'Harap jawab semua pertanyaan sebelum mengirim. Pertanyaan ' + (firstUnansweredIndex + 1) + ' belum dijawab.',
-            confirmButtonColor: '#007bff'
-        }).then(() => {
-             show(firstUnansweredIndex);
-        });
-    }
-  }
-};
-
-// MODIFIKASI: Mengganti fungsi sendData() dengan SweetAlert2 dan Logika Reset yang lebih baik
-function sendData(){
-  const nama=document.getElementById('nama').value.trim();
-  const kelas=document.getElementById('kelas').value;
-  const sesi=document.getElementById('sesi').value;
-  const btnSend = document.getElementById('btnNext');
-
-  if(!nama||!kelas||!sesi){
-      Swal.fire({
-          icon: 'warning',
-          title: 'Perhatian!',
-          text: 'Harap lengkapi identitas (Nama, Kelas, dan Sesi) terlebih dahulu.',
-          confirmButtonColor: '#007bff'
-      }).then(() => {
-          document.getElementById('nama').focus(); 
-      });
-      return;
-  }
-
-  const form=document.getElementById('refleksiForm');
-  const fd=new FormData(form);
-  fd.append('nama', nama);
-  fd.append('kelas', kelas);
-  fd.append('sesi', sesi);
-  
-  // Tambahkan jawaban yang tidak terpilih dengan nilai '0'
-  for(let i=0;i<currentQuestions.length;i++){
-      if(!fd.has('q'+i)) fd.append('q'+i,'0');
-  }
-
-  const params = new URLSearchParams();
-  fd.forEach((v, k) => params.append(k, v));
-  
-  // Tampilkan loading SweetAlert2
-  Swal.fire({
-    title: 'Mengirim Refleksi...',
-    text: 'Mohon tunggu, data sedang diproses.',
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
-
-  btnSend.textContent = 'Mengirim...';
-  btnSend.disabled = true;
-
-
-  fetch(form.action, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params
-  })
-  .then(res => res.text())
-  .then(txt => {
-    Swal.close(); // Tutup loading
-    
-    // Periksa respons dari Google Apps Script (Asumsi 'SUKSES_APEND_BERHASIL' dikirim dari GAS)
-    if (txt.includes('SUKSES_APEND_BERHASIL')) {
-        // Notifikasi Sukses
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: 'Refleksi berhasil terkirim dan data Anda sudah terekam.',
-            confirmButtonColor: '#007bff'
-        }).then(() => {
-            // Logika RESET FORM: Reset pertanyaan dan ID
-            form.reset();
-            document.getElementById('nama').value = ''; 
-            document.getElementById('kelas').value = ''; 
-            document.getElementById('sesi').value = ''; 
-            // Reset tampilan radio button yang telah dicentang
-            document.querySelectorAll('.opt').forEach(l => {
-                l.classList.remove('checked-option');
-                l.querySelector('input[type="radio"]').checked = false; 
-            });
-            // Hapus pertanyaan dan navigasi tombol
-            qContainer.innerHTML = ''; 
-            document.getElementById('fixedNavButtons').innerHTML = ''; 
-            sesiAlert.style.display = 'block'; // Tampilkan lagi alert sesi
-            currentQuestions = []; // Reset array pertanyaan
-            updateNamaList(); // Perbarui daftar nama (mengosongkannya)
-            current = 0;
-
-        });
-        
-    } else {
-        // Notifikasi Gagal Server
-        Swal.fire({
-            icon: 'error',
-            title: 'Gagal Kirim!',
-            html: 'Pengiriman data GAGAL di sisi server. Cek kembali URL Web App dan izin Anda. <br><br>Pesan Server: <b>' + txt.substring(0, 100) + '...</b>',
-            confirmButtonColor: '#d33'
-        });
-    }
-    
-    btnSend.textContent = 'KIRIM RUBRIK';
-    btnSend.disabled = false;
-    updateNav(); // Panggil updateNav untuk memastikan tampilan tombol benar setelah proses
-  })
-  .catch(err => {
-    Swal.close(); // Tutup loading
-    // Notifikasi Gagal Koneksi
-    Swal.fire({
-        icon: 'error',
-        title: 'Gagal Koneksi!',
-        text: 'Tidak dapat mengirim data. Cek koneksi internet Anda. Rincian: ' + err.message,
-        confirmButtonColor: '#d33'
     });
-    
-    btnSend.textContent = 'KIRIM RUBRIK';
-    btnSend.disabled = false;
-    updateNav();
-  });
 }
+
+// === TAMPILKAN NILAI KELAS ===
+function loadNilaiKelas(kelas) {
+  const container = document.getElementById("nilaiContainer");
+  const tbody = document.querySelector("#nilaiTable tbody");
+  tbody.innerHTML = "";
+
+  if (!kelas) {
+    container.style.display = "none";
+    return;
+  }
+
+  fetch(SCRIPT_URL + "?kelas=" + encodeURIComponent(kelas))
+    .then(res => res.json())
+    .then(data => {
+      if (!Array.isArray(data) || data.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;color:#999;'>Belum ada data nilai untuk kelas ini.</td></tr>";
+      } else {
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${row.nama || "-"}</td>
+            <td>${row.as || "-"}</td>
+            <td>${row.for || "-"}</td>
+            <td>${row.of || "-"}</td>
+            <td><b>${row.akhir || "-"}</b></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+      container.style.display = "block";
+    })
+    .catch(err => {
+      tbody.innerHTML = `<tr><td colspan='5' style='text-align:center;color:red;'>Gagal memuat data (${err.message})</td></tr>`;
+      container.style.display = "block";
+    });
+}
+
+// === KIRIM FORM REFLEKSI ===
+document.getElementById("refleksiForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const msg = document.getElementById("msg");
+  const err = document.getElementById("err");
+  msg.style.display = err.style.display = "none";
+
+  fetch(SCRIPT_URL, { method: "POST", body: new FormData(form) })
+    .then(res => res.text())
+    .then(text => {
+      if (text.includes("SUKSES_APEND_BERHASIL")) {
+        msg.style.display = "block";
+        form.reset();
+        setTimeout(() => msg.style.display = "none", 3000);
+      } else throw new Error(text);
+    })
+    .catch(error => {
+      err.style.display = "block";
+      err.textContent = "❌ Gagal mengirim data: " + error.message;
+      setTimeout(() => err.style.display = "none", 4000);
+    });
+});
 </script>
+
 </body>
 </html>

@@ -4,77 +4,135 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>RUBRIK ASESMENT SPREADSHEET</title>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{
-  --bg: #fff5fc; 
-  --accent: #000000; 
-  --muted: #334e68; 
-  --card: #ffffff; 
-  --input: #f7f9fc; 
-  --nav-bg: #ffcefd; 
-  --shadow-light: rgba(0, 0, 0, 0.05);
-  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --bg: #fff5fc;
+  --accent: #000000;
+  --muted: #334e68;
+  --card: #ffffff;
+  --input: #f7f9fc;
+  --nav-bg: #ffcefd;
+  --shadow-light: rgba(0,0,0,0.05);
+  --primary:#b30077;
+  --deep-blue:#003366;
+  --light-blue:#e9f2ff;
+  --green-pass: #008000; /* Hijau untuk nilai >= 80 */
 }
 *{box-sizing:border-box; transition: all 0.2s ease-out;}
-body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px} 
+body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px}
 
-/* --- KOREKSI HEADER UNTUK IKON HOME --- */
+/* HEADER */
 header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  background:linear-gradient(90deg, #ff00b3, #b30077);
-  color:#fff;
-  padding:10px 8px;
-  z-index:220; 
-  box-shadow: 0 2px 5px var(--shadow-medium);
-  display: flex; /* Aktifkan Flexbox */
-  justify-content: space-between; /* Pisahkan konten */
-  align-items: center;
+  position:fixed;top:0;left:0;right:0;
+  background:linear-gradient(90deg,#ff00b3,var(--primary));
+  color:#fff;padding:8px;z-index:220;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  display:flex;align-items:center;gap:8px;
 }
-header h1{
-  margin:0;
-  font-weight:700;
-  font-size:16px;
+header h1{margin:0;font-weight:700;font-size:15px;flex:1;text-align:center}
+.home-icon-link{color:#fff;text-decoration:none;font-size:17px;padding:0 4px}
+
+/* IDENTITY BAR */
+.identity-bar{
+  position:fixed;top:44px;left:0;right:0;
+  background:var(--nav-bg);padding:6px 8px;z-index:215;
+  border-bottom:1px solid #dcdfe4;
+  box-shadow:0 1px 3px var(--shadow-light);
+}
+.identity-inner{
+  max-width:980px;margin:0 auto;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:8px;flex-wrap:nowrap;
+}
+.identity-left{display:flex;flex-direction:column;gap:6px;flex:1 1 auto;}
+
+/* Label container */
+.identity-toplabel-container{
+  background:var(--light-blue);
+  border-radius:6px;
+  box-shadow:inset 1px 1px 3px rgba(0,0,0,0.08),
+             inset -1px -1px 3px rgba(255,255,255,0.7);
+  padding:4px 8px;
   text-align:center;
-  flex-grow: 1; /* Biarkan judul mengambil ruang tengah */
+  border:1px solid #c6d6f5;
 }
-.home-icon-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px; /* Ukuran ikon HOME */
-    padding: 0 5px;
-    line-height: 1;
+.identity-toplabel{
+  font-weight:700;font-size:14px;
+  color:var(--deep-blue);
+  letter-spacing:0.2px;
+  white-space:nowrap;
 }
-.home-icon-link:hover {
-    color: #ffd700; 
-}
-/* --- END KOREKSI HEADER --- */
 
-.identity-bar{position:fixed;top:40px; left:0;right:0;background:var(--nav-bg);padding:8px 10px;z-index:215;border-bottom:1px solid #dcdfe4; box-shadow: 0 1px 3px var(--shadow-light);} 
-.identity-inner{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px} 
-.identity-row{display:flex;gap:8px;flex-wrap:wrap} 
-.identity-field{flex:1}
-label{display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bottom:2px} 
-input[type="text"], select{width:100%;padding:6px 8px;border-radius:6px;border:1px solid #c9d6e4;background:var(--input);font-size:13px; color:var(--muted);} 
-input[type="text"]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);}
+/* FORM CONTAINER */
+.identity-form-container{
+  background:#fff;
+  border:1px solid #d3dae7;
+  border-radius:8px;
+  padding:6px 8px;
+  box-shadow:inset 1px 1px 2px rgba(0,0,0,0.04),
+             inset -1px -1px 2px rgba(255,255,255,0.6);
+}
+.identity-row{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;margin-bottom:4px;}
+.identity-field{display:flex;flex-direction:column;gap:2px;flex:1 1 48%;}
+label{font-weight:700;font-size:12.5px;color:var(--muted);}
+input[type="text"],select{
+  width:100%;padding:6px 8px;border-radius:5px;border:1px solid #c9d6e4;
+  background:var(--input);font-size:12.5px;color:var(--muted);
+}
+input[type="text"]:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(179,0,119,0.08);}
 
-.label-nama {
-    font-size: 14px; 
-    font-weight: 700; 
-    color: var(--muted); 
+/* SCORE PANEL */
+.score-panel{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  padding:8px 6px;border-radius:6px;background:#fff;
+  border:1px solid rgba(179,0,119,0.12);
+  box-shadow:0 2px 5px rgba(0,0,0,0.03);
+  flex-shrink:0;min-width:85px;max-width:95px;
+}
+.score-pill{
+  display:block;padding:5px 0;width:50px;text-align:center;
+  border-radius:4px;background:linear-gradient(180deg,#fff,#fff5fc);
+  border:1px solid rgba(179,0,119,0.08);
+  font-weight:700;color:var(--primary);font-size:16px;
+}
+/* STYLE BARU UNTUK NILAI >= 80 */
+.score-pill.pass {
+    color: var(--green-pass);
+    font-weight: 900;
+    border-color: var(--green-pass);
+    background: #e6ffe6;
+}
+.score-label{
+  font-size:16px;
+  color:#444;
+  margin-top:1px;
+  font-weight:700;
+  margin-bottom: 2px;
+}
+
+/* MOBILE */
+@media(max-width:640px){
+  .identity-inner{align-items:flex-start;gap:5px;}
+  .identity-row{gap:5px;}
+  .identity-field{flex:1 1 48%;}
+  .score-panel{min-width:65px;max-width:75px;padding:3px;}
+  .score-pill{width:50px;font-size:16px;padding:0px 0;}
+  .score-label{font-size:12px;}
 }
 
 /* --- FIXED NAVIGATION CSS --- */
 .question-nav-fixed-bar {
     position: fixed;
-    top: 190px; 
+    /* TETAP: Nilai desktop */
+    top: 170px; 
     left: 0;
     right: 0;
     background: #fff; 
-    padding: 5px 0;
+    padding: 3px 0;
     z-index: 200; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid #e0e8f0;
@@ -107,10 +165,20 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 .fixed-nav-inner button:hover { background: #c6daff; }
 .fixed-nav-inner button.current-q { background: var(--accent)!important; color: #fff!important; box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);}
 
-.main{max-width:980px;margin:0 auto;padding:250px 10px 80px;}
+.main{
+  max-width:980px;
+  margin:0 auto;
+  /* TETAP: Nilai desktop */
+  padding:210px 10px 80px; 
+} 
 
 .question-card{background:var(--card);border-left:4px solid var(--accent);padding:10px; border-radius:8px;margin-bottom:15px; box-shadow:0 4px 8px var(--shadow-light); position: relative;}
-.q-text{font-size:16px;margin:0 0 6px 0;font-weight:700;color:var(--accent);} 
+.q-text{
+  font-size:18px; 
+  margin:0 0 6px 0;
+  font-weight:700;
+  color:var(--accent);
+} 
 .options{display:flex;flex-direction:column;gap:4px} 
 .opt{display:flex;align-items:flex-start;gap:8px;padding:6px 8px; border-radius:6px;background:var(--input);border:1px solid #e0e8f0;font-size:17px; cursor: pointer; position: relative;} 
 .opt:hover{background: #eaf1fa; border-color: #c9cde4;}
@@ -122,7 +190,13 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
     border: 2px solid var(--accent);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
 }
-.opt span{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:1.3} 
+.opt span{
+  display:block;
+  font-weight:400;
+  color:var(--muted);
+  font-size:14px; 
+  line-height:1.25; 
+} 
 
 .fixed-send{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(90deg, #ff00d4, #b300a4);padding:8px 10px; z-index:230;box-shadow:0 -2px 8px rgba(0,0,0,0.1);}
 .fixed-inner{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
@@ -132,10 +206,12 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 .btn-send:active{transform: translateY(1px);}
 
 @media (max-width:480px){
-  .main{padding-top:250px;padding-bottom:70px}
+  /* FIX BARU: Penyesuaian padding-top & nav bar untuk mobile */
+  .main{padding-top:280px;padding-bottom:70px} /* Ditingkatkan dari 230px ke 240px */
   .identity-bar{top:44px;}
-  .question-nav-fixed-bar { top: 180px; }
+  .question-nav-fixed-bar { top: 240px; } /* Ditingkatkan dari 190px ke 200px */
   .fixed-nav-inner button{padding:3px 5px; min-width:24px; font-size:13px;}
+  .nav-soal { margin-top: 70px !important; }
 }
 
 /* Tambahkan style untuk pesan peringatan jika Sesi belum dipilih */
@@ -150,6 +226,43 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
     text-align: center;
     border: 1px solid #f5c6cb;
 }
+select option { padding:2px 4px !important; line-height:1 !important; }
+select{ scrollbar-width: thin; }
+select::-webkit-scrollbar{ width:4px; }
+select::-webkit-scrollbar-thumb{ background:#ccc; border-radius:4px; }
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);} }
+
+/* CSS BARU UNTUK FLOATING MENU */
+#floating-menu {
+    position: absolute;
+    top: 44px; /* Tepat di bawah header */
+    right: 8px; /* Sejajar dengan tombol */
+    background: var(--card);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 235; /* Lebih tinggi dari elemen lain */
+    min-width: 150px;
+    display: none;
+    animation: fadeIn 0.15s ease-out;
+}
+#floating-menu a {
+    display: block;
+    padding: 8px 12px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+#floating-menu a:hover {
+    background: #f7f7f7;
+    color: var(--primary);
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
@@ -160,11 +273,25 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
   
   <h1>RUBRIK ASESMENT SPREADSHEET</h1>
   
-  <div style="width: 28px;"></div>
-</header>
+  <button id="menu-btn" type="button" style="background:none; border:none; color:#fff; font-size:17px; cursor:pointer; padding:0 4px;" title="Menu Lain">
+    ☰
+  </button>
+  <div id="floating-menu">
+    <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank">
+      Formulir Refleksi
+    </a>
+  </div>
+  </header>
 
 <div class="identity-bar">
   <div class="identity-inner">
+
+    <div class="identity-left">
+      <div class="identity-toplabel-container">
+        <div class="identity-toplabel">Pilih ASESMEN untuk rubrik penilaian</div>
+      </div>
+
+      <div class="identity-form-container">
     <div class="identity-row">
       <div class="identity-field">
         <label for="kelas">Kelas</label>
@@ -188,10 +315,19 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
     </div>
     <div class="identity-field">
       <label for="nama" class="label-nama">Nama Peserta Didik</label>
-      <input id="nama" name="nama" type="text" placeholder="Pilih Kelas dahulu untuk memuat daftar nama" required list="student-names">
-      <datalist id="student-names"></datalist>
+      <select id="nama" name="nama" required>
+          <option value="" disabled selected>Pilih Kelas dahulu</option>
+      </select>
+      </div>
     </div>
-    <div id="sesi-alert" class="alert-sesi" style="display:block;">Pilih ASESMEN untuk rubrik penilaian.</div>
+</div>
+
+<div class="score-panel">
+      <div id="panel-as"><div class="score-label">As</div><div class="score-pill" id="score-as">-</div></div>
+      <div id="panel-for"><div class="score-label">For</div><div class="score-pill" id="score-for">-</div></div>
+      <div id="panel-of"><div class="score-label">Of</div><div class="score-pill" id="score-of">-</div></div>
+      <div id="panel-akhir"><div class="score-label">Akhir</div><div class="score-pill" id="score-akhir">-</div></div>
+    </div>
   </div>
 </div>
 
@@ -201,7 +337,7 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 </div>
 
 <main class="main">
-  <form id="refleksiForm" method="POST" action="https://script.google.com/macros/s/AKfycbxqU5GfGFNM56rKSFPmxAXKBccgvpHll_CrVCk8VeUIDHEkBlTiktF1Ug6Nczbb74hU/exec">
+  <form id="refleksiForm" method="POST" action="https://script.google.com/macros/s/AKfycbxe1KHyxGBwPg5tQ7dIztRMX7cttmp0LN1u0R1_b9o08RjBXaA0ewZCgMjC9xWIypZD/exec">
     <div id="questions">
       </div>
   </form>
@@ -210,7 +346,10 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 <div class="fixed-send">
   <div class="fixed-inner">
     <p class="footer-note">@2025 Andes</p>
-    <button id="btnNext" class="btn-send">KIRIM RUBRIK</button>
+    <div style="display:flex; gap: 8px;">
+        <button id="btnNext" class="btn-send" type="button">KIRIM RUBRIK</button>
+        <button id="btnReset" class="btn-send" type="button" style="background: #f0f0f0; color: var(--primary); border: 1px solid var(--primary);">RESET</button>
+    </div>
   </div>
 </div>
 
@@ -418,27 +557,27 @@ const ALL_STUDENTS_DATA = [
 const ALL_QUESTIONS = {
     // Pertanyaan untuk Assessment as Learning
     "As Learning": [
-        "Bagaimana Murid menyusun JURNAL REFLEKSI nya?", // Kelengkapan Jurnal
-        "Bagaimana Murid MENGAITKAN KONSEP SPREADSHEET dengan materi yang dipelajari?", // Keterkaitan dengan Materi
-        "Bagaimana Murid menunjukkan KESADARAN DIRI terkait proses belajar (kesulitan, usaha, hasil)?", // Kesadaran Diri
-        "Bagaimana Murid menuliskan REFLEKSI MATERI terkait fungsi (logika, lookup, analisis data)?", // Refleksi Materi
-        "Bagaimana Murid MENGAITKAN PENGALAMAN PRIBADI nya dengan pembelajaran spreadsheet?" // Pengalaman Pribadi
+        "Bagaimana Murid menyusun JURNAL REFLEKSI nya?", 
+        "Bagaimana Murid MENGAITKAN KONSEP SPREADSHEET dengan materi yang dipelajari?", 
+        "Bagaimana Murid menunjukkan KESADARAN DIRI terkait proses belajar (kesulitan, usaha, hasil)?", 
+        "Bagaimana Murid menuliskan REFLEKSI MATERI terkait fungsi (logika, lookup, analisis data)?", 
+        "Bagaimana Murid MENGAITKAN PENGALAMAN PRIBADI nya dengan pembelajaran spreadsheet?" 
     ],
     // Pertanyaan untuk Assessment for Learning
     "For Learning": [
-        "Bagaimana Guru menilai KETERLIBATAN Murid dalam DISKUSI PROYEK?", // Keterlibatan dalam Diskusi Proyek
-        "Bagaimana Guru menilai PENGGUNAAN FITUR SPREADSHEET dalam PROYEK KELOMPOK?", // Penggunaan Spreadsheet dalam Proyek
-        "Bagaimana Guru menilai KERJA SAMA TIM Murid selama mengerjakan proyek?", // Kerja Sama Tim
-        "Bagaimana Guru menilai upaya PEMECAHAN MASALAH Murid saat menghadapi kendala proyek?", // Pemecahan Masalah
-        "Bagaimana Guru MENGGUNAKAN UMPAN BALIK dari guru/teman untuk perbaikan?" // Penggunaan Umpan Balik
+        "Bagaimana Guru menilai KETERLIBATAN Murid dalam DISKUSI PROYEK?", 
+        "Bagaimana Guru menilai PENGGUNAAN FITUR SPREADSHEET dalam PROYEK KELOMPOK?", 
+        "Bagaimana Guru menilai KERJA SAMA TIM Murid selama mengerjakan proyek?", 
+        "Bagaimana Guru menilai upaya PEMECAHAN MASALAH Murid saat menghadapi kendala proyek?", 
+        "Bagaimana Guru MENGGUNAKAN UMPAN BALIK dari guru/teman untuk perbaikan?" 
     ],
     // Pertanyaan untuk Assessment of Learning
     "Of Learning": [
-        "Bagaimana Guru menilai KUALITAS FILE SPREADSHEET (data, fungsi, relevansi)?", // Kualitas File Spreadsheet
-        "Bagaimana Guru menilai KETEPATAN PERHITUNGAN (rumus, logika, otomatisasi)?", // Ketepatan Perhitungan
-        "Bagaimana Guru menilai KREATIVITAS DESAIN DAN PRESENTASI DATA?", // Kreativitas Desain dan Presentasi Data
-        "Bagaimana Guru menilai KETERKAITAN DENGAN KEHIDUPAN NYATA (analisis, solusi)?", // Keterkaitan dengan Kehidupan Nyata
-        "Bagaimana Guru menilai PRESENTASI DAN PENJELASAN PROYEK (struktur, hasil, refleksi)?" // Presentasi dan Penjelasan Proyek
+        "Bagaimana Guru menilai KUALITAS FILE SPREADSHEET (data, fungsi, relevansi)?", 
+        "Bagaimana Guru menilai KETEPATAN PERHITUNGAN (rumus, logika, otomatisasi)?", 
+        "Bagaimana Guru menilai KREATIVITAS DESAIN DAN PRESENTASI DATA?", 
+        "Bagaimana Guru menilai KETERKAITAN DENGAN KEHIDUPAN NYATA (analisis, solusi)?", 
+        "Bagaimana Guru menilai PRESENTASI DAN PENJELASAN PROYEK (struktur, hasil, refleksi)?" 
     ]
 };
 
@@ -471,31 +610,26 @@ const ALL_OPTIONS = {
 
 const qContainer=document.getElementById('questions');
 const sesiSelect = document.getElementById('sesi');
-const sesiAlert = document.getElementById('sesi-alert');
+const sesiAlert = document.getElementById('sesi-alert'); 
 let current=0;
-let currentQuestions = []; // Array of questions based on selected session
+let currentQuestions = []; 
 
-// Event listener for Sesi selection
 sesiSelect.addEventListener('change', loadQuestions);
 
 function loadQuestions() {
     const selectedSesi = sesiSelect.value;
-    qContainer.innerHTML = ''; // Clear previous questions
-    document.getElementById('fixedNavButtons').innerHTML = ''; // Clear nav buttons
-    current = 0; // Reset current question index
-    currentQuestions = []; // Reset current questions array
+    qContainer.innerHTML = ''; 
+    document.getElementById('fixedNavButtons').innerHTML = ''; 
+    current = 0; 
+    currentQuestions = []; 
 
     if (!selectedSesi) {
-        sesiAlert.style.display = 'block';
         return;
     }
     
-    sesiAlert.style.display = 'none';
     currentQuestions = ALL_QUESTIONS[selectedSesi];
 
     if (!currentQuestions || currentQuestions.length === 0) {
-        sesiAlert.textContent = 'Data pertanyaan untuk Sesi ' + selectedSesi + ' tidak ditemukan.';
-        sesiAlert.style.display = 'block';
         return;
     }
 
@@ -524,7 +658,7 @@ function createQuestions(sesiKey){
     (optionsToUse[i]).forEach((op,j)=>{
       const label=document.createElement('label');
       label.className='opt';
-      // Penting: name harus unik (q0, q1, q2, ...)
+      
       const input=document.createElement('input');
       input.type='radio';input.name='q'+i;input.value=j+1; 
       
@@ -603,65 +737,324 @@ function updateNav(){
     }
   });
 }
+// URL Script Google Apps Script untuk mengambil data nilai
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbxe1KHyxGBwPg5tQ7dIztRMX7cttmp0LN1u0R1_b9o08RjBXaA0ewZCgMjC9xWIypZD/exec";
+let currentClassData=[]; 
 
-// LOGIKA BARU UNTUK DATALIST NAMA
-document.addEventListener('DOMContentLoaded', () => {
-    // Event listener for Kelas and Sesi
-    document.getElementById('kelas').addEventListener('change', updateNamaList);
-    document.getElementById('sesi').addEventListener('change', loadQuestions); 
-    updateNamaList();
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('kelas').addEventListener('change',onKelasChange);
+  document.getElementById('nama').addEventListener('change',onNamaChange); 
+  
+  document.getElementById('btnReset').addEventListener('click', resetFormAndUI);
+
+  updateNamaList(); 
+  
+  // START: LOGIKA BARU FLOATING DROPDOWN MENU
+  const menuBtn = document.getElementById('menu-btn');
+  const floatingMenu = document.getElementById('floating-menu');
+
+  menuBtn.addEventListener('click', function(event) {
+      event.stopPropagation(); // Mencegah klik menyebar ke window
+      
+      const isHidden = floatingMenu.style.display === 'none' || floatingMenu.style.display === '';
+      floatingMenu.style.display = isHidden ? 'block' : 'none';
+
+      if (isHidden) {
+          setTimeout(() => { 
+              window.addEventListener('click', closeFloatingMenu, { once: true });
+          }, 50);
+      }
+  });
+
+  function closeFloatingMenu(event) {
+      if (floatingMenu.contains(event.target) || event.target === menuBtn) {
+          window.addEventListener('click', closeFloatingMenu, { once: true });
+          return;
+      }
+      floatingMenu.style.display = 'none';
+  }
+
+  floatingMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+          floatingMenu.style.display = 'none';
+      });
+  });
+  // END: LOGIKA BARU FLOATING DROPDOWN MENU
 });
 
-// Fungsi untuk memfilter nama dan memperbarui datalist
+// FUNGSI INI DIUBAH UNTUK MENGISI ELEMEN <SELECT>
 function updateNamaList() {
     const selectedKelas = document.getElementById('kelas').value;
-    const datalist = document.getElementById('student-names');
-    const namaInput = document.getElementById('nama');
+    const selectNama = document.getElementById('nama'); // Target sekarang adalah elemen <select>
 
-    datalist.innerHTML = ''; 
-    namaInput.value = ''; 
+    // Bersihkan opsi lama
+    selectNama.innerHTML = ''; 
     
-    namaInput.placeholder = 'Pilih Kelas dahulu untuk memuat daftar nama';
-    if(ALL_STUDENTS_DATA.length > 0) {
-        namaInput.placeholder = 'Tuliskan nama lengkap Anda';
-    }
-
+    // Tambahkan opsi default/placeholder
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.textContent = selectedKelas ? `-- Pilih Nama Peserta Didik --` : 'Pilih Kelas dahulu';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    selectNama.appendChild(defaultOption);
 
     if (!selectedKelas) {
+        // FIX: Update mobile fake button text for 'nama' if no class is selected
+        if (window.innerWidth <= 640) {
+            const fakeBtn = selectNama.previousElementSibling;
+            if (fakeBtn && fakeBtn.classList.contains('fake-select-btn')) {
+                fakeBtn.textContent = 'Pilih Kelas dahulu';
+            }
+        }
         return; 
     }
     
-    // Implementasi logika pemetaan kelas yang diminta (sesuai file form_refleksi_spreadsheet_v7.html):
-    // AKL1, AKL3, AKL4 -> data kelas itu sendiri
-    // AKL2 -> data AKL1
-    let targetKelas = selectedKelas;
-    if (selectedKelas === 'KELAS X AKL2') {
-        targetKelas = 'KELAS X AKL1'; 
-    }
-
     // Filter data siswa
     const filteredStudents = ALL_STUDENTS_DATA.filter(student => 
-        student.kelas === targetKelas
+        student.kelas === selectedKelas 
     );
 
-    // Tambahkan nama ke datalist
+    // Tambahkan nama ke select
     if (filteredStudents.length > 0) {
         filteredStudents.forEach(student => {
             const option = document.createElement('option');
-            option.value = student.nama;
-            datalist.appendChild(option);
+            option.value = student.nama; // Value dan textContent diisi nama
+            option.textContent = student.nama; 
+            selectNama.appendChild(option);
         });
     } else {
-         const option = document.createElement('option');
-         option.value = `Tidak ada data nama ditemukan untuk ${targetKelas}`;
-         datalist.appendChild(option);
+         defaultOption.textContent = `Tidak ada data nama ditemukan untuk ${selectedKelas}`;
     }
 }
-// AKHIR LOGIKA BARU UNTUK DATALIST NAMA
 
-// MODIFIKASI: Mengganti logika validasi tombol KIRIM REFLEKSI (btnNext.onclick) agar menggunakan SweetAlert2
+
+// --- FUNGSI UTAMA YANG DIMODIFIKASI UNTUK FORMAT NILAI ---
+function applyScoreStyle(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    // Bersihkan nilai sebelumnya
+    element.textContent = value || '-';
+    element.classList.remove('pass');
+
+    // Cek apakah nilai adalah angka valid dan >= 80
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue) && numValue >= 80) {
+        element.classList.add('pass'); // Tambahkan class 'pass' untuk style hijau tebal
+    }
+}
+
+function fetchAndDisplayScore(kelas) {
+    const namaSelect = document.getElementById('nama');
+    const selectedNama = namaSelect.value.trim().toLowerCase();
+
+    // Gunakan fungsi applyScoreStyle untuk membersihkan tampilan
+    applyScoreStyle('score-as', '-');
+    applyScoreStyle('score-for', '-');
+    applyScoreStyle('score-of', '-');
+    applyScoreStyle('score-akhir', '-');
+
+    if (!kelas) return;
+
+    let targetKelasQuery = kelas;
+
+    // Ambil data nilai dari Google Sheet berdasarkan kelas yang dipilih
+    fetch(SCRIPT_URL+'?kelas='+encodeURIComponent(targetKelasQuery))
+    .then(r=>r.json())
+    .then(d=>{
+        currentClassData=d; // Perbarui data kelas
+        
+        // Tampilkan nilai siswa yang sedang dipilih (jika nama sudah dipilih)
+        if (selectedNama) {
+            const siswaBaru = d.find(x => x.nama.toLowerCase() === selectedNama);
+            if (siswaBaru) {
+                applyScoreStyle('score-as', siswaBaru.as || siswaBaru["As Learning (20%)"]);
+                applyScoreStyle('score-for', siswaBaru.for || siswaBaru["For Learning (30%)"]);
+                applyScoreStyle('score-of', siswaBaru.of || siswaBaru["Of Learning (50%)"]);
+                applyScoreStyle('score-akhir', siswaBaru.akhir || siswaBaru["Nilai Akhir"]);
+            } else {
+                // Siswa tidak ditemukan di data nilai yang baru
+                applyScoreStyle('score-as', '-');
+                applyScoreStyle('score-for', '-');
+                applyScoreStyle('score-of', '-');
+                applyScoreStyle('score-akhir', '-');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Memuat Data!',
+            text: 'Tidak dapat mengambil data nilai dari server. Cek koneksi atau URL script.',
+            confirmButtonColor: '#d33'
+        });
+    });
+}
+// --- AKHIR FUNGSI UTAMA YANG DIMODIFIKASI ---
+
+
+// Fungsi yang dipanggil saat memilih Kelas (Telah Diubah)
+function onKelasChange(e){
+  const k=e.target.value;
+  document.getElementById('nama').value = ''; 
+  updateNamaList(); 
+
+  // Reset nilai yang ditampilkan sebelum fetch data baru
+  applyScoreStyle('score-as', '-');
+  applyScoreStyle('score-for', '-');
+  applyScoreStyle('score-of', '-');
+  applyScoreStyle('score-akhir', '-');
+
+  // Panggil fetchAndDisplayScore untuk memuat data kelas
+  if (k) {
+      fetchAndDisplayScore(k);
+  } else {
+      currentClassData = []; // Kosongkan data kelas jika kelas direset
+  }
+}
+
+// FUNGSI INI DIUBAH (dulu onNamaInput, sekarang onNamaChange)
+function onNamaChange(e){
+  const n=e.target.value.trim().toLowerCase();
+  const k=document.getElementById('kelas').value; 
+  
+
+  if (!n || !k) { 
+      applyScoreStyle('score-as', '-');
+      applyScoreStyle('score-for', '-');
+      applyScoreStyle('score-of', '-');
+      applyScoreStyle('score-akhir', '-');
+      return;
+  }
+  
+  // Jika currentClassData kosong, coba ambil data (ini akan memanggil kembali onNamaChange secara efektif)
+  if (currentClassData.length === 0) {
+      fetchAndDisplayScore(k);
+      return;
+  }
+
+  // Cari siswa di data yang sudah dimuat (currentClassData)
+  const s=currentClassData.find(x=>x.nama.toLowerCase()===n);
+  
+  if(!s){
+      applyScoreStyle('score-as', '-');
+      applyScoreStyle('score-for', '-');
+      applyScoreStyle('score-of', '-');
+      applyScoreStyle('score-akhir', '-');
+      return;
+  }
+  
+  // Tampilkan nilai (menggunakan fungsi applyScoreStyle)
+  applyScoreStyle('score-as', s.as||s["As Learning (20%)"]);
+  applyScoreStyle('score-for', s.for||s["For Learning (30%)"]);
+  applyScoreStyle('score-of', s.of||s["Of Learning (50%)"]);
+  applyScoreStyle('score-akhir', s.akhir||s["Nilai Akhir"]);
+}
+
+// Fungsi Reset Nilai (As, For, Of, Akhir)
+function resetScorePills() {
+    applyScoreStyle('score-as', '-');
+    applyScoreStyle('score-for', '-');
+    applyScoreStyle('score-of', '-');
+    applyScoreStyle('score-akhir', '-');
+}
+
+
+// Clear only rubric answers and navigation, keep identity and score pills intact
+function clearRubrikAnswers() {
+    // Uncheck all radios and remove checked-option styling
+    document.querySelectorAll('.opt').forEach(l => {
+        const r = l.querySelector('input[type="radio"]');
+        if (r) r.checked = false;
+        l.classList.remove('checked-option');
+    });
+    // Clear question cards and navigation but keep identity selects and score pills
+    const qContainer = document.getElementById('questions');
+    if (qContainer) qContainer.innerHTML = '';
+    const nav = document.getElementById('fixedNavButtons');
+    if (nav) nav.innerHTML = '';
+    currentQuestions = [];
+    current = 0;
+    updateNav();
+}
+
+
+// FUNGSI INI TELAH DIPERBAIKI (FIXED)
+function performReset() {
+    const form = document.getElementById('refleksiForm');
+    form.reset();
+    
+    const kelasSelect = document.getElementById('kelas');
+    const sesiSelect = document.getElementById('sesi');
+    const namaSelect = document.getElementById('nama');
+
+    // 1. Reset values in HTML Selects
+    kelasSelect.value = ''; 
+    sesiSelect.value = ''; 
+    namaSelect.value = ''; 
+    
+    // 2. FIX: Reset visible UI for mobile patch (fake buttons)
+    if (window.innerWidth <= 640) {
+        const resetFakeButton = (selectElement) => {
+            const fakeBtn = selectElement.previousElementSibling;
+            if (fakeBtn && fakeBtn.classList.contains('fake-select-btn')) {
+                // Get the text of the first option (placeholder)
+                fakeBtn.textContent = selectElement.options[0].textContent;
+            }
+        };
+        resetFakeButton(kelasSelect); // Set ke 'Pilih Kelas'
+        resetFakeButton(sesiSelect);  // Set ke 'Pilih Asesmen'
+        // Untuk 'nama', teks akan diupdate oleh updateNamaList() nanti, tapi kita reset juga di sini
+        resetFakeButton(namaSelect);
+    }
+    
+    // 3. Reset Score Pills
+    resetScorePills();
+    
+    // 4. Clear Rubrik Answers
+    document.querySelectorAll('.opt').forEach(l => {
+        l.classList.remove('checked-option');
+        const radio = l.querySelector('input[type="radio"]');
+        if (radio) radio.checked = false;
+    });
+    
+    // 5. Clear Questions/Navigation
+    qContainer.innerHTML = ''; 
+    document.getElementById('fixedNavButtons').innerHTML = ''; 
+    currentQuestions = [];
+    
+    // 6. Update Nama List (untuk memastikan menampilkan 'Pilih Kelas dahulu')
+    updateNamaList();
+    
+    current = 0;
+}
+
+// Fungsi yang dipanggil oleh tombol RESET (dengan konfirmasi)
+function resetFormAndUI() {
+    Swal.fire({
+        title: 'Anda yakin?',
+        text: "Semua isian rubrik dan identitas akan dihapus!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, Reset Data!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            performReset(); // Menggunakan performReset yang mengosongkan semua
+            Swal.fire(
+                'Direset!',
+                'Semua isian telah dihapus.',
+                'success'
+            );
+        }
+    });
+}
+
+// LOGIKA NAVIGASI DAN KIRIM DATA
 document.getElementById('btnNext').onclick=()=>{
-  // Jika Sesi belum dipilih, jangan lakukan apapun selain tampilkan alert
+  // Jika Sesi belum dipilih
   if(!document.getElementById('sesi').value){
       Swal.fire({
           icon: 'warning',
@@ -674,9 +1067,8 @@ document.getElementById('btnNext').onclick=()=>{
       return;
   }
     
-  if(current<currentQuestions.length-1){
-    show(current+1);
-  } else {
+  // Jika tombol masih berlabel "KIRIM RUBRIK" dan semua soal sudah dijawab
+  if(currentQuestions.length > 0 && current === currentQuestions.length-1){
     let allAnswered = true;
     let firstUnansweredIndex = -1;
     for(let i=0; i<currentQuestions.length; i++) {
@@ -688,7 +1080,7 @@ document.getElementById('btnNext').onclick=()=>{
     }
     
     if (allAnswered) {
-        sendData();
+        sendData(); 
     } else {
         Swal.fire({
             icon: 'warning',
@@ -699,10 +1091,23 @@ document.getElementById('btnNext').onclick=()=>{
              show(firstUnansweredIndex);
         });
     }
+  } 
+  // Jika tombol berlabel "KIRIM RUBRIK" dan belum di soal terakhir
+  else if (currentQuestions.length > 0 && current < currentQuestions.length - 1) {
+    show(current + 1); 
+  } else if (currentQuestions.length === 0) {
+      Swal.fire({
+          icon: 'warning',
+          title: 'Perhatian!',
+          text: 'Harap pilih Sesi Refleksi (As/For/Of Learning) terlebih dahulu untuk memuat pertanyaan.',
+          confirmButtonColor: '#007bff'
+      }).then(() => {
+          document.getElementById('sesi').focus(); 
+      });
   }
 };
 
-// MODIFIKASI: Mengganti fungsi sendData() dengan SweetAlert2 dan Logika Reset yang lebih baik
+
 function sendData(){
   const nama=document.getElementById('nama').value.trim();
   const kelas=document.getElementById('kelas').value;
@@ -737,7 +1142,7 @@ function sendData(){
   
   // Tampilkan loading SweetAlert2
   Swal.fire({
-    title: 'Mengirim Refleksi...',
+    title: 'Mengirim Rubrik...',
     text: 'Mohon tunggu, data sedang diproses.',
     allowOutsideClick: false,
     didOpen: () => {
@@ -751,12 +1156,13 @@ function sendData(){
 
   fetch(form.action, {
     method: 'POST',
+    mode: 'cors',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params
   })
   .then(res => res.text())
   .then(txt => {
-    Swal.close(); // Tutup loading
+    Swal.close(); 
     
     // Periksa respons dari Google Apps Script (Asumsi 'SUKSES_APEND_BERHASIL' dikirim dari GAS)
     if (txt.includes('SUKSES_APEND_BERHASIL')) {
@@ -764,27 +1170,16 @@ function sendData(){
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
-            text: 'Refleksi berhasil terkirim dan data Anda sudah terekam.',
+            text: 'Rubrik berhasil terkirim dan data Anda sudah terekam.',
             confirmButtonColor: '#007bff'
         }).then(() => {
-            // Logika RESET FORM: Reset pertanyaan dan ID
-            form.reset();
-            document.getElementById('nama').value = ''; 
-            document.getElementById('kelas').value = ''; 
-            document.getElementById('sesi').value = ''; 
-            // Reset tampilan radio button yang telah dicentang
-            document.querySelectorAll('.opt').forEach(l => {
-                l.classList.remove('checked-option');
-                l.querySelector('input[type="radio"]').checked = false; 
-            });
-            // Hapus pertanyaan dan navigasi tombol
-            qContainer.innerHTML = ''; 
-            document.getElementById('fixedNavButtons').innerHTML = ''; 
-            sesiAlert.style.display = 'block'; // Tampilkan lagi alert sesi
-            currentQuestions = []; // Reset array pertanyaan
-            updateNamaList(); // Perbarui daftar nama (mengosongkannya)
-            current = 0;
+            
+            // --- PERUBAHAN UTAMA: Panggil fungsi fetchAndDisplayScore untuk memperbarui nilai REALTIME ---
+            const kelas = document.getElementById('kelas').value;
+            fetchAndDisplayScore(kelas);
 
+            // Panggil fungsi reset rubrik
+            clearRubrikAnswers(); 
         });
         
     } else {
@@ -799,10 +1194,10 @@ function sendData(){
     
     btnSend.textContent = 'KIRIM RUBRIK';
     btnSend.disabled = false;
-    updateNav(); // Panggil updateNav untuk memastikan tampilan tombol benar setelah proses
+    updateNav(); 
   })
   .catch(err => {
-    Swal.close(); // Tutup loading
+    Swal.close(); 
     // Notifikasi Gagal Koneksi
     Swal.fire({
         icon: 'error',
@@ -814,6 +1209,34 @@ function sendData(){
     btnSend.textContent = 'KIRIM RUBRIK';
     btnSend.disabled = false;
     updateNav();
+  });
+}
+</script>
+
+<script>
+// Floating dropdown mobile patch
+if(window.innerWidth <= 640){
+  document.querySelectorAll('select').forEach(sel=>{
+    sel.classList.add('mobile-hidden'); sel.style.opacity='0'; sel.style.position='absolute'; sel.style.pointerEvents='none';
+    const fakeBtn=document.createElement('div'); fakeBtn.className='fake-select-btn'; fakeBtn.textContent= sel.options[sel.selectedIndex]?.textContent || 'Pilih Opsi'; fakeBtn.style.padding='10px'; fakeBtn.style.border='1px solid #ccc'; fakeBtn.style.borderRadius='6px'; fakeBtn.style.background='#fff'; fakeBtn.style.boxShadow='0 2px 4px rgba(0,0,0,0.15)'; fakeBtn.style.cursor='pointer'; fakeBtn.style.position='relative'; fakeBtn.style.marginBottom='6px'; sel.parentNode.insertBefore(fakeBtn, sel);
+    fakeBtn.addEventListener('click', function(e){ e.preventDefault();
+      const dropdown = document.createElement('div');
+      const rect = fakeBtn.getBoundingClientRect(); dropdown.style.position='absolute'; dropdown.style.top = (rect.bottom + window.scrollY) + 'px'; dropdown.style.left = (rect.left + window.scrollX) + 'px'; dropdown.style.width = rect.width + 'px'; dropdown.style.maxHeight='60vh'; dropdown.style.overflow='auto'; dropdown.style.background='#fff'; dropdown.style.border='1px solid #ddd'; dropdown.style.borderRadius='8px'; dropdown.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'; dropdown.style.zIndex='9999';
+      const searchWrap=document.createElement('div'); searchWrap.style.padding='8px'; const searchInput=document.createElement('input'); searchInput.type='text'; searchInput.placeholder='Cari...'; searchInput.style.width='100%'; searchInput.style.padding='6px'; searchInput.style.border='1px solid #ddd'; searchInput.style.borderRadius='6px'; searchWrap.appendChild(searchInput); dropdown.appendChild(searchWrap);
+      Array.from(sel.options).forEach((opt, idx)=>{ const item=document.createElement('div'); item.textContent=opt.textContent; item.style.padding='10px'; item.style.borderBottom='1px solid #f1f1f1'; item.style.cursor='pointer'; 
+      
+      item.addEventListener('click', ()=>{ 
+          sel.selectedIndex = idx; 
+          sel.dispatchEvent(new Event('change')); 
+          fakeBtn.textContent = opt.textContent; // Update the visible text
+          document.body.removeChild(dropdown); 
+      }); 
+      
+      dropdown.appendChild(item); });
+      document.body.appendChild(dropdown);
+      searchInput.addEventListener('input', ()=>{ const q=searchInput.value.toLowerCase(); Array.from(dropdown.children).forEach((child,i)=>{ if(i===0) return; child.style.display = child.textContent.toLowerCase().includes(q)?'block':'none'; }); });
+      setTimeout(()=>{ document.addEventListener('click', function handler(ev){ if(!dropdown.contains(ev.target) && ev.target!==fakeBtn){ if(document.body.contains(dropdown)) document.body.removeChild(dropdown); document.removeEventListener('click', handler); } }); },50);
+    });
   });
 }
 </script>

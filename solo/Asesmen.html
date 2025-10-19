@@ -6,6 +6,7 @@
 <title>RUBRIK ASESMENT SPREADSHEET</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
+/* ... (SEMUA STYLE CSS ASLI DI SINI) ... */
 :root{
   --bg: #fff5fc;
   --accent: #000000;
@@ -263,10 +264,16 @@ select::-webkit-scrollbar-thumb{ background:#ccc; border-radius:4px; }
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* STYLE BARU UNTUK MENYEMBUNYIKAN KONTEN */
+#content-wrapper {
+    display: none; /* Sembunyikan konten secara default */
+}
 </style>
 </head>
 <body>
-<header>
+
+<div id="content-wrapper"> <header>
   <a href="https://andes-web.github.io/mpsmobile/" target="_blank" class="home-icon-link" title="Beranda">
     🏠
   </a>
@@ -352,8 +359,77 @@ select::-webkit-scrollbar-thumb{ background:#ccc; border-radius:4px; }
     </div>
   </div>
 </div>
+</div> <script>
 
-<script>
+// --- START: LOGIKA PASSWORD BARU ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Panggil fungsi otentikasi saat DOM siap
+    authenticateUser();
+    
+    // Semua event listener dan pemanggilan fungsi lain dipindahkan ke dalam 'authenticateUser' jika berhasil
+});
+
+const CORRECT_PASSWORD = '@mps#';
+
+function authenticateUser() {
+    Swal.fire({
+        title: 'Khusus Penilai',
+        input: 'password',
+        inputLabel: 'Masukkan Kode Akses',
+        inputPlaceholder: 'Kata Sandi...',
+        inputAttributes: {
+            maxlength: 10,
+            autocapitalize: 'off',
+            autocorrect: 'off'
+        },
+        confirmButtonText: 'Akses',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        reverseButtons: true,
+        backdrop: true,
+        preConfirm: (password) => {
+            if (password !== CORRECT_PASSWORD) {
+                Swal.showValidationMessage('Kode Akses Salah! Harap coba lagi.');
+                return false;
+            }
+            return password;
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Tampilkan konten jika password benar
+            document.getElementById('content-wrapper').style.display = 'block';
+            Swal.fire({
+                icon: 'success',
+                title: 'Akses Diberikan',
+                text: 'Selamat datang, Penilai!',
+                timer: 1500,
+                showConfirmButton: false
+            });
+            
+            // Lanjutkan inisialisasi aplikasi setelah otentikasi berhasil
+            initializeApp();
+
+        } else {
+            // Jika pengguna somehow menutup pop-up (meskipun allowOutsideClick dan allowEscapeKey false)
+            // Untuk keamanan, refresh halaman
+             Swal.fire({
+                icon: 'error',
+                title: 'Akses Ditolak',
+                text: 'Halaman ini memerlukan otentikasi. Memuat ulang halaman...',
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                location.reload();
+            });
+        }
+    });
+}
+// --- END: LOGIKA PASSWORD BARU ---
+
+// Fungsi baru untuk inisialisasi semua logika lama
+function initializeApp() {
+
 // DATA SISWA DIAMBIL LANGSUNG DARI GOOGLE SHEET YANG DIBERIKAN
 const ALL_STUDENTS_DATA = [
   {"kelas":"KELAS X AKL1","nama":"Abel Oktafiani"},
@@ -741,46 +817,45 @@ function updateNav(){
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycbxe1KHyxGBwPg5tQ7dIztRMX7cttmp0LN1u0R1_b9o08RjBXaA0ewZCgMjC9xWIypZD/exec";
 let currentClassData=[]; 
 
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('kelas').addEventListener('change',onKelasChange);
-  document.getElementById('nama').addEventListener('change',onNamaChange); 
-  
-  document.getElementById('btnReset').addEventListener('click', resetFormAndUI);
+// Panggil semua event listener yang ada di DOMContentLoaded
+document.getElementById('kelas').addEventListener('change',onKelasChange);
+document.getElementById('nama').addEventListener('change',onNamaChange); 
 
-  updateNamaList(); 
-  
-  // START: LOGIKA BARU FLOATING DROPDOWN MENU
-  const menuBtn = document.getElementById('menu-btn');
-  const floatingMenu = document.getElementById('floating-menu');
+document.getElementById('btnReset').addEventListener('click', resetFormAndUI);
 
-  menuBtn.addEventListener('click', function(event) {
-      event.stopPropagation(); // Mencegah klik menyebar ke window
-      
-      const isHidden = floatingMenu.style.display === 'none' || floatingMenu.style.display === '';
-      floatingMenu.style.display = isHidden ? 'block' : 'none';
+updateNamaList(); 
 
-      if (isHidden) {
-          setTimeout(() => { 
-              window.addEventListener('click', closeFloatingMenu, { once: true });
-          }, 50);
-      }
-  });
+// START: LOGIKA BARU FLOATING DROPDOWN MENU
+const menuBtn = document.getElementById('menu-btn');
+const floatingMenu = document.getElementById('floating-menu');
 
-  function closeFloatingMenu(event) {
-      if (floatingMenu.contains(event.target) || event.target === menuBtn) {
-          window.addEventListener('click', closeFloatingMenu, { once: true });
-          return;
-      }
-      floatingMenu.style.display = 'none';
-  }
+menuBtn.addEventListener('click', function(event) {
+    event.stopPropagation(); // Mencegah klik menyebar ke window
+    
+    const isHidden = floatingMenu.style.display === 'none' || floatingMenu.style.display === '';
+    floatingMenu.style.display = isHidden ? 'block' : 'none';
 
-  floatingMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-          floatingMenu.style.display = 'none';
-      });
-  });
-  // END: LOGIKA BARU FLOATING DROPDOWN MENU
+    if (isHidden) {
+        setTimeout(() => { 
+            window.addEventListener('click', closeFloatingMenu, { once: true });
+        }, 50);
+    }
 });
+
+function closeFloatingMenu(event) {
+    if (floatingMenu.contains(event.target) || event.target === menuBtn) {
+        window.addEventListener('click', closeFloatingMenu, { once: true });
+        return;
+    }
+    floatingMenu.style.display = 'none';
+}
+
+floatingMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        floatingMenu.style.display = 'none';
+    });
+});
+// END: LOGIKA BARU FLOATING DROPDOWN MENU
 
 // FUNGSI INI DIUBAH UNTUK MENGISI ELEMEN <SELECT>
 function updateNamaList() {
@@ -1211,9 +1286,7 @@ function sendData(){
     updateNav();
   });
 }
-</script>
 
-<script>
 // Floating dropdown mobile patch
 if(window.innerWidth <= 640){
   document.querySelectorAll('select').forEach(sel=>{
@@ -1239,6 +1312,8 @@ if(window.innerWidth <= 640){
     });
   });
 }
+} // Akhir fungsi initializeApp
+
 </script>
 </body>
 </html>

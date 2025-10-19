@@ -30,8 +30,8 @@ header{
   padding:10px 8px;
   z-index:220; 
   box-shadow: 0 2px 5px var(--shadow-medium);
-  display: flex; /* Aktifkan Flexbox */
-  justify-content: space-between; /* Pisahkan konten */
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 header h1{
@@ -39,12 +39,12 @@ header h1{
   font-weight:700;
   font-size:16px;
   text-align:center;
-  flex-grow: 1; /* Biarkan judul mengambil ruang tengah */
+  flex-grow: 1;
 }
 .home-icon-link {
     color: #fff;
     text-decoration: none;
-    font-size: 18px; /* Ukuran ikon HOME */
+    font-size: 18px;
     padding: 0 5px;
     line-height: 1;
 }
@@ -56,10 +56,12 @@ header h1{
 .identity-bar{position:fixed;top:40px; left:0;right:0;background:var(--nav-bg);padding:8px 10px;z-index:215;border-bottom:1px solid #dcdfe4; box-shadow: 0 1px 3px var(--shadow-light);} 
 .identity-inner{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px} 
 .identity-row{display:flex;gap:8px;flex-wrap:wrap} 
-.identity-field{flex:1}
+.identity-field{flex:1; position: relative;} 
 label{display:block;font-size:14px;font-weight:700;color:var(--muted);margin-bottom:2px} 
-input[type="text"], select{width:100%;padding:6px 8px;border-radius:6px;border:1px solid #c9d6e4;background:var(--input);font-size:13px; color:var(--muted);} 
-input[type="text"]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);}
+input[type="text"]{width:100%;padding:6px 8px;border-radius:6px;border:1px solid #c9d6e4;background:var(--input);font-size:13px; color:var(--muted);} 
+input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);}
+/* Sembunyikan select asli */
+select { display: none; } 
 
 .label-nama {
     font-size: 14px; 
@@ -138,11 +140,11 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
   .fixed-nav-inner button{padding:3px 5px; min-width:24px; font-size:13px;}
 }
 
-/* CSS BARU UNTUK FLOATING MENU */
+/* CSS BARU UNTUK FLOATING MENU UTAMA */
 #floating-menu {
     position: absolute;
-    top: 40px; /* Tepat di bawah header (tinggi header ~40px) */
-    right: 8px; /* Sejajar dengan tombol */
+    top: 40px; 
+    right: 8px; 
     background: var(--card);
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -169,6 +171,84 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* CSS BARU UNTUK FLOATING DROPDOWN IDENTITAS */
+.custom-select-display {
+    width: 100%;
+    padding: 6px 8px;
+    padding-right: 25px; /* Tambahkan ruang untuk panah */
+    border-radius: 6px;
+    border: 1px solid #c9d6e4;
+    background: var(--input);
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1.5;
+    position: relative; /* Penting untuk pseudo-element */
+}
+
+/* INDIKATOR PANAH UNTUK MOBILE */
+.custom-select-display::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px;
+    color: var(--muted);
+    pointer-events: none; /* Pastikan tidak mengganggu klik */
+}
+
+.custom-select-display:focus { 
+    outline: none; 
+    border-color: var(--accent); 
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+.custom-dropdown {
+    position: absolute;
+    top: calc(100% + 1px); 
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--card);
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 4px 8px var(--shadow-medium);
+    z-index: 1001; 
+    display: none;
+}
+.custom-dropdown.active {
+    display: block;
+}
+.custom-dropdown-item {
+    padding: 8px 10px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+}
+.custom-dropdown-item:hover {
+    background: #eaf1fa;
+    color: var(--accent);
+}
+.custom-dropdown-item.selected {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Penyesuaian untuk field NAMA (input text dengan dropdown) */
+#nama-dropdown {
+    max-height: 300px;
+    border-top: 1px solid #ddd;
+    border-radius: 6px; 
+    overflow-x: hidden;
+}
+.no-results {
+    padding: 8px 10px;
+    color: #999;
+}
 </style>
 </head>
 <body>
@@ -185,15 +265,16 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
   </header>
 
 <div id="floating-menu">
-    <a href="https://andes-web.github.io/mpsmobile/solo/Asesmen.html" target="_blank">
+    <a href="https://andes-web.github.io/mpsmobile/solo/asesmen.html" target="_blank">
         Asesmen Spreadsheet
     </a>
 </div>
+
 <div class="identity-bar">
   <div class="identity-inner">
     <div class="identity-row">
       <div class="identity-field">
-        <label for="kelas">Kelas</label>
+        <label for="kelas-display">Kelas</label>
         <select id="kelas" name="kelas" required>
           <option value="">Pilih Kelas</option>
           <option value="KELAS X AKL1">KELAS X AKL1</option>
@@ -201,22 +282,28 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
           <option value="KELAS X AKL3">KELAS X AKL3</option>
           <option value="KELAS X AKL4">KELAS X AKL4</option>
         </select>
+        <div id="kelas-display" class="custom-select-display" tabindex="0">Pilih Kelas</div>
+        <div id="kelas-dropdown" class="custom-dropdown"></div>
       </div>
       <div class="identity-field">
-        <label for="sesi">Sesi</label>
+        <label for="sesi-display">Sesi</label>
         <select id="sesi" name="sesi" required>
           <option value="">Pilih Sesi</option>
           <option value="As Learning">As Learning</option>
           <option value="For Learning">For Learning</option>
           <option value="Of Learning">Of Learning</option>
         </select>
+        <div id="sesi-display" class="custom-select-display" tabindex="0">Pilih Sesi</div>
+        <div id="sesi-dropdown" class="custom-dropdown"></div>
       </div>
     </div>
+    
     <div class="identity-field">
       <label for="nama" class="label-nama">Nama Peserta Didik</label>
-      <input id="nama" name="nama" type="text" placeholder="Pilih Kelas dahulu untuk memuat daftar nama" required list="student-names">
-      <datalist id="student-names"></datalist>
+      <input id="nama" name="nama" type="text" placeholder="Pilih Kelas dahulu untuk memuat daftar nama" required autocomplete="off">
+      <div id="nama-dropdown" class="custom-dropdown"></div>
     </div>
+
   </div>
 </div>
 
@@ -239,7 +326,7 @@ input[type="text"]:focus, select:focus { outline: none; border-color: var(--acce
 </div>
 
 <script>
-// DATA SISWA DIAMBIL LANGSUNG DARI GOOGLE SHEET YANG DIBERIKAN
+// DATA SISWA (disederhanakan)
 const ALL_STUDENTS_DATA = [
   {"kelas":"KELAS X AKL1","nama":"Abel Oktafiani"},
   {"kelas":"KELAS X AKL1","nama":"Adilla Surgaloka"},
@@ -567,98 +654,184 @@ function updateNav(){
   });
 }
 
-// LOGIKA BARU UNTUK DATALIST NAMA
-document.addEventListener('DOMContentLoaded', () => {
-    updateNav();
-    // Langsung panggil updateNamaList() saat DOMContentLoaded
-    // Data siswa sudah dimuat di ALL_STUDENTS_DATA
+// FUNGSI UMUM UNTUK MENGELOLA FLOATING DROPDOWN KUSTOM
+function setupCustomSelect(selectId, displayId, dropdownId) {
+    const select = document.getElementById(selectId);
+    const display = document.getElementById(displayId);
+    const dropdown = document.getElementById(dropdownId);
+    const options = Array.from(select.options);
     
-    // Tambahkan event listener untuk pilihan Kelas
-    document.getElementById('kelas').addEventListener('change', updateNamaList);
+    // Inisialisasi tampilan
+    display.textContent = select.options[select.selectedIndex].textContent;
 
-    // START: LOGIKA BARU FLOATING DROPDOWN MENU
-    const menuBtn = document.getElementById('menu-btn');
-    const floatingMenu = document.getElementById('floating-menu');
+    // Membuat item dropdown
+    options.forEach(option => {
+        if (option.value === "") return; // Abaikan option 'Pilih X'
+        const item = document.createElement('div');
+        item.classList.add('custom-dropdown-item');
+        item.textContent = option.textContent;
+        item.setAttribute('data-value', option.value);
 
-    menuBtn.addEventListener('click', function(event) {
-        event.stopPropagation(); 
-        
-        const isHidden = floatingMenu.style.display === 'none' || floatingMenu.style.display === '';
-        floatingMenu.style.display = isHidden ? 'block' : 'none';
-
-        if (isHidden) {
-            // Pasang event listener untuk menutup menu saat klik di luar
-            setTimeout(() => { 
-                window.addEventListener('click', closeFloatingMenu, { once: true });
-            }, 50);
-        }
-    });
-
-    function closeFloatingMenu(event) {
-        if (floatingMenu.contains(event.target) || event.target === menuBtn) {
-            window.addEventListener('click', closeFloatingMenu, { once: true });
-            return;
-        }
-        floatingMenu.style.display = 'none';
-    }
-
-    floatingMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            floatingMenu.style.display = 'none';
+        item.addEventListener('click', (event) => {
+            event.stopPropagation(); // Penting untuk mobile
+            select.value = option.value;
+            display.textContent = option.textContent;
+            dropdown.classList.remove('active');
+            
+            // Trigger event change agar logika lain (seperti updateNamaDropdown) berjalan
+            select.dispatchEvent(new Event('change')); 
+            display.blur(); // Hilangkan fokus setelah memilih
         });
+        dropdown.appendChild(item);
     });
-    // END: LOGIKA BARU FLOATING DROPDOWN MENU
-});
 
-// Fungsi untuk memfilter nama dan memperbarui datalist
-function updateNamaList() {
+    // Toggle Dropdown
+    display.addEventListener('click', (event) => {
+        event.stopPropagation();
+        // Tutup dropdown lain
+        document.querySelectorAll('.custom-dropdown').forEach(d => {
+            if(d.id !== dropdownId) d.classList.remove('active');
+        });
+        dropdown.classList.toggle('active');
+    });
+
+    // Update tampilan jika nilai select berubah (misal saat reset form)
+    select.addEventListener('change', () => {
+        const selectedOption = select.querySelector(`option[value="${select.value}"]`);
+        display.textContent = selectedOption ? selectedOption.textContent : select.options[0].textContent;
+    });
+}
+
+// LOGIKA BARU UNTUK FLOATING DROPDOWN NAMA (Searchable)
+function updateNamaDropdown() {
     const selectedKelas = document.getElementById('kelas').value;
-    const datalist = document.getElementById('student-names');
     const namaInput = document.getElementById('nama');
+    const namaDropdown = document.getElementById('nama-dropdown');
 
-    datalist.innerHTML = ''; // Kosongkan daftar nama yang ada
-    namaInput.value = ''; // Kosongkan input nama
+    namaDropdown.innerHTML = ''; // Kosongkan daftar nama
+    namaInput.value = ''; // Kosongkan input nama saat kelas berubah
+    namaDropdown.classList.remove('active'); // Tutup dropdown nama
     
     namaInput.placeholder = 'Pilih Kelas dahulu untuk memuat daftar nama';
-    if(ALL_STUDENTS_DATA.length > 0) {
-        namaInput.placeholder = 'Tuliskan nama lengkap Anda';
-    }
-
+    namaInput.disabled = true;
 
     if (!selectedKelas) {
         return; 
     }
     
-    // Implementasi logika pemetaan kelas yang diminta:
-    // AKL1, AKL3, AKL4 -> data kelas itu sendiri
-    // AKL2 -> data AKL1
+    namaInput.disabled = false;
+    namaInput.placeholder = 'Tuliskan nama lengkap Anda';
+
+    // Implementasi logika pemetaan kelas:
     let targetKelas = selectedKelas;
     if (selectedKelas === 'KELAS X AKL2') {
         targetKelas = 'KELAS X AKL1'; 
     }
 
-    // Filter data siswa
     const filteredStudents = ALL_STUDENTS_DATA.filter(student => 
         student.kelas === targetKelas
     );
+    
+    // Fungsi untuk menampilkan daftar nama
+    const renderNamaList = (query = '') => {
+        namaDropdown.innerHTML = ''; 
+        const q = query.toLowerCase();
+        
+        const matchingStudents = filteredStudents.filter(student => 
+            student.nama.toLowerCase().includes(q)
+        );
 
-    // Tambahkan nama ke datalist
-    if (filteredStudents.length > 0) {
-        filteredStudents.forEach(student => {
-            const option = document.createElement('option');
-            option.value = student.nama;
-            datalist.appendChild(option);
-        });
-    } else {
-         // Tambahkan opsi jika tidak ada data ditemukan
-         const option = document.createElement('option');
-         option.value = `Tidak ada data nama ditemukan untuk ${targetKelas}`;
-         datalist.appendChild(option);
+        if (matchingStudents.length > 0) {
+            matchingStudents.forEach(student => {
+                const item = document.createElement('div');
+                item.classList.add('custom-dropdown-item');
+                item.textContent = student.nama;
+
+                item.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Penting untuk mobile
+                    namaInput.value = student.nama;
+                    namaDropdown.classList.remove('active');
+                    namaInput.blur(); 
+                });
+                namaDropdown.appendChild(item);
+            });
+        } else {
+            const noResults = document.createElement('div');
+            noResults.classList.add('no-results');
+            noResults.textContent = `Tidak ada hasil untuk "${query}"`;
+            namaDropdown.appendChild(noResults);
+        }
     }
-}
-// AKHIR LOGIKA BARU UNTUK DATALIST NAMA
+    
+    // Tampilkan dropdown saat input difokuskan
+    namaInput.onfocus = (event) => {
+        event.stopPropagation(); 
+        // Tutup dropdown kelas/sesi yang mungkin terbuka
+        document.querySelectorAll('.custom-dropdown').forEach(d => {
+            if(d.id !== 'nama-dropdown') d.classList.remove('active');
+        });
+        namaDropdown.classList.add('active');
+        renderNamaList(namaInput.value);
+    };
 
-// MODIFIKASI: Mengganti logika validasi tombol KIRIM REFLEKSI (btnNext.onclick) agar menggunakan SweetAlert2
+    namaInput.oninput = () => {
+        namaDropdown.classList.add('active');
+        renderNamaList(namaInput.value);
+    };
+    
+    // Render list awal (jika sudah ada kelas terpilih)
+    renderNamaList(namaInput.value);
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateNav();
+    
+    // 1. SETUP FLOATING DROPDOWN MENU UTAMA
+    const menuBtn = document.getElementById('menu-btn');
+    const floatingMenu = document.getElementById('floating-menu');
+    
+    // Global handler untuk menutup semua dropdown kustom saat klik di luar
+    document.addEventListener('click', (event) => {
+        // Tutup dropdown identitas
+        document.querySelectorAll('.custom-dropdown').forEach(d => {
+            const parentField = d.closest('.identity-field');
+            const targetElement = parentField ? parentField.querySelector('.custom-select-display') || parentField.querySelector('#nama') : null;
+            
+            // Jika target klik BUKAN dropdown DAN BUKAN input/display yang memicu dropdown
+            if (!d.contains(event.target) && (targetElement && !targetElement.contains(event.target))) {
+                d.classList.remove('active');
+            }
+        });
+        
+        // Tutup floating menu utama
+        if (!floatingMenu.contains(event.target) && event.target !== menuBtn) {
+            floatingMenu.style.display = 'none';
+        }
+    });
+
+
+    menuBtn.addEventListener('click', function(event) {
+        event.stopPropagation(); 
+        document.querySelectorAll('.custom-dropdown').forEach(d => d.classList.remove('active')); // Tutup dropdown identitas
+        
+        const isHidden = floatingMenu.style.display === 'none' || floatingMenu.style.display === '';
+        floatingMenu.style.display = isHidden ? 'block' : 'none';
+    });
+
+
+    // 2. SETUP CUSTOM DROPDOWN IDENTITAS
+    setupCustomSelect('kelas', 'kelas-display', 'kelas-dropdown');
+    setupCustomSelect('sesi', 'sesi-display', 'sesi-dropdown');
+    
+    // Panggil updateNamaDropdown saat halaman dimuat (untuk inisialisasi placeholder)
+    updateNamaDropdown(); 
+    
+    // Panggil updateNamaDropdown saat KELAS berubah
+    document.getElementById('kelas').addEventListener('change', updateNamaDropdown);
+});
+
+// LOGIKA KIRIM DATA (Sama seperti sebelumnya)
 document.getElementById('btnNext').onclick=()=>{
   if(current<questions.length-1){
     show(current+1);
@@ -688,7 +861,6 @@ document.getElementById('btnNext').onclick=()=>{
   }
 };
 
-// MODIFIKASI: Mengganti fungsi sendData() dengan SweetAlert2 dan Logika Reset yang lebih baik
 function sendData(){
   const nama=document.getElementById('nama').value.trim();
   const kelas=document.getElementById('kelas').value;
@@ -706,19 +878,38 @@ function sendData(){
       });
       return;
   }
+  
+  // Validasi Nama harus sesuai dengan daftar yang tersedia
+  let targetKelas = kelas;
+  if (kelas === 'KELAS X AKL2') {
+      targetKelas = 'KELAS X AKL1'; 
+  }
+  const isNameValid = ALL_STUDENTS_DATA.some(student => 
+      student.kelas === targetKelas && student.nama.trim() === nama
+  );
+
+  if (!isNameValid) {
+     Swal.fire({
+        icon: 'error',
+        title: 'Nama Tidak Ditemukan!',
+        text: 'Nama peserta didik yang Anda masukkan ("' + nama + '") tidak ada dalam daftar kelas yang dipilih. Pastikan Anda memilih nama dari daftar yang disarankan.',
+        confirmButtonColor: '#d33'
+    }).then(() => {
+        document.getElementById('nama').focus();
+    });
+    return;
+  }
 
   const form=document.getElementById('refleksiForm');
   const fd=new FormData(form);
   fd.append('nama', nama);
   fd.append('kelas', kelas);
   fd.append('sesi', sesi);
-  // Tambahkan jawaban yang tidak terpilih dengan nilai '0'
   for(let i=0;i<questions.length;i++){if(!fd.has('q'+i))fd.append('q'+i,'0');}
 
   const params = new URLSearchParams();
   fd.forEach((v, k) => params.append(k, v));
   
-  // Tampilkan loading SweetAlert2
   Swal.fire({
     title: 'Mengirim Refleksi...',
     text: 'Mohon tunggu, data sedang diproses.',
@@ -739,11 +930,9 @@ function sendData(){
   })
   .then(res => res.text())
   .then(txt => {
-    Swal.close(); // Tutup loading
+    Swal.close(); 
     
-    // Periksa respons dari Google Apps Script (Asumsi 'SUKSES_APEND_BERHASIL' dikirim dari GAS)
     if (txt.includes('SUKSES_APEND_BERHASIL')) {
-        // Notifikasi Sukses
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
@@ -755,20 +944,20 @@ function sendData(){
             document.getElementById('nama').value = ''; 
             document.getElementById('kelas').value = ''; 
             document.getElementById('sesi').value = ''; 
-            // Reset tampilan radio button yang telah dicentang
+            document.getElementById('kelas-display').textContent = 'Pilih Kelas';
+            document.getElementById('sesi-display').textContent = 'Pilih Sesi';
+
             document.querySelectorAll('.opt').forEach(l => {
                 l.classList.remove('checked-option');
                 const radio = l.querySelector('input[type="radio"]');
-                if (radio) radio.checked = false; // Memastikan radio button ter-reset
+                if (radio) radio.checked = false;
             });
-            show(0); // Kembali ke pertanyaan pertama
-            updateNav(); // Perbarui tampilan navigasi
-            updateNamaList(); // Perbarui daftar nama (mengosongkannya)
-
+            show(0); 
+            updateNav(); 
+            updateNamaDropdown(); 
         });
         
     } else {
-        // Notifikasi Gagal Server
         Swal.fire({
             icon: 'error',
             title: 'Gagal Kirim!',
@@ -779,15 +968,13 @@ function sendData(){
     
     btnSend.textContent = 'KIRIM REFLEKSI';
     btnSend.disabled = false;
-    // updateNav() dipanggil di dalam .then() jika sukses
     if (!txt.includes('SUKSES_APEND_BERHASIL')) {
         updateNav();
     }
 
   })
   .catch(err => {
-    Swal.close(); // Tutup loading
-    // Notifikasi Gagal Koneksi
+    Swal.close(); 
     Swal.fire({
         icon: 'error',
         title: 'Gagal Koneksi!',

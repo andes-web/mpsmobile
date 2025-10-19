@@ -724,9 +724,9 @@ function updateNamaDropdown() {
 
     // Implementasi logika pemetaan kelas:
     let targetKelas = selectedKelas;
-    if (selectedKelas === 'KELAS X AKL2') {
+    /* if (selectedKelas === 'KELAS X AKL2') {
         targetKelas = 'KELAS X AKL1'; 
-    }
+    }*/
 
     const filteredStudents = ALL_STUDENTS_DATA.filter(student => 
         student.kelas === targetKelas
@@ -881,9 +881,10 @@ function sendData(){
   
   // Validasi Nama harus sesuai dengan daftar yang tersedia
   let targetKelas = kelas;
-  if (kelas === 'KELAS X AKL2') {
+  /*if (kelas === 'KELAS X AKL2') {
       targetKelas = 'KELAS X AKL1'; 
-  }
+  }*/
+ 
   const isNameValid = ALL_STUDENTS_DATA.some(student => 
       student.kelas === targetKelas && student.nama.trim() === nama
   );

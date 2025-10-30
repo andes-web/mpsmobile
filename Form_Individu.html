@@ -108,8 +108,7 @@
         <option value="SMPN 31 Depok">SMPN 31 Depok</option>
         <option value="SMPN 32 Depok">SMPN 32 Depok</option>
       </select>
-      <input id="nama" type="text" maxlength="20" placeholder="NAMA ANGGOTA" list="list-nama">
-      <datalist id="list-nama"></datalist>
+      <input id="nama" type="text" maxlength="20" placeholder="NAMA ANGGOTA">
     </div>
     <div class="form-pos">
       <label for="pos">POS</label>
@@ -159,9 +158,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         timer: 1200,
         showConfirmButton: false
       });
-      // MODIFIKASI: Muat data peserta setelah autentikasi berhasil
-      await fetchPesertaData();
-      updateNamaDatalist(document.getElementById("anggota").value);
     } else {
       await Swal.fire({
         icon: "error",
@@ -175,90 +171,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 </script>
 <script>
 const scriptURL="https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec";
-
-/* ==== Data Peserta (Datalist untuk Nama Anggota) - START MODIFIKASI ==== */
-const dataPesertaURL = scriptURL + "?sheet=peserta"; 
-const anggotaSelect = document.getElementById("anggota");
-const listNamaDatalist = document.getElementById("list-nama");
-let allPesertaData = null; // Menyimpan data dari sheet "peserta"
-
-// Map Unit di dropdown ke nama kolom di sheet 'peserta'
-const unitToColMap = {
-  "SMPN 1 Citeureup": "SMPN 1 Citeureup",
-  "SMPN 6 Depok": "SMPN 6 Depok",
-  "SMPN 7 Depok": "SMPN 7 Depok",
-  "SMPN 8 Depok": "SMPN 8 Depok",
-  "SMPN 12 Depok": "SMPN 12 Depok",
-  "SMPN 16 Depok": "SMPN 16 Depok",
-  "SMPN 31 Depok": "SMPN 31 Depok",
-  "SMPN 32 Depok": "SMPN 32 Depok",
-};
-
-/**
- * Mengambil data nama peserta dari Google Sheet (sheet "peserta").
- */
-async function fetchPesertaData() {
-  try {
-    const response = await fetch(dataPesertaURL);
-    // Mengambil response sebagai teks dan mencoba parsing JSON
-    const text = await response.text();
-    const data = JSON.parse(text); 
-    
-    if (data.error) throw new Error(data.error);
-    allPesertaData = data;
-    console.log("Data Peserta dimuat.");
-  } catch (err) {
-    console.error("Gagal mengambil data peserta:", err);
-    Swal.fire({
-      icon: 'error',
-      title: 'Kesalahan Data',
-      text: 'Gagal memuat daftar nama anggota. Pastikan Apps Script untuk doGet sudah di-deploy dengan benar dan dapat mengakses sheet "peserta".',
-      confirmButtonColor: '#dc2626'
-    });
-  }
-}
-
-/**
- * Memperbarui opsi datalist berdasarkan Unit yang dipilih.
- * @param {string} selectedUnit Nama Unit yang dipilih dari dropdown.
- */
-function updateNamaDatalist(selectedUnit) {
-  listNamaDatalist.innerHTML = ""; // Hapus opsi lama
-  
-  if (!allPesertaData || !selectedUnit) {
-    return;
-  }
-
-  // Baris pertama adalah header/nama kolom
-  const headers = allPesertaData[0] || [];
-  const colName = unitToColMap[selectedUnit];
-  
-  if (!colName) return;
-
-  // Temukan index kolom berdasarkan nama Unit
-  const colIndex = headers.findIndex(h => (h||"").trim() === colName);
-  
-  if (colIndex === -1) {
-      console.warn(`Kolom '${colName}' tidak ditemukan di sheet Peserta.`);
-      return;
-  }
-
-  // Mulai dari baris ke-2 (index 1)
-  for (let i = 1; i < allPesertaData.length; i++) {
-    const nama = (allPesertaData[i][colIndex] || "").toString().trim();
-    if (nama) {
-      const option = document.createElement("option");
-      option.value = nama;
-      listNamaDatalist.appendChild(option);
-    }
-  }
-}
-
-// Event listener untuk perubahan Unit
-anggotaSelect.addEventListener("change", (e) => {
-  updateNamaDatalist(e.target.value);
-});
-/* ==== Data Peserta - END MODIFIKASI ==== */
 
 /* ==== Data Rubrik ==== */
 const rubrik={1:[{aspek:"Kedisiplinan",indikator:`1: Tidak mengikuti aba-aba<br>2: Mengikuti sebagian aba-aba<br>3: Mengikuti semua aba-aba tapi beluma<br>4: Serentak, rapi, konsisten<br>5: Serempak, rapi, inisiatif memberi contoh kepada teman`},
@@ -396,6 +308,7 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 });
 
 </script>
+<!-- === Tambah hitungan pengunjung (tidak menampilkan angka) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   const endpoint = "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
@@ -404,6 +317,109 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(() => console.log("✅ Visitor count incremented"))
     .catch(err => console.warn("Visitor count error:", err));
 });
+</script>
+<script>
+// === FLOATING DROPDOWN NAMA ANGGOTA ===
+
+// URL Apps Script untuk ambil data sheet "peserta"
+const pesertaURL = "https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec?sheet=peserta";
+
+// Simpan data nama per unit
+let dataPeserta = {};
+
+// Ambil data peserta dari sheet
+async function loadPeserta() {
+  try {
+    const res = await fetch(pesertaURL);
+    const data = await res.json();
+    const headers = data[0];
+    // Buat objek per kolom (unit)
+    headers.forEach((h, i) => {
+      dataPeserta[h] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+    });
+    console.log("Data peserta:", dataPeserta);
+  } catch (err) {
+    console.error("Gagal memuat peserta:", err);
+  }
+}
+
+// Buat dropdown mengambang (floating list)
+const namaInput = document.getElementById("nama");
+const unitSelect = document.getElementById("anggota");
+const suggestionBox = document.createElement("div");
+suggestionBox.style.position = "absolute";
+suggestionBox.style.background = "#fff";
+suggestionBox.style.border = "1px solid #ccc";
+suggestionBox.style.borderRadius = "6px";
+suggestionBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+suggestionBox.style.maxHeight = "150px";
+suggestionBox.style.overflowY = "auto";
+suggestionBox.style.zIndex = "1000";
+suggestionBox.style.display = "none";
+document.body.appendChild(suggestionBox);
+
+// Posisi floating box tepat di bawah input
+function positionSuggestionBox() {
+  const rect = namaInput.getBoundingClientRect();
+  suggestionBox.style.left = rect.left + window.scrollX + "px";
+  suggestionBox.style.top = rect.bottom + window.scrollY + "px";
+  suggestionBox.style.width = rect.width + "px";
+}
+
+// Tampilkan saran nama
+function showSuggestions(list) {
+  suggestionBox.innerHTML = "";
+  if (!list.length) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+  list.forEach(nama => {
+    const item = document.createElement("div");
+    item.textContent = nama;
+    item.style.padding = "6px 10px";
+    item.style.cursor = "pointer";
+    item.addEventListener("click", () => {
+      namaInput.value = nama;
+      suggestionBox.style.display = "none";
+    });
+    item.addEventListener("mouseenter", () => item.style.background = "#f3f4f6");
+    item.addEventListener("mouseleave", () => item.style.background = "#fff");
+    suggestionBox.appendChild(item);
+  });
+  positionSuggestionBox();
+  suggestionBox.style.display = "block";
+}
+
+// Saat unit diganti → reset nama dan daftar
+unitSelect.addEventListener("change", () => {
+  namaInput.value = "";
+  suggestionBox.style.display = "none";
+});
+
+// Saat mengetik di input nama → filter daftar
+namaInput.addEventListener("input", () => {
+  const unit = unitSelect.value;
+  if (!unit || !dataPeserta[unit]) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+  const val = namaInput.value.toLowerCase();
+  const filtered = dataPeserta[unit].filter(n => n.toLowerCase().includes(val));
+  showSuggestions(filtered);
+});
+
+// Sembunyikan dropdown saat klik di luar
+document.addEventListener("click", e => {
+  if (!suggestionBox.contains(e.target) && e.target !== namaInput) {
+    suggestionBox.style.display = "none";
+  }
+});
+
+// Posisikan ulang saat resize
+window.addEventListener("resize", positionSuggestionBox);
+
+// Jalankan saat halaman dimuat
+document.addEventListener("DOMContentLoaded", loadPeserta);
 </script>
 
 </body>

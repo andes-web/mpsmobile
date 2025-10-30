@@ -209,6 +209,35 @@ select:focus {
 .tableBox tr:hover td { background: #eff6ff; }
 .tableBox tr:hover td:nth-child(1) { background: #bfdbfe; }
 
+/* 🔧 Lebar kolom rekap akhir dan umum */
+.tableBox table th:nth-child(1),
+.tableBox table td:nth-child(1) {
+  width: 10%; /* kolom peringkat */
+}
+
+.tableBox table th:nth-child(2),
+.tableBox table td:nth-child(2) {
+  width: 55%; /* kolom Nama lebih lebar */
+  text-align: left;
+  padding-left: 8px;
+}
+
+.tableBox table th:nth-child(3),
+.tableBox table td:nth-child(3) {
+  width: 10%; /* kolom NI */
+}
+
+.tableBox table th:nth-child(4),
+.tableBox table td:nth-child(4) {
+  width: 10%; /* kolom NK */
+}
+
+.tableBox table th:nth-child(5),
+.tableBox table td:nth-child(5) {
+  width: 15%; /* kolom NA */
+  font-weight: 700;
+}
+
 /* Tabel POS Elegan dan Proporsional */
 .posTable {
   margin-top: 2px;
@@ -312,7 +341,6 @@ select:focus {
   flex-direction: column;
   gap: 2px !important;
 }
-/* MODIFIKASI: Ubah overflow menjadi visible agar panah muncul */
 .bar-item {
   height: 18px !important;
   background: #f3f4f6;
@@ -331,8 +359,6 @@ select:focus {
   z-index: 1;
   position: relative; /* Anchor untuk ::after */
 }
-
-/* MODIFIKASI: MENAMBAHKAN KEPALA PANAH (ARROWHEAD) */
 .bar-fill::after {
   content: '';
   position: absolute;
@@ -340,16 +366,11 @@ select:focus {
   right: -11px; /* Jarak agar ujung panah berada tepat di akhir batang */
   width: 0;
   height: 0;
-  /* Membuat segitiga dengan border */
   border-top: 11px solid transparent; 
   border-bottom: 11px solid transparent; 
-  /* Warna diambil dari variabel CSS yang diset di JavaScript */
   border-left: 11px solid var(--bar-color); 
   z-index: 2; 
 }
-/* END MODIFIKASI KEPALA PANAH */
-
-
 .bar-label {
   position: absolute;
   left: 6px;
@@ -375,7 +396,6 @@ footer {
   padding: 3px;
   text-align: center;
 }
-/* CSS BARU UNTUK LINK FOOTER */
 .footer-link {
     font-weight: 700; /* BOLD */
     text-decoration: none; /* NO UNDERLINE */
@@ -410,13 +430,10 @@ footer {
         margin-top: 0; 
         border: none !important;
         box-shadow: none !important;
-        /* WAJIB: Menggunakan Flexbox untuk membagi ruang */
         display: flex;
         flex-direction: column;
         overflow-y: hidden; /* Sidebar sendiri tidak boleh di scroll */
     }
-
-    /* Header sudah diatur dengan flex-shrink: 0; secara default */
     
     .sidebar main {
         flex: 1; /* PENTING: Mengambil semua ruang sisa */
@@ -435,7 +452,6 @@ footer {
 
     /* 💻 Desktop tetap normal */
     @media (min-width: 769px) {
-      /* Hapus total mobile header */
       #mobileHeader {
         display: none !important; 
       }
@@ -467,7 +483,6 @@ footer {
 
   </style>
 <style>
-/* 🌐 Penyesuaian Header di Desktop */
 @media (min-width: 769px) {
   .sidebar header {
     height: 54px !important;
@@ -489,7 +504,6 @@ footer {
 }
 </style>
 <style>
-/* CSS UNTUK MOBILE HEADER (yang hanya muncul di mobile) */
 #mobileHeader {
   position: fixed;
   top: 0;
@@ -507,7 +521,6 @@ footer {
   margin: 0;
 }
 
-/* ☰ di kiri */
 #menuToggle {
   font-size: 26px;
   font-weight: 900;
@@ -517,7 +530,6 @@ footer {
   flex-shrink: 0;
 }
 
-/* Judul tengah */
 #mobileHeader .header-title {
   flex: 1;
   text-align: center;
@@ -527,14 +539,12 @@ footer {
   margin-left: -30px;
 }
 
-/* Icon home kanan */
 #btnHome svg, .home-icon-btn svg {
   fill: white;
   width: 32px;
   height: 32px;
 }
 
-/* Submenu */
 #mobileSubmenu {
   display: none;
   position: fixed;
@@ -564,7 +574,6 @@ footer {
 
 </style>
 <style>
-/* 🌐 Sembunyikan ikon mobile di DESKTOP (sidebar kanan 250px) */
 @media (min-width: 769px) {
   #menuToggle,
   .home-icon-btn,
@@ -607,6 +616,7 @@ footer {
         <select id="jenisRekap">
           <option value="Rekap">Rekap Individu</option>
           <option value="RekapKelompok">Rekap Kelompok</option>
+          <option value="RekapAkhir">Rekap Akhir</option>
         </select>
 
         <div class="action-btns">
@@ -704,6 +714,79 @@ function renderUnitBars(unitMap){
 
 async function loadRekap(sheetName="Rekap"){
  try{
+  // === MODE REKAP AKHIR (gabungan individu + kelompok) ===
+  if(sheetName === "RekapAkhir"){
+    const dataInd = await fetchSheet("Rekap");
+    const dataKel = await fetchSheet("RekapKelompok");
+    const dataAkhir = await fetchSheet("RekapAkhir");
+
+    // parse rekaps
+    const headersAkhir = dataAkhir[0] || [];
+    const rowsAkhir = dataAkhir.slice(1) || [];
+    // rowsAkhir expected columns: Nama, Nilai Individu, Nilai Kelompok, Nilai Akhir
+    const rows = rowsAkhir.map(r=>({
+      nama: r[0]||'',
+      ni: Number(r[1])||0,
+      nk: Number(r[2])||0,
+      na: Number(r[3])||0
+    })).sort((a,b)=>b.na - a.na);
+
+    // build HTML - 10 individu terbaik
+    const topInd = rows.slice(0,10);
+    let html = `<tr><th colspan="4" style="background:#1d4ed8;color:white;">🏅 10 Individu Terbaik</th></tr>`;
+    html += `<tr><th>Peringkat</th><th>Nama</th><th>NI</th><th>NK</th><th>NA</th></tr>`;
+    const indRowsHtml = topInd.map((r,i)=>`
+      <tr>
+        <td>${getRankDisplay(i+1)}</td>
+        <td style="text-align:left;padding-left:8px;">${r.nama}</td>
+        <td>${r.ni}</td>
+        <td>${r.nk}</td>
+        <td>${r.na}</td>
+      </tr>
+    `).join("");
+
+    // 5 kelompok terbaik (berdasarkan NK)
+    const topKel = rows.filter(x=>x.nk>0).sort((a,b)=>b.nk - a.nk).slice(0,5);
+    let kelHtml = '';
+    if(topKel.length){
+      kelHtml += `<tr><th colspan="5" style="background:#0f766e;color:white;">💪 5 Kelompok Terbaik</th></tr>`;
+      kelHtml += `<tr><th>Peringkat</th><th>Nama Kelompok</th><th>NI</th><th>NK</th><th>NA</th></tr>`;
+      kelHtml += topKel.map((r,i)=>`
+        <tr>
+          <td>${getRankDisplay(i+1)}</td>
+          <td style="text-align:left;padding-left:8px;">${r.nama}</td>
+          <td>${r.ni}</td>
+          <td>${r.nk}</td>
+          <td>${r.na}</td>
+        </tr>
+      `).join("");
+    }
+
+    // Render: replace main table with final recap
+    document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NA</th></tr>`;
+    const combined = topInd.map((r,i)=>`
+      <tr>
+        <td>${getRankDisplay(i+1)}</td>
+        <td style="text-align:left;padding-left:8px;">${r.nama}</td>
+        <td>${r.ni}</td>
+        <td>${r.nk}</td>
+        <td>${r.na}</td>
+      </tr>
+    `).join("") + (topKel.length ? `<tr><td colspan="5" style="height:8px;"></td></tr>` + kelHtml : "");
+
+    document.getElementById("tableBody").innerHTML = combined;
+
+    // hide other sections while Rekap Akhir active
+    document.getElementById("posSection").style.display = "none";
+    document.getElementById("unitRecapTitle").style.display = "none";
+    document.getElementById("unitBarContainer").style.display = "none";
+    document.querySelector(".statBox").style.display = "none";
+
+    document.getElementById("unitRecapTitle").innerHTML = 'Rekap Akhir (Individu & Kelompok)';
+    return;
+  }
+
+  // === REKAP BIASA ===
   const data=await fetchSheet(sheetName);latestData=data;
   const headers=data[0],rows=data.slice(1);
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
@@ -721,6 +804,12 @@ async function loadRekap(sheetName="Rekap"){
    <tr><td>${getRankDisplay(i+1)}</td><td>${r[namaIdx]||""}</td><td>${r[unitIdx]||""}</td><td>${r[jumlahIdx]||0}</td></tr>
   `).join("");
   
+  // show stats section again
+  document.getElementById("posSection").style.display = "block";
+  document.getElementById("unitRecapTitle").style.display = "";
+  document.getElementById("unitBarContainer").style.display = "";
+  document.querySelector(".statBox").style.display = "";
+
   const arr=rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
   const n=arr.length,sum=arr.reduce((a,b)=>a+b,0);
   
@@ -741,19 +830,15 @@ async function loadRekap(sheetName="Rekap"){
     const posHeaders = posData[0].map(h => String(h || ""));
     const posRows = posData.slice(1);
 
-    // Temukan index kolom POS1..POSn secara case-insensitive / fleksibel
     const posIndices = posHeaders.map((h, i) => (/^\s*pos\s*\d+/i.test(h) ? i : -1)).filter(i => i !== -1);
 
-    // Jika tidak menemukan kolom POS dengan pola 'posX', coba cari header yang mengandung 'POS' tanpa angka
     posHeaders.forEach((h, i) => {
-  const clean = String(h || '').replace(/\s+/g, '').toLowerCase();
-  if (clean.startsWith('pos') && /pos\d*/.test(clean)) {
-    posIndices.push(i);
-  }
-});
+      const clean = String(h || '').replace(/\s+/g, '').toLowerCase();
+      if (clean.startsWith('pos') && /pos\d*/.test(clean)) {
+        posIndices.push(i);
+      }
+    });
 
-
-    // 1) Hitung totalPosScore dari kolom POS yang terdeteksi
     posRows.forEach(r => {
       posIndices.forEach(idx => {
         const raw = r[idx] !== undefined && r[idx] !== null ? String(r[idx]).trim() : "0";
@@ -763,94 +848,65 @@ async function loadRekap(sheetName="Rekap"){
       });
     });
 
-// --- Prosentase berdasarkan total nilai aktual dibagi total sel ---
-// Ambil jumlah peserta sesuai mode (Individu atau Kelompok)
-const pesertaSheet = sheetName === 'Rekap' ? 'Rekap' : 'RekapKelompok';
-const rekapData = await fetchSheet(pesertaSheet);
-const pesertaCount = rekapData.length > 1 ? rekapData.length - 1 : posRows.length;
+    const pesertaSheet = sheetName === 'Rekap' ? 'Rekap' : 'RekapKelompok';
+    const rekapData = await fetchSheet(pesertaSheet);
+    const pesertaCount = rekapData.length > 1 ? rekapData.length - 1 : posRows.length;
 
+    const totalPosColumns = posIndices.length > 0 ? posIndices.length : 5;
+    const denominator = pesertaCount * totalPosColumns;
 
-// Jumlah kolom POS
-const totalPosColumns = posIndices.length > 0 ? posIndices.length : 5;
+    if (denominator > 0) {
+      const percentage = (totalPosScore / denominator) * 100;
+      const displayPercentage = Math.round(percentage);
+      const colorClass = percentage >= 100 ? 'statProsentase-green' : 'statProsentase-red';
+      statProsentaseElement.innerText = `${displayPercentage}%`;
+      statProsentaseElement.className = `statProsentase ${colorClass}`;
+    } else {
+      statProsentaseElement.innerText = `0%`;
+      statProsentaseElement.className = `statProsentase statProsentase-red`;
+    }
 
-// Denominator = total peserta × jumlah kolom POS
-const denominator = pesertaCount * totalPosColumns;
-
-
-if (denominator > 0) {
-  const percentage = (totalPosScore / denominator) * 100;
-  const displayPercentage = Math.round(percentage);
-  const colorClass = percentage >= 100 ? 'statProsentase-green' : 'statProsentase-red';
-  statProsentaseElement.innerText = `${displayPercentage}%`;
-  statProsentaseElement.className = `statProsentase ${colorClass}`;
-} else {
-  statProsentaseElement.innerText = `0%`;
-  statProsentaseElement.className = `statProsentase statProsentase-red`;
-}
-
-
-    // Render tabel POS: header & body
     document.getElementById("posSection").style.display = "block";
     document.getElementById("posTitle").innerText = sheetName==="Rekap" ? "Rekap POS Individu" : "Rekap POS Kelompok";
 
-    // Header: jika header mengandung "pos" ganti "POS" -> "P" (case-insensitive)
     document.getElementById("posHead").innerHTML = "<tr>" + posHeaders.map(h => {
       if (/^\s*pos\s*\d+/i.test(h)) return `<th>${h.replace(/pos/i, 'P')}</th>`;
       return `<th>${h}</th>`;
     }).join("") + "</tr>";
 
-    // Body: format semua kolom POS (termasuk Pos1) dengan class .pos-value / .pos-max
-// Body: format semua kolom POS (termasuk Pos1) dengan class .pos-value / .pos-max / .pos-min
-document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
-  let rowHtml = "<tr>";
+    document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
+      let rowHtml = "<tr>";
+      const numericValues = r.map(c => {
+        const val = parseFloat(String(c).replace(',', '.'));
+        return isNaN(val) ? null : val;
+      });
+      const availableNums = numericValues.filter(v => v !== null);
+      const max = availableNums.length ? Math.max(...availableNums) : null;
 
-  // parse semua nilai numerik (termasuk Pos1)
-  const numericValues = r.map(c => {
-    const val = parseFloat(String(c).replace(',', '.'));
-    return isNaN(val) ? null : val;
-  });
+      r.forEach((cell, i) => {
+        const numVal = numericValues[i];
+        let className = "";
+        let display = cell;
+        if (numVal !== null) {
+          display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
+          if (max !== null && numVal === max) {
+              className = "pos-value pos-max";
+          } else {
+              className = "pos-value pos-min";
+          }
+        } else {
+            className = ""; 
+        }
+        rowHtml += `<td class="${className}">${display}</td>`;
+      });
 
-  // ambil hanya nilai valid
-  const availableNums = numericValues.filter(v => v !== null);
-  const max = availableNums.length ? Math.max(...availableNums) : null;
-
-  console.log(`POS DEBUG row#${rowIdx + 1}:`, numericValues, "max:", max);
-
-  // tampilkan tiap kolom
-  r.forEach((cell, i) => {
-    const numVal = numericValues[i];
-    let className = "";
-    let display = cell;
-
-    // jika cell numerik, beri class dasar
-    if (numVal !== null) {
-      display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
-      
-      // LOGIKA: Maksimum BIRU, SELAIN MAKSIMUM MERAH
-      if (max !== null && numVal === max) {
-          // Jika nilai adalah MAKSIMUM, terapkan pos-max (BIRU)
-          className = "pos-value pos-max";
-      } else {
-          // Jika nilai BUKAN MAKSIMUM, terapkan pos-min (MERAH)
-          className = "pos-value pos-min";
-      }
-    } else {
-        // Untuk sel non-numerik (misal: header baris), biarkan kosong
-        className = ""; 
-    }
-
-    rowHtml += `<td class="${className}">${display}</td>`;
-  });
-
-  rowHtml += "</tr>";
-  return rowHtml;
-}).join("");
-
-
+      rowHtml += "</tr>";
+      return rowHtml;
+    }).join("");
 
   } else {
     document.getElementById("posSection").style.display = "none";
-    statProsentaseElement.innerText = `0%`; // Set to 0% if no POS data
+    statProsentaseElement.innerText = `0%`;
     statProsentaseElement.className = `statProsentase statProsentase-red`;
   }
 
@@ -884,8 +940,6 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
 </script>
 
 <script>
-// ===== Versi Perbaikan: Sembunyikan ikon mobile berdasarkan lebar .sidebar atau konteks Desktop =====
-
 (function() {
   const menuSel = '#menuToggle';
   const homeSel = '.home-icon-btn';
@@ -899,16 +953,11 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
     const mobileHeader = document.querySelector(mobileHeaderSel);
     const mobileSubmenu = document.querySelector(mobileSubmenuSel);
 
-    // Default: jangan ubah display kalau elemen tidak ada
     if (!sidebar) return;
 
-    // Ambil lebar aktual sidebar (pixel)
     const sidebarWidth = Math.round(sidebar.getBoundingClientRect().width || 0);
     const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
 
-    // Kondisi: Treat as "desktop-sidebar" when either:
-    //  - sidebar width is <= 280 (embedded narrow sidebar on desktop)
-    //  - OR top-level viewport >= 769 (normal desktop)
     const shouldHide = (sidebarWidth > 0 && sidebarWidth <= 280) || (viewportWidth >= 769);
 
     if (shouldHide) {
@@ -929,10 +978,8 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
         mobileSubmenu.style.visibility = 'hidden';
       }
 
-      // juga tambahkan CSS class pada sidebar (jika diperlukan oleh styling lain)
       sidebar.classList.add('desktop-forced-hide-mobile');
     } else {
-      // kembalikan ke default (biarkan CSS mobile mengatur)
       if (menu) {
         menu.style.display = '';
         menu.style.visibility = '';
@@ -946,27 +993,22 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
         mobileHeader.style.visibility = '';
       }
       if (mobileSubmenu) {
-        // KODE DIPERBAIKI: Hapus style.display = 'none' agar tidak menimpa click handler.
         mobileSubmenu.style.visibility = '';
       }
       if (sidebar) sidebar.classList.remove('desktop-forced-hide-mobile');
     }
   }
 
-  // Panggil saat DOM sudah siap
   document.addEventListener('DOMContentLoaded', function() {
-    // Pasang event toggle untuk menuToggle (hanya aktif jika terlihat)
     const toggle = document.querySelector("#menuToggle");
     const submenu = document.querySelector("#mobileSubmenu");
     if (toggle && submenu) {
-      // pastikan tidak terpasang dua kali
       if (!toggle._mps_toggle_bound) {
         toggle.addEventListener("click", function(e){
           e.stopPropagation();
           submenu.classList.toggle("show");
           submenu.style.display = submenu.classList.contains('show') ? 'block' : 'none';
         });
-        // klik di luar menutup submenu
         document.addEventListener("click", (ev) => {
           if (!submenu.contains(ev.target) && ev.target !== toggle) {
             submenu.classList.remove("show");
@@ -977,20 +1019,16 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
       }
     }
 
-    // Inisialisasi pertama kali
     hideMobileElements();
 
-    // Resize & orientation change
     window.addEventListener('resize', hideMobileElements);
     window.addEventListener('orientationchange', hideMobileElements);
 
-    // Jika sidebar lebarnya diubah lewat script lain (inline style), pantau perubahan atribut style
     const sidebar = document.querySelector('.sidebar');
     if (sidebar) {
       const mo = new MutationObserver(muts => {
         for (const m of muts) {
           if (m.type === 'attributes' && (m.attributeName === 'style' || m.attributeName === 'class')) {
-            // Delay kecil supaya perubahan sudah diterapkan
             setTimeout(hideMobileElements, 50);
             break;
           }
@@ -999,7 +1037,6 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
       mo.observe(sidebar, { attributes: true, attributeFilter: ['style', 'class'] });
     }
 
-    // Safety: jalankan lagi setelah 300ms (untuk iframe/async layout)
     setTimeout(hideMobileElements, 300);
   });
 })();

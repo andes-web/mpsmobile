@@ -97,7 +97,6 @@
 
   <div class="top-container">
     <div class="form-left">
-      <input id="nama" type="text" maxlength="20" placeholder="NAMA KETUA">
       <select id="anggota">
         <option value="">-- Pilih Kelompok --</option>
         <option value="Kelompok 1">Kelompok 1</option>
@@ -110,8 +109,8 @@
         <option value="Kelompok 8">Kelompok 8</option>
         <option value="Kelompok 9">Kelompok 9</option>
         <option value="Kelompok 10">Kelompok 10</option>
-
       </select>
+      <input id="nama" type="text" maxlength="20" placeholder="NAMA KETUA">
     </div>
     <div class="form-pos">
       <label for="pos">POS</label>
@@ -321,7 +320,108 @@ document.addEventListener("DOMContentLoaded", function() {
     .catch(err => console.warn("Visitor count error:", err));
 });
 </script>
+<script>
+// === FLOATING DROPDOWN NAMA KETUA (ambil dari sheet KELOMPOK) ===
+
+// URL Apps Script untuk ambil data sheet "kelompok"
+const kelompokURL = "https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec?sheet=kelompok";
+
+// Simpan data nama per kelompok
+let dataKelompok = {};
+
+// Ambil data kelompok dari sheet
+async function loadKelompok() {
+  try {
+    const res = await fetch(kelompokURL);
+    const data = await res.json();
+    const headers = data[0];
+    headers.forEach((h, i) => {
+      dataKelompok[h] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+    });
+    console.log("Data kelompok:", dataKelompok);
+  } catch (err) {
+    console.error("Gagal memuat data kelompok:", err);
+  }
+}
+
+// Buat dropdown mengambang
+const namaInput = document.getElementById("nama");
+const unitSelect = document.getElementById("anggota");
+const suggestionBox = document.createElement("div");
+suggestionBox.style.position = "absolute";
+suggestionBox.style.background = "#fff";
+suggestionBox.style.border = "1px solid #ccc";
+suggestionBox.style.borderRadius = "6px";
+suggestionBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+suggestionBox.style.maxHeight = "150px";
+suggestionBox.style.overflowY = "auto";
+suggestionBox.style.zIndex = "1000";
+suggestionBox.style.display = "none";
+document.body.appendChild(suggestionBox);
+
+// Posisi floating box tepat di bawah input
+function positionSuggestionBox() {
+  const rect = namaInput.getBoundingClientRect();
+  suggestionBox.style.left = rect.left + window.scrollX + "px";
+  suggestionBox.style.top = rect.bottom + window.scrollY + "px";
+  suggestionBox.style.width = rect.width + "px";
+}
+
+// Tampilkan saran nama ketua
+function showSuggestions(list) {
+  suggestionBox.innerHTML = "";
+  if (!list.length) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+  list.forEach(nama => {
+    const item = document.createElement("div");
+    item.textContent = nama;
+    item.style.padding = "6px 10px";
+    item.style.cursor = "pointer";
+    item.addEventListener("click", () => {
+      namaInput.value = nama;
+      suggestionBox.style.display = "none";
+    });
+    item.addEventListener("mouseenter", () => item.style.background = "#f3f4f6");
+    item.addEventListener("mouseleave", () => item.style.background = "#fff");
+    suggestionBox.appendChild(item);
+  });
+  positionSuggestionBox();
+  suggestionBox.style.display = "block";
+}
+
+// Saat kelompok diganti → reset nama & daftar
+unitSelect.addEventListener("change", () => {
+  namaInput.value = "";
+  suggestionBox.style.display = "none";
+});
+
+// Saat mengetik di input nama → filter dari sheet kelompok
+namaInput.addEventListener("input", () => {
+  const unit = unitSelect.value;
+  if (!unit || !dataKelompok[unit]) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+  const val = namaInput.value.toLowerCase();
+  const filtered = dataKelompok[unit].filter(n => n.toLowerCase().includes(val));
+  showSuggestions(filtered);
+});
+
+// Tutup dropdown bila klik di luar
+document.addEventListener("click", e => {
+  if (!suggestionBox.contains(e.target) && e.target !== namaInput) {
+    suggestionBox.style.display = "none";
+  }
+});
+
+// Posisikan ulang saat resize
+window.addEventListener("resize", positionSuggestionBox);
+
+// Jalankan saat halaman dimuat
+document.addEventListener("DOMContentLoaded", loadKelompok);
+</script>
 
 </body>
 </html>
-

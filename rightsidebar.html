@@ -215,28 +215,46 @@ select:focus {
   width: 10%; /* kolom peringkat */
 }
 
-.tableBox table th:nth-child(2),
-.tableBox table td:nth-child(2) {
+/* Lebar Kolom untuk REKAP AKHIR (5 kolom: 🏅, Nama, NI, NK, NA) */
+.tableBox table.rekap-akhir th:nth-child(2),
+.tableBox table.rekap-akhir td:nth-child(2) {
   width: 55%; /* kolom Nama lebih lebar */
   text-align: left;
   padding-left: 8px;
 }
 
-.tableBox table th:nth-child(3),
-.tableBox table td:nth-child(3) {
+.tableBox table.rekap-akhir th:nth-child(3),
+.tableBox table.rekap-akhir td:nth-child(3) {
   width: 10%; /* kolom NI */
 }
 
-.tableBox table th:nth-child(4),
-.tableBox table td:nth-child(4) {
+.tableBox table.rekap-akhir th:nth-child(4),
+.tableBox table.rekap-akhir td:nth-child(4) {
   width: 10%; /* kolom NK */
 }
 
-.tableBox table th:nth-child(5),
-.tableBox table td:nth-child(5) {
+.tableBox table.rekap-akhir th:nth-child(5),
+.tableBox table.rekap-akhir td:nth-child(5) {
   width: 15%; /* kolom NA */
   font-weight: 700;
 }
+
+/* 🎯 Lebar Kolom untuk REKAP INDIVIDU/KELOMPOK (4 kolom: 🏅, Nama, Unit, Jumlah) */
+.tableBox table:not(.rekap-akhir) th:nth-child(2),
+.tableBox table:not(.rekap-akhir) td:nth-child(2) {
+    width: 50%; /* Nama disesuaikan */
+    text-align: left;
+    padding-left: 8px;
+}
+.tableBox table:not(.rekap-akhir) th:nth-child(3),
+.tableBox table:not(.rekap-akhir) td:nth-child(3) {
+    width: 30%; /* Unit dilebarkan untuk 15 karakter */
+}
+.tableBox table:not(.rekap-akhir) th:nth-child(4),
+.tableBox table:not(.rekap-akhir) td:nth-child(4) {
+    width: 10%; /* Jml dikecilkan (Max 3 char) */
+}
+
 
 /* Tabel POS Elegan dan Proporsional */
 .posTable {
@@ -716,12 +734,10 @@ async function loadRekap(sheetName="Rekap"){
  try{
   // === MODE REKAP AKHIR (gabungan individu + kelompok) ===
   if(sheetName === "RekapAkhir"){
-    const dataInd = await fetchSheet("Rekap");
-    const dataKel = await fetchSheet("RekapKelompok");
+    // Data fetching tetap dilakukan
     const dataAkhir = await fetchSheet("RekapAkhir");
 
-    // parse rekaps
-    const headersAkhir = dataAkhir[0] || [];
+    // parse rows
     const rowsAkhir = dataAkhir.slice(1) || [];
     // rowsAkhir expected columns: Nama, Nilai Individu, Nilai Kelompok, Nilai Akhir
     const rows = rowsAkhir.map(r=>({
@@ -731,39 +747,16 @@ async function loadRekap(sheetName="Rekap"){
       na: Number(r[3])||0
     })).sort((a,b)=>b.na - a.na);
 
-    // build HTML - 10 individu terbaik
-    const topInd = rows.slice(0,10);
-    let html = `<tr><th colspan="4" style="background:#1d4ed8;color:white;">🏅 10 Individu Terbaik</th></tr>`;
-    html += `<tr><th>Peringkat</th><th>Nama</th><th>NI</th><th>NK</th><th>NA</th></tr>`;
-    const indRowsHtml = topInd.map((r,i)=>`
-      <tr>
-        <td>${getRankDisplay(i+1)}</td>
-        <td style="text-align:left;padding-left:8px;">${r.nama}</td>
-        <td>${r.ni}</td>
-        <td>${r.nk}</td>
-        <td>${r.na}</td>
-      </tr>
-    `).join("");
+    // Filter hanya TOP 100 individu terbaik (PERUBAHAN DISINI: slice(0, 100))
+    const topInd = rows.slice(0,100); 
+    
+    // Tambahkan class untuk CSS Rekap Akhir
+    document.getElementById("rekapTable").classList.add("rekap-akhir"); 
 
-    // 5 kelompok terbaik (berdasarkan NK)
-    const topKel = rows.filter(x=>x.nk>0).sort((a,b)=>b.nk - a.nk).slice(0,5);
-    let kelHtml = '';
-    if(topKel.length){
-      kelHtml += `<tr><th colspan="5" style="background:#0f766e;color:white;">💪 5 Kelompok Terbaik</th></tr>`;
-      kelHtml += `<tr><th>Peringkat</th><th>Nama Kelompok</th><th>NI</th><th>NK</th><th>NA</th></tr>`;
-      kelHtml += topKel.map((r,i)=>`
-        <tr>
-          <td>${getRankDisplay(i+1)}</td>
-          <td style="text-align:left;padding-left:8px;">${r.nama}</td>
-          <td>${r.ni}</td>
-          <td>${r.nk}</td>
-          <td>${r.na}</td>
-        </tr>
-      `).join("");
-    }
-
-    // Render: replace main table with final recap
+    // Header Tabel Rekap Akhir
     document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NA</th></tr>`;
+    
+    // Render hanya Top 100 Individu
     const combined = topInd.map((r,i)=>`
       <tr>
         <td>${getRankDisplay(i+1)}</td>
@@ -772,8 +765,9 @@ async function loadRekap(sheetName="Rekap"){
         <td>${r.nk}</td>
         <td>${r.na}</td>
       </tr>
-    `).join("") + (topKel.length ? `<tr><td colspan="5" style="height:8px;"></td></tr>` + kelHtml : "");
-
+    `).join("");
+    
+    // PERUBAHAN DISINI: TIDAK ADA PENAMBAHAN topKel
     document.getElementById("tableBody").innerHTML = combined;
 
     // hide other sections while Rekap Akhir active
@@ -782,11 +776,14 @@ async function loadRekap(sheetName="Rekap"){
     document.getElementById("unitBarContainer").style.display = "none";
     document.querySelector(".statBox").style.display = "none";
 
-    document.getElementById("unitRecapTitle").innerHTML = 'Rekap Akhir (Individu & Kelompok)';
+    document.getElementById("unitRecapTitle").innerHTML = 'Rekap Akhir (Individu)';
     return;
   }
 
-  // === REKAP BIASA ===
+  // Hapus class untuk CSS Rekap Individu/Kelompok
+  document.getElementById("rekapTable").classList.remove("rekap-akhir");
+
+  // === REKAP BIASA (INDIVIDU/KELOMPOK) ===
   const data=await fetchSheet(sheetName);latestData=data;
   const headers=data[0],rows=data.slice(1);
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
@@ -796,8 +793,8 @@ async function loadRekap(sheetName="Rekap"){
   const limit=10; 
   const topRows=sorted.slice(0,limit);
   
-  // Header tetap "🏅"
-  document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr>";
+  // Header Disesuaikan: "Jumlah" menjadi "Jml"
+  document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jml</th></tr>";
   
   // Menerapkan fungsi getRankDisplay
   document.getElementById("tableBody").innerHTML=topRows.map((r,i)=>`
@@ -1041,6 +1038,8 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
   });
 })();
 </script>
-
+<script>
+// Menghapus kode yang berulang di akhir file
+</script>
 </body>
 </html>

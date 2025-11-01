@@ -4558,43 +4558,43 @@ document.addEventListener("DOMContentLoaded", function(){
 
 <!-- === END INTRO PAGE === -->
 
-<!-- Tambahan menu di bagian FORM -->
+<!-- Tambahan submenu Penilaian Non Teknis di bawah FORM -->
 <script>
-// Pastikan elemen sidebar sudah ada
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('sidebar-left');
   if (!sidebar) return;
 
-  // Cari menu FORM (berdasarkan teks)
-  const buttons = sidebar.querySelectorAll('.accordion');
-  let formButton = null;
-  buttons.forEach(btn => {
-    if (btn.textContent.trim().toUpperCase().includes('FORM')) {
-      formButton = btn;
+  // Cari panel submenu milik menu FORM
+  const allAccordions = [...sidebar.querySelectorAll('.accordion')];
+  let formPanel = null;
+
+  for (let acc of allAccordions) {
+    if (acc.textContent.trim().toUpperCase().includes('FORM')) {
+      // Panel berikutnya (panel-inner) diasumsikan submenu FORM
+      const next = acc.nextElementSibling;
+      if (next && next.classList.contains('panel-inner')) {
+        formPanel = next;
+      }
+      break;
     }
-  });
+  }
 
-  if (formButton) {
-    // Buat submenu floating dropdown baru
-    const subPanel = document.createElement('div');
-    subPanel.className = 'panel-inner';
+  if (formPanel) {
+    // Cek apakah sudah ada tombol Penilaian Non Teknis, agar tidak dobel
+    const exists = [...formPanel.querySelectorAll('button, .h3-accordion, .h4-button')]
+      .some(btn => btn.textContent.trim().toUpperCase().includes('NON TEKNIS'));
+    if (exists) return;
 
-    const antarTeman = document.createElement('button');
-    antarTeman.className = 'h3-accordion';
-    antarTeman.textContent = 'Penilaian Antar Teman';
-
-    const nonTeknis = document.createElement('button');
-    nonTeknis.className = 'h3-accordion';
-    nonTeknis.textContent = 'Penilaian Non Teknis';
-    nonTeknis.addEventListener('click', () => {
+    // Buat tombol baru
+    const newBtn = document.createElement('button');
+    newBtn.className = 'h3-accordion';
+    newBtn.textContent = 'Penilaian Non Teknis';
+    newBtn.addEventListener('click', () => {
       window.open('https://andes-web.github.io/mpsmobile/Form_NonTeknis.html', '_blank');
     });
 
-    subPanel.appendChild(antarTeman);
-    subPanel.appendChild(nonTeknis);
-
-    // Sisipkan setelah tombol FORM
-    formButton.insertAdjacentElement('afterend', subPanel);
+    // Sisipkan di akhir submenu FORM
+    formPanel.appendChild(newBtn);
   }
 });
 </script>

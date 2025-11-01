@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nilai Non Teknis PENDIDIKAN DAN LATIHAN</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+  :root{
+    --accent:#2563eb; --success:#16a34a;
+    --c1:#fff1f2; --c2:#eef6ff; --c3:#ecfff6; --c4:#fffbea; --c5:#f5f3ff;
+    --v1:#be185d; --v2:#1e40af; --v3:#059669; --v4:#b45309; --v5:#6d28d9;
+    --kepemimpinan-bg: #f5f3ff; /* Warna baru untuk Penilaian Kepemimpinan */
+    --kepemimpinan-border: #6d28d9;
+    --kepemimpinan-color: #5b21b6;
+  }
+  
+  /* Perbaikan 1 & 2: Struktur Statis dan Skala */
+  @media (min-width: 769px) {
+    body {
+      transform: scale(0.8);
+      transform-origin: top left;
+      width: 125%; 
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      background: #e6f0fa;
+    }
+    .rubrik-scroll-area {
+        height: 60vh; /* Sesuaikan tinggi agar konten penilaian bisa di-scroll */
+        overflow-y: auto;
+        padding-top: 10px; /* Jarak dari header statis */
+    }
+  }
+
+  body{font-family:"Segoe UI",sans-serif;margin:0;padding:20px;
+       background:linear-gradient(135deg,#f0f8ff 0%,#f0fff8 100%);}
+  .container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;
+             padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+  
+  /* Kontainer Statis untuk Judul dan Identitas */
+  .static-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #fff;
+      padding-bottom: 8px; 
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  h2.title-main{font-size:1.5rem;font-weight:950;text-align:center;margin:0;
+  text-shadow:2px 2px 3px rgba(0,0,0,0.25);}
+  h2.title-sub{font-size:1rem;font-weight:600;text-align:center;margin:2px 0 10px 0;}
+
+  /* Perbaikan 1: Struktur Identitas 2 Baris */
+  .top-container{
+    display: flex;
+    flex-direction: column; 
+    gap: 5px; 
+    padding: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    background: #f9f9f9; 
+    margin-bottom: 12px;
+  }
+  .row-identity {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+  .form-col{flex:1;display:flex;flex-direction:column;gap:5px;}
+  .form-col input,.form-col select{
+    width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #ccc;}
+  .form-col input::placeholder { color: #888; font-weight: 500;}
+
+  /* Sisa Styling */
+  .rubrik{display:grid;gap:8px;}
+  .rubrik-section{
+      margin-top: 15px; padding: 10px; border-radius: 10px;
+      border: 2px solid #3b82f6; background-color: #eff6ff;
+  }
+  /* Perbaikan 2: Warna container Penilaian Kepemimpinan */
+  #lainnya-section {
+      border-color: var(--kepemimpinan-border); 
+      background-color: var(--kepemimpinan-bg);
+  }
+  .rubrik-title{font-size: 1.1rem; font-weight: 900; color: #1e40af; margin-bottom: 8px; text-align: center;}
+  /* Perbaikan 2: Warna judul Penilaian Kepemimpinan */
+  #lainnya-section .rubrik-title {
+      color: var(--kepemimpinan-color);
+  }
+  
+  .aspek-card{display:flex;align-items:center;justify-content:space-between;
+    border-radius:10px;padding:10px;box-shadow:0 4px 12px rgba(0,0,0,0.06); margin-top: 4px;}
+  .left{flex:1;margin-right:8px;}
+  .aspek-title{font-weight:700;font-size:1rem;margin-bottom:3px;}
+  .indikator{font-size:0.62rem;margin-bottom:6px;color:#222;line-height:1.2;}
+  .nilai-buttons{display:flex;gap:1px;flex-wrap:wrap;}
+  .nilai-buttons button {
+    padding: 8px 14px;border-radius: 6px;border: 1px solid #aaa;
+    background: #f9f9f9;font-weight: 700;font-size: 0.9rem;cursor: pointer;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
+                inset -2px -2px 5px rgba(255,255,255,0.7);
+    transition: all 0.2s ease-in-out;
+  }
+  .nilai-buttons button.active {
+    background: var(--accent);color: #fff;
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.6),
+                inset -2px -2px 6px rgba(255,255,255,0.3);
+  }
+  .nilai-besar {font-size: 3.8rem;font-weight: 900;text-align: center;min-width: 1ch;color: #333;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.4),-2px -2px 3px rgba(255,255,255,0.9);}
+  .nilai-besar.hidden {opacity: 0.25;color: #777;text-shadow: none;}
+
+  .controls-row{display:flex;gap:6px;margin-top:20px;justify-content:center;}
+  .controls-row .btn {
+    flex: 1;max-width: 120px;padding: 8px 0;border-radius: 6px;border: none;
+    font-weight: 700;font-size: 0.85rem;cursor: pointer;text-align: center;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4),
+                inset -2px -2px 5px rgba(255,255,255,0.7);
+    transition: all 0.2s ease-in-out;
+  }
+  .btn-submit{background:var(--success);color:#fff;}
+
+  /* Styling for TOTAL section */
+  .total-container {
+    margin-top: 15px; padding: 15px; border-radius: 10px;
+    background-color: #f0fdf4; border: 2px solid var(--success);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 1.2rem; font-weight: 900; color: var(--success);
+  }
+  .total-value {
+    font-size: 2.5rem; font-weight: 950; color: #059669;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  
+  <div class="static-header">
+    <h2 class="title-main">NILAI NON TEKNIS</h2>
+    <h2 class="title-sub">PENDIDIKAN DAN LATIHAN</h2>
+
+    <div class="top-container">
+      <div class="row-identity">
+        <div class="form-col">
+          <select id="unitSelect">
+            <option value="">Pilih Unit</option>
+            <option value="SMPN 1 Citeureup">SMPN 1 Citeureup</option>
+            <option value="SMPN 6 Depok">SMPN 6 Depok</option>
+            <option value="SMPN 7 Depok">SMPN 7 Depok</option>
+            <option value="SMPN 8 Depok">SMPN 8 Depok</option>
+            <option value="SMPN 12 Depok">SMPN 12 Depok</option>
+            <option value="SMPN 16 Depok">SMPN 16 Depok</option>
+            <option value="SMPN 31 Depok">SMPN 31 Depok</option>
+            <option value="SMPN 32 Depok">SMPN 32 Depok</option>
+          </select>
+        </div>
+        <div class="form-col">
+          <select id="kelompokSelect">
+            <option value="">Pilih Kelompok</option>
+            <option value="Kelompok 1">Kelompok 1</option>
+            <option value="Kelompok 2">Kelompok 2</option>
+            <option value="Kelompok 3">Kelompok 3</option>
+            <option value="Kelompok 4">Kelompok 4</option>
+            <option value="Kelompok 5">Kelompok 5</option>
+            <option value="Kelompok 6">Kelompok 6</option>
+            <option value="Kelompok 7">Kelompok 7</option>
+            <option value="Kelompok 8">Kelompok 8</option>
+            <option value="Kelompok 9">Kelompok 9</option>
+            <option value="Kelompok 10">Kelompok 10</option>
+          </select>
+        </div>
+      </div>
+      <div class="row-identity">
+        <div class="form-col" style="flex: 2.05;">
+          <input id="namaAnggota" type="text" maxlength="30" placeholder="NAMA ANGGOTA">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="rubrik-scroll-area">
+    <div id="rubrik-body" class="rubrik">
+      <div id="individu-section" class="rubrik-section">
+        <div class="rubrik-title">PENILAIAN INDIVIDU</div>
+      </div>
+
+      <div id="kelompok-section" class="rubrik-section">
+        <div class="rubrik-title">PENILAIAN KELOMPOK</div>
+      </div>
+
+      <div id="lainnya-section" class="rubrik-section">
+          <div class="rubrik-title">PENILAIAN KEPEMIMPINAN</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="total-container">
+    <span>NILAI NON TEKNIS</span>
+    <span id="totalNilai" class="total-value">0</span>
+  </div>
+
+  <div class="controls-row">
+    <button onclick="window.top.location.href='https://andes-web.github.io/mpsmobile/index.html'" class="btn btn-home">HOME</button>
+    <button id="submitBtn" class="btn btn-submit">SUBMIT</button>
+    <button id="resetBtn" class="btn btn-reset">RESET</button>
+    <button id="downloadExcel" class="btn btn-undi">UNDUH</button>
+  </div>
+</div>
+<script>
+// ==== Proteksi Password ====
+document.addEventListener("DOMContentLoaded", async () => {
+  const allowedPassword = "@mps#";
+  let authenticated = false;
+
+  while (!authenticated) {
+    const { value: password } = await Swal.fire({
+      title: "Masukkan Password",
+      input: "password",
+      inputLabel: "Halaman ini dilindungi",
+      inputPlaceholder: "Masukkan password...",
+      confirmButtonText: "Masuk",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor: "#2563eb"
+    });
+
+    if (password === allowedPassword) {
+      authenticated = true;
+      Swal.fire({
+        icon: "success",
+        title: "Akses Diterima",
+        text: "Selamat datang di Penilaian Non Teknis",
+        timer: 1200,
+        showConfirmButton: false
+      });
+    } else {
+      await Swal.fire({
+        icon: "error",
+        title: "Password Salah",
+        text: "Silakan coba lagi.",
+        confirmButtonColor: "#dc2626"
+      });
+    }
+  }
+});
+</script>
+<script>
+// =========================================================================
+// !!! PENTING: GANTI DENGAN URL APPS SCRIPT ANDA YANG SUDAH DI-DEPLOY !!!
+// =========================================================================
+const scriptURL = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec"; 
+// Contoh: "https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec";
+
+/* ==== Data Rubrik (Diperbarui Label Kepemimpinan) ==== */
+const rubrik = {
+  individu: [
+    { aspek: "Konsumsi (Individu)", key: "Konsumsi_I", indikator: `1: Tidak membawa/sangat kurang<br>2: Membawa tapi tidak sesuai ketentuan<br>3: Membawa sesuai ketentuan<br>4: Membawa berlebih/lengkap<br>5: Membawa berlebih, lengkap, dan berbagi`},
+    { aspek: "Perlengkapan (Individu)", key: "Perlengkapan_I", indikator: `1: Tidak membawa/sangat kurang<br>2: Membawa tapi tidak sesuai ketentuan<br>3: Membawa sesuai ketentuan<br>4: Membawa berlebih/lengkap<br>5: Membawa berlebih, lengkap, dan sangat rapi`},
+    { aspek: "PBB Statis (Individu)", key: "PBB_Statis_I", indikator: `1: Tidak menguasai gerakan<br>2: Menguasai 1-2 gerakan dengan ragu<br>3: Menguasai sebagian gerakan<br>4: Menguasai semua gerakan dengan tepat<br>5: Menguasai semua gerakan dengan tepat, tegas, dan serentak`},
+    { aspek: "PBB Dinamis (Individu)", key: "PBB_Dinamis_I", indikator: `1: Tidak menguasai gerakan<br>2: Menguasai 1-2 gerakan dengan ragu<br>3: Menguasai sebagian gerakan<br>4: Menguasai semua gerakan dengan tepat<br>5: Menguasai semua gerakan dengan tepat, tegas, dan serentak`},
+  ],
+  kelompok: [
+    { aspek: "Konsumsi (Kelompok)", key: "Konsumsi_K", indikator: `1: Jatah kelompok sangat kurang/tidak terbagi<br>2: Jatah kelompok kurang tapi terbagi<br>3: Jatah kelompok cukup, terbagi rata<br>4: Jatah kelompok berlebih, terbagi rata, dan rapi<br>5: Jatah kelompok berlebih, lengkap, rapi, dan saling berbagi`},
+    { aspek: "Perlengkapan (Kelompok)", key: "Perlengkapan_K", indikator: `1: Perlengkapan kelompok sangat kurang/tidak terorganisir<br>2: Perlengkapan kurang tapi terorganisir<br>3: Perlengkapan kelompok cukup dan terorganisir<br>4: Perlengkapan kelompok lengkap, terorganisir, dan rapi<br>5: Perlengkapan kelompok sangat lengkap, rapi, dan memiliki inisiatif tambahan`},
+    { aspek: "PBB Statis (Kelompok)", key: "PBB_Statis_K", indikator: `1: Tidak terbentuk formasi/tidak kompak<br>2: Formasi terbentuk, kurang kompak<br>3: Kompak sebagian besar, formasi cukup rapi<br>4: Kompak penuh, formasi rapi, seragam<br>5: Kompak penuh, sangat rapi, cepat, dan seragam`},
+    { aspek: "PBB Dinamis (Kelompok)", key: "PBB_Dinamis_K", indikator: `1: Tidak terbentuk formasi/tidak kompak<br>2: Formasi terbentuk, kurang kompak, gerakan tumpang tindih<br>3: Kompak sebagian besar, gerakan cukup rapi<br>4: Kompak penuh, gerakan rapi, seragam<br>5: Kompak penuh, sangat rapi, cepat, seragam, dan bersemangat`},
+  ],
+  lainnya: [
+    // Label diganti
+    { aspek: "Aspek Pengetahuan", key: "Pengetahuan_K", indikator: `1: Pemahaman Konsep Kepemimpinan Sangat Kurang<br>2: Hanya Mengetahui Dasar-dasar (20%)<br>3: Memahami Konsep, Tujuan, dan Fungsi (50%)<br>4: Mampu Menjelaskan dan Memberi Contoh (75%)<br>5: Mampu Menerapkan, Menganalisis, dan Mengembangkan Konsep`},
+    { aspek: "Aspek Sikap", key: "Sikap_K", indikator: `1: Tidak Ada Inisiatif, Pasif, dan Ragu<br>2: Kurang Inisiatif, Terlalu Mengandalkan Petunjuk<br>3: Cukup Inisiatif, Mampu Mengambil Keputusan Kecil<br>4: Sangat Inisiatif, Mampu Mengambil Keputusan Tepat dan Tegas<br>5: Sangat Inisiatif, Tegas, Adil, dan Mampu Memotivasi Anggota Lain`}
+  ]
+};
+
+const cardColors = ['var(--c1)', 'var(--c2)', 'var(--c3)', 'var(--c4)', 'var(--c5)'];
+const valueColors = ['var(--v1)', 'var(--v2)', 'var(--v3)', 'var(--v4)', 'var(--v5)'];
+let nilaiData = {};
+
+const unitSelect = document.getElementById("unitSelect");
+const kelompokSelect = document.getElementById("kelompokSelect");
+const namaAnggotaInput = document.getElementById("namaAnggota");
+const totalNilaiSpan = document.getElementById("totalNilai");
+
+const individuSection = document.getElementById("individu-section");
+const kelompokSection = document.getElementById("kelompok-section");
+const lainnyaSection = document.getElementById("lainnya-section");
+
+function calculateTotal() {
+  let total = 0;
+  for (const key in nilaiData) {
+    if (nilaiData[key] !== null && !isNaN(nilaiData[key])) {
+      total += Number(nilaiData[key]);
+    }
+  }
+  totalNilaiSpan.textContent = total;
+}
+
+function renderRubrik() {
+  // Clear sections and re-render titles
+  individuSection.innerHTML = '<div class="rubrik-title">PENILAIAN INDIVIDU</div>';
+  kelompokSection.innerHTML = '<div class="rubrik-title">PENILAIAN KELOMPOK</div>';
+  lainnyaSection.innerHTML = '<div class="rubrik-title">PENILAIAN KEPEMIMPINAN</div>';
+
+  [
+    { data: rubrik.individu, target: individuSection, color: 0 },
+    { data: rubrik.kelompok, target: kelompokSection, color: 4 },
+    { data: rubrik.lainnya, target: lainnyaSection, color: 3 }
+  ].forEach(section => {
+    section.data.forEach((item, idx) => {
+      const card = document.createElement("div");
+      card.className = "aspek-card";
+      // Sesuaikan warna untuk Penilaian Kepemimpinan
+      let cardBg = cardColors[(section.color + idx) % 5];
+      if (section.target === lainnyaSection) {
+          cardBg = cardColors[idx % 2 === 0 ? 3 : 4]; // Ganti warna latar di Kepemimpinan untuk membedakan aspek
+      }
+      card.style.background = cardBg;
+      
+      const left = document.createElement("div");
+      left.className = "left";
+      left.innerHTML = `<div class="aspek-title">${item.aspek}</div><div class="indikator">${item.indikator}</div>`;
+      
+      const wrap = document.createElement("div");
+      wrap.className = "nilai-buttons";
+      
+      for (let n = 1; n <= 5; n++) {
+        let b = document.createElement("button");
+        b.textContent = n;
+        b.onclick = () => setNilai(item.key, n, b, idx, section.color);
+        if (nilaiData[item.key] === n) b.classList.add("active");
+        wrap.appendChild(b);
+      }
+      
+      left.appendChild(wrap);
+      
+      const nilai = document.createElement("div");
+      nilai.id = `nilai-box-${item.key}`;
+      nilai.className = "nilai-besar hidden";
+      nilai.textContent = "-";
+      
+      card.appendChild(left);
+      card.appendChild(nilai);
+      section.target.appendChild(card);
+      
+      if (nilaiData[item.key]) {
+        nilai.textContent = nilaiData[item.key];
+        nilai.classList.remove("hidden");
+        nilai.style.color = valueColors[(section.color + idx) % valueColors.length];
+      }
+    });
+  });
+  
+  calculateTotal();
+}
+
+function setNilai(key, n, btn, idxForColor, sectionColor) {
+  nilaiData[key] = n;
+  
+  btn.parentElement.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  
+  const box = document.getElementById(`nilai-box-${key}`);
+  box.textContent = n;
+  box.classList.remove("hidden");
+  
+  // Set warna
+  box.style.color = valueColors[(idxForColor + sectionColor) % valueColors.length];
+
+  calculateTotal();
+}
+
+// Render inisial
+renderRubrik();
+
+/* ==== Submit (SUDAH DISESUAIKAN) ==== */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  if (scriptURL.includes("GANTI-DENGAN-URL-APPS-SCRIPT-ANDA")) {
+     Swal.fire({ 
+        icon: 'error', 
+        title: 'Kesalahan Konfigurasi', 
+        html: 'URL Apps Script belum diganti. Data tidak bisa dikirim.',
+        confirmButtonColor: '#dc2626' 
+      });
+      return;
+  }
+  
+  const nama = namaAnggotaInput.value.trim();
+  const unit = unitSelect.value.trim(); 
+  const kelompok = kelompokSelect.value.trim(); 
+  const total = Number(totalNilaiSpan.textContent);
+
+  if (!nama || !unit) {
+    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Pilih Unit dan Nama Anggota wajib diisi', confirmButtonColor: '#facc15' });
+    return;
+  }
+  
+  const allAspects = [...rubrik.individu, ...rubrik.kelompok, ...rubrik.lainnya];
+  let isComplete = true;
+  const aspekList = allAspects.map(a => {
+    const nilai = nilaiData[a.key] || 0;
+    if (nilai === 0) { 
+        isComplete = false;
+    }
+    return {
+      name: a.key, // Gunakan Key (Konsumsi_I, Perlengkapan_K, dst.) sebagai nama kolom
+      nilai: nilai
+    };
+  });
+
+  if (!isComplete) { 
+    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Semua aspek penilaian harus diisi (1-5)!', confirmButtonColor: '#facc15' });
+    return;
+  }
+
+  // Format khusus untuk doPost
+  const sheetPayload = {
+      form: "nonteknis", // Identifikasi form untuk Apps Script
+      nama: nama,
+      unit: unit,
+      kelompok: kelompok || "", // Kirim Kelompok sebagai properti utama
+      jumlah: total,           // Kirim Jumlah sebagai properti utama
+      aspekList: [
+          { name: "Unit", nilai: unit }, 
+          { name: "Kelompok", nilai: kelompok || "" }, // Kirim juga sebagai item aspekList
+          ...aspekList, // Daftar semua aspek (Konsumsi_I, PBB_Statis_K, dll.)
+          { name: "Jumlah", nilai: total } // Kirim juga Jumlah sebagai item aspekList
+      ]
+  }
+
+  Swal.fire({
+      title: 'Mengirim data...',
+      text: 'Mohon tunggu',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
+  });
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: new URLSearchParams({ data: JSON.stringify(sheetPayload) })
+  })
+    .then(async r => {
+      const res = await r.text();
+      console.log("Server response:", res);
+
+      if (res.includes("❌")) {
+          throw new Error("Gagal menyimpan data: " + res);
+      }
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Data tersimpan ke Nilai_Lain',
+        confirmButtonColor: '#16a34a',
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      // Reset form
+      document.getElementById("namaAnggota").value = "";
+      unitSelect.selectedIndex = 0;
+      kelompokSelect.selectedIndex = 0;
+      nilaiData = {};
+      renderRubrik();
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+      Swal.fire({ icon: 'error', title: 'Oops...', text: 'Gagal menyimpan data! Cek Console atau Apps Script URL. Error: ' + err.message, confirmButtonColor: '#dc2626' });
+    });
+});
+
+/* ==== Reset & Unduh Excel ==== */
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  nilaiData={};
+  renderRubrik();
+  namaAnggotaInput.value="";
+  unitSelect.selectedIndex=0;
+  kelompokSelect.selectedIndex=0;
+});
+
+document.getElementById("downloadExcel").addEventListener("click",()=>{
+  const allAspects = [...rubrik.individu, ...rubrik.kelompok, ...rubrik.lainnya];
+  const headers = ["Timestamp", "Nama Anggota", "Unit", "Kelompok", ...allAspects.map(a => a.aspek), "Total"];
+  const rows=[headers];
+  const ts=new Date().toLocaleString();
+  const nm=namaAnggotaInput.value;
+  const unit=unitSelect.value;
+  const kelompok=kelompokSelect.value;
+  
+  const nilaiRow = [ts, nm, unit, kelompok];
+  let totalSkor = 0;
+  allAspects.forEach(a => {
+    const skor = nilaiData[a.key] || "";
+    nilaiRow.push(skor);
+    if(typeof skor === 'number') totalSkor += skor;
+  });
+  nilaiRow.push(totalSkor);
+  rows.push(nilaiRow);
+
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"NilaiNonTeknis");
+  XLSX.writeFile(wb,"Nilai_Non_Teknis.xlsx");
+});
+
+</script>
+<script>
+// === FLOATING DROPDOWN NAMA ANGGOTA (Dinamis Berdasarkan Pilihan Kelompok - TETAP) ===
+const pesertaURL = scriptURL + "?sheet=peserta";
+const kelompokURL = scriptURL + "?sheet=kelompok";
+
+let dataPeserta = {}; // Nama per Unit (untuk individu)
+let dataKelompok = {}; // Nama per Kelompok
+
+async function loadData() {
+  try {
+    // Muat data peserta (nama anggota per unit)
+    const resP = await fetch(pesertaURL);
+    const dataP = await resP.json();
+    const headersP = dataP[0];
+    headersP.forEach((h, i) => {
+      dataPeserta[h] = dataP.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+    });
+    console.log("Data peserta (Unit/Nama):", dataPeserta);
+
+    // Muat data kelompok (nama per kelompok)
+    const resK = await fetch(kelompokURL);
+    const dataK = await resK.json();
+    const headersK = dataK[0];
+    headersK.forEach((h, i) => {
+      // Asumsi: dataKelompok[Kelompok X] berisi array nama anggota kelompok X
+      dataKelompok[h] = dataK.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+    });
+    console.log("Data kelompok (Kelompok/Nama):", dataKelompok);
+
+  } catch (err) {
+    console.error("Gagal memuat data peserta/kelompok:", err);
+  }
+}
+
+const suggestionBox = document.createElement("div");
+suggestionBox.style.position = "absolute";
+suggestionBox.style.background = "#fff";
+suggestionBox.style.border = "1px solid #ccc";
+suggestionBox.style.borderRadius = "6px";
+suggestionBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+suggestionBox.style.maxHeight = "150px";
+suggestionBox.style.overflowY = "auto";
+suggestionBox.style.zIndex = "1000";
+suggestionBox.style.display = "none";
+document.body.appendChild(suggestionBox);
+
+function positionSuggestionBox(inputElement) {
+  const rect = inputElement.getBoundingClientRect();
+  suggestionBox.style.left = rect.left + window.scrollX + "px";
+  suggestionBox.style.top = rect.bottom + window.scrollY + "px";
+  suggestionBox.style.width = rect.width + "px";
+}
+
+function showSuggestions(list, inputElement) {
+  suggestionBox.innerHTML = "";
+  if (!list.length) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+  list.forEach(nama => {
+    const item = document.createElement("div");
+    item.textContent = nama;
+    item.style.padding = "6px 10px";
+    item.style.cursor = "pointer";
+    item.addEventListener("click", () => {
+      inputElement.value = nama;
+      suggestionBox.style.display = "none";
+    });
+    item.addEventListener("mouseenter", () => item.style.background = "#f3f4f6");
+    item.addEventListener("mouseleave", () => item.style.background = "#fff");
+    suggestionBox.appendChild(item);
+  });
+  positionSuggestionBox(inputElement);
+  suggestionBox.style.display = "block";
+}
+
+function filterAndShowSuggestions() {
+  const unit = unitSelect.value;
+  const kelompok = kelompokSelect.value;
+  const val = namaAnggotaInput.value.toLowerCase();
+  
+  let sourceData = [];
+
+  if (kelompok && dataKelompok[kelompok]) {
+    // Jika Kelompok dipilih, gunakan data kelompok
+    sourceData = dataKelompok[kelompok];
+  } else if (unit && dataPeserta[unit]) {
+    // Jika Kelompok KOSONG, gunakan data unit (individu)
+    sourceData = dataPeserta[unit];
+  } else {
+    suggestionBox.style.display = "none";
+    return;
+  }
+  
+  const filtered = sourceData.filter(n => n.toLowerCase().includes(val));
+  showSuggestions(filtered, namaAnggotaInput);
+}
+
+// Event handler utama untuk input Nama Anggota, Unit, dan Kelompok
+namaAnggotaInput.addEventListener("input", filterAndShowSuggestions);
+
+unitSelect.addEventListener("change", () => {
+  namaAnggotaInput.value = "";
+  filterAndShowSuggestions();
+});
+
+kelompokSelect.addEventListener("change", () => {
+  namaAnggotaInput.value = "";
+  filterAndShowSuggestions();
+});
+
+// Tutup dropdown bila klik di luar
+document.addEventListener("click", e => {
+  if (!suggestionBox.contains(e.target) && e.target !== namaAnggotaInput) {
+    suggestionBox.style.display = "none";
+  }
+});
+
+window.addEventListener("resize", () => positionSuggestionBox(namaAnggotaInput));
+document.addEventListener("DOMContentLoaded", loadData);
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const endpoint = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec";
+  fetch(endpoint).catch(err => console.warn("Visitor count error:", err));
+});
+</script>
+
+</body>
+</html>

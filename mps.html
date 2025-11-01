@@ -3679,10 +3679,6 @@ const jurlamChildren = [
         content: "Materi yang fokus pada peningkatan standar fisik, penguasaan PBB, dan kedisiplinan diri sebagai teladan bagi peserta didik.",
         children: [
           {
-            title: "Penilaian Non Teknis",
-            content: "<iframe src='https://andes-web.github.io/mpsmobile/Form_NonTeknis.html' style='width:100%;height:100vh;border:none;'></iframe>"
-          },
-          {
             title: "Penilaian T-Diklat", 
             content: "<iframe src='https://andes-web.github.io/mpsmobile/pola_pikirMPS.html' style='width:100%;height:100vh;border:none;'></iframe>"
           },
@@ -4561,5 +4557,47 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 <!-- === END INTRO PAGE === -->
+
+<!-- Tambahan menu di bagian FORM -->
+<script>
+// Pastikan elemen sidebar sudah ada
+window.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.getElementById('sidebar-left');
+  if (!sidebar) return;
+
+  // Cari menu FORM (berdasarkan teks)
+  const buttons = sidebar.querySelectorAll('.accordion');
+  let formButton = null;
+  buttons.forEach(btn => {
+    if (btn.textContent.trim().toUpperCase().includes('FORM')) {
+      formButton = btn;
+    }
+  });
+
+  if (formButton) {
+    // Buat submenu floating dropdown baru
+    const subPanel = document.createElement('div');
+    subPanel.className = 'panel-inner';
+
+    const antarTeman = document.createElement('button');
+    antarTeman.className = 'h3-accordion';
+    antarTeman.textContent = 'Penilaian Antar Teman';
+
+    const nonTeknis = document.createElement('button');
+    nonTeknis.className = 'h3-accordion';
+    nonTeknis.textContent = 'Penilaian Non Teknis';
+    nonTeknis.addEventListener('click', () => {
+      window.open('https://andes-web.github.io/mpsmobile/Form_NonTeknis.html', '_blank');
+    });
+
+    subPanel.appendChild(antarTeman);
+    subPanel.appendChild(nonTeknis);
+
+    // Sisipkan setelah tombol FORM
+    formButton.insertAdjacentElement('afterend', subPanel);
+  }
+});
+</script>
+
 </body>
 </html>

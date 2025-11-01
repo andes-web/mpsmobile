@@ -4557,5 +4557,65 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 <!-- === END INTRO PAGE === -->
+
+<!-- AUTO-INSERT: Pastikan "Penilaian Non Teknis" muncul di bawah "Penilaian Antar Teman" -->
+<script>
+(function(){
+  function insertNonTeknis() {
+    // jangan duplikat
+    if (document.querySelector('.penilaian-non-teknis-btn')) return;
+
+    // cari semua elemen yang memiliki teks persis "Penilaian Antar Teman"
+    const candidates = Array.from(document.querySelectorAll('button, .h4-button, .h3-accordion, .h2-accordion, a, div'));
+    for (const el of candidates) {
+      if (!el || !el.textContent) continue;
+      if (el.textContent.trim() === 'Penilaian Antar Teman') {
+        // buat tombol baru
+        const btn = document.createElement('button');
+        btn.className = 'h4-button penilaian-non-teknis-btn';
+        btn.type = 'button';
+        btn.style.cursor = 'pointer';
+        btn.style.display = 'block';
+        btn.style.padding = '6px 8px';
+        btn.style.margin = '4px 0';
+        btn.textContent = 'Penilaian Non Teknis';
+        // buka di jendela baru (safest)
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          window.open('https://andes-web.github.io/mpsmobile/Form_NonTeknis.html', '_blank');
+        });
+
+        // jika el adalah h4-button atau simple element, sisipkan setelahnya
+        if (el.parentNode) {
+          // try insert after; if not possible, append to nearest .subpanel or .panel-inner
+          if (el.nextSibling) el.parentNode.insertBefore(btn, el.nextSibling);
+          else el.parentNode.appendChild(btn);
+        } else {
+          document.body.appendChild(btn);
+        }
+        console.log('Inserted Penilaian Non Teknis near Penilaian Antar Teman');
+        return;
+      }
+    }
+  }
+
+  // run on load
+  document.addEventListener('DOMContentLoaded', insertNonTeknis);
+
+  // observe DOM for late-loaded menus
+  const obs = new MutationObserver(function(m){
+    insertNonTeknis();
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+
+  // also attempt every second for graceful degradation (stops after found)
+  const interval = setInterval(function(){
+    if (document.querySelector('.penilaian-non-teknis-btn')) { clearInterval(interval); return; }
+    insertNonTeknis();
+  }, 1000);
+})();
+</script>
+<!-- END AUTO-INSERT -->
+
 </body>
 </html>

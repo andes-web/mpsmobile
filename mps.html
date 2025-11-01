@@ -4598,6 +4598,51 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+<!-- AUTO ADD: Penilaian Non Teknis ke menu FORM (desktop & mobile) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  function tambahButtonNonTeknis(panel) {
+    if (!panel) return;
+    const sudahAda = Array.from(panel.querySelectorAll("button, .h3-accordion"))
+      .some(btn => btn.textContent.trim().toUpperCase().includes("NON TEKNIS"));
+    if (sudahAda) return;
+    const btnBaru = document.createElement("button");
+    btnBaru.className = "h3-accordion";
+    btnBaru.textContent = "Penilaian Non Teknis";
+    btnBaru.addEventListener("click", () => {
+      window.open("https://andes-web.github.io/mpsmobile/Form_NonTeknis.html", "_blank");
+    });
+    const semua = Array.from(panel.querySelectorAll("button, .h3-accordion"));
+    const antarTeman = semua.find(btn => btn.textContent.trim().toUpperCase().includes("ANTAR TEMAN"));
+    if (antarTeman && antarTeman.nextSibling) {
+      antarTeman.parentNode.insertBefore(btnBaru, antarTeman.nextSibling);
+    } else {
+      panel.appendChild(btnBaru);
+    }
+  }
+
+  // Desktop menu
+  const sidebar = document.getElementById("sidebar-left");
+  if (sidebar) {
+    const accordions = sidebar.querySelectorAll(".accordion");
+    for (let acc of accordions) {
+      if (acc.textContent.trim().toUpperCase().includes("FORM")) {
+        const panel = acc.nextElementSibling;
+        if (panel && panel.classList.contains("panel-inner")) tambahButtonNonTeknis(panel);
+      }
+    }
+  }
+
+  // Mobile dropdown
+  const mobileMenus = document.querySelectorAll(".accordion, .menu-item");
+  for (let m of mobileMenus) {
+    if (m.textContent.trim().toUpperCase().includes("FORM")) {
+      const dropdown = m.nextElementSibling;
+      if (dropdown && dropdown.classList.contains("panel-inner")) tambahButtonNonTeknis(dropdown);
+    }
+  }
+});
+</script>
 
 </body>
 </html>

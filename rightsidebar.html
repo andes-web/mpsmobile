@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -218,24 +219,29 @@ select:focus {
 /* Lebar Kolom untuk REKAP AKHIR (5 kolom: 🏅, Nama, NI, NK, NA) */
 .tableBox table.rekap-akhir th:nth-child(2),
 .tableBox table.rekap-akhir td:nth-child(2) {
-  width: 55%; /* kolom Nama lebih lebar */
+  width: 50%; /* kolom Nama lebih lebar */
   text-align: left;
   padding-left: 8px;
 }
 
 .tableBox table.rekap-akhir th:nth-child(3),
 .tableBox table.rekap-akhir td:nth-child(3) {
-  width: 10%; /* kolom NI */
+  width: 8%; /* kolom NI */
 }
 
 .tableBox table.rekap-akhir th:nth-child(4),
 .tableBox table.rekap-akhir td:nth-child(4) {
-  width: 10%; /* kolom NK */
+  width: 8%; /* kolom NK */
 }
 
 .tableBox table.rekap-akhir th:nth-child(5),
 .tableBox table.rekap-akhir td:nth-child(5) {
-  width: 15%; /* kolom NA */
+  width: 8%; /* kolom NN */
+}
+
+.tableBox table.rekap-akhir th:nth-child(6),
+.tableBox table.rekap-akhir td:nth-child(6) {
+  width: 18%; /* kolom NA */
   font-weight: 700;
 }
 
@@ -739,12 +745,13 @@ async function loadRekap(sheetName="Rekap"){
 
     // parse rows
     const rowsAkhir = dataAkhir.slice(1) || [];
-    // rowsAkhir expected columns: Nama, Nilai Individu, Nilai Kelompok, Nilai Akhir
+    // rowsAkhir expected columns: Nama, Nilai Individu, Nilai Kelompok, Nilai Non Teknis, Nilai Akhir
     const rows = rowsAkhir.map(r=>({
       nama: r[0]||'',
       ni: Number(r[1])||0,
       nk: Number(r[2])||0,
-      na: Number(r[3])||0
+      nn: Number(r[3])||0,
+      na: Number(r[4])||0
     })).sort((a,b)=>b.na - a.na);
 
     // Filter hanya TOP 100 individu terbaik (PERUBAHAN DISINI: slice(0, 100))
@@ -754,7 +761,7 @@ async function loadRekap(sheetName="Rekap"){
     document.getElementById("rekapTable").classList.add("rekap-akhir"); 
 
     // Header Tabel Rekap Akhir
-    document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NA</th></tr>`;
+    document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr>`;
     
     // Render hanya Top 100 Individu
     const combined = topInd.map((r,i)=>`
@@ -763,6 +770,7 @@ async function loadRekap(sheetName="Rekap"){
         <td style="text-align:left;padding-left:8px;">${r.nama}</td>
         <td>${r.ni}</td>
         <td>${r.nk}</td>
+        <td>${r.nn}</td>
         <td>${r.na}</td>
       </tr>
     `).join("");

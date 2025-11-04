@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Nilai MPS</title>
+<title>Rekap Nilai MPS - FIXED POS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,156 +12,1501 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
 <style>
-/* === Seluruh CSS tetap sama dari versi FIXED POS === */
-body{margin:0;font-family:'Poppins',sans-serif;background:transparent;color:#1e293b;font-size:0.85rem;}
-.sidebar{position:fixed;right:0;top:0;width:280px;height:100vh;background:rgba(255,255,255,0.98);backdrop-filter:blur(10px);border-left:1px solid #e2e8f0;box-shadow:-6px 0 20px rgba(0,0,0,0.1);display:flex;flex-direction:column;z-index:9999;}
-.sidebar header{padding:8px 6px;background:linear-gradient(90deg,#4facfe,#00f2fe);color:#fff;font-size:1.2rem;font-weight:700;text-align:center;box-shadow:0 4px 8px rgba(0,0,0,0.15);}
-.sidebar main{flex:1;overflow-y:auto;padding:6px 8px;}
-.top-controls{display:flex;gap:4px;margin-bottom:4px;align-items:center;}
-select{flex-grow:1.5;padding:4px;border:1px solid #93c5fd;border-radius:6px;background:#f1f5f9;font-size:0.75rem;}
-.action-btns{display:flex;gap:3px;}
-.action-btns button{flex:1;padding:4px 6px;font-size:0.8rem;border:none;border-radius:5px;color:#fff;font-weight:600;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,0.2);}
-.btn-pdf{background:#60a5fa;}.btn-excel{background:#4ade80;}
-.statBox{display:flex;justify-content:space-between;background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border:1px solid #bfdbfe;border-radius:6px;padding:0px 2px;margin-bottom:4px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
-.statItem{text-align:center;flex:1;padding:0 3px;}
-.statItem h5{font-size:0.45rem;margin:0 0 1px 0;color:#64748b;font-weight:400;}
-.statItem p{font-size:0.9rem;font-weight:800;color:#1d4ed8;margin:0;}
-.statProsentase-red{color:#dc2626!important;}.statProsentase-green{color:#10b981!important;}
-.tableBox{border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:4px;overflow:hidden;border:1px solid #e0e7ff;}
-.tableBox table{width:100%;font-size:0.7rem;border-collapse:collapse;}
-.tableBox th,.tableBox td{padding:2px 4px;text-align:center;border:none;}
-.tableBox th{background:#1d4ed8;color:#fff;font-weight:600;}
-.tableBox tr:nth-child(even) td{background:#f9faff;}
-.tableBox tr:hover td{background:#eff6ff;}
-.tableBox td:nth-child(2){text-align:left;padding-left:8px;}
-footer{text-align:center;font-size:0.8rem;padding:4px;}
-.unit-recap-bar{margin-top:4px;background:#fff;border:1px solid #e0e7ff;border-radius:8px;padding:6px 8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
-.bar-item{height:18px;background:#f3f4f6;border-radius:4px;position:relative;overflow:hidden;margin-bottom:3px;}
-.bar-fill{height:100%;transition:width .5s ease-out;}
-.bar-label{position:absolute;left:6px;right:6px;color:#1f2937;font-size:0.65rem;font-weight:600;display:flex;justify-content:space-between;}
+/* 1. Kerapatan dan Elegan/Modern */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: transparent;
+  color: #1e293b;
+  font-size: 0.85rem;
+}
+.sidebar {
+  /* Aturan Default untuk Desktop (280px) */
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 280px; /* Lebar default: 280px */
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-left: 1px solid #e2e8f0;
+  box-shadow: -6px 0 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+}
+/* Header: Rata Tengah */
+.sidebar header {
+  padding: 8px 6px;
+  /* Warna Default (Mobile): Biru Tua */
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* 🌐 DESKTOP OVERRIDES (min-width: 769px) */
+@media (min-width: 769px) {
+  /* Hapus FIX AGGRESIF (lebar) di sini, biar JS yang atur. */
+  .sidebar {
+    width: 280px; 
+    position: fixed;
+    height: 100vh;
+  }
+    
+  .sidebar header {
+    height: 55px; 
+    padding: 0 12px;
+    /* Memaksa gradien warna Desktop (Biru Muda) */
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border-bottom: 1px solid #ccc;
+  }
+  .header-title {
+    flex: 1;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  }
+}
+
+/* Hapus CSS penyembunyian ikon di Desktop sebelumnya */
+
+
+.sidebar main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 8px;
+}
+
+/* Top Controls */
+.top-controls {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 2px;
+  align-items: center;
+}
+select {
+  flex-grow: 1.5;
+  padding: 4px;
+  border: 1px solid #93c5fd;
+  border-radius: 6px;
+  background: #f1f5f9;
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  transition: border-color 0.3s;
+}
+select:focus {
+  border-color: #2563eb;
+}
+.action-btns {
+    display: flex;
+    gap: 3px;
+    flex-grow: 1;
+}
+/* Tombol 3D Warna Terang */
+.action-btns button {
+  flex: 1;
+  padding: 4px 6px;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.1s ease;
+  
+  /* Styling 3D */
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+}
+
+.btn-pdf { background: #60a5fa; } /* Blue 400 */
+.btn-excel { background: #4ade80; } /* Green 400 */
+
+.action-btns button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Stat Box (1 baris) */
+.statBox {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 0px 2px;
+  margin-bottom: 2px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.statItem { 
+  text-align: center;
+  flex: 1;
+  padding: 0 3px;
+}
+.statItem h5 { font-size: 0.45rem; margin: 0 0 1px 0; color: #64748b; font-weight: 400; }
+.statItem p { font-size: 0.9rem; font-weight: 800; color: #1d4ed8; margin: 0; }
+
+/* CSS BARU: Prosentase */
+.statBox .statProsentase {
+    font-size: 1.1rem !important; /* Larger */
+    font-weight: 900 !important; /* Bolder */
+}
+/* Warna Default: Merah (untuk < 100%) */
+.statBox .statProsentase-red {
+    color: #dc2626 !important; /* Stronger Red (Red 600) */
+}
+/* Warna 100%: Hijau */
+.statBox .statProsentase-green {
+    color: #10b981 !important; /* Strong Green (Green 500) */
+}
+
+
+/* Tabel Rekap (Peringkat) Elegan */
+.tableBox {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 2px;
+  overflow: hidden;
+  border: 1px solid #e0e7ff;
+}
+.tableBox table {
+  width: 100%;
+  font-size: 0.7rem;
+  border-collapse: collapse;
+}
+.tableBox th, .tableBox td { 
+  padding: 2px 4px !important;
+  text-align: center;
+  border: none;
+}
+.tableBox th { 
+  background: #1d4ed8; 
+  color: #fff; 
+  font-weight: 600;
+  border-bottom: 1px solid #3b82f6;
+}
+/* Modifikasi: Kolom peringkat di tengah */
+.tableBox th:nth-child(1) { 
+    width: 12%; 
+}
+.tableBox td:nth-child(1) {
+    width: 12%; 
+    font-weight: 700;
+}
+.tableBox td:nth-child(2) { text-align: left; font-weight: 500; }
+.tableBox td:nth-child(3) { color: #4b5563; font-size: 0.65rem; }
+.tableBox tr:nth-child(even) td { background: #f9faff; }
+.tableBox tr:hover td { background: #eff6ff; }
+.tableBox tr:hover td:nth-child(1) { background: #bfdbfe; }
+
+/* 🔧 Lebar kolom rekap akhir dan umum */
+.tableBox table th:nth-child(1),
+.tableBox table td:nth-child(1) {
+  width: 10%; /* kolom peringkat */
+}
+
+/* Lebar Kolom untuk REKAP AKHIR (5 kolom: 🏅, Nama, NI, NK, NA) */
+.tableBox table.rekap-akhir th:nth-child(2),
+.tableBox table.rekap-akhir td:nth-child(2) {
+  width: 50%; /* kolom Nama lebih lebar */
+  text-align: left;
+  padding-left: 8px;
+}
+
+.tableBox table.rekap-akhir th:nth-child(3),
+.tableBox table.rekap-akhir td:nth-child(3) {
+  width: 8%; /* kolom NI */
+}
+
+.tableBox table.rekap-akhir th:nth-child(4),
+.tableBox table.rekap-akhir td:nth-child(4) {
+  width: 8%; /* kolom NK */
+}
+
+.tableBox table.rekap-akhir th:nth-child(5),
+.tableBox table.rekap-akhir td:nth-child(5) {
+  width: 8%; /* kolom NN */
+}
+
+.tableBox table.rekap-akhir th:nth-child(6),
+.tableBox table.rekap-akhir td:nth-child(6) {
+  width: 18%; /* kolom NA */
+  font-weight: 700;
+}
+
+/* 🎯 Lebar Kolom untuk REKAP INDIVIDU/KELOMPOK (4 kolom: 🏅, Nama, Unit, Jumlah) */
+.tableBox table:not(.rekap-akhir) th:nth-child(2),
+.tableBox table:not(.rekap-akhir) td:nth-child(2) {
+    width: 50%; /* Nama disesuaikan */
+    text-align: left;
+    padding-left: 8px;
+}
+.tableBox table:not(.rekap-akhir) th:nth-child(3),
+.tableBox table:not(.rekap-akhir) td:nth-child(3) {
+    width: 30%; /* Unit dilebarkan untuk 15 karakter */
+}
+.tableBox table:not(.rekap-akhir) th:nth-child(4),
+.tableBox table:not(.rekap-akhir) td:nth-child(4) {
+    width: 10%; /* Jml dikecilkan (Max 3 char) */
+}
+
+
+/* Tabel POS Elegan dan Proporsional */
+.posTable {
+  margin-top: 2px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #e0e7ff;
+}
+.posTable h4 {
+  padding: 5px 8px;
+  font-size: 0.75rem;
+  background: #374151;
+  color: white;
+  margin: 0;
+}
+.posTable table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+.posTable th {
+  background: #4b5563 !important;
+  color: white;
+  border-bottom: 1px solid #9ca3af;
+  font-weight: 500;
+}
+.posTable table th,
+.posTable table td {
+  width: 20%;
+}
+
+.posTable td { 
+    font-size: 0.65rem; 
+    background: #fefefe;
+    text-align: center;
+}
+
+/* ======== Pewarnaan Nilai POS (final) ======== */
+.posTable td.pos-value {
+  /* Ukuran dan ketebalan seragam untuk semua nilai */
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  vertical-align: middle;
+  transition: all 0.2s ease-in-out;
+  color: #1e293b; 
+}
+
+.posTable td.pos-max {
+  color: #1e3a8a !important;         /* Biru Tua untuk MAKSIMUM */
+  background: transparent !important;
+  font-weight: 700 !important; 
+  font-size: 0.9rem !important; 
+}
+
+.posTable td.pos-min {
+  color: #dc2626 !important;         /* Merah Tua untuk SEMUA SELAIN MAKSIMUM */
+  background: transparent !important;
+  font-weight: 700 !important; 
+  font-size: 0.9rem !important; 
+}
+
+
+/* Pastikan sel data non-angka (misal: teks) di kolom pertama tetap berukuran normal */
+.posTable td:first-child {
+    font-size: 0.65rem;
+    font-weight: normal;
+}
+
+/* Warna Header POS */
+.posTable th:nth-child(1) { background: #a5b4fc !important; }
+.posTable th:nth-child(2) { background: #6ee7b7 !important; }
+.posTable th:nth-child(3) { background: #fcd34d !important; }
+.posTable th:nth-child(4) { background: #fb923c !important; }
+.posTable th:nth-child(5) { background: #c084fc !important; }
+
+
+/* Bar Chart Horizontal */
+.unit-recap-bar {
+  margin-top: 2px;
+  background: #fff;
+  border: 1px solid #e0e7ff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.unit-recap-bar h4 {
+  margin: 0 0 6px 0;
+  font-size: 0.8rem;
+  color: #1d4ed8;
+  text-align: center;
+  border-bottom: 1px dashed #d1d5db;
+  padding-bottom: 4px;
+}
+.unit-recap-bar h4 span {
+  font-weight:400;
+  font-size:0.7em;
+  color:#6b7280;
+}
+.bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px !important;
+}
+.bar-item {
+  height: 18px !important;
+  background: #f3f4f6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: visible; /* Diubah dari hidden */
+}
+.bar-fill {
+  height: 100%;
+  transition: width 0.5s ease-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  position: relative; /* Anchor untuk ::after */
+}
+.bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -11px; /* Jarak agar ujung panah berada tepat di akhir batang */
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent; 
+  border-bottom: 11px solid transparent; 
+  border-left: 11px solid var(--bar-color); 
+  z-index: 2; 
+}
+.bar-label {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  color: #1f2937;
+  font-size: 0.65rem;
+  font-weight: 600;
+  z-index: 3; /* Pastikan label berada di atas panah */
+  display: flex;
+  justify-content: space-between;
+}
+.bar-label span:last-child {
+  background: rgba(255, 255, 255, 0.4);
+  color: #1d4ed8;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+/* Copyright di Tengah */
+footer {
+  font-size: 0.9rem;
+  padding: 3px;
+  text-align: center;
+}
+.footer-link {
+    font-weight: 700; /* BOLD */
+    text-decoration: none; /* NO UNDERLINE */
+    color: inherit; /* INHERIT COLOR */
+    cursor: pointer;
+}
+.footer-link:hover, .footer-link:visited {
+    color: inherit; 
+}
+
+</style>
+<style>
+    /* 🌐 Tampilan umum */
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+    }
+
+    /* ===== Tampilan penuh hanya di MOBILE (Diperbaiki untuk Scrolling) ===== */
+@media (max-width: 768px) {
+    #mobileHeader {
+        display: none !important;
+    }
+    
+    .sidebar {
+        position: static !important;
+        width: 100vw !important;
+        height: 100vh !important; /* PENTING: Tinggi penuh */
+        min-height: 100vh !important;
+        margin-top: 0; 
+        border: none !important;
+        box-shadow: none !important;
+        display: flex;
+        flex-direction: column;
+        overflow-y: hidden; /* Sidebar sendiri tidak boleh di scroll */
+    }
+    
+    .sidebar main {
+        flex: 1; /* PENTING: Mengambil semua ruang sisa */
+        overflow-y: auto; /* PENTING: Area yang bisa di scroll */
+        padding: 8px 10px;
+        height: auto; /* Hapus height fix */
+    }
+    
+    .sidebar footer {
+    flex-shrink: 0;
+    height: 30px;
+    padding: 5px;
+    background: #f1f5f9;
+  }
+}
+
+    /* 💻 Desktop tetap normal */
+    @media (min-width: 769px) {
+      #mobileHeader {
+        display: none !important; 
+      }
+      .sidebar main {
+        overflow-y: auto;
+      }
+    }
+
+    /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
+@media (min-width: 769px) {
+  .sidebar header {
+    height: 55px !important; 
+    padding: 0 12px !important;
+    background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+  .header-title {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
+  }
+}
+
+  </style>
+<style>
+@media (min-width: 769px) {
+  .sidebar header {
+    height: 54px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 12px !important;
+  }
+
+  .sidebar header .header-title {
+    flex: 0 0 auto !important;
+    text-align: center !important;
+    font-size: 1.4rem !important; /* perbesar ukuran title */
+    font-weight: 800 !important;
+    color: white !important;
+    width: 100%;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  }
+}
+</style>
+<style>
+#mobileHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  z-index: 2000;
+  margin: 0;
+}
+
+#menuToggle {
+  font-size: 26px;
+  font-weight: 900;
+  color: white;
+  cursor: pointer;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+#mobileHeader .header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  margin-left: -30px;
+}
+
+#btnHome svg, .home-icon-btn svg {
+  fill: white;
+  width: 32px;
+  height: 32px;
+}
+
+#mobileSubmenu {
+  display: none;
+  position: fixed;
+  top: 55px;
+  left: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 1999;
+  white-space: nowrap;
+  padding: 5px 0;
+}
+#mobileSubmenu a {
+  display: block;
+  padding: 10px 18px;
+  text-decoration: none;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+#mobileSubmenu a:hover {
+  background: #f3f4f6;
+}
+#mobileSubmenu.show {
+  display: block;
+}
+
+</style>
+<style>
+@media (min-width: 769px) {
+  #menuToggle,
+  .home-icon-btn,
+  #mobileHeader {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+</style>
+<style>
+/* CSS khusus untuk tabel detail rekap */
+#detailRekapTable th, #detailRekapTable td {
+  padding: 4px 6px !important;
+  font-size: 0.8rem !important;
+}
+#detailRekapTable th:nth-child(1), #detailRekapTable td:nth-child(1) { width: 5%; } /* No */
+#detailRekapTable th:nth-child(2), #detailRekapTable td:nth-child(2) { text-align: left !important; } /* Kategori */
+#detailRekapTable th:nth-child(3), #detailRekapTable td:nth-child(3) { width: 10%; font-weight: 700; } /* Nilai */
+#detailRekapTable th:nth-child(4), #detailRekapTable td:nth-child(4) { width: 25%; } /* Predikat */
+.kategori-header { background: #e0f2fe !important; font-weight: 800 !important; color: #1d4ed8 !important; text-align: left !important; }
+.kategori-item td:nth-child(3) { color: #dc2626; } /* Warna merah untuk nilai */
+
+/* START: New Autocomplete Styles */
+.custom-input {
+  width: 100%; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  font-size: 0.9rem;
+  box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+}
+
+.autocomplete-container {
+    position: relative; /* Anchor untuk floating list */
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%; /* Tepat di bawah input */
+    left: 0;
+    right: 0;
+    z-index: 100; 
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none; 
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-height: 150px; /* Batasi tinggi */
+    overflow-y: auto;
+    font-size: 0.85rem;
+    display: none; /* Default tersembunyi */
+}
+
+.autocomplete-item {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover, .autocomplete-item.active {
+    background: #e0f2fe; /* Warna hover biru muda */
+}
+/* END: New Autocomplete Styles */
 </style>
 </head>
 
 <body>
-<div class="sidebar">
-<header>Rekap Nilai MPS</header>
-<main>
-<div class="top-controls">
-  <select id="jenisRekap">
-    <option value="Rekap">Rekap Individu</option>
-    <option value="RekapKelompok">Rekap Kelompok</option>
-    <option value="Nilai_Lain">Rekap Non Teknis</option> <!-- ✅ Menu baru -->
-    <option value="RekapAkhir">Rekap Akhir</option>
-  </select>
-  <div class="action-btns">
-    <button class="btn-pdf" id="btnPDF">PDF</button>
-    <button class="btn-excel" id="btnExcel">Excel</button>
-  </div>
+<header id="mobileHeader">
+    <span>Rekap Interaktif</span>
+    <div id="btnHome" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
+        </svg>
+    </div>
+  </header>
+<div id="mobileSubmenu" style="display:none; position:fixed; top:55px; right:0; width:280px; background:white; border-left:1px solid #ddd; box-shadow:-4px 4px 10px rgba(0,0,0,0.1); z-index:9999;">
+  <a href="Form_Individu.html" style="display:block; padding:10px 15px; text-decoration:none; color:#1d4ed8; font-weight:600;">Penilaian Individu</a>
+  <a href="Form_Kelompok.html" style="display:block; padding:10px 15px; text-decoration:none; color:#1d4ed8; font-weight:600;">Penilaian Kelompok</a>
 </div>
 
-<div class="statBox">
-  <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
-  <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
-  <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
-  <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
-  <div class="statItem"><h5>Prosentase</h5><p id="statProsentase" class="statProsentase-red">0%</p></div>
-</div>
+  <div class="sidebar"> 
+    <header>
+      <div id="menuToggle" class="mobile-only" style="font-size: 24px; font-weight: 900; color: white; cursor: pointer;">☰</div>
+      <span class="header-title">Rekap Nilai MPS</span>
+      <div class="home-icon-btn mobile-only" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </div>
+    </header>
+    <main>
+      
+      <div class="top-controls">
+        <select id="jenisRekap">
+          <option value="Rekap">Rekap Individu</option>
+          <option value="RekapKelompok">Rekap Kelompok</option>
+          <option value="RekapAkhir">Rekap Akhir</option>
+          <option value="NilaiDetail">Nilai Individu Terbaru</option> 
+        </select>
 
-<div id="contentArea">
-  <div class="tableBox">
-    <table id="rekapTable"><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table>
-  </div>
-</div>
+        <div class="action-btns">
+          <button class="btn-pdf" id="btnPDF">PDF</button>
+          <button class="btn-excel" id="btnExcel">Excel</button>
+        </div>
+      </div>
 
-<div class="unit-recap-bar">
-  <h4 id="unitRecapTitle">Rerata Nilai Unit</h4>
-  <div id="unitBarContainer"></div>
-</div>
-</main>
-<footer>© 2025 Andes | MPS System</footer>
-</div>
+      <div id="detailRekapPanel" style="display:none; margin-top: 10px; padding: 10px; background: #fff; border: 1px solid #e0e7ff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          <div style="padding:0;">
+              <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+                  
+                  <div class="autocomplete-container" style="flex: 1;">
+                      <input type="text" id="inputNama" placeholder="Nama Peserta (ketik & pilih)" class="custom-input">
+                      <div id="suggestionsNama" class="autocomplete-list"></div>
+                  </div>
 
+                  <div class="autocomplete-container" style="flex: 1;">
+                      <input type="text" id="inputUnit" placeholder="Unit (ketik & pilih)" class="custom-input">
+                      <div id="suggestionsUnit" class="autocomplete-list"></div>
+                  </div>
+                  
+              </div>
+              <div id="detailRekapContent" style="display:none; border-top:1px solid #eee; margin-top:10px; padding-top:15px;">
+                  <div class="tableBox" style="margin-bottom:10px;">
+                      <table id="detailRekapTable">
+                          <thead><tr><th>No</th><th>Kategori</th><th>Nilai</th><th>Predikat</th></tr></thead>
+                          <tbody></tbody>
+                      </table>
+                  </div>
+                  
+                  <div style="margin-top:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9faff;">
+                      <h5 style="margin:0 0 8px 0; font-size:1rem; color:#1d4ed8;">Total Penilaian: <span id="totalPenilaian" style="font-weight:900;">0</span></h5>
+                      <h5 style="margin:0 0 5px 0; font-size:0.9rem; font-weight:700;">Analisis:</h5>
+                      <p id="analisisNarasi" style="font-size:0.85rem; line-height:1.4; color:#4b5563; margin:0;"></p>
+                  </div>
+                  
+                  <button class="btn-pdf" id="btnDetailPDF" style="width:100%; margin-top:10px;">Export Detail PDF</button>
+              </div>
+          </div>
+      </div>
+      <div class="statBox">
+        <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
+        <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
+        <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
+        <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
+        <div class="statItem"><h5>Prosentase</h5><p id="statProsentase" class="statProsentase statProsentase-red">0%</p></div> 
+      </div>
+
+      <div class="tableBox">
+        <table id="rekapTable">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="posTable" id="posSection" style="display:none;">
+        <h4 id="posTitle"></h4>
+        <table id="posTable">
+          <thead id="posHead"></thead>
+          <tbody id="posBody"></tbody>
+        </table>
+      </div>
+
+      <div class="unit-recap-bar">
+        <h4 id="unitRecapTitle">Rerata Nilai Unit<span></span></h4>
+        <div id="unitBarContainer" class="bar-container">
+          </div>
+      </div>
+    </main>
+    <footer>
+        <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank" class="footer-link">
+            © 2025 Andes | MPS System
+        </a>
+    </footer>
+    </div>
 <script>
-const sheetAPI="https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
-let latestData=[],refreshTimer=null;
-const softColors=['#93c5fd','#6ee7b7','#fcd34d','#fb923c','#c4b5fd','#f97316','#34d399','#22d3ee','#f472b6','#a78bfa'];
-function getRankDisplay(r){return r===1?"🥇":r===2?"🥈":r===3?"🥉":r;}
-async function fetchSheet(s){const r=await fetch(`${sheetAPI}?sheet=${s}`);return await r.json();}
+const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
+let latestData=[], refreshTimer=null;
+let uniqueNames = [], uniqueUnits = []; // New globals for Autocomplete data
 
-function renderUnitBars(unitMap){
- const c=document.getElementById("unitBarContainer");c.innerHTML="";
- const unitAvgs=Object.entries(unitMap).map(([u,v])=>({unit:u,avg:(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)})).sort((a,b)=>b.avg-a.avg);
- const max=Math.max(...unitAvgs.map(u=>+u.avg));
- unitAvgs.forEach((u,i)=>{
-  const color=softColors[i%softColors.length];
-  const w=(u.avg/max)*100;
-  c.innerHTML+=`<div class="bar-item"><div class="bar-fill" style="width:${w}%;background:${color}"></div><div class="bar-label"><span>${u.unit}</span><span>${u.avg}</span></div></div>`;
- });
+// Warna soft untuk batang unit
+const softColors = [
+    '#93c5fd', '#6ee7b7', '#fcd34d', '#fb923c', '#c4b5fd', 
+    '#f97316', '#34d399', '#22d3ee', '#f472b6', '#a78bfa'
+];
+
+// FUNGSI BARU: Konversi Nilai ke Predikat
+function getPredikat(nilai) {
+    nilai = parseInt(nilai) || 0;
+    if (nilai >= 5) return "Sangat Baik"; // Perubahan: >=5
+    if (nilai === 4) return "Baik";
+    if (nilai === 3) return "Cukup Baik";
+    if (nilai === 2) return "Kurang Baik";
+    if (nilai === 1) return "Tidak Baik";
+    return "-";
 }
 
-async function loadRekap(sheet="Rekap"){
+// FUNGSI BARU: Data Dummy untuk simulasi nilai (Ganti dengan fetchSheet jika API tersedia)
+const dummyIndividualData = {
+    Kedisiplinan: 4, Kekompakan: 5, 'Pemahaman Materi': 3
+};
+const dummyGroupData = {
+    'Kekompakan Kelompok': 4, 'Kerjasama & Kolaborasi': 5, 'Ketekukan & Daya Juang': 4
+};
+// Asumsi nilai total max PBB:20, Perlengkapan:10, Bahan Lainnya:10. Total max 40
+const dummyNonTeknisData = {
+    'Kemampuan PBB': 18, 
+    'Kelengkapan Perlengkapan': 9, 
+    'Kelengkapan Bahan Lainnya': 8
+};
+// Nilai Kepemimpinan: Asumsi max 5 per sub.
+const dummyLeadershipData = {
+    'Aspek Pengetahuan': 4, 
+    'Aspek Sikap': 5
+};
+// Nilai Lainnya: Asumsi max 5 per sub.
+const dummyOtherData = {
+    'Penilaian Diri Sendiri': 5, 
+    'Penilaian Antar Teman': 4
+};
+
+// FUNGSI BARU: Render Detail Rekap
+async function renderDetailRekap(nama, unit, sheetType) {
+    const tableBody = document.querySelector("#detailRekapTable tbody");
+    const contentDiv = document.getElementById("detailRekapContent");
+    let totalScore = 0;
+    let tableHTML = "";
+    
+    // --- A. PENILAIAN INDIVIDU (Max Score: 15) ---
+    tableHTML += `<tr><td colspan="4" class="kategori-header">A. PENILAIAN INDIVIDU (Max 15)</td></tr>`;
+    Object.entries(dummyIndividualData).forEach(([k, v], i) => {
+        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
+        totalScore += v;
+    });
+
+    // --- B. PENILAIAN KELOMPOK (Max Score: 15) ---
+    tableHTML += `<tr><td colspan="4" class="kategori-header">B. PENILAIAN KELOMPOK (Max 15)</td></tr>`;
+    Object.entries(dummyGroupData).forEach(([k, v], i) => {
+        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
+        totalScore += v;
+    });
+
+    // --- C. PENILAIAN NON TEKNIS (Max Score: 40) ---
+    tableHTML += `<tr><td colspan="4" class="kategori-header">C. PENILAIAN NON TEKNIS (Max 40)</td></tr>`;
+    Object.entries(dummyNonTeknisData).forEach(([k, v], i) => {
+        // Skala Predikat Non Teknis (contoh: dibagi 8, max 5)
+        const predikatVal = Math.min(5, Math.ceil(v / 8));
+        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(predikatVal)}</td></tr>`; 
+        totalScore += v;
+    });
+    
+    // --- D. PENILAIAN KEPEMIMPINAN (Max Score: 10) ---
+    tableHTML += `<tr><td colspan="4" class="kategori-header">D. PENILAIAN KEPEMIMPINAN (Max 10)</td></tr>`;
+    Object.entries(dummyLeadershipData).forEach(([k, v], i) => {
+        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
+        totalScore += v;
+    });
+
+    // --- E. PENILAIAN LAINNYA (Max Score: 10) ---
+    tableHTML += `<tr><td colspan="4" class="kategori-header">E. PENILAIAN LAINNYA (Max 10)</td></tr>`;
+    Object.entries(dummyOtherData).forEach(([k, v], i) => {
+        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
+        totalScore += v;
+    });
+    
+    tableBody.innerHTML = tableHTML;
+    document.getElementById("totalPenilaian").innerText = totalScore;
+    
+    // --- ANALISIS NARATIF --- (Total Maksimum: 15+15+40+10+10 = 90)
+    let narasi = `Rekapitulasi nilai untuk ${nama} dari unit ${unit} menunjukkan **Total Penilaian** sebesar **${totalScore}** (dari maksimal 90). `;
+    
+    if (totalScore >= 75) {
+        narasi += "Nilai ini menunjukkan performa yang **Sangat Baik** secara keseluruhan. Seluruh aspek seperti Kedisiplinan, Kekompakan, dan Kepemimpinan terlihat sangat menonjol dan mencapai target tinggi. Direkomendasikan untuk mempertahankan standar tinggi ini dan menjadi role model.";
+    } else if (totalScore >= 55) {
+        narasi += "Nilai ini menunjukkan performa yang **Baik**. Peserta sudah memenuhi sebagian besar ekspektasi. Perlu sedikit peningkatan di aspek Non Teknis (misal: Kelengkapan Perlengkapan) atau Ketekukan & Daya Juang untuk mencapai potensi maksimal. Fokus pada area tersebut akan memberikan dampak signifikan.";
+    } else {
+        narasi += "Nilai ini menunjukkan performa yang **Cukup Baik**. Terdapat beberapa area yang memerlukan perhatian serius dan pembinaan intensif, terutama di aspek Pemahaman Materi dan Penilaian Non Teknis. Perlu fokus pada program perbaikan dasar untuk meningkatkan skor secara keseluruhan.";
+    }
+    document.getElementById("analisisNarasi").innerText = narasi;
+
+    contentDiv.style.display = "block";
+    
+    // Set data untuk PDF
+    document.getElementById('btnDetailPDF').dataset.nama = nama;
+    document.getElementById('btnDetailPDF').dataset.unit = unit;
+    document.getElementById('btnDetailPDF').dataset.total = totalScore;
+    document.getElementById('btnDetailPDF').dataset.narasi = narasi;
+    // Simpan data tabel untuk PDF
+    window.detailTableData = tableBody.querySelectorAll('tr'); 
+}
+
+
+// FUNGSI PERINGKAT: Menggunakan ikon hanya untuk 3 besar
+function getRankDisplay(rank){
+    return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;
+} 
+async function fetchSheet(sheet){const res=await fetch(`${sheetAPI}?sheet=${sheet}`);return await res.json();}
+
+function renderUnitBars(unitMap){
+  const container = document.getElementById("unitBarContainer");
+  container.innerHTML = "";
+  const unitAvgs = Object.entries(unitMap)
+    .map(([u, vals]) => {
+      const avg = vals.reduce((a,b)=>a+b,0) / vals.length;
+      return { unit: u, avg: Number(avg.toFixed(1)) };
+    })
+    .sort((a,b) => b.avg - a.avg);
+
+  if (unitAvgs.length === 0) {
+    container.innerHTML = "<p style='text-align:center;font-size:0.7rem;color:#6b7280;margin:0;'>Belum ada data unit</p>";
+    return;
+  }
+
+  const maxScore = Math.max(...unitAvgs.map(item => item.avg));
+  const maxBarWidth = maxScore > 0 ? 100 : 1;
+
+  unitAvgs.forEach(({unit, avg}, index) => {
+    const color = softColors[index % softColors.length];
+    const percentage = (avg / maxBarWidth) * 100;
+    const barWidth = Math.max(percentage, 5);
+
+    const barItem = `
+      <div class="bar-item">
+        <div class="bar-fill" style="width: ${barWidth}%; background-color: ${color}; --bar-color: ${color};"></div>
+        <div class="bar-label" style="color: ${barWidth > 35 ? '#1f2937' : '#1f2937'};">
+          <span>${unit}</span>
+          <span>${avg}</span>
+        </div>
+      </div>
+    `;
+    container.innerHTML += barItem;
+  });
+}
+
+// NEW FUNCTION: Extract unique names and units for autocomplete
+function extractUniqueData() {
+    uniqueNames = [];
+    uniqueUnits = [];
+    if (latestData.length > 1) {
+        const headers = latestData[0];
+        const namaIdx = headers.indexOf("Nama");
+        const unitIdx = headers.indexOf("Unit");
+
+        if (namaIdx !== -1) {
+            const names = new Set();
+            latestData.slice(1).forEach(row => {
+                if (row[namaIdx]) names.add(row[namaIdx]);
+            });
+            uniqueNames = Array.from(names).sort();
+        }
+
+        if (unitIdx !== -1) {
+            const units = new Set();
+            latestData.slice(1).forEach(row => {
+                if (row[unitIdx]) units.add(row[unitIdx]);
+            });
+            uniqueUnits = Array.from(units).sort();
+        }
+    }
+}
+
+
+async function loadRekap(sheetName="Rekap"){
  try{
-  const area=document.getElementById("contentArea");
-  area.innerHTML="<p style='text-align:center;'>Memuat...</p>";
+  // === MODE REKAP AKHIR (gabungan individu + kelompok) ===
+  if(sheetName === "RekapAkhir"){
+    // Data fetching tetap dilakukan
+    const dataAkhir = await fetchSheet("RekapAkhir");
 
-  // === REKAP NON TEKNIS ===
-  if(sheet==="Nilai_Lain"){
-    const data=await fetchSheet("Nilai_Lain");const h=data[0];const rows=data.slice(1);
-    const nama=h.indexOf("Nama"),unit=h.indexOf("Unit"),jumlah=h.indexOf("Jumlah");
-    const idxG=6,idxH=7,idxK=10,idxL=11;
+    // parse rows
+    const rowsAkhir = dataAkhir.slice(1) || [];
+    // rowsAkhir expected columns: Nama, Nilai Individu, Nilai Kelompok, Nilai Non Teknis, Nilai Akhir
+    const rows = rowsAkhir.map(r=>({
+      nama: r[0]||'',
+      ni: Number(r[1])||0,
+      nk: Number(r[2])||0,
+      nn: Number(r[3])||0,
+      na: Number(r[4])||0
+    })).sort((a,b)=>b.na - a.na);
 
-    const pbb=rows.map(r=>{
-      const n=r[nama]||"";const st=(+r[idxG]||0)+(+r[idxK]||0);const dn=(+r[idxH]||0)+(+r[idxL]||0);return {nama:n,st:st,dn:dn,jml:st+dn};
-    }).filter(r=>r.nama);
-    const top5=pbb.sort((a,b)=>b.jml-a.jml).slice(0,5);
+    // Filter hanya TOP 100 individu terbaik (PERUBAHAN DISINI: slice(0, 100))
+    const topInd = rows.slice(0,100); 
+    
+    // Tambahkan class untuk CSS Rekap Akhir
+    document.getElementById("rekapTable").classList.add("rekap-akhir"); 
 
-    const pbbHTML=`<div class="tableBox"><table><thead><tr><th colspan="5" style="background:#0284c7;color:#fff;">Anggota Dengan PBB Terbaik</th></tr><tr><th>🏅</th><th>Nama</th><th>PBB Statis</th><th>PBB Dinamis</th><th>JML</th></tr></thead><tbody>${top5.map((r,i)=>`<tr><td>${getRankDisplay(i+1)}</td><td>${r.nama}</td><td>${r.st}</td><td>${r.dn}</td><td><b>${r.jml}</b></td></tr>`).join("")}</tbody></table></div>`;
+    // Header Tabel Rekap Akhir
+    document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr>`;
+    
+    // Render hanya Top 100 Individu
+    const combined = topInd.map((r,i)=>`
+      <tr>
+        <td>${getRankDisplay(i+1)}</td>
+        <td style="text-align:left;padding-left:8px;">${r.nama}</td>
+        <td>${r.ni}</td>
+        <td>${r.nk}</td>
+        <td>${r.nn}</td>
+        <td>${r.na}</td>
+      </tr>
+    `).join("");
+    
+    // PERUBAHAN DISINI: TIDAK ADA PENAMBAHAN topKel
+    document.getElementById("tableBody").innerHTML = combined;
 
-    const sorted=rows.sort((a,b)=>Number(b[jumlah]||0)-Number(a[jumlah]||0));
-    const topRows=sorted.slice(0,50);
-    const rekapHTML=`<div class="tableBox"><table><thead><tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jumlah</th></tr></thead><tbody>${topRows.map((r,i)=>`<tr><td>${getRankDisplay(i+1)}</td><td>${r[nama]}</td><td>${r[unit]}</td><td>${r[jumlah]}</td></tr>`).join("")}</tbody></table></div>`;
+    // hide other sections while Rekap Akhir active
+    document.getElementById("posSection").style.display = "none";
+    document.getElementById("unitRecapTitle").style.display = "none";
+    document.getElementById("unitBarContainer").style.display = "none";
+    document.querySelector(".statBox").style.display = "none";
 
-    area.innerHTML=pbbHTML+rekapHTML;
-    document.querySelector(".statBox").style.display="none";
-    document.querySelector(".unit-recap-bar").style.display="none";
+    document.getElementById("unitRecapTitle").innerHTML = 'Rekap Akhir (Individu)';
     return;
   }
 
-  // === REKAP AKHIR ===
-  if(sheet==="RekapAkhir"){
-    const d=await fetchSheet("RekapAkhir");const rows=d.slice(1).map(r=>({n:r[0],ni:+r[1]||0,nk:+r[2]||0,nn:+r[3]||0,na:+r[4]||0})).sort((a,b)=>b.na-a.na);
-    const top=rows.slice(0,100);
-    area.innerHTML=`<div class="tableBox"><table><thead><tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr></thead><tbody>${top.map((r,i)=>`<tr><td>${getRankDisplay(i+1)}</td><td>${r.n}</td><td>${r.ni}</td><td>${r.nk}</td><td>${r.nn}</td><td>${r.na}</td></tr>`).join("")}</tbody></table></div>`;
-    document.querySelector(".statBox").style.display="none";
-    document.querySelector(".unit-recap-bar").style.display="none";
-    return;
+  // Hapus class untuk CSS Rekap Individu/Kelompok
+  document.getElementById("rekapTable").classList.remove("rekap-akhir");
+
+  // === REKAP BIASA (INDIVIDU/KELOMPOK) ===
+  const data=await fetchSheet(sheetName);latestData=data;
+  const headers=data[0],rows=data.slice(1);
+  const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
+  const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
+
+  // NEW: Extract data for Autocomplete
+  extractUniqueData();
+  
+  // Batasi Top 10 untuk Individu dan Kelompok
+  const limit=10; 
+  const topRows=sorted.slice(0,limit);
+  
+  // Header Disesuaikan: "Jumlah" menjadi "Jml"
+  document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jml</th></tr>";
+  
+  // Menerapkan fungsi getRankDisplay
+  document.getElementById("tableBody").innerHTML=topRows.map((r,i)=>`
+   <tr><td>${getRankDisplay(i+1)}</td><td>${r[namaIdx]||""}</td><td>${r[unitIdx]||""}</td><td>${r[jumlahIdx]||0}</td></tr>
+  `).join("");
+  
+  // show stats section again
+  document.getElementById("posSection").style.display = "block";
+  document.getElementById("unitRecapTitle").style.display = "";
+  document.getElementById("unitBarContainer").style.display = "";
+  document.querySelector(".statBox").style.display = "";
+
+  const arr=rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
+  const n=arr.length,sum=arr.reduce((a,b)=>a+b,0);
+  
+  // UPDATE STATS (Peserta, Rata, Max, Min)
+  document.getElementById("statPeserta").innerText=n;
+  document.getElementById("statRata").innerText=n?(sum/n).toFixed(1):0;
+  document.getElementById("statMax").innerText=n?Math.max(...arr):0;
+  document.getElementById("statMin").innerText=n?Math.min(...arr):0;
+
+  // POS data & PROSENTASE CALCULATION (ROBUST VERSION)
+  const posSheet = sheetName==="Rekap" ? "PosIndividu" : "PosKelompok";
+  const posData = await fetchSheet(posSheet);
+
+  let totalPosScore = 0;
+  const statProsentaseElement = document.getElementById("statProsentase");
+
+  if (posData && posData.length > 1) {
+    const posHeaders = posData[0].map(h => String(h || ""));
+    const posRows = posData.slice(1);
+
+    const posIndices = posHeaders.map((h, i) => (/^\s*pos\s*\d+/i.test(h) ? i : -1)).filter(i => i !== -1);
+
+    posHeaders.forEach((h, i) => {
+      const clean = String(h || '').replace(/\s+/g, '').toLowerCase();
+      if (clean.startsWith('pos') && /pos\d*/.test(clean)) {
+        posIndices.push(i);
+      }
+    });
+
+    posRows.forEach(r => {
+      posIndices.forEach(idx => {
+        const raw = r[idx] !== undefined && r[idx] !== null ? String(r[idx]).trim() : "0";
+        const clean = raw.replace(',', '.');
+        const num = parseFloat(clean) || 0;
+        totalPosScore += num;
+      });
+    });
+
+    const pesertaSheet = sheetName === 'Rekap' ? 'Rekap' : 'RekapKelompok';
+    const rekapData = await fetchSheet(pesertaSheet);
+    const pesertaCount = rekapData.length > 1 ? rekapData.length - 1 : posRows.length;
+
+    const totalPosColumns = posIndices.length > 0 ? posIndices.length : 5;
+    const denominator = pesertaCount * totalPosColumns;
+
+    if (denominator > 0) {
+      const percentage = (totalPosScore / denominator) * 100;
+      const displayPercentage = Math.round(percentage);
+      const colorClass = percentage >= 100 ? 'statProsentase-green' : 'statProsentase-red';
+      statProsentaseElement.innerText = `${displayPercentage}%`;
+      statProsentaseElement.className = `statProsentase ${colorClass}`;
+    } else {
+      statProsentaseElement.innerText = `0%`;
+      statProsentaseElement.className = `statProsentase statProsentase-red`;
+    }
+
+    document.getElementById("posSection").style.display = "block";
+    document.getElementById("posTitle").innerText = sheetName==="Rekap" ? "Rekap POS Individu" : "Rekap POS Kelompok";
+
+    document.getElementById("posHead").innerHTML = "<tr>" + posHeaders.map(h => {
+      if (/^\s*pos\s*\d+/i.test(h)) return `<th>${h.replace(/pos/i, 'P')}</th>`;
+      return `<th>${h}</th>`;
+    }).join("") + "</tr>";
+
+    document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
+      let rowHtml = "<tr>";
+      const numericValues = r.map(c => {
+        const val = parseFloat(String(c).replace(',', '.'));
+        return isNaN(val) ? null : val;
+      });
+      const availableNums = numericValues.filter(v => v !== null);
+      const max = availableNums.length ? Math.max(...availableNums) : null;
+
+      r.forEach((cell, i) => {
+        const numVal = numericValues[i];
+        let className = "";
+        let display = cell;
+        if (numVal !== null) {
+          display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
+          if (max !== null && numVal === max) {
+              className = "pos-value pos-max";
+          } else {
+              className = "pos-value pos-min";
+          }
+        } else {
+            className = ""; 
+        }
+        rowHtml += `<td class="${className}">${display}</td>`;
+      });
+
+      rowHtml += "</tr>";
+      return rowHtml;
+    }).join("");
+
+  } else {
+    document.getElementById("posSection").style.display = "none";
+    statProsentaseElement.innerText = `0%`;
+    statProsentaseElement.className = `statProsentase statProsentase-red`;
   }
 
-  // === REKAP INDIVIDU / KELOMPOK ===
-  const d=await fetchSheet(sheet);latestData=d;const h=d[0];const rows=d.slice(1);
-  const nama=h.indexOf("Nama"),unit=h.indexOf("Unit"),jumlah=h.indexOf("Jumlah");
-  const sorted=rows.sort((a,b)=>Number(b[jumlah]||0)-Number(a[jumlah]||0)).slice(0,10);
-  area.innerHTML=`<div class="tableBox"><table><thead><tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jml</th></tr></thead><tbody>${sorted.map((r,i)=>`<tr><td>${getRankDisplay(i+1)}</td><td>${r[nama]}</td><td>${r[unit]}</td><td>${r[jumlah]}</td></tr>`).join("")}</tbody></table></div>`;
-
-  const vals=rows.map(r=>parseFloat(r[jumlah])||0).filter(v=>v>0);
-  document.getElementById("statPeserta").innerText=vals.length;
-  document.getElementById("statRata").innerText=(vals.reduce((a,b)=>a+b,0)/vals.length||0).toFixed(1);
-  document.getElementById("statMax").innerText=Math.max(...vals);
-  document.getElementById("statMin").innerText=Math.min(...vals);
-
-  const unitMap={};rows.forEach(r=>{const u=r[unit];const v=parseFloat(r[jumlah])||0;if(!u)return;(unitMap[u]??=[]).push(v);});
+  // Unit Recap - Logic ini dijalankan di setiap pembaruan (real-time)
+  const unitMap={};rows.forEach(r=>{const u=r[unitIdx],v=parseFloat(r[jumlahIdx])||0;if(!u)return;(unitMap[u]??=[]).push(v);});
+  
+  // Tambahkan indikator waktu refresh
+  const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('unitRecapTitle').innerHTML = `Rerata Nilai Unit <span style="font-weight:400;font-size:0.7em;color:#6b7280;">(Update: ${now})</span>`;
+  
   renderUnitBars(unitMap);
-  document.querySelector(".statBox").style.display="";
-  document.querySelector(".unit-recap-bar").style.display="";
+  
  }catch(e){console.error(e);}
 }
 
-document.getElementById("jenisRekap").addEventListener("change",e=>loadRekap(e.target.value));
-loadRekap();
+// NEW FUNCTION: Autocomplete Logic
+function setupAutocomplete(inputId, suggestionsId, dataList) {
+    const input = document.getElementById(inputId);
+    const suggestionsBox = document.getElementById(suggestionsId);
+
+    if (!input || !suggestionsBox) return;
+
+    let currentFocus = -1;
+
+    input.addEventListener("input", function() {
+        // PENTING: Panggil fungsi cek dan tampilkan saat input berubah (termasuk saat mengetik)
+        checkAndDisplayDetail(); 
+        
+        const val = this.value;
+        suggestionsBox.innerHTML = "";
+        
+        if (!val) {
+            suggestionsBox.style.display = 'none';
+            return false;
+        }
+
+        let matchCount = 0;
+        dataList.forEach((item, index) => {
+            // Case-insensitive check if the item starts with the input value
+            if (item.toUpperCase().startsWith(val.toUpperCase()) && matchCount < 10) { 
+                
+                const itemDiv = document.createElement("div");
+                itemDiv.innerHTML = "<strong>" + item.substr(0, val.length) + "</strong>";
+                itemDiv.innerHTML += item.substr(val.length);
+                itemDiv.innerHTML += "<input type='hidden' value='" + item + "'>";
+                itemDiv.className = "autocomplete-item";
+                itemDiv.setAttribute('data-index', index);
+                
+                itemDiv.addEventListener("click", function() {
+                    input.value = this.getElementsByTagName("input")[0].value;
+                    suggestionsBox.style.display = 'none';
+                    // Trigger 'input' event to automatically trigger rendering
+                    input.dispatchEvent(new Event('input', { bubbles: true })); 
+                });
+                
+                suggestionsBox.appendChild(itemDiv);
+                matchCount++;
+            }
+        });
+
+        if (suggestionsBox.children.length > 0) {
+            suggestionsBox.style.display = 'block';
+            currentFocus = -1;
+        } else {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+
+    // Keyboard navigation (Arrow up/down, Enter)
+    input.addEventListener("keydown", function(e) {
+        let x = suggestionsBox.getElementsByClassName("autocomplete-item");
+        if (x) x = Array.from(x); // Convert HTMLCollection to Array
+        
+        if (e.keyCode == 40) { // DOWN key
+            currentFocus++;
+            addActive(x);
+        } else if (e.keyCode == 38) { // UP key
+            currentFocus--;
+            addActive(x);
+        } else if (e.keyCode == 13) { // ENTER key
+            e.preventDefault();
+            if (currentFocus > -1) {
+                if (x && x[currentFocus]) x[currentFocus].click();
+            } else if (x.length === 1 && x[0].innerHTML.toUpperCase().startsWith(this.value.toUpperCase())) { 
+                x[0].click(); // Auto-select if only one item is visible and matches
+            }
+        }
+    });
+
+    function removeActive(x) {
+        x.forEach(item => item.classList.remove("active"));
+    }
+
+    function addActive(x) {
+        if (!x || x.length === 0) return false;
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        x[currentFocus].classList.add("active");
+        x[currentFocus].scrollIntoView({ block: 'nearest' });
+    }
+
+    // Close the autocomplete list when clicking outside
+    document.addEventListener("click", function (e) {
+        if (e.target !== input) {
+            suggestionsBox.style.display = 'none';
+        }
+    });
+}
+
+// FUNGSI BARU: Auto-Display Logic
+function checkAndDisplayDetail() {
+    const nama = document.getElementById("inputNama").value.trim();
+    const unit = document.getElementById("inputUnit").value.trim();
+    const sheetType = document.getElementById("jenisRekap").value;
+
+    if (nama && unit) {
+        renderDetailRekap(nama, unit, sheetType);
+    } else {
+        // Sembunyikan jika salah satu atau keduanya kosong
+        document.getElementById("detailRekapContent").style.display = "none";
+    }
+}
+
+
+// === MAIN EXECUTION ===
+
+// 1. Initial Load (Memuat data "Rekap" untuk Autocomplete)
+loadRekap("Rekap"); 
+
+// 2. Set Interval for Refresh
 if(refreshTimer)clearInterval(refreshTimer);
-refreshTimer=setInterval(()=>{const v=document.getElementById("jenisRekap").value;loadRekap(v);},10000);
-document.getElementById("btnExcel").addEventListener("click",()=>{const ws=XLSX.utils.aoa_to_sheet(latestData);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Rekap");XLSX.writeFile(wb,"Rekap_MPS.xlsx");});
-document.getElementById("btnPDF").addEventListener("click",()=>{const {jsPDF}=window.jspdf;const doc=new jsPDF({orientation:"portrait",unit:"pt",format:"a4"});doc.text("Rekap Nilai MPS",220,40);doc.autoTable({html:"#rekapTable",startY:60});doc.save("Rekap_MPS.pdf");});
+// Pembaruan data dilakukan setiap 10 detik (10000 ms)
+refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").value;
+  // Hanya refresh jika bukan di NilaiDetail
+  if (val !== "NilaiDetail") { 
+    loadRekap(val);
+  }
+},10000);
+
+// 3. Setup Autocomplete after initial load/data extraction is complete
+document.addEventListener("DOMContentLoaded", () => {
+    // NOTE: uniqueNames dan uniqueUnits akan otomatis diperbarui oleh loadRekap()
+    setTimeout(() => {
+        setupAutocomplete("inputNama", "suggestionsNama", uniqueNames);
+        setupAutocomplete("inputUnit", "suggestionsUnit", uniqueUnits);
+        
+        // PENTING: Pasang listener input untuk auto-display
+        document.getElementById("inputNama").addEventListener("input", checkAndDisplayDetail);
+        document.getElementById("inputUnit").addEventListener("input", checkAndDisplayDetail);
+
+    }, 1500); // Delay 1.5 detik untuk memastikan fetchSheet pertama selesai.
+});
+
+
+// Export Excel (tetap seperti semula)
+document.getElementById("btnExcel").addEventListener("click",()=>{
+ const ws=XLSX.utils.aoa_to_sheet(latestData);const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,ws,"Rekap");XLSX.writeFile(wb,"Rekap_MPS.xlsx");
+});
+
+// Export PDF Rekap Utama (tetap seperti semula)
+document.getElementById("btnPDF").addEventListener("click",()=>{
+ const {jsPDF}=window.jspdf;const doc=new jsPDF({orientation:"portrait",unit:"pt",format:"a4"});
+ doc.text("Rekap Nilai MPS",220,40);doc.autoTable({html:"#rekapTable",startY:60});doc.save("Rekap_MPS.pdf");
+});
+
+// FUNGSI BARU: Generate Detail PDF
+document.getElementById("btnDetailPDF").addEventListener("click", function(){
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+  const nama = this.dataset.nama || 'Peserta';
+  const unit = this.dataset.unit || 'Unit';
+  const total = this.dataset.total || '0';
+  const narasi = this.dataset.narasi || '';
+  
+  doc.setFontSize(16);
+  doc.text(`REKAP DETAIL NILAI MPS`, 297.5, 40, null, null, 'center');
+  doc.setFontSize(10);
+  doc.text(`Peserta: ${nama} | Unit: ${unit}`, 297.5, 60, null, null, 'center');
+  
+  // Ambil data dari window.detailTableData
+  const tableData = [];
+  const tableRows = window.detailTableData;
+  
+  tableRows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      if (cells.length === 4) {
+          // Item baris
+          tableData.push([cells[0].innerText, cells[1].innerText, cells[2].innerText, cells[3].innerText]);
+      } else if (cells.length === 1) {
+          // Header Kategori
+          const headerText = cells[0].innerText;
+          tableData.push([{ content: headerText, colSpan: 4, styles: { fillColor: [224, 242, 254], fontStyle: 'bold', textColor: [29, 78, 216], halign: 'left' } }]);
+      }
+  });
+
+  doc.autoTable({
+    head: [['No', 'Kategori', 'Nilai', 'Predikat']],
+    body: tableData,
+    startY: 80,
+    theme: 'striped',
+    headStyles: { fillColor: [29, 78, 216] },
+    columnStyles: {
+        0: { cellWidth: 30 },
+        1: { halign: 'left' },
+        2: { cellWidth: 50, fontStyle: 'bold', textColor: [220, 38, 38] },
+        3: { cellWidth: 100 }
+    }
+  });
+
+  let finalY = doc.lastAutoTable.finalY + 20;
+
+  // Total Penilaian
+  doc.setFontSize(12);
+  doc.text('Total Penilaian: ', 40, finalY);
+  doc.setFont(undefined, 'bold');
+  doc.text(total, 110, finalY);
+  doc.setFont(undefined, 'normal');
+  finalY += 15;
+  
+  // Analisis
+  doc.setFontSize(10);
+  doc.text('Analisis:', 40, finalY);
+  
+  const splitTitle = doc.splitTextToSize(narasi, 500); // Lebar 500pt
+  doc.text(splitTitle, 40, finalY + 10);
+  
+  doc.save(`Rekap_Detail_${nama}.pdf`);
+  window.open(doc.output('bloburl'), '_blank'); // Muncul di jendela baru
+});
+
+// === NEW LOGIC: Toggling Content Visibility (Dipertahankan) ===
+const mainContent = [
+    document.querySelector(".statBox"),
+    document.querySelector(".tableBox"),
+    document.getElementById("posSection"),
+    document.querySelector(".unit-recap-bar") 
+];
+const detailPanel = document.getElementById("detailRekapPanel"); 
+
+document.getElementById("jenisRekap").addEventListener("change", e => {
+    const value = e.target.value;
+    
+    if (value === "NilaiDetail") {
+        // Tampilkan Panel Detail (Inline)
+        detailPanel.style.display = "block";
+        
+        // Sembunyikan Semua Konten Rekap Utama
+        mainContent.forEach(el => el.style.display = "none");
+
+        // Reset inputs/content
+        document.getElementById("inputNama").value = "";
+        document.getElementById("inputUnit").value = "";
+        document.getElementById("detailRekapContent").style.display = "none";
+        
+    } else {
+        // Sembunyikan Panel Detail
+        detailPanel.style.display = "none";
+        
+        // Tampilkan Konten Rekap Utama (LoadRekap akan mengatur visibilitas detailnya)
+        mainContent.forEach(el => el.style.display = "");
+        
+        loadRekap(value); // Memuat rekap utama
+    }
+});
+
+
+</script>
+
+<script>
+(function() {
+  const menuSel = '#menuToggle';
+  const homeSel = '.home-icon-btn';
+  const mobileHeaderSel = '#mobileHeader';
+  const mobileSubmenuSel = '#mobileSubmenu';
+
+  function hideMobileElements() {
+    const sidebar = document.querySelector('.sidebar');
+    const menu = document.querySelector(menuSel);
+    const home = document.querySelector(homeSel);
+    const mobileHeader = document.querySelector(mobileHeaderSel);
+    const mobileSubmenu = document.querySelector(mobileSubmenuSel);
+
+    if (!sidebar) return;
+
+    const sidebarWidth = Math.round(sidebar.getBoundingClientRect().width || 0);
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+    const shouldHide = (sidebarWidth > 0 && sidebarWidth <= 280) || (viewportWidth >= 769);
+
+    if (shouldHide) {
+      if (menu) {
+        menu.style.display = 'none';
+        menu.style.visibility = 'hidden';
+      }
+      if (home) {
+        home.style.display = 'none';
+        home.style.visibility = 'hidden';
+      }
+      if (mobileHeader) {
+        mobileHeader.style.display = 'none';
+        mobileHeader.style.visibility = 'hidden';
+      }
+      if (mobileSubmenu) {
+        mobileSubmenu.style.display = 'none';
+        mobileSubmenu.style.visibility = 'hidden';
+      }
+
+      sidebar.classList.add('desktop-forced-hide-mobile');
+    } else {
+      if (menu) {
+        menu.style.display = '';
+        menu.style.visibility = '';
+      }
+      if (home) {
+        home.style.display = '';
+        home.style.visibility = '';
+      }
+      if (mobileHeader) {
+        mobileHeader.style.display = '';
+        mobileHeader.style.visibility = '';
+      }
+      if (mobileSubmenu) {
+        mobileSubmenu.style.visibility = '';
+      }
+      if (sidebar) sidebar.classList.remove('desktop-forced-hide-mobile');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.querySelector("#menuToggle");
+    const submenu = document.querySelector("#mobileSubmenu");
+    if (toggle && submenu) {
+      if (!toggle._mps_toggle_bound) {
+        toggle.addEventListener("click", function(e){
+          e.stopPropagation();
+          submenu.classList.toggle("show");
+          submenu.style.display = submenu.classList.contains('show') ? 'block' : 'none';
+        });
+        document.addEventListener("click", (ev) => {
+          if (!submenu.contains(ev.target) && ev.target !== toggle) {
+            submenu.classList.remove("show");
+            submenu.style.display = 'none';
+          }
+        });
+        toggle._mps_toggle_bound = true;
+      }
+    }
+
+    hideMobileElements();
+
+    window.addEventListener('resize', hideMobileElements);
+    window.addEventListener('orientationchange', hideMobileElements);
+
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+      const mo = new MutationObserver(muts => {
+        for (const m of muts) {
+          if (m.type === 'attributes' && (m.attributeName === 'style' || m.attributeName === 'class')) {
+            setTimeout(hideMobileElements, 50);
+            break;
+          }
+        }
+      });
+      mo.observe(sidebar, { attributes: true, attributeFilter: ['style', 'class'] });
+    }
+
+    setTimeout(hideMobileElements, 300);
+  });
+})();
 </script>
 </body>
 </html>

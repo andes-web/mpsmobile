@@ -429,6 +429,21 @@ footer {
     color: inherit; 
 }
 
+/* ======================================= */
+/* Tambahan CSS untuk Nilai Individu (dari rightsidebar9.html) */
+/* ======================================= */
+.tableBox table.rekap-nilai-individu th {
+    font-size: 0.75rem;
+}
+.tableBox table.rekap-nilai-individu td {
+    font-size: 0.7rem;
+}
+.input-controls label {
+    white-space: nowrap;
+}
+/* ======================================= */
+
+
 </style>
 <style>
     /* 🌐 Tampilan umum */
@@ -483,10 +498,11 @@ footer {
       }
     }
 
-    /* 🌐 DESKTOP: samakan tampilan header dengan index.html */
+    /* 🌐 DESKTOP: samakan tampilan header dengan index.html... */
+
 @media (min-width: 769px) {
   .sidebar header {
-    height: 55px !important; 
+    height: 55px !important;
     padding: 0 12px !important;
     background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
     font-size: 1rem !important;
@@ -503,8 +519,7 @@ footer {
     text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
   }
 }
-
-  </style>
+</style>
 <style>
 @media (min-width: 769px) {
   .sidebar header {
@@ -514,7 +529,6 @@ footer {
     justify-content: center !important;
     padding: 0 12px !important;
   }
-
   .sidebar header .header-title {
     flex: 0 0 auto !important;
     text-align: center !important;
@@ -543,7 +557,6 @@ footer {
   z-index: 2000;
   margin: 0;
 }
-
 #menuToggle {
   font-size: 26px;
   font-weight: 900;
@@ -552,7 +565,6 @@ footer {
   margin-left: 4px;
   flex-shrink: 0;
 }
-
 #mobileHeader .header-title {
   flex: 1;
   text-align: center;
@@ -561,13 +573,11 @@ footer {
   color: white;
   margin-left: -30px;
 }
-
 #btnHome svg, .home-icon-btn svg {
   fill: white;
   width: 32px;
   height: 32px;
 }
-
 #mobileSubmenu {
   display: none;
   position: fixed;
@@ -579,942 +589,677 @@ footer {
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   z-index: 1999;
   white-space: nowrap;
-  padding: 5px 0;
-}
-#mobileSubmenu a {
-  display: block;
-  padding: 10px 18px;
-  text-decoration: none;
-  color: #1d4ed8;
-  font-weight: 600;
-}
-#mobileSubmenu a:hover {
-  background: #f3f4f6;
 }
 #mobileSubmenu.show {
   display: block;
 }
-
-</style>
-<style>
-@media (min-width: 769px) {
-  #menuToggle,
-  .home-icon-btn,
-  #mobileHeader {
-    display: none !important;
-    visibility: hidden !important;
-  }
+#mobileSubmenu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #1e293b;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
 }
-</style>
-<style>
-/* CSS khusus untuk tabel detail rekap */
-#detailRekapTable th, #detailRekapTable td {
-  padding: 4px 6px !important;
-  font-size: 0.75rem !important; /* Dikecilkan */
+#mobileSubmenu a:last-child {
+  border-bottom: none;
 }
-#detailRekapTable th:nth-child(1), #detailRekapTable td:nth-child(1) { width: 5%; } /* No */
-#detailRekapTable th:nth-child(2), #detailRekapTable td:nth-child(2) { text-align: left !important; } /* Kategori */
-#detailRekapTable th:nth-child(3), #detailRekapTable td:nth-child(3) { width: 10%; font-weight: 700; } /* Nilai */
-#detailRekapTable th:nth-child(4), #detailRekapTable td:nth-child(4) { width: 25%; } /* Predikat */
-.kategori-header { background: #e0f2fe !important; font-weight: 800 !important; color: #1d4ed8 !important; text-align: left !important; }
-.kategori-item td:nth-child(3) { color: #dc2626; } /* Warna merah untuk nilai */
-
-/* START: New Autocomplete Styles */
-.custom-input {
-  width: 100%; 
-  padding: 6px; /* Dikecilkan */
-  border: 1px solid #ccc; 
-  border-radius: 5px; 
-  font-size: 0.8rem; /* Dikecilkan */
-  box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+#mobileSubmenu a:hover {
+  background: #f0f9ff;
+  color: #2563eb;
 }
-
-.autocomplete-container {
-    position: relative; /* Anchor untuk floating list */
-}
-
-.autocomplete-list {
-    position: absolute;
-    top: 100%; /* Tepat di bawah input */
-    left: 0;
-    right: 0;
-    z-index: 100; 
-    background: #fff;
-    border: 1px solid #ccc;
-    border-top: none; 
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    max-height: 150px; /* Batasi tinggi */
-    overflow-y: auto;
-    font-size: 0.75rem; /* Dikecilkan */
-    display: none; /* Default tersembunyi */
-}
-
-.autocomplete-item {
-    padding: 6px 8px; /* Dikecilkan */
-    cursor: pointer;
-}
-
-.autocomplete-item:hover, .autocomplete-item.active {
-    background: #e0f2fe; /* Warna hover biru muda */
-}
-/* END: New Autocomplete Styles */
 </style>
 </head>
-
 <body>
-<header id="mobileHeader">
-    <span>Rekap Interaktif</span>
-    <div id="btnHome" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M12 3l9 9h-3v9h-12v-9h-3l9-9z"/>
-        </svg>
-    </div>
-  </header>
-<div id="mobileSubmenu" style="display:none; position:fixed; top:55px; right:0; width:280px; background:white; border-left:1px solid #ddd; box-shadow:-4px 4px 10px rgba(0,0,0,0.1); z-index:9999;">
-  <a href="Form_Individu.html" style="display:block; padding:10px 15px; text-decoration:none; color:#1d4ed8; font-weight:600;">Penilaian Individu</a>
-  <a href="Form_Kelompok.html" style="display:block; padding:10px 15px; text-decoration:none; color:#1d4ed8; font-weight:600;">Penilaian Kelompok</a>
+
+<div id="mobileHeader" style="display:none; visibility:hidden;">
+  <div id="menuToggle">☰</div>
+  <div class="header-title">Rekap Nilai MPS</div>
+  <div id="btnHome" class="home-icon-btn" style="width: 40px; text-align: right;">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  </div>
 </div>
 
-  <div class="sidebar"> 
-    <header>
-      <div id="menuToggle" class="mobile-only" style="font-size: 24px; font-weight: 900; color: white; cursor: pointer;">☰</div>
-      <span class="header-title">Rekap Nilai MPS</span>
-      <div class="home-icon-btn mobile-only" onclick="window.location.href='https://andes-web.github.io/mpsmobile/'">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-        </svg>
-      </div>
-    </header>
-    <main>
-      
-      <div class="top-controls">
-        <select id="jenisRekap">
-          <option value="Rekap">Rekap Individu</option>
-          <option value="RekapKelompok">Rekap Kelompok</option>
-          <option value="RekapAkhir">Rekap Akhir</option>
-          <option value="NilaiDetail">Nilai Individu Terbaru</option> 
-        </select>
-
-        <div class="action-btns">
-          <button class="btn-pdf" id="btnPDF">PDF</button>
-          <button class="btn-excel" id="btnExcel">Excel</button>
-        </div>
-      </div>
-
-      <div id="detailRekapPanel" style="display:none; margin-top: 10px; padding: 10px; background: #fff; border: 1px solid #e0e7ff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-          <div style="padding:0;">
-              <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-                  
-                  <div class="autocomplete-container" style="flex: 1;">
-                      <input type="text" id="inputUnit" placeholder="Unit (ketik & pilih)" class="custom-input">
-                      <div id="suggestionsUnit" class="autocomplete-list"></div>
-                  </div>
-
-                  <div class="autocomplete-container" style="flex: 1;">
-                      <input type="text" id="inputNama" placeholder="Nama Peserta (ketik & pilih)" class="custom-input">
-                      <div id="suggestionsNama" class="autocomplete-list"></div>
-                  </div>
-                  
-              </div>
-              <button id="btnTampilkanRekap" style="width:100%; padding:10px; background:#2563eb; color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; margin-bottom:15px; box-shadow: 0 3px 0 #1d4ed8;" onmousedown="this.style.transform='translateY(1px)'; this.style.boxShadow='0 2px 0 #1d4ed8';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 3px 0 #1d4ed8';">Tampilkan Rekap Detail</button>
-
-              <div id="detailRekapContent" style="display:none; border-top:1px solid #eee; padding-top:15px;">
-                  <div class="tableBox" style="margin-bottom:10px;">
-                      <table id="detailRekapTable">
-                          <thead><tr><th>No</th><th>Kategori</th><th>Nilai</th><th>Predikat</th></tr></thead>
-                          <tbody></tbody>
-                      </table>
-                  </div>
-                  
-                  <div style="margin-top:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9faff;">
-                      <h5 style="margin:0 0 8px 0; font-size:1rem; color:#1d4ed8;">Total Penilaian: <span id="totalPenilaian" style="font-weight:900;">0</span></h5>
-                      <h5 style="margin:0 0 5px 0; font-size:0.9rem; font-weight:700;">Analisis:</h5>
-                      <p id="analisisNarasi" style="font-size:0.85rem; line-height:1.4; color:#4b5563; margin:0;"></p>
-                  </div>
-                  
-                  <button class="btn-pdf" id="btnDetailPDF" style="width:100%; margin-top:10px;">Export Detail PDF</button>
-              </div>
-          </div>
-      </div>
-      <div class="statBox">
-        <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
-        <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
-        <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
-        <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
-        <div class="statItem"><h5>Prosentase</h5><p id="statProsentase" class="statProsentase statProsentase-red">0%</p></div> 
-      </div>
-
-      <div class="tableBox">
-        <table id="rekapTable">
-          <thead id="tableHead"></thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-
-      <div class="posTable" id="posSection" style="display:none;">
-        <h4 id="posTitle"></h4>
-        <table id="posTable">
-          <thead id="posHead"></thead>
-          <tbody id="posBody"></tbody>
-        </table>
-      </div>
-
-      <div class="unit-recap-bar">
-        <h4 id="unitRecapTitle">Rerata Nilai Unit<span></span></h4>
-        <div id="unitBarContainer" class="bar-container">
-          </div>
-      </div>
-    </main>
-    <footer>
-        <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank" class="footer-link">
-            © 2025 Andes | MPS System
-        </a>
-    </footer>
+<div class="sidebar">
+  <header>
+    <div class="header-title">REKAP NILAI</div>
+    <div id="menuToggle" style="display:none; visibility:hidden;">☰</div>
+    <div id="btnHome" class="home-icon-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"> <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/> </svg>
     </div>
+  </header>
+  <main>
+    <div class="top-controls">
+      <select id="jenisRekap">
+        <option value="Rekap">Rekap Individu</option>
+        <option value="RekapKelompok">Rekap Kelompok</option>
+        <option value="NilaiIndividu">Nilai Individu</option> <option value="RekapAkhir">Rekap Akhir</option>
+      </select>
+      <div class="action-btns">
+        <button class="btn-pdf" id="btnPDF">PDF</button>
+        <button class="btn-excel" id="btnExcel">Excel</button>
+      </div>
+    </div>
+
+    <div id="nilaiIndividuView" style="display:none;">
+        <div class="input-controls" style="display: flex; gap: 8px; margin-bottom: 5px;">
+            <label for="pesertaSelect" style="flex-shrink: 0; align-self: center;">Peserta:</label>
+            <select id="pesertaSelect" style="flex-grow: 1.5;"></select>
+            <div style="display: flex; gap: 3px; flex-grow: 1;">
+                <select id="unitSelect" style="flex-grow: 1; margin-bottom: 0px !important;"></select>
+                <button id="btnTampilkanNilai" class="action-btns button" style="flex-grow: 1; padding: 4px 6px; font-size: 0.8rem; border: none; border-radius: 5px; color: #fff; cursor: pointer; font-weight: 600; background: #2563eb; transition: all 0.1s ease; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2); display: flex; align-items: center; justify-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: -2px;"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="tableBox" id="nilaiRekapTableContainer">
+            <p style="text-align: center; color: #64748b; padding: 10px;">Pilih peserta dan klik tombol "Enter" untuk menampilkan rekap nilai.</p>
+        </div>
+    </div>
+    <div class="statBox">
+      <div class="statItem"><h5>Peserta</h5><p id="statPeserta">0</p></div>
+      <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
+      <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
+      <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
+      <div class="statItem"><h5>Prosentase</h5><p id="statProsentase" class="statProsentase statProsentase-red">0%</p></div>
+    </div>
+    <div class="tableBox">
+      <table id="rekapTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="posTable" id="posSection" style="display:none;">
+      <h4 id="posTitle"></h4>
+      <table id="posTable">
+        <thead id="posHead"></thead>
+        <tbody id="posBody"></tbody>
+      </table>
+    </div>
+    <div class="unit-recap-bar">
+      <h4 id="unitRecapTitle">Rerata Nilai Unit<span></span></h4>
+      <div id="unitBarContainer" class="bar-container">
+      </div>
+    </div>
+  </main>
+  <footer>
+    <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank" class="footer-link"> © 2025 Andes | MPS System </a>
+  </footer>
+</div>
+
+<div id="mobileSubmenu" style="display:none; visibility:hidden;"></div>
+
 <script>
-// GANTI: URL API Lama
-// const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
-// GANTI: URL API Baru untuk Autocomplete Peserta/Unit
-const sheetAPI = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec";
-
-let latestData=[], refreshTimer=null;
-let uniqueNames = [], uniqueUnits = []; // New globals for Autocomplete data
-
+// --- KONSTANTA AKSES DATA GOOGLE APPS SCRIPT (diperbarui) ---
+// PASTIKAN URL INI BENAR DAN MERUPAKAN DEPLOYMENT TERBARU!
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec";
+let latestData=[], refreshTimer=null; // PENTING: Pertahankan variabel ini
 // Warna soft untuk batang unit
-const softColors = [
-    '#93c5fd', '#6ee7b7', '#fcd34d', '#fb923c', '#c4b5fd', 
-    '#f97316', '#34d399', '#22d3ee', '#f472b6', '#a78bfa'
-];
-
-// FUNGSI BARU: Konversi Nilai ke Predikat (SESUAI PERMINTAAN)
-function getPredikat(nilai) {
-    nilai = parseInt(nilai) || 0;
-    if (nilai >= 5) return "Sangat Baik";
-    if (nilai === 4) return "Baik";
-    if (nilai === 3) return "Cukup Baik";
-    if (nilai === 2) return "Kurang Baik";
-    if (nilai === 1) return "Tidak Baik";
-    return "-";
-}
-
-// FUNGSI BARU: Data Dummy untuk simulasi nilai (Menyesuaikan dengan sumber yang diminta)
-// Asumsi: Nilai 1-5 untuk kategori A, B, D, E. Nilai total/skor untuk kategori C (PBB: Max 40)
-const dummyIndividualData = {
-    // Sumber: form_individu.html (Kedisiplinan, Kekompakan, Pemahaman Aba-aba)
-    Kedisiplinan: 4, 
-    Kekompakan: 5, 
-    'Pemahaman Materi': 3
-};
-const dummyGroupData = {
-    // Sumber: form_kelompok.html (Kekompakan Formasi, Kerjasama & Kolaborasi, Ketekunan & Daya Juang)
-    'Kekompakan Kelompok': 4, 
-    'Kerjasama & Kolaborasi': 5, 
-    'Ketekukan & Daya Juang': 4
-};
-// Asumsi nilai total max PBB: 40, Perlengkapan: 10, Bahan Lainnya: 10. (Max C: 60)
-const dummyNonTeknisData = {
-    // Sumber: form_NonTeknis.html
-    'Kemampuan PBB': 35, // Gabungan PBB Statis(I/K) + PBB Dinamis(I/K). Max total 40.
-    'Kelengkapan Perlengkapan': 8, // Gabungan Perlengkapan (I/K). Max total 10.
-    'Kelengkapan Bahan Lainnya': 7 // Gabungan Konsumsi (I/K). Max total 10.
-};
-// Nilai Kepemimpinan: Asumsi max 5 per sub. (Max D: 10)
-const dummyLeadershipData = {
-    // Sumber: form_NonTeknis.html
-    'Aspek Pengetahuan': 4, 
-    'Aspek Sikap': 5
-};
-// Nilai Lainnya: Asumsi max 5 per sub. (Max E: 10)
-const dummyOtherData = {
-    // Sumber: google sheet (polapikirdiri, polapikirtmn kolom skor)
-    'Penilaian Diri Sendiri': 5, 
-    'Penilaian Antar Teman': 4
-};
-
-// FUNGSI BARU: Render Detail Rekap
-async function renderDetailRekap(nama, unit, sheetType) {
-    const tableBody = document.querySelector("#detailRekapTable tbody");
-    const contentDiv = document.getElementById("detailRekapContent");
-    let totalScore = 0;
-    let tableHTML = "";
-    
-    // Total Max Score: 50 (A:15, B:15, D:10, E:10) jika dihitung nilai 1-5, atau Total Max 90 (A:15, B:15, C:60, D:10, E:10) jika mengikuti skema nilai 1-5 / 1-40.
-    // Berdasarkan asumsi skoring yang diminta:
-    // A: 5+5+5=15
-    // B: 5+5+5=15
-    // C: 40+10+10=60
-    // D: 5+5=10
-    // E: 5+5=10
-    const MAX_TOTAL_SCORE = 110; 
-
-    // --- A. PENILAIAN INDIVIDU (Max Score: 15) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">A. PENILAIAN INDIVIDU (Max 15, Sumber: form_individu.html)</td></tr>`;
-    let totalA = 0;
-    Object.entries(dummyIndividualData).forEach(([k, v], i) => {
-        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalA += v;
-    });
-    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL A</td><td>${totalA}</td><td>-</td></tr>`;
-    totalScore += totalA;
-
-    // --- B. PENILAIAN KELOMPOK (Max Score: 15) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">B. PENILAIAN KELOMPOK (Max 15, Sumber: form_kelompok.html)</td></tr>`;
-    let totalB = 0;
-    Object.entries(dummyGroupData).forEach(([k, v], i) => {
-        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalB += v;
-    });
-    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL B</td><td>${totalB}</td><td>-</td></tr>`;
-    totalScore += totalB;
-
-    // --- C. PENILAIAN NON TEKNIS (Max Score: 60) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">C. PENILAIAN NON TEKNIS (Max 60, Sumber: form_NonTeknis.html)</td></tr>`;
-    let totalC = 0;
-    Object.entries(dummyNonTeknisData).forEach(([k, v], i) => {
-        // Skala Predikat Non Teknis: Konversi nilai skor (max 40/10/10) ke predikat (max 5)
-        let predikatVal = 0;
-        let maxSubScore = 0;
-        if (k.includes('PBB')) maxSubScore = 40; 
-        else if (k.includes('Perlengkapan')) maxSubScore = 10;
-        else if (k.includes('Lainnya')) maxSubScore = 10;
-        
-        // Konversi Skor (misal: 35/40) ke Nilai 1-5 (misal: 4.375 -> 4.5 -> 5)
-        if (maxSubScore > 0) {
-            // Predikat = round((nilai / max) * 5)
-            // Contoh: PBB 35/40 -> (35/40)*5 = 4.375. Math.ceil(4.375) = 5
-            predikatVal = Math.min(5, Math.ceil((v / maxSubScore) * 5));
-        }
-
-        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(predikatVal)}</td></tr>`; 
-        totalC += v;
-    });
-    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL C</td><td>${totalC}</td><td>-</td></tr>`;
-    totalScore += totalC;
-    
-    // --- D. PENILAIAN KEPEMIMPINAN (Max Score: 10) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">D. PENILAIAN KEPEMIMPINAN (Max 10, Sumber: form_NonTeknis.html)</td></tr>`;
-    let totalD = 0;
-    Object.entries(dummyLeadershipData).forEach(([k, v], i) => {
-        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalD += v;
-    });
-    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL D</td><td>${totalD}</td><td>-</td></tr>`;
-    totalScore += totalD;
-
-    // --- E. PENILAIAN LAINNYA (Max Score: 10) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">E. PENILAIAN LAINNYA (Max 10, Sumber: Google Sheet)</td></tr>`;
-    let totalE = 0;
-    Object.entries(dummyOtherData).forEach(([k, v], i) => {
-        tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalE += v;
-    });
-    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL E</td><td>${totalE}</td><td>-</td></tr>`;
-    totalScore += totalE;
-    
-    tableBody.innerHTML = tableHTML;
-    document.getElementById("totalPenilaian").innerText = totalScore;
-    
-    // --- ANALISIS NARATIF --- (Total Maksimum: 15+15+60+10+10 = 110)
-    let narasi = `Rekapitulasi nilai untuk ${nama} dari unit ${unit} menunjukkan **Total Penilaian** sebesar **${totalScore}** (dari maksimal ${MAX_TOTAL_SCORE}). `;
-    
-    if (totalScore >= 95) { // 95% dari 110
-        narasi += "Nilai ini menunjukkan performa yang **Sangat Baik** secara keseluruhan. Seluruh aspek seperti Kedisiplinan, Kekompakan, dan Kepemimpinan terlihat sangat menonjol dan mencapai target tinggi. Direkomendasikan untuk mempertahankan standar tinggi ini dan menjadi role model.";
-    } else if (totalScore >= 70) { // 70% dari 110
-        narasi += "Nilai ini menunjukkan performa yang **Baik**. Peserta sudah memenuhi sebagian besar ekspektasi. Perlu sedikit peningkatan di aspek Non Teknis (misal: Kelengkapan Perlengkapan) atau Ketekukan & Daya Juang untuk mencapai potensi maksimal. Fokus pada area tersebut akan memberikan dampak signifikan.";
-    } else {
-        narasi += "Nilai ini menunjukkan performa yang **Cukup Baik**. Terdapat beberapa area yang memerlukan perhatian serius dan pembinaan intensif, terutama di aspek Pemahaman Materi dan Penilaian Non Teknis. Perlu fokus pada program perbaikan dasar untuk meningkatkan skor secara keseluruhan.";
-    }
-    document.getElementById("analisisNarasi").innerText = narasi;
-
-    contentDiv.style.display = "block";
-    
-    // Set data untuk PDF
-    document.getElementById('btnDetailPDF').dataset.nama = nama;
-    document.getElementById('btnDetailPDF').dataset.unit = unit;
-    document.getElementById('btnDetailPDF').dataset.total = totalScore;
-    document.getElementById('btnDetailPDF').dataset.narasi = narasi;
-    // Simpan data tabel untuk PDF
-    window.detailTableData = tableBody.querySelectorAll('tr'); 
-}
-
+const softColors = [ 
+  '#93c5fd', '#6ee7b7', '#fcd34d', '#fb923c', '#c4b5fd', 
+  '#f97316', '#34d399', '#22d3ee', '#f472b6', '#a78bfa' 
+]; 
 
 // FUNGSI PERINGKAT: Menggunakan ikon hanya untuk 3 besar
-function getRankDisplay(rank){
-    return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;
-} 
-async function fetchSheet(sheet){const res=await fetch(`${sheetAPI}?sheet=${sheet}`);return await res.json();}
+function getRankDisplay(rank){ return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank; }
 
-function renderUnitBars(unitMap){
-  const container = document.getElementById("unitBarContainer");
-  container.innerHTML = "";
-  const unitAvgs = Object.entries(unitMap)
-    .map(([u, vals]) => {
-      const avg = vals.reduce((a,b)=>a+b,0) / vals.length;
-      return { unit: u, avg: Number(avg.toFixed(1)) };
-    })
-    .sort((a,b) => b.avg - a.avg);
+// ===============================================
+// --- FUNGSI TAMBAHAN UNTUK NILAI INDIVIDU (dari rightsidebar9.html) ---
+// ===============================================
 
-  if (unitAvgs.length === 0) {
-    container.innerHTML = "<p style='text-align:center;font-size:0.7rem;color:#6b7280;margin:0;'>Belum ada data unit</p>";
+/**
+ * Normalizes a key (e.g., 'Pemahaman Materi' to 'Pemahaman_Materi') to match the fetchSheetData output keys.
+ * @param {string} str
+ */
+function normalizeKey(str) {
+  return str.toString().trim().replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+}
+
+/**
+ * Fungsi untuk mengambil data dari Google Sheet melalui Apps Script.
+ * @param {string} sheetName - Nama Sheet yang akan diambil.
+ * @returns {Promise<object>} - Mengembalikan objek { headers, rows: array of objects }
+ */
+async function fetchSheetData(sheetName) {
+  const url = `${GAS_URL}?sheet=${sheetName}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Gagal mengambil data dari sheet ${sheetName} (Status: ${response.status})`);
+    }
+    const data = await response.json();
+    if (data.error) {
+      Swal.fire('Error Data', `Error saat memproses data sheet "${sheetName}": ${data.error}`, 'error');
+      return { headers: [], rows: [] };
+    }
+    // Normalize keys for easy object access
+    const normalizedHeaders = data.headers.map(h => normalizeKey(h));
+    const normalizedRows = data.rows.map(row => {
+      const newRow = {};
+      data.headers.forEach((originalHeader, index) => {
+        // Asumsi data dari Apps Script berupa object dengan key adalah header
+        // Kita ambil nilai berdasarkan header asli dan simpan dengan key yang dinormalisasi
+        newRow[normalizedHeaders[index]] = row[originalHeader]; 
+      });
+      return newRow;
+    });
+    
+    return { 
+      headers: normalizedHeaders, 
+      rows: normalizedRows 
+    };
+  } catch (error) {
+    console.error(`Fetch error for sheet ${sheetName}:`, error);
+    // Tampilkan notifikasi error yang jelas
+    Swal.fire('Error Koneksi/Akses', `Gagal memuat data untuk sheet "${sheetName}". Cek koneksi internet, pastikan **GAS_URL** benar, dan deployment Apps Script memiliki akses publik ('Anyone').`, 'error');
+    return { headers: [], rows: [] };
+  }
+}
+
+/**
+ * Mengkonversi nilai angka menjadi predikat TB-SB.
+ * @param {number} nilai
+ * @returns {string} Predikat
+ */
+function getPredikat(nilai) {
+  nilai = Math.round(nilai); // Pastikan nilai adalah integer
+  if (nilai === 1) return "TB"; // Tidak Baik
+  if (nilai === 2) return "KB"; // Kurang Baik
+  if (nilai === 3) return "CB"; // Cukup Baik
+  if (nilai === 4) return "B"; // Baik
+  if (nilai === 5) return "SB"; // Sangat Baik
+  return "-";
+}
+
+
+/**
+ * Menampilkan view untuk Nilai Individu (Input dan Tabel Rekap) menggunakan data real.
+ */
+async function renderNilaiIndividu() {
+  const resultContainer = document.getElementById('nilaiRekapTableContainer');
+  resultContainer.innerHTML = '<p style="text-align: center; color: #64748b; padding: 10px;">Mengambil daftar peserta...</p>';
+
+  const pesertaSelect = document.getElementById('pesertaSelect');
+  const unitSelect = document.getElementById('unitSelect');
+  
+  // 1. Populasi Dropdown Unit dan Peserta dari sheet "Rekap"
+  const rekapData = await fetchSheetData('Rekap');
+  const pesertaList = rekapData.rows;
+  
+  if (pesertaList.length === 0) {
+    resultContainer.innerHTML = '<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Gagal memuat data Rekap. Pastikan Sheet "Rekap" ada dan terisi.</p>';
     return;
   }
+  
+  // Ambil daftar unik peserta dan unit
+  const namaKey = normalizeKey('Nama');
+  const unitKey = normalizeKey('Unit');
 
-  const maxScore = Math.max(...unitAvgs.map(item => item.avg));
-  const maxBarWidth = maxScore > 0 ? 100 : 1;
-
-  unitAvgs.forEach(({unit, avg}, index) => {
-    const color = softColors[index % softColors.length];
-    const percentage = (avg / maxBarWidth) * 100;
-    const barWidth = Math.max(percentage, 5);
-
-    const barItem = `
-      <div class="bar-item">
-        <div class="bar-fill" style="width: ${barWidth}%; background-color: ${color}; --bar-color: ${color};"></div>
-        <div class="bar-label" style="color: ${barWidth > 35 ? '#1f2937' : '#1f2937'};">
-          <span>${unit}</span>
-          <span>${avg}</span>
-        </div>
-      </div>
-    `;
-    container.innerHTML += barItem;
+  pesertaSelect.innerHTML = '<option value="">-- Pilih Peserta --</option>';
+  const uniquePeserta = [...new Set(pesertaList.map(r => r[namaKey]).filter(n => n))].sort();
+  uniquePeserta.forEach(nama => {
+    pesertaSelect.innerHTML += `<option value="${nama}">${nama}</option>`;
   });
-}
 
-// NEW FUNCTION: Extract unique names and units for autocomplete
-function extractUniqueData() {
-    uniqueNames = [];
-    uniqueUnits = [];
-    if (latestData.length > 1) {
-        const headers = latestData[0];
-        const namaIdx = headers.indexOf("Nama"); // Nama = Peserta
-        const unitIdx = headers.indexOf("Unit");
+  unitSelect.innerHTML = '<option value="">-- Semua Unit --</option>';
+  const uniqueUnit = [...new Set(pesertaList.map(r => r[unitKey]).filter(u => u))].sort();
+  uniqueUnit.forEach(unit => {
+    unitSelect.innerHTML += `<option value="${unit}">${unit}</option>`;
+  });
 
-        if (namaIdx !== -1) {
-            const names = new Set();
-            latestData.slice(1).forEach(row => {
-                if (row[namaIdx]) names.add(row[namaIdx]);
-            });
-            uniqueNames = Array.from(names).sort();
-        }
-
-        if (unitIdx !== -1) {
-            const units = new Set();
-            latestData.slice(1).forEach(row => {
-                if (row[unitIdx]) units.add(row[unitIdx]);
-            });
-            uniqueUnits = Array.from(units).sort();
-        }
+  // 2. Implementasi Tombol 'Tampilkan Nilai'
+  document.getElementById('btnTampilkanNilai').onclick = async () => {
+    const selectedPeserta = pesertaSelect.value;
+    if (!selectedPeserta) {
+      Swal.fire('Peringatan', 'Silakan pilih Nama Peserta terlebih dahulu.', 'warning');
+      return;
     }
+
+    resultContainer.innerHTML = '<p style="text-align: center; color: #64748b; padding: 10px;">Memproses data nilai...</p>';
+    const cleanName = selectedPeserta.toString().trim();
+
+    try {
+      // Fetch all necessary detail sheets simultaneously
+      const [rekapI, rekapK, rekapN] = await Promise.all([
+        fetchSheetData('Rekap'),
+        fetchSheetData('RekapKelompok'),
+        fetchSheetData('Nilai_Lain')
+      ]);
+
+      // Combine all sheets' data into one map for easy lookup
+      const combinedScores = {};
+      [rekapI, rekapK, rekapN].forEach(sheet => {
+        if (sheet.headers.includes(namaKey) && sheet.rows) {
+          sheet.rows.forEach(row => {
+            if (row[namaKey] === cleanName) {
+              Object.assign(combinedScores, row);
+            }
+          });
+        }
+      });
+
+      if (Object.keys(combinedScores).length === 0) {
+        resultContainer.innerHTML = `<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Data nilai tidak ditemukan untuk ${cleanName} di semua sheet.</p>`;
+        return;
+      }
+
+      // Define the structure and map the keys
+      const scoreMapping = [
+        // A. PENILAIAN INDIVIDU (from 'Rekap')
+        { header: 'A. PENILAIAN INDIVIDU' },
+        { display: 'Kedisiplinan', key: normalizeKey('Kedisiplinan') },
+        { display: 'Kekompakan', key: normalizeKey('Kekompakan') },
+        { display: 'Pemahaman Materi', key: normalizeKey('Pemahaman Materi') },
+
+        // B. PENILAIAN KELOMPOK (from 'RekapKelompok')
+        { header: 'B. PENILAIAN KELOMPOK' },
+        { display: 'Kekompakan Kelompok', key: normalizeKey('Kekompakan Kelompok') },
+        { display: 'Kerjasama & Kolaborasi', key: normalizeKey('Kerjasama & Kolaborasi') },
+        { display: 'Ketekukan & Daya Juang', key: normalizeKey('Ketekukan & Daya Juang') },
+
+        // C. PENILAIAN NON TEKNIS (from 'Nilai_Lain')
+        { header: 'C. PENILAIAN NON TEKNIS' },
+        { display: 'Sikap', key: normalizeKey('Sikap') },
+        { display: 'Perilaku', key: normalizeKey('Perilaku') },
+        { display: 'Kehadiran', key: normalizeKey('Kehadiran') },
+        { display: 'Inisiatif', key: normalizeKey('Inisiatif') },
+        { display: 'Kemauan Belajar', key: normalizeKey('Kemauan Belajar') },
+      ];
+
+      let tableHTML = `<table class="rekap-nilai-individu"><thead><tr><th>No</th><th style="text-align: left; padding-left: 15px;">Kriteria Penilaian</th><th>Nilai (1-5)</th><th>Predikat</th></tr></thead><tbody>`;
+      let counter = 1;
+      let totalNilai = 0;
+
+      scoreMapping.forEach(item => {
+        if (item.header) {
+          // Header row
+          tableHTML += `<tr><td colspan="4" style="text-align: left; background: #e0f2fe; color: #1d4ed8; padding: 4px 8px !important; font-weight: 700;">${item.header}</td></tr>`;
+          counter = 1; // Reset counter for new section
+          return;
+        }
+
+        // Get score from the combined map using the key
+        const nilai = combinedScores[item.key] || 0;
+        const predikat = getPredikat(nilai);
+        
+        tableHTML += `
+          <tr>
+            <td>${counter++}</td>
+            <td style="text-align: left; padding-left: 15px;">${item.display}</td>
+            <td>${nilai}</td>
+            <td style="font-weight: 600;">${predikat}</td>
+          </tr>
+        `;
+        totalNilai += Number(nilai);
+      });
+
+      // Total Row
+      tableHTML += `
+        <tr style="background: #1d4ed8; color: white; font-weight: 800;">
+          <td colspan="2" style="text-align: center; padding-left: 8px;">Total Penilaian</td>
+          <td colspan="2">${totalNilai}</td>
+        </tr>
+      `;
+
+      tableHTML += `</tbody></table>`;
+      resultContainer.innerHTML = tableHTML;
+
+    } catch (error) {
+      resultContainer.innerHTML = `<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Gagal memuat detail nilai. Cek koneksi atau Apps Script.</p>`;
+      console.error(error);
+    }
+  };
+  
+  // Implement the 3D button effect on click/touch for the Tampilkan Nilai button
+  const btnTampilkanNilai = document.getElementById('btnTampilkanNilai');
+  if (btnTampilkanNilai) {
+      btnTampilkanNilai.onmousedown = () => {
+          btnTampilkanNilai.style.transform = 'translateY(2px)';
+          btnTampilkanNilai.style.boxShadow = '0 2px 0 rgba(0, 0, 0, 0.2)';
+      };
+      btnTampilkanNilai.onmouseup = btnTampilkanNilai.onmouseleave = () => {
+          btnTampilkanNilai.style.transform = 'translateY(0)';
+          btnTampilkanNilai.style.boxShadow = '0 4px 0 rgba(0, 0, 0, 0.2)';
+      };
+      btnTampilkanNilai.ontouchstart = (e) => {
+          e.preventDefault();
+          btnTampilkanNilai.style.transform = 'translateY(2px)';
+          btnTampilkanNilai.style.boxShadow = '0 2px 0 rgba(0, 0, 0, 0.2)';
+      };
+      btnTampilkanNilai.ontouchend = () => {
+          btnTampilkanNilai.style.transform = 'translateY(0)';
+          btnTampilkanNilai.style.boxShadow = '0 4px 0 rgba(0, 0, 0, 0.2)';
+      };
+  }
+
+  // Trigger initial load if a participant is already selected (e.g., from refresh)
+  if (pesertaSelect.value) {
+      setTimeout(() => document.getElementById('btnTampilkanNilai').click(), 0);
+  }
 }
 
-
-async function loadRekap(sheetName="Rekap"){
- try{
-  // === MODE REKAP AKHIR (gabungan individu + kelompok) ===
-  if(sheetName === "RekapAkhir"){
-    // Data fetching tetap dilakukan
-    const dataAkhir = await fetchSheet("RekapAkhir");
-
-    // parse rows
-    const rowsAkhir = dataAkhir.slice(1) || [];
-    // rowsAkhir expected columns: Nama, Nilai Individu, Nilai Kelompok, Nilai Non Teknis, Nilai Akhir
-    const rows = rowsAkhir.map(r=>({
-      nama: r[0]||'',
-      ni: Number(r[1])||0,
-      nk: Number(r[2])||0,
-      nn: Number(r[3])||0,
-      na: Number(r[4])||0
-    })).sort((a,b)=>b.na - a.na);
-
-    // Filter hanya TOP 100 individu terbaik (PERUBAHAN DISINI: slice(0, 100))
-    const topInd = rows.slice(0,100); 
+// ===============================================
+// --- FUNGSI UTAMA UNTUK MENANGANI PERUBAHAN DROPDOWN (MODIFIKASI ROBUST) ---
+// ===============================================
+async function loadData(sheetName) {
+    // 📢 DEBUG 1: Konfirmasi fungsi loadData dipanggil
+    console.log(`[DEBUG 1] loadData dipanggil untuk sheet: ${sheetName}.`);
     
-    // Tambahkan class untuk CSS Rekap Akhir
-    document.getElementById("rekapTable").classList.add("rekap-akhir"); 
-
-    // Header Tabel Rekap Akhir
-    document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr>`;
+    const isNilaiIndividu = sheetName === "NilaiIndividu";
     
-    // Render hanya Top 100 Individu
-    const combined = topInd.map((r,i)=>`
-      <tr>
-        <td>${getRankDisplay(i+1)}</td>
-        <td style="text-align:left;padding-left:8px;">${r.nama}</td>
-        <td>${r.ni}</td>
-        <td>${r.nk}</td>
-        <td>${r.nn}</td>
-        <td>${r.na}</td>
-      </tr>
-    `).join("");
+    // --- PERBAIKAN: Tampilkan/Sembunyikan view secara SINKRONUS dan INSTAN ---
     
-    // PERUBAHAN DISINI: TIDAK ADA PENAMBAHAN topKel
-    document.getElementById("tableBody").innerHTML = combined;
-
-    // hide other sections while Rekap Akhir active
+    // Sembunyikan semua section data/rekap standar
+    document.querySelector(".statBox").style.display = "none";
+    document.querySelector(".tableBox").style.display = "none";
     document.getElementById("posSection").style.display = "none";
     document.getElementById("unitRecapTitle").style.display = "none";
     document.getElementById("unitBarContainer").style.display = "none";
-    document.querySelector(".statBox").style.display = "none";
 
-    document.getElementById("unitRecapTitle").innerHTML = 'Rekap Akhir (Individu)';
-    return;
-  }
-
-  // Hapus class untuk CSS Rekap Individu/Kelompok
-  document.getElementById("rekapTable").classList.remove("rekap-akhir");
-
-  // === REKAP BIASA (INDIVIDU/KELOMPOK) ===
-  const data=await fetchSheet(sheetName);latestData=data;
-  const headers=data[0],rows=data.slice(1);
-  const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
-  const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
-
-  // NEW: Extract data for Autocomplete
-  extractUniqueData();
-  
-  // Batasi Top 10 untuk Individu dan Kelompok
-  const limit=10; 
-  const topRows=sorted.slice(0,limit);
-  
-  // Header Disesuaikan: "Jumlah" menjadi "Jml"
-  document.getElementById("tableHead").innerHTML="<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jml</th></tr>";
-  
-  // Menerapkan fungsi getRankDisplay
-  document.getElementById("tableBody").innerHTML=topRows.map((r,i)=>`
-   <tr><td>${getRankDisplay(i+1)}</td><td>${r[namaIdx]||""}</td><td>${r[unitIdx]||""}</td><td>${r[jumlahIdx]||0}</td></tr>
-  `).join("");
-  
-  // show stats section again
-  document.getElementById("posSection").style.display = "block";
-  document.getElementById("unitRecapTitle").style.display = "";
-  document.getElementById("unitBarContainer").style.display = "";
-  document.querySelector(".statBox").style.display = "";
-
-  const arr=rows.map(r=>parseFloat(r[jumlahIdx])||0).filter(v=>v>0);
-  const n=arr.length,sum=arr.reduce((a,b)=>a+b,0);
-  
-  // UPDATE STATS (Peserta, Rata, Max, Min)
-  document.getElementById("statPeserta").innerText=n;
-  document.getElementById("statRata").innerText=n?(sum/n).toFixed(1):0;
-  document.getElementById("statMax").innerText=n?Math.max(...arr):0;
-  document.getElementById("statMin").innerText=n?Math.min(...arr):0;
-
-  // POS data & PROSENTASE CALCULATION (ROBUST VERSION)
-  const posSheet = sheetName==="Rekap" ? "PosIndividu" : "PosKelompok";
-  const posData = await fetchSheet(posSheet);
-
-  let totalPosScore = 0;
-  const statProsentaseElement = document.getElementById("statProsentase");
-
-  if (posData && posData.length > 1) {
-    const posHeaders = posData[0].map(h => String(h || ""));
-    const posRows = posData.slice(1);
-
-    const posIndices = posHeaders.map((h, i) => (/^\s*pos\s*\d+/i.test(h) ? i : -1)).filter(i => i !== -1);
-
-    posHeaders.forEach((h, i) => {
-      const clean = String(h || '').replace(/\s+/g, '').toLowerCase();
-      if (clean.startsWith('pos') && /pos\d*/.test(clean)) {
-        posIndices.push(i);
-      }
-    });
-
-    posRows.forEach(r => {
-      posIndices.forEach(idx => {
-        const raw = r[idx] !== undefined && r[idx] !== null ? String(r[idx]).trim() : "0";
-        const clean = raw.replace(',', '.');
-        const num = parseFloat(clean) || 0;
-        totalPosScore += num;
-      });
-    });
-
-    const pesertaSheet = sheetName === 'Rekap' ? 'Rekap' : 'RekapKelompok';
-    const rekapData = await fetchSheet(pesertaSheet);
-    const pesertaCount = rekapData.length > 1 ? rekapData.length - 1 : posRows.length;
-
-    const totalPosColumns = posIndices.length > 0 ? posIndices.length : 5;
-    const denominator = pesertaCount * totalPosColumns;
-
-    if (denominator > 0) {
-      const percentage = (totalPosScore / denominator) * 100;
-      const displayPercentage = Math.round(percentage);
-      const colorClass = percentage >= 100 ? 'statProsentase-green' : 'statProsentase-red';
-      statProsentaseElement.innerText = `${displayPercentage}%`;
-      statProsentaseElement.className = `statProsentase ${colorClass}`;
-    } else {
-      statProsentaseElement.innerText = `0%`;
-      statProsentaseElement.className = `statProsentase statProsentase-red`;
-    }
-
-    document.getElementById("posSection").style.display = "block";
-    document.getElementById("posTitle").innerText = sheetName==="Rekap" ? "Rekap POS Individu" : "Rekap POS Kelompok";
-
-    document.getElementById("posHead").innerHTML = "<tr>" + posHeaders.map(h => {
-      if (/^\s*pos\s*\d+/i.test(h)) return `<th>${h.replace(/pos/i, 'P')}</th>`;
-      return `<th>${h}</th>`;
-    }).join("") + "</tr>";
-
-    document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
-      let rowHtml = "<tr>";
-      const numericValues = r.map(c => {
-        const val = parseFloat(String(c).replace(',', '.'));
-        return isNaN(val) ? null : val;
-      });
-      const availableNums = numericValues.filter(v => v !== null);
-      const max = availableNums.length ? Math.max(...availableNums) : null;
-
-      r.forEach((cell, i) => {
-        const numVal = numericValues[i];
-        let className = "";
-        let display = cell;
-        if (numVal !== null) {
-          display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
-          if (max !== null && numVal === max) {
-              className = "pos-value pos-max";
-          } else {
-              className = "pos-value pos-min";
-          }
-        } else {
-            className = ""; 
-        }
-        rowHtml += `<td class="${className}">${display}</td>`;
-      });
-
-      rowHtml += "</tr>";
-      return rowHtml;
-    }).join("");
-
-  } else {
-    document.getElementById("posSection").style.display = "none";
-    statProsentaseElement.innerText = `0%`;
-    statProsentaseElement.className = `statProsentase statProsentase-red`;
-  }
-
-  // Unit Recap - Logic ini dijalankan di setiap pembaruan (real-time)
-  const unitMap={};rows.forEach(r=>{const u=r[unitIdx],v=parseFloat(r[jumlahIdx])||0;if(!u)return;(unitMap[u]??=[]).push(v);});
-  
-  // Tambahkan indikator waktu refresh
-  const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  document.getElementById('unitRecapTitle').innerHTML = `Rerata Nilai Unit <span style="font-weight:400;font-size:0.7em;color:#6b7280;">(Update: ${now})</span>`;
-  
-  renderUnitBars(unitMap);
-  
- }catch(e){console.error(e);}
-}
-
-// NEW FUNCTION: Autocomplete Logic
-function setupAutocomplete(inputId, suggestionsId, dataList) {
-    const input = document.getElementById(inputId);
-    const suggestionsBox = document.getElementById(suggestionsId);
-
-    if (!input || !suggestionsBox) return;
-
-    let currentFocus = -1;
-
-    input.addEventListener("input", function() {
-        const val = this.value;
-        suggestionsBox.innerHTML = "";
-        
-        if (!val) {
-            suggestionsBox.style.display = 'none';
-            return false;
-        }
-
-        let matchCount = 0;
-        dataList.forEach((item, index) => {
-            // Case-insensitive check if the item starts with the input value
-            if (item.toUpperCase().startsWith(val.toUpperCase()) && matchCount < 10) { 
-                
-                const itemDiv = document.createElement("div");
-                itemDiv.innerHTML = "<strong>" + item.substr(0, val.length) + "</strong>";
-                itemDiv.innerHTML += item.substr(val.length);
-                itemDiv.innerHTML += "<input type='hidden' value='" + item + "'>";
-                itemDiv.className = "autocomplete-item";
-                itemDiv.setAttribute('data-index', index);
-                
-                itemDiv.addEventListener("click", function() {
-                    input.value = this.getElementsByTagName("input")[0].value;
-                    suggestionsBox.style.display = 'none';
-                    // Optional: Manually trigger change for linked behavior (if any)
-                    input.dispatchEvent(new Event('change'));
-                });
-                
-                suggestionsBox.appendChild(itemDiv);
-                matchCount++;
-            }
-        });
-
-        if (suggestionsBox.children.length > 0) {
-            suggestionsBox.style.display = 'block';
-            currentFocus = -1;
-        } else {
-            suggestionsBox.style.display = 'none';
-        }
-    });
-
-    // Keyboard navigation (Arrow up/down, Enter)
-    input.addEventListener("keydown", function(e) {
-        let x = suggestionsBox.getElementsByClassName("autocomplete-item");
-        if (x) x = Array.from(x); // Convert HTMLCollection to Array
-        
-        if (e.keyCode == 40) { // DOWN key
-            currentFocus++;
-            addActive(x);
-        } else if (e.keyCode == 38) { // UP key
-            currentFocus--;
-            addActive(x);
-        } else if (e.keyCode == 13) { // ENTER key
-            e.preventDefault();
-            if (currentFocus > -1) {
-                if (x && x[currentFocus]) x[currentFocus].click();
-            } else if (x.length === 1 && x[0].innerHTML.toUpperCase().startsWith(this.value.toUpperCase())) { 
-                x[0].click(); // Auto-select if only one item is visible and matches
-            }
-        }
-    });
-
-    function removeActive(x) {
-        x.forEach(item => item.classList.remove("active"));
-    }
-
-    function addActive(x) {
-        if (!x || x.length === 0) return false;
-        removeActive(x);
-        if (currentFocus >= x.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = (x.length - 1);
-        x[currentFocus].classList.add("active");
-        x[currentFocus].scrollIntoView({ block: 'nearest' });
-    }
-
-    // Close the autocomplete list when clicking outside
-    document.addEventListener("click", function (e) {
-        if (e.target !== input) {
-            suggestionsBox.style.display = 'none';
-        }
-    });
-}
-
-
-// === MAIN EXECUTION ===
-
-// 1. Initial Load (Memuat data "Rekap" untuk Autocomplete)
-loadRekap("Rekap"); 
-
-// 2. Set Interval for Refresh
-if(refreshTimer)clearInterval(refreshTimer);
-// Pembaruan data dilakukan setiap 10 detik (10000 ms)
-refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").value;
-  // Hanya refresh jika bukan di NilaiDetail
-  if (val !== "NilaiDetail") { 
-    loadRekap(val);
-  }
-},10000);
-
-// 3. Setup Autocomplete after initial load/data extraction is complete
-document.addEventListener("DOMContentLoaded", () => {
-    // Memastikan setup autocomplete dijalankan setelah data dimuat (jika memungkinkan)
-    setTimeout(() => {
-        // NOTE: uniqueNames dan uniqueUnits akan otomatis diperbarui oleh loadRekap()
-        // Mengubah urutan setup autocomplete: Unit (KIRI), Nama (KANAN)
-        setupAutocomplete("inputUnit", "suggestionsUnit", uniqueUnits);
-        setupAutocomplete("inputNama", "suggestionsNama", uniqueNames);
-    }, 1500); // Delay 1.5 detik untuk memastikan fetchSheet pertama selesai.
-});
-
-
-// Export Excel (tetap seperti semula)
-document.getElementById("btnExcel").addEventListener("click",()=>{
- const ws=XLSX.utils.aoa_to_sheet(latestData);const wb=XLSX.utils.book_new();
- XLSX.utils.book_append_sheet(wb,ws,"Rekap");XLSX.writeFile(wb,"Rekap_MPS.xlsx");
-});
-
-// Export PDF Rekap Utama (tetap seperti semula)
-document.getElementById("btnPDF").addEventListener("click",()=>{
- const {jsPDF}=window.jspdf;const doc=new jsPDF({orientation:"portrait",unit:"pt",format:"a4"});
- doc.text("Rekap Nilai MPS",220,40);doc.autoTable({html:"#rekapTable",startY:60});doc.save("Rekap_MPS.pdf");
-});
-
-// FUNGSI BARU: Event listener untuk tombol Tampilkan Rekap Detail
-document.getElementById("btnTampilkanRekap").addEventListener("click", () => {
-    const nama = document.getElementById("inputNama").value.trim();
-    const unit = document.getElementById("inputUnit").value.trim();
-    const sheetType = document.getElementById("jenisRekap").value; 
+    // Tampilkan hanya view yang dipilih
+    document.getElementById("nilaiIndividuView").style.display = isNilaiIndividu ? "block" : "none";
     
-    if (nama === "" || unit === "") {
-        Swal.fire('Input Kurang', 'Nama Peserta dan Nama Unit wajib diisi.', 'warning');
+    // 📢 DEBUG 2: Konfirmasi perubahan view terjadi
+    console.log(`[DEBUG 2] Status nilaiIndividuView: ${document.getElementById("nilaiIndividuView").style.display}`);
+
+    if (isNilaiIndividu) {
+        // Jika Nilai Individu, panggil render khusus dan berhenti
+        await renderNilaiIndividu();
+        return; 
+    }
+    
+    // Jika mode Rekap lainnya: tampilkan kembali section standar yang relevan
+    document.querySelector(".statBox").style.display = ""; // Tampilkan Stat Box
+    document.querySelector(".tableBox").style.display = "block"; // Tampilkan Table Box
+    document.getElementById("unitRecapTitle").style.display = ""; // Tampilkan Unit Recap
+    document.getElementById("unitBarContainer").style.display = ""; // Tampilkan Unit Bar
+
+    // --- AWAL LOGIC LAMA YANG DIKONVERSI MENGGUNAKAN fetchSheetData ---
+    
+    const dataObj = await fetchSheetData(sheetName);
+    const data = dataObj.rows; 
+
+    if (!data || data.length === 0) {
+        document.getElementById("tableBody").innerHTML = `<tr><td colspan="4" style="text-align: center; color: #dc2626; font-weight: 600; padding: 10px;">Gagal memuat data atau data kosong untuk ${sheetName}.</td></tr>`;
+        document.getElementById("posSection").style.display = "none";
+        document.querySelector(".statBox").style.display = "none";
+        document.getElementById("unitRecapTitle").style.display = "none";
+        document.getElementById("unitBarContainer").style.display = "none";
         return;
     }
 
-    renderDetailRekap(nama, unit, sheetType);
-});
+    // === REKAP AKHIR LOGIC (Adapted from X.html) ===
+    if (sheetName === "RekapAkhir") {
+        // Sembunyikan semua yang tidak relevan untuk Rekap Akhir (hanya tabel)
+        document.querySelector(".statBox").style.display = "none"; 
+        document.getElementById("unitRecapTitle").style.display = "none";
+        document.getElementById("unitBarContainer").style.display = "none";
 
-// FUNGSI BARU: Generate Detail PDF
-document.getElementById("btnDetailPDF").addEventListener("click", function(){
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-  const nama = this.dataset.nama || 'Peserta';
-  const unit = this.dataset.unit || 'Unit';
-  const total = this.dataset.total || '0';
-  const narasi = this.dataset.narasi || '';
-  
-  doc.setFontSize(16);
-  doc.text(`REKAP DETAIL NILAI MPS`, 297.5, 40, null, null, 'center');
-  doc.setFontSize(10);
-  doc.text(`Peserta: ${nama} | Unit: ${unit}`, 297.5, 60, null, null, 'center');
-  
-  // Ambil data dari window.detailTableData
-  const tableData = [];
-  const tableRows = window.detailTableData;
-  
-  tableRows.forEach(row => {
-      const cells = row.querySelectorAll('td');
-      if (cells.length === 4) {
-          // Item baris
-          tableData.push([cells[0].innerText, cells[1].innerText, cells[2].innerText, cells[3].innerText]);
-      } else if (cells.length === 1) {
-          // Header Kategori
-          const headerText = cells[0].innerText;
-          tableData.push([{ content: headerText, colSpan: 4, styles: { fillColor: [224, 242, 254], fontStyle: 'bold', textColor: [29, 78, 216], halign: 'left' } }]);
-      }
-  });
+        const topInd = data.slice(0, 100);
+        document.getElementById("rekapTable").classList.add("rekap-akhir");
+        document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr>`;
 
-  doc.autoTable({
-    head: [['No', 'Kategori', 'Nilai', 'Predikat']],
-    body: tableData,
-    startY: 80,
-    theme: 'striped',
-    headStyles: { fillColor: [29, 78, 216] },
-    columnStyles: {
-        0: { cellWidth: 30 },
-        1: { halign: 'left' },
-        2: { cellWidth: 50, fontStyle: 'bold', textColor: [220, 38, 38] },
-        3: { cellWidth: 100 }
+        const combined = topInd.map((r, i) => {
+            // Gunakan nama kunci yang dinormalisasi
+            const nama = r[normalizeKey("Nama")] || "";
+            const ni = r[normalizeKey("NI")] || 0;
+            const nk = r[normalizeKey("NK")] || 0;
+            const nn = r[normalizeKey("NN")] || 0;
+            const na = r[normalizeKey("NA")] || 0;
+
+            return `
+              <tr> 
+                <td>${getRankDisplay(i + 1)}</td> 
+                <td style="text-align:left;padding-left:8px;">${nama}</td> 
+                <td>${ni}</td> 
+                <td>${nk}</td> 
+                <td>${nn}</td> 
+                <td>${na}</td> 
+              </tr>
+            `;
+        }).join("");
+
+        document.getElementById("tableBody").innerHTML = combined;
+        return;
     }
-  });
 
-  let finalY = doc.lastAutoTable.finalY + 20;
+    // Hapus class untuk CSS Rekap Individu/Kelompok
+    document.getElementById("rekapTable").classList.remove("rekap-akhir");
 
-  // Total Penilaian
-  doc.setFontSize(12);
-  doc.text('Total Penilaian: ', 40, finalY);
-  doc.setFont(undefined, 'bold');
-  doc.text(total, 110, finalY);
-  doc.setFont(undefined, 'normal');
-  finalY += 15;
-  
-  // Analisis
-  doc.setFontSize(10);
-  doc.text('Analisis:', 40, finalY);
-  
-  const splitTitle = doc.splitTextToSize(narasi, 500); // Lebar 500pt
-  doc.text(splitTitle, 40, finalY + 10);
-  
-  doc.save(`Rekap_Detail_${nama}.pdf`);
-  window.open(doc.output('bloburl'), '_blank'); // Muncul di jendela baru
-});
+    // === REKAP BIASA (INDIVIDU/KELOMPOK) LOGIC (Adapted from X.html) ===
+    latestData = data;
+    const headers = dataObj.headers; 
 
-// === NEW LOGIC: Toggling Content Visibility (Dipertahankan) ===
-const mainContent = [
-    document.querySelector(".statBox"),
-    document.querySelector(".tableBox"),
-    document.getElementById("posSection"),
-    document.querySelector(".unit-recap-bar") 
-];
-const detailPanel = document.getElementById("detailRekapPanel"); 
+    const namaKey = normalizeKey("Nama");
+    const unitKey = normalizeKey("Unit");
+    const jumlahKey = normalizeKey("Jumlah");
 
-document.getElementById("jenisRekap").addEventListener("change", e => {
-    const value = e.target.value;
+    // Urutkan data berdasarkan Jumlah
+    const sorted = data.sort((a, b) => Number(b[jumlahKey] || 0) - Number(a[jumlahKey] || 0));
+
+    const limit = 10;
+    const topRows = sorted.slice(0, limit);
+
+    document.getElementById("tableHead").innerHTML = "<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jml</th></tr>";
+    document.getElementById("tableBody").innerHTML = topRows.map((r, i) => `
+        <tr>
+          <td>${getRankDisplay(i + 1)}</td>
+          <td>${r[namaKey] || ""}</td>
+          <td>${r[unitKey] || ""}</td>
+          <td>${r[jumlahKey] || 0}</td>
+        </tr>
+    `).join("");
+
+    const arr = data.map(r => parseFloat(r[jumlahKey]) || 0).filter(v => v > 0);
+    const n = arr.length, sum = arr.reduce((a, b) => a + b, 0);
+
+    // UPDATE STATS
+    document.getElementById("statPeserta").innerText = n;
+    document.getElementById("statRata").innerText = n ? (sum / n).toFixed(1) : 0;
+    document.getElementById("statMax").innerText = n ? Math.max(...arr) : 0;
+    document.getElementById("statMin").innerText = n ? Math.min(...arr) : 0;
+
+    // POS data & PROSENTASE CALCULATION (ROBUST VERSION)
+    const posHeaders = headers.filter(h => h.toLowerCase().startsWith('pos') || h === namaKey || h === unitKey);
     
-    if (value === "NilaiDetail") {
-        // Tampilkan Panel Detail (Inline)
-        detailPanel.style.display = "block";
-        
-        // Sembunyikan Semua Konten Rekap Utama
-        mainContent.forEach(el => el.style.display = "none");
+    if (posHeaders.length > 0) {
+        const posOnlyHeaders = posHeaders.filter(h => h.toLowerCase().startsWith('pos'));
+        const posRows = data.map(r => {
+            const rowObj = {};
+            posHeaders.forEach(h => { rowObj[h] = r[h]; });
+            return rowObj;
+        });
 
-        // Reset inputs/content
-        document.getElementById("inputNama").value = "";
-        document.getElementById("inputUnit").value = "";
-        document.getElementById("detailRekapContent").style.display = "none";
-        
+        // LOGIC PROSENTASE (Hanya hitung POS columns)
+        const totalRows = posRows.length;
+        let completeCount = 0;
+        posRows.forEach(row => {
+            const nonZeroCount = posOnlyHeaders.filter(h => parseFloat(String(row[h]).replace(',', '.')) > 0).length;
+            if (nonZeroCount === posOnlyHeaders.length) {
+                completeCount++;
+            }
+        });
+        const prosentase = totalRows > 0 ? ((completeCount / totalRows) * 100).toFixed(0) : 0;
+        const statProsentaseElement = document.getElementById("statProsentase");
+        statProsentaseElement.innerText = `${prosentase}%`;
+        if (prosentase === "100") {
+            statProsentaseElement.className = `statProsentase statProsentase-green`;
+        } else {
+            statProsentaseElement.className = `statProsentase statProsentase-red`;
+        }
+
+        document.getElementById("posSection").style.display = "block";
+        document.getElementById("posTitle").innerText = sheetName === "Rekap" ? "Rekap POS Individu" : "Rekap POS Kelompok";
+        document.getElementById("posHead").innerHTML = "<tr>" + posHeaders.map(h => {
+            const displayH = h.toLowerCase().startsWith('pos') ? h.replace(/pos/i, 'P') : (h === namaKey ? 'Nama' : (h === unitKey ? 'Unit' : h));
+            return `<th>${displayH}</th>`;
+        }).join("") + "</tr>";
+
+        document.getElementById("posBody").innerHTML = posRows.map((r, rowIdx) => {
+            let rowHtml = "<tr>";
+            
+            // Ambil nilai numerik dari kolom POS saja
+            const numericValues = posOnlyHeaders.map(h => {
+                const val = parseFloat(String(r[h]).replace(',', '.'));
+                return isNaN(val) ? null : val;
+            });
+
+            const availableNums = numericValues.filter(v => v !== null);
+            const max = availableNums.length ? Math.max(...availableNums) : null;
+            
+            posHeaders.forEach((h, i) => {
+                const cell = r[h];
+                let className = "";
+                let display = cell;
+
+                // Jika kolom POS
+                if (posOnlyHeaders.includes(h)) {
+                    const posIndex = posOnlyHeaders.indexOf(h);
+                    const numVal = numericValues[posIndex];
+                    if (numVal !== null) {
+                        display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
+                        if (max !== null && numVal === max && numVal > 0) {
+                            className = "pos-value pos-max";
+                        } else if (numVal !== null) {
+                             className = "pos-value pos-min"; 
+                        }
+                    } else {
+                        className = "";
+                    }
+                } else {
+                    // Kolom Nama/Unit
+                    display = cell || '-';
+                    className = '';
+                }
+
+                rowHtml += `<td class="${className}">${display}</td>`;
+            });
+            rowHtml += "</tr>";
+            return rowHtml;
+        }).join("");
     } else {
-        // Sembunyikan Panel Detail
-        detailPanel.style.display = "none";
-        
-        // Tampilkan Konten Rekap Utama (LoadRekap akan mengatur visibilitas detailnya)
-        mainContent.forEach(el => el.style.display = "");
-        
-        loadRekap(value); // Memuat rekap utama
+        document.getElementById("posSection").style.display = "none";
+        document.getElementById("statProsentase").innerText = `0%`;
+        document.getElementById("statProsentase").className = `statProsentase statProsentase-red`;
     }
-});
+
+    // Unit Recap - Logic
+    const unitMap = {};
+    data.forEach(r => {
+        const u = r[unitKey];
+        const v = parseFloat(r[jumlahKey]) || 0;
+        if (!u) return;
+        
+        // SINTAKS DIPERBAIKI (MENGHILANGKAN WARNA MERAH DI VS CODE)
+        if (!unitMap[u]) {
+             unitMap[u] = [];
+        }
+        unitMap[u].push(v);
+        // END PERBAIKAN SINTAKS
+    });
+    
+    renderUnitBars(unitMap);
+    
+    // Tambahkan indikator waktu refresh
+    const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById("unitRecapTitle").innerHTML = `Rerata Nilai Unit<span> (Terakhir: ${now})</span>`;
+}
 
 
-</script>
+function renderUnitBars(unitMap){ 
+    // ... (Fungsi renderUnitBars tidak diubah)
+    const container = document.getElementById("unitBarContainer");
+    container.innerHTML = "";
+    const unitAvgs = Object.entries(unitMap)
+      .map(([unit, values]) => ({
+        unit,
+        avg: values.length ? (values.reduce((a, b) => a + b, 0) / values.length) : 0,
+        count: values.length
+      }))
+      .filter(u => u.avg > 0)
+      .sort((a, b) => b.avg - a.avg)
+      .slice(0, 10); // Ambil Top 10
 
-<script>
-(function() {
-  const menuSel = '#menuToggle';
-  const homeSel = '.home-icon-btn';
-  const mobileHeaderSel = '#mobileHeader';
-  const mobileSubmenuSel = '#mobileSubmenu';
-
-  function hideMobileElements() {
-    const sidebar = document.querySelector('.sidebar');
-    const menu = document.querySelector(menuSel);
-    const home = document.querySelector(homeSel);
-    const mobileHeader = document.querySelector(mobileHeaderSel);
-    const mobileSubmenu = document.querySelector(mobileSubmenuSel);
-
-    if (!sidebar) return;
-
-    const sidebarWidth = Math.round(sidebar.getBoundingClientRect().width || 0);
-    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-    const shouldHide = (sidebarWidth > 0 && sidebarWidth <= 280) || (viewportWidth >= 769);
-
-    if (shouldHide) {
-      if (menu) {
-        menu.style.display = 'none';
-        menu.style.visibility = 'hidden';
-      }
-      if (home) {
-        home.style.display = 'none';
-        home.style.visibility = 'hidden';
-      }
-      if (mobileHeader) {
-        mobileHeader.style.display = 'none';
-        mobileHeader.style.visibility = 'hidden';
-      }
-      if (mobileSubmenu) {
-        mobileSubmenu.style.display = 'none';
-        mobileSubmenu.style.visibility = 'hidden';
-      }
-
-      sidebar.classList.add('desktop-forced-hide-mobile');
-    } else {
-      if (menu) {
-        menu.style.display = '';
-        menu.style.visibility = '';
-      }
-      if (home) {
-        home.style.display = '';
-        home.style.visibility = '';
-      }
-      if (mobileHeader) {
-        mobileHeader.style.display = '';
-        mobileHeader.style.visibility = '';
-      }
-      if (mobileSubmenu) {
-        mobileSubmenu.style.visibility = '';
-      }
-      if (sidebar) sidebar.classList.remove('desktop-forced-hide-mobile');
+    if (unitAvgs.length === 0) {
+      container.innerHTML = `<p style="text-align:center;color:#6b7280;font-size:0.8rem;padding:10px;">Data unit tidak tersedia.</p>`;
+      return;
     }
-  }
 
-  document.addEventListener('DOMContentLoaded', function() {
+    const maxAvg = unitAvgs[0].avg;
+    
+    unitAvgs.forEach((item, index) => {
+        const percentage = (item.avg / maxAvg) * 100;
+        const color = softColors[index % softColors.length];
+        const barItem = document.createElement('div');
+        barItem.className = 'bar-item';
+        barItem.innerHTML = `
+            <div class="bar-fill" style="width: ${percentage}%; background: ${color}; --bar-color: ${color};"></div>
+            <div class="bar-label">
+                <span>${item.unit} (${item.count} peserta)</span>
+                <span>${item.avg.toFixed(1)}</span>
+            </div>
+        `;
+        container.appendChild(barItem);
+    });
+}
+// --- Akhir dari fungsi renderUnitBars ---
+
+
+document.addEventListener('DOMContentLoaded', async function() {
+    // 📢 DEBUG 3: Konfirmasi DOMContentLoaded terpicu
+    console.log("[DEBUG 3] DOMContentLoaded: Event listener onchange sedang dipasang...");
+    
+    const jenisRekap = document.getElementById("jenisRekap");
+    
+    // Set up timer for refresh (if needed, but keeping the structure)
+    // clearInterval(refreshTimer);
+    // refreshTimer = setInterval(() => loadData(jenisRekap.value), 30000); // Refresh every 30 seconds
+
+    // Initial load
+    jenisRekap.onchange = (e) => {
+        // 📢 DEBUG 4: Konfirmasi onchange terpicu saat dropdown diganti
+        console.log(`[DEBUG 4] Dropdown onchange terpicu. Nilai: ${e.target.value}`);
+        loadData(e.target.value);
+    };
+    
+    loadData(jenisRekap.value); 
+    
+    // Mobile menu toggle logic
     const toggle = document.querySelector("#menuToggle");
     const submenu = document.querySelector("#mobileSubmenu");
+    const mobileHeader = document.querySelector("#mobileHeader");
+
+    const hideMobileElements = () => {
+        const isMobile = window.innerWidth <= 768;
+        const sidebar = document.querySelector('.sidebar');
+
+        if (isMobile) {
+            // Logic for mobile view
+        } else {
+            // Desktop View
+        }
+    };
+    
+    // Logic to fix the header button visibility based on sidebar's state
+    const updateHeaderVisibility = () => {
+        const isMobile = window.innerWidth <= 768;
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (!isMobile) return;
+
+        // Check if sidebar is visibly open in mobile mode (via static or transform:0)
+        const isSidebarOpen = sidebar && (sidebar.style.position === 'static' || sidebar.style.transform === 'translateX(0px)');
+
+        if (isSidebarOpen) {
+            // Sidebar is open -> hide mobile header
+            if (mobileHeader) { mobileHeader.style.display = 'none'; mobileHeader.style.visibility = 'hidden'; }
+        } else {
+            // Sidebar is closed -> show mobile header
+            if (mobileHeader) { mobileHeader.style.display = 'flex'; mobileHeader.style.visibility = 'visible'; }
+        }
+    }
+
+
     if (toggle && submenu) {
       if (!toggle._mps_toggle_bound) {
         toggle.addEventListener("click", function(e){
@@ -1542,7 +1287,7 @@ document.getElementById("jenisRekap").addEventListener("change", e => {
       const mo = new MutationObserver(muts => {
         for (const m of muts) {
           if (m.type === 'attributes' && (m.attributeName === 'style' || m.attributeName === 'class')) {
-            setTimeout(hideMobileElements, 50);
+            setTimeout(() => { hideMobileElements(); updateHeaderVisibility(); }, 50);
             break;
           }
         }
@@ -1550,9 +1295,26 @@ document.getElementById("jenisRekap").addEventListener("change", e => {
       mo.observe(sidebar, { attributes: true, attributeFilter: ['style', 'class'] });
     }
 
-    setTimeout(hideMobileElements, 300);
-  });
-})();
+    setTimeout(() => { hideMobileElements(); updateHeaderVisibility(); }, 300);
+});
+
+// Tambahkan event listener untuk tombol Nilai Individu jika belum ada
+document.addEventListener('DOMContentLoaded', () => {
+    const btnTampilkanNilai = document.getElementById('btnTampilkanNilai');
+    if (btnTampilkanNilai) {
+        btnTampilkanNilai.addEventListener('click', () => {
+            // Karena fungsi renderNilaiIndividu sudah dipanggil, logic klik tombol sudah ada di dalamnya.
+            // Cukup tambahkan efek 3D di DOMContentLoaded juga untuk memastikan saat load pertama
+            // (Meskipun sudah ada di dalam renderNilaiIndividu, ini untuk fallback/redundansi)
+            btnTampilkanNilai.style.transform = 'translateY(2px)';
+            btnTampilkanNilai.style.boxShadow = '0 2px 0 rgba(0, 0, 0, 0.2)';
+            setTimeout(() => {
+                btnTampilkanNilai.style.transform = 'translateY(0)';
+                btnTampilkanNilai.style.boxShadow = '0 4px 0 rgba(0, 0, 0, 0.2)';
+            }, 100);
+        });
+    }
+});
 </script>
 </body>
 </html>

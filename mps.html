@@ -610,7 +610,7 @@ footer {
 /* CSS khusus untuk tabel detail rekap */
 #detailRekapTable th, #detailRekapTable td {
   padding: 4px 6px !important;
-  font-size: 0.8rem !important;
+  font-size: 0.75rem !important; /* Dikecilkan */
 }
 #detailRekapTable th:nth-child(1), #detailRekapTable td:nth-child(1) { width: 5%; } /* No */
 #detailRekapTable th:nth-child(2), #detailRekapTable td:nth-child(2) { text-align: left !important; } /* Kategori */
@@ -622,10 +622,10 @@ footer {
 /* START: New Autocomplete Styles */
 .custom-input {
   width: 100%; 
-  padding: 8px; 
+  padding: 6px; /* Dikecilkan */
   border: 1px solid #ccc; 
   border-radius: 5px; 
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Dikecilkan */
   box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
 }
 
@@ -646,14 +646,13 @@ footer {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     max-height: 150px; /* Batasi tinggi */
     overflow-y: auto;
-    font-size: 0.85rem;
+    font-size: 0.75rem; /* Dikecilkan */
     display: none; /* Default tersembunyi */
 }
 
 .autocomplete-item {
-    padding: 6px 10px; /* Smaller padding */
+    padding: 6px 8px; /* Dikecilkan */
     cursor: pointer;
-    font-size: 0.75rem; /* Smaller font size as requested */
 }
 
 .autocomplete-item:hover, .autocomplete-item.active {
@@ -705,20 +704,22 @@ footer {
 
       <div id="detailRekapPanel" style="display:none; margin-top: 10px; padding: 10px; background: #fff; border: 1px solid #e0e7ff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
           <div style="padding:0;">
-              <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+              <div style="display: flex; gap: 5px; margin-bottom: 10px;">
                   
                   <div class="autocomplete-container" style="flex: 1;">
                       <input type="text" id="inputUnit" placeholder="Unit (ketik & pilih)" class="custom-input">
                       <div id="suggestionsUnit" class="autocomplete-list"></div>
                   </div>
-                  
+
                   <div class="autocomplete-container" style="flex: 1;">
                       <input type="text" id="inputNama" placeholder="Nama Peserta (ketik & pilih)" class="custom-input">
                       <div id="suggestionsNama" class="autocomplete-list"></div>
                   </div>
                   
               </div>
-              <div id="detailRekapContent" style="display:none; border-top:1px solid #eee; margin-top:10px; padding-top:15px;">
+              <button id="btnTampilkanRekap" style="width:100%; padding:10px; background:#2563eb; color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; margin-bottom:15px; box-shadow: 0 3px 0 #1d4ed8;" onmousedown="this.style.transform='translateY(1px)'; this.style.boxShadow='0 2px 0 #1d4ed8';" onmouseup="this.style.transform='translateY(0)'; this.style.boxShadow='0 3px 0 #1d4ed8';">Tampilkan Rekap Detail</button>
+
+              <div id="detailRekapContent" style="display:none; border-top:1px solid #eee; padding-top:15px;">
                   <div class="tableBox" style="margin-bottom:10px;">
                       <table id="detailRekapTable">
                           <thead><tr><th>No</th><th>Kategori</th><th>Nilai</th><th>Predikat</th></tr></thead>
@@ -772,7 +773,11 @@ footer {
     </footer>
     </div>
 <script>
-const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
+// GANTI: URL API Lama
+// const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
+// GANTI: URL API Baru untuk Autocomplete Peserta/Unit
+const sheetAPI = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec";
+
 let latestData=[], refreshTimer=null;
 let uniqueNames = [], uniqueUnits = []; // New globals for Autocomplete data
 
@@ -782,10 +787,10 @@ const softColors = [
     '#f97316', '#34d399', '#22d3ee', '#f472b6', '#a78bfa'
 ];
 
-// FUNGSI BARU: Konversi Nilai ke Predikat
+// FUNGSI BARU: Konversi Nilai ke Predikat (SESUAI PERMINTAAN)
 function getPredikat(nilai) {
     nilai = parseInt(nilai) || 0;
-    if (nilai >= 5) return "Sangat Baik"; // Perubahan: >=5
+    if (nilai >= 5) return "Sangat Baik";
     if (nilai === 4) return "Baik";
     if (nilai === 3) return "Cukup Baik";
     if (nilai === 2) return "Kurang Baik";
@@ -793,26 +798,36 @@ function getPredikat(nilai) {
     return "-";
 }
 
-// FUNGSI BARU: Data Dummy untuk simulasi nilai (Ganti dengan fetchSheet jika API tersedia)
+// FUNGSI BARU: Data Dummy untuk simulasi nilai (Menyesuaikan dengan sumber yang diminta)
+// Asumsi: Nilai 1-5 untuk kategori A, B, D, E. Nilai total/skor untuk kategori C (PBB: Max 40)
 const dummyIndividualData = {
-    Kedisiplinan: 4, Kekompakan: 5, 'Pemahaman Materi': 3
+    // Sumber: form_individu.html (Kedisiplinan, Kekompakan, Pemahaman Aba-aba)
+    Kedisiplinan: 4, 
+    Kekompakan: 5, 
+    'Pemahaman Materi': 3
 };
 const dummyGroupData = {
-    'Kekompakan Kelompok': 4, 'Kerjasama & Kolaborasi': 5, 'Ketekukan & Daya Juang': 4
+    // Sumber: form_kelompok.html (Kekompakan Formasi, Kerjasama & Kolaborasi, Ketekunan & Daya Juang)
+    'Kekompakan Kelompok': 4, 
+    'Kerjasama & Kolaborasi': 5, 
+    'Ketekukan & Daya Juang': 4
 };
-// Asumsi nilai total max PBB:20, Perlengkapan:10, Bahan Lainnya:10. Total max 40
+// Asumsi nilai total max PBB: 40, Perlengkapan: 10, Bahan Lainnya: 10. (Max C: 60)
 const dummyNonTeknisData = {
-    'Kemampuan PBB': 18, 
-    'Kelengkapan Perlengkapan': 9, 
-    'Kelengkapan Bahan Lainnya': 8
+    // Sumber: form_NonTeknis.html
+    'Kemampuan PBB': 35, // Gabungan PBB Statis(I/K) + PBB Dinamis(I/K). Max total 40.
+    'Kelengkapan Perlengkapan': 8, // Gabungan Perlengkapan (I/K). Max total 10.
+    'Kelengkapan Bahan Lainnya': 7 // Gabungan Konsumsi (I/K). Max total 10.
 };
-// Nilai Kepemimpinan: Asumsi max 5 per sub.
+// Nilai Kepemimpinan: Asumsi max 5 per sub. (Max D: 10)
 const dummyLeadershipData = {
+    // Sumber: form_NonTeknis.html
     'Aspek Pengetahuan': 4, 
     'Aspek Sikap': 5
 };
-// Nilai Lainnya: Asumsi max 5 per sub.
+// Nilai Lainnya: Asumsi max 5 per sub. (Max E: 10)
 const dummyOtherData = {
+    // Sumber: google sheet (polapikirdiri, polapikirtmn kolom skor)
     'Penilaian Diri Sendiri': 5, 
     'Penilaian Antar Teman': 4
 };
@@ -824,52 +839,88 @@ async function renderDetailRekap(nama, unit, sheetType) {
     let totalScore = 0;
     let tableHTML = "";
     
+    // Total Max Score: 50 (A:15, B:15, D:10, E:10) jika dihitung nilai 1-5, atau Total Max 90 (A:15, B:15, C:60, D:10, E:10) jika mengikuti skema nilai 1-5 / 1-40.
+    // Berdasarkan asumsi skoring yang diminta:
+    // A: 5+5+5=15
+    // B: 5+5+5=15
+    // C: 40+10+10=60
+    // D: 5+5=10
+    // E: 5+5=10
+    const MAX_TOTAL_SCORE = 110; 
+
     // --- A. PENILAIAN INDIVIDU (Max Score: 15) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">A. PENILAIAN INDIVIDU (Max 15)</td></tr>`;
+    tableHTML += `<tr><td colspan="4" class="kategori-header">A. PENILAIAN INDIVIDU (Max 15, Sumber: form_individu.html)</td></tr>`;
+    let totalA = 0;
     Object.entries(dummyIndividualData).forEach(([k, v], i) => {
         tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalScore += v;
+        totalA += v;
     });
+    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL A</td><td>${totalA}</td><td>-</td></tr>`;
+    totalScore += totalA;
 
     // --- B. PENILAIAN KELOMPOK (Max Score: 15) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">B. PENILAIAN KELOMPOK (Max 15)</td></tr>`;
+    tableHTML += `<tr><td colspan="4" class="kategori-header">B. PENILAIAN KELOMPOK (Max 15, Sumber: form_kelompok.html)</td></tr>`;
+    let totalB = 0;
     Object.entries(dummyGroupData).forEach(([k, v], i) => {
         tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalScore += v;
+        totalB += v;
     });
+    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL B</td><td>${totalB}</td><td>-</td></tr>`;
+    totalScore += totalB;
 
-    // --- C. PENILAIAN NON TEKNIS (Max Score: 40) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">C. PENILAIAN NON TEKNIS (Max 40)</td></tr>`;
+    // --- C. PENILAIAN NON TEKNIS (Max Score: 60) ---
+    tableHTML += `<tr><td colspan="4" class="kategori-header">C. PENILAIAN NON TEKNIS (Max 60, Sumber: form_NonTeknis.html)</td></tr>`;
+    let totalC = 0;
     Object.entries(dummyNonTeknisData).forEach(([k, v], i) => {
-        // Skala Predikat Non Teknis (contoh: dibagi 8, max 5)
-        const predikatVal = Math.min(5, Math.ceil(v / 8));
+        // Skala Predikat Non Teknis: Konversi nilai skor (max 40/10/10) ke predikat (max 5)
+        let predikatVal = 0;
+        let maxSubScore = 0;
+        if (k.includes('PBB')) maxSubScore = 40; 
+        else if (k.includes('Perlengkapan')) maxSubScore = 10;
+        else if (k.includes('Lainnya')) maxSubScore = 10;
+        
+        // Konversi Skor (misal: 35/40) ke Nilai 1-5 (misal: 4.375 -> 4.5 -> 5)
+        if (maxSubScore > 0) {
+            // Predikat = round((nilai / max) * 5)
+            // Contoh: PBB 35/40 -> (35/40)*5 = 4.375. Math.ceil(4.375) = 5
+            predikatVal = Math.min(5, Math.ceil((v / maxSubScore) * 5));
+        }
+
         tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(predikatVal)}</td></tr>`; 
-        totalScore += v;
+        totalC += v;
     });
+    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL C</td><td>${totalC}</td><td>-</td></tr>`;
+    totalScore += totalC;
     
     // --- D. PENILAIAN KEPEMIMPINAN (Max Score: 10) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">D. PENILAIAN KEPEMIMPINAN (Max 10)</td></tr>`;
+    tableHTML += `<tr><td colspan="4" class="kategori-header">D. PENILAIAN KEPEMIMPINAN (Max 10, Sumber: form_NonTeknis.html)</td></tr>`;
+    let totalD = 0;
     Object.entries(dummyLeadershipData).forEach(([k, v], i) => {
         tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalScore += v;
+        totalD += v;
     });
+    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL D</td><td>${totalD}</td><td>-</td></tr>`;
+    totalScore += totalD;
 
     // --- E. PENILAIAN LAINNYA (Max Score: 10) ---
-    tableHTML += `<tr><td colspan="4" class="kategori-header">E. PENILAIAN LAINNYA (Max 10)</td></tr>`;
+    tableHTML += `<tr><td colspan="4" class="kategori-header">E. PENILAIAN LAINNYA (Max 10, Sumber: Google Sheet)</td></tr>`;
+    let totalE = 0;
     Object.entries(dummyOtherData).forEach(([k, v], i) => {
         tableHTML += `<tr class="kategori-item"><td>${i+1}</td><td>${k}</td><td>${v}</td><td>${getPredikat(v)}</td></tr>`;
-        totalScore += v;
+        totalE += v;
     });
+    tableHTML += `<tr class="kategori-item" style="font-weight:700;"><td colspan="2" style="text-align:right;">SUB TOTAL E</td><td>${totalE}</td><td>-</td></tr>`;
+    totalScore += totalE;
     
     tableBody.innerHTML = tableHTML;
     document.getElementById("totalPenilaian").innerText = totalScore;
     
-    // --- ANALISIS NARATIF --- (Total Maksimum: 15+15+40+10+10 = 90)
-    let narasi = `Rekapitulasi nilai untuk **${nama}** dari unit **${unit}** menunjukkan **Total Penilaian** sebesar **${totalScore}** (dari maksimal 90). `;
+    // --- ANALISIS NARATIF --- (Total Maksimum: 15+15+60+10+10 = 110)
+    let narasi = `Rekapitulasi nilai untuk ${nama} dari unit ${unit} menunjukkan **Total Penilaian** sebesar **${totalScore}** (dari maksimal ${MAX_TOTAL_SCORE}). `;
     
-    if (totalScore >= 75) {
+    if (totalScore >= 95) { // 95% dari 110
         narasi += "Nilai ini menunjukkan performa yang **Sangat Baik** secara keseluruhan. Seluruh aspek seperti Kedisiplinan, Kekompakan, dan Kepemimpinan terlihat sangat menonjol dan mencapai target tinggi. Direkomendasikan untuk mempertahankan standar tinggi ini dan menjadi role model.";
-    } else if (totalScore >= 55) {
+    } else if (totalScore >= 70) { // 70% dari 110
         narasi += "Nilai ini menunjukkan performa yang **Baik**. Peserta sudah memenuhi sebagian besar ekspektasi. Perlu sedikit peningkatan di aspek Non Teknis (misal: Kelengkapan Perlengkapan) atau Ketekukan & Daya Juang untuk mencapai potensi maksimal. Fokus pada area tersebut akan memberikan dampak signifikan.";
     } else {
         narasi += "Nilai ini menunjukkan performa yang **Cukup Baik**. Terdapat beberapa area yang memerlukan perhatian serius dan pembinaan intensif, terutama di aspek Pemahaman Materi dan Penilaian Non Teknis. Perlu fokus pada program perbaikan dasar untuk meningkatkan skor secara keseluruhan.";
@@ -930,43 +981,30 @@ function renderUnitBars(unitMap){
   });
 }
 
-// NEW FUNCTION: Fetch unique names and units from "Peserta" sheet for autocomplete
-async function fetchAutocompleteData() {
-    try {
-        // Fetch data specifically from the 'Peserta' sheet
-        const data = await fetchSheet("Peserta");
-        if (!data || data.length < 2) {
-            console.warn("Peserta sheet data is empty or invalid.");
-            return;
-        }
-
-        const headers = data[0];
-        // Asumsi kolom Nama dan Unit ada di sheet Peserta
-        const namaIdx = headers.indexOf("Nama");
+// NEW FUNCTION: Extract unique names and units for autocomplete
+function extractUniqueData() {
+    uniqueNames = [];
+    uniqueUnits = [];
+    if (latestData.length > 1) {
+        const headers = latestData[0];
+        const namaIdx = headers.indexOf("Nama"); // Nama = Peserta
         const unitIdx = headers.indexOf("Unit");
 
-        if (namaIdx === -1 || unitIdx === -1) {
-             console.error("Headers 'Nama' or 'Unit' not found in Peserta sheet.");
-             return;
+        if (namaIdx !== -1) {
+            const names = new Set();
+            latestData.slice(1).forEach(row => {
+                if (row[namaIdx]) names.add(row[namaIdx]);
+            });
+            uniqueNames = Array.from(names).sort();
         }
 
-        const names = new Set();
-        const units = new Set();
-
-        data.slice(1).forEach(row => {
-            // Pastikan nilai tidak kosong sebelum ditambahkan
-            if (row[namaIdx] && String(row[namaIdx]).trim() !== '') names.add(String(row[namaIdx]));
-            if (row[unitIdx] && String(row[unitIdx]).trim() !== '') units.add(String(row[unitIdx]));
-        });
-
-        // Update global variables, filter out empty strings, and sort
-        uniqueNames = Array.from(names).filter(n => n.trim() !== '').sort();
-        uniqueUnits = Array.from(units).filter(u => u.trim() !== '').sort();
-
-        console.log(`Autocomplete data loaded: ${uniqueNames.length} names, ${uniqueUnits.length} units.`);
-
-    } catch (e) {
-        console.error("Error fetching Autocomplete Data:", e);
+        if (unitIdx !== -1) {
+            const units = new Set();
+            latestData.slice(1).forEach(row => {
+                if (row[unitIdx]) units.add(row[unitIdx]);
+            });
+            uniqueUnits = Array.from(units).sort();
+        }
     }
 }
 
@@ -1031,9 +1069,10 @@ async function loadRekap(sheetName="Rekap"){
   const headers=data[0],rows=data.slice(1);
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
   const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
-  
-  // TIDAK ADA LAGI pemanggilan extractUniqueData() di sini
 
+  // NEW: Extract data for Autocomplete
+  extractUniqueData();
+  
   // Batasi Top 10 untuk Individu dan Kelompok
   const limit=10; 
   const topRows=sorted.slice(0,limit);
@@ -1072,7 +1111,7 @@ async function loadRekap(sheetName="Rekap"){
     const posHeaders = posData[0].map(h => String(h || ""));
     const posRows = posData.slice(1);
 
-    const posIndices = [];
+    const posIndices = posHeaders.map((h, i) => (/^\s*pos\s*\d+/i.test(h) ? i : -1)).filter(i => i !== -1);
 
     posHeaders.forEach((h, i) => {
       const clean = String(h || '').replace(/\s+/g, '').toLowerCase();
@@ -1174,9 +1213,6 @@ function setupAutocomplete(inputId, suggestionsId, dataList) {
     let currentFocus = -1;
 
     input.addEventListener("input", function() {
-        // PENTING: Panggil fungsi cek dan tampilkan saat input berubah (termasuk saat mengetik)
-        checkAndDisplayDetail(); 
-        
         const val = this.value;
         suggestionsBox.innerHTML = "";
         
@@ -1200,8 +1236,8 @@ function setupAutocomplete(inputId, suggestionsId, dataList) {
                 itemDiv.addEventListener("click", function() {
                     input.value = this.getElementsByTagName("input")[0].value;
                     suggestionsBox.style.display = 'none';
-                    // Trigger 'input' event to automatically trigger rendering
-                    input.dispatchEvent(new Event('input', { bubbles: true })); 
+                    // Optional: Manually trigger change for linked behavior (if any)
+                    input.dispatchEvent(new Event('change'));
                 });
                 
                 suggestionsBox.appendChild(itemDiv);
@@ -1259,39 +1295,13 @@ function setupAutocomplete(inputId, suggestionsId, dataList) {
     });
 }
 
-// FUNGSI BARU: Auto-Display Logic
-function checkAndDisplayDetail() {
-    const nama = document.getElementById("inputNama").value.trim();
-    const unit = document.getElementById("inputUnit").value.trim();
-    const sheetType = document.getElementById("jenisRekap").value;
-
-    if (nama && unit) {
-        renderDetailRekap(nama, unit, sheetType);
-    } else {
-        // Sembunyikan jika salah satu atau keduanya kosong
-        document.getElementById("detailRekapContent").style.display = "none";
-    }
-}
-
 
 // === MAIN EXECUTION ===
 
-// 1. Fetch Autocomplete Data from 'Peserta' sheet first
-fetchAutocompleteData().then(() => {
-    // Setup Autocomplete after data is loaded
-    setupAutocomplete("inputNama", "suggestionsNama", uniqueNames);
-    setupAutocomplete("inputUnit", "suggestionsUnit", uniqueUnits);
-    
-    // PENTING: Pasang listener input untuk auto-display
-    document.getElementById("inputNama").addEventListener("input", checkAndDisplayDetail);
-    document.getElementById("inputUnit").addEventListener("input", checkAndDisplayDetail);
-});
-
-
-// 2. Initial Load (Memuat data "Rekap" untuk tampilan utama)
+// 1. Initial Load (Memuat data "Rekap" untuk Autocomplete)
 loadRekap("Rekap"); 
 
-// 3. Set Interval for Refresh
+// 2. Set Interval for Refresh
 if(refreshTimer)clearInterval(refreshTimer);
 // Pembaruan data dilakukan setiap 10 detik (10000 ms)
 refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").value;
@@ -1300,6 +1310,18 @@ refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").va
     loadRekap(val);
   }
 },10000);
+
+// 3. Setup Autocomplete after initial load/data extraction is complete
+document.addEventListener("DOMContentLoaded", () => {
+    // Memastikan setup autocomplete dijalankan setelah data dimuat (jika memungkinkan)
+    setTimeout(() => {
+        // NOTE: uniqueNames dan uniqueUnits akan otomatis diperbarui oleh loadRekap()
+        // Mengubah urutan setup autocomplete: Unit (KIRI), Nama (KANAN)
+        setupAutocomplete("inputUnit", "suggestionsUnit", uniqueUnits);
+        setupAutocomplete("inputNama", "suggestionsNama", uniqueNames);
+    }, 1500); // Delay 1.5 detik untuk memastikan fetchSheet pertama selesai.
+});
+
 
 // Export Excel (tetap seperti semula)
 document.getElementById("btnExcel").addEventListener("click",()=>{
@@ -1311,6 +1333,20 @@ document.getElementById("btnExcel").addEventListener("click",()=>{
 document.getElementById("btnPDF").addEventListener("click",()=>{
  const {jsPDF}=window.jspdf;const doc=new jsPDF({orientation:"portrait",unit:"pt",format:"a4"});
  doc.text("Rekap Nilai MPS",220,40);doc.autoTable({html:"#rekapTable",startY:60});doc.save("Rekap_MPS.pdf");
+});
+
+// FUNGSI BARU: Event listener untuk tombol Tampilkan Rekap Detail
+document.getElementById("btnTampilkanRekap").addEventListener("click", () => {
+    const nama = document.getElementById("inputNama").value.trim();
+    const unit = document.getElementById("inputUnit").value.trim();
+    const sheetType = document.getElementById("jenisRekap").value; 
+    
+    if (nama === "" || unit === "") {
+        Swal.fire('Input Kurang', 'Nama Peserta dan Nama Unit wajib diisi.', 'warning');
+        return;
+    }
+
+    renderDetailRekap(nama, unit, sheetType);
 });
 
 // FUNGSI BARU: Generate Detail PDF

@@ -820,7 +820,7 @@ footer {
     </footer>
     </div>
 <script>
-const sheetAPI = "https://script.google.com/macros/s/AKfycbzQ6id-Lc0RSDYTaMQC483uBsGeBNoDO30bcEYqi8iyh5EN9EYtpdaXhF17R3VlGTFG/exec";
+const sheetAPI = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec";
 let latestData=[], refreshTimer=null;
 
 // Warna soft untuk batang unit
@@ -1365,7 +1365,7 @@ async function renderNilaiIndividu() {
             
             let totalNilai = 0;
             let tableHTML = `
-                <h4 style="padding: 5px 8px; font-size: 0.8rem; background: #1d4ed8; color: white; margin: 0; border-radius: 8px 8px 0 0;">REKAP NILAI INDIVIDU: ${cleanName}</h4>
+                <h4 style="padding: 5px 8px; font-size: 0.8rem; background: #1d4ed8; color: white; margin: 0; border-radius: 8px 8px 0 0;">REKAP NILAI INDIVIDU:</h4>
                 <table class="rekap-nilai-individu">
                     <thead>
                         <tr>
@@ -1404,7 +1404,7 @@ async function renderNilaiIndividu() {
             // Total Row
             tableHTML += `
                 <tr style="background: #1d4ed8; color: white; font-weight: 800;">
-                    <td colspan="2" style="text-align: center; padding-left: 8px;">Total Nilai (Sum of Scores)</td>
+                    <td colspan="2" style="text-align: center; padding-left: 8px;">Total Nilai</td>
                     <td colspan="2">${totalNilai}</td>
                 </tr>
             `;

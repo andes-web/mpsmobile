@@ -651,8 +651,9 @@ footer {
 }
 
 .autocomplete-item {
-    padding: 8px 10px;
+    padding: 6px 10px; /* Smaller padding */
     cursor: pointer;
+    font-size: 0.75rem; /* Smaller font size as requested */
 }
 
 .autocomplete-item:hover, .autocomplete-item.active {
@@ -707,13 +708,13 @@ footer {
               <div style="display: flex; gap: 5px; margin-bottom: 5px;">
                   
                   <div class="autocomplete-container" style="flex: 1;">
-                      <input type="text" id="inputNama" placeholder="Nama Peserta (ketik & pilih)" class="custom-input">
-                      <div id="suggestionsNama" class="autocomplete-list"></div>
-                  </div>
-
-                  <div class="autocomplete-container" style="flex: 1;">
                       <input type="text" id="inputUnit" placeholder="Unit (ketik & pilih)" class="custom-input">
                       <div id="suggestionsUnit" class="autocomplete-list"></div>
+                  </div>
+                  
+                  <div class="autocomplete-container" style="flex: 1;">
+                      <input type="text" id="inputNama" placeholder="Nama Peserta (ketik & pilih)" class="custom-input">
+                      <div id="suggestionsNama" class="autocomplete-list"></div>
                   </div>
                   
               </div>
@@ -864,7 +865,7 @@ async function renderDetailRekap(nama, unit, sheetType) {
     document.getElementById("totalPenilaian").innerText = totalScore;
     
     // --- ANALISIS NARATIF --- (Total Maksimum: 15+15+40+10+10 = 90)
-    let narasi = `Rekapitulasi nilai untuk ${nama} dari unit ${unit} menunjukkan **Total Penilaian** sebesar **${totalScore}** (dari maksimal 90). `;
+    let narasi = `Rekapitulasi nilai untuk **${nama}** dari unit **${unit}** menunjukkan **Total Penilaian** sebesar **${totalScore}** (dari maksimal 90). `;
     
     if (totalScore >= 75) {
         narasi += "Nilai ini menunjukkan performa yang **Sangat Baik** secara keseluruhan. Seluruh aspek seperti Kedisiplinan, Kekompakan, dan Kepemimpinan terlihat sangat menonjol dan mencapai target tinggi. Direkomendasikan untuk mempertahankan standar tinggi ini dan menjadi role model.";
@@ -929,30 +930,43 @@ function renderUnitBars(unitMap){
   });
 }
 
-// NEW FUNCTION: Extract unique names and units for autocomplete
-function extractUniqueData() {
-    uniqueNames = [];
-    uniqueUnits = [];
-    if (latestData.length > 1) {
-        const headers = latestData[0];
+// NEW FUNCTION: Fetch unique names and units from "Peserta" sheet for autocomplete
+async function fetchAutocompleteData() {
+    try {
+        // Fetch data specifically from the 'Peserta' sheet
+        const data = await fetchSheet("Peserta");
+        if (!data || data.length < 2) {
+            console.warn("Peserta sheet data is empty or invalid.");
+            return;
+        }
+
+        const headers = data[0];
+        // Asumsi kolom Nama dan Unit ada di sheet Peserta
         const namaIdx = headers.indexOf("Nama");
         const unitIdx = headers.indexOf("Unit");
 
-        if (namaIdx !== -1) {
-            const names = new Set();
-            latestData.slice(1).forEach(row => {
-                if (row[namaIdx]) names.add(row[namaIdx]);
-            });
-            uniqueNames = Array.from(names).sort();
+        if (namaIdx === -1 || unitIdx === -1) {
+             console.error("Headers 'Nama' or 'Unit' not found in Peserta sheet.");
+             return;
         }
 
-        if (unitIdx !== -1) {
-            const units = new Set();
-            latestData.slice(1).forEach(row => {
-                if (row[unitIdx]) units.add(row[unitIdx]);
-            });
-            uniqueUnits = Array.from(units).sort();
-        }
+        const names = new Set();
+        const units = new Set();
+
+        data.slice(1).forEach(row => {
+            // Pastikan nilai tidak kosong sebelum ditambahkan
+            if (row[namaIdx] && String(row[namaIdx]).trim() !== '') names.add(String(row[namaIdx]));
+            if (row[unitIdx] && String(row[unitIdx]).trim() !== '') units.add(String(row[unitIdx]));
+        });
+
+        // Update global variables, filter out empty strings, and sort
+        uniqueNames = Array.from(names).filter(n => n.trim() !== '').sort();
+        uniqueUnits = Array.from(units).filter(u => u.trim() !== '').sort();
+
+        console.log(`Autocomplete data loaded: ${uniqueNames.length} names, ${uniqueUnits.length} units.`);
+
+    } catch (e) {
+        console.error("Error fetching Autocomplete Data:", e);
     }
 }
 
@@ -1017,10 +1031,9 @@ async function loadRekap(sheetName="Rekap"){
   const headers=data[0],rows=data.slice(1);
   const namaIdx=headers.indexOf("Nama"),unitIdx=headers.indexOf("Unit"),jumlahIdx=headers.indexOf("Jumlah");
   const sorted=rows.sort((a,b)=>Number(b[jumlahIdx]||0)-Number(a[jumlahIdx]||0));
-
-  // NEW: Extract data for Autocomplete
-  extractUniqueData();
   
+  // TIDAK ADA LAGI pemanggilan extractUniqueData() di sini
+
   // Batasi Top 10 untuk Individu dan Kelompok
   const limit=10; 
   const topRows=sorted.slice(0,limit);
@@ -1059,7 +1072,7 @@ async function loadRekap(sheetName="Rekap"){
     const posHeaders = posData[0].map(h => String(h || ""));
     const posRows = posData.slice(1);
 
-    const posIndices = posHeaders.map((h, i) => (/^\s*pos\s*\d+/i.test(h) ? i : -1)).filter(i => i !== -1);
+    const posIndices = [];
 
     posHeaders.forEach((h, i) => {
       const clean = String(h || '').replace(/\s+/g, '').toLowerCase();
@@ -1263,10 +1276,22 @@ function checkAndDisplayDetail() {
 
 // === MAIN EXECUTION ===
 
-// 1. Initial Load (Memuat data "Rekap" untuk Autocomplete)
+// 1. Fetch Autocomplete Data from 'Peserta' sheet first
+fetchAutocompleteData().then(() => {
+    // Setup Autocomplete after data is loaded
+    setupAutocomplete("inputNama", "suggestionsNama", uniqueNames);
+    setupAutocomplete("inputUnit", "suggestionsUnit", uniqueUnits);
+    
+    // PENTING: Pasang listener input untuk auto-display
+    document.getElementById("inputNama").addEventListener("input", checkAndDisplayDetail);
+    document.getElementById("inputUnit").addEventListener("input", checkAndDisplayDetail);
+});
+
+
+// 2. Initial Load (Memuat data "Rekap" untuk tampilan utama)
 loadRekap("Rekap"); 
 
-// 2. Set Interval for Refresh
+// 3. Set Interval for Refresh
 if(refreshTimer)clearInterval(refreshTimer);
 // Pembaruan data dilakukan setiap 10 detik (10000 ms)
 refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").value;
@@ -1275,21 +1300,6 @@ refreshTimer=setInterval(()=>{const val=document.getElementById("jenisRekap").va
     loadRekap(val);
   }
 },10000);
-
-// 3. Setup Autocomplete after initial load/data extraction is complete
-document.addEventListener("DOMContentLoaded", () => {
-    // NOTE: uniqueNames dan uniqueUnits akan otomatis diperbarui oleh loadRekap()
-    setTimeout(() => {
-        setupAutocomplete("inputNama", "suggestionsNama", uniqueNames);
-        setupAutocomplete("inputUnit", "suggestionsUnit", uniqueUnits);
-        
-        // PENTING: Pasang listener input untuk auto-display
-        document.getElementById("inputNama").addEventListener("input", checkAndDisplayDetail);
-        document.getElementById("inputUnit").addEventListener("input", checkAndDisplayDetail);
-
-    }, 1500); // Delay 1.5 detik untuk memastikan fetchSheet pertama selesai.
-});
-
 
 // Export Excel (tetap seperti semula)
 document.getElementById("btnExcel").addEventListener("click",()=>{

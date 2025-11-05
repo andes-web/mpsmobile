@@ -1827,5 +1827,85 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 </script>
+
+<!-- BEGIN MOBILE FIX PATCH (added by ChatGPT) -->
+<style>
+/* Override to ensure sidebar is visible on mobile by default and avoid translateX hiding */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: none !important;
+    position: static !important;
+    width: 100vw !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
+  /* Keep main scrollable */
+  .sidebar main { overflow-y: auto !important; }
+  /* Ensure header is visible and not covering content excessively */
+  #mobileHeader { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; }
+  /* Make sure mobile submenu is accessible */
+  #mobileSubmenu { right: 0 !important; left: auto !important; width: 260px; }
+}
+</style>
+
+<script>
+// Mobile toggle helper: make sidebar usable on mobile and provide menu toggle
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.querySelector('.sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileSubmenu = document.getElementById('mobileSubmenu');
+
+    // Ensure sidebar is visible on mobile by default if there is no explicit .open class
+    try {
+        if (window.innerWidth <= 768) {
+            if (!sidebar.classList.contains('open')) sidebar.classList.add('open');
+        }
+    } catch (e) { console.warn('Sidebar open fix:', e); }
+
+    // Toggle sidebar visibility on menuToggle click (mainly for small screens)
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('open');
+                // Also close mobileSubmenu when toggling main sidebar
+                if (mobileSubmenu) mobileSubmenu.classList.remove('show');
+            }
+        });
+    }
+
+    // If mobileSubmenu exists, allow clicking header button to toggle it
+    const btnHome = document.getElementById('btnHome');
+    if (btnHome) {
+        btnHome.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            if (mobileSubmenu) {
+                mobileSubmenu.classList.toggle('show');
+                // ensure sidebar open so submenu is visible
+                if (!sidebar.classList.contains('open')) sidebar.classList.add('open');
+            }
+        });
+    }
+
+    // Close submenu when clicking outside
+    document.addEventListener('click', function (ev) {
+        if (mobileSubmenu && !mobileSubmenu.contains(ev.target) && ev.target.id !== 'btnHome') {
+            mobileSubmenu.classList.remove('show');
+        }
+    });
+
+    // Improve viewport resizing behavior: ensure sidebar remains visible after orientation change
+    window.addEventListener('resize', function () {
+        if (window.innerWidth <= 768) {
+            if (!sidebar.classList.contains('open')) sidebar.classList.add('open');
+        } else {
+            // on desktop keep original desktop rules (do nothing special)
+        }
+    });
+});
+</script>
+<!-- END MOBILE FIX PATCH -->
+
 </body>
 </html>

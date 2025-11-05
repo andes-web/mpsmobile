@@ -90,13 +90,52 @@ body {
 /* Top Controls */
 .top-controls {
   display: flex;
+  /* Menggunakan wrap untuk tampilan yang lebih baik pada lebar kecil */
+  flex-wrap: wrap; 
   gap: 4px;
   margin-bottom: 2px;
   align-items: center;
 }
-select,
-input[type="text"][list] { /* Tambahkan styling untuk input datalist */
-  flex-grow: 1.5;
+
+/* Penyesuaian lebar elemen di top-controls - DEFAULT DESKTOP */
+/* Desktop layout adjustment (min-width: 769px) */
+@media (min-width: 769px) {
+  .top-controls #jenisRekap,
+  .top-controls #unitFilter {
+    flex: 1 1 40%; /* Disesuaikan agar lebih dominan dan sejajar (sebelumnya 20%) */ 
+    flex-grow: 1;
+  }
+  .top-controls #pesertaInputContainer {
+    flex: 1 1 40%; 
+    flex-grow: 2; /* takes more space for participant name */
+  }
+  .top-controls .action-btns {
+    flex: 1 1 10%; 
+    flex-grow: 1;
+    width: auto;
+  }
+}
+
+/* Mobile layout adjustment */
+@media (max-width: 768px) {
+  .top-controls #jenisRekap,
+  .top-controls #unitFilter {
+    flex: 1 1 48%; 
+  }
+  .top-controls #pesertaInputContainer {
+    flex: 1 1 100%; /* Takes a full row */
+    order: 3; /* Positioned before action-btns */
+  }
+  .top-controls .action-btns {
+    flex: 1 1 100%; /* Takes a full row */
+    order: 4;
+  }
+}
+
+/* Styling for Selects (applied to both desktop/mobile) */
+#jenisRekap, 
+#unitFilter,
+#pesertaInput { /* Tambahkan styling untuk input */
   padding: 4px;
   border: 1px solid #93c5fd;
   border-radius: 6px;
@@ -105,20 +144,84 @@ input[type="text"][list] { /* Tambahkan styling untuk input datalist */
   margin-bottom: 0;
   transition: border-color 0.3s;
 }
+
+/* Styling for Nilai Individu Input Container in top-controls */
+#pesertaInputContainer {
+    display: none; /* controlled by JS */
+    gap: 4px;
+    align-items: stretch; /* Stretch items to match height */
+    position: relative; /* PENTING: Untuk floating dropdown */
+}
+#pesertaInputContainer #pesertaInput {
+    flex-grow: 1;
+}
+#pesertaInputContainer #btnTampilkanNilai {
+    flex-shrink: 0;
+    width: 40px; 
+    height: auto; /* Take full height of container */
+    /* Keep button styling from original btnTampilkanNilai */
+    padding: 4px 6px; 
+    border: none;
+    border-radius: 5px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2); 
+    transform: translateY(0);
+}
+#pesertaInputContainer #btnTampilkanNilai:active {
+    transform: translateY(1px); 
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Gaya untuk Custom Dropdown (Fix 3) */
+#customPesertaDropdown {
+    position: absolute; 
+    top: 100%; 
+    left: 0; 
+    right: 0; 
+    background: white; 
+    border: 1px solid #e2e8f0; 
+    border-top: none; 
+    z-index: 1000; 
+    max-height: 200px; 
+    overflow-y: auto; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    border-radius: 0 0 6px 6px; 
+    display: none;
+}
+.dropdown-item {
+    padding: 6px 10px; 
+    cursor: pointer; 
+    font-size: 0.8rem; 
+    border-bottom: 1px solid #f1f5f9;
+}
+.dropdown-item:hover {
+    background: #f0f9ff;
+}
+
+
 select:focus,
-input[type="text"][list]:focus { /* Tambahkan focus styling */
+#pesertaInput:focus { /* Tambahkan focus styling */
   border-color: #2563eb;
 }
+
+/* Action buttons (PDF, Excel) */
 .action-btns {
     display: flex;
     gap: 3px;
-    flex-grow: 1;
+    flex-grow: 0; 
+    flex-shrink: 0;
+    flex-basis: auto; 
 }
-/* Tombol 3D Warna Terang */
+/* Tombol 3D Warna Terang (Disesuaikan agar lebih kecil) */
 .action-btns button {
   flex: 1;
-  padding: 4px 6px;
-  font-size: 0.8rem;
+  padding: 4px 4px; /* Padding lebih kecil */
+  font-size: 0.7rem; /* Font lebih kecil */
   border: none;
   border-radius: 5px;
   color: #fff;
@@ -127,7 +230,7 @@ input[type="text"][list]:focus { /* Tambahkan focus styling */
   transition: all 0.1s ease;
   
   /* Styling 3D */
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2); /* Shadow lebih kecil */
   transform: translateY(0);
 }
 
@@ -135,7 +238,7 @@ input[type="text"][list]:focus { /* Tambahkan focus styling */
 .btn-excel { background: #4ade80; } /* Green 400 */
 
 .action-btns button:active {
-  transform: translateY(2px);
+  transform: translateY(1px); /* Pergerakan lebih kecil */
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -217,7 +320,7 @@ input[type="text"][list]:focus { /* Tambahkan focus styling */
   width: 10%; /* kolom peringkat */
 }
 
-/* Lebar Kolom untuk REKAP AKHIR (5 kolom: 🏅, Nama, NI, NK, NA) */
+/* Lebar Kolom untuk REKAP AKHIR (6 kolom: 🏅, Nama, NI, NK, NN, NA) */
 .tableBox table.rekap-akhir th:nth-child(2),
 .tableBox table.rekap-akhir td:nth-child(2) {
   width: 50%; /* kolom Nama lebih lebar */
@@ -760,10 +863,24 @@ footer {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
         </select>
+        
+        <select id="unitFilter">
+            <option value="Semua Unit">Semua Unit</option>
+        </select>
+        
+        <div id="pesertaInputContainer" style="display: none; position: relative; gap: 4px; align-items: stretch;">
+            <input type="text" id="pesertaInput" placeholder="Nama Peserta" style="flex-grow: 1; padding: 4px; border: 1px solid #93c5fd; border-radius: 6px; background: #f1f5f9; font-size: 0.75rem;">
+            
+            <div id="customPesertaDropdown" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-top: none; z-index: 1000; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 0 0 6px 6px; display: none;">
+            </div>
 
+            <button id="btnTampilkanNilai" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: -2px;"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </button>
+        </div>
         <div class="action-btns">
           <button class="btn-pdf" id="btnPDF">PDF</button>
-          <button class="btn-excel" id="btnExcel">Excel</button>
+          <button class="btn-excel" id="btnExcel">XLS</button>
         </div>
       </div>
 
@@ -772,7 +889,7 @@ footer {
         <div class="statItem"><h5>Rata</h5><p id="statRata">0</p></div>
         <div class="statItem"><h5>Tinggi</h5><p id="statMax">0</p></div>
         <div class="statItem"><h5>Rendah</h5><p id="statMin">0</p></div>
-        <div class="statItem"><h5>Prosentase</h5><p id="statProsentase" class="statProsentase statProsentase-red">0%</p></div> 
+        <div class="statItem"><h5>Prosentase</h5><p id="statProsentase" class="statProsentase statProsentase-red">0%</p></div>
       </div>
 
       <div class="tableBox">
@@ -781,28 +898,13 @@ footer {
           <tbody id="tableBody"></tbody>
         </table>
       </div>
+
       <div id="nilaiIndividuView" style="display:none;">
-        <div class="input-controls" style="display:flex; gap: 8px; margin-bottom: 8px; align-items:center;">
-            <div style="flex: 1;">
-                <label style="display:block; font-size: 0.7rem; color: #64748b; font-weight: 500;">Nama Unit</label>
-                <input type="text" id="unitInput" list="unitDatalist" style="width: 100%; padding: 4px; border: 1px solid #93c5fd; border-radius: 6px; background: #f1f5f9; font-size: 0.75rem; transition: border-color 0.3s;" placeholder="Ketik atau pilih Unit">
-                <datalist id="unitDatalist"></datalist>
-            </div>
-            <div style="flex: 1.5;">
-                <label style="display:block; font-size: 0.7rem; color: #64748b; font-weight: 500;">Nama Peserta</label>
-                <div style="display:flex; gap: 4px;">
-                    <input type="text" id="pesertaInput" list="pesertaDatalist" style="flex-grow: 1; padding: 4px; border: 1px solid #93c5fd; border-radius: 6px; background: #f1f5f9; font-size: 0.75rem; transition: border-color 0.3s;" placeholder="Ketik atau pilih Peserta">
-                    <datalist id="pesertaDatalist"></datalist>
-                    <button id="btnTampilkanNilai" class="action-btns" style="padding: 4px 6px; border: none; border-radius: 5px; background: #2563eb; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: -2px;"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
         <div class="tableBox" id="nilaiRekapTableContainer">
-            <p style="text-align: center; color: #64748b; padding: 10px;">Pilih peserta dan klik tombol "Enter" untuk menampilkan rekap nilai.</p>
+          <p style="text-align: center; color: #64748b; padding: 10px;">Pilih peserta di atas untuk menampilkan rekap nilai.</p>
         </div>
-    </div>
+      </div>
+
       <div class="posTable" id="posSection" style="display:none;">
         <h4 id="posTitle"></h4>
         <table id="posTable">
@@ -813,35 +915,42 @@ footer {
 
       <div class="unit-recap-bar">
         <h4 id="unitRecapTitle">Rerata Nilai Unit<span></span></h4>
-        <div id="unitBarContainer" class="bar-container">
-          </div>
+        <div id="unitBarContainer" class="bar-container"> 
+        </div>
       </div>
+      
     </main>
     <footer>
-        <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank" class="footer-link">
-            © 2025 Andes | MPS System
-        </a>
+      <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank" class="footer-link"> 
+        © 2025 Andes | MPS System 
+      </a>
     </footer>
-    </div>
+  </div>
+
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyoUu2F2aOLxbLZSjdumcXX98k1KRqfho8Kn7_YnIH2UgHSFoxkeqLTZqeZ-MfqFeHM/exec";
 let latestData = [];
 let refreshTimer = null;
+let pesertaList = []; // Global list of participants
+let lastSheetType = null; // New global variable to track last sheet type for filter population
 
 // Warna soft untuk batang unit
 const softColors = [
-    '#93c5fd', '#6ee7b7', '#fcd34d', '#fb923c', '#c4b5fd', 
-    '#f97316', '#34d399', '#22d3ee', '#f472b6', '#a78bfa'
+  '#93c5fd', // Blue 300
+  '#6ee7b7', // Emerald 300
+  '#fcd34d', // Amber 300
+  '#fb923c', // Orange 400
+  '#c4b5fd', // Violet 300
+  '#f97316', // Orange 600
+  '#34d399', // Emerald 400
+  '#22d3ee', // Cyan 400
+  '#f472b6', // Pink 400
+  '#a78bfa'  // Violet 400
 ];
 
 // ==========================================================
 // === FUNGSI FETCH DATA UNIFIED DAN ROBUST ===
 // ==========================================================
-/**
- * Mengambil data dari Google Sheet melalui Apps Script dan memformatnya.
- * @param {string} sheetName - Nama Sheet yang akan diambil.
- * @returns {Promise<object>} - Mengembalikan objek { headers: array of strings, rawData: array of arrays }
- */
 async function fetchData(sheetName) {
     const url = `${GAS_URL}?sheet=${sheetName}`;
     try {
@@ -856,12 +965,9 @@ async function fetchData(sheetName) {
         }
 
         const headers = data[0].map(h => h.toString().trim());
-        const rawData = data.slice(1); 
-        
-        return { 
-            headers: headers, 
-            rawData: rawData 
-        };
+        const rawData = data.slice(1);
+        return { headers: headers, rawData: rawData };
+
     } catch (error) {
         console.error("Fetch error for sheet", sheetName, ":", error);
         Swal.fire('Error Koneksi/Data', `Gagal memuat sheet **${sheetName}**. Pastikan URL Apps Script benar dan sheet ada. Pesan: ${error.message}`, 'error');
@@ -872,44 +978,52 @@ async function fetchData(sheetName) {
 // FUNGSI PERINGKAT: Menggunakan ikon hanya untuk 3 besar
 function getRankDisplay(rank){
     return rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;
-} 
-
-function renderUnitBars(unitMap){
-  const container = document.getElementById("unitBarContainer");
-  container.innerHTML = "";
-  const unitAvgs = Object.entries(unitMap)
-    .map(([u, vals]) => {
-      const avg = vals.reduce((a,b)=>a+b,0) / vals.length;
-      return { unit: u, avg: Number(avg.toFixed(1)) };
-    })
-    .sort((a,b) => b.avg - a.avg);
-
-  if (unitAvgs.length === 0) {
-    container.innerHTML = "<p style='text-align:center;font-size:0.7rem;color:#6b7280;margin:0;'>Belum ada data unit</p>";
-    return;
-  }
-
-  const maxScore = Math.max(...unitAvgs.map(item => item.avg));
-  const maxBarWidth = maxScore > 0 ? maxScore : 1;
-
-  unitAvgs.forEach(({unit, avg}, index) => {
-    const color = softColors[index % softColors.length];
-    const percentage = (avg / maxBarWidth) * 100;
-    const barWidth = Math.max(percentage, 5);
-
-    const barItem = `
-      <div class="bar-item">
-        <div class="bar-fill" style="width: ${barWidth}%; background-color: ${color}; --bar-color: ${color};"></div>
-        <div class="bar-label" style="color: ${barWidth > 35 ? '#1f2937' : '#1f2937'};">
-          <span>${unit}</span>
-          <span>${avg}</span>
-        </div>
-      </div>
-    `;
-    container.innerHTML += barItem;
-  });
 }
 
+function renderUnitBars(unitMap) {
+    const container = document.getElementById('unitBarContainer');
+    container.innerHTML = '';
+    const unitAverages = [];
+    
+    // Hitung rata-rata setiap unit
+    for (const unit in unitMap) {
+        const scores = unitMap[unit];
+        const sum = scores.reduce((a, b) => a + b, 0);
+        const avg = sum / scores.length;
+        unitAverages.push({ unit, avg });
+    }
+    
+    // Sortir berdasarkan rata-rata tertinggi
+    unitAverages.sort((a, b) => b.avg - a.avg);
+
+    if (unitAverages.length === 0) {
+        container.innerHTML = "<p style='text-align:center;font-size:0.7rem;color:#6b7280;margin:0;'>Belum ada data unit</p>";
+        return;
+    }
+
+    const maxAvg = Math.max(...unitAverages.map(u => u.avg));
+    
+    unitAverages.forEach((item, index) => {
+        const { unit, avg } = item;
+        const barWidth = maxAvg > 0 ? (avg / maxAvg) * 95 : 0; // Batasi lebar maksimum 95%
+        const color = softColors[index % softColors.length];
+        
+        const barItem = `
+            <div class="bar-item">
+                <div class="bar-fill" style="width: ${barWidth.toFixed(0)}%; background: ${color}; --bar-color: ${color};"></div>
+                <div class="bar-label" style="color: ${barWidth > 35 ? '#1f2937' : '#1f2937'};">
+                    <span>${unit}</span>
+                    <span>${avg.toFixed(0)}</span>
+                </div>
+            </div>
+        `;
+        container.innerHTML += barItem;
+    });
+}
+
+// ==========================================================
+// === FUNGSI RENDER REKAP STANDAR (INDIVIDU/KELOMPOK/AKHIR) ===
+// ==========================================================
 /**
  * Menampilkan view untuk Rekap Standar (Individu/Kelompok/Akhir).
  * @param {string} sheetName - Nama sheet yang akan dirender ('Rekap', 'RekapKelompok', 'RekapAkhir').
@@ -925,13 +1039,14 @@ async function renderStandardRekap(sheetName) {
     document.getElementById("unitRecapTitle").style.display = showUnitPos ? "block" : "none";
     document.getElementById("unitBarContainer").style.display = showUnitPos ? "block" : "none";
     
+    // Ganti class tabel untuk CSS lebar kolom yang benar
     document.getElementById("rekapTable").classList.toggle("rekap-akhir", sheetName === "RekapAkhir");
-
-    document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Memuat data...</td></tr>';
-
-    const data = await fetchData(sheetName);
-    const rows = data.rawData; 
     
+    document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Memuat data...</td></tr>';
+    
+    const data = await fetchData(sheetName);
+    const rows = data.rawData;
+
     if (rows.length === 0) {
         document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Tidak ada data yang tersedia.</td></tr>';
         document.getElementById("statPeserta").innerText=0;
@@ -943,165 +1058,242 @@ async function renderStandardRekap(sheetName) {
         return;
     }
 
-    // --- LOGIKA REKAP AKHIR ---
+    // --- LOGIKA REKAP AKHIR (Untuk Rekap Akhir, Unit Filter aktif) ---
     if (sheetName === "RekapAkhir") {
-        // Headers: Nama, Nilai Individu, Nilai Kelompok, Nilai Non Teknis, Nilai Akhir
+        const unitFilter = document.getElementById('unitFilter').value;
+        const selectedUnit = (unitFilter === 'Semua Unit') ? null : unitFilter; // FIX 2
+
         const headers = data.headers;
+        // PENTING: Untuk filtering, kita asumsikan kolom 'Unit' sudah ada di data RekapAkhir
         const colMap = {
-            'Nama': headers.indexOf('Nama'), 
-            'NI': headers.indexOf('Nilai Individu'), 
-            'NK': headers.indexOf('Nilai Kelompok'), 
-            'NN': headers.indexOf('Nilai Non Teknis'), 
+            'Nama': headers.indexOf('Nama'),
+            'Unit': headers.indexOf('Unit'), // <--- FIX 2: Asumsi kolom Unit ada
+            'NI': headers.indexOf('Nilai Individu'),
+            'NK': headers.indexOf('Nilai Kelompok'),
+            'NN': headers.indexOf('Nilai Non Teknis'),
             'NA': headers.indexOf('Nilai Akhir')
         };
         
+        // Cek kolom yang wajib ada (Nama dan Nilai Akhir)
+        if (colMap.Nama === -1 || colMap.NA === -1) {
+            document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px; color:red;">Kolom Nama atau Nilai Akhir tidak ditemukan di sheet RekapAkhir.</td></tr>';
+            return;
+        }
+
+        // 1. Map dan Filter berdasarkan Unit (FIX 2)
         const validRows = rows.map(r => ({
-            nama: (r[colMap.Nama] || '').toString().trim(), // Pastikan nama diolah sebagai string
+            nama: (r[colMap.Nama] || '').toString().trim(),
+            unit: (colMap.Unit !== -1 ? (r[colMap.Unit] || '').toString().trim() : 'N/A'), // Unit dimasukkan jika ada
             ni: parseFloat(String(r[colMap.NI] || 0).replace(',', '.')) || 0,
             nk: parseFloat(String(r[colMap.NK] || 0).replace(',', '.')) || 0,
             nn: parseFloat(String(r[colMap.NN] || 0).replace(',', '.')) || 0,
             na: parseFloat(String(r[colMap.NA] || 0).replace(',', '.')) || 0
-        })).sort((a,b)=>b.na - a.na);
+        })).filter(r => 
+            !selectedUnit || r.unit === selectedUnit
+        );
 
-        document.getElementById("tableHead").innerHTML = `<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr>`;
-        document.getElementById("tableBody").innerHTML = validRows.slice(0, 100).map((r, i) => `
+        // Hitung statistik (berdasarkan Nilai Akhir)
+        const arr = validRows.map(r => r.na).filter(v=>v>0);
+        const n = arr.length;
+        const sum = arr.reduce((a,b)=>a+b,0);
+        const max = arr.length ? Math.max(...arr) : 0;
+        const min = arr.length ? Math.min(...arr) : 0;
+        
+        // Update Stats
+        document.getElementById("statPeserta").innerText=n;
+        document.getElementById("statRata").innerText=n?(sum/n).toFixed(0):0;
+        document.getElementById("statMax").innerText=n?max.toFixed(0):0;
+        document.getElementById("statMin").innerText=n?min.toFixed(0):0;
+        document.getElementById("statProsentase").innerText="0%"; 
+        document.getElementById("statProsentase").className="statProsentase statProsentase-red";
+        
+        // Sortir 
+        const sorted = validRows.sort((a,b) => b.na - a.na);
+
+        // Tentukan batas tampil (FIX 2: Max 100 jika Semua Unit)
+        let limit = 10; 
+        if (!selectedUnit) { // Jika 'Semua Unit'
+            limit = 100;
+        } else {
+             limit = 10; // Default ke Top 10 untuk unit terfilter
+        }
+
+        // Pasang Header 6 Kolom
+        document.getElementById("tableHead").innerHTML = "<tr><th>🏅</th><th>Nama</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr>";
+        
+        // Pasang Data 6 Kolom
+        document.getElementById("tableBody").innerHTML = sorted.slice(0, limit).map((r, i) => `
             <tr>
                 <td>${getRankDisplay(i+1)}</td>
                 <td style="text-align:left;padding-left:8px;">${r.nama}</td>
-                <td>${r.ni}</td>
-                <td>${r.nk}</td>
-                <td>${r.nn}</td>
-                <td>${r.na}</td>
+                <td>${r.ni.toFixed(0)}</td>
+                <td>${r.nk.toFixed(0)}</td>
+                <td>${r.nn.toFixed(0)}</td>
+                <td>${r.na.toFixed(0)}</td>
             </tr>
         `).join("");
         
-        // Sembunyikan StatsBox
-        document.querySelector(".statBox").style.display = "none";
-        
+        return; // Selesai untuk Rekap Akhir
+    } 
+    
+    // --- LOGIKA REKAP INDIVIDU / KELOMPOK (Unit ADA di data, tampilkan 4 kolom) ---
+
+    // Dapatkan filter Unit yang dipilih
+    const unitFilter = document.getElementById('unitFilter').value;
+    const selectedUnit = (unitFilter === 'Semua Unit' || unitFilter === 'Semua Kelompok') ? null : unitFilter;
+
+    // Cari Index Kolom
+    const headers = data.headers;
+    const namaIdx = headers.indexOf('Nama');
+    const unitIdx = headers.indexOf('Unit');
+    const jumlahIdx = headers.indexOf('Jumlah');
+
+    if (namaIdx === -1 || unitIdx === -1 || jumlahIdx === -1) {
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 10px; color:red;">Kolom Nama, Unit, atau Jumlah tidak ditemukan di sheet.</td></tr>';
         return;
     }
-    
-    // --- LOGIKA REKAP INDIVIDU/KELOMPOK (Standar) ---
-    const headers = data.headers;
-    const namaIdx = headers.indexOf("Nama");
-    const unitIdx = headers.indexOf("Unit");
-    const jumlahIdx = headers.indexOf("Jumlah");
-    
+
+    // Filter Data berdasarkan Unit yang dipilih
+    const filteredRows = rows.filter(r => {
+        const rowUnit = (r[unitIdx] || '').toString().trim();
+        // Hanya tampilkan jika filter unit null (Semua) atau jika unit baris cocok
+        return !selectedUnit || rowUnit === selectedUnit;
+    });
+
     // Data untuk Statistik dan Unit Bar
-    const arr = rows.map(r => parseFloat(String(r[jumlahIdx]||0).replace(',', '.'))).filter(v=>!isNaN(v) && v>0);
+    const arr = filteredRows.map(r => parseFloat(String(r[jumlahIdx]||0).replace(',', '.'))).filter(v=>!isNaN(v) && v>0);
     const n = arr.length;
     const sum = arr.reduce((a,b)=>a+b,0);
-
+    
     // Update Stats
     document.getElementById("statPeserta").innerText=n;
-    document.getElementById("statRata").innerText=n?(sum/n).toFixed(1):0;
-    document.getElementById("statMax").innerText=n?Math.max(...arr).toFixed(1):0;
-    document.getElementById("statMin").innerText=n?Math.min(...arr).toFixed(1):0;
+    document.getElementById("statRata").innerText=n?(sum/n).toFixed(0):0;
+    document.getElementById("statMax").innerText=n?Math.max(...arr).toFixed(0):0;
+    document.getElementById("statMin").innerText=n?Math.min(...arr).toFixed(0):0;
     
-    // Sortir dan Tampilkan Top 10
-    const sorted = rows.map(r => ({
-        nama: (r[namaIdx] || '').toString().trim(), // Pastikan nama diolah sebagai string
-        unit: (r[unitIdx] || '').toString().trim(), // Pastikan unit diolah sebagai string
+    // LOGIKA PROSENTASE (berdasarkan POS) hanya untuk Rekap Individu/Kelompok
+    // Inisialisasi dulu, akan diupdate di bagian POS
+    document.getElementById("statProsentase").innerText="0%";
+    document.getElementById("statProsentase").className="statProsentase statProsentase-red";
+
+
+    // Sortir dan Tampilkan Top 10 (4 kolom)
+    const sorted = filteredRows.map(r => ({
+        nama: (r[namaIdx] || '').toString().trim(),
+        unit: (r[unitIdx] || '').toString().trim(),
         jumlah: parseFloat(String(r[jumlahIdx]||0).replace(',', '.')) || 0
     })).sort((a,b) => b.jumlah - a.jumlah);
 
+    // Pasang Header 4 Kolom
     document.getElementById("tableHead").innerHTML = "<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jml</th></tr>";
+    
+    // Pasang Data 4 Kolom
     document.getElementById("tableBody").innerHTML = sorted.slice(0, 10).map((r, i) => `
-        <tr><td>${getRankDisplay(i+1)}</td><td>${r.nama}</td><td>${r.unit}</td><td>${r.jumlah.toFixed(1)}</td></tr>
+        <tr><td>${getRankDisplay(i+1)}</td><td>${r.nama}</td><td>${r.unit}</td><td>${r.jumlah.toFixed(0)}</td></tr>
     `).join("");
 
-    // Unit Recap
+    // Unit Recap (selalu menggunakan data LENGKAP untuk bar chart)
     const unitMap = {};
-    sorted.forEach(r => {
-        if (r.unit) (unitMap[r.unit] ??= []).push(r.jumlah);
+    rows.forEach(r => { 
+        // Menggunakan rows (data lengkap) untuk bar chart, tidak terpengaruh filter
+        const unitName = (r[unitIdx] || '').toString().trim();
+        const score = parseFloat(String(r[jumlahIdx]||0).replace(',', '.')) || 0;
+        if (unitName) (unitMap[unitName] ??= []).push(score);
     });
+
     const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     document.getElementById('unitRecapTitle').innerHTML = `Rerata Nilai Unit <span style="font-weight:400;font-size:0.7em;color:#6b7280;">(Update: ${now})</span>`;
     renderUnitBars(unitMap);
-
-    // POS Data Logic
+    
+    // Logika Data POS
     const posSheet = sheetName === "Rekap" ? "PosIndividu" : "PosKelompok";
     const posData = await fetchData(posSheet);
-
+    
     let totalPosScore = 0;
     const statProsentaseElement = document.getElementById("statProsentase");
-
     if (posData.rawData.length > 0) {
         const posHeaders = posData.headers;
         const posRows = posData.rawData;
-
         // Cari indeks kolom yang dimulai dengan 'Pos'
-        const posIndices = posHeaders.map((h, i) => (/^\s*pos\s*\d+/i.test(h) ? i : -1)).filter(i => i !== -1);
+        const posIndices = posHeaders.map((h, i) => h.toString().toLowerCase().startsWith('pos') ? i : -1).filter(i => i > -1);
 
-        posRows.forEach(r => {
+        // Jika filter unit aktif, hanya hitung POS dari unit yang difilter
+        let posRowsToCalculate = posRows;
+        if (selectedUnit) {
+            const unitCol = posHeaders.indexOf('Unit'); 
+            posRowsToCalculate = posRows.filter(r => (r[unitCol] || '').toString().trim() === selectedUnit);
+        }
+        
+        // Hitung total nilai POS dari baris yang dipertimbangkan
+        posRowsToCalculate.forEach(r => {
             posIndices.forEach(idx => {
-                const raw = r[idx] !== undefined && r[idx] !== null ? String(r[idx]).trim() : "0";
-                const num = parseFloat(raw.replace(',', '.')) || 0;
-                totalPosScore += num;
+                const score = parseFloat(String(r[idx] || 0).replace(',', '.')) || 0;
+                totalPosScore += score;
             });
         });
 
-        const totalPosColumns = posIndices.length;
-        const pesertaCount = rows.length;
-        const maxScorePossible = pesertaCount * totalPosColumns; 
+        // Tampilkan total nilai POS dan persentase kehadiran/pencapaian
+        const maxScorePossible = posRowsToCalculate.length * posIndices.length * 5; // Asumsi nilai max per POS adalah 5
 
-        if (maxScorePossible > 0) {
-            const percentage = (totalPosScore / maxScorePossible) * 100;
-            const displayPercentage = Math.round(percentage);
-            const colorClass = percentage >= 100 ? 'statProsentase-green' : 'statProsentase-red';
-            statProsentaseElement.innerText = `${displayPercentage}%`;
-            statProsentaseElement.className = `statProsentase ${colorClass}`;
+        let percentage = maxScorePossible > 0 ? (totalPosScore / maxScorePossible) * 100 : 0;
+        // FIX 1: Batasi maksimal 100%
+        percentage = Math.min(percentage, 100);
+
+        const pDisplay = percentage.toFixed(0) + "%";
+
+        statProsentaseElement.innerText = pDisplay;
+        if (percentage >= 99.9) {
+            statProsentaseElement.className = `statProsentase statProsentase-green`;
         } else {
-            statProsentaseElement.innerText = `0%`;
             statProsentaseElement.className = `statProsentase statProsentase-red`;
         }
+        
+        // Tampilkan tabel POS
+        document.getElementById("posSection").style.display = "block";
+        document.getElementById("posTitle").innerText = `Rincian POS (Total: ${totalPosScore.toFixed(0)})`;
+        document.getElementById("posHead").innerHTML = `<tr>${posHeaders.map(h => `<th>${h}</th>`).join("")}</tr>`;
 
-        document.getElementById("posTitle").innerText = sheetName === "Rekap" ? "Rekap POS Individu" : "Rekap POS Kelompok";
-
-        document.getElementById("posHead").innerHTML = "<tr>" + posHeaders.map(h => {
-            if (/^\s*pos\s*\d+/i.test(h)) return `<th>${h.replace(/pos/i, 'P')}</th>`;
-            return `<th>${h}</th>`;
-        }).join("") + "</tr>";
-
-        document.getElementById("posBody").innerHTML = posRows.map((r) => {
+        // Baris data POS
+        document.getElementById("posBody").innerHTML = posRows.map(r => {
             let rowHtml = "<tr>";
             const numericValues = r.map(c => {
                 const val = parseFloat(String(c || 0).replace(',', '.'));
                 return isNaN(val) ? null : val;
             });
-            const availableNums = numericValues.filter(v => v !== null);
+            const availableNums = numericValues.filter(v => v !== null && posIndices.includes(r.indexOf(v))); // Hanya nilai POS
             const max = availableNums.length ? Math.max(...availableNums) : null;
-
+            
             r.forEach((cell, i) => {
                 const numVal = numericValues[i];
                 let className = "";
                 let display = cell || '-';
-                if (numVal !== null && posIndices.includes(i)) { // Khusus kolom Pos yang bernilai angka
-                    display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
+                
+                if (numVal !== null && posIndices.includes(i)) {
+                    // Khusus kolom Pos yang bernilai angka
+                    display = Number.isInteger(numVal) ? numVal : numVal.toFixed(0);
                     if (max !== null && numVal === max) {
                         className = "pos-value pos-max";
                     } else {
                         // Hanya warnai sel Pos yang bukan max
                         className = "pos-value pos-min";
                     }
-                } else if (i === 0) { // Kolom pertama (teks)
-                    className = ""; 
+                } else if (i === 0) {
+                    // Kolom pertama (teks)
+                    className = "";
                     display = (cell || '-').toString().trim(); // Pastikan kolom teks diolah sebagai string
-                } else if (numVal !== null) { // Kolom angka lain
-                    display = Number.isInteger(numVal) ? numVal : numVal.toFixed(2);
+                } else if (numVal !== null) {
+                    // Kolom angka lain
+                    display = Number.isInteger(numVal) ? numVal : numVal.toFixed(0);
                     className = "";
                 } else {
-                    className = ""; 
+                    className = "";
                     display = (cell || '-').toString().trim(); // Default untuk kolom lain
                 }
-                
                 rowHtml += `<td class="${className}">${display}</td>`;
             });
-
             rowHtml += "</tr>";
             return rowHtml;
         }).join("");
-
     } else {
         document.getElementById("posSection").style.display = "none";
         statProsentaseElement.innerText = `0%`;
@@ -1110,21 +1302,30 @@ async function renderStandardRekap(sheetName) {
 }
 
 
+// ==========================================================
+// === FUNGSI LAINNYA (Export, Nilai Individu, Filter) ===
+// ==========================================================
+
 // Export Logic
 document.getElementById("btnExcel").addEventListener("click", () => {
-    // Logic lama yang tergantung pada 'latestData' (perlu diperbarui jika ingin berfungsi)
     Swal.fire('Peringatan', 'Fungsi Export Excel sementara dinonaktifkan untuk penyesuaian data baru.', 'warning');
-    // const ws=XLSX.utils.aoa_to_sheet(latestData);const wb=XLSX.utils.book_new();
-    // XLSX.utils.book_append_sheet(wb,ws,"Rekap");XLSX.writeFile(wb,"Rekap_MPS.xlsx");
 });
+
 document.getElementById("btnPDF").addEventListener("click", () => {
-    const {jsPDF}=window.jspdf;const doc=new jsPDF({orientation:"portrait",unit:"pt",format:"a4"});
-    doc.text("Rekap Nilai MPS",220,40);
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
     
-    // Tentukan tabel mana yang aktif untuk PDF
+    // Judul
+    doc.text("Rekap Nilai MPS", 220, 40);
+
     let tableId = "#rekapTable";
+    let tableTitle = document.getElementById('jenisRekap').options[document.getElementById('jenisRekap').selectedIndex].text;
+
     if (document.getElementById("nilaiIndividuView").style.display !== "none") {
-        tableId = "#nilaiRekapTableContainer table"; // Target tabel di dalam container
+        tableId = "#nilaiRekapTableContainer table";
+        const selectedName = document.getElementById('pesertaInput').value;
+        tableTitle = `RINCIAN NILAI PESERTA: ${selectedName.toUpperCase()}`;
+
         if (!document.querySelector(tableId)) {
             Swal.fire('Peringatan', 'Silakan tampilkan nilai peserta terlebih dahulu untuk membuat PDF.', 'warning');
             return;
@@ -1135,369 +1336,496 @@ document.getElementById("btnPDF").addEventListener("click", () => {
     }
 
     doc.autoTable({
-        html: tableId, 
+        html: tableId,
         startY: 60,
-        styles: { fontSize: 8, cellPadding: 2, overflow: 'linebreak' },
-        headStyles: { fillColor: [29, 78, 216], textColor: 255 },
-        didParseCell: function (data) {
-            // Memastikan lebar kolom P (Predikat) tidak terlalu besar di Nilai Individu
-            if (tableId.includes("nilaiRekapTableContainer")) {
-                if (data.column.index === 3) { // Kolom Predikat (P)
-                    data.cell.styles.halign = 'center';
-                }
-            }
+        theme: 'grid',
+        headStyles: { 
+            fillColor: [29, 78, 216], 
+            textColor: 255, 
+            fontSize: 8,
+            fontStyle: 'bold',
+            halign: 'center'
+        },
+        styles: { 
+            fontSize: 7,
+            halign: 'center',
+            valign: 'middle' 
+        },
+        columnStyles: {
+            // Kolom Peringkat
+            0: { cellWidth: 30 }, 
+            // Kolom Nama / Kategori
+            1: { halign: 'left', cellWidth: tableId === "#rekapTable" ? 150 : 'auto' }, 
+        },
+        didDrawPage: function(data) {
+            // Header table di setiap halaman
+            doc.setFontSize(10);
+            doc.setTextColor(51);
+            doc.text(tableTitle, data.settings.margin.left, 50);
         }
     });
-    doc.save("Rekap_MPS.pdf");
+
+    if (document.getElementById("posSection").style.display !== "none" && document.getElementById("posTable")) {
+        doc.autoTable({
+            html: "#posTable",
+            startY: doc.autoTable.previous.finalY + 20,
+            theme: 'grid',
+            headStyles: { fillColor: [75, 85, 99], textColor: 255, fontSize: 8, fontStyle: 'bold', halign: 'center' },
+            styles: { fontSize: 6, halign: 'center', valign: 'middle' },
+            columnStyles: {
+                0: { halign: 'left', cellWidth: 70 }, // Kolom Unit
+            },
+            didDrawPage: function(data) {
+                // Tambahkan judul POS
+                if (data.pageNumber === 1) {
+                    doc.setFontSize(10);
+                    doc.setTextColor(51);
+                    doc.text(document.getElementById("posTitle").innerText, data.settings.margin.left, doc.autoTable.previous.finalY + 10);
+                }
+            }
+        });
+    }
+
+    // Output
+    doc.save(`${tableTitle.replace(/ /g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`);
 });
 
 
-// ==========================================================
-// === FUNGSI UTILITY KHUSUS NILAI INDIVIDU (TELAH DIPERBAIKI) ===
-// ==========================================================
-
-/**
- * Konversi huruf kolom Excel (cth: 'A', 'D', 'AB') menjadi indeks 0-based (cth: 0, 3, 27).
- * @param {string} letter - Huruf kolom.
- * @returns {number} - Indeks kolom 0-based.
- */
+// Utility functions for Nilai Individu
 function colLetterToIndex(letter) {
-    if (!letter) return -1;
     let index = 0;
     for (let i = 0; i < letter.length; i++) {
-        index = index * 26 + (letter.toUpperCase().charCodeAt(i) - 'A'.charCodeAt(0) + 1);
+        index = index * 26 + (letter.charCodeAt(i) - 'A'.charCodeAt(0) + 1);
     }
-    return index - 1; // Konversi ke indeks 0-based
+    return index - 1;
 }
 
-/**
- * Menghitung total skor untuk item tertentu dari data mentah berdasarkan penjumlahan kolom.
- * @param {object} sheetDataMap - Map yang berisi semua data sheet yang diambil ({'Rekap': {rawData: [...]}}).
- * @param {string} pesertaName - Nama peserta yang dicari (diasumsikan berada di kolom A/indeks 0).
- * @param {string} sheetKey - Nama sheet sumber data (cth: 'Rekap').
- * @param {Array<string>} colLetters - Array huruf kolom sumber (cth: ['D', 'E', 'F']).
- * @returns {number} - Total skor.
- */
 function calculateScore(sheetDataMap, pesertaName, sheetKey, colLetters) {
     if (!sheetDataMap[sheetKey] || !sheetDataMap[sheetKey].rawData) return 0;
 
     const rawData = sheetDataMap[sheetKey].rawData;
-    
-    // Mencari indeks kolom Nama Peserta dari header sheet sumber
     let namaColIndex = sheetDataMap[sheetKey].headers.indexOf('Nama');
-    if (namaColIndex === -1) namaColIndex = 0; // Fallback ke kolom A/indeks 0
+    if (namaColIndex === -1) namaColIndex = 0;
 
-    // Cari baris peserta (pencarian yang lebih ketat)
     const targetRow = rawData.find(row => 
-        (row[namaColIndex] || '').toString().trim().toUpperCase() === pesertaName.toUpperCase()
+        (row[namaColIndex] || '').toString().trim().toUpperCase() === pesertaName.toUpperCase() 
     );
 
     if (!targetRow) return 0;
 
     let totalScore = 0;
-    
     colLetters.forEach(letter => {
         const colIndex = colLetterToIndex(letter);
         if (colIndex >= 0 && colIndex < targetRow.length) {
             const rawValue = targetRow[colIndex];
-            // Bersihkan dan parsing nilai: ganti koma dengan titik
             const score = parseFloat(String(rawValue || 0).toString().replace(',', '.')) || 0;
             totalScore += score;
         }
     });
 
-    // Bulatkan total score ke 2 desimal
-    return parseFloat(totalScore.toFixed(2));
+    return parseFloat(totalScore.toFixed(0));
 }
 
-/**
- * Fungsi untuk menentukan Predikat berdasarkan Nilai.
- * PERHATIAN: Batas nilai ini adalah asumsi dan mungkin perlu dikalibrasi ulang.
- * @param {number} nilai - Nilai (Skor)
- * @returns {string} - Predikat (Singkatan)
- */
 function getPredikat(nilai) {
-    nilai = Number(nilai); 
-    if (nilai >= 12) return "SB"; 
-    if (nilai >= 9) return "B";  
-    if (nilai >= 6) return "CB"; 
-    if (nilai >= 3) return "KB"; 
-    if (nilai >= 0) return "BB"; 
+    nilai = Number(nilai);
+    if (nilai >= 12) return "SB";
+    if (nilai >= 9) return "B";
+    if (nilai >= 6) return "CB";
+    if (nilai >= 3) return "KB";
+    if (nilai >= 0) return "BB";
     return "-";
 }
 
+
+// ==========================================================
+// === LOGIKA NILAI INDIVIDU VIEW (CUSTOM DROPDOWN - FIX 3) ===
+// ==========================================================
+
 /**
- * Menampilkan view untuk Nilai Individu (Input dan Tabel Rekap).
+ * Memuat data peserta dan mengisinya ke dalam list global.
  */
-async function renderNilaiIndividu() {
-    // Sembunyikan semua elemen rekap standar KECUALI top-controls
+async function loadPesertaData() {
+    const rekapData = await fetchData('Rekap');
+    const rawPesertaList = rekapData.rawData;
+
+    if (rawPesertaList.length === 0) {
+        pesertaList = [];
+        return;
+    }
+
+    let namaIdx = rekapData.headers.indexOf('Nama');
+    let unitIdx = rekapData.headers.indexOf('Unit');
+    if (namaIdx === -1) namaIdx = 0;
+    if (unitIdx === -1) unitIdx = 1;
+
+    pesertaList = rawPesertaList.map(row => {
+        const nama = (row[namaIdx] || '').toString().trim();
+        const unit = (row[unitIdx] || '').toString().trim();
+        return { Nama: nama, Unit: unit };
+    }).filter(p => p.Nama !== '');
+}
+
+/**
+ * Mengatur fungsionalitas Custom Floating Dropdown.
+ * @param {string} unitFilterValue - Nilai Unit yang digunakan sebagai filter.
+ */
+function setupCustomDropdown(unitFilterValue = null) {
+    const pesertaInput = document.getElementById('pesertaInput');
+    const customDropdown = document.getElementById('customPesertaDropdown');
+    
+    // Filter the list based on unit
+    let filteredList = pesertaList.filter(p => {
+        const pUnit = p.Unit;
+        return !unitFilterValue || unitFilterValue === 'Semua Unit' || pUnit === unitFilterValue;
+    }).sort((a,b) => a.Nama.localeCompare(b.Nama));
+
+    // Reset input if filter unit changes
+    const currentUnit = document.getElementById('unitFilter').value;
+    if(currentUnit !== pesertaInput.dataset.lastUnit) {
+        pesertaInput.value = "";
+    }
+    pesertaInput.dataset.lastUnit = currentUnit;
+    
+    // Logic untuk menampilkan/menyembunyikan dan memfilter list
+    const showDropdown = (query = '') => {
+        const q = query.toLowerCase();
+        
+        customDropdown.innerHTML = '';
+        
+        const matched = filteredList.filter(p => q.length === 0 || p.Nama.toLowerCase().includes(q));
+        
+        if (matched.length === 0) {
+            customDropdown.style.display = 'none';
+            return;
+        }
+
+        matched.slice(0, 50).forEach(p => { // Batasi 50 hasil
+            const item = document.createElement('div');
+            item.className = 'dropdown-item';
+            item.innerText = p.Nama;
+            
+            item.onmouseover = () => item.style.background = '#f0f9ff';
+            item.onmouseout = () => item.style.background = 'white';
+            
+            item.onclick = () => {
+                pesertaInput.value = p.Nama;
+                customDropdown.style.display = 'none';
+                document.getElementById('btnTampilkanNilai').click(); // Langsung tampilkan nilai setelah memilih
+            };
+            customDropdown.appendChild(item);
+        });
+
+        customDropdown.style.display = 'block';
+    };
+
+    pesertaInput.oninput = (e) => showDropdown(e.target.value);
+    
+    // Close on blur (with slight delay to allow click on list item)
+    pesertaInput.onblur = () => {
+        setTimeout(() => {
+            customDropdown.style.display = 'none';
+        }, 150); // delay to allow click event on item
+    };
+    
+    // Show list on focus
+    pesertaInput.onfocus = (e) => {
+        showDropdown(e.target.value);
+    };
+}
+
+
+/**
+ * Menampilkan view untuk input Nilai Individu.
+ */
+function renderNilaiIndividuView() {
+    // Sembunyikan elemen standar
     document.querySelector(".statBox").style.display = "none";
     document.querySelector(".tableBox").style.display = "none";
     document.getElementById("posSection").style.display = "none";
     document.getElementById("unitRecapTitle").style.display = "none";
     document.getElementById("unitBarContainer").style.display = "none";
-
+    
     // Tampilkan view Nilai Individu
     const nilaiIndividuView = document.getElementById("nilaiIndividuView");
     nilaiIndividuView.style.display = "block";
-
     const resultContainer = document.getElementById('nilaiRekapTableContainer');
-    resultContainer.innerHTML = 
-        '<p style="text-align: center; color: #64748b; padding: 10px;">Mengambil daftar peserta...</p>';
-
-    const unitInput = document.getElementById('unitInput');
-    const pesertaInput = document.getElementById('pesertaInput');
-    const unitDatalist = document.getElementById('unitDatalist');
-    const pesertaDatalist = document.getElementById('pesertaDatalist');
     
-    // 1. Populasi Dropdown Unit dan Peserta dari sheet "Rekap"
-    const rekapData = await fetchData('Rekap');
-    const rawPesertaList = rekapData.rawData; // rawData: Array of arrays
+    // Tampilkan pesan awal
+    resultContainer.innerHTML = '<p style="text-align: center; color: #64748b; padding: 10px;">Pilih peserta di atas untuk menampilkan rekap nilai.</p>';
 
-    if (rawPesertaList.length === 0) {
-        resultContainer.innerHTML = 
-            '<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Gagal memuat data Rekap. Pastikan Sheet "Rekap" ada dan terisi.</p>';
-        unitDatalist.innerHTML = '';
-        pesertaDatalist.innerHTML = '';
-        unitInput.value = '';
-        pesertaInput.value = '';
+    // Set up custom dropdown
+    setupCustomDropdown(document.getElementById('unitFilter').value);
+}
+
+// Handler untuk tombol Tampilkan Nilai
+document.getElementById('btnTampilkanNilai').onclick = async () => {
+    const pesertaInput = document.getElementById('pesertaInput');
+    const selectedPeserta = pesertaInput.value;
+    const resultContainer = document.getElementById('nilaiRekapTableContainer');
+
+    if (!selectedPeserta || selectedPeserta.trim() === '') {
+        Swal.fire('Peringatan', 'Silakan masukkan atau pilih **Nama Peserta** terlebih dahulu.', 'warning');
         return;
     }
 
-    // CARI INDEKS BERDASARKAN HEADER UNTUK KEPASTIAN
-    let namaIdx = rekapData.headers.indexOf('Nama'); 
-    let unitIdx = rekapData.headers.indexOf('Unit'); 
-    
-    // Fallback jika header tidak ditemukan
-    if (namaIdx === -1) namaIdx = 0; // Asumsi kolom Nama di A/index 0
-    if (unitIdx === -1) unitIdx = 1; // Asumsi kolom Unit di B/index 1 (jika Nama di A)
+    resultContainer.innerHTML = '<p style="text-align: center; color: #64748b; padding: 10px;">Memproses data nilai...</p>';
+    const cleanName = selectedPeserta.toString().trim();
 
-    // Buat daftar Peserta dan Unit dari rawData
-    const pesertaList = rawPesertaList.map(row => {
-        // PENTING: Konversi nilai menjadi String untuk menghindari masalah angka/object
-        const nama = (row[namaIdx] || '').toString().trim();
-        const unit = (row[unitIdx] || '').toString().trim();
-        return {
-            Nama: nama,
-            Unit: unit
-        };
-    }).filter(p => p.Nama !== ''); // Filter peserta tanpa nama
-    
-    const units = new Set();
-    pesertaList.forEach(p => {
-        if (p.Unit) units.add(p.Unit);
-    });
-    
-    // Clear & default options.
-    unitDatalist.innerHTML = '';
-    pesertaDatalist.innerHTML = '';
-    unitInput.value = '';
-    pesertaInput.value = '';
-
-    // Populasi Datalist Unit dan sortir
-    unitDatalist.innerHTML += `<option value="-- Semua Unit --">`;
-    Array.from(units).sort().forEach(unit => {
-        unitDatalist.innerHTML += `<option value="${unit}">`;
-    });
-
-    /**
-     * Mengisi datalist peserta berdasarkan filter Unit.
-     */
-    function populatePeserta(unitFilter = null) {
-        pesertaDatalist.innerHTML = '';
+    try {
+        // Fetch all required detail sheets simultaneously
+        const [rekapI, rekapK, rekapN, polaDiri, polaTmn] = await Promise.all([
+            fetchData('Rekap'),
+            fetchData('RekapKelompok'),
+            fetchData('Nilai_Lain'),
+            fetchData('polapikirdiri'),
+            fetchData('polapikirtmn')
+        ]);
         
-        let filteredList = pesertaList.filter(p => {
-            const pUnit = p.Unit;
-            return !unitFilter || unitFilter === '-- Semua Unit --' || pUnit === unitFilter;
-        });
+        const sheetDataMap = {
+            'Rekap': rekapI,
+            'RekapKelompok': rekapK,
+            'Nilai_Lain': rekapN,
+            'polapikirdiri': polaDiri,
+            'polapikirtmn': polaTmn
+        };
 
-        filteredList.sort((a, b) => a.Nama.localeCompare(b.Nama));
-            
-        filteredList.forEach(p => {
-            if (p.Nama) {
-                // PENTING: Value di sini haruslah string
-                pesertaDatalist.innerHTML += `<option value="${p.Nama}">`;
-            }
-        });
-    }
+        let namaIdx = rekapI.headers.indexOf('Nama');
+        if (namaIdx === -1) namaIdx = 0;
+        
+        const pesertaExists = rekapI.rawData.some(row => 
+            (row[namaIdx] || '').toString().trim().toUpperCase() === cleanName.toUpperCase()
+        );
 
-    populatePeserta('-- Semua Unit --');
-    resultContainer.innerHTML = 
-        '<p style="text-align: center; color: #64748b; padding: 10px;">Pilih peserta dan klik tombol "Enter" untuk menampilkan rekap nilai.</p>';
-
-    // Event listener untuk filter Unit
-    unitInput.onchange = () => {
-        const selectedUnit = unitInput.value.trim();
-        populatePeserta(selectedUnit);
-        pesertaInput.value = ''; 
-        resultContainer.innerHTML = 
-            '<p style="text-align: center; color: #64748b; padding: 10px;">Pilih peserta dan klik tombol "Enter" untuk menampilkan rekap nilai.</p>';
-    };
-
-    // 2. Implementasi Tombol 'Tampilkan Nilai'
-    document.getElementById('btnTampilkanNilai').onclick = async () => {
-        const selectedPeserta = pesertaInput.value;
-        if (!selectedPeserta || selectedPeserta.trim() === '') {
-            Swal.fire('Peringatan', 'Silakan masukkan atau pilih Nama Peserta terlebih dahulu.', 'warning');
+        if (!pesertaExists) {
+            resultContainer.innerHTML = `<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Peserta **${cleanName}** tidak ditemukan di Sheet **Rekap**.</p>`;
             return;
         }
 
-        resultContainer.innerHTML = 
-            '<p style="text-align: center; color: #64748b; padding: 10px;">Memproses data nilai...</p>';
+        const scoreDefinition = [
+            // A. PENILAIAN INDIVIDU (Sheet: Rekap)
+            { header: 'A. PENILAIAN INDIVIDU', display: '1. Praktek PBB', sheet: 'Rekap', columns: ['G', 'H'] },
+            { display: '2. Tes Tulis', sheet: 'Rekap', columns: ['I'] },
+            { display: '3. Tes Fisik', sheet: 'Rekap', columns: ['J'] },
+            // B. PENILAIAN KELOMPOK (Sheet: RekapKelompok)
+            { header: 'B. PENILAIAN KELOMPOK', display: '1. Peraturan Baris Berbaris', sheet: 'RekapKelompok', columns: ['D', 'E'] },
+            { display: '2. Pembinaan Unit', sheet: 'RekapKelompok', columns: ['F', 'G'] },
+            // C. PENILAIAN KESAMAPTAAN (Sheet: Nilai_Lain)
+            { header: 'C. PENILAIAN KESAMAPTAAN', display: '1. Pakaian', sheet: 'Nilai_Lain', columns: ['G', 'H', 'K', 'L'] },
+            { display: '2. Perlengkapan', sheet: 'Nilai_Lain', columns: ['F', 'J'] },
+            { display: '3. Kelengkapan Lainnya', sheet: 'Nilai_Lain', columns: ['E', 'I'] },
+            // D. PENILAIAN KEPEMIMPINAN (Sheet: Nilai_Lain)
+            { header: 'D. PENILAIAN KEPEMIMPINAN', display: '1. Pengetahuan', sheet: 'Nilai_Lain', columns: ['M'] },
+            { display: '2. Sikap', sheet: 'Nilai_Lain', columns: ['N'] },
+            // E. PENILAIAN LAINNYA
+            { header: 'E. PENILAIAN LAINNYA', display: '1. Penilaian Sendiri', sheet: 'polapikirdiri', columns: ['D'] },
+            { display: '2. Penilaian Teman', sheet: 'polapikirtmn', columns: ['D'] }
+        ];
 
-        const cleanName = selectedPeserta.toString().trim();
-        
-        try {
-            // Fetch all required detail sheets simultaneously
-            const [rekapI, rekapK, rekapN, polaDiri, polaTmn] = await Promise.all([
-                fetchData('Rekap'),
-                fetchData('RekapKelompok'),
-                fetchData('Nilai_Lain'),
-                fetchData('polapikirdiri'), 
-                fetchData('polapikirtmn') 
-            ]);
-
-            // Create the data map for easy access in calculateScore
-            const sheetDataMap = {
-                'Rekap': rekapI,
-                'RekapKelompok': rekapK,
-                'Nilai_Lain': rekapN,
-                'polapikirdiri': polaDiri, 
-                'polapikirtmn': polaTmn    
-            };
-            
-            // Cek apakah peserta ditemukan di sheet Rekap (sumber utama)
-            // Menggunakan indeks namaIdx yang sudah dicari sebelumnya (0 atau indeks 'Nama')
-            const pesertaExists = rekapI.rawData.some(row => 
-                (row[namaIdx] || '').toString().trim().toUpperCase() === cleanName.toUpperCase()
-            );
-
-            if (!pesertaExists) {
-                 resultContainer.innerHTML = 
-                    `<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Peserta **${cleanName}** tidak ditemukan di Sheet **Rekap**.</p>`;
-                return;
-            }
-
-            // Define the score definition based on user's column sum requirements
-            const scoreDefinition = [
-                // A. PENILAIAN INDIVIDU (Sheet: Rekap)
-                { header: 'A. PENILAIAN INDIVIDU', display: '1. Praktek PBB', sheet: 'Rekap', columns: ['D', 'E', 'F'] },
-                { display: '2. Kebangsaan', sheet: 'Rekap', columns: ['G', 'H', 'I'] },
-                { display: '3. Keterampilan P3K', sheet: 'Rekap', columns: ['J', 'K', 'L'] },
-                { display: '4. Repleksi Nilai Juang', sheet: 'Rekap', columns: ['M', 'N', 'O'] },
-                { display: '5. Perumusan Strategi', sheet: 'Rekap', columns: ['P', 'Q', 'R'] },
-                
-                // B. PENILAIAN KELOMPOK (Sheet: RekapKelompok)
-                { header: 'B. PENILAIAN KELOMPOK', display: '1. Kolaborasi Formasi', sheet: 'RekapKelompok', columns: ['D', 'E', 'F'] },
-                { display: '2. Diskusi Kelompok', sheet: 'RekapKelompok', columns: ['G', 'H', 'I'] },
-                { display: '3. Penyelamatan Tim', sheet: 'RekapKelompok', columns: ['J', 'K', 'L'] },
-                { display: '4. Kreativitas Ekspresi', sheet: 'RekapKelompok', columns: ['M', 'N', 'O'] },
-                { display: '5. Inovasi & Strategi', sheet: 'RekapKelompok', columns: ['P', 'Q', 'R'] },
-                
-                // C. PENILAIAN NON TEKNIS (Sheet: Nilai_Lain)
-                { header: 'C. PENILAIAN NON TEKNIS', display: '1. Kemampuan PBB', sheet: 'Nilai_Lain', columns: ['G', 'H', 'K', 'L'] },
-                { display: '2. Perlengkapan', sheet: 'Nilai_Lain', columns: ['F', 'J'] },
-                { display: '3. Kelengkapan Lainnya', sheet: 'Nilai_Lain', columns: ['E', 'I'] },
-                
-                // D. PENILAIAN KEPEMIMPINAN (Sheet: Nilai_Lain)
-                { header: 'D. PENILAIAN KEPEMIMPINAN', display: '1. Pengetahuan', sheet: 'Nilai_Lain', columns: ['M'] },
-                { display: '2. Sikap', sheet: 'Nilai_Lain', columns: ['N'] },
-                
-                // E. PENILAIAN LAINNYA
-                { header: 'E. PENILAIAN LAINNYA', display: '1. Penilaian Sendiri', sheet: 'polapikirdiri', columns: ['D'] },
-                { display: '2. Penilaian Teman', sheet: 'polapikirtmn', columns: ['D'] }
-            ];
-            
-            let totalNilai = 0;
-            let tableHTML = `
-                <div style="border: 1px solid #e0e7ff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <h4 style="padding: 8px; font-size: 0.85rem; background: linear-gradient(90deg, #4facfe, #00f2fe); color: white; margin: 0; text-align: center;">RINCIAN NILAI</h4>
+        let totalNilai = 0;
+        let tableHTML = `
+            <div style="border: 1px solid #e0e7ff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <h4 style="padding: 8px; font-size: 0.85rem; background: linear-gradient(90deg, #4facfe, #00f2fe); color: white; margin: 0; text-align: center;">RINCIAN NILAI PESERTA: ${cleanName.toUpperCase()}</h4>
                 <table class="rekap-nilai-individu" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
                             <th style="width: 70%; text-align: center; padding-left: 8px;">Kategori</th>
-                            <th style="width: 15%; text-align: center; background: #fcd34d !important; color: #1e293b;">N</th> 
+                            <th style="width: 15%; text-align: center; background: #fcd34d !important; color: #1e293b;">N</th>
                             <th style="width: 15%; text-align: center; background: #93c5fd !important; color: #1e293b;">P</th>
                         </tr>
                     </thead>
                     <tbody>
-            `;
-            
-            scoreDefinition.forEach(item => {
-                // Add header if present
-                if (item.header) {
-                    tableHTML += `<tr><td colspan="3" style="text-align: left; font-weight: 700; background: #e0f2fe; color: #1d4ed8; padding: 6px 8px !important; border-top: 2px solid #a5b4fc;">${item.header}</td></tr>`;
-                }
-                
-                const nilai = calculateScore(sheetDataMap, cleanName, item.sheet, item.columns);
-                const predikat = getPredikat(nilai);
-                
-                totalNilai += nilai;
-                
-                tableHTML += `
-                    <tr>
-                        <td style="font-weight: 600;text-align: left; font-size: 0.65rem;">${item.display}</td>
-                        <td style="font-weight: 700;text-align: center;">${nilai.toFixed(0)}</td>
-                        <td style="font-weight: 600;text-align: center; font-size: 0.65rem;">${predikat}</td>
-                    </tr>
-                `;
-            });
-            
-            // Total Row
+        `;
+
+        scoreDefinition.forEach(item => {
+            if (item.header) {
+                tableHTML += `<tr><td colspan="3" style="text-align: left; font-weight: 700; background: #e0f2fe; color: #1d4ed8; padding: 6px 8px !important; border-top: 2px solid #a5b4fc;">${item.header}</td></tr>`;
+            }
+
+            const nilai = calculateScore(sheetDataMap, cleanName, item.sheet, item.columns);
+            const predikat = getPredikat(nilai);
+            totalNilai += nilai;
+
             tableHTML += `
-                <tr style="background: #1d4ed8; color: white; font-weight: 800; border-top: 2px solid #fff;">
-                    <td style="text-align: center;">TOTAL KESELURUHAN</td>
-                    <td colspan="2">${totalNilai.toFixed(0)}</td>
+                <tr>
+                    <td style="text-align: left; padding-left: 12px;">${item.display}</td>
+                    <td style="font-weight: 600;">${nilai.toFixed(0)}</td>
+                    <td style="font-weight: 700;">${predikat}</td>
                 </tr>
             `;
-            
-            tableHTML += `</tbody></table></div>`;
-            
-            resultContainer.innerHTML = tableHTML;
+        });
 
-        } catch (error) {
-            resultContainer.innerHTML = 
-                `<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Gagal memuat detail nilai. Terjadi kesalahan internal: ${error.message}</p>`;
-            console.error(error);
-        }
-    };
-}
+        tableHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td style="text-align: right; font-weight: 800; background: #1d4ed8; color: white; padding: 6px 8px !important;">TOTAL NILAI</td>
+                            <td style="font-weight: 800; background: #1d4ed8; color: white;">${totalNilai.toFixed(0)}</td>
+                            <td style="font-weight: 800; background: #1d4ed8; color: white;">${getPredikat(totalNilai)}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        `;
 
+        resultContainer.innerHTML = tableHTML;
 
-// --- FUNGSI UTAMA UNTUK MENANGANI PERUBAHAN DROPDOWN ---
-async function renderRekap(sheetName) {
-    document.querySelector(".top-controls").style.display = "flex"; 
-    document.getElementById("nilaiIndividuView").style.display = "none";
-    
-    if (sheetName === "NilaiIndividu") {
-        await renderNilaiIndividu(); 
-        return;
+    } catch (error) {
+        console.error("Error displaying individual score:", error);
+        resultContainer.innerHTML = `<p style="text-align: center; color: #dc2626; padding: 10px; font-weight: 600;">Terjadi kesalahan saat memuat nilai peserta: ${error.message}</p>`;
     }
-    
-    // Panggil fungsi render standar untuk Rekap biasa/kelompok/akhir
-    await renderStandardRekap(sheetName);
+};
+
+// ==========================================================
+// === LOGIKA FILTER DAN INISIALISASI UTAMA ===
+// ==========================================================
+
+/**
+ * Memuat dan mengisi filter Unit/Kelompok.
+ */
+async function populateUnitFilter(sheetName) {
+    const unitFilter = document.getElementById("unitFilter");
+    let filterItems = [];
+    let defaultText = 'Unit';
+
+    // --- 1. POPULASI DARI REKAP SHEET (REKAP INDIVIDU / REKAP AKHIR / NILAI INDIVIDU) ---
+    if (sheetName !== 'RekapKelompok') {
+        const data = await fetchData('Rekap');
+        const rawData = data.rawData;
+        const headers = data.headers;
+        const unitIdx = headers.indexOf('Unit');
+
+        if (unitIdx === -1 || rawData.length === 0) {
+            unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
+            return;
+        }
+
+        const units = new Set();
+        rawData.forEach(row => {
+            const unitName = (row[unitIdx] || '').toString().trim();
+            if (unitName) units.add(unitName);
+        });
+
+        filterItems = Array.from(units).sort();
+
+    // --- 2. POPULASI DARI KELOMPOK SHEET HEADERS (REKAP KELOMPOK) ---
+    } else {
+        const data = await fetchData('Kelompok'); // Ambil header dari sheet 'Kelompok'
+        
+        if (data.headers.length === 0) {
+            unitFilter.innerHTML = '<option value="Semua Kelompok">Semua Kelompok</option>';
+            return;
+        }
+        
+        // Filter out empty headers and limit to 10 (sesuai data Apps Script)
+        filterItems = data.headers.slice(0, 10).filter(h => h && h.trim() !== '');
+        defaultText = 'Kelompok';
+    }
+
+    unitFilter.innerHTML = '';
+    unitFilter.innerHTML += `<option value="Semua ${defaultText}">Semua ${defaultText}</option>`;
+    filterItems.forEach(item => {
+        unitFilter.innerHTML += `<option value="${item}">${item}</option>`;
+    });
+
+}
+
+/**
+ * Hanya menjalankan populateFilter jika jenis rekap berubah.
+ * @param {string} sheetName - Nama sheet yang aktif.
+ */
+async function renderRekap(sheetName) {
+    const jenisRekapElement = document.getElementById("jenisRekap");
+    const unitFilterElement = document.getElementById("unitFilter");
+    const pesertaInputContainer = document.getElementById("pesertaInputContainer");
+    const statBox = document.querySelector(".statBox");
+    const tableBox = document.querySelector(".tableBox");
+    const nilaiIndividuView = document.getElementById("nilaiIndividuView");
+
+    // Tentukan apakah perlu populate ulang Unit Filter (hanya jika tipe berubah)
+    if (sheetName !== lastSheetType) {
+        // Reset filter Unit ke default sebelum mem-populate ulang
+        unitFilterElement.value = unitFilterElement.options[0].value; 
+        await populateUnitFilter(sheetName);
+    }
+    lastSheetType = sheetName; // Simpan tipe terakhir
+
+    // Tampilkan/sembunyikan elemen filter dan input peserta
+    if (sheetName === 'NilaiIndividu') {
+        pesertaInputContainer.style.display = "flex";
+        unitFilterElement.style.display = "block"; 
+        renderNilaiIndividuView();
+    } else if (sheetName === 'RekapAkhir') { // FIX 2: Unit Filter visibility
+        pesertaInputContainer.style.display = "none";
+        nilaiIndividuView.style.display = "none";
+        unitFilterElement.style.display = "block"; // <-- Tampilkan Unit Filter untuk Rekap Akhir
+        renderStandardRekap(sheetName);
+    } else { // Rekap Individu & Kelompok
+        pesertaInputContainer.style.display = "none";
+        nilaiIndividuView.style.display = "none";
+        unitFilterElement.style.display = "block";
+        renderStandardRekap(sheetName);
+    }
 }
 
 
-// Inisialisasi dan Timer
-window.addEventListener('DOMContentLoaded', function() {
+// ==========================================================
+// === INIT ===
+// ==========================================================
+document.addEventListener('DOMContentLoaded', async () => {
     const jenisRekap = document.getElementById("jenisRekap");
+    const unitFilter = document.getElementById("unitFilter");
+    
+    // 1. Muat data peserta secara global
+    await loadPesertaData();
+    
+    // 2. Setup Event Listener untuk Jenis Rekap
     if (jenisRekap) {
         jenisRekap.onchange = () => {
             if (refreshTimer) clearInterval(refreshTimer);
             renderRekap(jenisRekap.value);
             // Mulai timer lagi jika bukan mode Nilai Individu
             if (jenisRekap.value !== 'NilaiIndividu') {
-                refreshTimer = setInterval(() => renderRekap(jenisRekap.value), 10000);
+                // disabled refresh
             }
         };
         
+        // 3. Setup Event Listener untuk Filter Unit
+        unitFilter.onchange = () => {
+            const currentSheet = jenisRekap.value;
+            // Jika mode Nilai Individu, filter dropdown peserta
+            if (currentSheet === 'NilaiIndividu') {
+                setupCustomDropdown(unitFilter.value); // FIX 3: Panggil setupCustomDropdown
+            }
+            // Jika mode Rekap Standar (Individu/Kelompok/Akhir), render ulang rekap dengan filter baru
+            if (currentSheet === 'Rekap' || currentSheet === 'RekapKelompok' || currentSheet === 'RekapAkhir') {
+                renderRekap(currentSheet);
+            }
+        };
+
+        // Render awal (Ini akan memanggil repopulateUnitFilter untuk pertama kali)
         renderRekap(jenisRekap.value);
         if (jenisRekap.value !== 'NilaiIndividu') {
-            refreshTimer = setInterval(() => renderRekap(jenisRekap.value), 10000);
+             // disabled refresh
         }
     }
+    
+    // Mobile menu logic (not directly related to rekap, but for completeness)
+    const menuToggle = document.getElementById('menuToggle');
+    const submenu = document.getElementById('mobileSubmenu');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', (e) => {
+            submenu.classList.toggle('show');
+            e.stopPropagation();
+        });
+        document.addEventListener('click', () => {
+            if (submenu.classList.contains('show')) {
+                submenu.classList.remove('show');
+            }
+        });
+    }
+
 });
+
 </script>
 </body>
 </html>

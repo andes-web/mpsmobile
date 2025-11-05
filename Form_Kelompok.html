@@ -99,16 +99,6 @@
     <div class="form-left">
       <select id="anggota">
         <option value="">-- Pilih Kelompok --</option>
-        <option value="Kelompok 1">Kelompok 1</option>
-        <option value="Kelompok 2">Kelompok 2</option>
-        <option value="Kelompok 3">Kelompok 3</option>
-        <option value="Kelompok 4">Kelompok 4</option>
-        <option value="Kelompok 5">Kelompok 5</option>
-        <option value="Kelompok 6">Kelompok 6</option>
-        <option value="Kelompok 7">Kelompok 7</option>
-        <option value="Kelompok 8">Kelompok 8</option>
-        <option value="Kelompok 9">Kelompok 9</option>
-        <option value="Kelompok 10">Kelompok 10</option>
       </select>
       <input id="nama" type="text" maxlength="20" placeholder="NAMA ANGGOTA">
     </div>
@@ -172,7 +162,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 </script>
 <script>
-const scriptURL="https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
 
 /* ==== Data Rubrik ==== */
 const rubrik={1:[{aspek:"Kekompakan Formasi",indikator:`1: Tidak terbentuk formasi yang jelas<br>2: Formasi terbentuk sebagian namun tidak rapi<br>3: Formasi terbentuk rapi tapi masih belum seragam<br>4: Formasi seragam, rapi, dan konsisten<br>5: Formasi sangat seragam, rapi, dengan koordinasi yang cepat dan tepat.`},
@@ -226,35 +216,73 @@ function setNilai(pos,idx,n,btn,idxForColor){
   box.style.color=valueColors[idxForColor%valueColors.length];
 }
 renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.value));
-/* ==== Submit ==== */
+/* ==== Submit (PERBAIKAN LOGIKA DISINI) ==== */
 document.getElementById("submitBtn").addEventListener("click", () => {
   const nama = document.getElementById("nama").value.trim();
-  const unit = document.getElementById("anggota").value.trim(); // ✅ .value WAJIB
+  const kelompokName = document.getElementById("anggota").value.trim();
   const pos = posSelect.value;
 
   if (!nama) {
     Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Nama wajib diisi', confirmButtonColor: '#facc15' });
     return;
   }
-  if (!unit) {
-    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Unit/Kelompok wajib dipilih', confirmButtonColor: '#facc15' });
+  if (!kelompokName) {
+    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Kelompok wajib dipilih', confirmButtonColor: '#facc15' });
     return;
   }
 
   const aspekRubrik = rubrik[pos] || [];
-  const nilaiArr = aspekRubrik.map((a, idx) => ({
-    aspek: a.aspek,
-    nilai: Number(nilaiData[pos]?.[idx] || 0)
-  }));
+  let totalScore = 0;
+  
+  const nilaiArr = aspekRubrik.map((a, idx) => {
+    const score = Number(nilaiData[pos]?.[idx] || 0);
+    totalScore += score;
+    return {
+      aspek: a.aspek,
+      nilai: score
+    };
+  });
+  
+  // Cek kelengkapan nilai
+  let isComplete = true;
+  nilaiArr.forEach(item => {
+      if (item.nilai === 0) {
+          isComplete = false;
+      }
+  });
+
+  if (!isComplete) { 
+    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Semua aspek penilaian di POS ini harus diisi (1-5)!', confirmButtonColor: '#facc15' });
+    return;
+  }
+  
+  // Tambahkan Total Score ke array agar disimpan ke kolom 'Jumlah'
+  nilaiArr.push({
+      aspek: "Jumlah", 
+      nilai: totalScore
+  });
 
   const payload = {
-    form: document.title.includes("Kelompok") ? "kelompok" : "individu",
+    form: "kelompok",
     nama,
-    unit, // ✅ sekarang isinya teks, bukan object
+    // ** PERBAIKAN PENTING: Tambahkan kunci 'unit' agar Apps Script mengisi kolom Unit **
+    unit: kelompokName, 
+    // Pertahankan kunci 'kelompok' agar Apps Script juga mengisi kolom Kelompok (jika ada)
+    kelompok: kelompokName, 
     nilai: nilaiArr
   };
 
   console.log("Payload dikirim:", payload);
+
+  Swal.fire({
+      title: 'Mengirim data...',
+      text: 'Mohon tunggu',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
+  });
 
   fetch(scriptURL, {
     method: "POST",
@@ -263,6 +291,11 @@ document.getElementById("submitBtn").addEventListener("click", () => {
     .then(async r => {
       const res = await r.text();
       console.log("Server response:", res);
+      
+      if (res.includes("❌")) {
+          throw new Error("Gagal menyimpan data: " + res);
+      }
+      
       Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
@@ -293,16 +326,18 @@ document.getElementById("resetBtn").addEventListener("click",()=>{
 
 /* ==== Unduh Excel ==== */
 document.getElementById("downloadExcel").addEventListener("click",()=>{
-  const rows=[["Timestamp","Nama","Anggota","POS","Aspek","Nilai"]];
+  const rows=[["Timestamp","Nama","Kelompok","POS","Aspek","Nilai"]];
   const ts=new Date().toLocaleString();
   const nm=document.getElementById("nama").value;
   const ang=document.getElementById("anggota").value;
+  
   for(const pos in nilaiData){
     (rubrik[pos]||[]).forEach((a,idx)=>{
       const skor=nilaiData[pos]&&nilaiData[pos][idx]?nilaiData[pos][idx]:"";
       rows.push([ts,nm,ang,"POS "+pos,a.aspek,skor]);
     });
   }
+
   const ws=XLSX.utils.aoa_to_sheet(rows);
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,"Nilai");
@@ -310,10 +345,9 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 });
 
 </script>
-<!-- === Tambah hitungan pengunjung (tidak menampilkan angka) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const endpoint = "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
+  const endpoint = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
   // Panggil tanpa parameter → otomatis menambah +1
   fetch(endpoint)
     .then(() => console.log("✅ Visitor count incremented"))
@@ -324,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // === FLOATING DROPDOWN NAMA KETUA (ambil dari sheet KELOMPOK) ===
 
 // URL Apps Script untuk ambil data sheet "kelompok"
-const kelompokURL = "https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec?sheet=kelompok";
+const kelompokURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?sheet=kelompok";
 
 // Simpan data nama per kelompok
 let dataKelompok = {};
@@ -332,12 +366,29 @@ let dataKelompok = {};
 // Ambil data kelompok dari sheet
 async function loadKelompok() {
   try {
+    // Menghapus pilihan statis
+    unitSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>';
+
     const res = await fetch(kelompokURL);
     const data = await res.json();
     const headers = data[0];
+    
+    // Isi Dropdown Kelompok dan dataKelompok
     headers.forEach((h, i) => {
-      dataKelompok[h] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+      if (h && h.trim() !== "") {
+        const kelompokName = h.trim();
+        
+        // Isi Dropdown Kelompok
+        const option = document.createElement("option");
+        option.value = kelompokName;
+        option.textContent = kelompokName;
+        unitSelect.appendChild(option);
+
+        // Isi dataKelompok
+        dataKelompok[kelompokName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+      }
     });
+
     console.log("Data kelompok:", dataKelompok);
   } catch (err) {
     console.error("Gagal memuat data kelompok:", err);
@@ -399,13 +450,13 @@ unitSelect.addEventListener("change", () => {
 
 // Saat mengetik di input nama → filter dari sheet kelompok
 namaInput.addEventListener("input", () => {
-  const unit = unitSelect.value;
-  if (!unit || !dataKelompok[unit]) {
+  const kelompok = unitSelect.value;
+  if (!kelompok || !dataKelompok[kelompok]) {
     suggestionBox.style.display = "none";
     return;
   }
   const val = namaInput.value.toLowerCase();
-  const filtered = dataKelompok[unit].filter(n => n.toLowerCase().includes(val));
+  const filtered = dataKelompok[kelompok].filter(n => n.toLowerCase().includes(val));
   showSuggestions(filtered);
 });
 
@@ -425,4 +476,3 @@ document.addEventListener("DOMContentLoaded", loadKelompok);
 
 </body>
 </html>
-

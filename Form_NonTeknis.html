@@ -11,12 +11,11 @@
     --accent:#2563eb; --success:#16a34a;
     --c1:#fff1f2; --c2:#eef6ff; --c3:#ecfff6; --c4:#fffbea; --c5:#f5f3ff;
     --v1:#be185d; --v2:#1e40af; --v3:#059669; --v4:#b45309; --v5:#6d28d9;
-    --kepemimpinan-bg: #f5f3ff; /* Warna baru untuk Penilaian Kepemimpinan */
+    --kepemimpinan-bg: #f5f3ff;
     --kepemimpinan-border: #6d28d9;
     --kepemimpinan-color: #5b21b6;
   }
   
-  /* Perbaikan 1 & 2: Struktur Statis dan Skala */
   @media (min-width: 769px) {
     body {
       transform: scale(0.8);
@@ -28,9 +27,9 @@
       background: #e6f0fa;
     }
     .rubrik-scroll-area {
-        height: 60vh; /* Sesuaikan tinggi agar konten penilaian bisa di-scroll */
+        height: 60vh;
         overflow-y: auto;
-        padding-top: 10px; /* Jarak dari header statis */
+        padding-top: 10px;
     }
   }
 
@@ -39,7 +38,6 @@
   .container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;
              padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
   
-  /* Kontainer Statis untuk Judul dan Identitas */
   .static-header {
       position: sticky;
       top: 0;
@@ -54,7 +52,6 @@
   text-shadow:2px 2px 3px rgba(0,0,0,0.25);}
   h2.title-sub{font-size:1rem;font-weight:600;text-align:center;margin:2px 0 10px 0;}
 
-  /* Perbaikan 1: Struktur Identitas 2 Baris */
   .top-container{
     display: flex;
     flex-direction: column; 
@@ -75,19 +72,16 @@
     width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #ccc;}
   .form-col input::placeholder { color: #888; font-weight: 500;}
 
-  /* Sisa Styling */
   .rubrik{display:grid;gap:8px;}
   .rubrik-section{
       margin-top: 15px; padding: 10px; border-radius: 10px;
       border: 2px solid #3b82f6; background-color: #eff6ff;
   }
-  /* Perbaikan 2: Warna container Penilaian Kepemimpinan */
   #lainnya-section {
       border-color: var(--kepemimpinan-border); 
       background-color: var(--kepemimpinan-bg);
   }
   .rubrik-title{font-size: 1.1rem; font-weight: 900; color: #1e40af; margin-bottom: 8px; text-align: center;}
-  /* Perbaikan 2: Warna judul Penilaian Kepemimpinan */
   #lainnya-section .rubrik-title {
       color: var(--kepemimpinan-color);
   }
@@ -124,7 +118,6 @@
   }
   .btn-submit{background:var(--success);color:#fff;}
 
-  /* Styling for TOTAL section */
   .total-container {
     margin-top: 15px; padding: 15px; border-radius: 10px;
     background-color: #f0fdf4; border: 2px solid var(--success);
@@ -149,30 +142,12 @@
         <div class="form-col">
           <select id="unitSelect">
             <option value="">Pilih Unit</option>
-            <option value="SMPN 1 Citeureup">SMPN 1 Citeureup</option>
-            <option value="SMPN 6 Depok">SMPN 6 Depok</option>
-            <option value="SMPN 7 Depok">SMPN 7 Depok</option>
-            <option value="SMPN 8 Depok">SMPN 8 Depok</option>
-            <option value="SMPN 12 Depok">SMPN 12 Depok</option>
-            <option value="SMPN 16 Depok">SMPN 16 Depok</option>
-            <option value="SMPN 31 Depok">SMPN 31 Depok</option>
-            <option value="SMPN 32 Depok">SMPN 32 Depok</option>
-          </select>
+            </select>
         </div>
         <div class="form-col">
           <select id="kelompokSelect">
             <option value="">Pilih Kelompok</option>
-            <option value="Kelompok 1">Kelompok 1</option>
-            <option value="Kelompok 2">Kelompok 2</option>
-            <option value="Kelompok 3">Kelompok 3</option>
-            <option value="Kelompok 4">Kelompok 4</option>
-            <option value="Kelompok 5">Kelompok 5</option>
-            <option value="Kelompok 6">Kelompok 6</option>
-            <option value="Kelompok 7">Kelompok 7</option>
-            <option value="Kelompok 8">Kelompok 8</option>
-            <option value="Kelompok 9">Kelompok 9</option>
-            <option value="Kelompok 10">Kelompok 10</option>
-          </select>
+            </select>
         </div>
       </div>
       <div class="row-identity">
@@ -251,12 +226,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 </script>
 <script>
 // =========================================================================
-// !!! PENTING: GANTI DENGAN URL APPS SCRIPT ANDA YANG SUDAH DI-DEPLOY !!!
+// !!! PENTING: URL APPS SCRIPT BARU ANDA TELAH DI-INPUT DI BAWAH !!!
 // =========================================================================
-const scriptURL = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec"; 
-// Contoh: "https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
 
-/* ==== Data Rubrik (Diperbarui Label Kepemimpinan) ==== */
+/* ==== Data Rubrik ==== */
 const rubrik = {
   individu: [
     { aspek: "Konsumsi (Individu)", key: "Konsumsi_I", indikator: `1: Tidak membawa/sangat kurang<br>2: Membawa tapi tidak sesuai ketentuan<br>3: Membawa sesuai ketentuan<br>4: Membawa berlebih/lengkap<br>5: Membawa berlebih, lengkap, dan berbagi`},
@@ -271,7 +245,6 @@ const rubrik = {
     { aspek: "PBB Dinamis (Kelompok)", key: "PBB_Dinamis_K", indikator: `1: Tidak terbentuk formasi/tidak kompak<br>2: Formasi terbentuk, kurang kompak, gerakan tumpang tindih<br>3: Kompak sebagian besar, gerakan cukup rapi<br>4: Kompak penuh, gerakan rapi, seragam<br>5: Kompak penuh, sangat rapi, cepat, seragam, dan bersemangat`},
   ],
   lainnya: [
-    // Label diganti
     { aspek: "Aspek Pengetahuan", key: "Pengetahuan_K", indikator: `1: Pemahaman Konsep Kepemimpinan Sangat Kurang<br>2: Hanya Mengetahui Dasar-dasar (20%)<br>3: Memahami Konsep, Tujuan, dan Fungsi (50%)<br>4: Mampu Menjelaskan dan Memberi Contoh (75%)<br>5: Mampu Menerapkan, Menganalisis, dan Mengembangkan Konsep`},
     { aspek: "Aspek Sikap", key: "Sikap_K", indikator: `1: Tidak Ada Inisiatif, Pasif, dan Ragu<br>2: Kurang Inisiatif, Terlalu Mengandalkan Petunjuk<br>3: Cukup Inisiatif, Mampu Mengambil Keputusan Kecil<br>4: Sangat Inisiatif, Mampu Mengambil Keputusan Tepat dan Tegas<br>5: Sangat Inisiatif, Tegas, Adil, dan Mampu Memotivasi Anggota Lain`}
   ]
@@ -314,10 +287,9 @@ function renderRubrik() {
     section.data.forEach((item, idx) => {
       const card = document.createElement("div");
       card.className = "aspek-card";
-      // Sesuaikan warna untuk Penilaian Kepemimpinan
       let cardBg = cardColors[(section.color + idx) % 5];
       if (section.target === lainnyaSection) {
-          cardBg = cardColors[idx % 2 === 0 ? 3 : 4]; // Ganti warna latar di Kepemimpinan untuk membedakan aspek
+          cardBg = cardColors[idx % 2 === 0 ? 3 : 4];
       }
       card.style.background = cardBg;
       
@@ -377,17 +349,9 @@ function setNilai(key, n, btn, idxForColor, sectionColor) {
 // Render inisial
 renderRubrik();
 
-/* ==== Submit (SUDAH DISESUAIKAN) ==== */
+/* ==== Submit ==== */
 document.getElementById("submitBtn").addEventListener("click", () => {
-  if (scriptURL.includes("GANTI-DENGAN-URL-APPS-SCRIPT-ANDA")) {
-     Swal.fire({ 
-        icon: 'error', 
-        title: 'Kesalahan Konfigurasi', 
-        html: 'URL Apps Script belum diganti. Data tidak bisa dikirim.',
-        confirmButtonColor: '#dc2626' 
-      });
-      return;
-  }
+  // *** BLOK PEMERIKSAAN URL LAMA SUDAH DIHAPUS DI SINI ***
   
   const nama = namaAnggotaInput.value.trim();
   const unit = unitSelect.value.trim(); 
@@ -498,8 +462,8 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
   let totalSkor = 0;
   allAspects.forEach(a => {
     const skor = nilaiData[a.key] || "";
-    nilaiRow.push(skor);
     if(typeof skor === 'number') totalSkor += skor;
+    nilaiRow.push(skor);
   });
   nilaiRow.push(totalSkor);
   rows.push(nilaiRow);
@@ -516,32 +480,57 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 const pesertaURL = scriptURL + "?sheet=peserta";
 const kelompokURL = scriptURL + "?sheet=kelompok";
 
-let dataPeserta = {}; // Nama per Unit (untuk individu)
-let dataKelompok = {}; // Nama per Kelompok
+let dataPeserta = {}; 
+let dataKelompok = {}; 
 
+/**
+ * Memuat data peserta dan kelompok dari Google Sheets.
+ */
 async function loadData() {
   try {
     // Muat data peserta (nama anggota per unit)
     const resP = await fetch(pesertaURL);
     const dataP = await resP.json();
-    const headersP = dataP[0];
+    const headersP = dataP[0]; 
+    
+    // Mengisi Unit Select dari headers sheet 'peserta'
+    unitSelect.innerHTML = '<option value="">Pilih Unit</option>';
     headersP.forEach((h, i) => {
-      dataPeserta[h] = dataP.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+        if (h && h.trim() !== "") {
+            const option = document.createElement("option");
+            option.value = h.trim();
+            option.textContent = h.trim();
+            unitSelect.appendChild(option);
+            
+            // Simpan nama-nama di bawah header unit yang bersangkutan
+            dataPeserta[h.trim()] = dataP.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+        }
     });
-    console.log("Data peserta (Unit/Nama):", dataPeserta);
 
     // Muat data kelompok (nama per kelompok)
     const resK = await fetch(kelompokURL);
     const dataK = await resK.json();
-    const headersK = dataK[0];
+    const headersK = dataK[0]; 
+    
+    // Mengisi Kelompok Select dari headers sheet 'kelompok'
+    kelompokSelect.innerHTML = '<option value="">Pilih Kelompok</option>';
     headersK.forEach((h, i) => {
-      // Asumsi: dataKelompok[Kelompok X] berisi array nama anggota kelompok X
-      dataKelompok[h] = dataK.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+        if (h && h.trim() !== "") {
+            const option = document.createElement("option");
+            option.value = h.trim();
+            option.textContent = h.trim();
+            kelompokSelect.appendChild(option);
+            
+            // Simpan nama-nama di bawah header kelompok yang bersangkutan
+            dataKelompok[h.trim()] = dataK.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+        }
     });
+
+    console.log("Data peserta (Unit/Nama):", dataPeserta);
     console.log("Data kelompok (Kelompok/Nama):", dataKelompok);
 
   } catch (err) {
-    console.error("Gagal memuat data peserta/kelompok:", err);
+    console.error("Gagal memuat data peserta/kelompok. Pastikan Apps Script URL sudah benar dan di-deploy:", err);
   }
 }
 
@@ -588,17 +577,18 @@ function showSuggestions(list, inputElement) {
 }
 
 function filterAndShowSuggestions() {
-  const unit = unitSelect.value;
-  const kelompok = kelompokSelect.value;
+  const unit = unitSelect.value.trim();
+  const kelompok = kelompokSelect.value.trim();
   const val = namaAnggotaInput.value.toLowerCase();
   
   let sourceData = [];
 
+  // LOGIKA UTAMA: Jika Kelompok dipilih, ambil data dari Kelompok. Jika tidak, ambil dari Unit.
   if (kelompok && dataKelompok[kelompok]) {
-    // Jika Kelompok dipilih, gunakan data kelompok
+    // Dropdown bersumber dari sheet kelompok
     sourceData = dataKelompok[kelompok];
   } else if (unit && dataPeserta[unit]) {
-    // Jika Kelompok KOSONG, gunakan data unit (individu)
+    // Dropdown bersumber dari sheet peserta
     sourceData = dataPeserta[unit];
   } else {
     suggestionBox.style.display = "none";
@@ -613,11 +603,13 @@ function filterAndShowSuggestions() {
 namaAnggotaInput.addEventListener("input", filterAndShowSuggestions);
 
 unitSelect.addEventListener("change", () => {
+  // Jika Unit berubah, kosongkan Nama Anggota dan refresh saran
   namaAnggotaInput.value = "";
   filterAndShowSuggestions();
 });
 
 kelompokSelect.addEventListener("change", () => {
+  // Jika Kelompok berubah, kosongkan Nama Anggota dan refresh saran
   namaAnggotaInput.value = "";
   filterAndShowSuggestions();
 });
@@ -633,8 +625,9 @@ window.addEventListener("resize", () => positionSuggestionBox(namaAnggotaInput))
 document.addEventListener("DOMContentLoaded", loadData);
 </script>
 <script>
+// === VISITOR COUNT (OPSIONAL) ===
 document.addEventListener("DOMContentLoaded", function() {
-  const endpoint = "https://script.google.com/macros/s/AKfycbz1f1GTOvXWgrTAuV2in71WDsBohZRd3QdBNGh0xxq_a4xk9ijK3y28cOBNUbUjuLs/exec";
+  const endpoint = scriptURL;
   fetch(endpoint).catch(err => console.warn("Visitor count error:", err));
 });
 </script>

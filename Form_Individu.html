@@ -99,15 +99,7 @@
     <div class="form-left">
       <select id="anggota">
         <option value="">-- Pilih Unit --</option>
-        <option value="SMPN 1 Citeureup">SMPN 1 Citeureup</option>
-        <option value="SMPN 6 Depok">SMPN 6 Depok</option>
-        <option value="SMPN 7 Depok">SMPN 7 Depok</option>
-        <option value="SMPN 8 Depok">SMPN 8 Depok</option>
-        <option value="SMPN 12 Depok">SMPN 12 Depok</option>
-        <option value="SMPN 16 Depok">SMPN 16 Depok</option>
-        <option value="SMPN 31 Depok">SMPN 31 Depok</option>
-        <option value="SMPN 32 Depok">SMPN 32 Depok</option>
-      </select>
+        </select>
       <input id="nama" type="text" maxlength="20" placeholder="NAMA ANGGOTA">
     </div>
     <div class="form-pos">
@@ -170,7 +162,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 </script>
 <script>
-const scriptURL="https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec";
+const scriptURL="https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
 
 /* ==== Data Rubrik ==== */
 const rubrik={1:[{aspek:"Kedisiplinan",indikator:`1: Tidak mengikuti aba-aba<br>2: Mengikuti sebagian aba-aba<br>3: Mengikuti semua aba-aba tapi beluma<br>4: Serentak, rapi, konsisten<br>5: Serempak, rapi, inisiatif memberi contoh kepada teman`},
@@ -227,7 +219,7 @@ renderRubrik(1);posSelect.addEventListener("change",e=>renderRubrik(e.target.val
 /* ==== Submit ==== */
 document.getElementById("submitBtn").addEventListener("click", () => {
   const nama = document.getElementById("nama").value.trim();
-  const unit = document.getElementById("anggota").value.trim(); // ✅ .value WAJIB
+  const unit = document.getElementById("anggota").value.trim(); // unit dari select anggota
   const pos = posSelect.value;
 
   if (!nama) {
@@ -244,15 +236,38 @@ document.getElementById("submitBtn").addEventListener("click", () => {
     aspek: a.aspek,
     nilai: Number(nilaiData[pos]?.[idx] || 0)
   }));
+  
+  // Cek kelengkapan nilai
+  let isComplete = true;
+  nilaiArr.forEach(item => {
+      if (item.nilai === 0) {
+          isComplete = false;
+      }
+  });
+
+  if (!isComplete) { 
+    Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Semua aspek penilaian di POS ini harus diisi (1-5)!', confirmButtonColor: '#facc15' });
+    return;
+  }
 
   const payload = {
     form: document.title.includes("Kelompok") ? "kelompok" : "individu",
     nama,
-    unit, // ✅ sekarang isinya teks, bukan object
+    unit, 
     nilai: nilaiArr
   };
 
   console.log("Payload dikirim:", payload);
+  
+  Swal.fire({
+      title: 'Mengirim data...',
+      text: 'Mohon tunggu',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
+  });
 
   fetch(scriptURL, {
     method: "POST",
@@ -261,6 +276,11 @@ document.getElementById("submitBtn").addEventListener("click", () => {
     .then(async r => {
       const res = await r.text();
       console.log("Server response:", res);
+
+      if (res.includes("❌")) {
+          throw new Error("Gagal menyimpan data: " + res);
+      }
+      
       Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
@@ -308,10 +328,9 @@ document.getElementById("downloadExcel").addEventListener("click",()=>{
 });
 
 </script>
-<!-- === Tambah hitungan pengunjung (tidak menampilkan angka) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const endpoint = "https://script.google.com/macros/s/AKfycbzrXSEevvL6nDIzmuXuP5aq7y_YUmYx7RKRugoZBGpfs6bbCTuLJ9luHhXIhBxmCBpo/exec";
+  const endpoint = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
   // Panggil tanpa parameter → otomatis menambah +1
   fetch(endpoint)
     .then(() => console.log("✅ Visitor count incremented"))
@@ -319,23 +338,41 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 <script>
-// === FLOATING DROPDOWN NAMA ANGGOTA ===
+// === FLOATING DROPDOWN NAMA ANGGOTA (Diperbaiki untuk Unit Dinamis) ===
 
 // URL Apps Script untuk ambil data sheet "peserta"
-const pesertaURL = "https://script.google.com/macros/s/AKfycbyeumLHXX8Nr3mwRyPzDSX9gqQOr_C7WyNAlH9AN_6vR_CoSjUVFVcsQuVG01S_rKiR/exec?sheet=peserta";
+const pesertaURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?sheet=peserta";
 
 // Simpan data nama per unit
 let dataPeserta = {};
+
+const namaInput = document.getElementById("nama");
+const unitSelect = document.getElementById("anggota"); // unitSelect mengacu ke <select id="anggota">
 
 // Ambil data peserta dari sheet
 async function loadPeserta() {
   try {
     const res = await fetch(pesertaURL);
     const data = await res.json();
-    const headers = data[0];
-    // Buat objek per kolom (unit)
+    const headers = data[0]; // Baris pertama (A1:G1)
+
+    // 1. KOSONGKAN DAN ISI DROPDOWN UNIT SECARA DINAMIS
+    unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>'; // Reset dropdown
+    
+    // 2. ISI dataPeserta DAN DROPDOWN UNIT DARI HEADERS
     headers.forEach((h, i) => {
-      dataPeserta[h] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+      if (h && h.trim() !== "") {
+        const unitName = h.trim();
+        
+        // Isi Dropdown Unit dari A1:G1
+        const option = document.createElement("option");
+        option.value = unitName;
+        option.textContent = unitName;
+        unitSelect.appendChild(option);
+        
+        // Isi dataPeserta dari A1:G58 (data.slice(1) adalah baris 2 s.d. 58)
+        dataPeserta[unitName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+      }
     });
     console.log("Data peserta:", dataPeserta);
   } catch (err) {
@@ -344,8 +381,6 @@ async function loadPeserta() {
 }
 
 // Buat dropdown mengambang (floating list)
-const namaInput = document.getElementById("nama");
-const unitSelect = document.getElementById("anggota");
 const suggestionBox = document.createElement("div");
 suggestionBox.style.position = "absolute";
 suggestionBox.style.background = "#fff";

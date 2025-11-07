@@ -889,6 +889,12 @@ footer {
 @media (min-width: 769px) {
   #mobileHeader, #mobileSubmenu, #menuToggle, .mobile-only { display: none !important; visibility: hidden !important; }
 }
+
+/* ====== SEMBUNYIKAN KOLOM UNIT HANYA UNTUK REKAP AKHIR ====== */
+table.rekap-akhir th:nth-child(3),
+table.rekap-akhir td:nth-child(3) {
+  display: none;
+}
 </style>
 
 <script>
@@ -1169,85 +1175,167 @@ async function renderStandardRekap(sheetName) {
         return;
     }
 
-    // --- LOGIKA REKAP AKHIR (Untuk Rekap Akhir, Unit Filter aktif) ---
-    if (sheetName === "RekapAkhir") {
-        const unitFilter = document.getElementById('unitFilter').value;
-        // Normalize selected unit for robust matching (trim, single-space, lowercase)
-        const selectedUnitRaw = unitFilter;
-        const selectedUnit = (normalizeUnit(selectedUnitRaw).startsWith(normalizeUnit('semua')) ) ? null : selectedUnitRaw;
- // FIX 2
+    // ================= REPLACEMENT: Robust RekapAkhir handler with lookup from Rekap =================
+if (sheetName === "RekapAkhir") {
+    const unitFilter = document.getElementById('unitFilter').value;
+    const selectedUnitRaw = unitFilter;
+    const selectedUnit = (normalizeUnit(selectedUnitRaw).startsWith(normalizeUnit('semua')) ) ? null : selectedUnitRaw;
 
-        const headers = data.headers;
-        // PENTING: Untuk filtering, kita asumsikan kolom 'Unit' sudah ada di data RekapAkhir
-        const colMap = {
-            'Nama': headers.indexOf('Nama'),
-            'Unit': headers.indexOf('Unit'), // <--- FIX 2: Asumsi kolom Unit ada
-            'NI': headers.indexOf('Nilai Individu'),
-            'NK': headers.indexOf('Nilai Kelompok'),
-            'NN': headers.indexOf('Nilai Non Teknis'),
-            'NA': headers.indexOf('Nilai Akhir')
+    const headers = data.headers || [];
+    console.log("RekapAkhir headers raw:", headers);
+
+    // normalize headers for robust lookup
+    const normHeaders = headers.map(h => (h||'').toString().replace(/\u00A0/g,' ').trim().toLowerCase());
+
+    const findIdx = (names) => {
+        if (!Array.isArray(names)) names = [names];
+        for (const n of names) {
+            const low = n.toString().trim().toLowerCase();
+            const exact = normHeaders.indexOf(low);
+            if (exact > -1) return exact;
+        }
+        for (const n of names) {
+            const low = n.toString().trim().toLowerCase();
+            const idxStarts = normHeaders.findIndex(h => h.startsWith(low));
+            if (idxStarts > -1) return idxStarts;
+            const idxIncludes = normHeaders.findIndex(h => h.includes(low));
+            if (idxIncludes > -1) return idxIncludes;
+        }
+        return -1;
+    };
+
+    const idxNama = findIdx(['nama','name']);
+    const idxUnit = findIdx(['unit','satuan']);
+    const idxNI = findIdx(['nilai individu','nilai_individu','nilaiindividu','nilai individu']);
+    const idxNK = findIdx(['nilai kelompok','nilaikelompok','nilai_kelompok']);
+    const idxNN = findIdx(['nilai non teknis','nilai_non_teknis','nilai nonteknis','nilai non teknis']);
+    const idxNA = findIdx(['nilai akhir','nilai_akhir','na','akhir']);
+
+    console.log("Mapped idx -> Nama:", idxNama, "Unit:", idxUnit, "NI:", idxNI, "NK:", idxNK, "NN:", idxNN, "NA:", idxNA);
+
+    // If Unit column not present in RekapAkhir, build name->unit map from Rekap (primary source)
+    let nameToUnitMap = {};
+    if (idxUnit === -1) {
+        try {
+            const rekapResp = await fetchData('Rekap'); // fetch full Rekap sheet
+            const rekapHeaders = (rekapResp.headers || []).map(h => (h||'').toString().trim());
+            const rekapRows = rekapResp.rawData || [];
+            const namaIdxRekap = rekapHeaders.indexOf('Nama') !== -1 ? rekapHeaders.indexOf('Nama') : 0;
+            const unitIdxRekap = rekapHeaders.indexOf('Unit') !== -1 ? rekapHeaders.indexOf('Unit') : 1;
+            // Build map normalized name => unit
+            rekapRows.forEach(r => {
+                const nameCell = (r[namaIdxRekap] || '').toString().trim();
+                const unitCell = (r[unitIdxRekap] || '').toString().trim();
+                if (nameCell) nameToUnitMap[nameCell.toLowerCase()] = unitCell;
+            });
+            console.log("Built name->unit map from Rekap, size:", Object.keys(nameToUnitMap).length);
+        } catch (err) {
+            console.warn("Error fetching Rekap for unit lookup:", err);
+            nameToUnitMap = {};
+        }
+    }
+
+    // Helper to safely get cell value from row and index
+    const safeGet = (row, idx, fallback='') => {
+        if (!row || typeof row !== 'object') return fallback;
+        if (typeof idx === 'number' && idx > -1 && idx < row.length) {
+            const v = row[idx];
+            return (v === undefined || v === null) ? fallback : v;
+        }
+        return fallback;
+    };
+
+    // Map rows: rows = data.rawData (array of arrays)
+    const validRows = rows.map(r => {
+        // determine name: try idxNama, fallback to first non-empty string in row
+        let nameVal = '';
+        if (idxNama > -1) nameVal = safeGet(r, idxNama, '').toString().trim();
+        if (!nameVal) {
+            // try common positions: 0 or 1 (some variants)
+            nameVal = (safeGet(r, 0, '') || safeGet(r, 1, '')).toString().trim();
+        }
+
+        // unit: prefer explicit column if present; otherwise lookup by name from Rekap
+        let unitVal = '';
+        if (idxUnit > -1) {
+            unitVal = safeGet(r, idxUnit, '').toString().trim();
+        }
+        if (!unitVal && nameVal) {
+            const mapped = nameToUnitMap[nameVal.toLowerCase()];
+            if (mapped) unitVal = mapped;
+        }
+
+        // Numeric fields: try indices, else fallback to best guess positions (after name)
+        const niIdxFallback = (idxNama > -1) ? idxNama + 1 : 1;
+        const nkIdxFallback = niIdxFallback + 1;
+        const nnIdxFallback = nkIdxFallback + 1;
+        const naIdxFallback = nnIdxFallback + 1;
+
+        const niVal = Number(String(safeGet(r, idxNI > -1 ? idxNI : niIdxFallback, 0)).replace(',', '.')) || 0;
+        const nkVal = Number(String(safeGet(r, idxNK > -1 ? idxNK : nkIdxFallback, 0)).replace(',', '.')) || 0;
+        const nnVal = Number(String(safeGet(r, idxNN > -1 ? idxNN : nnIdxFallback, 0)).replace(',', '.')) || 0;
+        const naVal = Number(String(safeGet(r, idxNA > -1 ? idxNA : naIdxFallback, 0)).replace(',', '.')) || 0;
+
+        return {
+            nama: String(nameVal || '').trim(),
+            unit: String(unitVal || '').trim(),
+            ni: niVal,
+            nk: nkVal,
+            nn: nnVal,
+            na: naVal
         };
-        
-        // Cek kolom yang wajib ada (Nama dan Nilai Akhir)
-        if (colMap.Nama === -1 || colMap.NA === -1) {
-            document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px; color:red;">Kolom Nama atau Nilai Akhir tidak ditemukan di sheet RekapAkhir.</td></tr>';
-            return;
-        }
+    }).filter(x => x.nama && x.nama.length > 0);
 
-        // 1. Map dan Filter berdasarkan Unit (FIX 2)
-        const validRows = rows.map(r => ({
-            nama: (r[colMap.Nama] || '').toString().trim(),
-            unit: (colMap.Unit !== -1 ? (r[colMap.Unit] || '').toString().trim() : 'N/A'), // Unit dimasukkan jika ada
-            ni: parseFloat(String(r[colMap.NI] || 0).replace(',', '.')) || 0,
-            nk: parseFloat(String(r[colMap.NK] || 0).replace(',', '.')) || 0,
-            nn: parseFloat(String(r[colMap.NN] || 0).replace(',', '.')) || 0,
-            na: parseFloat(String(r[colMap.NA] || 0).replace(',', '.')) || 0
-        })).filter(r => {
-            const rowUnit = normalizeUnit(r.unit);
-            return !selectedUnit || rowUnit === normalizeUnit(selectedUnit);
-        });
+    // Apply Unit filter if present
+    const filtered = validRows.filter(r => {
+        return !selectedUnit || normalizeUnit(r.unit) === normalizeUnit(selectedUnit);
+    });
 
-        // Hitung statistik (berdasarkan Nilai Akhir)
-        const arr = validRows.map(r => r.na).filter(v=>v>0);
-        const n = arr.length;
-        const sum = arr.reduce((a,b)=>a+b,0);
-        const max = arr.length ? Math.max(...arr) : 0;
-        const min = arr.length ? Math.min(...arr) : 0;
-        
-        // Update Stats
-        document.getElementById("statPeserta").innerText=n;
-        document.getElementById("statRata").innerText=n?(sum/n).toFixed(0):0;
-        document.getElementById("statMax").innerText=n?max.toFixed(0):0;
-        document.getElementById("statMin").innerText=n?min.toFixed(0):0;
-        document.getElementById("statProsentase").innerText="0%"; 
-        document.getElementById("statProsentase").className="statProsentase statProsentase-red";
-        
-        // Sortir 
-        const sorted = validRows.sort((a,b) => b.na - a.na);
+    // Stats
+    const arrVals = filtered.map(r => r.na).filter(v => v > 0);
+    const n = arrVals.length;
+    const sum = arrVals.reduce((a,b) => a+b, 0);
+    const max = n ? Math.max(...arrVals) : 0;
+    const min = n ? Math.min(...arrVals) : 0;
 
-        // Tentukan batas tampil (FIX 2: Max 100 jika Semua Unit)
-        let limit = 10; 
-        if (!selectedUnit) { // Jika 'Semua Unit'
-            limit = 100;
-        } else {
-             limit = 10; // Default ke Top 10 untuk unit terfilter
-        }
+    document.getElementById("statPeserta").innerText = n;
+    document.getElementById("statRata").innerText = n ? (sum/n).toFixed(0) : 0;
+    document.getElementById("statMax").innerText = n ? max.toFixed(0) : 0;
+    document.getElementById("statMin").innerText = n ? min.toFixed(0) : 0;
+    document.getElementById("statProsentase").innerText = "0%";
+    document.getElementById("statProsentase").className = "statProsentase statProsentase-red";
 
-        // Pasang Header 6 Kolom
-        document.getElementById("tableHead").innerHTML = "<tr><th>🏅</th><th>Nama</th><th style=\"display:none\">Unit</th><th>NI</th><th>NK</th><th>NN</th><th>NA</th></tr>";
-        
-        // Pasang Data 6 Kolom
-        document.getElementById("tableBody").innerHTML = sorted.slice(0, limit).map((r, i) => `
-            <tr><td>${getRankDisplay(i+1)}</td><td style="text-align:left;padding-left:8px;">${r.nama}</td><td style="display:none">${r.unit}</td>
-                <td>${r.ni.toFixed(0)}</td>
-                <td>${r.nk.toFixed(0)}</td>
-                <td>${r.nn.toFixed(0)}</td>
-                <td>${r.na.toFixed(0)}</td>
-            </tr>
-        `).join("");
-        
-        return; // Selesai untuk Rekap Akhir
-    } 
+    // Sort by NA desc
+    const sorted = filtered.sort((a,b) => b.na - a.na);
+
+    let limit = selectedUnit ? 10 : 100;
+    document.getElementById("tableHead").innerHTML =
+        "<tr>\
+            <th>🏅</th>\
+            <th>Nama</th>\
+            <th>Unit</th>\
+            <th>NI</th>\
+            <th>NK</th>\
+            <th>NN</th>\
+            <th>NA</th>\
+        </tr>";
+
+    document.getElementById("tableBody").innerHTML = sorted.slice(0, limit).map((r, i) => `
+        <tr>
+            <td>${getRankDisplay(i+1)}</td>
+            <td style="text-align:left;padding-left:8px;">${r.nama}</td>
+            <td>${r.unit}</td>
+            <td>${r.ni.toFixed(0)}</td>
+            <td>${r.nk.toFixed(0)}</td>
+            <td>${r.nn.toFixed(0)}</td>
+            <td>${r.na.toFixed(0)}</td>
+        </tr>
+    `).join("");
+
+    return;
+} // end RekapAkhir
+// ================= end replacement =================
+
     
     // --- LOGIKA REKAP INDIVIDU / KELOMPOK (Unit ADA di data, tampilkan 4 kolom) ---
 

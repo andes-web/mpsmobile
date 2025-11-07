@@ -364,6 +364,25 @@ select:focus,
 .tableBox table:not(.rekap-akhir) td:nth-child(4) {
     width: 10%; /* Jml dikecilkan (Max 3 char) */
 }
+/* Styling khusus kolom N pada tabel RINCIAN NILAI PESERTA */
+.tableBox table.rekap-nilai-individu td.nilai-n {
+  transition: all 0.12s ease-in-out;
+  font-weight: 900;
+  text-align: center;
+  font-size: 0.85rem; /* ukuran default untuk N */
+}
+
+/* Nilai > 0: biru dan sedikit lebih besar */
+.tableBox table.rekap-nilai-individu td.nilai-n.lebih {
+  color: #00a759;     /* biru */
+  font-size: 1.05rem; /* lebih besar */
+}
+
+/* Nilai == 0: merah */
+.tableBox table.rekap-nilai-individu td.nilai-n.nol {
+  color: #dc2626;     /* merah */
+  font-size: 0.85rem; /* ukuran normal */
+}
 
 
 /* Tabel POS Elegan dan Proporsional */
@@ -895,6 +914,24 @@ table.rekap-akhir th:nth-child(3),
 table.rekap-akhir td:nth-child(3) {
   display: none;
 }
+
+/* 🌈 Pewarnaan dan ukuran kolom N pada tabel Nilai Individu */
+#nilaiRekapTableContainer td.nilai-n {
+  font-weight: 700;
+  text-align: center;
+  font-size: 1rem; /* ukuran default */
+}
+
+#nilaiRekapTableContainer td.nilai-n.lebih {
+  color: #00a759; /* hijau */
+  font-size: 1.1rem;
+}
+
+#nilaiRekapTableContainer td.nilai-n.nol {
+  color: #dc2626; /* merah */
+  font-size: 1rem;
+}
+
 </style>
 
 <script>
@@ -1857,7 +1894,9 @@ document.getElementById('btnTampilkanNilai').onclick = async () => {
             tableHTML += `
                 <tr>
                     <td style="text-align: left; padding-left: 0;">${item.display}</td>
-                    <td style="font-weight: 900; text-align: center;">${nilai.toFixed(0)}</td>
+                    <td ${nilai > 0 ? 'class="nilai-n lebih"' : 'class="nilai-n nol"'} style="font-weight: 900; text-align: center;">
+  ${nilai.toFixed(0)}
+</td>
                     <td style="font-weight: 700; text-align: center;">${predikat}</td>
                 </tr>
             `;

@@ -1384,7 +1384,10 @@ if (sheetName === "Rekap") {
 if (sheetName === "RekapAkhir") {
     const unitFilter = document.getElementById('unitFilter').value;
     const selectedUnitRaw = unitFilter;
-    const selectedUnit = (normalizeUnit(selectedUnitRaw).startsWith(normalizeUnit('semua')) ) ? null : selectedUnitRaw;
+    const selectedUnit =
+    normalizeUnit(selectedUnitRaw).startsWith("semua")
+    ? null
+    : normalizeUnit(selectedUnitRaw);
 
     const headers = data.headers || [];
     console.log("RekapAkhir headers raw:", headers);
@@ -1513,7 +1516,7 @@ if (sheetName === "RekapAkhir") {
     // Sort by NA desc
     const sorted = filtered.sort((a,b) => b.na - a.na);
 
-    let limit = selectedUnit ? 10 : 100;
+    let limit = selectedUnit ? 100 : 300; // selectedUnit==null -> Semua Unit => 300, otherwise per-unit => 100
     document.getElementById("tableHead").innerHTML =
         "<tr>\
             <th>🏅</th>\
@@ -1548,7 +1551,10 @@ if (sheetName === "RekapAkhir") {
     const unitFilter = document.getElementById('unitFilter').value;
     // Normalize selected unit
     const selectedUnitRaw = unitFilter;
-    const selectedUnit = (normalizeUnit(selectedUnitRaw).startsWith(normalizeUnit('semua')) ) ? null : selectedUnitRaw;
+    const selectedUnit =
+    normalizeUnit(selectedUnitRaw).startsWith("semua")
+    ? null
+    : normalizeUnit(selectedUnitRaw);
 
 
     // Cari Index Kolom

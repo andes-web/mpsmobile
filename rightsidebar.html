@@ -962,11 +962,61 @@ footer {
   }
 }
 </style>
+<style>
+/* 🌐 Footer selalu melayang di bawah layar untuk semua tampilan */
+.sidebar footer {
+  position: fixed !important;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 38px;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999999; /* pastikan di atas semua elemen */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pastikan konten tidak tertutup footer */
+.sidebar main {
+  padding-bottom: 70px !important;
+}
+
+/* 🧩 Fix khusus MOBILE agar footer benar-benar muncul di atas layer */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  .sidebar {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important; /* penting agar footer fixed tampil */
+  }
+
+  .sidebar main {
+    overflow-y: visible !important;
+    padding-bottom: 80px !important; /* beri ruang ekstra */
+  }
+
+  .sidebar footer {
+    position: fixed !important;
+    bottom: -10 !important;
+    z-index: 100000 !important;
+  }
+}
+</style>
 
 </head>
-
 <body>
-    
 <header id="mobileHeader">
   <div id="menuToggle" class="mobile-only" aria-label="Buka menu" role="button" tabindex="0">☰</div>
   <span class="header-title">Rekap Nilai MPS</span>
@@ -2294,6 +2344,138 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <!-- END MOBILE FIX PATCH -->
+<!-- START: Robust global footer (mobile full-width, desktop sidebar-width) -->
+<style>
+/* Mobile-first: default full-width footer */
+#globalFooter {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 38px;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
+  z-index: 1000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+}
 
+/* Desktop: keep footer width matching the right sidebar and pin to right edge */
+@media (min-width: 769px) {
+  #globalFooter {
+    /* width will be set dynamically by JS to match .sidebar width */
+    height: 38px;
+    border-left: 1px solid #e2e8f0;
+    box-shadow: -4px -2px 8px rgba(0,0,0,0.06);
+    right: 0;
+    left: auto;
+  }
+}
+
+/* Ensure main area has space so content won't be hidden by the footer */
+.sidebar main {
+  padding-bottom: 80px !important;
+}
+</style>
+
+<script>
+(function(){
+  function ensureFooter() {
+    // remove previously created globalFooter to avoid duplicates
+    const prev = document.getElementById('globalFooter');
+    if (prev) prev.remove();
+
+    // try clone original sidebar footer (for content and accessibility)
+    const sidebarFooter = document.querySelector('.sidebar footer');
+    let gf;
+    if (sidebarFooter) {
+      gf = sidebarFooter.cloneNode(true);
+    } else {
+      gf = document.createElement('div');
+      gf.textContent = '© 2025 Andes | MPS System';
+    }
+    gf.id = 'globalFooter';
+    // minimal inline reset
+    gf.style.display = 'flex';
+    gf.style.alignItems = 'center';
+    gf.style.justifyContent = 'center';
+    gf.style.boxSizing = 'border-box';
+
+    document.body.appendChild(gf);
+
+    // hide original footer in sidebar (keep in DOM)
+    if (sidebarFooter) sidebarFooter.style.display = 'none';
+
+    // compute and apply placement
+    function updateFooterPlacement() {
+      const el = document.getElementById('globalFooter');
+      if (!el) return;
+      if (window.innerWidth >= 769) {
+        // desktop: match sidebar width and stick to right edge
+        const sb = document.querySelector('.sidebar');
+        if (sb) {
+          const rect = sb.getBoundingClientRect();
+          const sbWidth = Math.max(0, Math.round(rect.width || 280));
+          el.style.width = sbWidth + 'px';
+          el.style.left = 'auto';
+          el.style.right = '0';
+          el.style.maxWidth = '100%';
+          el.style.borderLeft = '1px solid #e2e8f0';
+        } else {
+          // fallback width
+          el.style.width = '280px';
+          el.style.left = 'auto';
+          el.style.right = '0';
+        }
+      } else {
+        // mobile: full width
+        el.style.width = '100%';
+        el.style.left = '0';
+        el.style.right = '0';
+        el.style.borderLeft = 'none';
+      }
+    }
+
+    // initial
+    updateFooterPlacement();
+
+    // update on resize/orientation
+    let scheduled = null;
+    function schedule() {
+      if (scheduled) cancelAnimationFrame(scheduled);
+      scheduled = requestAnimationFrame(updateFooterPlacement);
+    }
+    window.addEventListener('resize', schedule);
+    window.addEventListener('orientationchange', schedule);
+
+    // observe sidebar size changes if supported (keeps desktop footer synced)
+    const sb = document.querySelector('.sidebar');
+    if (sb && 'ResizeObserver' in window) {
+      try {
+        const ro = new ResizeObserver(schedule);
+        ro.observe(sb);
+      } catch (e) { /* ignore */ }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureFooter);
+  } else {
+    ensureFooter();
+  }
+})();
+</script>
+<!-- END: Robust global footer -->
 </body>
 </html>

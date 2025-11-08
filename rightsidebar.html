@@ -444,6 +444,27 @@ select:focus,
   color: #1e293b;        /* warna netral */
   text-align: left;      /* rata kiri agar enak dibaca */
 }
+/* ⚖️ Samakan ukuran dan lebar kolom NI, NK, NN di tabel Rekap Akhir */
+.tableBox table.rekap-akhir th:nth-child(4),
+.tableBox table.rekap-akhir th:nth-child(5),
+.tableBox table.rekap-akhir th:nth-child(6),
+.tableBox table.rekap-akhir td:nth-child(4),
+.tableBox table.rekap-akhir td:nth-child(5),
+.tableBox table.rekap-akhir td:nth-child(6) {
+  width: 90px;            /* lebar seragam untuk ketiga kolom */
+  max-width: 90px;
+  text-align: center;
+  font-size: 0.75rem;     /* ukuran huruf seragam */
+  font-weight: 600;
+  white-space: nowrap;    /* cegah teks pecah baris */
+  padding: 4px 6px;
+}
+.tableBox table.rekap-akhir th {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 4px;
+}
 
 /* Tabel POS Elegan dan Proporsional */
 .posTable {

@@ -935,6 +935,34 @@ footer {
 
 </style>
 
+
+<!-- HIDE 3-GARIS + HOME ON DESKTOP-LIKE DEVICES (mouse/desktop), keep mobile/touch unchanged -->
+<style>
+/* Target devices with a fine pointer (mouse) and hover capability — typical desktops/laptops.
+   This avoids hiding on touch devices even if the viewport width is small. */
+@media (hover: hover) and (pointer: fine) {
+  /* menu toggle (three lines), home icons in mobile header and sidebar */
+  #menuToggle,
+  .home-icon-btn,
+  #btnHome,
+  #mobileHeader .home-icon-btn,
+  header .home-icon-btn {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  /* additionally hide any SVG fallback icons that might be direct children */
+  #menuToggle svg,
+  .home-icon-btn svg,
+  #btnHome svg {
+    display: none !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -1011,16 +1039,6 @@ table.rekap-akhir td:nth-child(3) {
 #nilaiRekapTableContainer td.nilai-n.nol {
   color: #dc2626; /* merah */
   font-size: 1rem;
-}
-
-/* 🌐 SEMBUNYIKAN MENU & HOME DI DESKTOP SAJA */
-@media (min-width: 769px) {
-  #menuToggle,
-  .home-icon-btn,
-  #btnHome {
-    display: none !important;
-    visibility: hidden !important;
-  }
 }
 
 </style>

@@ -457,7 +457,7 @@ select:focus,
   font-size: 0.75rem;     /* ukuran huruf seragam */
   font-weight: 600;
   white-space: nowrap;    /* cegah teks pecah baris */
-  padding: 4px 6px;
+  padding: 2px 4px;
 }
 .tableBox table.rekap-akhir th {
   font-size: 0.85rem;
@@ -1011,6 +1011,16 @@ table.rekap-akhir td:nth-child(3) {
 #nilaiRekapTableContainer td.nilai-n.nol {
   color: #dc2626; /* merah */
   font-size: 1rem;
+}
+
+/* 🌐 SEMBUNYIKAN MENU & HOME DI DESKTOP SAJA */
+@media (min-width: 769px) {
+  #menuToggle,
+  .home-icon-btn,
+  #btnHome {
+    display: none !important;
+    visibility: hidden !important;
+  }
 }
 
 </style>

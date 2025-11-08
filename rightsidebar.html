@@ -383,7 +383,67 @@ select:focus,
   color: #dc2626;     /* merah */
   font-size: 0.85rem; /* ukuran normal */
 }
+/* 🎯 Pewarnaan kolom NA hanya untuk tabel REKAP AKHIR */
+.tableBox table.rekap-akhir td.nilai-na {
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.12s ease-in-out;
+}
 
+.tableBox table.rekap-akhir td.nilai-na.biru {
+  color: #00a759;     /* biru */
+  font-size: 0.8rem;    /* sedikit lebih besar */
+}
+
+.tableBox table.rekap-akhir td.nilai-na.merah {
+  color: #dc2626;     /* merah */
+  font-size: 0.7rem;
+}
+/* 🌈 Pewarnaan kolom JML untuk Rekap Individu & Kelompok */
+.tableBox table.rekap-individu td.nilai-jml,
+.tableBox table.rekap-kelompok td.nilai-jml {
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.12s ease-in-out;
+}
+
+.tableBox table.rekap-individu td.nilai-jml.biru,
+.tableBox table.rekap-kelompok td.nilai-jml.biru {
+  color: #00a759;    /* biru */
+  font-size: 0.8rem;
+}
+
+.tableBox table.rekap-individu td.nilai-jml.merah,
+.tableBox table.rekap-kelompok td.nilai-jml.merah {
+  color: #dc2626;    /* merah */
+  font-size: 0.7rem;
+}
+/* 🌈 Pewarnaan kolom Predikat di tabel Nilai Individu */
+.tableBox table.rekap-nilai-individu td.predikat {
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.12s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.tableBox table.rekap-nilai-individu td.predikat.bb {
+  color: #dc2626; /* merah */
+}
+
+.tableBox table.rekap-nilai-individu td.predikat.kb {
+  color: #f97316; /* oranye */
+}
+
+.tableBox table.rekap-nilai-individu td.predikat.default {
+  color: #1d4ed8; /* biru */
+}
+/* ✏️ Ukuran font kolom Kategori di tabel Nilai Individu */
+.tableBox table.rekap-nilai-individu td.kategori {
+  font-size: 0.7rem;     /* ubah sesuai kebutuhan, misal 0.8rem lebih kecil */
+  font-weight: 500;      /* opsional: sedikit tebal agar tetap terbaca */
+  color: #1e293b;        /* warna netral */
+  text-align: left;      /* rata kiri agar enak dibaca */
+}
 
 /* Tabel POS Elegan dan Proporsional */
 .posTable {
@@ -1194,7 +1254,16 @@ async function renderStandardRekap(sheetName) {
     document.getElementById("unitBarContainer").style.display = showUnitPos ? "block" : "none";
     
     // Ganti class tabel untuk CSS lebar kolom yang benar
-    document.getElementById("rekapTable").classList.toggle("rekap-akhir", sheetName === "RekapAkhir");
+    const table = document.getElementById("rekapTable");
+table.classList.remove("rekap-individu", "rekap-kelompok", "rekap-akhir");
+
+if (sheetName === "Rekap") {
+  table.classList.add("rekap-individu");
+} else if (sheetName === "RekapKelompok") {
+  table.classList.add("rekap-kelompok");
+} else if (sheetName === "RekapAkhir") {
+  table.classList.add("rekap-akhir");
+}
     
     document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Memuat data...</td></tr>';
     
@@ -1365,7 +1434,7 @@ if (sheetName === "RekapAkhir") {
             <td>${r.ni.toFixed(0)}</td>
             <td>${r.nk.toFixed(0)}</td>
             <td>${r.nn.toFixed(0)}</td>
-            <td>${r.na.toFixed(0)}</td>
+            <td class="nilai-na ${r.na >= 120 ? 'biru' : 'merah'}">${r.na.toFixed(0)}</td>
         </tr>
     `).join("");
 
@@ -1430,7 +1499,8 @@ if (sheetName === "RekapAkhir") {
     
     // Pasang Data 4 Kolom
     document.getElementById("tableBody").innerHTML = sorted.slice(0, 10).map((r, i) => `
-        <tr><td>${getRankDisplay(i+1)}</td><td style="text-align:left;padding-left:8px;">${r.nama}</td><td style="display:none">${r.unit}</td><td>${r.unit}</td><td>${r.jumlah.toFixed(0)}</td></tr>
+        <tr><td>${getRankDisplay(i+1)}</td><td style="text-align:left;padding-left:8px;">${r.nama}</td><td style="display:none">${r.unit}</td><td>${r.unit}</td><td class="nilai-jml ${r.jumlah >= 40 ? 'biru' : 'merah'}">${r.jumlah.toFixed(0)}</td>
+</tr>
     `).join("");
 
     // Unit Recap (selalu menggunakan data LENGKAP untuk bar chart)
@@ -1670,11 +1740,27 @@ function calculateScore(sheetDataMap, pesertaName, sheetKey, colLetters) {
 function getPredikat(nilai) {
     nilai = Number(nilai);
     if (nilai >= 12) return "SB";
-    if (nilai >= 9) return "B";
-    if (nilai >= 6) return "CB";
-    if (nilai >= 3) return "KB";
+    if (nilai >= 8) return "B";
+    if (nilai >= 5) return "CB";
+    if (nilai >= 2) return "KB";
     if (nilai >= 0) return "BB";
     return "-";
+}
+function getPredikatLengkap(kode) {
+  switch (kode) {
+    case "BB": return "Belum Baik";
+    case "KB": return "Kurang Baik";
+    case "CB": return "Cukup Baik";
+    case "B":  return "Baik";
+    case "SB": return "Sangat Baik";
+    default:   return kode;
+  }
+}
+function getPredikatTotal(totalNilai) {
+  if (totalNilai < 50) return "Kurang Baik";
+  if (totalNilai < 100) return "Cukup Baik";
+  if (totalNilai < 150) return "Kategori Baik";
+  return "Sangat Baik";
 }
 
 
@@ -1893,11 +1979,16 @@ document.getElementById('btnTampilkanNilai').onclick = async () => {
 
             tableHTML += `
                 <tr>
-                    <td style="text-align: left; padding-left: 0;">${item.display}</td>
+                    <td class="kategori" style="text-align: left; padding-left: 0;">${item.display}</td>
                     <td ${nilai > 0 ? 'class="nilai-n lebih"' : 'class="nilai-n nol"'} style="font-weight: 900; text-align: center;">
   ${nilai.toFixed(0)}
 </td>
-                    <td style="font-weight: 700; text-align: center;">${predikat}</td>
+                    <td class="predikat ${
+  predikat === 'BB' ? 'bb' :
+  predikat === 'KB' ? 'kb' :
+  'default'
+}">${predikat}</td>
+
                 </tr>
             `;
         });
@@ -1906,9 +1997,9 @@ document.getElementById('btnTampilkanNilai').onclick = async () => {
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td style="text-align: right; font-weight: 800; background: #1d4ed8; color: white; padding: 6px 8px !important;">TOTAL NILAI</td>
-                            <td style="font-weight: 950; background: #1d4ed8; color: white; text-align: center;">${totalNilai.toFixed(0)}</td>
-                            <td style="font-weight: 800; background: #1d4ed8; color: white;">${getPredikat(totalNilai)}</td>
+                            <td style="font-weight: 800; font-size: 1rem; background: #000000; color: white;">${getPredikatTotal(totalNilai)}</td>
+                            <td style="font-weight: 800; font-size: 1rem; background: #000000; color: #e7fa3c; text-align: center;">${totalNilai.toFixed(0)}</td>
+                            <td style="text-align: left; font-weight: 800; font-size: 0.85rem; background: #000000; color: white; padding: 6px 8px !important;">Poin</td>
                         </tr>
                     </tfoot>
                 </table>

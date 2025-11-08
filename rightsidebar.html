@@ -1570,7 +1570,7 @@ if (sheetName === "RekapAkhir") {
 
     // Filter Data berdasarkan Unit yang dipilih
     const filteredRows = rows.filter(r => {
-        const rowUnit = (r[unitIdx] || '').toString().trim();
+        const rowUnit = normalizeUnit((r[unitIdx] || ''));
         // Hanya tampilkan jika filter unit null (Semua) atau jika unit baris cocok
         return !selectedUnit || rowUnit === selectedUnit;
     });

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Form Penilaian BINTAL - Modern & Compact</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #8B85C4;
+      --soft-bg-color: #F0FFF0;
+      --soft-container-bg: #FFFBEF;
+      --soft-blue-bg: #D6EAF8;
+      --soft-secondary-color: #FFFDD0;
+      --inactive-color: #adb5bd; 
+      --dark-category: #000000;
+      --active-bg: #FFFFFF;
+      --active-text: #343a40;
+    }
+    body {
+      padding-top: 175px; 
+      background-color: var(--soft-bg-color);
+      font-family: Arial, sans-serif;
+    }
+    .container {
+        padding-top: 0 !important;
+    }
+    .main-title-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--soft-blue-bg);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+        z-index: 1040;
+        border-bottom: 1px solid #dee2e6;
+        padding: 5px 0;
+    }
+    .main-title-header h6, .main-title-header h5 { 
+        margin: 0 !important;
+        line-height: 1.2;
+        font-size: 0.8rem; 
+        color: #777;
+    }
+    .main-title-header h5 { 
+        font-size: 1.1rem; 
+        color: var(--primary-color);
+    }
+    .sticky-assessment-header {
+        top: 47px; 
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 1020;
+        background-color: var(--soft-blue-bg);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .identity-container {
+        padding: 5px 15px;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .tab-header-row {
+        margin-left: 0;
+        margin-right: 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .header-tab {
+        cursor: pointer;
+        padding: 0.5rem;
+        font-weight: 500;
+        transition: color 0.3s;
+        border-bottom: 3px solid transparent;
+        font-size: 0.85rem;
+        color: var(--inactive-color);
+        background-color: transparent;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 0.75rem; 
+        padding-right: 0.75rem; 
+    }
+    .header-tab.active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+      background-color: var(--soft-secondary-color);
+      font-weight: bold;
+      z-index: 10;
+    }
+    .tab-name-text {
+        flex-grow: 1; 
+        text-align: left;
+        padding-right: 5px; 
+    }
+    .tab-total-score {
+        flex-shrink: 0;
+        min-width: 30px;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: #000;
+        text-align: right;
+        line-height: 1;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    }
+    .accordion-row {
+        padding: 8px 0; 
+        background-color: var(--soft-blue-bg);
+        margin-left: 0;
+        margin-right: 0;
+        flex-wrap: nowrap;
+        border-radius: 0; 
+        display: flex;
+        justify-content: space-between;
+        gap: 0; 
+    }
+    .accordion-row > .col {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        flex-shrink: 0; 
+        width: 20%; 
+        max-width: 20%;
+        min-width: 0;
+    }
+    .accordion-button {
+        font-size: 0.65rem; 
+        padding: 0.4rem 0.1rem; 
+        line-height: 1.1; 
+        white-space: nowrap; 
+        font-weight: bold;
+        height: 100%; 
+        display: flex !important;
+        justify-content: flex-end !important; 
+        align-items: center;
+        text-align: right !important; 
+        padding-left: 5px; 
+        padding-right: 8px; 
+        background-color: var(--dark-category) !important;
+        color: white !important; 
+        border: 1px solid var(--dark-category);
+        border-left: none; 
+        border-radius: 0 !important; 
+        border-top-right-radius: 8px !important; 
+    }
+    .accordion-button:not(.collapsed) {
+        background-color: var(--active-bg) !important;
+        color: var(--active-text) !important; 
+        box-shadow: 
+            inset 0 6px 8px -2px rgba(0, 0, 0, 0.6), 
+            inset 0 -6px 8px -2px rgba(255, 255, 255, 0.7); 
+        border-top: 1px solid var(--dark-category) !important;
+        border-left: 1px solid var(--dark-category) !important;
+        border-right: 1px solid var(--dark-category) !important;
+        border-bottom: none !important; 
+        border-top-right-radius: 8px !important;
+    }
+    .accordion-content-area {
+        margin-top: 30px; 
+        background-color: var(--soft-container-bg);
+        border: 1px solid #dee2e6;
+        border-radius: 8px; 
+        padding: 1rem;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+    }
+    .identity-custom-dropdown {
+        position: relative; 
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .identity-display-btn {
+        cursor: pointer;
+        background-image: none !important;
+        padding-right: 2rem !important;
+        position: relative;
+        border: 1px solid #ced4da; 
+        border-radius: var(--bs-border-radius);
+        background-color: var(--bs-form-select-bg, #fff);
+        line-height: 1.5;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        width: 100%;
+        font-size: 0.875rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .identity-display-btn::after {
+        content: "▼"; 
+        position: absolute;
+        right: 0.75rem; 
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none; 
+        font-size: 0.5rem; 
+        color: #495057;
+    }
+    .identity-options-list {
+        position: absolute;
+        top: 100%; 
+        left: 0; 
+        width: 100%;
+        max-height: 300px; 
+        overflow-y: auto;
+        z-index: 1055; 
+        background-color: white;
+        border: 1px solid #ced4da;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        display: none; 
+        padding: 0;
+        margin: 0;
+        border-radius: 4px;
+        overflow-x: hidden; 
+    }
+    .identity-option {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background-color 0.15s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .identity-option:hover {
+        background-color: var(--soft-secondary-color);
+    }
+    .identity-option.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    .input-group-text {
+        width: 85%; 
+        flex-shrink: 0; 
+        font-size: 0.85rem;
+        border: none;
+        background-color: transparent !important; 
+        padding-left: 0.5rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        white-space: normal; 
+        align-self: center; 
+    }
+    .penilaian-row {
+        padding-top: 1px; 
+        padding-bottom: 1px; 
+        border-bottom: 1px solid #dee2e6; 
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .score-custom-dropdown {
+        position: relative; 
+        width: 15%;
+        flex-shrink: 0;
+    }
+    .score-display-btn {
+        width: 100%;
+        font-size: 0.75rem; 
+        padding: 0.1rem 0.5rem; 
+        min-width: 0; 
+        height: 25px; 
+        text-align: center;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); 
+        border: 1px solid #ced4da;
+        background-color: white;
+        border-radius: 4px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: none !important;
+        position: relative;
+        transition: all 0.2s ease;
+        font-weight: normal; 
+    }
+    .score-display-btn::after {
+        content: "▼"; 
+        position: absolute;
+        right: 2px; 
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none; 
+        font-size: 0.4rem; 
+        color: #495057;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .score-options-list {
+        position: absolute;
+        top: 100%; 
+        right: 0; 
+        width: 100%;
+        z-index: 1050; 
+        background-color: white;
+        border: 1px solid #ced4da;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        display: none; 
+        padding: 0;
+        margin: 0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .score-options-list .score-option {
+        padding: 0.25rem 0.75rem;
+        cursor: pointer;
+    }
+    .score-display-btn.score-1 { font-weight: bold; background-color: #fce7b0 !important; color: #856404; border-color: #ffeeba !important; }
+    .score-display-btn.score-2 { font-weight: bold; background-color: #e3e6ff !important; color: #004085; border-color: #b8daff !important; }
+    .score-display-btn.score-3 { font-weight: bold; background-color: #e0fff0 !important; color: #0c5460; border-color: #bee5eb !important; }
+    .score-display-btn.score-4 { font-weight: bold; background-color: #d8f5d8 !important; color: #155724; border-color: #c3e6cb !important; }
+    .score-display-btn.score-5 { font-weight: bold; background-color: #f0e6ff !important; color: #6d421d; border-color: #ffd8a8 !important; }
+    .section-title-box {
+        text-align: center !important; 
+        font-weight: bold !important;
+        font-size: 1.1rem; 
+        padding: 0.5rem 0.2rem;
+        margin-top: 1rem !important; 
+        margin-bottom: 0.5rem !important;
+        border: 1px solid #dcd4f2;
+        background-color: #f2f0fc;
+        border-radius: 4px; 
+        color: #5d5885 !important;
+    }
+    .sticky-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--soft-blue-bg);
+        padding: 10px 0;
+        border-top: 1px solid #dee2e6;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        z-index: 1030;
+    }
+  </style>
+</head>
+<body>
+
+<header class="main-title-header">
+  <div class="container-fluid text-center">
+    <h6 class="text-primary">PENILAIAN NON TEKNIS</h6>
+    <h5 class="text-dark">BIMBINGAN MENTAL</h5>
+  </div>
+</header>
+
+<div class="sticky-assessment-header">
+    <div class="container-fluid">
+        <div class="row g-1 identity-container">
+            <h5 class="mb-2 text-secondary d-none d-md-block">👥 Data Yang Dinilai</h5>
+            
+            <div class="col-6">
+                <div class="identity-custom-dropdown" id="unit-dropdown" data-target-id="unit-select">
+                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Pilih Unit...</button>
+                    <div class="identity-options-list" id="unit-options-list"></div>
+                    <input type="hidden" id="unit-select" name="Unit" value="">
+                </div>
+            </div>
+            
+            <div class="col-6">
+                <div class="identity-custom-dropdown" id="kelompok-dropdown" data-target-id="kelompok-select">
+                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Pilih Kelompok...</button>
+                    <div class="identity-options-list" id="kelompok-options-list"></div>
+                    <input type="hidden" id="kelompok-select" name="Kelompok" value="">
+                </div>
+            </div>
+            
+            <div class="col-12 mt-2">
+                <div class="identity-custom-dropdown" id="nama-dropdown" data-target-id="nama-select">
+                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Pilih Nama...</button>
+                    <div class="identity-options-list" id="nama-options-list"></div>
+                    <input type="hidden" id="nama-select" name="Nama" value="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row tab-header-row">
+            <div class="col-6 header-tab active" id="tab-peserta" onclick="switchTab('peserta')">
+                <span class="tab-name-text">PESERTA</span>
+                <span class="tab-total-score" id="total-score-peserta">0</span>
+            </div>
+            <div class="col-6 header-tab" id="tab-panitia" onclick="switchTab('panitia')">
+                <span class="tab-name-text">PANITIA</span>
+                <span class="tab-total-score" id="total-score-panitia">0</span>
+            </div>
+        </div>
+
+        <div id="sticky-category-content">
+            <div class="row accordion-row" id="accordionMainHeaders">
+                <div class="col accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIndividu" aria-controls="collapseIndividu">INDIVIDU</button></h2></div>
+                <div class="col accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKelompok" aria-controls="collapseKelompok">KELOMPOK</button></h2></div>
+                <div class="col accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePraAsesmen" aria-controls="collapsePraAsesmen">ASESMEN</button></h2></div>
+                <div class="col accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFinalty" aria-controls="collapseFinalty">FINALTY</button></h2></div>
+                <div class="col accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLainnya" aria-controls="collapseLainnya">LAINNYA</button></h2></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-0 mb-5">
+<div class="assessment-scroll-area">
+<div style="padding-bottom: 80px;">
+
+  <div id="content-peserta" class="assessment-content">
+    <form id="form-peserta">
+      
+      <div class="accordion accordion-content-area" id="accordionPesertaContent">
+        <div id="collapseIndividu" class="accordion-collapse collapse" data-bs-parent="#accordionPesertaContent"><div class="accordion-body p-0">
+            <h6 class="section-title-box">Penilaian Perlengkapan</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Baju Olahraga</span><div class="score-custom-dropdown" data-name="Baju Olahraga"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Baju PDL 1 buah</span><div class="score-custom-dropdown" data-name="Baju PDL"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Baju Putih 1 buah</span><div class="score-custom-dropdown" data-name="Baju Putih"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Baju Bebas 1 buah</span><div class="score-custom-dropdown" data-name="Baju Bebas"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Training 2 buah</span><div class="score-custom-dropdown" data-name="Training"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">ATK + Buku MP</span><div class="score-custom-dropdown" data-name="ATK + Buku MP"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Perlengkapan Makan</span><div class="score-custom-dropdown" data-name="Perlengkapan Makan"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Perlengkapan Sholat</span><div class="score-custom-dropdown" data-name="Perlengkapan Sholat"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Perlengkapan Mandi</span><div class="score-custom-dropdown" data-name="Perlengkapan Mandi"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Koin 5 Keping</span><div class="score-custom-dropdown" data-name="Koin Seribu Perak 5 Keping"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Plastik 3 KG</span><div class="score-custom-dropdown" data-name="Plastik 3 KG"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Sandal</span><div class="score-custom-dropdown" data-name="Sandal"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Name Tag Dada MP</span><div class="score-custom-dropdown" data-name="Name Tag Dada MP + foto"></div></div></div>
+            </div>
+            <h6 class="section-title-box mt-3">Penilaian Konsumsi</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Super bubur 1 pcs</span><div class="score-custom-dropdown" data-name="Super bubur"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Telur 2 butir</span><div class="score-custom-dropdown" data-name="Telur"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Beras 3 gelas</span><div class="score-custom-dropdown" data-name="Beras"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Minyak Bantal 180ml</span><div class="score-custom-dropdown" data-name="Minyak Bantal"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Mie Indomie 2pcs</span><div class="score-custom-dropdown" data-name="Mie Indomie"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Air mineral 1.500 ML</span><div class="score-custom-dropdown" data-name="Air mineral"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Bekal (nasi + lauk)</span><div class="score-custom-dropdown" data-name="Bekal (nasi + lauk)"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Roti Aoka</span><div class="score-custom-dropdown" data-name="Roti Aoka"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Tolak Angin 1 pcs</span><div class="score-custom-dropdown" data-name="Tolak Angin"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="collapseKelompok" class="accordion-collapse collapse" data-bs-parent="#accordionPesertaContent">
+          <div class="accordion-body p-0">
+            <h6 class="section-title-box">Obat - obatan & Konsumsi (Nilai Total Kelompok)</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Obat-obatan Kelompok</span><div class="score-custom-dropdown" data-name="Obat-obatan Kelompok"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Konsumsi Kelompok</span><div class="score-custom-dropdown" data-name="Konsumsi Kelompok"></div></div></div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="collapsePraAsesmen" class="accordion-collapse collapse" data-bs-parent="#accordionPesertaContent">
+          <div class="accordion-body p-0">
+             <h6 class="section-title-box">Penilaian Pra-Asesmen</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Pengetahuan Umum</span><div class="score-custom-dropdown" data-name="Pengetahuan Umum"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Bahasa Lokal</span><div class="score-custom-dropdown" data-name="Bahasa Lokal"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Permainan Edukasi</span><div class="score-custom-dropdown" data-name="Permainan Edukasi"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="collapseFinalty" class="accordion-collapse collapse" data-bs-parent="#accordionPesertaContent">
+          <div class="accordion-body p-0">
+            <h6 class="section-title-box">Penilaian Finalty</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Makan Ngobrol</span><div class="score-custom-dropdown" data-name="Makan Ngobrol"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Makanan Tidak habis</span><div class="score-custom-dropdown" data-name="Makanan Tidak habis"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Makan Tidak pakai etika</span><div class="score-custom-dropdown" data-name="Makan Tidak pakai etika"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Kesalahan lain</span><div class="score-custom-dropdown" data-name="Kesalahan lain"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="collapseLainnya" class="accordion-collapse collapse" data-bs-parent="#accordionPesertaContent">
+          <div class="accordion-body p-0">
+            <h6 class="section-title-box">Penilaian Lainnya</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Chalenge</span><div class="score-custom-dropdown" data-name="Chalenge"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Obstacle</span><div class="score-custom-dropdown" data-name="Obstacle"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Effort</span><div class="score-custom-dropdown" data-name="Effort"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Critics</span><div class="score-custom-dropdown" data-name="Critics"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Succes Other</span><div class="score-custom-dropdown" data-name="Succes Other"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="content-panitia" class="assessment-content" style="display:none;">
+    <form id="form-panitia">
+      <div class="accordion accordion-content-area" id="accordionPanitiaContent">
+        <div id="collapseIndividu" class="accordion-collapse collapse" data-bs-parent="#accordionPanitiaContent">
+          <div class="accordion-body p-0">
+            <h6 class="section-title-box">Logistik</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Koin 1000 5 keping</span><div class="score-custom-dropdown" data-name="Koin 1000"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Beras 1 gelas</span><div class="score-custom-dropdown" data-name="Beras"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Tolak angin 1 buah</span><div class="score-custom-dropdown" data-name="Tolak angin"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Roti ketawa 1 buah</span><div class="score-custom-dropdown" data-name="Roti ketawa"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Minuman sachet berbeda</span><div class="score-custom-dropdown" data-name="Minuman sachet berbeda"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Tepung Terigu 1 Kg</span><div class="score-custom-dropdown" data-name="Tepung Terigu"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Trashbag 1</span><div class="score-custom-dropdown" data-name="Trashbag"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Lilin 1</span><div class="score-custom-dropdown" data-name="Lilin"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="collapseKelompok" class="accordion-collapse collapse" data-bs-parent="#accordionPanitiaContent">
+          <div class="accordion-body p-0">
+            <h6 class="section-title-box">Perlengkapan & Konsumsi Kelompok</h6>
+            <div class="row g-1"> 
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Perlengkapan Kelompok</span><div class="score-custom-dropdown" data-name="Perlengkapan Kelompok"></div></div></div>
+              <div class="col-12"><div class="input-group input-group-sm penilaian-row"><span class="input-group-text">Konsumsi Kelompok</span><div class="score-custom-dropdown" data-name="Konsumsi Kelompok"></div></div></div>
+            </div>
+          </div>
+        </div>
+         <div id="collapsePraAsesmen" class="accordion-collapse collapse" data-bs-parent="#accordionPanitiaContent"></div>
+         <div id="collapseFinalty" class="accordion-collapse collapse" data-bs-parent="#accordionPanitiaContent"></div>
+         <div id="collapseLainnya" class="accordion-collapse collapse" data-bs-parent="#accordionPanitiaContent"></div>
+      </div>
+    </form>
+  </div>
+
+</div>
+</div>
+</div>
+
+<div class="d-flex justify-content-evenly sticky-footer">
+    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.location.reload()">🏠 Home</button>
+    <button type="button" class="btn btn-secondary btn-sm disabled">🖨️ Cetak</button>
+    <button type="button" class="btn btn-secondary btn-sm disabled">⬇️ Unduh</button>
+    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-peserta" form="form-peserta" style="display: block;">💾 Simpan</button>
+    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-panitia" form="form-panitia" style="display: none;">💾 Simpan</button>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1060;">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Pesan Sistem</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toast-message"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0sp6vztaaUUAp74qTLhTjv45SxSHHHvmN09i2Vdqzs0j3zzb-d2haEfFIoyHyM2U6gg/exec';
+
+  let sheetData = {};
+  let currentRole = 'peserta';
+  const scoreClasses = ['score-1', 'score-2', 'score-3', 'score-4', 'score-5'];
+  
+  function calculateTotalScore(role) {
+      const form = document.getElementById(`form-${role}`);
+      if (!form) return 0;
+      
+      let total = 0;
+      form.querySelectorAll('input[type="hidden"]').forEach(input => {
+          if (input.name && !['Unit', 'Kelompok', 'Nama'].includes(input.name)) {
+              total += parseInt(input.value) || 0;
+          }
+      });
+      return total;
+  }
+
+  function updateTotalScoreDisplay() {
+      const scorePeserta = calculateTotalScore('peserta');
+      const scorePanitia = calculateTotalScore('panitia');
+      
+      document.getElementById('total-score-peserta').textContent = scorePeserta;
+      document.getElementById('total-score-panitia').textContent = scorePanitia;
+  }
+
+  function naturalSort(a, b) {
+      const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+      return collator.compare(a, b);
+  }
+  
+  function createCustomDropdown(name, isFinalty = false) {
+      const scores = isFinalty ? [0, -1, -2, -3, -4, -5] : [0, 1, 2, 3, 4, 5];
+      const initialValue = scores[0]; 
+      
+      let html = `<button class="score-display-btn" data-value="${initialValue}" type="button">${initialValue}</button>`;
+      html += `<div class="score-options-list">`;
+      scores.forEach(score => {
+          const activeClass = score === initialValue ? 'active' : '';
+          html += `<div class="score-option ${activeClass}" data-value="${score}">${score}</div>`;
+      });
+      html += `</div>`;
+      html += `<input type="hidden" name="${name}" value="${initialValue}">`;
+      return html;
+  }
+
+  function initCustomDropdowns() {
+      document.querySelectorAll('.score-custom-dropdown').forEach(dropdown => {
+          const name = dropdown.getAttribute('data-name');
+          const isFinalty = dropdown.closest('#collapseFinalty'); 
+
+          dropdown.innerHTML = createCustomDropdown(name, !!isFinalty);
+
+          const displayBtn = dropdown.querySelector('.score-display-btn');
+          const optionsList = dropdown.querySelector('.score-options-list');
+          const hiddenInput = dropdown.querySelector('input[type="hidden"]');
+          const options = dropdown.querySelectorAll('.score-option');
+          
+          displayBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              
+              document.querySelectorAll('.score-options-list').forEach(list => {
+                  if (list !== optionsList) {
+                      list.style.display = 'none';
+                  }
+              });
+              document.querySelectorAll('.identity-options-list').forEach(list => list.style.display = 'none');
+              
+              optionsList.style.display = optionsList.style.display === 'block' ? 'none' : 'block';
+          });
+
+          options.forEach(option => {
+              option.addEventListener('click', function() {
+                  const value = parseInt(this.getAttribute('data-value'));
+                  displayBtn.textContent = value;
+                  displayBtn.setAttribute('data-value', value);
+                  hiddenInput.value = value;
+                  optionsList.style.display = 'none';
+                  
+                  options.forEach(opt => opt.classList.remove('active'));
+                  this.classList.add('active');
+                  
+                  scoreClasses.forEach(cls => displayBtn.classList.remove(cls));
+                  
+                  if (value > 0) {
+                      displayBtn.classList.add(`score-${value}`);
+                  }
+                  
+                  updateTotalScoreDisplay();
+              });
+          });
+      });
+  }
+  
+  function updateUnitKelompokFields(unit, kelompok) {
+    const unitBtn = document.querySelector('#unit-dropdown .identity-display-btn');
+    const unitInput = document.getElementById('unit-select');
+    const kelompokBtn = document.querySelector('#kelompok-dropdown .identity-display-btn');
+    const kelompokInput = document.getElementById('kelompok-select');
+
+    unitBtn.textContent = unit || 'Pilih Unit...';
+    unitBtn.setAttribute('data-value', unit || '');
+    unitInput.value = unit || '';
+    
+    kelompokBtn.textContent = kelompok || 'Pilih Kelompok...';
+    kelompokBtn.setAttribute('data-value', kelompok || '');
+    kelompokInput.value = kelompok || '';
+
+    document.querySelectorAll('#unit-options-list .identity-option').forEach(opt => {
+        opt.classList.toggle('active', opt.getAttribute('data-value') === unit);
+    });
+    document.querySelectorAll('#kelompok-options-list .identity-option').forEach(opt => {
+        opt.classList.toggle('active', opt.getAttribute('data-value') === kelompok);
+    });
+  }
+
+  function resetNamaSelection() {
+    const namaBtn = document.querySelector('#nama-dropdown .identity-display-btn');
+    const namaInput = document.getElementById('nama-select');
+    const namaList = document.getElementById('nama-options-list');
+    
+    namaBtn.textContent = 'Pilih Nama...';
+    namaBtn.setAttribute('data-value', '');
+    namaInput.value = '';
+    
+    namaList.querySelectorAll('.identity-option').forEach(opt => opt.classList.remove('active'));
+    namaList.style.display = 'none'; 
+  }
+
+  function filterAndPopulateNama() {
+      const unitValue = document.getElementById('unit-select').value;
+      const kelompokValue = document.getElementById('kelompok-select').value;
+      const namaList = document.getElementById('nama-options-list');
+      
+      namaList.innerHTML = '';
+      
+      if (!sheetData[currentRole]) return;
+
+      let filteredData = sheetData[currentRole].filter(item => {
+          let matchesUnit = true;
+          let matchesKelompok = true;
+          
+          if (unitValue) {
+              matchesUnit = (item.Unit === unitValue);
+          }
+          
+          if (kelompokValue) {
+              matchesKelompok = (item.Kelompok === kelompokValue);
+          }
+          
+          return matchesUnit && matchesKelompok;
+      });
+
+      filteredData.sort((a, b) => naturalSort(a.Nama, b.Nama));
+
+      if (filteredData.length > 0) {
+          let html = '';
+          filteredData.forEach(item => {
+              html += `<div class="identity-option" data-value="${item.Nama}" data-unit="${item.Unit}" data-kelompok="${item.Kelompok}">${item.Nama}</div>`;
+          });
+          namaList.innerHTML = html;
+      } else if (unitValue || kelompokValue) {
+          namaList.innerHTML = '<div class="identity-option" style="color: #6c757d; cursor: default;">Tidak ada Nama yang cocok.</div>';
+      }
+  }
+
+  function handleIdentityOptionClick(e, targetId) {
+      const option = e.target;
+      if (!option.classList.contains('identity-option') || option.style.cursor === 'default') return;
+
+      const value = option.getAttribute('data-value');
+      const text = option.textContent;
+
+      const dropdown = option.closest('.identity-custom-dropdown');
+      const displayBtn = dropdown.querySelector('.identity-display-btn');
+      const hiddenInput = dropdown.querySelector('input[type="hidden"]');
+      const optionsList = dropdown.querySelector('.identity-options-list');
+
+      displayBtn.textContent = text;
+      displayBtn.setAttribute('data-value', value);
+      hiddenInput.value = value;
+      optionsList.style.display = 'none';
+      
+      optionsList.querySelectorAll('.identity-option').forEach(opt => opt.classList.remove('active'));
+      option.classList.add('active');
+
+      if (targetId === 'unit-select' || targetId === 'kelompok-select') {
+          resetNamaSelection(); 
+          filterAndPopulateNama(); 
+      } else if (targetId === 'nama-select') {
+          const unit = option.getAttribute('data-unit');
+          const kelompok = option.getAttribute('data-kelompok');
+          updateUnitKelompokFields(unit, kelompok);
+          
+          // FUNGSI BARU: Load data skor dari Google Sheets
+          loadScoreData(value);
+      }
+  }
+
+  function setupIdentityDropdowns() {
+    document.querySelectorAll('.identity-custom-dropdown').forEach(dropdown => {
+        const displayBtn = dropdown.querySelector('.identity-display-btn');
+        const optionsList = dropdown.querySelector('.identity-options-list');
+        const targetId = dropdown.getAttribute('data-target-id');
+
+        displayBtn.onclick = function(e) { 
+            e.stopPropagation();
+            
+            document.querySelectorAll('.identity-options-list').forEach(list => {
+                if (list !== optionsList) {
+                    list.style.display = 'none';
+                }
+            });
+            document.querySelectorAll('.score-options-list').forEach(list => list.style.display = 'none'); 
+
+            optionsList.style.display = optionsList.style.display === 'block' ? 'none' : 'block';
+        };
+
+        optionsList.onclick = (e) => handleIdentityOptionClick(e, targetId);
+    });
+
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.identity-options-list').forEach(list => list.style.display = 'none');
+        document.querySelectorAll('.score-options-list').forEach(list => list.style.display = 'none');
+    });
+  }
+
+  function resetScoreInputs(closeAccordion = true) {
+    if (closeAccordion) {
+        closeAllAccordions();
+    }
+    document.querySelectorAll('.score-custom-dropdown').forEach(dropdown => {
+        const displayBtn = dropdown.querySelector('.score-display-btn');
+        const hiddenInput = dropdown.querySelector('input[type="hidden"]');
+        const initialValue = 0;
+
+        displayBtn.textContent = initialValue;
+        displayBtn.setAttribute('data-value', initialValue);
+        hiddenInput.value = initialValue;
+        
+        dropdown.querySelectorAll('.score-option').forEach(opt => opt.classList.remove('active'));
+        const initialOption = dropdown.querySelector(`.score-option[data-value="${initialValue}"]`);
+        if (initialOption) initialOption.classList.add('active');
+        
+        scoreClasses.forEach(cls => displayBtn.classList.remove(cls));
+    });
+    updateTotalScoreDisplay(); 
+  }
+
+  function resetIdentityInputs() {
+    updateUnitKelompokFields('', ''); 
+    resetNamaSelection();
+    
+    document.querySelector('#unit-dropdown .identity-display-btn').textContent = 'Pilih Unit...';
+    document.querySelector('#kelompok-dropdown .identity-display-btn').textContent = 'Pilih Kelompok...';
+    
+    filterAndPopulateNama(); 
+  }
+
+  function showToast(message, isSuccess = true) {
+    const toastEl = document.getElementById('liveToast');
+    const toastHeader = toastEl.querySelector('.toast-header');
+    
+    toastHeader.classList.remove('text-bg-danger', 'text-bg-success');
+    
+    if (isSuccess) {
+        toastHeader.classList.add('text-bg-success');
+    } else {
+        toastHeader.classList.add('text-bg-danger');
+    }
+    
+    document.getElementById('toast-message').textContent = message;
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
+  }
+
+  function closeAllAccordions() {
+      document.querySelectorAll('.accordion-collapse.show').forEach(el => {
+          new bootstrap.Collapse(el, { toggle: false }).hide();
+      });
+      document.querySelectorAll('#accordionMainHeaders .accordion-button').forEach(btn => btn.classList.add('collapsed'));
+      document.querySelectorAll('.score-options-list').forEach(list => list.style.display = 'none');
+      document.querySelectorAll('.identity-options-list').forEach(list => list.style.display = 'none');
+  }
+  
+  function setupAccordionMapping() {
+      const headerButtons = document.querySelectorAll('#accordionMainHeaders .accordion-button');
+      
+      headerButtons.forEach(button => {
+          button.onclick = null;
+          button.addEventListener('click', function(e) {
+              e.preventDefault(); 
+              
+              const isCollapsed = this.classList.contains('collapsed');
+              const collapseId = this.getAttribute('data-bs-target'); 
+              
+              closeAllAccordions();
+              
+              if (isCollapsed) {
+                  const contentContainerId = (currentRole === 'peserta') ? 'accordionPesertaContent' : 'accordionPanitiaContent';
+                  const targetContentEl = document.querySelector(`#${contentContainerId} > ${collapseId}`);
+                  
+                  const disabledForPanitia = ['#collapsePraAsesmen', '#collapseFinalty', '#collapseLainnya'];
+                  if (currentRole === 'panitia' && disabledForPanitia.includes(collapseId)) {
+                      showToast('Kategori ini tidak tersedia untuk Panitia.', false);
+                      return; 
+                  }
+                  
+                  if (targetContentEl) {
+                      const bsCollapse = new bootstrap.Collapse(targetContentEl, { toggle: false });
+                      bsCollapse.show();
+                      this.classList.remove('collapsed');
+                      document.querySelector('.assessment-scroll-area').scrollTop = 0;
+                  }
+              }
+          });
+      });
+  }
+
+  function switchTab(role) {
+    currentRole = role;
+    document.getElementById('tab-peserta').classList.remove('active');
+    document.getElementById('tab-panitia').classList.remove('active');
+    document.getElementById(`tab-${role}`).classList.add('active');
+
+    document.getElementById('content-peserta').style.display = (role === 'peserta') ? 'block' : 'none';
+    document.getElementById('content-panitia').style.display = (role === 'panitia') ? 'block' : 'none';
+    
+    document.getElementById('btn-save-peserta').style.display = (role === 'peserta') ? 'block' : 'none';
+    document.getElementById('btn-save-panitia').style.display = (role === 'panitia') ? 'block' : 'none';
+    
+    populateIdentity(sheetData[role], sheetData.units, sheetData.kelompok);
+    
+    closeAllAccordions();
+    
+    const categoriesToDisable = ['#collapsePraAsesmen', '#collapseFinalty', '#collapseLainnya'];
+    categoriesToDisable.forEach(collapseId => {
+        const button = document.querySelector(`[data-bs-target="${collapseId}"]`);
+        if (button) {
+            if (role === 'panitia') {
+                button.classList.add('disabled');
+            } else {
+                button.classList.remove('disabled');
+            }
+        }
+    });
+
+    setupAccordionMapping();
+    updateTotalScoreDisplay();
+  }
+
+  function populateIdentity(data, units, kelompok) {
+    const unitList = document.getElementById('unit-options-list');
+    const kelompokList = document.getElementById('kelompok-options-list');
+
+    unitList.innerHTML = '';
+    kelompokList.innerHTML = '';
+    
+    const createOption = (value, text) => `<div class="identity-option" data-value="${value}">${text}</div>`;
+
+    if (units) {
+        units.sort(naturalSort);
+        units.forEach(u => unitList.innerHTML += createOption(u, u));
+    }
+    if (kelompok) {
+        kelompok.sort(naturalSort);
+        kelompok.forEach(k => kelompokList.innerHTML += createOption(k, k));
+    }
+    
+    resetIdentityInputs();
+    filterAndPopulateNama(); 
+    
+    setupIdentityDropdowns(); 
+  }
+  
+  function fetchListData() {
+    return fetch(APPS_SCRIPT_URL + '?action=getListData')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Kesalahan Jaringan: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(jsonResponse => {
+            if (jsonResponse.success) {
+                return jsonResponse.data;
+            } else {
+                throw new Error(jsonResponse.message || 'Respons server Apps Script gagal.');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching list data:', error);
+            showToast(`Gagal memuat data dari Sheets: ${error.message}.`, false);
+            return null;
+        });
+  }
+
+  // FUNGSI BARU: Load data skor dari Google Sheets
+  function loadScoreData(nama) {
+    if (!nama) return;
+    
+    console.log('Loading score data for:', nama, 'role:', currentRole);
+    
+    // Tampilkan loading indicator
+    const saveBtn = document.getElementById(`btn-save-${currentRole}`);
+    const originalText = saveBtn.innerHTML;
+    saveBtn.innerHTML = '⏳ Memuat data...';
+    saveBtn.disabled = true;
+    
+    fetch(APPS_SCRIPT_URL + `?action=getScoreData&nama=${encodeURIComponent(nama)}&role=${currentRole}`)
+        .then(response => response.json())
+        .then(jsonResponse => {
+            console.log('Response from server:', jsonResponse);
+            console.log('Response success:', jsonResponse.success);
+            console.log('Response data:', jsonResponse.data);
+            console.log('Response message:', jsonResponse.message);
+            
+            if (jsonResponse.success && jsonResponse.data) {
+                const scoreData = jsonResponse.data;
+                console.log('Score data loaded:', scoreData);
+                console.log('Available fields in scoreData:', Object.keys(scoreData));
+                
+                // Reset dulu semua ke 0
+                resetScoreInputs(false);
+                
+                // Isi semua input dengan data dari Google Sheets
+                const form = document.getElementById(`form-${currentRole}`);
+                let dataFound = false;
+                let fieldsLoaded = 0;
+                
+                // Loop semua dropdown yang ada di form aktif saat ini
+                form.querySelectorAll('.score-custom-dropdown').forEach(dropdown => {
+                    const name = dropdown.getAttribute('data-name');
+                    const valueInData = scoreData[name];
+                    
+                    console.log(`Field: "${name}" | Value in data: ${valueInData} | Type: ${typeof valueInData}`);
+                    
+                    // Cek apakah value ada dan bukan 0/null/undefined/empty string
+                    if (valueInData !== undefined && valueInData !== null && valueInData !== '') {
+                        let value = 0;
+                        
+                        // Konversi ke number
+                        if (typeof valueInData === 'number') {
+                            value = valueInData;
+                        } else if (typeof valueInData === 'string') {
+                            value = parseInt(valueInData);
+                            if (isNaN(value)) value = 0;
+                        }
+                        
+                        console.log(`  → Setting value: ${value} for field: "${name}"`);
+                        
+                        const displayBtn = dropdown.querySelector('.score-display-btn');
+                        const hiddenInput = dropdown.querySelector('input[type="hidden"]');
+                        const options = dropdown.querySelectorAll('.score-option');
+                        
+                        if (displayBtn && hiddenInput) {
+                            // Update display dan hidden input
+                            displayBtn.textContent = value;
+                            displayBtn.setAttribute('data-value', value);
+                            hiddenInput.value = value;
+                            
+                            // Update active option
+                            options.forEach(opt => opt.classList.remove('active'));
+                            const activeOption = dropdown.querySelector(`.score-option[data-value="${value}"]`);
+                            if (activeOption) {
+                                activeOption.classList.add('active');
+                                console.log(`  → Active option set for value: ${value}`);
+                            } else {
+                                console.log(`  → WARNING: No option found for value: ${value}`);
+                            }
+                            
+                            // Update warna
+                            scoreClasses.forEach(cls => displayBtn.classList.remove(cls));
+                            if (value > 0 && value <= 5) {
+                                displayBtn.classList.add(`score-${value}`);
+                            }
+                            
+                            dataFound = true;
+                            fieldsLoaded++;
+                        } else {
+                            console.log(`  → ERROR: Button or input not found for field: "${name}"`);
+                        }
+                    }
+                });
+                
+                updateTotalScoreDisplay();
+                console.log(`Total fields loaded: ${fieldsLoaded}`);
+                
+                if (dataFound) {
+                    showToast(`Data ${nama} berhasil dimuat! (${fieldsLoaded} field terisi)`, true);
+                } else {
+                    showToast(`Tidak ada data skor untuk ${nama}. Mulai dengan nilai kosong.`, true);
+                }
+            } else {
+                console.log('No existing data found for:', nama);
+                resetScoreInputs(false);
+                showToast(`Tidak ada data untuk ${nama}. Mulai dengan nilai kosong.`, true);
+            }
+            
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+        })
+        .catch(error => {
+            console.error('Error loading score data:', error);
+            showToast('Gagal memuat data skor. Memulai dengan nilai kosong.', false);
+            resetScoreInputs(false);
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+        });
+  }
+
+  function handleFormSubmission(e) {
+    e.preventDefault();
+    const form = this;
+    
+    const unitValue = document.getElementById('unit-select').value;
+    const kelompokValue = document.getElementById('kelompok-select').value;
+    const selectedNama = document.getElementById('nama-select').value;
+    
+    if (!selectedNama) {
+        showToast('Mohon pilih Nama terlebih dahulu!', false);
+        return;
+    }
+    
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    data.Unit = unitValue;
+    data.Kelompok = kelompokValue;
+    data.Nama = selectedNama;
+    
+    const saveBtn = document.getElementById(`btn-save-${currentRole}`);
+    const action = (currentRole === 'peserta') ? 'savePesertaScores' : 'savePanitiaScores';
+    
+    for (const key in data) {
+        if (data[key] === "") {
+            delete data[key];
+        }
+        if (key !== 'Unit' && key !== 'Kelompok' && key !== 'Nama' && data[key] !== undefined) {
+             data[key] = parseInt(data[key]);
+        }
+    }
+
+    console.log('Sending data:', data);
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '⏳ Menyimpan...';
+
+    fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            action: action,
+            data: JSON.stringify(data)
+        })
+    })
+    .then(response => {
+        console.log('Response received (no-cors mode)');
+        
+        // Karena mode no-cors, kita asumsikan sukses jika tidak ada error
+        showToast(`Data ${selectedNama} berhasil disimpan!`, true);
+        
+        // Reset form setelah sukses
+        resetScoreInputs(); 
+        resetIdentityInputs();
+        
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '💾 Simpan';
+    })
+    .catch(error => {
+        console.error('Error saving scores:', error);
+        
+        // Bahkan jika ada "error" di no-cors, data mungkin tetap tersimpan
+        // Jadi kita tampilkan pesan yang lebih netral
+        showToast(`Data telah dikirim. Silakan cek Google Sheets untuk memastikan.`, true);
+        
+        // Tetap reset form
+        resetScoreInputs(); 
+        resetIdentityInputs();
+        
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '💾 Simpan';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    initCustomDropdowns(); 
+    setupIdentityDropdowns(); 
+    
+    const data = await fetchListData();
+    if (data) {
+        sheetData = data;
+        populateIdentity(sheetData.peserta, sheetData.units, sheetData.kelompok);
+    }
+    document.getElementById('form-peserta').addEventListener('submit', handleFormSubmission);
+    document.getElementById('form-panitia').addEventListener('submit', handleFormSubmission);
+    
+    setupAccordionMapping();
+    updateTotalScoreDisplay();
+  });
+</script>
+</body>
+</html>

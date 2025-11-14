@@ -88,6 +88,15 @@
   .btn-undi{background:#facc15;color:#111;}
   .btn-reset{background:#eef2ff;color:#111;border:1px solid #c7d2fe;}
   .btn-submit{background:var(--success);color:#fff;}
+  /* Hilangkan dropdown bawaan browser */
+#anggota, #pos {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -236,7 +245,7 @@ document.getElementById("submitBtn").addEventListener("click", () => {
     aspek: a.aspek,
     nilai: Number(nilaiData[pos]?.[idx] || 0)
   }));
-  
+
   // Cek kelengkapan nilai
   let isComplete = true;
   nilaiArr.forEach(item => {
@@ -258,7 +267,7 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   };
 
   console.log("Payload dikirim:", payload);
-  
+
   Swal.fire({
       title: 'Mengirim data...',
       text: 'Mohon tunggu',
@@ -280,7 +289,7 @@ document.getElementById("submitBtn").addEventListener("click", () => {
       if (res.includes("❌")) {
           throw new Error("Gagal menyimpan data: " + res);
       }
-      
+
       Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
@@ -358,18 +367,18 @@ async function loadPeserta() {
 
     // 1. KOSONGKAN DAN ISI DROPDOWN UNIT SECARA DINAMIS
     unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>'; // Reset dropdown
-    
+
     // 2. ISI dataPeserta DAN DROPDOWN UNIT DARI HEADERS
     headers.forEach((h, i) => {
       if (h && h.trim() !== "") {
         const unitName = h.trim();
-        
+
         // Isi Dropdown Unit dari A1:G1
         const option = document.createElement("option");
         option.value = unitName;
         option.textContent = unitName;
         unitSelect.appendChild(option);
-        
+
         // Isi dataPeserta dari A1:G58 (data.slice(1) adalah baris 2 s.d. 58)
         dataPeserta[unitName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
       }
@@ -455,6 +464,79 @@ window.addEventListener("resize", positionSuggestionBox);
 
 // Jalankan saat halaman dimuat
 document.addEventListener("DOMContentLoaded", loadPeserta);
+</script>
+
+<!-- FLOATING DROPDOWN UNTUK SELECT UNIT & POS -->
+<script>
+function makeFloatingSelect(selectEl) {
+    const box = document.createElement("div");
+    box.style.position = "absolute";
+    box.style.background = "#fff";
+    box.style.border = "1px solid #ccc";
+    box.style.borderRadius = "6px";
+    box.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+    box.style.maxHeight = "160px";
+    box.style.overflowY = "auto";
+    box.style.zIndex = "9999";
+    box.style.display = "none";
+    document.body.appendChild(box);
+
+    function positionBox() {
+        const rect = selectEl.getBoundingClientRect();
+        box.style.left = rect.left + window.scrollX + "px";
+        box.style.top = rect.bottom + window.scrollY + "px";
+        box.style.width = rect.width + "px";
+    }
+
+    function showOptions() {
+        const options = Array.from(selectEl.options)
+            .filter(o => o.value.trim() !== "");
+
+        box.innerHTML = "";
+        options.forEach(opt => {
+            const item = document.createElement("div");
+            item.textContent = opt.textContent;
+            item.style.padding = "6px 10px";
+            item.style.cursor = "pointer";
+
+            item.addEventListener("click", () => {
+                selectEl.value = opt.value;
+                box.style.display = "none";
+                selectEl.dispatchEvent(new Event("change"));
+            });
+
+            item.addEventListener("mouseenter", () => item.style.background = "#f3f4f6");
+            item.addEventListener("mouseleave", () => item.style.background = "#fff");
+
+            box.appendChild(item);
+        });
+
+        positionBox();
+        box.style.display = "block";
+    }
+
+    // 🚀 BLOKIR dropdown bawaan di sini
+    selectEl.addEventListener("mousedown", (e) => {
+        e.preventDefault();  
+        showOptions();
+    });
+
+    selectEl.addEventListener("keydown", (e) => {
+        e.preventDefault();
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!box.contains(e.target) && e.target !== selectEl) {
+            box.style.display = "none";
+        }
+    });
+
+    window.addEventListener("resize", positionBox);
+}
+
+makeFloatingSelect(document.getElementById("anggota"));
+makeFloatingSelect(document.getElementById("pos"));
+
 </script>
 
 </body>

@@ -128,6 +128,15 @@
     font-size: 2.5rem; font-weight: 950; color: #059669;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
   }
+  /* Hilangkan dropdown bawaan untuk UNIT & KELOMPOK */
+#unitSelect, #kelompokSelect {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: none !important;
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -630,6 +639,80 @@ document.addEventListener("DOMContentLoaded", function() {
   const endpoint = scriptURL;
   fetch(endpoint).catch(err => console.warn("Visitor count error:", err));
 });
+</script>
+<script>
+// === FLOATING SELECT for UNIT (#unitSelect) and KELOMPOK (#kelompokSelect) ===
+function makeFloatingSelect(selectEl) {
+    const box = document.createElement("div");
+    Object.assign(box.style, {
+        position: "absolute",
+        background: "#fff",
+        border: "1px solid #ccc",
+        borderRadius: "6px",
+        boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+        maxHeight: "160px",
+        overflowY: "auto",
+        zIndex: "9999",
+        display: "none"
+    });
+    document.body.appendChild(box);
+
+    function positionBox() {
+        const rect = selectEl.getBoundingClientRect();
+        box.style.left = rect.left + window.scrollX + "px";
+        box.style.top = rect.bottom + window.scrollY + "px";
+        box.style.width = rect.width + "px";
+    }
+
+    function showOptions() {
+        const options = Array.from(selectEl.options)
+            .filter(o => o.value.trim() !== "");
+
+        box.innerHTML = "";
+        options.forEach(opt => {
+            const item = document.createElement("div");
+            item.textContent = opt.textContent;
+            Object.assign(item.style, { padding: "6px 10px", cursor: "pointer" });
+
+            item.onclick = () => {
+                selectEl.value = opt.value;
+                box.style.display = "none";
+                selectEl.dispatchEvent(new Event("change"));
+            };
+
+            item.onmouseenter = () => item.style.background = "#f3f4f6";
+            item.onmouseleave = () => item.style.background = "#fff";
+
+            box.appendChild(item);
+        });
+
+        positionBox();
+        box.style.display = "block";
+    }
+
+    // BLOKIR dropdown bawaan browser sepenuhnya
+    selectEl.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        showOptions();
+    });
+
+    selectEl.addEventListener("keydown", (e) => {
+        e.preventDefault();
+    });
+
+    // Tutup jika klik di luar
+    document.addEventListener("click", (e) => {
+        if (!box.contains(e.target) && e.target !== selectEl) {
+            box.style.display = "none";
+        }
+    });
+
+    window.addEventListener("resize", positionBox);
+}
+
+// Terapkan ke INPUT UNIT & INPUT KELOMPOK
+makeFloatingSelect(document.getElementById("unitSelect"));
+makeFloatingSelect(document.getElementById("kelompokSelect"));
 </script>
 
 </body>

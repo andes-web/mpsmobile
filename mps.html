@@ -2119,89 +2119,64 @@ document.getElementById('btnTampilkanNilai').onclick = async () => {
     }
 };
 
-// Pastikan variabel GAS_URL sudah didefinisikan di suatu tempat di script Anda, 
-// dan berisi URL yang benar dari Web App Apps Script Anda.
-// const GAS_URL = "https://script.google.com/macros/s/.../exec"; 
+// ==========================================================
+// === LOGIKA FILTER DAN INISIALISASI UTAMA ===
+// ==========================================================
 
-// Pastikan variabel GAS_URL didefinisikan di suatu tempat di script Anda, 
-// misalnya: const GAS_URL = "https://script.google.com/macros/s/.../exec"; 
-
+/**
+ * Memuat dan mengisi filter Unit/Kelompok.
+ */
 async function populateUnitFilter(sheetName) {
     const unitFilter = document.getElementById("unitFilter");
     let filterItems = [];
     let defaultText = 'Unit';
 
-    // 1. POPULASI DARI REKAP SHEET (REKAP AKHIR)
+    // --- 1. POPULASI DARI REKAP SHEET (REKAP INDIVIDU / REKAP AKHIR / NILAI INDIVIDU) ---
     if (sheetName !== 'RekapKelompok') {
-        
-        // --- Cek Debugging ---
-        if (typeof GAS_URL === 'undefined') {
-            console.error("DEBUG-ERROR: Variabel GAS_URL belum didefinisikan!");
+        const data = await fetchData('Rekap');
+        const rawData = data.rawData;
+        const headers = data.headers;
+        const unitIdx = headers.indexOf('Unit');
+
+        if (unitIdx === -1 || rawData.length === 0) {
             unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
             return;
         }
 
-        try {
-            const url = `${GAS_URL}?action=getUnits`; 
-            console.log("DEBUG-CALL: Memanggil Apps Script URL:", url); // [1] Cek URL ini di console
+        const units = new Set();
+        rawData.forEach(row => {
+            const unitName = (row[unitIdx] || '').toString().trim();
+            if (unitName) units.add(unitName);
+        });
 
-            const response = await fetch(url);
-            
-            if (!response.ok) {
-                // [2] Cek status ini di console (misalnya: 403 atau 404)
-                console.error(`DEBUG-ERROR: Gagal mengambil Unit. HTTP status: ${response.status}`);
-                const errorText = await response.text();
-                console.error("DEBUG-ERROR: Respon server (jika ada):", errorText);
-                unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
-                return;
-            }
-            
-            filterItems = await response.json(); 
-            
-            if (!Array.isArray(filterItems)) {
-                // [3] Cek apakah yang diterima bukan array
-                console.error("DEBUG-ERROR: Respons Apps Script bukan Array:", filterItems);
-                filterItems = [];
-            } else {
-                 console.log("DEBUG-SUCCESS: Unit berhasil diterima. Jumlah item:", filterItems.length); // [4] Cek jumlah item
-            }
-            
-        } catch (error) {
-            console.error("DEBUG-FATAL-ERROR: Terjadi error saat fetch atau parsing JSON:", error);
-            unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
-            return;
-        }
+        filterItems = Array.from(units).sort();
 
-
-    // 2. POPULASI DARI KELOMPOK SHEET HEADERS
+    // --- 2. POPULASI DARI KELOMPOK SHEET HEADERS (REKAP KELOMPOK) ---
     } else {
-        const data = await fetchData('Kelompok'); 
+        const data = await fetchData('Kelompok'); // Ambil header dari sheet 'Kelompok'
         
-        if (!data || !data.headers || data.headers.length === 0) {
-             unitFilter.innerHTML = '<option value="Semua Kelompok">Semua Kelompok</option>';
-             return;
+        if (data.headers.length === 0) {
+            unitFilter.innerHTML = '<option value="Semua Kelompok">Semua Kelompok</option>';
+            return;
         }
 
+        // Filter out empty headers and limit to 50 (sesuai data Apps Script)
         filterItems = data.headers.slice(0, 50).filter(h => h && h.trim() !== '');
         defaultText = 'Kelompok';
     }
 
-    // 3. PENGISIAN DATALIST
     unitFilter.innerHTML = '';
     unitFilter.innerHTML += `<option value="Semua ${defaultText}">Semua ${defaultText}</option>`;
-    
-    if (filterItems.length > 0) {
-        filterItems.forEach(item => {
-            if (item && typeof item === 'string') {
-                unitFilter.innerHTML += `<option value="${item}">${item}</option>`;
-            }
-        });
-    } else {
-         console.warn(`DEBUG-WARNING: Tidak ada ${defaultText} unik yang ditemukan di sheet sumber.`);
-    }
+    filterItems.forEach(item => {
+        unitFilter.innerHTML += `<option value="${item}">${item}</option>`;
+    });
 
 }
 
+/**
+ * Hanya menjalankan populateFilter jika jenis rekap berubah.
+ * @param {string} sheetName - Nama sheet yang aktif.
+ */
 async function renderRekap(sheetName) {
     const jenisRekapElement = document.getElementById("jenisRekap");
     const unitFilterElement = document.getElementById("unitFilter");
@@ -2421,6 +2396,27 @@ document.addEventListener('DOMContentLoaded', function () {
 </style>
 
 <script>
+function loadUnitList() {
+    fetch(scriptURL + '?sheet=RekapAkhir')
+    .then(res => res.json())
+    .then(data => {
+        const unitSet = new Set();
+        data.slice(1).forEach(row => {
+            const unit = row[1];   // kolom Unit
+            if (unit && unit.trim() !== "") unitSet.add(unit.trim());
+        });
+
+        const list = document.getElementById("unitList");
+        list.innerHTML = "";
+        [...unitSet].sort().forEach(u => {
+            const opt = document.createElement("option");
+            opt.value = u;
+            list.appendChild(opt);
+        });
+    });
+}
+
+
 (function(){
   function ensureFooter() {
     // remove previously created globalFooter to avoid duplicates
@@ -2507,6 +2503,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 })();
 </script>
+
 <!-- END: Robust global footer -->
 </body>
 </html>

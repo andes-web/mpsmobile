@@ -2123,50 +2123,58 @@ document.getElementById('btnTampilkanNilai').onclick = async () => {
 // dan berisi URL yang benar dari Web App Apps Script Anda.
 // const GAS_URL = "https://script.google.com/macros/s/.../exec"; 
 
+// Pastikan variabel GAS_URL didefinisikan di suatu tempat di script Anda, 
+// misalnya: const GAS_URL = "https://script.google.com/macros/s/.../exec"; 
+
 async function populateUnitFilter(sheetName) {
     const unitFilter = document.getElementById("unitFilter");
     let filterItems = [];
     let defaultText = 'Unit';
 
-    // Pastikan GAS_URL didefinisikan sebelum digunakan
-    if (typeof GAS_URL === 'undefined') {
-        console.error("Kesalahan: Variabel GAS_URL belum didefinisikan!");
-        unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
-        return;
-    }
-
-    // --- 1. POPULASI DARI REKAP SHEET (UNIT INDIVIDU / REKAP AKHIR / NILAI INDIVIDU) ---
+    // 1. POPULASI DARI REKAP SHEET (REKAP AKHIR)
     if (sheetName !== 'RekapKelompok') {
         
+        // --- Cek Debugging ---
+        if (typeof GAS_URL === 'undefined') {
+            console.error("DEBUG-ERROR: Variabel GAS_URL belum didefinisikan!");
+            unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
+            return;
+        }
+
         try {
-            // 🛠️ Panggil Apps Script untuk mendapatkan daftar Unit unik dari SEMUA sheet
             const url = `${GAS_URL}?action=getUnits`; 
+            console.log("DEBUG-CALL: Memanggil Apps Script URL:", url); // [1] Cek URL ini di console
+
             const response = await fetch(url);
             
             if (!response.ok) {
-                console.error(`Gagal mengambil Unit: HTTP status ${response.status}`);
+                // [2] Cek status ini di console (misalnya: 403 atau 404)
+                console.error(`DEBUG-ERROR: Gagal mengambil Unit. HTTP status: ${response.status}`);
+                const errorText = await response.text();
+                console.error("DEBUG-ERROR: Respon server (jika ada):", errorText);
                 unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
                 return;
             }
             
             filterItems = await response.json(); 
             
-            // Cek jika filterItems tidak valid atau array kosong
             if (!Array.isArray(filterItems)) {
-                console.error("Respons Unit dari Apps Script tidak valid (bukan Array).");
+                // [3] Cek apakah yang diterima bukan array
+                console.error("DEBUG-ERROR: Respons Apps Script bukan Array:", filterItems);
                 filterItems = [];
+            } else {
+                 console.log("DEBUG-SUCCESS: Unit berhasil diterima. Jumlah item:", filterItems.length); // [4] Cek jumlah item
             }
             
         } catch (error) {
-            console.error("Terjadi error saat memanggil Apps Script untuk Unit:", error);
+            console.error("DEBUG-FATAL-ERROR: Terjadi error saat fetch atau parsing JSON:", error);
             unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
             return;
         }
 
 
-    // --- 2. POPULASI DARI KELOMPOK SHEET HEADERS (REKAP KELOMPOK) ---
+    // 2. POPULASI DARI KELOMPOK SHEET HEADERS
     } else {
-        // Logika ini tetap sama
         const data = await fetchData('Kelompok'); 
         
         if (!data || !data.headers || data.headers.length === 0) {
@@ -2178,21 +2186,18 @@ async function populateUnitFilter(sheetName) {
         defaultText = 'Kelompok';
     }
 
-    // --- 3. PENGISIAN DATALIST (LOGIKA AKHIR) ---
+    // 3. PENGISIAN DATALIST
     unitFilter.innerHTML = '';
     unitFilter.innerHTML += `<option value="Semua ${defaultText}">Semua ${defaultText}</option>`;
     
-    // Pastikan filterItems benar-benar berisi data sebelum looping
     if (filterItems.length > 0) {
         filterItems.forEach(item => {
             if (item && typeof item === 'string') {
-                // Gunakan fungsi encodeURIComponent jika nama unit mengandung karakter khusus 
-                // (walaupun dalam <option> biasanya aman, ini adalah praktik yang baik)
                 unitFilter.innerHTML += `<option value="${item}">${item}</option>`;
             }
         });
     } else {
-         console.warn(`Tidak ada ${defaultText} unik yang ditemukan di sheet sumber.`);
+         console.warn(`DEBUG-WARNING: Tidak ada ${defaultText} unik yang ditemukan di sheet sumber.`);
     }
 
 }

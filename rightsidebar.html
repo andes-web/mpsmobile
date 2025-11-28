@@ -2396,6 +2396,27 @@ document.addEventListener('DOMContentLoaded', function () {
 </style>
 
 <script>
+function loadUnitList() {
+    fetch(scriptURL + '?sheet=RekapAkhir')
+    .then(res => res.json())
+    .then(data => {
+        const unitSet = new Set();
+        data.slice(1).forEach(row => {
+            const unit = row[1];   // kolom Unit
+            if (unit && unit.trim() !== "") unitSet.add(unit.trim());
+        });
+
+        const list = document.getElementById("unitList");
+        list.innerHTML = "";
+        [...unitSet].sort().forEach(u => {
+            const opt = document.createElement("option");
+            opt.value = u;
+            list.appendChild(opt);
+        });
+    });
+}
+
+
 (function(){
   function ensureFooter() {
     // remove previously created globalFooter to avoid duplicates
@@ -2482,6 +2503,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 })();
 </script>
+
 <!-- END: Robust global footer -->
 </body>
 </html>

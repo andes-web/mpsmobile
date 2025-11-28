@@ -2119,38 +2119,43 @@ document.getElementById('btnTampilkanNilai').onclick = async () => {
     }
 };
 
-// ==========================================================
-// === LOGIKA FILTER DAN INISIALISASI UTAMA ===
-// ==========================================================
-
-/**
- * Memuat dan mengisi filter Unit/Kelompok.
- */
-// Pastikan Anda telah mendefinisikan variabel GAS_URL 
-// (URL Web App Apps Script Anda yang di-deploy sebagai 'Execute as: Me' dan 'Who has access: Anyone, even anonymous')
+// Pastikan variabel GAS_URL sudah didefinisikan di suatu tempat di script Anda, 
+// dan berisi URL yang benar dari Web App Apps Script Anda.
+// const GAS_URL = "https://script.google.com/macros/s/.../exec"; 
 
 async function populateUnitFilter(sheetName) {
     const unitFilter = document.getElementById("unitFilter");
     let filterItems = [];
     let defaultText = 'Unit';
 
+    // Pastikan GAS_URL didefinisikan sebelum digunakan
+    if (typeof GAS_URL === 'undefined') {
+        console.error("Kesalahan: Variabel GAS_URL belum didefinisikan!");
+        unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
+        return;
+    }
+
     // --- 1. POPULASI DARI REKAP SHEET (UNIT INDIVIDU / REKAP AKHIR / NILAI INDIVIDU) ---
     if (sheetName !== 'RekapKelompok') {
         
-        // 🛠️ PERUBAHAN DI SINI: Panggil Apps Script untuk mendapatkan daftar Unit unik dari SEMUA sheet
         try {
-            // Asumsi GAS_URL sudah didefinisikan secara global
+            // 🛠️ Panggil Apps Script untuk mendapatkan daftar Unit unik dari SEMUA sheet
             const url = `${GAS_URL}?action=getUnits`; 
             const response = await fetch(url);
             
             if (!response.ok) {
-                console.error("Gagal mengambil daftar Unit unik dari Apps Script.");
+                console.error(`Gagal mengambil Unit: HTTP status ${response.status}`);
                 unitFilter.innerHTML = '<option value="Semua Unit">Semua Unit</option>';
                 return;
             }
             
-            // filterItems sekarang berisi array Unit unik dari Rekap, RekapKelompok, dan Nilai_Lain
             filterItems = await response.json(); 
+            
+            // Cek jika filterItems tidak valid atau array kosong
+            if (!Array.isArray(filterItems)) {
+                console.error("Respons Unit dari Apps Script tidak valid (bukan Array).");
+                filterItems = [];
+            }
             
         } catch (error) {
             console.error("Terjadi error saat memanggil Apps Script untuk Unit:", error);
@@ -2161,10 +2166,10 @@ async function populateUnitFilter(sheetName) {
 
     // --- 2. POPULASI DARI KELOMPOK SHEET HEADERS (REKAP KELOMPOK) ---
     } else {
-        // Logika ini tetap sama karena Anda mengambil 'Kelompok' dari header kolom
+        // Logika ini tetap sama
         const data = await fetchData('Kelompok'); 
         
-        if (data.headers.length === 0) {
+        if (!data || !data.headers || data.headers.length === 0) {
              unitFilter.innerHTML = '<option value="Semua Kelompok">Semua Kelompok</option>';
              return;
         }
@@ -2177,18 +2182,21 @@ async function populateUnitFilter(sheetName) {
     unitFilter.innerHTML = '';
     unitFilter.innerHTML += `<option value="Semua ${defaultText}">Semua ${defaultText}</option>`;
     
-    filterItems.forEach(item => {
-        if (item && typeof item === 'string') {
-            unitFilter.innerHTML += `<option value="${item}">${item}</option>`;
-        }
-    });
+    // Pastikan filterItems benar-benar berisi data sebelum looping
+    if (filterItems.length > 0) {
+        filterItems.forEach(item => {
+            if (item && typeof item === 'string') {
+                // Gunakan fungsi encodeURIComponent jika nama unit mengandung karakter khusus 
+                // (walaupun dalam <option> biasanya aman, ini adalah praktik yang baik)
+                unitFilter.innerHTML += `<option value="${item}">${item}</option>`;
+            }
+        });
+    } else {
+         console.warn(`Tidak ada ${defaultText} unik yang ditemukan di sheet sumber.`);
+    }
 
 }
 
-/**
- * Hanya menjalankan populateFilter jika jenis rekap berubah.
- * @param {string} sheetName - Nama sheet yang aktif.
- */
 async function renderRekap(sheetName) {
     const jenisRekapElement = document.getElementById("jenisRekap");
     const unitFilterElement = document.getElementById("unitFilter");

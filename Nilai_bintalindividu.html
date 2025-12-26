@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Nilai Bintal Individu</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+:root{
+  --accent:#2563eb;
+  --danger:#dc2626;
+  --success:#16a34a;
+
+  --soft-blue:#eef4ff;
+  --soft-yellow:#fffbeb;
+
+  --school:#2563eb;
+  --family:#16a34a;
+  --social:#7c3aed;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:10px;
+  font-family:"Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#e0f2fe,#fef9c3);
+}
+
+.container{
+  width:100%;
+  max-width:720px;
+  margin:auto;
+  background:#fff;
+  border-radius:14px;
+  padding:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+
+h2{
+  text-align:center;
+  margin:4px 0 10px;
+  font-weight:900;
+  font-size:1.1rem;
+}
+
+/* IDENTITAS */
+.top-container{
+  background:var(--soft-blue);
+  border:1px solid #dbeafe;
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:8px;
+}
+.form-left{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+select,input{
+  width:100%;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid #c7d2fe;
+  font-size:.85rem;
+}
+
+/* BAR */
+.bar-penilaian{
+  background:var(--soft-yellow);
+  border:1px solid #fde68a;
+  border-radius:10px;
+  padding:8px;
+  display:flex;
+  gap:6px;
+  margin-bottom:8px;
+}
+.bar-penilaian select{
+  flex:1;
+}
+
+/* RUBRIK */
+.rubrik{
+  display:grid;
+  gap:8px;
+}
+.aspek-card{
+  background:linear-gradient(180deg,#ffffff,#f8fafc);
+  border-radius:14px;
+  padding:10px;
+  display:flex;
+  gap:8px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.left{
+  flex:1;
+  min-width:0;
+}
+.aspek-title{
+  font-weight:800;
+  font-size:.85rem;
+}
+.indikator{
+  font-size:.6rem;
+  line-height:1.3;
+  margin:4px 0;
+}
+
+/* TOMBOL NILAI */
+.nilai-buttons{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+}
+.nilai-buttons button{
+  padding:6px 10px;
+  border-radius:8px;
+  border:1px solid #c7d2fe;
+  background:linear-gradient(180deg,#fff,#e0e7ff);
+  box-shadow:0 3px 0 #c7d2fe,0 4px 6px rgba(0,0,0,.18);
+  font-weight:900;
+  font-size:.75rem;
+  cursor:pointer;
+}
+.nilai-buttons button:active{
+  transform:translateY(2px);
+  box-shadow:0 1px 0 #c7d2fe;
+}
+.nilai-buttons button.active{
+  background:linear-gradient(180deg,var(--accent),#1e40af);
+  color:#fff;
+}
+
+/* ANGKA BESAR */
+.nilai-besar-stack{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:center;
+  gap:2px;
+  min-width:42px;
+}
+.nilai-besar{
+  font-size:2rem;
+  font-weight:900;
+  opacity:.25;
+  line-height:1;
+}
+.nilai-besar.filled{opacity:1}
+[id^="sekolah-"].filled{color:var(--school)}
+[id^="keluarga-"].filled{color:var(--family)}
+[id^="sosial-"].filled{color:var(--social)}
+
+/* TOMBOL AKSI */
+.action-bar{
+  margin-top:10px;
+  display:flex;
+  gap:6px;
+}
+.action-bar button{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:.8rem;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 3px 0 rgba(0,0,0,.25);
+}
+.btn-submit{background:var(--accent);color:#fff}
+.btn-reset{background:var(--danger);color:#fff}
+.btn-download{background:var(--success);color:#fff}
+
+/* AUTOCOMPLETE BOX */
+.autobox{
+  position:absolute;
+  background:#fff;
+  border:1px solid #c7d2fe;
+  border-radius:8px;
+  max-height:160px;
+  overflow-y:auto;
+  z-index:9999;
+}
+.autobox div{
+  padding:6px 10px;
+  font-size:.8rem;
+}
+.autobox div:hover{
+  background:#e0e7ff;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>NILAI BINTAL INDIVIDU</h2>
+
+<div class="bar-penilaian">
+  <select id="pos">
+    <option value="1">Kecerdasan Emosional</option>
+    <option value="2">Ketahanan Mental & Stres</option>
+    <option value="3">Kognitif & Pengambilan Keputusan</option>
+    <option value="4">Integritas & Etika</option>
+    <option value="5">Motivasi & Ketegasan</option>
+  </select>
+  <select id="domain">
+    <option value="sekolah">Sekolah</option>
+    <option value="keluarga">Keluarga</option>
+    <option value="sosial">Sosial</option>
+  </select>
+</div>
+
+<div class="top-container">
+  <div class="form-left">
+    <select id="anggota"><option value="">-- Pilih Unit --</option></select>
+    <input id="nama" placeholder="Nama Anggota">
+  </div>
+</div>
+
+<div id="rubrik-body" class="rubrik"></div>
+
+<div class="action-bar">
+  <button class="btn-submit" onclick="submitData()">SUBMIT</button>
+  <button class="btn-reset" onclick="resetForm()">RESET</button>
+  <button class="btn-download" onclick="downloadData()">UNDUH</button>
+</div>
+</div>
+
+<script>
+const pesertaURL="https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?sheet=peserta";
+let dataPeserta={};
+const unitSelect=document.getElementById("anggota");
+const namaInput=document.getElementById("nama");
+
+const autoBox=document.createElement("div");
+autoBox.className="autobox";
+autoBox.style.display="none";
+document.body.appendChild(autoBox);
+
+async function loadPeserta(){
+  const res=await fetch(pesertaURL);
+  const data=await res.json();
+  const headers=data[0];
+  headers.forEach((h,i)=>{
+    if(h){
+      const o=document.createElement("option");
+      o.value=h;o.textContent=h;
+      unitSelect.appendChild(o);
+      dataPeserta[h]=data.slice(1).map(r=>r[i]).filter(Boolean);
+    }
+  });
+}
+
+function showSuggestions(list){
+  autoBox.innerHTML="";
+  if(!list.length){autoBox.style.display="none";return;}
+  list.forEach(n=>{
+    const d=document.createElement("div");
+    d.textContent=n;
+    d.onclick=()=>{namaInput.value=n;autoBox.style.display="none";};
+    autoBox.appendChild(d);
+  });
+  const r=namaInput.getBoundingClientRect();
+  autoBox.style.left=r.left+"px";
+  autoBox.style.top=r.bottom+"px";
+  autoBox.style.width=r.width+"px";
+  autoBox.style.display="block";
+}
+
+unitSelect.onchange=()=>{namaInput.value="";autoBox.style.display="none";}
+namaInput.oninput=()=>{
+  const u=unitSelect.value;
+  if(u&&dataPeserta[u]){
+    showSuggestions(dataPeserta[u].filter(n=>n.toLowerCase().includes(namaInput.value.toLowerCase())));
+  }
+};
+
+document.addEventListener("DOMContentLoaded",loadPeserta);
+
+/* RUBRIK */
+const rubrik={
+  1:[
+    {a:"Kesadaran Diri",d:["Tidak mengenali","Jarang","Cukup","Mengelola","Sangat reflektif"]},
+    {a:"Pengendalian Diri",d:["Tidak terkendali","Lepas","Cukup","Stabil","Disiplin"]},
+    {a:"Empati",d:["Tidak peduli","Kurang","Cukup","Tinggi","Teladan"]},
+    {a:"Keterampilan Sosial",d:["Sulit","Terbatas","Cukup","Aktif","Pemimpin"]}
+  ],
+  2:[
+    {a:"Resiliensi",d:["Mudah menyerah","Putus asa","Cukup","Tangguh","Bangkit kuat"]},
+    {a:"Toleransi Tekanan",d:["Tidak tahan","Stres","Cukup","Tenang","Sangat stabil"]},
+    {a:"Menghadapi Tantangan",d:["Menghindar","Ragu","Mencoba","Menyelesaikan","Mencari tantangan"]}
+  ],
+  3:[
+    {a:"Berpikir Kritis",d:["Tidak analitis","Lemah","Cukup","Analitis","Sangat tajam"]},
+    {a:"Pemecahan Masalah",d:["Tidak mampu","Salah","Sederhana","Tepat","Kreatif"]},
+    {a:"Fleksibilitas Berpikir",d:["Kaku","Sulit","Cukup","Adaptif","Sangat fleksibel"]}
+  ],
+  4:[
+    {a:"Kejujuran",d:["Tidak jujur","Kadang","Cukup","Konsisten","Teladan"]},
+    {a:"Tanggung Jawab",d:["Lalai","Kurang","Cukup","Bertanggung jawab","Sangat dipercaya"]},
+    {a:"Kepedulian",d:["Tidak peduli","Kurang","Cukup","Aktif","Penggerak"]}
+  ],
+  5:[
+    {a:"Motivasi Diri",d:["Tidak termotivasi","Rendah","Cukup","Tinggi","Inspiratif"]},
+    {a:"Ketekunan",d:["Mudah menyerah","Kurang","Cukup","Tekun","Pantang menyerah"]},
+    {a:"Ketegasan Keputusan",d:["Takut","Ragu","Cukup tegas","Tegas","Pemimpin"]}
+  ]
+};
+
+const rubrikBody=document.getElementById("rubrik-body");
+let nilaiData={};
+
+function render(){
+  const p=pos.value;
+  rubrikBody.innerHTML="";
+  rubrik[p].forEach((x,i)=>{
+    nilaiData[p]??={};
+    nilaiData[p][i]??={sekolah:null,keluarga:null,sosial:null};
+    const c=document.createElement("div");
+    c.className="aspek-card";
+    c.innerHTML=`
+      <div class="left">
+        <div class="aspek-title">${x.a}</div>
+        <div class="indikator">
+          1. ${x.d[0]}<br>2. ${x.d[1]}<br>3. ${x.d[2]}<br>
+          4. ${x.d[3]}<br>5. ${x.d[4]}
+        </div>
+        <div class="nilai-buttons">
+          ${[1,2,3,4,5].map(n=>`<button onclick="setNilai(${p},${i},${n},this)">${n}</button>`).join("")}
+        </div>
+      </div>
+      <div class="nilai-besar-stack">
+        <div id="sekolah-${p}-${i}" class="nilai-besar">-</div>
+        <div id="keluarga-${p}-${i}" class="nilai-besar">-</div>
+        <div id="sosial-${p}-${i}" class="nilai-besar">-</div>
+      </div>`;
+    rubrikBody.appendChild(c);
+    ["sekolah","keluarga","sosial"].forEach(d=>{
+      const v=nilaiData[p][i][d];
+      if(v!==null){
+        const e=document.getElementById(`${d}-${p}-${i}`);
+        e.textContent=v;
+        e.classList.add("filled");
+      }
+    });
+  });
+}
+
+function setNilai(p,i,n,btn){
+  const d=domain.value;
+  nilaiData[p][i][d]=n;
+  const e=document.getElementById(`${d}-${p}-${i}`);
+  e.textContent=n;
+  e.classList.add("filled");
+  btn.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function submitData(){
+  if(!anggota.value||!nama.value){
+    Swal.fire("Lengkapi identitas terlebih dahulu");
+    return;
+  }
+  Swal.fire("Berhasil","Data siap diproses","success");
+}
+
+function resetForm(){
+  Swal.fire({title:"Reset semua data?",showCancelButton:true})
+  .then(r=>{if(r.isConfirmed)location.reload();});
+}
+
+function downloadData(){
+  const data={unit:anggota.value,nama:nama.value,nilai:nilaiData};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="nilai_bintal_individu.json";
+  a.click();
+}
+
+pos.onchange=render;
+render();
+</script>
+</body>
+</html>

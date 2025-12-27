@@ -47,9 +47,10 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
   <h2>NILAI BINTAL INDIVIDU</h2>
   <div class="top-section">
     <div class="top-container">
-      <select id="unit-select" onchange="filterNamaByUnit()"><option value="">-- Pilih Unit --</option></select>
-      <input id="nama-input" list="list-nama" placeholder="Ketik/Pilih Nama..." autocomplete="off">
-      <datalist id="list-nama"></datalist>
+      <select id="unit-select">
+        <option value="">-- Pilih Unit --</option>
+      </select>
+      <input id="nama-input" placeholder="Ketik/Pilih Nama Anggota..." autocomplete="off">
     </div>
     <div class="bar-penilaian">
       <select id="pos"><option value="1">Kecerdasan Emosional</option><option value="2">Ketahanan Mental</option><option value="3">Kognitif & Keputusan</option><option value="4">Integritas & Etika</option><option value="5">Motivasi & Ketegasan</option></select>
@@ -62,7 +63,9 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
-let dataPesertaGlobal = [];
+const pesertaURL = scriptURL + "?sheet=peserta";
+
+let dataPesertaGlobal = {}; 
 let nilaiData = {}; 
 
 const rubrik={
@@ -73,23 +76,83 @@ const rubrik={
   5:[{a:"Motivasi Diri",d:["Sangat pasif","Rendah motivasi","Cukup aktif","Tinggi dan mandiri","Sangat inspiratif"]},{a:"Ketekunan",d:["Mudah menyerah","Kurang tekun","Cukup tekun","Tekun dan konsisten","Pantang menyerah"]},{a:"Ketegasan Keputusan",d:["Sangat penakut","Ragu-ragu","Cukup tegas","Tegas mengambil sikap","Pemimpin tegas dan adil"]}]
 };
 
+// --- LOGIKA IDENTITAS IDENTIK DENGAN FORM_INDIVIDU.HTML ---
+const namaInput = document.getElementById("nama-input");
+const unitSelect = document.getElementById("unit-select");
+
+const suggestionBox = document.createElement("div");
+suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 4px 8px rgba(0,0,0,0.1); max-height:150px; overflow-y:auto; z-index:1000; display:none;";
+document.body.appendChild(suggestionBox);
+
 async function loadPeserta() {
-  const res = await fetch(scriptURL + "?sheet=peserta");
-  const data = await res.json();
-  dataPesertaGlobal = data.slice(1);
-  const units = [...new Set(dataPesertaGlobal.map(r => r[1]))].sort();
-  const us = document.getElementById("unit-select");
-  units.forEach(u => { const o = document.createElement("option"); o.value=u; o.textContent=u; us.appendChild(o); });
+  try {
+    const res = await fetch(pesertaURL);
+    const data = await res.json();
+    const headers = data[0]; // Baris 1: Nama Unit (A1, B1, dst)
+
+    unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
+    headers.forEach((h, i) => {
+      if (h && h.trim() !== "") {
+        const unitName = h.trim();
+        const option = document.createElement("option");
+        option.value = unitName;
+        option.textContent = unitName;
+        unitSelect.appendChild(option);
+        // Map Nama secara vertikal di bawah header unit masing-masing
+        dataPesertaGlobal[unitName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
+      }
+    });
+  } catch (e) { console.error("Gagal load peserta:", e); }
 }
 
-function filterNamaByUnit() {
-  const u = document.getElementById("unit-select").value;
-  const dl = document.getElementById("list-nama");
-  document.getElementById("nama-input").value = "";
-  dl.innerHTML = "";
-  dataPesertaGlobal.filter(r => r[1] === u).forEach(r => { const o = document.createElement("option"); o.value=r[0]; dl.appendChild(o); });
+function positionBox() {
+  const rect = namaInput.getBoundingClientRect();
+  suggestionBox.style.left = rect.left + window.scrollX + "px";
+  suggestionBox.style.top = rect.bottom + window.scrollY + "px";
+  suggestionBox.style.width = rect.width + "px";
 }
 
+namaInput.addEventListener("input", () => {
+  const unit = unitSelect.value;
+  if (!unit || !dataPesertaGlobal[unit]) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+  const val = namaInput.value.toLowerCase();
+  const filtered = dataPesertaGlobal[unit].filter(n => n.toLowerCase().includes(val));
+  
+  suggestionBox.innerHTML = "";
+  if (filtered.length > 0) {
+    filtered.forEach(nama => {
+      const item = document.createElement("div");
+      item.textContent = nama;
+      item.style.padding = "6px 10px";
+      item.style.cursor = "pointer";
+      item.onclick = () => {
+        namaInput.value = nama;
+        suggestionBox.style.display = "none";
+      };
+      item.onmouseenter = () => item.style.background = "#f3f4f6";
+      item.onmouseleave = () => item.style.background = "#fff";
+      suggestionBox.appendChild(item);
+    });
+    positionBox();
+    suggestionBox.style.display = "block";
+  } else {
+    suggestionBox.style.display = "none";
+  }
+});
+
+unitSelect.addEventListener("change", () => {
+  namaInput.value = "";
+  suggestionBox.style.display = "none";
+});
+
+document.addEventListener("click", e => {
+  if (e.target !== namaInput && !suggestionBox.contains(e.target)) suggestionBox.style.display = "none";
+});
+
+// --- LOGIKA PENILAIAN ---
 function render(){
   const p = document.getElementById("pos").value;
   const dom = document.getElementById("domain").value;
@@ -125,23 +188,33 @@ function setNilai(p, i, n, el){
 async function submitData() {
   const u = document.getElementById("unit-select").value;
   const n = document.getElementById("nama-input").value;
-  if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas", "error");
+  if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas (Unit & Nama)", "error");
+  
   let kirim = [];
   for(let p in nilaiData) for(let i in nilaiData[p]) {
     const d = nilaiData[p][i];
     const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
     if(v.length > 0) kirim.push({ aspek: rubrik[p][i].a, nilai: (v.reduce((a,b)=>a+b,0)/v.length).toFixed(2) });
   }
+
+  if(kirim.length === 0) return Swal.fire("Gagal", "Belum ada nilai yang diisi", "warning");
+
   Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
-  const fd = new URLSearchParams(); fd.append("data", JSON.stringify({ form:"bintal_individu", nama:n, unit:u, nilai:kirim }));
-  try { await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' }); Swal.fire("Berhasil", "Data Tersimpan", "success"); }
+  const fd = new URLSearchParams(); 
+  fd.append("data", JSON.stringify({ form:"bintal_individu", nama:n, unit:u, nilai:kirim }));
+  
+  try { 
+    await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' }); 
+    Swal.fire("Berhasil", "Data Berhasil Disimpan", "success"); 
+  }
   catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
 }
 
 document.getElementById("pos").onchange = render;
 document.getElementById("domain").onchange = render;
 document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });
-function resetForm(){ location.reload(); }
+window.addEventListener("resize", positionBox);
+function resetForm(){ Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { if(r.isConfirmed) location.reload(); }); }
 </script>
 </body>
 </html>

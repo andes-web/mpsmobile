@@ -76,7 +76,6 @@ const rubrik={
   5:[{a:"Motivasi Diri",d:["Sangat pasif","Rendah motivasi","Cukup aktif","Tinggi dan mandiri","Sangat inspiratif"]},{a:"Ketekunan",d:["Mudah menyerah","Kurang tekun","Cukup tekun","Tekun dan konsisten","Pantang menyerah"]},{a:"Ketegasan Keputusan",d:["Sangat penakut","Ragu-ragu","Cukup tegas","Tegas mengambil sikap","Pemimpin tegas dan adil"]}]
 };
 
-// --- LOGIKA IDENTITAS IDENTIK DENGAN FORM_INDIVIDU.HTML ---
 const namaInput = document.getElementById("nama-input");
 const unitSelect = document.getElementById("unit-select");
 
@@ -88,7 +87,7 @@ async function loadPeserta() {
   try {
     const res = await fetch(pesertaURL);
     const data = await res.json();
-    const headers = data[0]; // Baris 1: Nama Unit (A1, B1, dst)
+    const headers = data[0]; 
 
     unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
     headers.forEach((h, i) => {
@@ -98,7 +97,6 @@ async function loadPeserta() {
         option.value = unitName;
         option.textContent = unitName;
         unitSelect.appendChild(option);
-        // Map Nama secara vertikal di bawah header unit masing-masing
         dataPesertaGlobal[unitName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
       }
     });
@@ -152,7 +150,6 @@ document.addEventListener("click", e => {
   if (e.target !== namaInput && !suggestionBox.contains(e.target)) suggestionBox.style.display = "none";
 });
 
-// --- LOGIKA PENILAIAN ---
 function render(){
   const p = document.getElementById("pos").value;
   const dom = document.getElementById("domain").value;
@@ -193,8 +190,16 @@ async function submitData() {
   let kirim = [];
   for(let p in nilaiData) for(let i in nilaiData[p]) {
     const d = nilaiData[p][i];
+    // Ambil semua domain yang terisi (sekolah, keluarga, sosial)
     const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
-    if(v.length > 0) kirim.push({ aspek: rubrik[p][i].a, nilai: (v.reduce((a,b)=>a+b,0)/v.length).toFixed(2) });
+    if(v.length > 0) {
+      // PERUBAHAN DI SINI: Menggunakan Math.round() untuk pembulatan angka bulat (tanpa desimal)
+      const rataRataBulat = Math.round(v.reduce((a,b)=>a+b,0)/v.length);
+      kirim.push({ 
+        aspek: rubrik[p][i].a, 
+        nilai: rataRataBulat 
+      });
+    }
   }
 
   if(kirim.length === 0) return Swal.fire("Gagal", "Belum ada nilai yang diisi", "warning");

@@ -34,8 +34,6 @@ body{
   .action-bar, .bar-penilaian, .top-container select, .instruction { display: none !important; }
   .container { box-shadow: none !important; border: none !important; max-width: 100% !important; width: 100% !important; }
   .aspek-card { break-inside: avoid; border: 1px solid #eee !important; margin-bottom: 5px; page-break-inside: avoid; }
-  h2 { color: black !important; font-size: 1.6rem; }
-  .nilai-besar.filled { opacity: 1 !important; -webkit-print-color-adjust: exact; }
 }
 
 .container{
@@ -69,8 +67,6 @@ select, input{
   outline: none;
 }
 
-select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px #dbeafe; }
-
 .bar-penilaian{
   background:var(--soft-yellow);
   border:1px solid #fde68a;
@@ -89,33 +85,34 @@ select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px #
   background:#fff;
   border: 1px solid #f1f5f9;
   border-radius:14px;
-  padding:15px;
+  padding:12px;
   display:flex;
-  gap:15px;
-  transition: transform 0.2s;
+  gap:10px;
 }
 
 .left{ flex:1; min-width:0; }
-.aspek-title{ font-weight:800; font-size:1.05rem; color: #1e293b; margin-bottom: 8px; border-bottom: 2px solid var(--soft-blue); padding-bottom: 4px; }
+.aspek-title{ font-weight:800; font-size:0.95rem; color: #1e293b; margin-bottom: 4px; }
 
-/* Tampilan Skala List Vertikal */
+/* 🔹 KONTAINER SKALA: PENDEK, MERAPAT, EMBOS */
 .skala-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 3px; /* Jarak antar baris sangat rapat */
+  margin-top: 5px;
 }
 
 .skala-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #f8fafc;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 3px 10px; /* Ukuran pendek (height kecil) */
+  border-radius: 6px;
   border: 1px solid #e2e8f0;
   cursor: pointer;
   transition: all 0.2s;
+  /* Efek Embos Halus */
+  box-shadow: inset 1px 1px 1px rgba(255,255,255,0.9), 1px 1px 2px rgba(0,0,0,0.05);
 }
 
 .skala-item:hover { background: #f1f5f9; border-color: var(--accent); }
@@ -124,43 +121,43 @@ select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px #
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
+  /* Efek Embos Tekan (Inset) saat aktif */
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
 }
 
 .skala-num {
-  width: 28px;
-  height: 28px;
+  width: 20px; /* Ukuran bulat angka lebih kecil pas */
+  height: 20px;
   background: #fff;
   color: var(--accent);
-  border-radius: 50%;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   flex-shrink: 0;
   border: 1px solid #cbd5e1;
 }
 
-.skala-item.active .skala-num {
-  color: var(--accent);
-  border-color: #fff;
+.skala-label { 
+  font-size: 0.75rem; 
+  font-weight: 500; 
+  line-height: 1; /* Line height rapat agar teks tidak makan tempat */
 }
-
-.skala-label { font-size: 0.8rem; font-weight: 500; line-height: 1.2; }
 
 .nilai-besar-stack{
   display:flex;
   flex-direction:column;
   align-items:flex-end;
   justify-content:center;
-  gap:5px;
-  min-width:60px;
+  gap:2px;
+  min-width:45px;
   border-left: 1px dashed #e2e8f0;
-  padding-left: 15px;
+  padding-left: 10px;
 }
 
-.nilai-besar { font-size:1.6rem; font-weight:900; opacity:0.1; line-height:1; position: relative; }
-.nilai-besar::before { content: attr(title); font-size: 0.5rem; position: absolute; left: -35px; top: 8px; opacity: 0.5; color: #000; }
+.nilai-besar { font-size:1.3rem; font-weight:900; opacity:0.1; line-height:1; }
 .nilai-besar.filled{ opacity:1 }
 [id^="sekolah-"].filled{ color:var(--school) }
 [id^="keluarga-"].filled{ color:var(--family) }
@@ -170,23 +167,17 @@ select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px #
 .action-bar button{
   flex:1; padding:12px; border-radius:10px; font-weight:800;
   font-size:0.85rem; border:none; cursor:pointer; 
-  transition: opacity 0.2s;
-  min-width: 140px;
 }
 
 .btn-submit{ background:var(--accent); color:#fff; }
 .btn-print{ background:var(--success); color:#fff; }
 .btn-reset{ background:var(--danger); color:#fff; }
-button:active { opacity: 0.8; }
 
 .autobox{
   position:absolute; background:#fff; border:1px solid #c7d2fe;
   border-radius:8px; max-height:200px; overflow-y:auto; z-index:9999;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 .autobox div{ padding:10px; font-size:0.9rem; border-bottom: 1px solid #f1f5f9; cursor: pointer; }
-.autobox div:last-child { border: none; }
-.autobox div:hover{ background:#f0f7ff; color: var(--accent); }
 </style>
 </head>
 
@@ -211,24 +202,21 @@ button:active { opacity: 0.8; }
 
   <div class="top-container">
     <div class="form-left">
-      <select id="anggota"><option value="">-- Pilih Unit Terlebih Dahulu --</option></select>
-      <input id="nama" placeholder="Ketik Nama Anggota..." autocomplete="off">
+      <select id="anggota"><option value="">-- Pilih Unit --</option></select>
+      <input id="nama" placeholder="Ketik Inisial Anggota..." autocomplete="off">
     </div>
   </div>
 
   <div id="rubrik-body" class="rubrik"></div>
 
   <div class="action-bar">
-    <button class="btn-submit" onclick="submitData()">SUBMIT DATA SELESAI</button>
-    <button class="btn-print" onclick="window.print()">CETAK PDF</button>
-    <button class="btn-reset" onclick="resetForm()">RESET FORM</button>
+    <button class="btn-submit" onclick="submitData()">SUBMIT</button>
+    <button class="btn-print" onclick="window.print()">CETAK</button>
+    <button class="btn-reset" onclick="resetForm()">RESET</button>
   </div>
 </div>
 
 <script>
-// =======================================================
-// 🔹 KONFIGURASI
-// =======================================================
 const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
 const pesertaURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?sheet=peserta";
 
@@ -242,16 +230,12 @@ autoBox.style.display = "none";
 document.body.appendChild(autoBox);
 
 const rubrik={
-  1:[{a:"Kesadaran Diri",d:["Tidak mengenali emosi","Mengenali tapi sulit kontrol","Cukup mengenali","Mampu mengelola baik","Sangat reflektif & tenang"]},{a:"Pengendalian Diri",d:["Sering lepas kendali","Kurang stabil","Cukup stabil","Stabil dan disiplin","Sangat tenang & disiplin"]},{a:"Empati",d:["Tidak peduli sesama","Kurang peka","Cukup peduli","Peka & membantu","Sangat teladan/pengayom"]},{a:"Keterampilan Sosial",d:["Sulit bergaul","Komunikasi terbatas","Cukup aktif","Komunikasi baik","Pemimpin yang baik"]}],
-  2:[{a:"Resiliensi",d:["Mudah menyerah","Sering mengeluh","Cukup tangguh","Tangguh hadapi tekanan","Bangkit sangat kuat"]},{a:"Toleransi Tekanan",d:["Tidak tahan tekanan","Mudah stres","Cukup tenang","Tenang hadapi masalah","Sangat stabil/fokus"]}],
-  3:[{a:"Berpikir Kritis",d:["Tidak analitis","Menerima saja","Cukup analitis","Analitis & objektif","Sangat tajam analitis"]},{a:"Pemecahan Masalah",d:["Tidak mampu","Sering salah solusi","Solusi standar","Tepat & efektif","Kreatif & solutif"]}],
-  4:[{a:"Kejujuran",d:["Tidak jujur","Kadang tidak jujur","Cukup jujur","Jujur & konsisten","Sangat jujur/Teladan"]},{a:"Tanggung Jawab",d:["Sering lalai","Kadang kurang","Cukup bertanggung jawab","Bertanggung jawab","Sangat dipercaya"]}],
-  5:[{a:"Motivasi Diri",d:["Pasif","Rendah","Cukup aktif","Tinggi & mandiri","Sangat inspiratif"]},{a:"Ketegasan",d:["Sangat penakut","Ragu-ragu","Cukup berani","Tegas mengambil sikap","Pemimpin tegas & adil"]}]
+  1:[{a:"Kesadaran Diri",d:["Tidak mengenali emosi","Jarang mengenali","Cukup mengenali","Mampu mengelola dengan baik","Sangat reflektif dan tenang"]},{a:"Pengendalian Diri",d:["Sering lepas kendali","Kurang stabil","Cukup stabil","Stabil dan disiplin","Sangat tenang dan disiplin"]},{a:"Empati",d:["Tidak peduli sesama","Kurang peka","Cukup peduli","Peka dan membantu","Sangat teladan/pengayom"]},{a:"Keterampilan Sosial",d:["Sulit bergaul","Komunikasi terbatas","Cukup aktif","Komunikasi sangat baik","Pemimpin yang baik"]}],
+  2:[{a:"Resiliensi",d:["Mudah menyerah","Sering mengeluh","Cukup tangguh","Tangguh hadapi tekanan","Bangkit sangat kuat"]},{a:"Toleransi Tekanan",d:["Tidak tahan tekanan","Mudah stres","Cukup tenang","Tenang hadapi masalah","Sangat stabil dan fokus"]},{a:"Menghadapi Tantangan",d:["Sering menghindar","Ragu mencoba","Berani mencoba","Mampu menyelesaikan","Aktif mencari tantangan"]}],
+  3:[{a:"Berpikir Kritis",d:["Tidak analitis","Lemah analitis","Cukup analitis","Analitis dan objektif","Sangat tajam analitis"]},{a:"Pemecahan Masalah",d:["Tidak mampu","Sering salah solusi","Solusi standar","Tepat dan efektif","Kreatif dan solutif"]},{a:"Fleksibilitas Berpikir",d:["Sangat kaku","Sulit adaptasi","Cukup adaptif","Adaptif","Sangat fleksibel"]}],
+  4:[{a:"Kejujuran",d:["Sering tidak jujur","Kadang tidak jujur","Cukup jujur","Jujur dan konsisten","Sangat jujur/Teladan"]},{a:"Tanggung Jawab",d:["Sering lalai","Kadang kurang","Cukup bertanggung jawab","Sangat bertanggung jawab","Sangat dipercaya/Amanah"]},{a:"Kepedulian",d:["Tidak peduli","Kurang peduli","Cukup peduli","Aktif membantu","Penggerak kepedulian"]}],
+  5:[{a:"Motivasi Diri",d:["Sangat pasif","Rendah motivasi","Cukup aktif","Tinggi dan mandiri","Sangat inspiratif"]},{a:"Ketekunan",d:["Mudah menyerah","Kurang tekun","Cukup tekun","Tekun dan konsisten","Pantang menyerah"]},{a:"Ketegasan Keputusan",d:["Sangat penakut","Ragu-ragu","Cukup tegas","Tegas mengambil sikap","Pemimpin tegas dan adil"]}]
 };
-
-// =======================================================
-// 🔹 LOGIKA RENDER (TAMPILAN VERTIKAL SKALA)
-// =======================================================
 
 async function loadPeserta(){
   try {
@@ -259,13 +243,12 @@ async function loadPeserta(){
     const data = await res.json();
     data[0].forEach((h,i) => {
       if(h){
-        const o = document.createElement("option");
-        o.value = h; o.textContent = h;
+        const o = document.createElement("option"); o.value = h; o.textContent = h;
         unitSelect.appendChild(o);
         dataPeserta[h] = data.slice(1).map(r => r[i]).filter(Boolean);
       }
     });
-  } catch(e) { console.error("Gagal load data peserta"); }
+  } catch(e) { console.error("Gagal Load Peserta"); }
 }
 
 function render(){
@@ -277,33 +260,14 @@ function render(){
   rubrik[p].forEach((x, i) => {
     nilaiData[p] = nilaiData[p] || {};
     nilaiData[p][i] = nilaiData[p][i] || { sekolah: null, keluarga: null, sosial: null };
-
     const c = document.createElement("div");
     c.className = "aspek-card";
-    
-    // Build Skala Items
     let skalaHtml = "";
     for(let n=1; n<=5; n++) {
       const activeClass = nilaiData[p][i][dom] === n ? 'active' : '';
-      skalaHtml += `
-        <div class="skala-item ${activeClass}" onclick="setNilai(${p},${i},${n},this)">
-          <div class="skala-num">${n}</div>
-          <div class="skala-label">${x.d[n-1]}</div>
-        </div>`;
+      skalaHtml += `<div class="skala-item ${activeClass}" onclick="setNilai(${p},${i},${n},this)"><div class="skala-num">${n}</div><div class="skala-label">${x.d[n-1]}</div></div>`;
     }
-
-    c.innerHTML = `
-      <div class="left">
-        <div class="aspek-title">${x.a}</div>
-        <div class="skala-list">
-          ${skalaHtml}
-        </div>
-      </div>
-      <div class="nilai-besar-stack">
-        <div title="S" id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah ? 'filled' : ''}">${nilaiData[p][i].sekolah || '-'}</div>
-        <div title="K" id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga ? 'filled' : ''}">${nilaiData[p][i].keluarga || '-'}</div>
-        <div title="M" id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial ? 'filled' : ''}">${nilaiData[p][i].sosial || '-'}</div>
-      </div>`;
+    c.innerHTML = `<div class="left"><div class="aspek-title">${x.a}</div><div class="skala-list">${skalaHtml}</div></div><div class="nilai-besar-stack"><div title="S" id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah ? 'filled' : ''}">${nilaiData[p][i].sekolah || '-'}</div><div title="K" id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga ? 'filled' : ''}">${nilaiData[p][i].keluarga || '-'}</div><div title="M" id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial ? 'filled' : ''}">${nilaiData[p][i].sosial || '-'}</div></div>`;
     rubrikBody.appendChild(c);
   });
 }
@@ -311,30 +275,16 @@ function render(){
 function setNilai(p, i, n, el){
   const dom = document.getElementById("domain").value;
   nilaiData[p][i][dom] = n;
-  
   const displayVal = document.getElementById(`${dom}-${p}-${i}`);
-  displayVal.textContent = n;
-  displayVal.classList.add("filled");
-  
-  // Update tombol visual
-  const parent = el.parentElement;
-  parent.querySelectorAll(".skala-item").forEach(item => item.classList.remove("active"));
+  displayVal.textContent = n; displayVal.classList.add("filled");
+  el.parentElement.querySelectorAll(".skala-item").forEach(item => item.classList.remove("active"));
   el.classList.add("active");
 }
-
-// =======================================================
-// 🔹 PROSES SUBMIT
-// =======================================================
 
 async function submitData() {
   const unitVal = unitSelect.value;
   const namaVal = namaInput.value;
-
-  if (!unitVal || !namaVal) {
-    Swal.fire("Gagal", "Nama dan Unit harus diisi!", "error");
-    return;
-  }
-
+  if (!unitVal || !namaVal) { Swal.fire("Gagal", "Nama dan Unit harus diisi!", "error"); return; }
   const aspekKirim = [];
   for (let p in nilaiData) {
     for (let i in nilaiData[p]) {
@@ -343,87 +293,42 @@ async function submitData() {
       if (values.length > 0) {
         const total = values.reduce((a, b) => a + b, 0);
         const rataRata = total / values.length;
-        aspekKirim.push({
-          aspek: rubrik[p][i].a,
-          nilai: rataRata.toFixed(2)
-        });
+        aspekKirim.push({ aspek: rubrik[p][i].a, nilai: rataRata.toFixed(2) });
       }
     }
   }
-
-  if (aspekKirim.length === 0) {
-    Swal.fire("Peringatan", "Belum ada nilai yang diinput!", "warning");
-    return;
-  }
-
-  Swal.fire({
-    title: 'Menyimpan Data...',
-    html: 'Mohon tunggu sebentar',
-    allowOutsideClick: false,
-    didOpen: () => { Swal.showLoading(); }
-  });
-
+  if (aspekKirim.length === 0) { Swal.fire("Peringatan", "Belum ada nilai!", "warning"); return; }
+  Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
   const payload = { form: "bintal_individu", nama: namaVal, unit: unitVal, nilai: aspekKirim };
-  const formData = new URLSearchParams();
-  formData.append("data", JSON.stringify(payload));
-
+  const formData = new URLSearchParams(); formData.append("data", JSON.stringify(payload));
   try {
     await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
-    Swal.fire({
-      icon: 'success',
-      title: 'Berhasil!',
-      text: 'Data telah disimpan ke Sheet dan Rekap Akhir'
-    });
-  } catch (error) {
-    Swal.fire("Gagal", "Terjadi kesalahan koneksi", "error");
-  }
+    Swal.fire({ icon: 'success', title: 'Berhasil Disimpan' });
+  } catch (error) { Swal.fire("Gagal", "Terjadi kesalahan koneksi", "error"); }
 }
 
-// =======================================================
-// 🔹 UI HELPER
-// =======================================================
-
 unitSelect.onchange = () => { namaInput.value = ""; autoBox.style.display = "none"; };
-
 namaInput.oninput = () => {
-  const u = unitSelect.value;
-  if(!u || !dataPeserta[u]) return;
+  const u = unitSelect.value; if(!u || !dataPeserta[u]) return;
   const val = namaInput.value.toLowerCase();
   const filtered = dataPeserta[u].filter(n => n.toLowerCase().includes(val));
-  
   autoBox.innerHTML = "";
   if(filtered.length && val){
     filtered.forEach(n => {
-      const d = document.createElement("div");
-      d.textContent = n;
+      const d = document.createElement("div"); d.textContent = n;
       d.onclick = () => { namaInput.value = n; autoBox.style.display = "none"; };
       autoBox.appendChild(d);
     });
     const r = namaInput.getBoundingClientRect();
-    autoBox.style.left = r.left + "px";
-    autoBox.style.top = (r.bottom + window.scrollY) + "px";
-    autoBox.style.width = r.width + "px";
-    autoBox.style.display = "block";
+    autoBox.style.cssText = `left:${r.left}px; top:${r.bottom + window.scrollY}px; width:${r.width}px; display:block;`;
   } else { autoBox.style.display = "none"; }
 };
 
-function resetForm(){
-  Swal.fire({
-    title: "Reset Form?",
-    icon: "warning",
-    showCancelButton: true
-  }).then(r => { if(r.isConfirmed) location.reload(); });
-}
-
+function resetForm(){ Swal.fire({ title: "Reset?", icon: "warning", showCancelButton: true }).then(r => { if(r.isConfirmed) location.reload(); }); }
 document.getElementById("pos").onchange = render;
 document.getElementById("domain").onchange = render;
-document.addEventListener("DOMContentLoaded", () => {
-  loadPeserta();
-  render();
-});
-document.addEventListener("click", (e) => {
-  if(e.target !== namaInput) autoBox.style.display = "none";
-});
+document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });
+document.addEventListener("click", (e) => { if(e.target !== namaInput) autoBox.style.display = "none"; });
 </script>
 </body>
 </html>

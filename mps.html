@@ -3,171 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Sistem Penilaian Bintal Individu</title>
+<title>Bintal Individu</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <style>
-:root{
-  --accent:#2563eb;
-  --danger:#dc2626;
-  --school:#2563eb;
-  --family:#16a34a;
-  --social:#7c3aed;
-}
-
+:root{ --accent:#2563eb; --danger:#dc2626; --school:#2563eb; --family:#16a34a; --social:#7c3aed; }
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-body{
-  margin:0; padding:5px;
-  font-family:"Segoe UI", sans-serif;
-  background:linear-gradient(135deg,#f0f9ff,#fefce8);
-  min-height:100vh;
-}
-
-.container{
-  width:100%; max-width:850px;
-  margin:auto; background:#fff;
-  border-radius:12px; padding:10px;
-  box-shadow:0 5px 15px rgba(0,0,0,.08);
-}
-
+body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f0f9ff,#fefce8); min-height:100vh; }
+.container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:10px; box-shadow:0 5px 15px rgba(0,0,0,.08); }
 h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; font-size:1.2rem; }
-
-.top-section{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin-bottom: 8px;
-}
-
-.bar-penilaian, .top-container{
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-  border-radius:8px; padding:6px;
-  display: flex; flex-direction: column; gap: 4px;
-}
-
-select, input{
-  width:100%; padding:6px 8px;
-  border-radius:6px; border:1px solid #cbd5e1;
-  font-size:0.85rem; outline: none;
-}
-
+.top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px; }
+.bar-penilaian, .top-container{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; }
+select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.85rem; outline: none; }
 #rubrik-body{ display: grid; gap: 6px; }
-
-.aspek-card{
-  border-radius:10px; padding:8px 12px;
-  display:flex; gap:10px; align-items: center;
-  border: 1px solid rgba(0,0,0,0.05);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-
+.aspek-card{ border-radius:10px; padding:8px 12px; display:flex; gap:10px; align-items: center; border: 1px solid rgba(0,0,0,0.05); }
 .aspek-card:nth-child(4n+1) { background-color: #eff6ff; }
 .aspek-card:nth-child(4n+2) { background-color: #f0fdf4; }
 .aspek-card:nth-child(4n+3) { background-color: #faf5ff; }
 .aspek-card:nth-child(4n+4) { background-color: #fff7ed; }
-
 .left{ flex:1; min-width:0; }
 .aspek-title{ font-weight:800; font-size:0.9rem; color: #1e293b; margin-bottom: 2px; }
-
 .skala-list { display: flex; flex-direction: column; gap: 0; }
 .skala-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-
-.skala-num {
-  font-size: 1.2rem; font-weight: 900;
-  color: #94a3b8; min-width: 20px; text-align: center;
-}
+.skala-num { font-size: 1.2rem; font-weight: 900; color: #94a3b8; min-width: 20px; text-align: center; }
 .skala-item.active .skala-num { color: var(--accent); }
-
-.skala-label { 
-  font-size: 0.78rem; color: #475569;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
+.skala-label { font-size: 0.78rem; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .skala-item.active .skala-label { color: #000; font-weight: 700; }
-
-/* 🔹 ANGKA BESAR DIPERBESAR & DIPERTEBAL MAKSIMAL */
-.nilai-besar-stack {
-  display: flex; flex-direction: column;
-  gap: 0; /* Merapatkan antar baris angka */
-  min-width: 60px;
-  border-left: 1px solid rgba(0,0,0,0.1);
-  padding-left: 8px;
-}
-
+.nilai-besar-stack { display: flex; flex-direction: column; gap: 0; min-width: 60px; border-left: 1px solid rgba(0,0,0,0.1); padding-left: 8px; }
 .nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
-
-.nilai-besar {
-  font-size: 3.2rem; /* Ukuran font diperbesar */
-  font-weight: 950;  /* Ketebalan maksimal */
-  opacity: 0.1; 
-  line-height: 0.75; /* Line height dikecilkan agar angka tidak memakan tempat vertikal */
-  text-align: right;
-  letter-spacing: -2px; /* Merapatkan karakter angka */
-}
-
-.nilai-besar.filled {
-  opacity: 1;
-  text-shadow: 1px 1px 0px rgba(255,255,255,0.5); /* Efek penjelas */
-}
-
-.domain-tag-v {
-  writing-mode: vertical-rl; text-orientation: mixed;
-  font-size: 0.5rem; font-weight: 900; color: #64748b;
-  margin-left: 2px;
-}
-
+.nilai-besar { font-size: 3.2rem; font-weight: 950; opacity: 0.1; line-height: 0.75; text-align: right; letter-spacing: -2px; }
+.nilai-besar.filled { opacity: 1; }
+.domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.5rem; font-weight: 900; color: #64748b; margin-left: 2px; }
 [id^="sekolah-"].filled { color: var(--school); }
 [id^="keluarga-"].filled { color: var(--family); }
 [id^="sosial-"].filled { color: var(--social); }
-
 .action-bar{ margin-top:10px; display:flex; gap:5px; }
-.action-bar button{
-  flex:1; padding:10px; border-radius:8px; font-weight:800;
-  font-size:0.8rem; border:none; cursor:pointer; 
-}
+.action-bar button{ flex:1; padding:10px; border-radius:8px; font-weight:800; font-size:0.8rem; border:none; cursor:pointer; }
 .btn-submit{ background:var(--accent); color:#fff; }
 .btn-reset{ background:var(--danger); color:#fff; }
 </style>
 </head>
-
 <body>
 <div class="container">
   <h2>NILAI BINTAL INDIVIDU</h2>
-
   <div class="top-section">
     <div class="top-container">
-      <select id="anggota"><option value="">-- Pilih Unit --</option></select>
-      <input id="nama" placeholder="Ketik Inisial..." autocomplete="off">
+      <select id="unit-select" onchange="filterNamaByUnit()"><option value="">-- Pilih Unit --</option></select>
+      <input id="nama-input" list="list-nama" placeholder="Ketik/Pilih Nama..." autocomplete="off">
+      <datalist id="list-nama"></datalist>
     </div>
     <div class="bar-penilaian">
-      <select id="pos">
-        <option value="1">Kecerdasan Emosional</option>
-        <option value="2">Ketahanan Mental</option>
-        <option value="3">Kognitif & Keputusan</option>
-        <option value="4">Integritas & Etika</option>
-        <option value="5">Motivasi & Ketegasan</option>
-      </select>
-      <select id="domain">
-        <option value="sekolah">Sekolah</option>
-        <option value="keluarga">Keluarga</option>
-        <option value="sosial">Sosial</option>
-      </select>
+      <select id="pos"><option value="1">Kecerdasan Emosional</option><option value="2">Ketahanan Mental</option><option value="3">Kognitif & Keputusan</option><option value="4">Integritas & Etika</option><option value="5">Motivasi & Ketegasan</option></select>
+      <select id="domain"><option value="sekolah">Sekolah</option><option value="keluarga">Keluarga</option><option value="sosial">Sosial</option></select>
     </div>
   </div>
-
   <div id="rubrik-body"></div>
-
-  <div class="action-bar">
-    <button class="btn-submit" onclick="submitData()">SIMPAN</button>
-    <button class="btn-reset" onclick="resetForm()">RESET</button>
-  </div>
+  <div class="action-bar"><button class="btn-submit" onclick="submitData()">SIMPAN</button><button class="btn-reset" onclick="resetForm()">RESET</button></div>
 </div>
 
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
-const pesertaURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?sheet=peserta";
-
-let dataPeserta = {};
+let dataPesertaGlobal = [];
 let nilaiData = {}; 
 
 const rubrik={
@@ -178,86 +73,75 @@ const rubrik={
   5:[{a:"Motivasi Diri",d:["Sangat pasif","Rendah motivasi","Cukup aktif","Tinggi dan mandiri","Sangat inspiratif"]},{a:"Ketekunan",d:["Mudah menyerah","Kurang tekun","Cukup tekun","Tekun dan konsisten","Pantang menyerah"]},{a:"Ketegasan Keputusan",d:["Sangat penakut","Ragu-ragu","Cukup tegas","Tegas mengambil sikap","Pemimpin tegas dan adil"]}]
 };
 
+async function loadPeserta() {
+  const res = await fetch(scriptURL + "?sheet=peserta");
+  const data = await res.json();
+  dataPesertaGlobal = data.slice(1);
+  const units = [...new Set(dataPesertaGlobal.map(r => r[1]))].sort();
+  const us = document.getElementById("unit-select");
+  units.forEach(u => { const o = document.createElement("option"); o.value=u; o.textContent=u; us.appendChild(o); });
+}
+
+function filterNamaByUnit() {
+  const u = document.getElementById("unit-select").value;
+  const dl = document.getElementById("list-nama");
+  document.getElementById("nama-input").value = "";
+  dl.innerHTML = "";
+  dataPesertaGlobal.filter(r => r[1] === u).forEach(r => { const o = document.createElement("option"); o.value=r[0]; dl.appendChild(o); });
+}
+
 function render(){
   const p = document.getElementById("pos").value;
   const dom = document.getElementById("domain").value;
-  const rubrikBody = document.getElementById("rubrik-body");
-  rubrikBody.innerHTML = "";
-  
+  const body = document.getElementById("rubrik-body");
+  body.innerHTML = "";
   rubrik[p].forEach((x, i) => {
     nilaiData[p] = nilaiData[p] || {};
-    nilaiData[p][i] = nilaiData[p][i] || { sekolah: null, keluarga: null, sosial: null };
-    const c = document.createElement("div");
-    c.className = "aspek-card";
-    
+    nilaiData[p][i] = nilaiData[p][i] || { sekolah:null, keluarga:null, sosial:null };
     let skalaHtml = "";
     for(let n=1; n<=5; n++) {
-      const activeClass = nilaiData[p][i][dom] === n ? 'active' : '';
-      skalaHtml += `<div class="skala-item ${activeClass}" onclick="setNilai(${p},${i},${n},this)"><div class="skala-num">${n}</div><div class="skala-label">${x.d[n-1]}</div></div>`;
+      const active = nilaiData[p][i][dom] === n ? 'active' : '';
+      skalaHtml += `<div class="skala-item ${active}" onclick="setNilai(${p},${i},${n},this)"><div class="skala-num">${n}</div><div class="skala-label">${x.d[n-1]}</div></div>`;
     }
-
-    c.innerHTML = `
-      <div class="left"><div class="aspek-title">${x.a}</div><div class="skala-list">${skalaHtml}</div></div>
-      <div class="nilai-besar-stack">
-        <div class="nilai-row"><div id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah ? 'filled' : ''}">${nilaiData[p][i].sekolah || '-'}</div><div class="domain-tag-v">SCH</div></div>
-        <div class="nilai-row"><div id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga ? 'filled' : ''}">${nilaiData[p][i].keluarga || '-'}</div><div class="domain-tag-v">FAM</div></div>
-        <div class="nilai-row"><div id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial ? 'filled' : ''}">${nilaiData[p][i].sosial || '-'}</div><div class="domain-tag-v">SOC</div></div>
-      </div>`;
-    rubrikBody.appendChild(c);
+    const card = document.createElement("div");
+    card.className = "aspek-card";
+    card.innerHTML = `<div class="left"><div class="aspek-title">${x.a}</div><div class="skala-list">${skalaHtml}</div></div><div class="nilai-besar-stack">
+        <div class="nilai-row"><div id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah?'filled':''}">${nilaiData[p][i].sekolah||'-'}</div><div class="domain-tag-v">SCH</div></div>
+        <div class="nilai-row"><div id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga?'filled':''}">${nilaiData[p][i].keluarga||'-'}</div><div class="domain-tag-v">FAM</div></div>
+        <div class="nilai-row"><div id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial?'filled':''}">${nilaiData[p][i].sosial||'-'}</div><div class="domain-tag-v">SOC</div></div></div>`;
+    body.appendChild(card);
   });
 }
 
 function setNilai(p, i, n, el){
   const dom = document.getElementById("domain").value;
   nilaiData[p][i][dom] = n;
-  const displayVal = document.getElementById(`${dom}-${p}-${i}`);
-  displayVal.textContent = n; displayVal.classList.add("filled");
-  el.parentElement.querySelectorAll(".skala-item").forEach(item => item.classList.remove("active"));
+  const v = document.getElementById(`${dom}-${p}-${i}`);
+  v.textContent = n; v.classList.add("filled");
+  el.parentElement.querySelectorAll(".skala-item").forEach(s => s.classList.remove("active"));
   el.classList.add("active");
 }
 
 async function submitData() {
-  const unitVal = document.getElementById("anggota").value;
-  const namaVal = document.getElementById("nama").value;
-  if (!unitVal || !namaVal) { Swal.fire("Gagal", "Lengkapi Identitas!", "error"); return; }
-  const aspekKirim = [];
-  for (let p in nilaiData) {
-    for (let i in nilaiData[p]) {
-      const d = nilaiData[p][i];
-      const vals = [d.sekolah, d.keluarga, d.sosial].filter(v => v !== null);
-      if (vals.length > 0) {
-        const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
-        aspekKirim.push({ aspek: rubrik[p][i].a, nilai: avg.toFixed(2) });
-      }
-    }
+  const u = document.getElementById("unit-select").value;
+  const n = document.getElementById("nama-input").value;
+  if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas", "error");
+  let kirim = [];
+  for(let p in nilaiData) for(let i in nilaiData[p]) {
+    const d = nilaiData[p][i];
+    const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
+    if(v.length > 0) kirim.push({ aspek: rubrik[p][i].a, nilai: (v.reduce((a,b)=>a+b,0)/v.length).toFixed(2) });
   }
   Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
-  const payload = { form: "bintal_individu", nama: namaVal, unit: unitVal, nilai: aspekKirim };
-  const formData = new URLSearchParams(); formData.append("data", JSON.stringify(payload));
-  try {
-    await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
-    Swal.fire({ icon: 'success', title: 'Berhasil!' });
-  } catch (e) { Swal.fire("Gagal", "Error Koneksi", "error"); }
-}
-
-async function loadPeserta(){
-  try {
-    const res = await fetch(pesertaURL);
-    const data = await res.json();
-    data[0].forEach((h,i) => {
-      if(h){
-        const o = document.createElement("option"); o.value = h; o.textContent = h;
-        document.getElementById("anggota").appendChild(o);
-        dataPeserta[h] = data.slice(1).map(r => r[i]).filter(Boolean);
-      }
-    });
-  } catch(e) {}
+  const fd = new URLSearchParams(); fd.append("data", JSON.stringify({ form:"bintal_individu", nama:n, unit:u, nilai:kirim }));
+  try { await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' }); Swal.fire("Berhasil", "Data Tersimpan", "success"); }
+  catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
 }
 
 document.getElementById("pos").onchange = render;
 document.getElementById("domain").onchange = render;
 document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });
-function resetForm(){ Swal.fire({ title: "Reset?", icon: "warning", showCancelButton: true }).then(r => { if(r.isConfirmed) location.reload(); }); }
+function resetForm(){ location.reload(); }
 </script>
 </body>
 </html>

@@ -12,15 +12,18 @@
 body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f0f9ff,#fefce8); min-height:100vh; }
 .container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:10px; box-shadow:0 5px 15px rgba(0,0,0,.08); }
 h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; font-size:1.2rem; }
+
 .top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px; }
 .bar-penilaian, .top-container{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; }
 select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.85rem; outline: none; }
+
 #rubrik-body{ display: grid; gap: 6px; }
 .aspek-card{ border-radius:10px; padding:8px 12px; display:flex; gap:10px; align-items: center; border: 1px solid rgba(0,0,0,0.05); }
 .aspek-card:nth-child(4n+1) { background-color: #eff6ff; }
 .aspek-card:nth-child(4n+2) { background-color: #f0fdf4; }
 .aspek-card:nth-child(4n+3) { background-color: #faf5ff; }
 .aspek-card:nth-child(4n+4) { background-color: #fff7ed; }
+
 .left{ flex:1; min-width:0; }
 .aspek-title{ font-weight:800; font-size:0.9rem; color: #1e293b; margin-bottom: 2px; }
 .skala-list { display: flex; flex-direction: column; gap: 0; }
@@ -29,21 +32,45 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 .skala-item.active .skala-num { color: var(--accent); }
 .skala-label { font-size: 0.78rem; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .skala-item.active .skala-label { color: #000; font-weight: 700; }
+
 .nilai-besar-stack { display: flex; flex-direction: column; gap: 0; min-width: 60px; border-left: 1px solid rgba(0,0,0,0.1); padding-left: 8px; }
 .nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
 .nilai-besar { font-size: 3.2rem; font-weight: 950; opacity: 0.1; line-height: 0.75; text-align: right; letter-spacing: -2px; }
 .nilai-besar.filled { opacity: 1; }
 .domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.5rem; font-weight: 900; color: #64748b; margin-left: 2px; }
+
 [id^="sekolah-"].filled { color: var(--school); }
 [id^="keluarga-"].filled { color: var(--family); }
 [id^="sosial-"].filled { color: var(--social); }
-.action-bar{ margin-top:10px; display:flex; gap:5px; flex-wrap: wrap; }
-.action-bar button{ flex: 1; min-width: 80px; padding:10px; border-radius:8px; font-weight:800; font-size:0.75rem; border:none; cursor:pointer; transition: 0.2s; }
+
+.action-bar {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  width: 100%;
+}
+.action-bar button {
+  flex: 1;
+  padding: 12px 2px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 .action-bar button:active { transform: scale(0.95); }
 .btn-home { background: #60a5fa; color: #fff; }
-.btn-submit{ background: var(--success); color:#fff; }
-.btn-reset{ background: #e2e8f0; color:#475569; }
+.btn-submit { background: var(--success); color: #fff; }
+.btn-reset { background: #e2e8f0; color: #475569; }
 .btn-download { background: var(--warning); color: #111; }
+
+@media (max-width: 480px) {
+  .action-bar button { font-size: 0.65rem; }
+}
 </style>
 </head>
 <body>
@@ -54,14 +81,26 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
       <select id="unit-select">
         <option value="">-- Pilih Unit --</option>
       </select>
-      <input id="nama-input" placeholder="Ketik/Pilih Nama Anggota..." autocomplete="off">
+      <input id="nama-input" placeholder="Pilih Nama Anggota" autocomplete="off">
     </div>
     <div class="bar-penilaian">
-      <select id="pos"><option value="1">Kecerdasan Emosional</option><option value="2">Ketahanan Mental</option><option value="3">Kognitif & Keputusan</option><option value="4">Integritas & Etika</option><option value="5">Motivasi & Ketegasan</option></select>
-      <select id="domain"><option value="sekolah">Dalam Sekolah</option><option value="keluarga">Dalam Keluarga</option><option value="sosial">Dalam Sosial</option></select>
+      <select id="pos">
+        <option value="1">Kecerdasan Emosional</option>
+        <option value="2">Ketahanan Mental</option>
+        <option value="3">Kognitif & Keputusan</option>
+        <option value="4">Integritas & Etika</option>
+        <option value="5">Motivasi & Ketegasan</option>
+      </select>
+      <select id="domain">
+        <option value="sekolah">Dalam Sekolah</option>
+        <option value="keluarga">Dalam Keluarga</option>
+        <option value="sosial">Dalam Sosial</option>
+      </select>
     </div>
   </div>
+
   <div id="rubrik-body"></div>
+
   <div class="action-bar">
     <button class="btn-home" onclick="window.top.location.href='https://andes-web.github.io/mpsmobile/index.html'">HOME</button>
     <button class="btn-submit" onclick="submitData()">SIMPAN</button>
@@ -75,6 +114,7 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 document.addEventListener("DOMContentLoaded", async () => {
   const allowedPassword = "@mps#";
   let authenticated = false;
+
   while (!authenticated) {
     const { value: password } = await Swal.fire({
       title: "Masukkan Password",
@@ -86,6 +126,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       allowEscapeKey: false,
       confirmButtonColor: "#2563eb"
     });
+
     if (password === allowedPassword) {
       authenticated = true;
       Swal.fire({ icon: "success", title: "Akses Diterima", timer: 1000, showConfirmButton: false });
@@ -217,7 +258,7 @@ function setNilai(p, i, n, el){
 
 async function submitData() {
   const u = document.getElementById("unit-select").value;
-  const n = document.getElementById("nama-input").value.trim();
+  const n = document.getElementById("nama-input").value;
   if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas (Unit & Nama)", "error");
   
   let kirim = [];
@@ -237,36 +278,41 @@ async function submitData() {
   fd.append("data", JSON.stringify({ form:"bintal_individu", nama:n, unit:u, nilai:kirim }));
   
   try { 
-    await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' }); 
+    await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' });
     Swal.fire("Berhasil", "Data Berhasil Disimpan", "success"); 
   } catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
 }
 
 function downloadExcel() {
-  const nm = namaInput.value || "Tanpa_Nama";
-  const rows = [["Nama", "Unit", "POS", "Aspek", "SCH", "FAM", "SOC", "Rata-rata"]];
+  const rows = [["Nama", "Unit", "POS", "Aspek", "Sekolah", "Keluarga", "Sosial", "Rata-rata"]];
+  const nm = namaInput.value || "Peserta";
+  const ut = unitSelect.value || "Unit";
   
   for(let p in nilaiData) {
-    const posLabel = document.querySelector(`#pos option[value="${p}"]`).textContent;
+    const posName = document.querySelector(`#pos option[value="${p}"]`).textContent;
     for(let i in nilaiData[p]) {
       const d = nilaiData[p][i];
       const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
       const avg = v.length > 0 ? Math.round(v.reduce((a,b)=>a+b,0)/v.length) : "";
-      rows.push([nm, unitSelect.value, posLabel, rubrik[p][i].a, d.sekolah||"", d.keluarga||"", d.sosial||"", avg]);
+      rows.push([nm, ut, posName, rubrik[p][i].a, d.sekolah||0, d.keluarga||0, d.sosial||0, avg]);
     }
   }
-  
   const ws = XLSX.utils.aoa_to_sheet(rows);
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Bintal_Individu");
-  XLSX.writeFile(wb, `Bintal_${nm}.xlsx`);
+  XLSX.utils.book_append_sheet(wb, ws, "Nilai");
+  XLSX.writeFile(wb, `Bintal_Individu_${nm}.xlsx`);
+}
+
+function resetForm(){ 
+  Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { 
+    if(r.isConfirmed) location.reload(); 
+  }); 
 }
 
 document.getElementById("pos").onchange = render;
 document.getElementById("domain").onchange = render;
 document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });
 window.addEventListener("resize", positionBox);
-function resetForm(){ Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { if(r.isConfirmed) location.reload(); }); }
 </script>
 </body>
 </html>

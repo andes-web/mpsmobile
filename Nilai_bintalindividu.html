@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Bintal Individu</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
-:root{ --accent:#2563eb; --danger:#dc2626; --school:#2563eb; --family:#16a34a; --social:#7c3aed; }
+:root{ --accent:#2563eb; --danger:#dc2626; --school:#2563eb; --family:#16a34a; --social:#7c3aed; --success:#16a34a; --warning:#facc15; }
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f0f9ff,#fefce8); min-height:100vh; }
 .container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:10px; box-shadow:0 5px 15px rgba(0,0,0,.08); }
@@ -36,10 +37,13 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 [id^="sekolah-"].filled { color: var(--school); }
 [id^="keluarga-"].filled { color: var(--family); }
 [id^="sosial-"].filled { color: var(--social); }
-.action-bar{ margin-top:10px; display:flex; gap:5px; }
-.action-bar button{ flex:1; padding:10px; border-radius:8px; font-weight:800; font-size:0.8rem; border:none; cursor:pointer; }
-.btn-submit{ background:var(--accent); color:#fff; }
-.btn-reset{ background:var(--danger); color:#fff; }
+.action-bar{ margin-top:10px; display:flex; gap:5px; flex-wrap: wrap; }
+.action-bar button{ flex: 1; min-width: 80px; padding:10px; border-radius:8px; font-weight:800; font-size:0.75rem; border:none; cursor:pointer; transition: 0.2s; }
+.action-bar button:active { transform: scale(0.95); }
+.btn-home { background: #60a5fa; color: #fff; }
+.btn-submit{ background: var(--success); color:#fff; }
+.btn-reset{ background: #e2e8f0; color:#475569; }
+.btn-download { background: var(--warning); color: #111; }
 </style>
 </head>
 <body>
@@ -54,14 +58,43 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
     </div>
     <div class="bar-penilaian">
       <select id="pos"><option value="1">Kecerdasan Emosional</option><option value="2">Ketahanan Mental</option><option value="3">Kognitif & Keputusan</option><option value="4">Integritas & Etika</option><option value="5">Motivasi & Ketegasan</option></select>
-      <select id="domain"><option value="sekolah">Sekolah</option><option value="keluarga">Keluarga</option><option value="sosial">Sosial</option></select>
+      <select id="domain"><option value="sekolah">Dalam Sekolah</option><option value="keluarga">Dalam Keluarga</option><option value="sosial">Dalam Sosial</option></select>
     </div>
   </div>
   <div id="rubrik-body"></div>
-  <div class="action-bar"><button class="btn-submit" onclick="submitData()">SIMPAN</button><button class="btn-reset" onclick="resetForm()">RESET</button></div>
+  <div class="action-bar">
+    <button class="btn-home" onclick="window.top.location.href='https://andes-web.github.io/mpsmobile/index.html'">HOME</button>
+    <button class="btn-submit" onclick="submitData()">SIMPAN</button>
+    <button class="btn-reset" onclick="resetForm()">RESET</button>
+    <button class="btn-download" onclick="downloadExcel()">UNDUH</button>
+  </div>
 </div>
 
 <script>
+// ==== Proteksi Password ====
+document.addEventListener("DOMContentLoaded", async () => {
+  const allowedPassword = "@mps#";
+  let authenticated = false;
+  while (!authenticated) {
+    const { value: password } = await Swal.fire({
+      title: "Masukkan Password",
+      input: "password",
+      inputLabel: "Halaman ini dilindungi",
+      inputPlaceholder: "Masukkan password...",
+      confirmButtonText: "Masuk",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor: "#2563eb"
+    });
+    if (password === allowedPassword) {
+      authenticated = true;
+      Swal.fire({ icon: "success", title: "Akses Diterima", timer: 1000, showConfirmButton: false });
+    } else {
+      await Swal.fire({ icon: "error", title: "Password Salah", text: "Silakan coba lagi.", confirmButtonColor: "#dc2626" });
+    }
+  }
+});
+
 const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
 const pesertaURL = scriptURL + "?sheet=peserta";
 
@@ -184,21 +217,16 @@ function setNilai(p, i, n, el){
 
 async function submitData() {
   const u = document.getElementById("unit-select").value;
-  const n = document.getElementById("nama-input").value;
+  const n = document.getElementById("nama-input").value.trim();
   if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas (Unit & Nama)", "error");
   
   let kirim = [];
   for(let p in nilaiData) for(let i in nilaiData[p]) {
     const d = nilaiData[p][i];
-    // Ambil semua domain yang terisi (sekolah, keluarga, sosial)
     const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
     if(v.length > 0) {
-      // PERUBAHAN DI SINI: Menggunakan Math.round() untuk pembulatan angka bulat (tanpa desimal)
       const rataRataBulat = Math.round(v.reduce((a,b)=>a+b,0)/v.length);
-      kirim.push({ 
-        aspek: rubrik[p][i].a, 
-        nilai: rataRataBulat 
-      });
+      kirim.push({ aspek: rubrik[p][i].a, nilai: rataRataBulat });
     }
   }
 
@@ -211,8 +239,27 @@ async function submitData() {
   try { 
     await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' }); 
     Swal.fire("Berhasil", "Data Berhasil Disimpan", "success"); 
+  } catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
+}
+
+function downloadExcel() {
+  const nm = namaInput.value || "Tanpa_Nama";
+  const rows = [["Nama", "Unit", "POS", "Aspek", "SCH", "FAM", "SOC", "Rata-rata"]];
+  
+  for(let p in nilaiData) {
+    const posLabel = document.querySelector(`#pos option[value="${p}"]`).textContent;
+    for(let i in nilaiData[p]) {
+      const d = nilaiData[p][i];
+      const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
+      const avg = v.length > 0 ? Math.round(v.reduce((a,b)=>a+b,0)/v.length) : "";
+      rows.push([nm, unitSelect.value, posLabel, rubrik[p][i].a, d.sekolah||"", d.keluarga||"", d.sosial||"", avg]);
+    }
   }
-  catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
+  
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Bintal_Individu");
+  XLSX.writeFile(wb, `Bintal_${nm}.xlsx`);
 }
 
 document.getElementById("pos").onchange = render;

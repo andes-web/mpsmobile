@@ -288,77 +288,94 @@ function setNilai(p, i, n, btn){
 // 🔹 PROSES SUBMIT (SINKRON DENGAN APPS SCRIPT ANDA)
 // =======================================================
 
-async function submitData(){
-  const unit = unitSelect.value;
-  const nama = namaInput.value.trim();
+async function submitData() {
+  const unitVal = document.getElementById("anggota").value;
+  const namaVal = document.getElementById("nama").value;
 
-  // VALIDASI 1: Identitas Kosong
-  if(!unit || !nama){
-    Swal.fire("Identitas Kosong", "Pilih Unit dan Nama Anggota terlebih dahulu!", "error");
+  if (!unitVal || !namaVal) {
+    Swal.fire("Gagal", "Nama dan Unit harus diisi!", "error");
     return;
   }
 
-  // VALIDASI 2: Cek apakah sudah ada nilai yang diisi
-  let hasNilai = false;
   const aspekKirim = [];
 
-  for(let p in nilaiData){
-    for(let i in nilaiData[p]){
+  // Loop melalui kategori (rubrik)
+  for (let p in nilaiData) {
+    // Loop melalui sub-aspek (misal: Kesadaran Diri, Resiliensi, dll)
+    for (let i in nilaiData[p]) {
       const d = nilaiData[p][i];
-      // Hitung rata-rata dari 3 domain jika diisi
-      const vals = [d.sekolah, d.keluarga, d.sosial].filter(v => v !== null);
-      if(vals.length > 0){
-        hasNilai = true;
-        const avg = vals.reduce((a,b) => a+b, 0) / vals.length;
+      
+      // Ambil nilai dari 3 domain
+      const vSekolah = d.sekolah;
+      const vKeluarga = d.keluarga;
+      const vSosial = d.sosial;
+
+      // Filter hanya domain yang sudah diisi (tidak null)
+      const values = [vSekolah, vKeluarga, vSosial].filter(v => v !== null);
+
+      if (values.length > 0) {
+        // Hitung rata-rata dari domain yang terisi
+        const total = values.reduce((a, b) => a + b, 0);
+        const rataRata = total / values.length;
+
+        // Ambil nama aspek dari rubrik asli
+        const namaAspek = rubrik[p][i].a;
+
         aspekKirim.push({
-          aspek: rubrik[p][i].a,
-          nilai: avg.toFixed(2)
+          aspek: namaAspek,
+          nilai: rataRata.toFixed(2) // Simpan dengan 2 angka di belakang koma
         });
       }
     }
   }
 
-  if(!hasNilai){
-    Swal.fire("Data Kosong", "Anda belum mengisi penilaian apapun!", "warning");
+  if (aspekKirim.length === 0) {
+    Swal.fire("Peringatan", "Belum ada nilai yang diinput!", "warning");
     return;
   }
 
-  // Persiapan Payload sesuai fungsi doPost(e) Anda
+  // Siapkan Payload untuk dikirim
   const payload = {
-    nama: nama,
-    unit: unit,
-    form: "bintal_individu", // Trigger untuk sheet "Nilai_Bintal_Individu"
+    form: "bintal_individu",
+    nama: namaVal,
+    unit: unitVal,
     nilai: aspekKirim
   };
 
-  const result = await Swal.fire({
-    title: 'Simpan Penilaian?',
-    text: `Mengirim data atas nama ${nama}`,
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Ya, Simpan'
+  Swal.fire({
+    title: 'Menyimpan Data...',
+    html: 'Mohon tunggu sebentar',
+    allowOutsideClick: false,
+    didOpen: () => { Swal.showLoading(); }
   });
 
-  if (result.isConfirmed) {
-    Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+  // Ganti scriptURL dengan URL Web App Anda yang baru
+  const scriptURL = "URL_WEB_APP_ANDA_DISINI"; 
 
-    try {
-      const formData = new URLSearchParams();
-      formData.append("data", JSON.stringify(payload));
+  const formData = new URLSearchParams();
+  formData.append("data", JSON.stringify(payload));
 
-      await fetch(scriptURL, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors'
-      });
-
-      Swal.fire("Berhasil", "Data telah tersimpan di Sheet dan Rekap diperbarui", "success");
-    } catch (e) {
-      Swal.fire("Gagal", "Terjadi kesalahan koneksi ke server", "error");
-    }
+  try {
+    const response = await fetch(scriptURL, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors'
+    });
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Berhasil!',
+      text: 'Data telah disimpan ke Nilai_Bintal_Individu dan Rekap Akhir',
+      confirmButtonText: 'OK'
+    }).then(() => {
+      // Opsi: reset form setelah sukses
+      // location.reload(); 
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire("Gagal", "Terjadi kesalahan koneksi atau Script Error", "error");
   }
 }
-
 // =======================================================
 // 🔹 FUNGSI PENDUKUNG (UI)
 // =======================================================

@@ -89,47 +89,78 @@ select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px #
   background:#fff;
   border: 1px solid #f1f5f9;
   border-radius:14px;
-  padding:12px;
+  padding:15px;
   display:flex;
-  gap:10px;
+  gap:15px;
   transition: transform 0.2s;
 }
 
 .left{ flex:1; min-width:0; }
-.aspek-title{ font-weight:800; font-size:0.95rem; color: #1e293b; margin-bottom: 4px; }
-.indikator{ font-size:0.65rem; line-height:1.4; color: #64748b; margin-bottom: 8px; font-style: italic; }
+.aspek-title{ font-weight:800; font-size:1.05rem; color: #1e293b; margin-bottom: 8px; border-bottom: 2px solid var(--soft-blue); padding-bottom: 4px; }
 
-.nilai-buttons{ display:flex; gap:5px; flex-wrap:nowrap; }
-.nilai-buttons button{
-  flex: 1;
-  padding:8px 0;
-  border-radius:8px;
-  border:1px solid #e2e8f0;
-  background:#f8fafc;
-  font-weight:bold; 
-  font-size:0.85rem; 
-  cursor:pointer;
+/* Tampilan Skala List Vertikal */
+.skala-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
 }
 
-.nilai-buttons button.active{ 
-  background: var(--accent); 
-  color:#fff; 
+.skala-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.skala-item:hover { background: #f1f5f9; border-color: var(--accent); }
+
+.skala-item.active {
+  background: var(--accent);
+  color: #fff;
   border-color: var(--accent);
-  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.4);
 }
+
+.skala-num {
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  color: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  border: 1px solid #cbd5e1;
+}
+
+.skala-item.active .skala-num {
+  color: var(--accent);
+  border-color: #fff;
+}
+
+.skala-label { font-size: 0.8rem; font-weight: 500; line-height: 1.2; }
 
 .nilai-besar-stack{
   display:flex;
   flex-direction:column;
   align-items:flex-end;
   justify-content:center;
-  gap:2px;
-  min-width:45px;
+  gap:5px;
+  min-width:60px;
   border-left: 1px dashed #e2e8f0;
-  padding-left: 10px;
+  padding-left: 15px;
 }
 
-.nilai-besar{ font-size:1.4rem; font-weight:900; opacity:0.1; line-height:1; }
+.nilai-besar { font-size:1.6rem; font-weight:900; opacity:0.1; line-height:1; position: relative; }
+.nilai-besar::before { content: attr(title); font-size: 0.5rem; position: absolute; left: -35px; top: 8px; opacity: 0.5; color: #000; }
 .nilai-besar.filled{ opacity:1 }
 [id^="sekolah-"].filled{ color:var(--school) }
 [id^="keluarga-"].filled{ color:var(--family) }
@@ -165,16 +196,16 @@ button:active { opacity: 0.8; }
 
   <div class="bar-penilaian">
     <select id="pos">
-      <option value="1">POS 1: Kecerdasan Emosional</option>
-      <option value="2">POS 2: Ketahanan Mental</option>
-      <option value="3">POS 3: Kognitif & Keputusan</option>
-      <option value="4">POS 4: Integritas & Etika</option>
-      <option value="5">POS 5: Motivasi & Ketegasan</option>
+      <option value="1">Kecerdasan Emosional</option>
+      <option value="2">Ketahanan Mental</option>
+      <option value="3">Kognitif & Keputusan</option>
+      <option value="4">Integritas & Etika</option>
+      <option value="5">Motivasi & Ketegasan</option>
     </select>
     <select id="domain">
-      <option value="sekolah">Domain: Sekolah</option>
-      <option value="keluarga">Domain: Keluarga</option>
-      <option value="sosial">Domain: Sosial</option>
+      <option value="sekolah">Sekolah</option>
+      <option value="keluarga">Keluarga</option>
+      <option value="sosial">Sosial</option>
     </select>
   </div>
 
@@ -188,7 +219,7 @@ button:active { opacity: 0.8; }
   <div id="rubrik-body" class="rubrik"></div>
 
   <div class="action-bar">
-    <button class="btn-submit" onclick="submitData()">SUBMIT DATA</button>
+    <button class="btn-submit" onclick="submitData()">SUBMIT DATA SELESAI</button>
     <button class="btn-print" onclick="window.print()">CETAK PDF</button>
     <button class="btn-reset" onclick="resetForm()">RESET FORM</button>
   </div>
@@ -196,13 +227,13 @@ button:active { opacity: 0.8; }
 
 <script>
 // =======================================================
-// 🔹 KONFIGURASI (WAJIB DIISI)
+// 🔹 KONFIGURASI
 // =======================================================
 const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
 const pesertaURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?sheet=peserta";
 
 let dataPeserta = {};
-let nilaiData = {}; // Global state untuk menyimpan nilai semua aspek
+let nilaiData = {}; 
 const unitSelect = document.getElementById("anggota");
 const namaInput = document.getElementById("nama");
 const autoBox = document.createElement("div");
@@ -211,15 +242,15 @@ autoBox.style.display = "none";
 document.body.appendChild(autoBox);
 
 const rubrik={
-  1:[{a:"Kesadaran Diri",d:["Tidak mengenali","Jarang","Cukup","Mengelola","Sangat reflektif"]},{a:"Pengendalian Diri",d:["Tidak terkendali","Lepas","Cukup","Stabil","Disiplin"]},{a:"Empati",d:["Tidak peduli","Kurang","Cukup","Tinggi","Teladan"]},{a:"Keterampilan Sosial",d:["Sulit","Terbatas","Cukup","Aktif","Pemimpin"]}],
-  2:[{a:"Resiliensi",d:["Mudah menyerah","Putus asa","Cukup","Tangguh","Bangkit kuat"]},{a:"Toleransi Tekanan",d:["Tidak tahan","Stres","Cukup","Tenang","Sangat stabil"]},{a:"Menghadapi Tantangan",d:["Menghindar","Ragu","Mencoba","Menyelesaikan","Mencari tantangan"]}],
-  3:[{a:"Berpikir Kritis",d:["Tidak analitis","Lemah","Cukup","Analitis","Sangat tajam"]},{a:"Pemecahan Masalah",d:["Tidak mampu","Salah","Sederhana","Tepat","Kreatif"]},{a:"Fleksibilitas Berpikir",d:["Kaku","Sulit","Cukup","Adaptif","Sangat fleksibel"]}],
-  4:[{a:"Kejujuran",d:["Tidak jujur","Kadang","Cukup","Konsisten","Teladan"]},{a:"Tanggung Jawab",d:["Lalai","Kurang","Cukup","Bertanggung jawab","Sangat dipercaya"]},{a:"Kepedulian",d:["Tidak peduli","Kurang","Cukup","Aktif","Penggerak"]}],
-  5:[{a:"Motivasi Diri",d:["Tidak termotivasi","Rendah","Cukup","Tinggi","Inspiratif"]},{a:"Ketekunan",d:["Mudah menyerah","Kurang","Cukup","Tekun","Pantang menyerah"]},{a:"Ketegasan Keputusan",d:["Takut","Ragu","Cukup tegas","Tegas","Pemimpin"]}]
+  1:[{a:"Kesadaran Diri",d:["Tidak mengenali emosi","Mengenali tapi sulit kontrol","Cukup mengenali","Mampu mengelola baik","Sangat reflektif & tenang"]},{a:"Pengendalian Diri",d:["Sering lepas kendali","Kurang stabil","Cukup stabil","Stabil dan disiplin","Sangat tenang & disiplin"]},{a:"Empati",d:["Tidak peduli sesama","Kurang peka","Cukup peduli","Peka & membantu","Sangat teladan/pengayom"]},{a:"Keterampilan Sosial",d:["Sulit bergaul","Komunikasi terbatas","Cukup aktif","Komunikasi baik","Pemimpin yang baik"]}],
+  2:[{a:"Resiliensi",d:["Mudah menyerah","Sering mengeluh","Cukup tangguh","Tangguh hadapi tekanan","Bangkit sangat kuat"]},{a:"Toleransi Tekanan",d:["Tidak tahan tekanan","Mudah stres","Cukup tenang","Tenang hadapi masalah","Sangat stabil/fokus"]}],
+  3:[{a:"Berpikir Kritis",d:["Tidak analitis","Menerima saja","Cukup analitis","Analitis & objektif","Sangat tajam analitis"]},{a:"Pemecahan Masalah",d:["Tidak mampu","Sering salah solusi","Solusi standar","Tepat & efektif","Kreatif & solutif"]}],
+  4:[{a:"Kejujuran",d:["Tidak jujur","Kadang tidak jujur","Cukup jujur","Jujur & konsisten","Sangat jujur/Teladan"]},{a:"Tanggung Jawab",d:["Sering lalai","Kadang kurang","Cukup bertanggung jawab","Bertanggung jawab","Sangat dipercaya"]}],
+  5:[{a:"Motivasi Diri",d:["Pasif","Rendah","Cukup aktif","Tinggi & mandiri","Sangat inspiratif"]},{a:"Ketegasan",d:["Sangat penakut","Ragu-ragu","Cukup berani","Tegas mengambil sikap","Pemimpin tegas & adil"]}]
 };
 
 // =======================================================
-// 🔹 LOGIKA FORM
+// 🔹 LOGIKA RENDER (TAMPILAN VERTIKAL SKALA)
 // =======================================================
 
 async function loadPeserta(){
@@ -244,53 +275,60 @@ function render(){
   rubrikBody.innerHTML = "";
   
   rubrik[p].forEach((x, i) => {
-    // Inisialisasi jika data belum ada
     nilaiData[p] = nilaiData[p] || {};
     nilaiData[p][i] = nilaiData[p][i] || { sekolah: null, keluarga: null, sosial: null };
 
     const c = document.createElement("div");
     c.className = "aspek-card";
+    
+    // Build Skala Items
+    let skalaHtml = "";
+    for(let n=1; n<=5; n++) {
+      const activeClass = nilaiData[p][i][dom] === n ? 'active' : '';
+      skalaHtml += `
+        <div class="skala-item ${activeClass}" onclick="setNilai(${p},${i},${n},this)">
+          <div class="skala-num">${n}</div>
+          <div class="skala-label">${x.d[n-1]}</div>
+        </div>`;
+    }
+
     c.innerHTML = `
       <div class="left">
         <div class="aspek-title">${x.a}</div>
-        <div class="indikator">Skala: 1 (${x.d[0]}) s/d 5 (${x.d[4]})</div>
-        <div class="nilai-buttons">
-          ${[1,2,3,4,5].map(n => `
-            <button type="button" 
-              onclick="setNilai(${p},${i},${n},this)" 
-              class="${nilaiData[p][i][dom] === n ? 'active' : ''}">
-              ${n}
-            </button>`).join("")}
+        <div class="skala-list">
+          ${skalaHtml}
         </div>
       </div>
       <div class="nilai-besar-stack">
-        <div title="Sekolah" id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah ? 'filled' : ''}">${nilaiData[p][i].sekolah || '-'}</div>
-        <div title="Keluarga" id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga ? 'filled' : ''}">${nilaiData[p][i].keluarga || '-'}</div>
-        <div title="Sosial" id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial ? 'filled' : ''}">${nilaiData[p][i].sosial || '-'}</div>
+        <div title="S" id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah ? 'filled' : ''}">${nilaiData[p][i].sekolah || '-'}</div>
+        <div title="K" id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga ? 'filled' : ''}">${nilaiData[p][i].keluarga || '-'}</div>
+        <div title="M" id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial ? 'filled' : ''}">${nilaiData[p][i].sosial || '-'}</div>
       </div>`;
     rubrikBody.appendChild(c);
   });
 }
 
-function setNilai(p, i, n, btn){
+function setNilai(p, i, n, el){
   const dom = document.getElementById("domain").value;
   nilaiData[p][i][dom] = n;
   
-  const el = document.getElementById(`${dom}-${p}-${i}`);
-  el.textContent = n;
-  el.classList.add("filled");
+  const displayVal = document.getElementById(`${dom}-${p}-${i}`);
+  displayVal.textContent = n;
+  displayVal.classList.add("filled");
   
-  btn.parentElement.querySelectorAll("button").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
+  // Update tombol visual
+  const parent = el.parentElement;
+  parent.querySelectorAll(".skala-item").forEach(item => item.classList.remove("active"));
+  el.classList.add("active");
 }
 
 // =======================================================
-// 🔹 PROSES SUBMIT (SINKRON DENGAN APPS SCRIPT ANDA)
+// 🔹 PROSES SUBMIT
 // =======================================================
 
 async function submitData() {
-  const unitVal = document.getElementById("anggota").value;
-  const namaVal = document.getElementById("nama").value;
+  const unitVal = unitSelect.value;
+  const namaVal = namaInput.value;
 
   if (!unitVal || !namaVal) {
     Swal.fire("Gagal", "Nama dan Unit harus diisi!", "error");
@@ -298,32 +336,16 @@ async function submitData() {
   }
 
   const aspekKirim = [];
-
-  // Loop melalui kategori (rubrik)
   for (let p in nilaiData) {
-    // Loop melalui sub-aspek (misal: Kesadaran Diri, Resiliensi, dll)
     for (let i in nilaiData[p]) {
       const d = nilaiData[p][i];
-      
-      // Ambil nilai dari 3 domain
-      const vSekolah = d.sekolah;
-      const vKeluarga = d.keluarga;
-      const vSosial = d.sosial;
-
-      // Filter hanya domain yang sudah diisi (tidak null)
-      const values = [vSekolah, vKeluarga, vSosial].filter(v => v !== null);
-
+      const values = [d.sekolah, d.keluarga, d.sosial].filter(v => v !== null);
       if (values.length > 0) {
-        // Hitung rata-rata dari domain yang terisi
         const total = values.reduce((a, b) => a + b, 0);
         const rataRata = total / values.length;
-
-        // Ambil nama aspek dari rubrik asli
-        const namaAspek = rubrik[p][i].a;
-
         aspekKirim.push({
-          aspek: namaAspek,
-          nilai: rataRata.toFixed(2) // Simpan dengan 2 angka di belakang koma
+          aspek: rubrik[p][i].a,
+          nilai: rataRata.toFixed(2)
         });
       }
     }
@@ -334,14 +356,6 @@ async function submitData() {
     return;
   }
 
-  // Siapkan Payload untuk dikirim
-  const payload = {
-    form: "bintal_individu",
-    nama: namaVal,
-    unit: unitVal,
-    nilai: aspekKirim
-  };
-
   Swal.fire({
     title: 'Menyimpan Data...',
     html: 'Mohon tunggu sebentar',
@@ -349,35 +363,24 @@ async function submitData() {
     didOpen: () => { Swal.showLoading(); }
   });
 
-  // Ganti scriptURL dengan URL Web App Anda yang baru
-  const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
-
+  const payload = { form: "bintal_individu", nama: namaVal, unit: unitVal, nilai: aspekKirim };
   const formData = new URLSearchParams();
   formData.append("data", JSON.stringify(payload));
 
   try {
-    const response = await fetch(scriptURL, {
-      method: 'POST',
-      body: formData,
-      mode: 'no-cors'
-    });
-    
+    await fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' });
     Swal.fire({
       icon: 'success',
       title: 'Berhasil!',
-      text: 'Data telah disimpan ke Nilai_Bintal_Individu dan Rekap Akhir',
-      confirmButtonText: 'OK'
-    }).then(() => {
-      // Opsi: reset form setelah sukses
-      // location.reload(); 
+      text: 'Data telah disimpan ke Sheet dan Rekap Akhir'
     });
   } catch (error) {
-    console.error('Error:', error);
-    Swal.fire("Gagal", "Terjadi kesalahan koneksi atau Script Error", "error");
+    Swal.fire("Gagal", "Terjadi kesalahan koneksi", "error");
   }
 }
+
 // =======================================================
-// 🔹 FUNGSI PENDUKUNG (UI)
+// 🔹 UI HELPER
 // =======================================================
 
 unitSelect.onchange = () => { namaInput.value = ""; autoBox.style.display = "none"; };
@@ -407,7 +410,6 @@ namaInput.oninput = () => {
 function resetForm(){
   Swal.fire({
     title: "Reset Form?",
-    text: "Semua inputan nilai yang belum disimpan akan hilang!",
     icon: "warning",
     showCancelButton: true
   }).then(r => { if(r.isConfirmed) location.reload(); });
@@ -419,8 +421,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadPeserta();
   render();
 });
-
-// Tutup autobox jika klik di luar
 document.addEventListener("click", (e) => {
   if(e.target !== namaInput) autoBox.style.display = "none";
 });

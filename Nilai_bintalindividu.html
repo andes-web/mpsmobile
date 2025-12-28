@@ -12,15 +12,18 @@
 body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f0f9ff,#fefce8); min-height:100vh; }
 .container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:10px; box-shadow:0 5px 15px rgba(0,0,0,.08); }
 h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; font-size:1.2rem; }
+
 .top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px; }
 .bar-penilaian, .top-container{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; }
 select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.85rem; outline: none; }
+
 #rubrik-body{ display: grid; gap: 6px; }
 .aspek-card{ border-radius:10px; padding:8px 12px; display:flex; gap:10px; align-items: center; border: 1px solid rgba(0,0,0,0.05); }
 .aspek-card:nth-child(4n+1) { background-color: #eff6ff; }
 .aspek-card:nth-child(4n+2) { background-color: #f0fdf4; }
 .aspek-card:nth-child(4n+3) { background-color: #faf5ff; }
 .aspek-card:nth-child(4n+4) { background-color: #fff7ed; }
+
 .left{ flex:1; min-width:0; }
 .aspek-title{ font-weight:800; font-size:0.9rem; color: #1e293b; margin-bottom: 2px; }
 .skala-list { display: flex; flex-direction: column; gap: 0; }
@@ -29,11 +32,17 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 .skala-item.active .skala-num { color: var(--accent); }
 .skala-label { font-size: 0.78rem; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .skala-item.active .skala-label { color: #000; font-weight: 700; }
+
 .nilai-besar-stack { display: flex; flex-direction: column; gap: 0; min-width: 60px; border-left: 1px solid rgba(0,0,0,0.1); padding-left: 8px; }
 .nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
 .nilai-besar { font-size: 3.2rem; font-weight: 950; opacity: 0.1; line-height: 0.75; text-align: right; letter-spacing: -2px; }
 .nilai-besar.filled { opacity: 1; }
 .domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.5rem; font-weight: 900; color: #64748b; margin-left: 2px; }
+
+[id^="sekolah-"].filled { color: var(--school); }
+[id^="keluarga-"].filled { color: var(--family); }
+[id^="sosial-"].filled { color: var(--social); }
+
 .action-bar { margin-top: 15px; display: flex; flex-direction: row; gap: 5px; width: 100%; }
 .action-bar button { flex: 1; padding: 12px 2px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; border: none; cursor: pointer; transition: transform 0.1s; text-transform: uppercase; white-space: nowrap; }
 .action-bar button:active { transform: scale(0.95); }
@@ -41,15 +50,18 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 .btn-submit { background: var(--success); color: #fff; }
 .btn-reset { background: #e2e8f0; color: #475569; }
 .btn-download { background: var(--warning); color: #111; }
+
 @media (max-width: 480px) { .action-bar button { font-size: 0.65rem; } }
 </style>
 </head>
 <body>
 <div class="container">
-  <h2>NILAI BINTAL INDIVIDU (CBSPS)</h2>
+  <h2>NILAI BINTAL INDIVIDU</h2>
   <div class="top-section">
     <div class="top-container">
-      <select id="unit-select"><option value="">-- Pilih Unit --</option></select>
+      <select id="unit-select">
+        <option value="">-- Pilih Unit --</option>
+      </select>
       <input id="nama-input" placeholder="Pilih Nama Anggota" autocomplete="off">
     </div>
     <div class="bar-penilaian">
@@ -67,7 +79,9 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
       </select>
     </div>
   </div>
+
   <div id="rubrik-body"></div>
+
   <div class="action-bar">
     <button class="btn-home" onclick="window.top.location.href='https://andes-web.github.io/mpsmobile/index.html'">HOME</button>
     <button class="btn-submit" onclick="submitData()">SIMPAN</button>
@@ -77,74 +91,116 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 </div>
 
 <script>
-// --- KONFIGURASI ---
-const scriptURL = "MASUKKAN_URL_WEB_APP_ANDA_DISINI"; 
-const pesertaURL = scriptURL + "?sheet=peserta";
-const allowedPassword = "@mps#";
-
 // ==== Proteksi Password ====
 document.addEventListener("DOMContentLoaded", async () => {
+  const allowedPassword = "@mps#";
   let authenticated = false;
   while (!authenticated) {
     const { value: password } = await Swal.fire({
-      title: "Masukkan Password", input: "password", confirmButtonColor: "#2563eb", allowOutsideClick: false
+      title: "Masukkan Password",
+      input: "password",
+      inputLabel: "Halaman ini dilindungi",
+      inputPlaceholder: "Masukkan password...",
+      confirmButtonText: "Masuk",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor: "#2563eb"
     });
-    if (password === allowedPassword) { authenticated = true; } 
-    else { await Swal.fire({ icon: "error", title: "Password Salah" }); }
+    if (password === allowedPassword) {
+      authenticated = true;
+      Swal.fire({ icon: "success", title: "Akses Diterima", timer: 1000, showConfirmButton: false });
+    } else {
+      await Swal.fire({ icon: "error", title: "Password Salah", text: "Silakan coba lagi.", confirmButtonColor: "#dc2626" });
+    }
   }
 });
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
+const pesertaURL = scriptURL + "?sheet=peserta";
 
 let dataPesertaGlobal = {}; 
 let nilaiData = {}; 
 
 const rubrik={
-  1:[{a:"Kesehatan Fisik",d:["Sakit","Lemah","Cukup","Sehat","Prima"]},{a:"Kesehatan Mental",d:["Stres","Labil","Tenang","Kuat","Tangguh"]},{a:"Pola Hidup Bersih",d:["Kotor","Abai","Cukup","Bersih","Teladan"]}],
-  2:[{a:"Sopan Santun",d:["Buruk","Kurang","Cukup","Sopan","Santun"]},{a:"Kebaikan Hati",d:["Egois","Kurang","Cukup","Suka bantu","Tulus"]},{a:"Keramah-tamahan",d:["Kaku","Kurang","Cukup","Ramah","Hangat"]}],
-  3:[{a:"Ketaatan Aturan",d:["Melanggar","Abai","Cukup","Taat","Disiplin"]},{a:"Kejujuran",d:["Bohong","Kadang","Cukup","Jujur","Amanah"]},{a:"Keadilan",d:["Memihak","Kurang","Cukup","Adil","Bijak"]}],
-  4:[{a:"Penguasaan Ilmu",d:["Sulit","Kurang","Cukup","Cerdas","Ahli"]},{a:"Logika Berpikir",d:["Irasional","Kurang","Cukup","Logis","Analitis"]},{a:"Kemauan Belajar",d:["Pasif","Rendah","Cukup","Semangat","Haus Ilmu"]}],
-  5:[{a:"Tanggung Jawab",d:["Lalai","Kurang","Cukup","Tanggung Jawab","Amanah"]},{a:"Inisiatif & Cekatan",d:["Lamban","Pasif","Cukup","Proaktif","Tangkas"]},{a:"Mawas Diri",d:["Abai","Jarang","Cukup","Sadar","Reflektif"]}]
+  1:[
+    {a:"Kesehatan Fisik",d:["Sering sakit/lemah","Kurang menjaga kebugaran","Cukup bugar & sehat","Sehat & jarang sakit","Sangat prima & energik"]},
+    {a:"Kesehatan Mental",d:["Mudah stres/cemas","Kadang kurang stabil","Cukup tenang & stabil","Mental kuat & positif","Sangat tangguh & tenang"]},
+    {a:"Pola Hidup Bersih",d:["Sangat tidak rapi","Kurang peduli kebersihan","Cukup bersih & rapi","Bersih & teratur","Teladan pola hidup sehat"]}
+  ],
+  2:[
+    {a:"Sopan Santun",d:["Kurang beretika","Kadang kurang sopan","Cukup sopan santun","Sangat sopan & hormat","Sangat santun & beradab"]},
+    {a:"Kebaikan Hati",d:["Egois/Individualis","Kurang peduli","Cukup peduli sesama","Suka membantu","Sangat tulus & penolong"]},
+    {a:"Keramah-tamahan",d:["Sulit bergaul/kaku","Kurang ramah","Cukup ramah","Ramah & komunikatif","Sangat hangat & humble"]}
+  ],
+  3:[
+    {a:"Ketaatan Aturan",d:["Sering melanggar","Kadang abai aturan","Cukup taat","Taat & disiplin","Sangat disiplin & patuh"]},
+    {a:"Kejujuran",d:["Sering tidak jujur","Kadang tidak jujur","Cukup jujur","Jujur & konsisten","Sangat jujur & amanah"]},
+    {a:"Keadilan",d:["Sering memihak","Kurang objektif","Cukup adil","Adil dalam bertindak","Sangat objektif & bijak"]}
+  ],
+  4:[
+    {a:"Penguasaan Ilmu",d:["Sulit memahami materi","Pemahaman terbatas","Cukup menguasai ilmu","Wawasan luas & cerdas","Sangat ahli & kompeten"]},
+    {a:"Logika Berpikir",d:["Sulit menalar","Kadang kurang logis","Cukup logis","Berpikir tajam & logis","Sangat analitis & kritis"]},
+    {a:"Kemauan Belajar",d:["Tidak ada minat","Rendah rasa ingin tahu","Cukup aktif belajar","Semangat belajar tinggi","Sangat haus ilmu/pembelajar"]}
+  ],
+  5:[
+    {a:"Tanggung Jawab",d:["Sering lalai","Kurang tanggung jawab","Cukup bertanggung jawab","Sangat bertanggung jawab","Sangat dipercaya/Amanah"]},
+    {a:"Inisiatif & Cekatan",d:["Sangat pasif/lamban","Menunggu instruksi","Cukup cekatan","Inisiatif tinggi/proaktif","Sangat responsif & tangkas"]},
+    {a:"Mawas Diri",d:["Tidak sadar kesalahan","Jarang refleksi","Cukup mawas diri","Sadar akan kelebihan/kekurangan","Sangat reflektif & mawas diri"]}
+  ]
 };
 
 const namaInput = document.getElementById("nama-input");
 const unitSelect = document.getElementById("unit-select");
 const suggestionBox = document.createElement("div");
-suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #ccc; border-radius:6px; max-height:150px; overflow-y:auto; z-index:1000; display:none;";
+suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 4px 8px rgba(0,0,0,0.1); max-height:150px; overflow-y:auto; z-index:1000; display:none;";
 document.body.appendChild(suggestionBox);
 
 async function loadPeserta() {
   try {
     const res = await fetch(pesertaURL);
     const data = await res.json();
+    const headers = data[0]; 
     unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
-    data[0].forEach((h, i) => {
-      if (h) {
+    headers.forEach((h, i) => {
+      if (h && h.trim() !== "") {
+        const unitName = h.trim();
         const option = document.createElement("option");
-        option.value = h; option.textContent = h;
+        option.value = unitName; option.textContent = unitName;
         unitSelect.appendChild(option);
-        dataPesertaGlobal[h] = data.slice(1).map(r => r[i]).filter(x => x);
+        dataPesertaGlobal[unitName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
       }
     });
-  } catch (e) { console.log(e); }
+  } catch (e) { console.error("Gagal load peserta:", e); }
+}
+
+function positionBox() {
+  const rect = namaInput.getBoundingClientRect();
+  suggestionBox.style.left = rect.left + window.scrollX + "px";
+  suggestionBox.style.top = rect.bottom + window.scrollY + "px";
+  suggestionBox.style.width = rect.width + "px";
 }
 
 namaInput.addEventListener("input", () => {
   const unit = unitSelect.value;
-  if (!unit || !dataPesertaGlobal[unit]) return;
+  if (!unit || !dataPesertaGlobal[unit]) { suggestionBox.style.display = "none"; return; }
   const val = namaInput.value.toLowerCase();
   const filtered = dataPesertaGlobal[unit].filter(n => n.toLowerCase().includes(val));
   suggestionBox.innerHTML = "";
   if (filtered.length > 0) {
     filtered.forEach(nama => {
       const item = document.createElement("div");
-      item.textContent = nama; item.style.padding = "8px"; item.style.cursor = "pointer";
+      item.textContent = nama; item.style.padding = "6px 10px"; item.style.cursor = "pointer";
       item.onclick = () => { namaInput.value = nama; suggestionBox.style.display = "none"; };
+      item.onmouseenter = () => item.style.background = "#f3f4f6";
+      item.onmouseleave = () => item.style.background = "#fff";
       suggestionBox.appendChild(item);
     });
-    const rect = namaInput.getBoundingClientRect();
-    suggestionBox.style.left = rect.left + "px"; suggestionBox.style.top = rect.bottom + "px";
-    suggestionBox.style.width = rect.width + "px"; suggestionBox.style.display = "block";
-  }
+    positionBox(); suggestionBox.style.display = "block";
+  } else { suggestionBox.style.display = "none"; }
 });
+
+unitSelect.addEventListener("change", () => { namaInput.value = ""; suggestionBox.style.display = "none"; });
+document.addEventListener("click", e => { if (e.target !== namaInput && !suggestionBox.contains(e.target)) suggestionBox.style.display = "none"; });
 
 function render(){
   const p = document.getElementById("pos").value;
@@ -181,55 +237,50 @@ function setNilai(p, i, n, el){
 async function submitData() {
   const u = document.getElementById("unit-select").value;
   const n = document.getElementById("nama-input").value;
-  if(!u || !n) return Swal.fire("Gagal", "Identitas Belum Lengkap", "error");
-  
-  // MENGUBAH FORMAT KE ARRAY AGAR COCOK DENGAN APPS SCRIPT ANDA
-  let nilaiArray = [];
-  for(let p in nilaiData) {
-    for(let i in nilaiData[p]) {
-      const d = nilaiData[p][i];
-      const vals = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
-      if(vals.length > 0) {
-        const rata = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
-        nilaiArray.push({ aspek: rubrik[p][i].a, nilai: rata });
-      }
+  if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas (Unit & Nama)", "error");
+  let kirim = [];
+  for(let p in nilaiData) for(let i in nilaiData[p]) {
+    const d = nilaiData[p][i];
+    const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
+    if(v.length > 0) {
+      const rataRataBulat = Math.round(v.reduce((a,b)=>a+b,0)/v.length);
+      kirim.push({ aspek: rubrik[p][i].a, nilai: rataRataBulat });
     }
   }
-
-  if(nilaiArray.length === 0) return Swal.fire("Gagal", "Nilai Kosong", "warning");
-
+  if(kirim.length === 0) return Swal.fire("Gagal", "Belum ada nilai yang diisi", "warning");
   Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
-  const fd = new URLSearchParams();
-  // payload.form diisi "bintal_individu" agar Apps Script mengarah ke sheet yang benar
-  fd.append("data", JSON.stringify({ form: "bintal_individu", nama: n, unit: u, nilai: nilaiArray }));
-  
+  const fd = new URLSearchParams(); 
+  fd.append("data", JSON.stringify({ form:"bintal_individu", nama:n, unit:u, nilai:kirim }));
   try { 
     await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' });
-    Swal.fire("Berhasil", "Data Tersimpan", "success"); 
-  } catch(e) { Swal.fire("Error", "Koneksi Gagal", "error"); }
+    Swal.fire("Berhasil", "Data Berhasil Disimpan", "success"); 
+  } catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
 }
 
 function downloadExcel() {
-  const rows = [["Nama", "Unit", "Komponen", "Aspek", "SCH", "FAM", "SOC", "AVG"]];
+  const rows = [["Nama", "Unit", "Komponen", "Aspek", "Sekolah", "Keluarga", "Sosial", "Rata-rata"]];
+  const nm = namaInput.value || "Peserta";
+  const ut = unitSelect.value || "Unit";
   for(let p in nilaiData) {
-    const pos = document.querySelector(`#pos option[value="${p}"]`).textContent;
+    const posName = document.querySelector(`#pos option[value="${p}"]`).textContent;
     for(let i in nilaiData[p]) {
       const d = nilaiData[p][i];
       const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
       const avg = v.length > 0 ? Math.round(v.reduce((a,b)=>a+b,0)/v.length) : "";
-      rows.push([namaInput.value, unitSelect.value, pos, rubrik[p][i].a, d.sekolah||"", d.keluarga||"", d.sosial||"", avg]);
+      rows.push([nm, ut, posName, rubrik[p][i].a, d.sekolah||0, d.keluarga||0, d.sosial||0, avg]);
     }
   }
   const ws = XLSX.utils.aoa_to_sheet(rows);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Nilai");
-  XLSX.writeFile(wb, `Bintal_${namaInput.value}.xlsx`);
+  XLSX.writeFile(wb, `Bintal_Individu_CBSPS_${nm}.xlsx`);
 }
 
-function resetForm(){ Swal.fire({title: "Reset?", showCancelButton: true}).then(r => { if(r.isConfirmed) location.reload(); }); }
+function resetForm(){ Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { if(r.isConfirmed) location.reload(); }); }
 document.getElementById("pos").onchange = render;
 document.getElementById("domain").onchange = render;
 document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });
+window.addEventListener("resize", positionBox);
 </script>
 </body>
 </html>

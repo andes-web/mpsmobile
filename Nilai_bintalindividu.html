@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Bintal Individu</title>
+<title>Bintal Individu - CBSPS</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
@@ -43,34 +43,15 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 [id^="keluarga-"].filled { color: var(--family); }
 [id^="sosial-"].filled { color: var(--social); }
 
-.action-bar {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  width: 100%;
-}
-.action-bar button {
-  flex: 1;
-  padding: 12px 2px;
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.75rem;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.1s;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
+.action-bar { margin-top: 15px; display: flex; flex-direction: row; gap: 5px; width: 100%; }
+.action-bar button { flex: 1; padding: 12px 2px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; border: none; cursor: pointer; transition: transform 0.1s; text-transform: uppercase; white-space: nowrap; }
 .action-bar button:active { transform: scale(0.95); }
 .btn-home { background: #60a5fa; color: #fff; }
 .btn-submit { background: var(--success); color: #fff; }
 .btn-reset { background: #e2e8f0; color: #475569; }
 .btn-download { background: var(--warning); color: #111; }
 
-@media (max-width: 480px) {
-  .action-bar button { font-size: 0.65rem; }
-}
+@media (max-width: 480px) { .action-bar button { font-size: 0.65rem; } }
 </style>
 </head>
 <body>
@@ -85,11 +66,11 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
     </div>
     <div class="bar-penilaian">
       <select id="pos">
-        <option value="1">Kecerdasan Emosional</option>
-        <option value="2">Ketahanan Mental</option>
-        <option value="3">Kognitif & Keputusan</option>
-        <option value="4">Integritas & Etika</option>
-        <option value="5">Motivasi & Ketegasan</option>
+        <option value="1">CAGEUR (Fisik & Mental)</option>
+        <option value="2">BAGEUR (Akhlak)</option>
+        <option value="3">BENER (Integritas)</option>
+        <option value="4">PINTER (Wawasan)</option>
+        <option value="5">SINGER (Responsif)</option>
       </select>
       <select id="domain">
         <option value="sekolah">Dalam Sekolah</option>
@@ -114,7 +95,6 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 document.addEventListener("DOMContentLoaded", async () => {
   const allowedPassword = "@mps#";
   let authenticated = false;
-
   while (!authenticated) {
     const { value: password } = await Swal.fire({
       title: "Masukkan Password",
@@ -126,7 +106,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       allowEscapeKey: false,
       confirmButtonColor: "#2563eb"
     });
-
     if (password === allowedPassword) {
       authenticated = true;
       Swal.fire({ icon: "success", title: "Akses Diterima", timer: 1000, showConfirmButton: false });
@@ -143,16 +122,35 @@ let dataPesertaGlobal = {};
 let nilaiData = {}; 
 
 const rubrik={
-  1:[{a:"Kesadaran Diri",d:["Tidak mengenali emosi","Jarang mengenali","Cukup mengenali","Mampu mengelola dengan baik","Sangat reflektif dan tenang"]},{a:"Pengendalian Diri",d:["Sering lepas kendali","Kurang stabil","Cukup stabil","Stabil dan disiplin","Sangat tenang dan disiplin"]},{a:"Empati",d:["Tidak peduli sesama","Kurang peka","Cukup peduli","Peka dan membantu","Sangat teladan/pengayom"]},{a:"Keterampilan Sosial",d:["Sulit bergaul","Komunikasi terbatas","Cukup aktif","Komunikasi sangat baik","Pemimpin yang baik"]}],
-  2:[{a:"Resiliensi",d:["Mudah menyerah","Sering mengeluh","Cukup tangguh","Tangguh hadapi tekanan","Bangkit sangat kuat"]},{a:"Toleransi Tekanan",d:["Tidak tahan tekanan","Mudah stres","Cukup tenang","Tenang hadapi masalah","Sangat stabil dan fokus"]},{a:"Menghadapi Tantangan",d:["Sering menghindar","Ragu mencoba","Berani mencoba","Mampu menyelesaikan","Aktif mencari tantangan"]}],
-  3:[{a:"Berpikir Kritis",d:["Tidak analitis","Lemah analitis","Cukup analitis","Analitis dan objektif","Sangat tajam analitis"]},{a:"Pemecahan Masalah",d:["Tidak mampu","Sering salah solusi","Solusi standar","Tepat dan efektif","Kreatif dan solutif"]},{a:"Fleksibilitas Berpikir",d:["Sangat kaku","Sulit adaptasi","Cukup adaptif","Adaptif","Sangat fleksibel"]}],
-  4:[{a:"Kejujuran",d:["Sering tidak jujur","Kadang tidak jujur","Cukup jujur","Jujur dan konsisten","Sangat jujur/Teladan"]},{a:"Tanggung Jawab",d:["Sering lalai","Kadang kurang","Cukup bertanggung jawab","Sangat bertanggung jawab","Sangat dipercaya/Amanah"]},{a:"Kepedulian",d:["Tidak peduli","Kurang peduli","Cukup peduli","Aktif membantu","Penggerak kepedulian"]}],
-  5:[{a:"Motivasi Diri",d:["Sangat pasif","Rendah motivasi","Cukup aktif","Tinggi dan mandiri","Sangat inspiratif"]},{a:"Ketekunan",d:["Mudah menyerah","Kurang tekun","Cukup tekun","Tekun dan konsisten","Pantang menyerah"]},{a:"Ketegasan Keputusan",d:["Sangat penakut","Ragu-ragu","Cukup tegas","Tegas mengambil sikap","Pemimpin tegas dan adil"]}]
+  1:[
+    {a:"Kesehatan Fisik",d:["Sering sakit/lemah","Kurang menjaga kebugaran","Cukup bugar & sehat","Sehat & jarang sakit","Sangat prima & energik"]},
+    {a:"Kesehatan Mental",d:["Mudah stres/cemas","Kadang kurang stabil","Cukup tenang & stabil","Mental kuat & positif","Sangat tangguh & tenang"]},
+    {a:"Pola Hidup Bersih",d:["Sangat tidak rapi","Kurang peduli kebersihan","Cukup bersih & rapi","Bersih & teratur","Teladan pola hidup sehat"]}
+  ],
+  2:[
+    {a:"Sopan Santun",d:["Kurang beretika","Kadang kurang sopan","Cukup sopan santun","Sangat sopan & hormat","Sangat santun & beradab"]},
+    {a:"Kebaikan Hati",d:["Egois/Individualis","Kurang peduli","Cukup peduli sesama","Suka membantu","Sangat tulus & penolong"]},
+    {a:"Keramah-tamahan",d:["Sulit bergaul/kaku","Kurang ramah","Cukup ramah","Ramah & komunikatif","Sangat hangat & humble"]}
+  ],
+  3:[
+    {a:"Ketaatan Aturan",d:["Sering melanggar","Kadang abai aturan","Cukup taat","Taat & disiplin","Sangat disiplin & patuh"]},
+    {a:"Kejujuran",d:["Sering tidak jujur","Kadang tidak jujur","Cukup jujur","Jujur & konsisten","Sangat jujur & amanah"]},
+    {a:"Keadilan",d:["Sering memihak","Kurang objektif","Cukup adil","Adil dalam bertindak","Sangat objektif & bijak"]}
+  ],
+  4:[
+    {a:"Penguasaan Ilmu",d:["Sulit memahami materi","Pemahaman terbatas","Cukup menguasai ilmu","Wawasan luas & cerdas","Sangat ahli & kompeten"]},
+    {a:"Logika Berpikir",d:["Sulit menalar","Kadang kurang logis","Cukup logis","Berpikir tajam & logis","Sangat analitis & kritis"]},
+    {a:"Kemauan Belajar",d:["Tidak ada minat","Rendah rasa ingin tahu","Cukup aktif belajar","Semangat belajar tinggi","Sangat haus ilmu/pembelajar"]}
+  ],
+  5:[
+    {a:"Tanggung Jawab",d:["Sering lalai","Kurang tanggung jawab","Cukup bertanggung jawab","Sangat bertanggung jawab","Sangat dipercaya/Amanah"]},
+    {a:"Inisiatif & Cekatan",d:["Sangat pasif/lamban","Menunggu instruksi","Cukup cekatan","Inisiatif tinggi/proaktif","Sangat responsif & tangkas"]},
+    {a:"Mawas Diri",d:["Tidak sadar kesalahan","Jarang refleksi","Cukup mawas diri","Sadar akan kelebihan/kekurangan","Sangat reflektif & mawas diri"]}
+  ]
 };
 
 const namaInput = document.getElementById("nama-input");
 const unitSelect = document.getElementById("unit-select");
-
 const suggestionBox = document.createElement("div");
 suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 4px 8px rgba(0,0,0,0.1); max-height:150px; overflow-y:auto; z-index:1000; display:none;";
 document.body.appendChild(suggestionBox);
@@ -162,14 +160,12 @@ async function loadPeserta() {
     const res = await fetch(pesertaURL);
     const data = await res.json();
     const headers = data[0]; 
-
     unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
     headers.forEach((h, i) => {
       if (h && h.trim() !== "") {
         const unitName = h.trim();
         const option = document.createElement("option");
-        option.value = unitName;
-        option.textContent = unitName;
+        option.value = unitName; option.textContent = unitName;
         unitSelect.appendChild(option);
         dataPesertaGlobal[unitName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
       }
@@ -186,43 +182,25 @@ function positionBox() {
 
 namaInput.addEventListener("input", () => {
   const unit = unitSelect.value;
-  if (!unit || !dataPesertaGlobal[unit]) {
-    suggestionBox.style.display = "none";
-    return;
-  }
+  if (!unit || !dataPesertaGlobal[unit]) { suggestionBox.style.display = "none"; return; }
   const val = namaInput.value.toLowerCase();
   const filtered = dataPesertaGlobal[unit].filter(n => n.toLowerCase().includes(val));
-  
   suggestionBox.innerHTML = "";
   if (filtered.length > 0) {
     filtered.forEach(nama => {
       const item = document.createElement("div");
-      item.textContent = nama;
-      item.style.padding = "6px 10px";
-      item.style.cursor = "pointer";
-      item.onclick = () => {
-        namaInput.value = nama;
-        suggestionBox.style.display = "none";
-      };
+      item.textContent = nama; item.style.padding = "6px 10px"; item.style.cursor = "pointer";
+      item.onclick = () => { namaInput.value = nama; suggestionBox.style.display = "none"; };
       item.onmouseenter = () => item.style.background = "#f3f4f6";
       item.onmouseleave = () => item.style.background = "#fff";
       suggestionBox.appendChild(item);
     });
-    positionBox();
-    suggestionBox.style.display = "block";
-  } else {
-    suggestionBox.style.display = "none";
-  }
+    positionBox(); suggestionBox.style.display = "block";
+  } else { suggestionBox.style.display = "none"; }
 });
 
-unitSelect.addEventListener("change", () => {
-  namaInput.value = "";
-  suggestionBox.style.display = "none";
-});
-
-document.addEventListener("click", e => {
-  if (e.target !== namaInput && !suggestionBox.contains(e.target)) suggestionBox.style.display = "none";
-});
+unitSelect.addEventListener("change", () => { namaInput.value = ""; suggestionBox.style.display = "none"; });
+document.addEventListener("click", e => { if (e.target !== namaInput && !suggestionBox.contains(e.target)) suggestionBox.style.display = "none"; });
 
 function render(){
   const p = document.getElementById("pos").value;
@@ -260,7 +238,6 @@ async function submitData() {
   const u = document.getElementById("unit-select").value;
   const n = document.getElementById("nama-input").value;
   if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas (Unit & Nama)", "error");
-  
   let kirim = [];
   for(let p in nilaiData) for(let i in nilaiData[p]) {
     const d = nilaiData[p][i];
@@ -270,13 +247,10 @@ async function submitData() {
       kirim.push({ aspek: rubrik[p][i].a, nilai: rataRataBulat });
     }
   }
-
   if(kirim.length === 0) return Swal.fire("Gagal", "Belum ada nilai yang diisi", "warning");
-
   Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
   const fd = new URLSearchParams(); 
   fd.append("data", JSON.stringify({ form:"bintal_individu", nama:n, unit:u, nilai:kirim }));
-  
   try { 
     await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' });
     Swal.fire("Berhasil", "Data Berhasil Disimpan", "success"); 
@@ -284,10 +258,9 @@ async function submitData() {
 }
 
 function downloadExcel() {
-  const rows = [["Nama", "Unit", "POS", "Aspek", "Sekolah", "Keluarga", "Sosial", "Rata-rata"]];
+  const rows = [["Nama", "Unit", "Komponen", "Aspek", "Sekolah", "Keluarga", "Sosial", "Rata-rata"]];
   const nm = namaInput.value || "Peserta";
   const ut = unitSelect.value || "Unit";
-  
   for(let p in nilaiData) {
     const posName = document.querySelector(`#pos option[value="${p}"]`).textContent;
     for(let i in nilaiData[p]) {
@@ -300,15 +273,10 @@ function downloadExcel() {
   const ws = XLSX.utils.aoa_to_sheet(rows);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Nilai");
-  XLSX.writeFile(wb, `Bintal_Individu_${nm}.xlsx`);
+  XLSX.writeFile(wb, `Bintal_Individu_CBSPS_${nm}.xlsx`);
 }
 
-function resetForm(){ 
-  Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { 
-    if(r.isConfirmed) location.reload(); 
-  }); 
-}
-
+function resetForm(){ Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { if(r.isConfirmed) location.reload(); }); }
 document.getElementById("pos").onchange = render;
 document.getElementById("domain").onchange = render;
 document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });

@@ -238,23 +238,42 @@ async function submitData() {
   const u = document.getElementById("unit-select").value;
   const n = document.getElementById("nama-input").value;
   if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas (Unit & Nama)", "error");
-  let kirim = [];
-  for(let p in nilaiData) for(let i in nilaiData[p]) {
-    const d = nilaiData[p][i];
-    const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
-    if(v.length > 0) {
-      const rataRataBulat = Math.round(v.reduce((a,b)=>a+b,0)/v.length);
-      kirim.push({ aspek: rubrik[p][i].a, nilai: rataRataBulat });
+  
+  // Objek ini harus memiliki kunci yang SAMA PERSIS dengan Header di Google Sheet
+  let dataKirim = {
+    form: "bintal_individu",
+    nama: n,
+    unit: u
+  };
+
+  // Mengumpulkan nilai dari semua rubrik yang ada
+  let adaIsi = false;
+  for(let p in nilaiData) {
+    for(let i in nilaiData[p]) {
+      const d = nilaiData[p][i];
+      const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
+      if(v.length > 0) {
+        const rataRata = Math.round(v.reduce((a,b)=>a+b,0)/v.length);
+        const namaAspek = rubrik[p][i].a; // Mengambil nama seperti "Kesehatan Fisik"
+        dataKirim[namaAspek] = rataRata;  // Memasukkan ke objek dengan kunci nama aspek
+        adaIsi = true;
+      }
     }
   }
-  if(kirim.length === 0) return Swal.fire("Gagal", "Belum ada nilai yang diisi", "warning");
+
+  if(!adaIsi) return Swal.fire("Gagal", "Belum ada nilai yang diisi", "warning");
+
   Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
+  
   const fd = new URLSearchParams(); 
-  fd.append("data", JSON.stringify({ form:"bintal_individu", nama:n, unit:u, nilai:kirim }));
+  fd.append("data", JSON.stringify(dataKirim));
+  
   try { 
     await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' });
     Swal.fire("Berhasil", "Data Berhasil Disimpan", "success"); 
-  } catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
+  } catch(e) { 
+    Swal.fire("Error", "Koneksi Bermasalah", "error"); 
+  }
 }
 
 function downloadExcel() {

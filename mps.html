@@ -6,6 +6,7 @@
 <title>RUBRIK ASESMEN MANDIRI</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
+/* CSS tetap sama agar format tampilan tidak berubah */
 :root{
   --bg: #fff5fc;
   --accent: #000000;
@@ -53,7 +54,6 @@ header h1{margin:0;font-weight:700;font-size:15px;flex:1;text-align:center}
   border-radius:8px; padding:6px 8px;
 }
 
-/* GRID SIMETRIS */
 .identity-row {
   display: grid;
   grid-template-columns: 3fr 80px;
@@ -69,7 +69,6 @@ header h1{margin:0;font-weight:700;font-size:15px;flex:1;text-align:center}
 
 label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 
-/* WRAP TEKS PADA IDENTITAS */
 .custom-select-trigger {
   width: 100%; min-height: 32px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
   background: var(--input); font-size: 11px; cursor: pointer;
@@ -113,7 +112,6 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 }
 .score-label{font-size:10px; color:#444; font-weight:700; text-transform:uppercase;}
 
-/* PERBAIKAN WRAP PADA RUBRIK/PERTANYAAN */
 .main {
   max-width: 980px; margin: 0 auto;
   padding-top: 200px; padding-bottom: 80px;
@@ -129,7 +127,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 .q-text { 
   font-size: 14px; margin: 0 0 10px 0; font-weight: 700; 
   color: var(--accent); line-height: 1.5;
-  white-space: normal; /* Pastikan soal melipat */
+  white-space: normal; 
   word-break: break-word;
 } 
 
@@ -138,12 +136,12 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
   padding: 12px; border-radius: 6px; background: var(--input); 
   border: 1px solid #e0e8f0; font-size: 13px; cursor: pointer; 
   margin-bottom: 8px; 
-  white-space: normal; /* Pastikan teks pilihan melipat */
+  white-space: normal;
   line-height: 1.4;
 }
 
 .opt span {
-  flex: 1; /* Agar teks pilihan mengambil ruang sisa dan melipat */
+  flex: 1; 
   word-break: break-word;
 }
 
@@ -222,6 +220,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 </div>
 
 <script>
+// URL SCRIPT TETAP MENGGUNAKAN YANG SUDAH ADA
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
 let RAW_DATA = [], SEL_UNIT = "", SEL_SESI = "", SEL_NAMA = "", userAnswers = {};
 
@@ -271,7 +270,6 @@ const CORRECT_ANSWERS = {
     "Singer": ["2", "1", "4", "3", "5"]
 };
 
-// --- FUNGSI PROTEKSI ---
 async function proteksiGanda(nama) {
     if (!nama) return;
     const container = document.getElementById('questions');
@@ -344,10 +342,10 @@ function calculateScore(sesi) {
     document.getElementById(`score-${map[sesi]}`).textContent = totalPoin;
 }
 
+// --- LOGIKA SIMPAN TERBARU DISESUAIKAN DENGAN APPS SCRIPT BARU ---
 document.getElementById('btnNext').onclick = async () => {
     const token = document.getElementById('input-token').value.trim();
     
-    // 1. Validasi Input Dasar
     if (!SEL_NAMA) {
         Swal.fire("Peringatan", "Pilih Nama Peserta terlebih dahulu!", "warning");
         return;
@@ -357,8 +355,7 @@ document.getElementById('btnNext').onclick = async () => {
         return;
     }
 
-    // 2. Validasi Jumlah Soal (Pastikan semua kategori sudah diisi)
-    const totalSoalMinimal = 25; // 5 kategori x 5 soal
+    const totalSoalMinimal = 25; 
     if (Object.keys(userAnswers).length < totalSoalMinimal) {
         Swal.fire("Peringatan", "Selesaikan semua soal sebelum menyimpan!", "warning");
         return;
@@ -367,16 +364,15 @@ document.getElementById('btnNext').onclick = async () => {
     Swal.fire({ title: 'Memverifikasi Token...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
     try {
-        // 3. Verifikasi Token ke Server (Apps Script)
+        // VERIFIKASI TOKEN (Sinkron dengan Apps Script Baru: action=verifyToken)
         const vResp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
         const vResult = await vResp.json();
 
         if (!vResult.valid) {
-            Swal.fire("Gagal", "Token yang Anda masukkan salah atau tidak sesuai dengan nama!", "error");
+            Swal.fire("Gagal", "Token salah atau tidak sesuai!", "error");
             return;
         }
 
-        // 4. Jika Token Valid, Lanjut Proses Simpan
         Swal.fire({ title: 'Menyimpan Jawaban...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
         const sCag = parseInt(document.getElementById('score-cag').textContent) || 0;
@@ -386,11 +382,12 @@ document.getElementById('btnNext').onclick = async () => {
         const sSin = parseInt(document.getElementById('score-sin').textContent) || 0;
         const rataRata = Math.round((sCag + sBag + sBen + sPin + sSin) / 5);
 
+        // PAYLOAD DISESUAIKAN UNTUK PENYIMPANAN KOLOM I-N DAN TOKEN DI H
         const payload = {
             nama: SEL_NAMA,
             unit: SEL_UNIT,
             sesi: "LENGKAP",
-            token: token, // Pastikan token dikirim dalam payload
+            token: token, 
             skor_cag: sCag,
             skor_bag: sBag,
             skor_ben: sBen,
@@ -407,11 +404,11 @@ document.getElementById('btnNext').onclick = async () => {
         
         const result = await resp.json();
         if (result.status === "success") {
-            Swal.fire("Berhasil", "Data Anda telah berhasil diverifikasi dan disimpan.", "success")
+            Swal.fire("Berhasil", "Data Anda telah disimpan.", "success")
                 .then(() => location.reload());
         }
     } catch (e) {
-        Swal.fire("Error", "Terjadi kesalahan koneksi. Coba lagi.", "error");
+        Swal.fire("Error", "Koneksi terputus.", "error");
     }
 };
 

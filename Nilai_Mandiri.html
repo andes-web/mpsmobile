@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>RUBRIK ASESMEN MANDIRI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{
@@ -20,7 +21,10 @@ header {
   color: #fff; z-index: 1000; display: flex; align-items: center; justify-content: center;
 }
 header h1{margin:0;font-weight:700;font-size:15px;text-align:center}
-
+.home-btn {
+            position: absolute; left: 15px; color: white; text-decoration: none; 
+            font-size: 18px; display: flex; align-items: center;
+        }
 .identity-bar {
   position: fixed; top: 44px; left: 0; right: 0;
   background: var(--nav-bg); padding: 6px 8px;
@@ -40,7 +44,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 
 .custom-select-trigger {
   width: 100%; min-height: 32px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
-  background: var(--input); font-size: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  background: var(--input); font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
 }
 
 .input-token {
@@ -50,7 +54,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 
 .btn-mulai {
   width: 100%; background: var(--primary); color: #fff; border: none; border-radius: 6px; 
-  padding: 10px; font-weight: 700; cursor: pointer; margin-top: 4px;
+  padding: 10px; font-weight: 700; cursor: pointer; margin-top: 1px;
 }
 
 .floating-dropdown {
@@ -58,7 +62,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
   border-radius: 5px; margin-top: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
   z-index: 1100; max-height: 200px; overflow-y: auto; display: none;
 }
-.floating-dropdown div { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #f1f1f1; font-size: 11px;}
+.floating-dropdown div { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #f1f1f1; font-size: 13px;}
 .show { display: block; }
 
 .score-panel{
@@ -101,7 +105,12 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 </head>
 <body>
 
-<header><h1>ASESMEN KARAKTER MANDIRI</h1></header>
+<header>
+  <a href="https://andes-web.github.io/mpsmobile/" class="home-btn">
+    <i class="fas fa-home"></i>
+  </a>
+  <h1>ASESMEN KARAKTER MANDIRI</h1>
+</header>
 
 <div class="identity-bar">
   <div class="identity-inner">
@@ -211,7 +220,7 @@ document.getElementById('btnVerify').onclick = async () => {
     const token = document.getElementById('input-token').value.trim();
     if (!SEL_NAMA || !token) { Swal.fire("Peringatan", "Pilih Nama dan isi Token!", "warning"); return; }
     
-    Swal.fire({ title: 'Memverifikasi Akses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+    Swal.fire({ title: 'Verifikasi Akses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
     try {
         const resp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
@@ -231,7 +240,7 @@ document.getElementById('btnVerify').onclick = async () => {
                           <span>Pinter: <b>${res.data.pin}</b></span>
                           <span>Singer: <b>${res.data.sin}</b></span>
                         </div>
-                        <h2 style="color:#b30077; text-align:center; margin-top:25px;">${res.data.avg}</h2>
+                        <h2 style="color:#b30077; text-align:center; font-weight:900; font-size:32px; margin-top:15px;">${res.data.avg}</h2>
                        </div>`,
                 icon: "error"
             });
@@ -294,7 +303,7 @@ function calculateScore() {
 
 // 3. FUNGSI SIMPAN & TAMPIL NILAI
 document.getElementById('btnNext').onclick = async () => {
-    if(Object.keys(userAnswers).length < 25) { Swal.fire("Peringatan", "Selesaikan semua 25 soal!", "warning"); return; }
+    if(Object.keys(userAnswers).length < 25) { Swal.fire("Peringatan", "Selesaikan semua soal!", "warning"); return; }
     
     const confirm = await Swal.fire({
         title: 'Kirim Jawaban?',

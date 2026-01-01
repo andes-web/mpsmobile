@@ -114,7 +114,6 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
   padding-left: 10px; padding-right: 10px;
 } 
 
-/* WRAPPING CSS */
 #questions, #btnNext { display: none; }
 
 .question-card {
@@ -138,10 +137,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 }
 
 .opt input { margin-top: 3px; flex-shrink: 0; }
-
-.opt span { 
-  flex: 1; word-break: break-word; overflow-wrap: break-word; 
-}
+.opt span { flex: 1; word-break: break-word; overflow-wrap: break-word; }
 
 .opt-correct { background: #e8f5e9 !important; border-color: #2e7d32 !important; color: #1b5e20 !important; font-weight: bold; }
 .opt-wrong { background: #ffebee !important; border-color: #c62828 !important; color: #b71c1c !important; font-weight: bold; }
@@ -163,7 +159,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
   <div class="identity-inner">
     <div class="identity-left">
       <div class="identity-toplabel-container">
-        <div class="identity-toplabel">Penilaian Mandiri Anggota MANAGER PASKIBRA SOLUTION</div>
+        <div class="identity-toplabel">Penilaian Mandiri Anggota Paskibra MANAGER PASKIBRA SOLUTION</div>
       </div>
       <div class="identity-form-container">
         <div class="identity-row">
@@ -179,13 +175,13 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
         </div>
         <div class="identity-row">
           <div class="identity-field">
-            <label>Nama Peserta</label>
-            <div id="nama-trigger" class="custom-select-trigger">Pilih Unit Dahulu</div>
+            <label>Nama</label>
+            <div id="nama-trigger" class="custom-select-trigger">Pilih Nama</div>
             <div id="nama-dropdown" class="floating-dropdown"></div>
           </div>
           <div class="identity-field">
-            <label>Karakter</label>
-            <div id="sesi-trigger" class="custom-select-trigger" style="justify-content:center">Panca Waluya</div>
+            <label>Panca Waluya</label>
+            <div id="sesi-trigger" class="custom-select-trigger" style="justify-content:center">Cageur</div>
             <div id="sesi-dropdown" class="floating-dropdown">
               <div data-val="Cageur">Cageur</div><div data-val="Bageur">Bageur</div>
               <div data-val="Bener">Bener</div><div data-val="Pinter">Pinter</div>
@@ -218,7 +214,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
+const SCRIPT_URL = "URL_WEB_APP_ANDA"; 
 let RAW_DATA = [], SEL_UNIT = "", SEL_SESI = "Cageur", SEL_NAMA = "", TOKEN_VALID = false, userAnswers = {};
 
 const QUEST_DATA = {
@@ -265,27 +261,51 @@ const CORRECT_ANSWERS = {
     "Singer": ["2", "1", "4", "3", "5"]
 };
 
+// FUNGSI VERIFIKASI MULAI
 document.getElementById('btnVerify').onclick = async () => {
     const token = document.getElementById('input-token').value.trim();
     if (!SEL_NAMA || !token) {
         Swal.fire("Peringatan", "Pilih Nama dan isi Token dahulu!", "warning");
         return;
     }
-    Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+    Swal.fire({ title: 'Memeriksa Akses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
     try {
         const resp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
         const res = await resp.json();
-        if (res.valid) {
+
+        if (res.alreadySubmitted) {
+            Swal.fire({
+                title: "Akses Ditolak!",
+                html: `<div style="text-align:left; background:#f9f9f9; padding:15px; border-radius:8px; border:1px solid #ddd;">
+                        <p style="text-align:center;"><b>${SEL_NAMA}</b> sudah mengisi rubrik.</p>
+                        <hr>
+                        <p style="font-weight:bold; color:var(--primary); text-align:center; font-size:16px;">NILAI AKHIR</p>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; font-size:12px;">
+                          <span>Cageur: <b>${res.data.cag}</b></span>
+                          <span>Bageur: <b>${res.data.bag}</b></span>
+                          <span>Bener: <b>${res.data.ben}</b></span>
+                          <span>Pinter: <b>${res.data.pin}</b></span>
+                          <span>Singer: <b>${res.data.sin}</b></span>
+                        </div>
+                        <p style="font-size:18px; color:#b30077; text-align:center; margin-top:10px;"><b>RATA-RATA: ${res.data.avg}</b></p>
+                       </div>`,
+                icon: "info"
+            });
+        } else if (res.valid) {
             TOKEN_VALID = true;
             document.getElementById('questions').style.display = "block";
             document.getElementById('btnNext').style.display = "block";
             document.getElementById('btnVerify').style.display = "none";
             renderQuestions(SEL_SESI);
-            Swal.fire("Berhasil", "Token Valid. Silahkan isi rubrik di bawah.", "success");
+            Swal.fire("Berhasil", "Silahkan kerjakan rubrik.", "success");
         } else {
             Swal.fire("Gagal", "Token salah atau tidak sesuai!", "error");
         }
-    } catch (e) { Swal.fire("Error", "Gagal menghubungi server.", "error"); }
+    } catch (e) {
+        Swal.fire("Error", "Gagal menghubungi server. Pastikan SCRIPT_URL benar.", "error");
+    }
 };
 
 function renderQuestions(sesi) {
@@ -331,36 +351,64 @@ function calculateScore() {
     });
 }
 
+// SIMPAN DATA & TAMPIL NILAI
 document.getElementById('btnNext').onclick = async () => {
     if(Object.keys(userAnswers).length < 25) {
         Swal.fire("Peringatan", "Selesaikan semua 25 soal sebelum simpan!", "warning");
         return;
     }
+
+    const confirm = await Swal.fire({
+        title: 'Simpan Hasil?',
+        text: "Setelah disimpan, Anda tidak dapat mengulangi pengisian.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Simpan!'
+    });
+
+    if(!confirm.isConfirmed) return;
+
     Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+    const sCag = document.getElementById('score-cag').textContent;
+    const sBag = document.getElementById('score-bag').textContent;
+    const sBen = document.getElementById('score-ben').textContent;
+    const sPin = document.getElementById('score-pin').textContent;
+    const sSin = document.getElementById('score-sin').textContent;
+    const avg = Math.round((parseInt(sCag)+parseInt(sBag)+parseInt(sBen)+parseInt(sPin)+parseInt(sSin))/5);
+
     const payload = {
         nama: SEL_NAMA, unit: SEL_UNIT, sesi: "LENGKAP", 
         token: document.getElementById('input-token').value.trim(),
-        skor_cag: document.getElementById('score-cag').textContent,
-        skor_bag: document.getElementById('score-bag').textContent,
-        skor_ben: document.getElementById('score-ben').textContent,
-        skor_pin: document.getElementById('score-pin').textContent,
-        skor_sin: document.getElementById('score-sin').textContent,
-        rata_rata: Math.round((parseInt(document.getElementById('score-cag').textContent) + 
-                   parseInt(document.getElementById('score-bag').textContent) + 
-                   parseInt(document.getElementById('score-ben').textContent) + 
-                   parseInt(document.getElementById('score-pin').textContent) + 
-                   parseInt(document.getElementById('score-sin').textContent))/5),
-        jawaban: userAnswers
+        skor_cag: sCag, skor_bag: sBag, skor_ben: sBen, skor_pin: sPin, skor_sin: sSin,
+        rata_rata: avg, jawaban: userAnswers
     };
+
     try {
         const resp = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
         const res = await resp.json();
         if(res.status === "success") {
-            Swal.fire("Berhasil", "Data Anda telah disimpan.", "success").then(() => location.reload());
+            await Swal.fire({
+                title: "Data Berhasil Disimpan!",
+                html: `<div style="text-align:center;">
+                        <p>Selamat <b>${SEL_NAMA}</b>!</p>
+                        <h2 style="color:var(--primary); margin:10px 0;">RATA-RATA: ${avg}</h2>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left; background:#f0f0f0; padding:15px; border-radius:10px;">
+                          <span>Cageur: <b>${sCag}</b></span>
+                          <span>Bageur: <b>${sBag}</b></span>
+                          <span>Bener: <b>${sBen}</b></span>
+                          <span>Pinter: <b>${sPin}</b></span>
+                          <span style="grid-column: span 2; text-align:center;">Singer: <b>${sSin}</b></span>
+                        </div>
+                       </div>`,
+                icon: "success"
+            });
+            location.reload();
         }
     } catch(e) { Swal.fire("Error", "Gagal menyimpan data.", "error"); }
 };
 
+// DROPDOWN
 function setupDropdown(triggerId, dropdownId, onSelect) {
     const trigger = document.getElementById(triggerId);
     const dropdown = document.getElementById(dropdownId);
@@ -384,8 +432,18 @@ setupDropdown('unit-trigger', 'unit-dropdown', (val, idx) => {
     for(let r=1; r<RAW_DATA.length; r++) { if(RAW_DATA[r][idx]) namaDrop.innerHTML += `<div>${RAW_DATA[r][idx]}</div>`; }
 });
 
-setupDropdown('nama-trigger', 'nama-dropdown', (val) => { SEL_NAMA = val; TOKEN_VALID = false; });
-setupDropdown('sesi-trigger', 'sesi-dropdown', (val) => { SEL_SESI = val; if(TOKEN_VALID) renderQuestions(val); });
+setupDropdown('nama-trigger', 'nama-dropdown', (val) => { 
+    SEL_NAMA = val; 
+    TOKEN_VALID = false;
+    document.getElementById('questions').style.display = "none";
+    document.getElementById('btnNext').style.display = "none";
+    document.getElementById('btnVerify').style.display = "block";
+});
+
+setupDropdown('sesi-trigger', 'sesi-dropdown', (val) => { 
+    SEL_SESI = val; 
+    if(TOKEN_VALID) renderQuestions(val); 
+});
 
 async function loadData() {
     try {

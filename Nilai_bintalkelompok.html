@@ -158,7 +158,30 @@ input#nama-input { width:100%; padding:6px 10px; border-radius:5px; border:1px s
 </div>
 
 <script>
-// Logika JavaScript tetap sama seperti versi sebelumnya
+// ==== Proteksi Password Tetap Sama ====
+document.addEventListener("DOMContentLoaded", async () => {
+  const allowedPassword = "@mps#";
+  let authenticated = false;
+  while (!authenticated) {
+    const { value: password } = await Swal.fire({
+      title: "Masukkan Password",
+      input: "password",
+      inputLabel: "Halaman ini dilindungi",
+      inputPlaceholder: "Masukkan password...",
+      confirmButtonText: "Masuk",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      confirmButtonColor: "#2563eb"
+    });
+    if (password === allowedPassword) {
+      authenticated = true;
+      Swal.fire({ icon: "success", title: "Akses Diterima", timer: 1000, showConfirmButton: false });
+    } else {
+      await Swal.fire({ icon: "error", title: "Password Salah", text: "Silakan coba lagi.", confirmButtonColor: "#dc2626" });
+    }
+  }
+});
+
 const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
 const kelompokURL = scriptURL + "?sheet=kelompok";
 let dataPesertaGlobal = {}; 

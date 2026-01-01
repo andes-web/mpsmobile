@@ -6,71 +6,141 @@
 <title>RUBRIK ASESMEN MANDIRI</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
+/* KEMBALI KE FORMAT ASLI ANDA */
 :root{
-  --bg: #fff5fc; --accent: #000000; --muted: #334e68; --card: #ffffff;
-  --input: #f7f9fc; --nav-bg: #ffcefd; --primary:#b30077; --deep-blue:#003366; --light-blue:#e9f2ff;
+  --bg: #fff5fc;
+  --accent: #000000;
+  --muted: #334e68;
+  --card: #ffffff;
+  --input: #f7f9fc;
+  --nav-bg: #ffcefd;
+  --shadow-light: rgba(0,0,0,0.05);
+  --primary:#b30077;
+  --deep-blue:#003366;
+  --light-blue:#e9f2ff;
 }
 *{box-sizing:border-box; transition: all 0.2s ease-out;}
-body{font-family:"Segoe UI",sans-serif; margin:0; background:var(--bg); color:var(--muted); font-size:13px}
+body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px}
 
 header {
-  position: fixed; top: 0; left: 0; right: 0; height: 44px;
+  position: fixed;
+  top: 0; left: 0; right: 0; height: 44px;
   background: linear-gradient(90deg,#ff00b3,var(--primary));
-  color: #fff; z-index: 1000; display: flex; align-items: center; justify-content: center;
+  color: #fff; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+}
+header h1{margin:0;font-weight:700;font-size:15px;flex:1;text-align:center}
+
+.identity-bar {
+  position: fixed;
+  top: 44px; left: 0; right: 0;
+  background: var(--nav-bg); padding: 6px 8px;
+  z-index: 900; border-bottom: 1px solid #dcdfe4;
+}
+.identity-inner{
+  max-width:980px; margin:0 auto;
+  display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
+}
+.identity-left{display:flex; flex-direction:column; gap:6px; flex:1 1 auto;}
+
+.identity-toplabel-container{
+  background:var(--light-blue); border-radius:6px;
+  padding:4px 8px; text-align:center; border:1px solid #c6d6f5;
+}
+.identity-toplabel{font-weight:700; font-size:13px; color:var(--deep-blue);}
+
+.identity-form-container{
+  background:#fff; border:1px solid #d3dae7;
+  border-radius:8px; padding:6px 8px;
 }
 
-.identity-bar { position: fixed; top: 44px; left: 0; right: 0; background: var(--nav-bg); padding: 6px 8px; z-index: 900; border-bottom: 1px solid #dcdfe4; }
-.identity-inner{ max-width:980px; margin:0 auto; display:flex; align-items:flex-start; gap:8px; }
-.identity-left{ display:flex; flex-direction:column; gap:6px; flex:1; }
+.identity-row {
+  display: grid;
+  grid-template-columns: 3fr 80px;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: end;
+}
 
-.identity-form-container{ background:#fff; border:1px solid #d3dae7; border-radius:8px; padding:6px 8px; }
-.identity-row { display: grid; grid-template-columns: 3fr 1fr; gap: 8px; margin-bottom: 6px; align-items: end; }
-.identity-field { display: flex; flex-direction: column; gap: 2px; position: relative; }
+.identity-field {
+  display: flex; flex-direction: column; gap: 2px;
+  position: relative;
+}
 
-label{ font-weight:700; font-size:11px; white-space: nowrap; }
+label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 
 .custom-select-trigger {
-  width: 100%; min-height: 34px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
-  background: var(--input); font-size: 11px; cursor: pointer; display: flex; justify-content: space-between; 
-  align-items: center; word-break: break-word; white-space: normal; line-height: 1.2;
+  width: 100%; min-height: 32px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
+  background: var(--input); font-size: 11px; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
 }
 
-.input-token { width: 100%; height: 34px; border: 1px solid #c9d6e4; border-radius: 5px; text-align: center; font-weight: bold; background: #fff8e1; }
+.input-token {
+  width: 100%; height: 32px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
+  background: #fff8e1; font-size: 12px; text-align: center; font-weight: bold;
+}
 
-/* Tombol Verifikasi */
-.btn-verify { 
-  width: 100%; margin-top: 4px; padding: 6px; background: var(--deep-blue); 
-  color: #fff; border: none; border-radius: 4px; font-size: 10px; cursor: pointer; font-weight: bold; 
+/* TOMBOL MULAI DI BAWAH KONTAINER IDENTITAS */
+.btn-mulai {
+  width: 100%; background: var(--primary); color: #fff;
+  border: none; border-radius: 6px; padding: 8px;
+  font-weight: 700; cursor: pointer; margin-top: 4px;
 }
 
 .floating-dropdown {
-  position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #c9d6e4; 
-  z-index: 1100; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: absolute; top: 100%; left: 0; right: 0; 
+  background: #fff; border: 1px solid #c9d6e4; 
+  border-radius: 5px; margin-top: 2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+  z-index: 1100; max-height: 200px; 
+  overflow-y: auto; display: none;
 }
-.floating-dropdown div { padding: 10px; border-bottom: 1px solid #f1f1f1; cursor: pointer; }
+.floating-dropdown div { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #f1f1f1; font-size: 11px;}
 .show { display: block; }
 
-.score-panel{ display:flex; flex-direction:column; gap:2px; background:#fff; padding:5px; border-radius:6px; border:1px solid #ddd; min-width:80px; }
-.score-pill{ background:#fff5fc; color:var(--primary); font-weight:700; text-align:center; border-radius:4px; font-size:14px; }
-.score-label{ font-size:9px; text-align:center; font-weight:700; }
+.score-panel{
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:5px 6px; border-radius:6px; background:#fff;
+  border:1px solid rgba(179,0,119,0.12); min-width:85px;
+}
+.score-pill{
+  display:block; padding:2px 0; width:55px; text-align:center;
+  border-radius:4px; background:#fff5fc; border:1px solid rgba(179,0,119,0.08);
+  font-weight:700; color:var(--primary); font-size:14px;
+}
+.score-label{font-size:10px; color:#444; font-weight:700; text-transform:uppercase;}
 
-.main { max-width: 980px; margin: 0 auto; padding: 210px 10px 80px 10px; }
+.main {
+  max-width: 980px; margin: 0 auto;
+  padding-top: 210px; padding-bottom: 80px;
+  padding-left: 10px; padding-right: 10px;
+} 
 
-/* RUBRIK DISEMBUNYIKAN SECARA DEFAULT */
-#questions { display: none; } 
+/* DISEMBUNYIKAN SEBELUM TOKEN BENAR */
+#questions, #btnNext { display: none; }
 
-.question-card{ background:#fff; border-left:4px solid var(--accent); padding:15px; border-radius:8px; margin-bottom:15px; box-shadow:0 2px 5px rgba(0,0,0,0.05); }
-.q-text{ font-weight:700; margin-bottom:10px; line-height:1.4; word-break: break-word; }
-.opt { display:flex; align-items:flex-start; gap:10px; padding:12px; background:var(--input); border:1px solid #eee; border-radius:6px; cursor:pointer; margin-bottom:8px; }
-.opt span { flex: 1; word-break: break-word; }
-.opt-correct { background: #e8f5e9!important; color: #2e7d32!important; border-color: #2e7d32!important; font-weight:700; }
-.opt-wrong { background: #ffebee!important; color: #c62828!important; border-color: #c62828!important; font-weight:700; }
-.locked { pointer-events: none; opacity: 0.8; }
+.question-card {
+  background: var(--card); border-left: 4px solid var(--accent); 
+  padding: 15px; border-radius: 8px; margin-bottom: 15px; 
+  box-shadow: 0 4px 8px var(--shadow-light);
+}
 
-.fixed-send{ position:fixed; bottom:0; left:0; right:0; background:linear-gradient(90deg, #ff00d4, #b300a4); padding:10px; z-index:950; }
-.btn-send{ background:#fff; color:#000; padding:10px 20px; border:none; border-radius:6px; font-weight:700; cursor:pointer; display:none; }
+.q-text { font-size: 14px; margin: 0 0 10px 0; font-weight: 700; color: var(--accent); line-height: 1.5; } 
+.opt { 
+  display: flex; align-items: flex-start; gap: 10px; 
+  padding: 12px; border-radius: 6px; background: var(--input); 
+  border: 1px solid #e0e8f0; font-size: 13px; cursor: pointer; margin-bottom: 8px; 
+}
+.opt-correct { background: #e8f5e9 !important; border-color: #2e7d32 !important; color: #1b5e20 !important; font-weight: bold; }
+.opt-wrong { background: #ffebee !important; border-color: #c62828 !important; color: #b71c1c !important; font-weight: bold; }
+.question-card.locked { border-left: 5px solid var(--primary); background-color: #fcfcfc; pointer-events: none; }
 
-@media (max-width:480px){ .main{ padding-top: 270px; } }
+.fixed-send{position:fixed; left:0; right:0; bottom:0; background:linear-gradient(90deg, #ff00d4, #b300a4); padding:10px; z-index:950;}
+.btn-send{background:#fff; color:var(--accent); padding:10px 15px; border-radius:6px; border:none; font-weight:700; cursor:pointer;}
+
+@media (max-width:480px){ 
+  .main{padding-top: 280px;} 
+}
 </style>
 </head>
 <body>
@@ -80,12 +150,26 @@ label{ font-weight:700; font-size:11px; white-space: nowrap; }
 <div class="identity-bar">
   <div class="identity-inner">
     <div class="identity-left">
+      <div class="identity-toplabel-container">
+        <div class="identity-toplabel">Penilaian Mandiri Manager Paskibra Solution</div>
+      </div>
       <div class="identity-form-container">
         <div class="identity-row">
           <div class="identity-field">
             <label>Unit (Asal Sekolah)</label>
             <div id="unit-trigger" class="custom-select-trigger">Pilih Unit</div>
             <div id="unit-dropdown" class="floating-dropdown"></div>
+          </div>
+          <div class="identity-field">
+            <label>Token</label>
+            <input type="text" id="input-token" class="input-token" placeholder="***">
+          </div>
+        </div>
+        <div class="identity-row">
+          <div class="identity-field">
+            <label>Nama Peserta Didik</label>
+            <div id="nama-trigger" class="custom-select-trigger">Pilih Unit Dahulu</div>
+            <div id="nama-dropdown" class="floating-dropdown"></div>
           </div>
           <div class="identity-field">
             <label>Karakter</label>
@@ -97,26 +181,15 @@ label{ font-weight:700; font-size:11px; white-space: nowrap; }
             </div>
           </div>
         </div>
-        <div class="identity-row">
-          <div class="identity-field">
-            <label>Nama Peserta Didik</label>
-            <div id="nama-trigger" class="custom-select-trigger">Pilih Unit Dahulu</div>
-            <div id="nama-dropdown" class="floating-dropdown"></div>
-          </div>
-          <div class="identity-field">
-            <label>Token</label>
-            <input type="text" id="input-token" class="input-token" placeholder="***">
-            <button id="btnVerify" class="btn-verify">BUKA RUBRIK</button>
-          </div>
-        </div>
       </div>
+      <button id="btnVerify" class="btn-mulai">MULAI ASESMEN</button>
     </div>
     <div class="score-panel">
-      <div><div class="score-label">CAG</div><div class="score-pill" id="score-cag">0</div></div>
-      <div><div class="score-label">BAG</div><div class="score-pill" id="score-bag">0</div></div>
-      <div><div class="score-label">BEN</div><div class="score-pill" id="score-ben">0</div></div>
-      <div><div class="score-label">PIN</div><div class="score-pill" id="score-pin">0</div></div>
-      <div><div class="score-label">SIN</div><div class="score-pill" id="score-sin">0</div></div>
+      <div><div class="score-label">Cag</div><div class="score-pill" id="score-cag">0</div></div>
+      <div><div class="score-label">Bag</div><div class="score-pill" id="score-bag">0</div></div>
+      <div><div class="score-label">Ben</div><div class="score-pill" id="score-ben">0</div></div>
+      <div><div class="score-label">Pin</div><div class="score-pill" id="score-pin">0</div></div>
+      <div><div class="score-label">Sin</div><div class="score-pill" id="score-sin">0</div></div>
     </div>
   </div>
 </div>
@@ -127,21 +200,22 @@ label{ font-weight:700; font-size:11px; white-space: nowrap; }
 
 <div class="fixed-send">
   <div style="max-width:980px; margin:0 auto; display:flex; justify-content:space-between; align-items:center;">
-    <p style="color:#fff; margin:0; font-weight:bold;">Andes 2025</p>
+    <p style="color:#fff; margin:0">Andes 2025</p>
     <button id="btnNext" class="btn-send">SIMPAN DATA</button>
   </div>
 </div>
 
 <script>
-// GUNAKAN URL ANDA
+// URL SCRIPT TETAP
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
 let RAW_DATA = [], SEL_UNIT = "", SEL_SESI = "Cageur", SEL_NAMA = "", TOKEN_VALID = false, userAnswers = {};
 
+// DATA PERTANYAAN (TETAP SAMA)
 const QUEST_DATA = {
     "Cageur": [
         { q: "Saat latihan fisik intensif, Anda merasakan nyeri dada yang tidak biasa namun ingin tetap terlihat kuat di depan junior. Bagaimana Anda bersikap?", o: ["Mengabaikan rasa sakit dan terus lari sampai sesi selesai", "Berhenti sejenak secara diam-diam tanpa melapor instruktur", "Mengajak teman lain untuk ikut berhenti agar tidak sendiri", "Melapor kepada medis mengenai kondisi fisik secara jujur", "Meminum obat pereda nyeri tanpa mengetahui dosis yang pas"] },
         { q: "Instruktur memberikan instruksi dengan suara yang sangat keras dan mengintimidasi. Bagaimana kondisi mental Anda merespon hal ini?", o: ["Merasa takut dan ingin segera pulang karena tidak nyaman", "Tetap tenang mendengarkan instruksi tanpa terbawa emosi", "Membalas dengan teriakan sebagai bentuk protes lapangan", "Menangis di dalam barisan karena merasa sangat tertekan", "Mengabaikan instruksi tersebut karena dianggap kurang sopan"] },
-        { q: "Malam sebelum hari H upacara, Anda sulit tidur karena rasa cemas yang tinggi. Apa tindakan yang Anda ambil?", o: ["Begadang sampai pagi hari sambil bermain HP di asrama", "Mengonsumsi obat tidur agar dapat segera terlelap cepat", "Keluar dari asrama untuk mencari udara segar tanpa izin", "Memaksa teman untuk tetap bangun menemani Anda mengobrol", "Melakukan relaksasi dan memastikan tubuh tetap istihat"] },
+        { q: "Malam sebelum hari H upacara, Anda sulit tidur karena rasa cemas yang tinggi. Apa tindakan yang Anda ambil?", o: ["Begadang sampai pagi hari sambil bermain HP di asrama", "Mengonsumsi obat tidur agar dapat segera terlelap cepat", "Keluar dari asrama untuk mencari udara segar tanpa izin", "Memaksa teman untuk tetap bangun menemani Anda mengobrol", "Melakukan relaksasi dan memastikan tubuh tetap istirahat"] },
         { q: "Anda melihat teman satu unit pingsan saat upacara berlangsung. Posisi Anda berada tepat di belakangnya. Apa respon Anda?", o: ["Langsung keluar barisan untuk menolongnya secara spontan", "Tetap tegak di posisi dan membiarkan petugas menangani", "Berteriak memanggil bantuan sambil tetap dalam barisan", "Menertawakannya karena dianggap memiliki fisik yang lemah", "Pura-pura tidak tahu agar fokus tugas tidak terganggu"] },
         { q: "Setelah 3 jam latihan tanpa henti, Anda merasa sangat lapar dan lemas. Apa yang Anda lakukan?", o: ["Mencuri waktu untuk makan saat instruktur sedang lengah", "Sengaja menjatuhkan diri agar diistirahatkan lebih awal", "Bertahan dengan fokus penuh sampai waktu istirahat tiba", "Mengeluh sangat keras agar segera didengar oleh pelatih", "Meninggalkan barisan tanpa izin untuk mencari area kantin"] }
     ],
@@ -176,22 +250,20 @@ const QUEST_DATA = {
 };
 
 const CORRECT_ANSWERS = {
-    "Cageur": ["4", "2", "5", "2", "3"],
-    "Bageur": ["2", "4", "1", "5", "3"],
-    "Bener":  ["5", "2", "4", "1", "3"],
-    "Pinter": ["3", "5", "2", "4", "1"],
+    "Cageur": ["4", "2", "5", "2", "3"], "Bageur": ["2", "4", "1", "5", "3"],
+    "Bener":  ["5", "2", "4", "1", "3"], "Pinter": ["3", "5", "2", "4", "1"],
     "Singer": ["2", "1", "4", "3", "5"]
 };
 
-// LOGIKA UTAMA: VERIFIKASI UNTUK TAMPIL RUBRIK
+// LOGIKA VERIFIKASI TOKEN (MULAI)
 document.getElementById('btnVerify').onclick = async () => {
     const token = document.getElementById('input-token').value.trim();
     if (!SEL_NAMA || !token) {
-        Swal.fire("Info", "Silahkan pilih Nama dan isi Token!", "info");
+        Swal.fire("Peringatan", "Pilih Nama dan isi Token dahulu!", "warning");
         return;
     }
 
-    Swal.fire({ title: 'Memverifikasi...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+    Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
     try {
         const resp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
@@ -199,38 +271,33 @@ document.getElementById('btnVerify').onclick = async () => {
 
         if (res.valid) {
             TOKEN_VALID = true;
-            document.getElementById('questions').style.display = "block"; // MUNCULKAN SOAL
-            document.getElementById('btnNext').style.display = "block";    // MUNCULKAN TOMBOL SIMPAN
+            document.getElementById('questions').style.display = "block";
+            document.getElementById('btnNext').style.display = "block";
+            document.getElementById('btnVerify').style.display = "none"; // Sembunyikan tombol mulai jika sudah terbuka
             renderQuestions(SEL_SESI);
-            Swal.fire("Berhasil", "Token Valid! Silahkan isi rubrik di bawah.", "success");
+            Swal.fire("Berhasil", "Token Valid. Silahkan kerjakan rubrik.", "success");
         } else {
-            TOKEN_VALID = false;
-            document.getElementById('questions').style.display = "none";
-            document.getElementById('btnNext').style.display = "none";
-            Swal.fire("Gagal", "Token Salah atau Tidak Sesuai!", "error");
+            Swal.fire("Gagal", "Token salah atau tidak sesuai!", "error");
         }
     } catch (e) {
-        Swal.fire("Error", "Koneksi gagal atau Script URL salah.", "error");
+        Swal.fire("Error", "Gagal menghubungi server.", "error");
     }
 };
 
 function renderQuestions(sesi) {
     const container = document.getElementById('questions');
-    container.innerHTML = `<h2 style="text-align:center; color:var(--primary)">Karakter: ${sesi}</h2>`;
-    
+    container.innerHTML = `<h2 style="text-align:center; color:var(--primary); margin-bottom:20px;">Rubrik ${sesi}</h2>`;
     QUEST_DATA[sesi].forEach((item, i) => {
         const card = document.createElement('div');
         card.className = 'question-card';
         const saved = userAnswers[`${sesi}_${i}`];
         if(saved) card.classList.add('locked');
-
         card.innerHTML = `<div class="q-text">${i+1}. ${item.q}</div>`;
         item.o.forEach((txt, idx) => {
             const val = (idx + 1).toString();
             const l = document.createElement('label');
             l.className = 'opt';
             if(saved === val) l.classList.add(val === CORRECT_ANSWERS[sesi][i] ? 'opt-correct' : 'opt-wrong');
-            
             l.innerHTML = `<input type="radio" name="q${i}" value="${val}" ${saved === val ? 'checked':''} disabled> <span>${txt}</span>`;
             l.onclick = () => {
                 if(card.classList.contains('locked')) return;
@@ -261,11 +328,11 @@ function calculateScore() {
 }
 
 document.getElementById('btnNext').onclick = async () => {
-    if(!TOKEN_VALID) { Swal.fire("Peringatan", "Token belum diverifikasi!", "warning"); return; }
-    if(Object.keys(userAnswers).length < 25) { Swal.fire("Peringatan", "Selesaikan semua 25 soal!", "warning"); return; }
-
+    if(Object.keys(userAnswers).length < 25) {
+        Swal.fire("Peringatan", "Selesaikan semua soal (25 soal) sebelum simpan!", "warning");
+        return;
+    }
     Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-
     const payload = {
         nama: SEL_NAMA, unit: SEL_UNIT, sesi: "LENGKAP", 
         token: document.getElementById('input-token').value.trim(),
@@ -281,7 +348,6 @@ document.getElementById('btnNext').onclick = async () => {
                    parseInt(document.getElementById('score-sin').textContent))/5),
         jawaban: userAnswers
     };
-
     try {
         const resp = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
         const res = await resp.json();
@@ -291,7 +357,7 @@ document.getElementById('btnNext').onclick = async () => {
     } catch(e) { Swal.fire("Error", "Gagal menyimpan data.", "error"); }
 };
 
-// DROPDOWN LOGIC
+// DROPDOWN
 function setupDropdown(triggerId, dropdownId, onSelect) {
     const trigger = document.getElementById(triggerId);
     const dropdown = document.getElementById(dropdownId);
@@ -315,17 +381,8 @@ setupDropdown('unit-trigger', 'unit-dropdown', (val, idx) => {
     for(let r=1; r<RAW_DATA.length; r++) { if(RAW_DATA[r][idx]) namaDrop.innerHTML += `<div>${RAW_DATA[r][idx]}</div>`; }
 });
 
-setupDropdown('nama-trigger', 'nama-dropdown', (val) => { 
-    SEL_NAMA = val; 
-    TOKEN_VALID = false;
-    document.getElementById('questions').style.display = "none"; // Sembunyikan rubrik jika ganti nama
-    document.getElementById('btnNext').style.display = "none";
-});
-
-setupDropdown('sesi-trigger', 'sesi-dropdown', (val) => { 
-    SEL_SESI = val; 
-    if(TOKEN_VALID) renderQuestions(val); 
-});
+setupDropdown('nama-trigger', 'nama-dropdown', (val) => { SEL_NAMA = val; TOKEN_VALID = false; });
+setupDropdown('sesi-trigger', 'sesi-dropdown', (val) => { SEL_SESI = val; if(TOKEN_VALID) renderQuestions(val); });
 
 async function loadData() {
     try {

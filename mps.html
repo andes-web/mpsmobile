@@ -1,346 +1,440 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Bintal Kelompok - CBSPS</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>RUBRIK ASESMEN MANDIRI</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
-:root{ 
-    --accent: #1e293b; 
-    --gold: #b45309; 
-    --danger: #be123c; 
-    --school: #0369a1; 
-    --family: #15803d; 
-    --social: #6d28d9; 
-    --success: #059669; 
+:root{
+  --bg: #fff5fc;
+  --accent: #000000;
+  --muted: #334e68;
+  --card: #ffffff;
+  --input: #f7f9fc;
+  --nav-bg: #ffcefd;
+  --shadow-light: rgba(0,0,0,0.05);
+  --primary:#b30077;
+  --deep-blue:#003366;
+  --light-blue:#e9f2ff;
 }
-*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f8fafc,#e2e8f0); min-height:100vh; }
-.container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:8px; box-shadow:0 10px 25px rgba(0,0,0,0.1); position: relative; }
-h2{ text-align:center; margin:4px 0 10px; color: var(--accent); font-weight:900; font-size:1.1rem; letter-spacing: 1px; }
+*{box-sizing:border-box; transition: all 0.2s ease-out;}
+body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px}
 
-/* Layout Section */
-.top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 4px; }
-.bar-penilaian, .top-container{ background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; position: relative; }
-
-/* Logo Container (New) */
-.logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin: 8px 0;
-    padding: 5px;
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0; height: 44px;
+  background: linear-gradient(90deg,#ff00b3,var(--primary));
+  color: #fff; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
 }
-.logo-container img {
-    height: 35px; /* Ukuran proporsional */
-    width: auto;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+header h1{margin:0;font-weight:700;font-size:15px;flex:1;text-align:center}
+
+.identity-bar {
+  position: fixed;
+  top: 44px; left: 0; right: 0;
+  background: var(--nav-bg); padding: 6px 8px;
+  z-index: 900; border-bottom: 1px solid #dcdfe4;
+}
+.identity-inner{
+  max-width:980px; margin:0 auto;
+  display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
+}
+.identity-left{display:flex; flex-direction:column; gap:6px; flex:1 1 auto;}
+
+.identity-toplabel-container{
+  background:var(--light-blue); border-radius:6px;
+  padding:4px 8px; text-align:center; border:1px solid #c6d6f5;
+}
+.identity-toplabel{font-weight:700; font-size:13px; color:var(--deep-blue);}
+
+.identity-form-container{
+  background:#fff; border:1px solid #d3dae7;
+  border-radius:8px; padding:6px 8px;
 }
 
-/* Custom Floating Dropdown */
-.custom-select-wrapper { position: relative; width: 100%; }
-.select-trigger { 
-    width: 100%; padding: 6px 10px; background: #fff; border: 1px solid #94a3b8; 
-    border-radius: 5px; font-size: 0.8rem; cursor: pointer; display: flex; 
-    justify-content: space-between; align-items: center; min-height: 30px;
-    color: #334155;
+/* GRID SIMETRIS */
+.identity-row {
+  display: grid;
+  grid-template-columns: 3fr 80px;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: end;
 }
-.select-trigger::after { content: '▼'; font-size: 0.55rem; color: #94a3b8; }
-.custom-options { 
-    position: absolute; top: 110%; left: 0; right: 0; background: #fff; 
-    border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.15); 
-    z-index: 2000; display: none; max-height: 200px; overflow-y: auto;
+
+.identity-field {
+  display: flex; flex-direction: column; gap: 2px;
+  position: relative;
 }
-.custom-options.show { display: block; }
-.custom-option { padding: 8px 10px; font-size: 0.8rem; cursor: pointer; border-bottom: 1px solid #f1f5f9; color: #475569; }
-.custom-option:hover { background: #f8fafc; color: var(--gold); }
 
-input#nama-input { width:100%; padding:6px 10px; border-radius:5px; border:1px solid #94a3b8; font-size:0.8rem; outline: none; height: 30px; }
+label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 
-/* Rubrik Body */
-#rubrik-body{ display: grid; gap: 4px; }
-.aspek-card{ border-radius:8px; padding:6px 10px; display:flex; gap:8px; align-items: center; border: 1px solid rgba(0,0,0,0.03); background: #fff; }
+/* WRAP TEKS PADA IDENTITAS */
+.custom-select-trigger {
+  width: 100%; min-height: 32px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
+  background: var(--input); font-size: 11px; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  word-break: break-word; 
+  white-space: normal;    
+  line-height: 1.2;
+}
+.custom-select-trigger::after { content: '▼'; font-size: 8px; color: #888; margin-left:4px; flex-shrink: 0; }
 
-.aspek-card:nth-child(4n+1) { border-left: 4px solid #0f172a; }
-.aspek-card:nth-child(4n+2) { border-left: 4px solid #b45309; }
-.aspek-card:nth-child(4n+3) { border-left: 4px solid #334155; }
-.aspek-card:nth-child(4n+4) { border-left: 4px solid #d97706; }
+.input-token {
+  width: 100%; height: 32px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
+  background: #fff8e1; font-size: 12px;
+  text-align: center; font-weight: bold;
+}
 
-.left{ flex:1; min-width:0; }
-.aspek-title{ font-weight:850; font-size:0.95rem; color: #1e293b; margin-bottom: 2px; }
-.skala-list { display: flex; flex-direction: column; gap: 0px; }
-.skala-item { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 1px 0; }
-.skala-num { font-size: 1rem; font-weight: 900; color: #cbd5e1; min-width: 20px; text-align: center; }
-.skala-item.active .skala-num { color: var(--gold); }
-.skala-label { font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.skala-item.active .skala-label { color: #029e24; font-weight: 800; }
+.floating-dropdown {
+  position: absolute; top: 100%; left: 0; right: 0; 
+  background: #fff; border: 1px solid #c9d6e4; 
+  border-radius: 5px; margin-top: 2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+  z-index: 1100; max-height: 200px; 
+  overflow-y: auto; display: none;
+}
+.floating-dropdown div { 
+  padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #f1f1f1;
+  font-size: 11px; line-height: 1.3;
+}
+.floating-dropdown div:hover { background: var(--light-blue); }
+.show { display: block; }
 
-/* SISI KANAN - LEBIH RENGGANG */
-.nilai-besar-stack { display: flex; flex-direction: column; gap: 6px; min-width: 95px; border-left: 1px solid rgba(0,0,0,0.08); padding-left: 15px; }
-.nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 26px; }
-.nilai-besar { font-size: 2.5rem; font-weight: 950; opacity: 0.05; line-height: 0.7; text-align: right; letter-spacing: -1px; }
-.nilai-besar.filled { opacity: 1; }
-.domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.45rem; font-weight: 900; color: #94a3b8; }
+.score-panel{
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:5px 6px; border-radius:6px; background:#fff;
+  border:1px solid rgba(179,0,119,0.12); min-width:85px;
+}
+.score-pill{
+  display:block; padding:2px 0; width:55px; text-align:center;
+  border-radius:4px; background:#fff5fc; border:1px solid rgba(179,0,119,0.08);
+  font-weight:700; color:var(--primary); font-size:14px;
+}
+.score-label{font-size:10px; color:#444; font-weight:700; text-transform:uppercase;}
 
-[id^="sekolah-"].filled { color: var(--school); }
-[id^="keluarga-"].filled { color: var(--family); }
-[id^="sosial-"].filled { color: var(--social); }
+/* PERBAIKAN WRAP PADA RUBRIK/PERTANYAAN */
+.main {
+  max-width: 980px; margin: 0 auto;
+  padding-top: 200px; padding-bottom: 80px;
+  padding-left: 10px; padding-right: 10px;
+} 
 
-/* Buttons */
-.action-bar { margin-top: 12px; display: flex; flex-direction: row; gap: 5px; width: 100%; }
-.action-bar button { flex: 1; padding: 10px 2px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; border: none; cursor: pointer; text-transform: uppercase; }
-.btn-home { background: var(--accent); color: #fff; }
-.btn-submit { background: var(--success); color: #fff; }
-.btn-reset { background: #cbd5e1; color: #475569; }
-.btn-download { background: #fbbf24; color: #78350f; }
+.question-card {
+  background: var(--card); border-left: 4px solid var(--accent); 
+  padding: 15px; border-radius: 8px; margin-bottom: 15px; 
+  box-shadow: 0 4px 8px var(--shadow-light);
+}
 
-@media (max-width: 480px) { .action-bar button { font-size: 0.6rem; padding: 12px 2px; } .logo-container img { height: 28px; } }
+.q-text { 
+  font-size: 14px; margin: 0 0 10px 0; font-weight: 700; 
+  color: var(--accent); line-height: 1.5;
+  white-space: normal; /* Pastikan soal melipat */
+  word-break: break-word;
+} 
+
+.opt { 
+  display: flex; align-items: flex-start; gap: 10px; 
+  padding: 12px; border-radius: 6px; background: var(--input); 
+  border: 1px solid #e0e8f0; font-size: 13px; cursor: pointer; 
+  margin-bottom: 8px; 
+  white-space: normal; /* Pastikan teks pilihan melipat */
+  line-height: 1.4;
+}
+
+.opt span {
+  flex: 1; /* Agar teks pilihan mengambil ruang sisa dan melipat */
+  word-break: break-word;
+}
+
+.opt-correct { background: #e8f5e9 !important; border-color: #2e7d32 !important; color: #1b5e20 !important; font-weight: bold; }
+.opt-wrong { background: #ffebee !important; border-color: #c62828 !important; color: #b71c1c !important; font-weight: bold; }
+.question-card.locked { border-left: 5px solid var(--primary); background-color: #fcfcfc; pointer-events: none; }
+
+.fixed-send{position:fixed; left:0; right:0; bottom:0; background:linear-gradient(90deg, #ff00d4, #b300a4); padding:10px; z-index:950;}
+.fixed-inner{max-width:980px; margin:0 auto; display:flex; justify-content:space-between; align-items:center;}
+.btn-send{background:#fff; color:var(--accent); padding:10px 15px; border-radius:6px; border:none; font-weight:700; cursor:pointer;}
+
+@media (max-width:480px){ 
+  .main{padding-top: 260px;} 
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <h2>NILAI BINTAL KELOMPOK</h2>
-  <div class="top-section">
-    <div class="top-container">
-      <div class="custom-select-wrapper" id="wrapper-unit">
-        <div class="select-trigger" id="trigger-unit">Pilih Kelompok</div>
-        <div class="custom-options" id="options-unit"></div>
-        <input type="hidden" id="unit-select" value="">
+
+<header><h1>ASESMEN KARAKTER MANDIRI</h1></header>
+
+<div class="identity-bar">
+  <div class="identity-inner">
+    <div class="identity-left">
+      <div class="identity-toplabel-container">
+        <div class="identity-toplabel">Penilaian Mandiri Manager Paskibra Solution</div>
       </div>
-      <input id="nama-input" placeholder="Nama Anggota" autocomplete="off">
+      <div class="identity-form-container">
+        <div class="identity-row">
+          <div class="identity-field">
+            <label>Unit (Asal Sekolah)</label>
+            <div id="unit-trigger" class="custom-select-trigger">Pilih Unit</div>
+            <div id="unit-dropdown" class="floating-dropdown"></div>
+          </div>
+          <div class="identity-field">
+            <label>Karakter</label>
+            <div id="sesi-trigger" class="custom-select-trigger" style="justify-content:center">Pilih</div>
+            <div id="sesi-dropdown" class="floating-dropdown">
+              <div data-val="Cageur">Cageur</div><div data-val="Bageur">Bageur</div>
+              <div data-val="Bener">Bener</div><div data-val="Pinter">Pinter</div>
+              <div data-val="Singer">Singer</div>
+            </div>
+          </div>
+        </div>
+        <div class="identity-row">
+          <div class="identity-field">
+            <label>Nama Peserta Didik</label>
+            <div id="nama-trigger" class="custom-select-trigger">Pilih Unit Dahulu</div>
+            <div id="nama-dropdown" class="floating-dropdown"></div>
+          </div>
+          <div class="identity-field" id="token-field">
+            <label>Token</label>
+            <input type="text" id="input-token" class="input-token" maxlength="10" placeholder="***">
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="bar-penilaian">
-      <div class="custom-select-wrapper" id="wrapper-pos">
-        <div class="select-trigger" id="trigger-pos">Panca Waluya</div>
-        <div class="custom-options" id="options-pos">
-            <div class="custom-option selected" data-value="1">CAGEUR</div>
-            <div class="custom-option" data-value="2">BAGEUR</div>
-            <div class="custom-option" data-value="3">BENER</div>
-            <div class="custom-option" data-value="4">PINTER</div>
-            <div class="custom-option" data-value="5">SINGER</div>
-        </div>
-        <input type="hidden" id="pos" value="1">
-      </div>
-      <div class="custom-select-wrapper" id="wrapper-domain">
-        <div class="select-trigger" id="trigger-domain">Lingkungan</div>
-        <div class="custom-options" id="options-domain">
-            <div class="custom-option selected" data-value="sekolah">Sekolah</div>
-            <div class="custom-option" data-value="keluarga">Keluarga</div>
-            <div class="custom-option" data-value="sosial">Sosial</div>
-        </div>
-        <input type="hidden" id="domain" value="sekolah">
-      </div>
+    <div class="score-panel">
+      <div><div class="score-label">Cag</div><div class="score-pill" id="score-cag">-</div></div>
+      <div><div class="score-label">Bag</div><div class="score-pill" id="score-bag">-</div></div>
+      <div><div class="score-label">Ben</div><div class="score-pill" id="score-ben">-</div></div>
+      <div><div class="score-label">Pin</div><div class="score-pill" id="score-pin">-</div></div>
+      <div><div class="score-label">Sin</div><div class="score-pill" id="score-sin">-</div></div>
     </div>
   </div>
+</div>
 
-  <div class="logo-container">
-    <img src="12-removebg-preview.png" alt="Logo 1">
-    <img src="16-removebg-preview.png" alt="Logo 2">
-    <img src="6-removebg-preview (1).png" alt="Logo 3">
-    <img src="8-removebg-preview.png" alt="Logo 4">
-    <img src="31-removebg-preview.png" alt="Logo 5">
-    <img src="7.png" alt="Logo 6">
-    <img src="1_Citeureup.png" alt="Logo 7">
-    <img src="SMP_32.png" alt="Logo 8">
-  </div>
+<main class="main">
+  <form id="refleksiForm"><div id="questions"></div></form>
+</main>
 
-  <div id="rubrik-body"></div>
-
-  <div class="action-bar">
-    <button class="btn-home" onclick="window.top.location.href='https://andes-web.github.io/mpsmobile/index.html'">HOME</button>
-    <button class="btn-submit" onclick="submitData()">SIMPAN</button>
-    <button class="btn-reset" onclick="resetForm()">RESET</button>
-    <button class="btn-download" onclick="downloadExcel()">UNDUH</button>
+<div class="fixed-send">
+  <div class="fixed-inner">
+    <p style="color:#fff; margin:0">Andes 2025</p>
+    <button id="btnNext" class="btn-send" type="button">SIMPAN DATA</button>
   </div>
 </div>
 
 <script>
-// Logika JavaScript tetap sama seperti versi sebelumnya
-const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
-const kelompokURL = scriptURL + "?sheet=kelompok";
-let dataPesertaGlobal = {}; 
-let nilaiData = {}; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
+let RAW_DATA = [], SEL_UNIT = "", SEL_SESI = "", SEL_NAMA = "", userAnswers = {};
 
-const rubrik={
-  1:[
-    {a:"Kekompakan Fisik",d:["Gerakan tidak seragam","Kadang kompak","Kompak & rapi","Sangat sinkron","Sangat solid & tangguh"]},
-    {a:"Ketahanan Mental",d:["Mudah menyerah","Kurang fokus","Cukup tangguh","Mental juara/gigih","Sangat solid & positif"]},
-    {a:"Kerapihan Seragam",d:["Sangat berantakan","Kurang atribut","Cukup rapi","Sesuai standar","Sangat teladan/paripurna"]}
-  ],
-  2:[
-    {a:"Etika Berbicara",d:["Kasar/Tidak sopan","Kadang berteriak","Cukup sopan","Santun bertutur kata","Sangat beradab"]},
-    {a:"Jiwa Penolong",d:["Individualis","Kurang peka","Cukup membantu","Peduli sesama","Tulus & pengabdian"]},
-    {a:"Kerukunan Internal",d:["Sering konflik","Sering cekcok","Cukup harmonis","Saling dukung","Sangat solid/kekeluargaan"]}
-  ],
-  3:[
-    {a:"Disiplin Waktu",d:["Sering terlambat","Kurang tepat waktu","Cukup disiplin","Tepat waktu","Sangat on-time"]},
-    {a:"Kejujuran Kelompok",d:["Sering bohong","Kadang menutupi","Cukup terbuka","Jujur & terbuka","Sangat amanah/jujur"]},
-    {a:"Kepatuhan Instruksi",d:["Sering membangkang","Kadang abai","Cukup patuh","Patuh & loyal","Sangat sigap mengikuti"]}
-  ],
-  4:[
-    {a:"Problem Solving",d:["Bingung hadapi masalah","Kurang solusi","Cukup solutif","Analisis baik","Sangat solutif & cerdas"]},
-    {a:"Wawasan Umum",d:["Tidak tahu materi","Wawasan minim","Cukup tahu","Wawasan luas","Sangat cerdas & ahli"]},
-    {a:"Kreativitas Strategi",d:["Monoton","Kurang ide","Cukup kreatif","Ide-ide baru","Inovatif & visioner"]}
-  ],
-  5:[
-    {a:"Kecepatan Respon",d:["Lamban sekali","Kadang telat","Cukup sigap","Cepat tanggap","Sangat responsif"]},
-    {a:"Tanggung Jawab",d:["Sering lempar tugas","Kurang amanah","Cukup bertanggungjawab","Tanggung jawab penuh","Sangat dipercaya"]},
-    {a:"Inisiatif Bersama",d:["Pasif/Menunggu","Jarang inisiatif","Cukup inisiatif","Proaktif","Sangat aktif & tangkas"]}
-  ]
+const QUEST_DATA = {
+    "Cageur": [
+        { q: "Saat latihan fisik intensif, Anda merasakan nyeri dada yang tidak biasa namun ingin tetap terlihat kuat di depan junior. Bagaimana Anda bersikap?", o: ["Mengabaikan rasa sakit dan terus lari sampai sesi selesai", "Berhenti sejenak secara diam-diam tanpa melapor instruktur", "Mengajak teman lain untuk ikut berhenti agar tidak sendiri", "Melapor kepada medis mengenai kondisi fisik secara jujur", "Meminum obat pereda nyeri tanpa mengetahui dosis yang pas"] },
+        { q: "Instruktur memberikan instruksi dengan suara yang sangat keras dan mengintimidasi. Bagaimana kondisi mental Anda merespon hal ini?", o: ["Merasa takut dan ingin segera pulang karena tidak nyaman", "Tetap tenang mendengarkan instruksi tanpa terbawa emosi", "Membalas dengan teriakan sebagai bentuk protes lapangan", "Menangis di dalam barisan karena merasa sangat tertekan", "Mengabaikan instruksi tersebut karena dianggap kurang sopan"] },
+        { q: "Malam sebelum hari H upacara, Anda sulit tidur karena rasa cemas yang tinggi. Apa tindakan yang Anda ambil?", o: ["Begadang sampai pagi hari sambil bermain HP di asrama", "Mengonsumsi obat tidur agar dapat segera terlelap cepat", "Keluar dari asrama untuk mencari udara segar tanpa izin", "Memaksa teman untuk tetap bangun menemani Anda mengobrol", "Melakukan relaksasi dan memastikan tubuh tetap istirahat"] },
+        { q: "Anda melihat teman satu unit pingsan saat upacara berlangsung. Posisi Anda berada tepat di belakangnya. Apa respon Anda?", o: ["Langsung keluar barisan untuk menolongnya secara spontan", "Tetap tegak di posisi dan membiarkan petugas menangani", "Berteriak memanggil bantuan sambil tetap dalam barisan", "Menertawakannya karena dianggap memiliki fisik yang lemah", "Pura-pura tidak tahu agar fokus tugas tidak terganggu"] },
+        { q: "Setelah 3 jam latihan tanpa henti, Anda merasa sangat lapar dan lemas. Apa yang Anda lakukan?", o: ["Mencuri waktu untuk makan saat instruktur sedang lengah", "Sengaja menjatuhkan diri agar diistirahatkan lebih awal", "Bertahan dengan fokus penuh sampai waktu istirahat tiba", "Mengeluh sangat keras agar segera didengar oleh pelatih", "Meninggalkan barisan tanpa izin untuk mencari area kantin"] }
+    ],
+    "Bageur": [
+        { q: "Jatah snack/makan siang teman Anda ternyata tertukar atau hilang. Kebetulan Anda memiliki makanan tambahan. Tindakan Anda?", o: ["Memakan semuanya sendiri karena itu adalah hak milik Anda", "Memberikan makanan tambahan Anda kepadanya dengan ikhlas", "Menertawakannya karena dia tidak menjaga makanan sendiri", "Menyuruhnya meminta-minta kepada anggota dari unit lain", "Melaporkan kejadian tersebut agar semua anggota dihukum"] },
+        { q: "Seorang junior melakukan kesalahan gerakan berkali-kali sehingga seluruh unit dihukum push-up. Bagaimana sikap Anda terhadap junior tersebut?", o: ["Membentaknya secara keras setelah latihan sesi selesai", "Menyuruhnya mengundurkan diri saja dari anggota unit ini", "Melarangnya ikut makan siang bersama dengan anggota unit", "Mendekati dan mengajarkan gerakan yang benar dengan sabar", "Menyindirnya di media sosial kelompok sebagai rasa kesal"] },
+        { q: "Saat sedang istirahat, Anda melihat ada sampah berserakan yang bukan milik Anda. Apa yang Anda lakukan?", o: ["Mengambil dan membuangnya ke tempat sampah demi kenyamanan", "Membiarkannya saja karena bukan Anda yang membuangnya", "Menyuruh petugas kebersihan untuk datang membersihkannya", "Memfoto sampah tersebut dan mengeluh di grup koordinasi", "Menunggu instruksi dari ketua unit untuk membuang sampah"] },
+        { q: "Seorang teman tampak sangat grogi dan gemetar sebelum naik ke podium. Bagaimana Anda berinteraksi dengannya?", o: ["Menambah beban pikirannya dengan menceritakan risiko gagal", "Mengabaikannya agar tidak ikut tertular rasa grogi itu", "Menyuruhnya digantikan oleh orang lain saja untuk tampil", "Menertawakan kegugupannya di depan semua teman-teman unit", "Memberikan kata penguatan dan menepuk pundaknya suportif"] },
+        { q: "Unit lain sedang kesulitan membawa perlengkapan tenda mereka. Padahal unit Anda sudah selesai. Tindakan Anda?", o: ["Langsung beristirahat karena tugas unit Anda sudah selesai", "Menonton mereka sambil memberikan banyak komentar negatif", "Menawarkan bantuan tenaga untuk meringankan beban mereka", "Memfoto kesulitan mereka sebagai bahan candaan di kelompok", "Segera pergi tidur agar tidak perlu membantu unit lainnya"] }
+    ],
+    "Bener": [
+        { q: "Anda menemukan dompet milik pelatih tertinggal di area istirahat dalam keadaan terbuka. Apa yang Anda lakukan?", o: ["Mengambil uang di dalamnya untuk operasional harian unit", "Menitipkannya kepada orang asing agar segera disampaikan", "Diam saja dan meninggalkannya begitu saja di tempat lama", "Membuka isinya untuk mengetahui data pribadi milik pelatih", "Segera mengantarkan kepada pelatih tanpa menyentuh isinya"] },
+        { q: "Anda melakukan kesalahan kecil saat langkah tegap yang mungkin tidak disadari juri. Bagaimana laporan Anda pada pelatih?", o: ["Mengatakan penampilan sempurna tanpa ada cacat sedikitpun", "Mengakui kesalahan tersebut dengan jujur untuk evaluasi", "Menyalahkan sepatu yang kurang nyaman sebagai alasan utama", "Menyalahkan teman samping yang dianggap salah langkah dulu", "Berbohong kepada pelatih bahwa juri yang salah menilai itu"] },
+        { q: "Aturan unit melarang membawa HP selama masa karantina/latihan, namun banyak teman yang melanggar secara sembunyi. Sikap Anda?", o: ["Ikut membawa HP karena teman yang lain juga membawanya", "Membawa HP tetapi tidak pernah digunakan di depan umum", "Meminjam HP milik teman yang melanggar aturan tersebut", "Tetap mematuhi aturan dan tidak membawa HP sesuai janji", "Melaporkan semua teman agar semua mendapat hukuman berat"] },
+        { q: "Pelatih memberikan kunci gudang logistik kepada Anda. Teman Anda mengajak untuk mengambil satu kaos tambahan secara diam-diam. Respon Anda?", o: ["Menolak dengan tegas dan menjelaskan tanggung jawab kunci", "Mengambilnya karena stok di gudang masih tersedia banyak", "Mengambilkan untuk teman tapi Anda sendiri tidak mengambil", "Membiarkan teman mengambil sendiri agar Anda tidak salah", "Menceritakan hal tersebut kepada orang lain sebagai rahasia"] },
+        { q: "Waktu kumpul yang ditentukan adalah pukul 05.00 pagi. Anda bangun pukul 04.55. Apa yang Anda lakukan?", o: ["Berangkat apa adanya tanpa mandi agar tidak telat kumpul", "Datang terlambat dan mencari alasan yang masuk akal saja", "Datang secepat mungkin dan siap menerima hukuman pelatih", "Pura-pura sakit agar tidak perlu datang pada latihan itu", "Masuk barisan dari arah belakang agar tidak terlihat telat"] }
+    ],
+    "Pinter": [
+        { q: "Terjadi perubahan rute pawai secara mendadak oleh panitia di lapangan. Sebagai komandan, bagaimana Anda bertindak?", o: ["Protes keras kepada panitia karena sudah merusak latihan", "Merasa sangat bingung dan berhenti di tengah jalan raya", "Segera analisis rute baru dan berikan instruksi transisi", "Menyuruh pasukan lari secepat mungkin tanpa aturan baku", "Menunggu instruksi pelatih yang sedang berada sangat jauh"] },
+        { q: "Unit Anda tidak memiliki biaya untuk menyewa pelatih profesional. Apa solusi yang Anda tawarkan?", o: ["Membubarkan unit karena tidak ada pelatih yang membimbing", "Menagih iuran sangat tinggi kepada seluruh anggota unit", "Meminta bantuan dana kepada pihak sekolah secara paksa", "Hanya melakukan latihan fisik tanpa ada materi teknis baru", "Mempelajari materi lewat video dan praktik mandiri bersama"] },
+        { q: "Saat sedang presentasi materi kepaskibraan, ada audiens yang memberikan pertanyaan sangat sulit. Bagaimana Anda menjawab?", o: ["Mengarang jawaban agar tidak terlihat bodoh di depan umum", "Menjawab data yang diketahui dan berjanji akan riset lagi", "Marah karena pertanyaan tersebut dianggap ingin menjatuhkan", "Menyuruh teman lainnya saja yang menjawab pertanyaan itu", "Diam membisu dan mengalihkan pembicaraan ke topik lainnya"] },
+        { q: "Sepatu boot salah satu anggota rusak total tepat 10 menit sebelum tampil. Tindakan cerdas Anda?", o: ["Menangis di tempat karena penampilan pasti akan dibatalkan", "Menyuruh anggota tersebut untuk tidak ikut tampil ke depan", "Menyalahkan anggota tersebut karena tidak cek alat dahulu", "Mencari solusi cepat seperti memakai lakban atau pinjaman", "Mencari toko sepatu terdekat padahal waktu tidak mencukupi"] },
+        { q: "Anda harus menghafal 30 variasi formasi dalam satu malam. Metode apa yang Anda gunakan?", o: ["Memetakan pola gerakan dan memahami logika perpindahannya", "Mencoba menghafal semuanya sekaligus tanpa waktu istihat", "Menyerah dan memutuskan mengikuti gerakan teman saja besok", "Minum kopi berlebihan agar mata tetap melek sampai pagi", "Meminta instruktur untuk membatalkan variasi formasi itu"] }
+    ],
+    "Singer": [
+        { q: "Melihat tali tiang bendera sedikit melilit saat upacara sedang berlangsung. Anda bukan petugas pengibar, namun berada paling dekat. Tindakan Anda?", o: ["Hanya menonton dan berharap tali tersebut tidak macet total", "Secara tenang dan sigap membantu membenarkan posisi tali", "Berteriak memberi tahu petugas pengibar tentang kondisi tali", "Tertawa saat bendera benar-benar macet di tengah tiang itu", "Merekam kejadian tersebut dengan HP untuk konten media unit"] },
+        { q: "Gudang perlengkapan tampak berantakan setelah kegiatan selesai. Semua orang sudah lelah. Apa yang Anda lakukan?", o: ["Tanpa diperintah mulai merapikan perlengkapan dengan cepat", "Langsung pergi karena ingin segera beristirahat di asrama", "Hanya merapikan barang milik pribadi Anda saja di gudang", "Menyalahkan orang terakhir yang menggunakan gudang tersebut", "Menunggu instruksi dari koordinator logistik untuk merapikan"] },
+        { q: "Instruktur sedang sibuk menangani administrasi, sementara pasukan belum mulai latihan. Sebagai senior, apa tindakan Anda?", o: ["Ikut bersantai menunggu instruktur selesai tugas kantornya", "Mengajak pasukan untuk bermain HP masing-masing di lapangan", "Meninggalkan lapangan untuk mencari instruktur di kantornya", "Inisiatif mengambil alih pimpinan dan memulai pemanasan", "Tidur di bawah pohon sampai instruktur datang ke lapangan"] },
+        { q: "Salah satu kancing baju seragam teman copot saat sudah berada di area VIP. Anda membawa jarum dan benang. Tindakan Anda?", o: ["Memberitahunya secara langsung bahwa baju seragamnya rusak", "Menertawakannya karena dianggap ceroboh dalam berseragam", "Segera membantunya menjahitkan dengan cepat sebelum dimulai", "Menyuruhnya mengganti baju dengan orang lain yang ukurannya pas", "Mengatakan kepada teman tersebut itu bukan urusan pribadi"] },
+        { q: "Area perkemahan diguyur hujan deras dan air mulai masuk ke tenda. Apa langkah antisipasi Anda?", o: ["Menangis di dalam tenda dan meminta untuk pulang ke rumah", "Membiarkan saja karena tenda tersebut bukan milik pribadi", "Menyalahkan panitia karena salah memilih lokasi perkemahan", "Pindah ke tenda orang lain tanpa meminta izin terlebih dulu", "Sigap membuat parit di sekitar tenda dan amankan logistik"] }
+    ]
 };
 
-function initCustomSelect(wrapperId, onChangeCallback) {
-    const wrapper = document.getElementById(wrapperId);
-    const trigger = wrapper.querySelector('.select-trigger');
-    const optionsCont = wrapper.querySelector('.custom-options');
-    const hiddenInput = wrapper.querySelector('input[type="hidden"]');
-    trigger.addEventListener('click', (e) => { e.stopPropagation(); closeAllDropdowns(); optionsCont.classList.toggle('show'); });
-    optionsCont.addEventListener('click', (e) => {
-        const opt = e.target.closest('.custom-option');
-        if (opt) {
-            trigger.textContent = opt.textContent;
-            hiddenInput.value = opt.dataset.value;
-            optionsCont.classList.remove('show');
-            if(onChangeCallback) onChangeCallback(opt.dataset.value);
+const CORRECT_ANSWERS = {
+    "Cageur": ["4", "2", "5", "2", "3"],
+    "Bageur": ["2", "4", "1", "5", "3"],
+    "Bener":  ["5", "2", "4", "1", "3"],
+    "Pinter": ["3", "5", "2", "4", "1"],
+    "Singer": ["2", "1", "4", "3", "5"]
+};
+
+// --- FUNGSI PROTEKSI ---
+async function proteksiGanda(nama) {
+    if (!nama) return;
+    const container = document.getElementById('questions');
+    container.innerHTML = "<div style='text-align:center; padding:20px;'><p>⏳ Verifikasi...</p></div>";
+    try {
+        const resp = await fetch(`${SCRIPT_URL}?action=checkStatus&nama=${encodeURIComponent(nama)}&sesi=LENGKAP`);
+        const result = await resp.json();
+        if (result.exists) {
+            const d = result.data || {};
+            container.innerHTML = `
+                <div style="text-align:center; padding:20px; background:#fff; border:2px solid var(--primary); border-radius:15px; margin:10px;">
+                    <h2 style="color:var(--primary);">AKSES SELESAI</h2>
+                    <p>Halo <b>${nama}</b>, Anda sudah mengisi asesmen ini.</p>
+                    <div style="background:var(--light-blue); padding:10px; border-radius:8px; margin-top:10px;">
+                        <span>RATA-RATA NILAI AKHIR</span>
+                        <div style="font-size:28px; font-weight:bold; color:var(--primary);">${d.nilai_akhir || 0}</div>
+                    </div>
+                </div>`;
+            document.getElementById('btnNext').style.display = 'none';
+            document.getElementById('token-field').style.display = 'none';
+        } else {
+            document.getElementById('btnNext').style.display = 'block';
+            document.getElementById('token-field').style.display = 'block';
+            if (SEL_SESI) renderQuestions(SEL_SESI);
         }
-    });
+    } catch (e) { container.innerHTML = "<p>Gagal memuat status.</p>"; }
 }
 
-function closeAllDropdowns() { document.querySelectorAll('.custom-options').forEach(opt => opt.classList.remove('show')); if(typeof suggestionBox !== 'undefined') suggestionBox.style.display = "none"; }
-document.addEventListener('click', closeAllDropdowns);
-
-async function loadPeserta() {
-  try {
-    const res = await fetch(kelompokURL);
-    const data = await res.json();
-    const headers = data[0]; 
-    const unitOptions = document.getElementById('options-unit');
-    unitOptions.innerHTML = '';
-    headers.forEach((h, i) => {
-      if (h && h.trim() !== "") {
-        const div = document.createElement("div"); div.className = "custom-option"; div.dataset.value = h.trim(); div.textContent = h.trim();
-        unitOptions.appendChild(div);
-        dataPesertaGlobal[h.trim()] = data.slice(1, 15).map(r => r[i]).filter(x => x && x.trim() !== "");
-      }
+function renderQuestions(sesi) {
+    const container = document.getElementById('questions');
+    container.innerHTML = "";
+    if(!QUEST_DATA[sesi]) return;
+    QUEST_DATA[sesi].forEach((item, i) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        const savedAnswer = userAnswers[`${sesi}_${i}`];
+        if (savedAnswer) card.classList.add('locked');
+        card.innerHTML = `<div class="q-text">${i+1}. ${item.q}</div>`;
+        item.o.forEach((txt, idx) => {
+            const val = (idx + 1).toString();
+            const l = document.createElement('label');
+            l.className = 'opt';
+            const isCorrect = (val === CORRECT_ANSWERS[sesi][i]);
+            if (savedAnswer === val) l.classList.add(isCorrect ? 'opt-correct' : 'opt-wrong');
+            l.innerHTML = `<input type="radio" name="q${i}" value="${val}" ${savedAnswer === val ? "checked" : ""} ${savedAnswer ? "disabled" : ""}> <span>${txt}</span>`;
+            l.onclick = () => {
+                if (card.classList.contains('locked')) return;
+                userAnswers[`${sesi}_${i}`] = val;
+                if (val === CORRECT_ANSWERS[sesi][i]) l.classList.add('opt-correct');
+                else l.classList.add('opt-wrong');
+                card.querySelectorAll('input').forEach(input => input.disabled = true);
+                card.classList.add('locked');
+                calculateScore(sesi);
+            };
+            card.appendChild(l);
+        });
+        container.appendChild(card);
     });
-  } catch (e) { console.error(e); }
+    calculateScore(sesi);
 }
 
-const namaInput = document.getElementById("nama-input");
-const suggestionBox = document.createElement("div");
-suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #cbd5e1; border-radius:6px; box-shadow:0 8px 16px rgba(0,0,0,0.15); max-height:150px; overflow-y:auto; z-index:2000; display:none;";
-document.body.appendChild(suggestionBox);
+function calculateScore(sesi) {
+    let totalPoin = 0;
+    for (let i = 0; i < QUEST_DATA[sesi].length; i++) {
+        const answer = userAnswers[`${sesi}_${i}`];
+        if (answer === CORRECT_ANSWERS[sesi][i]) totalPoin += 20;
+        else if (answer) totalPoin += 10;
+    }
+    const map = {"Cageur":"cag","Bageur":"bag","Bener":"ben","Pinter":"pin","Singer":"sin"};
+    document.getElementById(`score-${map[sesi]}`).textContent = totalPoin;
+}
 
-namaInput.addEventListener("input", () => {
-  const unit = document.getElementById("unit-select").value;
-  if (!unit) return;
-  const val = namaInput.value.toLowerCase();
-  const filtered = dataPesertaGlobal[unit].filter(n => n.toLowerCase().includes(val));
-  suggestionBox.innerHTML = "";
-  if (filtered.length > 0) {
-    filtered.forEach(nama => {
-      const item = document.createElement("div"); item.textContent = nama; item.style.padding = "8px 10px"; item.style.cursor = "pointer"; item.style.fontSize = "0.8rem";
-      item.onclick = (e) => { e.stopPropagation(); namaInput.value = nama; suggestionBox.style.display = "none"; };
-      suggestionBox.appendChild(item);
-    });
-    const rect = namaInput.getBoundingClientRect();
-    suggestionBox.style.left = rect.left + window.scrollX + "px";
-    suggestionBox.style.top = rect.bottom + window.scrollY + "px";
-    suggestionBox.style.width = rect.width + "px";
-    suggestionBox.style.display = "block";
-  } else { suggestionBox.style.display = "none"; }
+document.getElementById('btnNext').onclick = async () => {
+    const token = document.getElementById('input-token').value.trim();
+    if (!SEL_NAMA || !token) {
+        Swal.fire("Peringatan", "Lengkapi Nama dan Token!", "warning");
+        return;
+    }
+    const totalSoal = 25; 
+    if (Object.keys(userAnswers).length < totalSoal) {
+        Swal.fire("Peringatan", "Selesaikan semua soal (25 soal)!", "warning");
+        return;
+    }
+    Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+    try {
+        const vResp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
+        const vResult = await vResp.json();
+        if (!vResult.valid) {
+            Swal.fire("Error", "Token Salah!", "error");
+            return;
+        }
+        const sCag = parseInt(document.getElementById('score-cag').textContent) || 0;
+        const sBag = parseInt(document.getElementById('score-bag').textContent) || 0;
+        const sBen = parseInt(document.getElementById('score-ben').textContent) || 0;
+        const sPin = parseInt(document.getElementById('score-pin').textContent) || 0;
+        const sSin = parseInt(document.getElementById('score-sin').textContent) || 0;
+        const rataRata = Math.round((sCag + sBag + sBen + sPin + sSin) / 5);
+        const payload = {
+            nama: SEL_NAMA, unit: SEL_UNIT, sesi: "LENGKAP",
+            skor_cag: sCag, skor_bag: sBag, skor_ben: sBen, skor_pin: sPin, skor_sin: sSin,
+            rata_rata: rataRata, jawaban: userAnswers
+        };
+        const resp = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+        const result = await resp.json();
+        if (result.status === "success") {
+            Swal.fire("Berhasil", "Data disimpan.", "success").then(() => location.reload());
+        }
+    } catch (e) { Swal.fire("Error", "Gagal menyimpan.", "error"); }
+};
+
+function setupDropdown(triggerId, dropdownId, onSelect) {
+    const trigger = document.getElementById(triggerId);
+    const dropdown = document.getElementById(dropdownId);
+    trigger.onclick = (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.floating-dropdown').forEach(d => { if(d !== dropdown) d.classList.remove('show'); });
+        dropdown.classList.toggle('show');
+    };
+    dropdown.onclick = (e) => {
+        if(e.target.tagName === 'DIV') {
+            const val = e.target.getAttribute('data-val') || e.target.textContent;
+            trigger.textContent = val;
+            dropdown.classList.remove('show');
+            onSelect(val, e.target.getAttribute('data-idx'));
+        }
+    };
+}
+
+window.onclick = () => document.querySelectorAll('.floating-dropdown').forEach(d => d.classList.remove('show'));
+
+setupDropdown('unit-trigger', 'unit-dropdown', (val, idx) => {
+    SEL_UNIT = val; SEL_NAMA = "";
+    document.getElementById('nama-trigger').textContent = "Pilih Nama";
+    const namaDrop = document.getElementById('nama-dropdown');
+    namaDrop.innerHTML = "";
+    for(let r=1; r<RAW_DATA.length; r++) {
+        const name = RAW_DATA[r][idx];
+        if(name) namaDrop.innerHTML += `<div>${name}</div>`;
+    }
 });
 
-function render(){
-  const p = document.getElementById("pos").value;
-  const dom = document.getElementById("domain").value;
-  const body = document.getElementById("rubrik-body");
-  body.innerHTML = "";
-  rubrik[p].forEach((x, i) => {
-    nilaiData[p] = nilaiData[p] || {};
-    nilaiData[p][i] = nilaiData[p][i] || { sekolah:null, keluarga:null, sosial:null };
-    let skalaHtml = "";
-    for(let n=1; n<=5; n++) {
-      const active = nilaiData[p][i][dom] === n ? 'active' : '';
-      skalaHtml += `<div class="skala-item ${active}" onclick="setNilai(${p},${i},${n},this)"><div class="skala-num">${n}</div><div class="skala-label">${x.d[n-1]}</div></div>`;
-    }
-    const card = document.createElement("div");
-    card.className = "aspek-card";
-    card.innerHTML = `<div class="left"><div class="aspek-title">${x.a}</div><div class="skala-list">${skalaHtml}</div></div><div class="nilai-besar-stack">
-        <div class="nilai-row"><div id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah?'filled':''}">${nilaiData[p][i].sekolah||'-'}</div><div class="domain-tag-v">SCHOOL</div></div>
-        <div class="nilai-row"><div id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga?'filled':''}">${nilaiData[p][i].keluarga||'-'}</div><div class="domain-tag-v">FAMILY</div></div>
-        <div class="nilai-row"><div id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial?'filled':''}">${nilaiData[p][i].sosial||'-'}</div><div class="domain-tag-v">SOCIAL</div></div></div>`;
-    body.appendChild(card);
-  });
-}
-
-function setNilai(p, i, n, el){
-  const dom = document.getElementById("domain").value;
-  nilaiData[p][i][dom] = n;
-  const v = document.getElementById(`${dom}-${p}-${i}`);
-  v.textContent = n; v.classList.add("filled");
-  el.parentElement.querySelectorAll(".skala-item").forEach(s => s.classList.remove("active"));
-  el.classList.add("active");
-}
-
-async function submitData() {
-  const u = document.getElementById("unit-select").value;
-  const n = document.getElementById("nama-input").value;
-  if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas", "error");
-  let tempNilai = {};
-  for(let p in rubrik) {
-    for(let i=0; i<3; i++) {
-      let valArr = [];
-      if(nilaiData[p] && nilaiData[p][i]) {
-        const d = nilaiData[p][i];
-        if(d.sekolah) valArr.push(d.sekolah);
-        if(d.keluarga) valArr.push(d.keluarga);
-        if(d.sosial) valArr.push(d.sosial);
-      }
-      const avg = valArr.length > 0 ? Math.round(valArr.reduce((a,b)=>a+b,0)/valArr.length) : 0;
-      tempNilai[rubrik[p][i].a] = avg;
-    }
-  }
-  const total = Object.values(tempNilai).reduce((a,b)=>a+b,0);
-  if(total === 0) return Swal.fire("Kosong", "Isi nilai dulu", "warning");
-  Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
-  try { 
-    const fd = new URLSearchParams(); fd.append("data", JSON.stringify({ form: "bintal_kelompok", nama: n, unit: u, aspek_nilai: tempNilai, jumlah: total }));
-    await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' });
-    Swal.fire("Berhasil", "Data Tersimpan", "success"); 
-  } catch(e) { Swal.fire("Error", "Koneksi Gagal", "error"); }
-}
-
-function downloadExcel() {
-  const rows = [["Nama", "Kelompok", "Aspek", "Sekolah", "Keluarga", "Sosial", "Rata-rata"]];
-  const nm = namaInput.value || "Anggota";
-  const ut = document.getElementById("unit-select").value || "Kelompok";
-  for(let p in rubrik) {
-    for(let i=0; i<3; i++) {
-      const d = (nilaiData[p] && nilaiData[p][i]) ? nilaiData[p][i] : {sekolah:0, keluarga:0, sosial:0};
-      const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x && x !== 0);
-      const avg = v.length > 0 ? Math.round(v.reduce((a,b)=>a+b,0)/v.length) : 0;
-      rows.push([nm, ut, rubrik[p][i].a, d.sekolah||0, d.keluarga||0, d.sosial||0, avg]);
-    }
-  }
-  const ws = XLSX.utils.aoa_to_sheet(rows);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Nilai");
-  XLSX.writeFile(wb, `Bintal_Kelompok_${ut}.xlsx`);
-}
-
-function resetForm(){ location.reload(); }
-
-document.addEventListener("DOMContentLoaded", () => { 
-    loadPeserta(); 
-    initCustomSelect('wrapper-unit', () => { namaInput.value = ""; });
-    initCustomSelect('wrapper-pos', render);
-    initCustomSelect('wrapper-domain', render);
-    render(); 
+setupDropdown('nama-trigger', 'nama-dropdown', (val) => { 
+    SEL_NAMA = val; 
+    document.getElementById('input-token').value = "";
+    proteksiGanda(val); 
 });
+
+setupDropdown('sesi-trigger', 'sesi-dropdown', (val) => {
+    SEL_SESI = val;
+    if (SEL_NAMA) proteksiGanda(SEL_NAMA);
+    else renderQuestions(val);
+});
+
+async function loadData() {
+    try {
+        const res = await fetch(`${SCRIPT_URL}?sheet=peserta`);
+        RAW_DATA = await res.json();
+        const unitDrop = document.getElementById('unit-dropdown');
+        unitDrop.innerHTML = "";
+        RAW_DATA[0].forEach((u, i) => { if(u) unitDrop.innerHTML += `<div data-idx="${i}">${u}</div>`; });
+    } catch(e) { console.error("Load failed", e); }
+}
+loadData();
 </script>
 </body>
 </html>

@@ -346,40 +346,73 @@ function calculateScore(sesi) {
 
 document.getElementById('btnNext').onclick = async () => {
     const token = document.getElementById('input-token').value.trim();
-    if (!SEL_NAMA || !token) {
-        Swal.fire("Peringatan", "Lengkapi Nama dan Token!", "warning");
+    
+    // 1. Validasi Input Dasar
+    if (!SEL_NAMA) {
+        Swal.fire("Peringatan", "Pilih Nama Peserta terlebih dahulu!", "warning");
         return;
     }
-    const totalSoal = 25; 
-    if (Object.keys(userAnswers).length < totalSoal) {
-        Swal.fire("Peringatan", "Selesaikan semua soal (25 soal)!", "warning");
+    if (!token) {
+        Swal.fire("Peringatan", "Masukkan TOKEN untuk dapat menyimpan!", "warning");
         return;
     }
-    Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+    // 2. Validasi Jumlah Soal (Pastikan semua kategori sudah diisi)
+    const totalSoalMinimal = 25; // 5 kategori x 5 soal
+    if (Object.keys(userAnswers).length < totalSoalMinimal) {
+        Swal.fire("Peringatan", "Selesaikan semua soal sebelum menyimpan!", "warning");
+        return;
+    }
+
+    Swal.fire({ title: 'Memverifikasi Token...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
     try {
+        // 3. Verifikasi Token ke Server (Apps Script)
         const vResp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
         const vResult = await vResp.json();
+
         if (!vResult.valid) {
-            Swal.fire("Error", "Token Salah!", "error");
+            Swal.fire("Gagal", "Token yang Anda masukkan salah atau tidak sesuai dengan nama!", "error");
             return;
         }
+
+        // 4. Jika Token Valid, Lanjut Proses Simpan
+        Swal.fire({ title: 'Menyimpan Jawaban...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
         const sCag = parseInt(document.getElementById('score-cag').textContent) || 0;
         const sBag = parseInt(document.getElementById('score-bag').textContent) || 0;
         const sBen = parseInt(document.getElementById('score-ben').textContent) || 0;
         const sPin = parseInt(document.getElementById('score-pin').textContent) || 0;
         const sSin = parseInt(document.getElementById('score-sin').textContent) || 0;
         const rataRata = Math.round((sCag + sBag + sBen + sPin + sSin) / 5);
+
         const payload = {
-            nama: SEL_NAMA, unit: SEL_UNIT, sesi: "LENGKAP",
-            skor_cag: sCag, skor_bag: sBag, skor_ben: sBen, skor_pin: sPin, skor_sin: sSin,
-            rata_rata: rataRata, jawaban: userAnswers
+            nama: SEL_NAMA,
+            unit: SEL_UNIT,
+            sesi: "LENGKAP",
+            token: token, // Pastikan token dikirim dalam payload
+            skor_cag: sCag,
+            skor_bag: sBag,
+            skor_ben: sBen,
+            skor_pin: sPin,
+            skor_sin: sSin,
+            rata_rata: rataRata,
+            jawaban: userAnswers
         };
-        const resp = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+
+        const resp = await fetch(SCRIPT_URL, { 
+            method: "POST", 
+            body: JSON.stringify(payload) 
+        });
+        
         const result = await resp.json();
         if (result.status === "success") {
-            Swal.fire("Berhasil", "Data disimpan.", "success").then(() => location.reload());
+            Swal.fire("Berhasil", "Data Anda telah berhasil diverifikasi dan disimpan.", "success")
+                .then(() => location.reload());
         }
-    } catch (e) { Swal.fire("Error", "Gagal menyimpan.", "error"); }
+    } catch (e) {
+        Swal.fire("Error", "Terjadi kesalahan koneksi. Coba lagi.", "error");
+    }
 };
 
 function setupDropdown(triggerId, dropdownId, onSelect) {

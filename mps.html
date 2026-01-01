@@ -10,33 +10,34 @@
 :root{ --accent:#2563eb; --danger:#dc2626; --school:#2563eb; --family:#16a34a; --social:#7c3aed; --success:#16a34a; --warning:#facc15; }
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f0f9ff,#fefce8); min-height:100vh; }
-.container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:10px; box-shadow:0 5px 15px rgba(0,0,0,.08); }
+.container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:10px; box-shadow:0 5px 15px rgba(0,0,0,.08); position: relative; }
 h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; font-size:1.2rem; }
 
-/* STYLING FLOATING DROPDOWN */
-.top-section { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-.floating-group { position: relative; margin-bottom: 5px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; }
-.floating-group select, .floating-group input { 
-    width: 100%; 
-    padding: 12px 10px 4px 10px; 
-    border: none; 
-    background: transparent; 
-    font-size: 0.85rem; 
-    outline: none; 
-    appearance: none; 
-}
-.floating-group label {
-    position: absolute;
-    top: 2px;
-    left: 10px;
-    font-size: 0.65rem;
-    font-weight: 800;
-    color: var(--accent);
-    text-transform: uppercase;
-    pointer-events: none;
-}
-.bar-penilaian, .top-container { display: flex; flex-direction: column; gap: 4px; }
+/* Section & Layout */
+.top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px; }
+.bar-penilaian, .top-container{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; position: relative;}
 
+/* Custom Floating Dropdown Styles */
+.custom-select-wrapper { position: relative; width: 100%; }
+.select-trigger { 
+    width: 100%; padding: 6px 8px; background: #fff; border: 1px solid #cbd5e1; 
+    border-radius: 6px; font-size: 0.85rem; cursor: pointer; display: flex; 
+    justify-content: space-between; align-items: center; min-height: 31px;
+}
+.select-trigger::after { content: '▼'; font-size: 0.6rem; color: #64748b; }
+.custom-options { 
+    position: absolute; top: 105%; left: 0; right: 0; background: #fff; 
+    border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+    z-index: 2000; display: none; max-height: 200px; overflow-y: auto;
+}
+.custom-options.show { display: block; }
+.custom-option { padding: 8px 10px; font-size: 0.85rem; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
+.custom-option:hover { background: #eff6ff; }
+.custom-option.selected { background: #e0e7ff; font-weight: bold; color: var(--accent); }
+
+input#nama-input { width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.85rem; outline: none; }
+
+/* Rubrik & Cards */
 #rubrik-body{ display: grid; gap: 6px; }
 .aspek-card{ border-radius:10px; padding:8px 12px; display:flex; gap:10px; align-items: center; border: 1px solid rgba(0,0,0,0.05); }
 .aspek-card:nth-child(4n+1) { background-color: #eff6ff; }
@@ -79,35 +80,33 @@ h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; fo
   <h2>NILAI BINTAL INDIVIDU</h2>
   <div class="top-section">
     <div class="top-container">
-      <div class="floating-group">
-        <label>Unit</label>
-        <select id="unit-select">
-          <option value="">-- Pilih Unit --</option>
-        </select>
+      <div class="custom-select-wrapper" id="wrapper-unit">
+        <div class="select-trigger" id="trigger-unit">-- Pilih Unit --</div>
+        <div class="custom-options" id="options-unit"></div>
+        <input type="hidden" id="unit-select" value="">
       </div>
-      <div class="floating-group">
-        <label>Nama Anggota</label>
-        <input id="nama-input" placeholder="Ketik nama..." autocomplete="off">
-      </div>
+      <input id="nama-input" placeholder="Ketik Nama Anggota" autocomplete="off">
     </div>
     <div class="bar-penilaian">
-      <div class="floating-group">
-        <label>Kategori (POS)</label>
-        <select id="pos">
-          <option value="1">CAGEUR (Fisik & Mental)</option>
-          <option value="2">BAGEUR (Akhlak)</option>
-          <option value="3">BENER (Integritas)</option>
-          <option value="4">PINTER (Wawasan)</option>
-          <option value="5">SINGER (Responsif)</option>
-        </select>
+      <div class="custom-select-wrapper" id="wrapper-pos">
+        <div class="select-trigger" id="trigger-pos">CAGEUR (Fisik & Mental)</div>
+        <div class="custom-options" id="options-pos">
+            <div class="custom-option selected" data-value="1">CAGEUR (Fisik & Mental)</div>
+            <div class="custom-option" data-value="2">BAGEUR (Akhlak)</div>
+            <div class="custom-option" data-value="3">BENER (Integritas)</div>
+            <div class="custom-option" data-value="4">PINTER (Wawasan)</div>
+            <div class="custom-option" data-value="5">SINGER (Responsif)</div>
+        </div>
+        <input type="hidden" id="pos" value="1">
       </div>
-      <div class="floating-group">
-        <label>Domain Penilaian</label>
-        <select id="domain">
-          <option value="sekolah">Dalam Sekolah</option>
-          <option value="keluarga">Dalam Keluarga</option>
-          <option value="sosial">Dalam Sosial</option>
-        </select>
+      <div class="custom-select-wrapper" id="wrapper-domain">
+        <div class="select-trigger" id="trigger-domain">Dalam Sekolah</div>
+        <div class="custom-options" id="options-domain">
+            <div class="custom-option selected" data-value="sekolah">Dalam Sekolah</div>
+            <div class="custom-option" data-value="keluarga">Dalam Keluarga</div>
+            <div class="custom-option" data-value="sosial">Dalam Sosial</div>
+        </div>
+        <input type="hidden" id="domain" value="sekolah">
       </div>
     </div>
   </div>
@@ -123,7 +122,7 @@ h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; fo
 </div>
 
 <script>
-// (Seluruh Script JavaScript tetap sama seperti file asli Anda tanpa perubahan logika)
+// ==== Proteksi Password Tetap Sama ====
 document.addEventListener("DOMContentLoaded", async () => {
   const allowedPassword = "@mps#";
   let authenticated = false;
@@ -181,29 +180,66 @@ const rubrik={
   ]
 };
 
-const namaInput = document.getElementById("nama-input");
-const unitSelect = document.getElementById("unit-select");
-const suggestionBox = document.createElement("div");
-suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 4px 8px rgba(0,0,0,0.1); max-height:150px; overflow-y:auto; z-index:1000; display:none;";
-document.body.appendChild(suggestionBox);
+// ==== Custom Dropdown Logic ====
+function initCustomSelect(wrapperId, onChangeCallback) {
+    const wrapper = document.getElementById(wrapperId);
+    const trigger = wrapper.querySelector('.select-trigger');
+    const optionsCont = wrapper.querySelector('.custom-options');
+    const hiddenInput = wrapper.querySelector('input[type="hidden"]');
 
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeAllDropdowns();
+        optionsCont.classList.toggle('show');
+    });
+
+    optionsCont.addEventListener('click', (e) => {
+        const opt = e.target.closest('.custom-option');
+        if (opt) {
+            trigger.textContent = opt.textContent;
+            hiddenInput.value = opt.dataset.value;
+            optionsCont.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            optionsCont.classList.remove('show');
+            if(onChangeCallback) onChangeCallback(opt.dataset.value);
+        }
+    });
+}
+
+function closeAllDropdowns() {
+    document.querySelectorAll('.custom-options').forEach(opt => opt.classList.remove('show'));
+    suggestionBox.style.display = "none";
+}
+
+document.addEventListener('click', closeAllDropdowns);
+
+// ==== Load Peserta & Unit ====
 async function loadPeserta() {
   try {
     const res = await fetch(pesertaURL);
     const data = await res.json();
     const headers = data[0]; 
-    unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
+    const unitOptions = document.getElementById('options-unit');
+    unitOptions.innerHTML = '';
+    
     headers.forEach((h, i) => {
       if (h && h.trim() !== "") {
         const unitName = h.trim();
-        const option = document.createElement("option");
-        option.value = unitName; option.textContent = unitName;
-        unitSelect.appendChild(option);
+        const div = document.createElement("div");
+        div.className = "custom-option";
+        div.dataset.value = unitName;
+        div.textContent = unitName;
+        unitOptions.appendChild(div);
         dataPesertaGlobal[unitName] = data.slice(1).map(r => r[i]).filter(x => x && x.trim() !== "");
       }
     });
   } catch (e) { console.error("Gagal load peserta:", e); }
 }
+
+const namaInput = document.getElementById("nama-input");
+const suggestionBox = document.createElement("div");
+suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.15); max-height:150px; overflow-y:auto; z-index:2000; display:none;";
+document.body.appendChild(suggestionBox);
 
 function positionBox() {
   const rect = namaInput.getBoundingClientRect();
@@ -213,7 +249,7 @@ function positionBox() {
 }
 
 namaInput.addEventListener("input", () => {
-  const unit = unitSelect.value;
+  const unit = document.getElementById("unit-select").value;
   if (!unit || !dataPesertaGlobal[unit]) { suggestionBox.style.display = "none"; return; }
   const val = namaInput.value.toLowerCase();
   const filtered = dataPesertaGlobal[unit].filter(n => n.toLowerCase().includes(val));
@@ -221,9 +257,9 @@ namaInput.addEventListener("input", () => {
   if (filtered.length > 0) {
     filtered.forEach(nama => {
       const item = document.createElement("div");
-      item.textContent = nama; item.style.padding = "6px 10px"; item.style.cursor = "pointer";
-      item.onclick = () => { namaInput.value = nama; suggestionBox.style.display = "none"; };
-      item.onmouseenter = () => item.style.background = "#f3f4f6";
+      item.textContent = nama; item.style.padding = "8px 10px"; item.style.cursor = "pointer"; item.style.fontSize = "0.85rem";
+      item.onclick = (e) => { e.stopPropagation(); namaInput.value = nama; suggestionBox.style.display = "none"; };
+      item.onmouseenter = () => item.style.background = "#eff6ff";
       item.onmouseleave = () => item.style.background = "#fff";
       suggestionBox.appendChild(item);
     });
@@ -231,9 +267,7 @@ namaInput.addEventListener("input", () => {
   } else { suggestionBox.style.display = "none"; }
 });
 
-unitSelect.addEventListener("change", () => { namaInput.value = ""; suggestionBox.style.display = "none"; });
-document.addEventListener("click", e => { if (e.target !== namaInput && !suggestionBox.contains(e.target)) suggestionBox.style.display = "none"; });
-
+// ==== Render UI & Data Logic ====
 function render(){
   const p = document.getElementById("pos").value;
   const dom = document.getElementById("domain").value;
@@ -292,14 +326,14 @@ async function submitData() {
 function downloadExcel() {
   const rows = [["Nama", "Unit", "Komponen", "Aspek", "Sekolah", "Keluarga", "Sosial", "Rata-rata"]];
   const nm = namaInput.value || "Peserta";
-  const ut = unitSelect.value || "Unit";
+  const ut = document.getElementById("unit-select").value || "Unit";
   for(let p in nilaiData) {
-    const posName = document.querySelector(`#pos option[value="${p}"]`).textContent;
+    const posLabel = document.querySelector(`#options-pos [data-value="${p}"]`).textContent;
     for(let i in nilaiData[p]) {
       const d = nilaiData[p][i];
       const v = [d.sekolah, d.keluarga, d.sosial].filter(x => x !== null);
       const avg = v.length > 0 ? Math.round(v.reduce((a,b)=>a+b,0)/v.length) : "";
-      rows.push([nm, ut, posName, rubrik[p][i].a, d.sekolah||0, d.keluarga||0, d.sosial||0, avg]);
+      rows.push([nm, ut, posLabel, rubrik[p][i].a, d.sekolah||0, d.keluarga||0, d.sosial||0, avg]);
     }
   }
   const ws = XLSX.utils.aoa_to_sheet(rows);
@@ -309,9 +343,15 @@ function downloadExcel() {
 }
 
 function resetForm(){ Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { if(r.isConfirmed) location.reload(); }); }
-document.getElementById("pos").onchange = render;
-document.getElementById("domain").onchange = render;
-document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });
+
+// ==== Inisialisasi ====
+document.addEventListener("DOMContentLoaded", () => { 
+    loadPeserta();
+    initCustomSelect('wrapper-unit', () => { namaInput.value = ""; });
+    initCustomSelect('wrapper-pos', render);
+    initCustomSelect('wrapper-domain', render);
+    render(); 
+});
 window.addEventListener("resize", positionBox);
 </script>
 </body>

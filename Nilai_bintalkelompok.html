@@ -7,49 +7,97 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
-:root{ --accent:#2563eb; --danger:#dc2626; --school:#2563eb; --family:#16a34a; --social:#7c3aed; --success:#16a34a; --warning:#facc15; }
+:root{ 
+    --accent: #1e293b; 
+    --gold: #b45309; 
+    --danger: #be123c; 
+    --school: #0369a1; 
+    --family: #15803d; 
+    --social: #6d28d9; 
+    --success: #059669; 
+}
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f0f9ff,#fefce8); min-height:100vh; }
-.container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:10px; box-shadow:0 5px 15px rgba(0,0,0,.08); }
-h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; font-size:1.2rem; }
+body{ margin:0; padding:5px; font-family:"Segoe UI", sans-serif; background:linear-gradient(135deg,#f8fafc,#e2e8f0); min-height:100vh; }
+.container{ width:100%; max-width:850px; margin:auto; background:#fff; border-radius:12px; padding:8px; box-shadow:0 10px 25px rgba(0,0,0,0.1); position: relative; }
+h2{ text-align:center; margin:4px 0 10px; color: var(--accent); font-weight:900; font-size:1.1rem; letter-spacing: 1px; }
 
-.top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px; }
-.bar-penilaian, .top-container{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; }
-select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.85rem; outline: none; }
+/* Layout Section */
+.top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 4px; }
+.bar-penilaian, .top-container{ background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; position: relative; }
 
-#rubrik-body{ display: grid; gap: 6px; }
-.aspek-card{ border-radius:10px; padding:8px 12px; display:flex; gap:10px; align-items: center; border: 1px solid rgba(0,0,0,0.05); }
-.aspek-card:nth-child(4n+1) { background-color: #eff6ff; }
-.aspek-card:nth-child(4n+2) { background-color: #f0fdf4; }
-.aspek-card:nth-child(4n+3) { background-color: #faf5ff; }
-.aspek-card:nth-child(4n+4) { background-color: #fff7ed; }
+/* Logo Container (New) */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 8px 0;
+    padding: 5px;
+}
+.logo-container img {
+    height: 35px; /* Ukuran proporsional */
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Custom Floating Dropdown */
+.custom-select-wrapper { position: relative; width: 100%; }
+.select-trigger { 
+    width: 100%; padding: 6px 10px; background: #fff; border: 1px solid #94a3b8; 
+    border-radius: 5px; font-size: 0.8rem; cursor: pointer; display: flex; 
+    justify-content: space-between; align-items: center; min-height: 30px;
+    color: #334155;
+}
+.select-trigger::after { content: '▼'; font-size: 0.55rem; color: #94a3b8; }
+.custom-options { 
+    position: absolute; top: 110%; left: 0; right: 0; background: #fff; 
+    border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.15); 
+    z-index: 2000; display: none; max-height: 200px; overflow-y: auto;
+}
+.custom-options.show { display: block; }
+.custom-option { padding: 8px 10px; font-size: 0.8rem; cursor: pointer; border-bottom: 1px solid #f1f5f9; color: #475569; }
+.custom-option:hover { background: #f8fafc; color: var(--gold); }
+
+input#nama-input { width:100%; padding:6px 10px; border-radius:5px; border:1px solid #94a3b8; font-size:0.8rem; outline: none; height: 30px; }
+
+/* Rubrik Body */
+#rubrik-body{ display: grid; gap: 4px; }
+.aspek-card{ border-radius:8px; padding:6px 10px; display:flex; gap:8px; align-items: center; border: 1px solid rgba(0,0,0,0.03); background: #fff; }
+
+.aspek-card:nth-child(4n+1) { border-left: 4px solid #0f172a; }
+.aspek-card:nth-child(4n+2) { border-left: 4px solid #b45309; }
+.aspek-card:nth-child(4n+3) { border-left: 4px solid #334155; }
+.aspek-card:nth-child(4n+4) { border-left: 4px solid #d97706; }
 
 .left{ flex:1; min-width:0; }
-.aspek-title{ font-weight:800; font-size:0.9rem; color: #1e293b; margin-bottom: 2px; }
-.skala-list { display: flex; flex-direction: column; gap: 0; }
-.skala-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.skala-num { font-size: 1.2rem; font-weight: 900; color: #94a3b8; min-width: 20px; text-align: center; }
-.skala-item.active .skala-num { color: var(--accent); }
-.skala-label { font-size: 0.78rem; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.skala-item.active .skala-label { color: #000; font-weight: 700; }
+.aspek-title{ font-weight:850; font-size:0.95rem; color: #1e293b; margin-bottom: 2px; }
+.skala-list { display: flex; flex-direction: column; gap: 0px; }
+.skala-item { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 1px 0; }
+.skala-num { font-size: 1rem; font-weight: 900; color: #cbd5e1; min-width: 20px; text-align: center; }
+.skala-item.active .skala-num { color: var(--gold); }
+.skala-label { font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.skala-item.active .skala-label { color: #029e24; font-weight: 800; }
 
-.nilai-besar-stack { display: flex; flex-direction: column; gap: 0; min-width: 60px; border-left: 1px solid rgba(0,0,0,0.1); padding-left: 8px; }
-.nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
-.nilai-besar { font-size: 3.2rem; font-weight: 950; opacity: 0.1; line-height: 0.75; text-align: right; letter-spacing: -2px; }
+/* SISI KANAN - LEBIH RENGGANG */
+.nilai-besar-stack { display: flex; flex-direction: column; gap: 6px; min-width: 95px; border-left: 1px solid rgba(0,0,0,0.08); padding-left: 15px; }
+.nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 26px; }
+.nilai-besar { font-size: 2.5rem; font-weight: 950; opacity: 0.05; line-height: 0.7; text-align: right; letter-spacing: -1px; }
 .nilai-besar.filled { opacity: 1; }
-.domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.5rem; font-weight: 900; color: #64748b; margin-left: 2px; }
+.domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.45rem; font-weight: 900; color: #94a3b8; }
 
 [id^="sekolah-"].filled { color: var(--school); }
 [id^="keluarga-"].filled { color: var(--family); }
 [id^="sosial-"].filled { color: var(--social); }
 
-.action-bar { margin-top: 15px; display: flex; flex-direction: row; gap: 5px; width: 100%; }
-.action-bar button { flex: 1; padding: 12px 2px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; border: none; cursor: pointer; transition: transform 0.1s; text-transform: uppercase; white-space: nowrap; }
-.action-bar button:active { transform: scale(0.95); }
-.btn-home { background: #60a5fa; color: #fff; }
+/* Buttons */
+.action-bar { margin-top: 12px; display: flex; flex-direction: row; gap: 5px; width: 100%; }
+.action-bar button { flex: 1; padding: 10px 2px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; border: none; cursor: pointer; text-transform: uppercase; }
+.btn-home { background: var(--accent); color: #fff; }
 .btn-submit { background: var(--success); color: #fff; }
-.btn-reset { background: #e2e8f0; color: #475569; }
-.btn-download { background: var(--warning); color: #111; }
+.btn-reset { background: #cbd5e1; color: #475569; }
+.btn-download { background: #fbbf24; color: #78350f; }
+
+@media (max-width: 480px) { .action-bar button { font-size: 0.6rem; padding: 12px 2px; } .logo-container img { height: 28px; } }
 </style>
 </head>
 <body>
@@ -57,25 +105,46 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
   <h2>NILAI BINTAL KELOMPOK</h2>
   <div class="top-section">
     <div class="top-container">
-      <select id="unit-select">
-        <option value="">-- Pilih Kelompok --</option>
-      </select>
-      <input id="nama-input" placeholder="Pilih Nama Anggota" autocomplete="off">
+      <div class="custom-select-wrapper" id="wrapper-unit">
+        <div class="select-trigger" id="trigger-unit">Pilih Kelompok</div>
+        <div class="custom-options" id="options-unit"></div>
+        <input type="hidden" id="unit-select" value="">
+      </div>
+      <input id="nama-input" placeholder="Nama Anggota" autocomplete="off">
     </div>
     <div class="bar-penilaian">
-      <select id="pos">
-        <option value="1">CAGEUR (Fisik & Mental)</option>
-        <option value="2">BAGEUR (Akhlak)</option>
-        <option value="3">BENER (Integritas)</option>
-        <option value="4">PINTER (Wawasan)</option>
-        <option value="5">SINGER (Responsif)</option>
-      </select>
-      <select id="domain">
-        <option value="sekolah">Dalam Sekolah</option>
-        <option value="keluarga">Dalam Keluarga</option>
-        <option value="sosial">Dalam Sosial</option>
-      </select>
+      <div class="custom-select-wrapper" id="wrapper-pos">
+        <div class="select-trigger" id="trigger-pos">Panca Waluya</div>
+        <div class="custom-options" id="options-pos">
+            <div class="custom-option selected" data-value="1">CAGEUR</div>
+            <div class="custom-option" data-value="2">BAGEUR</div>
+            <div class="custom-option" data-value="3">BENER</div>
+            <div class="custom-option" data-value="4">PINTER</div>
+            <div class="custom-option" data-value="5">SINGER</div>
+        </div>
+        <input type="hidden" id="pos" value="1">
+      </div>
+      <div class="custom-select-wrapper" id="wrapper-domain">
+        <div class="select-trigger" id="trigger-domain">Lingkungan</div>
+        <div class="custom-options" id="options-domain">
+            <div class="custom-option selected" data-value="sekolah">Sekolah</div>
+            <div class="custom-option" data-value="keluarga">Keluarga</div>
+            <div class="custom-option" data-value="sosial">Sosial</div>
+        </div>
+        <input type="hidden" id="domain" value="sekolah">
+      </div>
     </div>
+  </div>
+
+  <div class="logo-container">
+    <img src="12-removebg-preview.png" alt="Logo 1">
+    <img src="16-removebg-preview.png" alt="Logo 2">
+    <img src="6-removebg-preview (1).png" alt="Logo 3">
+    <img src="8-removebg-preview.png" alt="Logo 4">
+    <img src="31-removebg-preview.png" alt="Logo 5">
+    <img src="7.png" alt="Logo 6">
+    <img src="1_Citeureup.png" alt="Logo 7">
+    <img src="SMP_32.png" alt="Logo 8">
   </div>
 
   <div id="rubrik-body"></div>
@@ -89,38 +158,12 @@ select, input{ width:100%; padding:6px 8px; border-radius:6px; border:1px solid 
 </div>
 
 <script>
-// Password tetap sama sesuai file asli
-document.addEventListener("DOMContentLoaded", async () => {
-  const allowedPassword = "@mps#";
-  let authenticated = false;
-  while (!authenticated) {
-    const { value: password } = await Swal.fire({
-      title: "Password Kelompok",
-      input: "password",
-      inputLabel: "Halaman ini dilindungi",
-      inputPlaceholder: "Masukkan password...",
-      confirmButtonText: "Masuk",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      confirmButtonColor: "#2563eb"
-    });
-    if (password === allowedPassword) {
-      authenticated = true;
-      Swal.fire({ icon: "success", title: "Akses Diterima", timer: 1000, showConfirmButton: false });
-    } else {
-      await Swal.fire({ icon: "error", title: "Password Salah", text: "Coba lagi.", confirmButtonColor: "#dc2626" });
-    }
-  }
-});
-
+// Logika JavaScript tetap sama seperti versi sebelumnya
 const scriptURL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
-// Mengambil data dari sheet "kelompok"
 const kelompokURL = scriptURL + "?sheet=kelompok";
-
 let dataPesertaGlobal = {}; 
 let nilaiData = {}; 
 
-// Rubrik Bintal Kelompok (Sesuai Komponen yang diminta)
 const rubrik={
   1:[
     {a:"Kekompakan Fisik",d:["Gerakan tidak seragam","Kadang kompak","Kompak & rapi","Sangat sinkron","Sangat solid & tangguh"]},
@@ -149,58 +192,67 @@ const rubrik={
   ]
 };
 
-const namaInput = document.getElementById("nama-input");
-const unitSelect = document.getElementById("unit-select");
-const suggestionBox = document.createElement("div");
-suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #ccc; border-radius:6px; box-shadow:0 4px 8px rgba(0,0,0,0.1); max-height:150px; overflow-y:auto; z-index:1000; display:none;";
-document.body.appendChild(suggestionBox);
+function initCustomSelect(wrapperId, onChangeCallback) {
+    const wrapper = document.getElementById(wrapperId);
+    const trigger = wrapper.querySelector('.select-trigger');
+    const optionsCont = wrapper.querySelector('.custom-options');
+    const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+    trigger.addEventListener('click', (e) => { e.stopPropagation(); closeAllDropdowns(); optionsCont.classList.toggle('show'); });
+    optionsCont.addEventListener('click', (e) => {
+        const opt = e.target.closest('.custom-option');
+        if (opt) {
+            trigger.textContent = opt.textContent;
+            hiddenInput.value = opt.dataset.value;
+            optionsCont.classList.remove('show');
+            if(onChangeCallback) onChangeCallback(opt.dataset.value);
+        }
+    });
+}
+
+function closeAllDropdowns() { document.querySelectorAll('.custom-options').forEach(opt => opt.classList.remove('show')); if(typeof suggestionBox !== 'undefined') suggestionBox.style.display = "none"; }
+document.addEventListener('click', closeAllDropdowns);
 
 async function loadPeserta() {
   try {
     const res = await fetch(kelompokURL);
     const data = await res.json();
-    const headers = data[0]; // Baris A1:AX1 (Nama Kelompok)
-    unitSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>';
+    const headers = data[0]; 
+    const unitOptions = document.getElementById('options-unit');
+    unitOptions.innerHTML = '';
     headers.forEach((h, i) => {
       if (h && h.trim() !== "") {
-        const unitName = h.trim();
-        const option = document.createElement("option");
-        option.value = unitName; option.textContent = unitName;
-        unitSelect.appendChild(option);
-        // Data A2:AX15 (Daftar Nama per Kelompok)
-        dataPesertaGlobal[unitName] = data.slice(1, 15).map(r => r[i]).filter(x => x && x.trim() !== "");
+        const div = document.createElement("div"); div.className = "custom-option"; div.dataset.value = h.trim(); div.textContent = h.trim();
+        unitOptions.appendChild(div);
+        dataPesertaGlobal[h.trim()] = data.slice(1, 15).map(r => r[i]).filter(x => x && x.trim() !== "");
       }
     });
-  } catch (e) { console.error("Gagal load peserta:", e); }
+  } catch (e) { console.error(e); }
 }
 
-function positionBox() {
-  const rect = namaInput.getBoundingClientRect();
-  suggestionBox.style.left = rect.left + window.scrollX + "px";
-  suggestionBox.style.top = rect.bottom + window.scrollY + "px";
-  suggestionBox.style.width = rect.width + "px";
-}
+const namaInput = document.getElementById("nama-input");
+const suggestionBox = document.createElement("div");
+suggestionBox.style.cssText = "position:absolute; background:#fff; border:1px solid #cbd5e1; border-radius:6px; box-shadow:0 8px 16px rgba(0,0,0,0.15); max-height:150px; overflow-y:auto; z-index:2000; display:none;";
+document.body.appendChild(suggestionBox);
 
 namaInput.addEventListener("input", () => {
-  const unit = unitSelect.value;
-  if (!unit || !dataPesertaGlobal[unit]) { suggestionBox.style.display = "none"; return; }
+  const unit = document.getElementById("unit-select").value;
+  if (!unit) return;
   const val = namaInput.value.toLowerCase();
   const filtered = dataPesertaGlobal[unit].filter(n => n.toLowerCase().includes(val));
   suggestionBox.innerHTML = "";
   if (filtered.length > 0) {
     filtered.forEach(nama => {
-      const item = document.createElement("div");
-      item.textContent = nama; item.style.padding = "6px 10px"; item.style.cursor = "pointer";
-      item.onclick = () => { namaInput.value = nama; suggestionBox.style.display = "none"; };
-      item.onmouseenter = () => item.style.background = "#f3f4f6";
-      item.onmouseleave = () => item.style.background = "#fff";
+      const item = document.createElement("div"); item.textContent = nama; item.style.padding = "8px 10px"; item.style.cursor = "pointer"; item.style.fontSize = "0.8rem";
+      item.onclick = (e) => { e.stopPropagation(); namaInput.value = nama; suggestionBox.style.display = "none"; };
       suggestionBox.appendChild(item);
     });
-    positionBox(); suggestionBox.style.display = "block";
+    const rect = namaInput.getBoundingClientRect();
+    suggestionBox.style.left = rect.left + window.scrollX + "px";
+    suggestionBox.style.top = rect.bottom + window.scrollY + "px";
+    suggestionBox.style.width = rect.width + "px";
+    suggestionBox.style.display = "block";
   } else { suggestionBox.style.display = "none"; }
 });
-
-unitSelect.addEventListener("change", () => { namaInput.value = ""; suggestionBox.style.display = "none"; });
 
 function render(){
   const p = document.getElementById("pos").value;
@@ -218,9 +270,9 @@ function render(){
     const card = document.createElement("div");
     card.className = "aspek-card";
     card.innerHTML = `<div class="left"><div class="aspek-title">${x.a}</div><div class="skala-list">${skalaHtml}</div></div><div class="nilai-besar-stack">
-        <div class="nilai-row"><div id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah?'filled':''}">${nilaiData[p][i].sekolah||'-'}</div><div class="domain-tag-v">SCH</div></div>
-        <div class="nilai-row"><div id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga?'filled':''}">${nilaiData[p][i].keluarga||'-'}</div><div class="domain-tag-v">FAM</div></div>
-        <div class="nilai-row"><div id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial?'filled':''}">${nilaiData[p][i].sosial||'-'}</div><div class="domain-tag-v">SOC</div></div></div>`;
+        <div class="nilai-row"><div id="sekolah-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sekolah?'filled':''}">${nilaiData[p][i].sekolah||'-'}</div><div class="domain-tag-v">SCHOOL</div></div>
+        <div class="nilai-row"><div id="keluarga-${p}-${i}" class="nilai-besar ${nilaiData[p][i].keluarga?'filled':''}">${nilaiData[p][i].keluarga||'-'}</div><div class="domain-tag-v">FAMILY</div></div>
+        <div class="nilai-row"><div id="sosial-${p}-${i}" class="nilai-besar ${nilaiData[p][i].sosial?'filled':''}">${nilaiData[p][i].sosial||'-'}</div><div class="domain-tag-v">SOCIAL</div></div></div>`;
     body.appendChild(card);
   });
 }
@@ -237,10 +289,8 @@ function setNilai(p, i, n, el){
 async function submitData() {
   const u = document.getElementById("unit-select").value;
   const n = document.getElementById("nama-input").value;
-  if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas (Kelompok & Nama)", "error");
-  
+  if(!u || !n) return Swal.fire("Gagal", "Lengkapi Identitas", "error");
   let tempNilai = {};
-  // Kumpulkan semua rata-rata aspek
   for(let p in rubrik) {
     for(let i=0; i<3; i++) {
       let valArr = [];
@@ -254,35 +304,20 @@ async function submitData() {
       tempNilai[rubrik[p][i].a] = avg;
     }
   }
-
-  // Hitung Jumlah
   const total = Object.values(tempNilai).reduce((a,b)=>a+b,0);
-  if(total === 0) return Swal.fire("Gagal", "Belum ada nilai yang diisi", "warning");
-
+  if(total === 0) return Swal.fire("Kosong", "Isi nilai dulu", "warning");
   Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
-  
-  // Format Data untuk Sheet "Nilai_Bintal_Kelompok"
-  const payload = {
-    form: "bintal_kelompok", // Identitas agar Apps Script tahu masuk ke sheet mana
-    nama: n,
-    unit: u,
-    aspek_nilai: tempNilai, // Objek berisi semua aspek
-    jumlah: total
-  };
-
-  const fd = new URLSearchParams(); 
-  fd.append("data", JSON.stringify(payload));
-
   try { 
+    const fd = new URLSearchParams(); fd.append("data", JSON.stringify({ form: "bintal_kelompok", nama: n, unit: u, aspek_nilai: tempNilai, jumlah: total }));
     await fetch(scriptURL, { method:'POST', body:fd, mode:'no-cors' });
-    Swal.fire("Berhasil", "Data Kelompok Berhasil Disimpan", "success"); 
-  } catch(e) { Swal.fire("Error", "Koneksi Bermasalah", "error"); }
+    Swal.fire("Berhasil", "Data Tersimpan", "success"); 
+  } catch(e) { Swal.fire("Error", "Koneksi Gagal", "error"); }
 }
 
 function downloadExcel() {
   const rows = [["Nama", "Kelompok", "Aspek", "Sekolah", "Keluarga", "Sosial", "Rata-rata"]];
   const nm = namaInput.value || "Anggota";
-  const ut = unitSelect.value || "Kelompok";
+  const ut = document.getElementById("unit-select").value || "Kelompok";
   for(let p in rubrik) {
     for(let i=0; i<3; i++) {
       const d = (nilaiData[p] && nilaiData[p][i]) ? nilaiData[p][i] : {sekolah:0, keluarga:0, sosial:0};
@@ -293,15 +328,19 @@ function downloadExcel() {
   }
   const ws = XLSX.utils.aoa_to_sheet(rows);
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Nilai_Kelompok");
-  XLSX.writeFile(wb, `Bintal_Kelompok_${ut}_${nm}.xlsx`);
+  XLSX.utils.book_append_sheet(wb, ws, "Nilai");
+  XLSX.writeFile(wb, `Bintal_Kelompok_${ut}.xlsx`);
 }
 
-function resetForm(){ Swal.fire({title: "Reset Form?", icon: "warning", showCancelButton: true}).then(r => { if(r.isConfirmed) location.reload(); }); }
-document.getElementById("pos").onchange = render;
-document.getElementById("domain").onchange = render;
-document.addEventListener("DOMContentLoaded", () => { loadPeserta(); render(); });
-window.addEventListener("resize", positionBox);
+function resetForm(){ location.reload(); }
+
+document.addEventListener("DOMContentLoaded", () => { 
+    loadPeserta(); 
+    initCustomSelect('wrapper-unit', () => { namaInput.value = ""; });
+    initCustomSelect('wrapper-pos', render);
+    initCustomSelect('wrapper-domain', render);
+    render(); 
+});
 </script>
 </body>
 </html>

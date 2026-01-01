@@ -6,7 +6,6 @@
 <title>RUBRIK ASESMEN MANDIRI</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-/* KEMBALI KE FORMAT ASLI ANDA */
 :root{
   --bg: #fff5fc;
   --accent: #000000;
@@ -80,10 +79,9 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
   background: #fff8e1; font-size: 12px; text-align: center; font-weight: bold;
 }
 
-/* TOMBOL MULAI DI BAWAH KONTAINER IDENTITAS */
 .btn-mulai {
   width: 100%; background: var(--primary); color: #fff;
-  border: none; border-radius: 6px; padding: 8px;
+  border: none; border-radius: 6px; padding: 10px;
   font-weight: 700; cursor: pointer; margin-top: 4px;
 }
 
@@ -112,25 +110,39 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 
 .main {
   max-width: 980px; margin: 0 auto;
-  padding-top: 210px; padding-bottom: 80px;
+  padding-top: 220px; padding-bottom: 80px;
   padding-left: 10px; padding-right: 10px;
 } 
 
-/* DISEMBUNYIKAN SEBELUM TOKEN BENAR */
+/* WRAPPING CSS */
 #questions, #btnNext { display: none; }
 
 .question-card {
   background: var(--card); border-left: 4px solid var(--accent); 
   padding: 15px; border-radius: 8px; margin-bottom: 15px; 
   box-shadow: 0 4px 8px var(--shadow-light);
+  word-wrap: break-word; overflow-wrap: break-word;
 }
 
-.q-text { font-size: 14px; margin: 0 0 10px 0; font-weight: 700; color: var(--accent); line-height: 1.5; } 
+.q-text { 
+  font-size: 14px; margin: 0 0 12px 0; font-weight: 700; 
+  color: var(--accent); line-height: 1.5;
+  white-space: normal;
+} 
+
 .opt { 
   display: flex; align-items: flex-start; gap: 10px; 
   padding: 12px; border-radius: 6px; background: var(--input); 
-  border: 1px solid #e0e8f0; font-size: 13px; cursor: pointer; margin-bottom: 8px; 
+  border: 1px solid #e0e8f0; font-size: 13px; cursor: pointer; margin-bottom: 8px;
+  white-space: normal; line-height: 1.4;
 }
+
+.opt input { margin-top: 3px; flex-shrink: 0; }
+
+.opt span { 
+  flex: 1; word-break: break-word; overflow-wrap: break-word; 
+}
+
 .opt-correct { background: #e8f5e9 !important; border-color: #2e7d32 !important; color: #1b5e20 !important; font-weight: bold; }
 .opt-wrong { background: #ffebee !important; border-color: #c62828 !important; color: #b71c1c !important; font-weight: bold; }
 .question-card.locked { border-left: 5px solid var(--primary); background-color: #fcfcfc; pointer-events: none; }
@@ -139,7 +151,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 .btn-send{background:#fff; color:var(--accent); padding:10px 15px; border-radius:6px; border:none; font-weight:700; cursor:pointer;}
 
 @media (max-width:480px){ 
-  .main{padding-top: 280px;} 
+  .main{padding-top: 300px;} 
 }
 </style>
 </head>
@@ -151,12 +163,12 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
   <div class="identity-inner">
     <div class="identity-left">
       <div class="identity-toplabel-container">
-        <div class="identity-toplabel">Penilaian Mandiri Manager Paskibra Solution</div>
+        <div class="identity-toplabel">Penilaian Mandiri Anggota MANAGER PASKIBRA SOLUTION</div>
       </div>
       <div class="identity-form-container">
         <div class="identity-row">
           <div class="identity-field">
-            <label>Unit (Asal Sekolah)</label>
+            <label>Unit</label>
             <div id="unit-trigger" class="custom-select-trigger">Pilih Unit</div>
             <div id="unit-dropdown" class="floating-dropdown"></div>
           </div>
@@ -167,13 +179,13 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
         </div>
         <div class="identity-row">
           <div class="identity-field">
-            <label>Nama Peserta Didik</label>
+            <label>Nama Peserta</label>
             <div id="nama-trigger" class="custom-select-trigger">Pilih Unit Dahulu</div>
             <div id="nama-dropdown" class="floating-dropdown"></div>
           </div>
           <div class="identity-field">
             <label>Karakter</label>
-            <div id="sesi-trigger" class="custom-select-trigger" style="justify-content:center">Cageur</div>
+            <div id="sesi-trigger" class="custom-select-trigger" style="justify-content:center">Panca Waluya</div>
             <div id="sesi-dropdown" class="floating-dropdown">
               <div data-val="Cageur">Cageur</div><div data-val="Bageur">Bageur</div>
               <div data-val="Bener">Bener</div><div data-val="Pinter">Pinter</div>
@@ -206,11 +218,9 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 </div>
 
 <script>
-// URL SCRIPT TETAP
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
 let RAW_DATA = [], SEL_UNIT = "", SEL_SESI = "Cageur", SEL_NAMA = "", TOKEN_VALID = false, userAnswers = {};
 
-// DATA PERTANYAAN (TETAP SAMA)
 const QUEST_DATA = {
     "Cageur": [
         { q: "Saat latihan fisik intensif, Anda merasakan nyeri dada yang tidak biasa namun ingin tetap terlihat kuat di depan junior. Bagaimana Anda bersikap?", o: ["Mengabaikan rasa sakit dan terus lari sampai sesi selesai", "Berhenti sejenak secara diam-diam tanpa melapor instruktur", "Mengajak teman lain untuk ikut berhenti agar tidak sendiri", "Melapor kepada medis mengenai kondisi fisik secara jujur", "Meminum obat pereda nyeri tanpa mengetahui dosis yang pas"] },
@@ -255,38 +265,32 @@ const CORRECT_ANSWERS = {
     "Singer": ["2", "1", "4", "3", "5"]
 };
 
-// LOGIKA VERIFIKASI TOKEN (MULAI)
 document.getElementById('btnVerify').onclick = async () => {
     const token = document.getElementById('input-token').value.trim();
     if (!SEL_NAMA || !token) {
         Swal.fire("Peringatan", "Pilih Nama dan isi Token dahulu!", "warning");
         return;
     }
-
     Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-
     try {
         const resp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
         const res = await resp.json();
-
         if (res.valid) {
             TOKEN_VALID = true;
             document.getElementById('questions').style.display = "block";
             document.getElementById('btnNext').style.display = "block";
-            document.getElementById('btnVerify').style.display = "none"; // Sembunyikan tombol mulai jika sudah terbuka
+            document.getElementById('btnVerify').style.display = "none";
             renderQuestions(SEL_SESI);
-            Swal.fire("Berhasil", "Token Valid. Silahkan kerjakan rubrik.", "success");
+            Swal.fire("Berhasil", "Token Valid. Silahkan isi rubrik di bawah.", "success");
         } else {
             Swal.fire("Gagal", "Token salah atau tidak sesuai!", "error");
         }
-    } catch (e) {
-        Swal.fire("Error", "Gagal menghubungi server.", "error");
-    }
+    } catch (e) { Swal.fire("Error", "Gagal menghubungi server.", "error"); }
 };
 
 function renderQuestions(sesi) {
     const container = document.getElementById('questions');
-    container.innerHTML = `<h2 style="text-align:center; color:var(--primary); margin-bottom:20px;">Rubrik ${sesi}</h2>`;
+    container.innerHTML = `<h2 style="text-align:center; color:var(--primary); margin-bottom:20px;">Rubrik: ${sesi}</h2>`;
     QUEST_DATA[sesi].forEach((item, i) => {
         const card = document.createElement('div');
         card.className = 'question-card';
@@ -329,7 +333,7 @@ function calculateScore() {
 
 document.getElementById('btnNext').onclick = async () => {
     if(Object.keys(userAnswers).length < 25) {
-        Swal.fire("Peringatan", "Selesaikan semua soal (25 soal) sebelum simpan!", "warning");
+        Swal.fire("Peringatan", "Selesaikan semua 25 soal sebelum simpan!", "warning");
         return;
     }
     Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
@@ -357,7 +361,6 @@ document.getElementById('btnNext').onclick = async () => {
     } catch(e) { Swal.fire("Error", "Gagal menyimpan data.", "error"); }
 };
 
-// DROPDOWN
 function setupDropdown(triggerId, dropdownId, onSelect) {
     const trigger = document.getElementById(triggerId);
     const dropdown = document.getElementById(dropdownId);

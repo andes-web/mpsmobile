@@ -17,6 +17,21 @@ h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; fo
 .top-section{ display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px; }
 .bar-penilaian, .top-container{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px; display: flex; flex-direction: column; gap: 4px; position: relative;}
 
+/* Logo Container (New) */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 8px 0;
+    padding: 5px;
+}
+.logo-container img {
+    height: 35px; /* Ukuran proporsional */
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
 /* Custom Floating Dropdown Styles */
 .custom-select-wrapper { position: relative; width: 100%; }
 .select-trigger { 
@@ -38,27 +53,29 @@ h2{ text-align:center; margin:0 0 8px; color: var(--accent); font-weight:900; fo
 input#nama-input { width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.85rem; outline: none; }
 
 /* Rubrik & Cards */
-#rubrik-body{ display: grid; gap: 6px; }
-.aspek-card{ border-radius:10px; padding:8px 12px; display:flex; gap:10px; align-items: center; border: 1px solid rgba(0,0,0,0.05); }
-.aspek-card:nth-child(4n+1) { background-color: #eff6ff; }
-.aspek-card:nth-child(4n+2) { background-color: #f0fdf4; }
-.aspek-card:nth-child(4n+3) { background-color: #faf5ff; }
-.aspek-card:nth-child(4n+4) { background-color: #fff7ed; }
+#rubrik-body{ display: grid; gap: 4px; }
+.aspek-card{ border-radius:8px; padding:6px 10px; display:flex; gap:8px; align-items: center; border: 1px solid rgba(0,0,0,0.03); background: #fff; }
+
+.aspek-card:nth-child(4n+1) { border-left: 4px solid #0f172a; }
+.aspek-card:nth-child(4n+2) { border-left: 4px solid #b45309; }
+.aspek-card:nth-child(4n+3) { border-left: 4px solid #334155; }
+.aspek-card:nth-child(4n+4) { border-left: 4px solid #d97706; }
 
 .left{ flex:1; min-width:0; }
-.aspek-title{ font-weight:800; font-size:0.9rem; color: #1e293b; margin-bottom: 2px; }
-.skala-list { display: flex; flex-direction: column; gap: 0; }
-.skala-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.skala-num { font-size: 1.2rem; font-weight: 900; color: #94a3b8; min-width: 20px; text-align: center; }
-.skala-item.active .skala-num { color: var(--accent); }
-.skala-label { font-size: 0.78rem; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.skala-item.active .skala-label { color: #000; font-weight: 700; }
+.aspek-title{ font-weight:850; font-size:0.95rem; color: #1e293b; margin-bottom: 2px; }
+.skala-list { display: flex; flex-direction: column; gap: 0px; }
+.skala-item { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 1px 0; }
+.skala-num { font-size: 1rem; font-weight: 900; color: #cbd5e1; min-width: 20px; text-align: center; }
+.skala-item.active .skala-num { color: var(--gold); }
+.skala-label { font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.skala-item.active .skala-label { color: #029e24; font-weight: 800; }
 
-.nilai-besar-stack { display: flex; flex-direction: column; gap: 0; min-width: 60px; border-left: 1px solid rgba(0,0,0,0.1); padding-left: 8px; }
-.nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
-.nilai-besar { font-size: 3.2rem; font-weight: 950; opacity: 0.1; line-height: 0.75; text-align: right; letter-spacing: -2px; }
+/* SISI KANAN - LEBIH RENGGANG */
+.nilai-besar-stack { display: flex; flex-direction: column; gap: 6px; min-width: 95px; border-left: 1px solid rgba(0,0,0,0.08); padding-left: 15px; }
+.nilai-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 26px; }
+.nilai-besar { font-size: 2.5rem; font-weight: 950; opacity: 0.05; line-height: 0.7; text-align: right; letter-spacing: -1px; }
 .nilai-besar.filled { opacity: 1; }
-.domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.5rem; font-weight: 900; color: #64748b; margin-left: 2px; }
+.domain-tag-v { writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.45rem; font-weight: 900; color: #94a3b8; }
 
 [id^="sekolah-"].filled { color: var(--school); }
 [id^="keluarga-"].filled { color: var(--family); }
@@ -81,7 +98,7 @@ input#nama-input { width:100%; padding:6px 8px; border-radius:6px; border:1px so
   <div class="top-section">
     <div class="top-container">
       <div class="custom-select-wrapper" id="wrapper-unit">
-        <div class="select-trigger" id="trigger-unit">-- Pilih Unit --</div>
+        <div class="select-trigger" id="trigger-unit">Pilih Unit</div>
         <div class="custom-options" id="options-unit"></div>
         <input type="hidden" id="unit-select" value="">
       </div>
@@ -89,26 +106,37 @@ input#nama-input { width:100%; padding:6px 8px; border-radius:6px; border:1px so
     </div>
     <div class="bar-penilaian">
       <div class="custom-select-wrapper" id="wrapper-pos">
-        <div class="select-trigger" id="trigger-pos">CAGEUR (FisMen)</div>
+        <div class="select-trigger" id="trigger-pos">Panca Waluya</div>
         <div class="custom-options" id="options-pos">
-            <div class="custom-option selected" data-value="1">CAGEUR (FisMen)</div>
-            <div class="custom-option" data-value="2">BAGEUR (Akhlak)</div>
-            <div class="custom-option" data-value="3">BENER (Integritas)</div>
-            <div class="custom-option" data-value="4">PINTER (Wawasan)</div>
-            <div class="custom-option" data-value="5">SINGER (Responsif)</div>
+            <div class="custom-option selected" data-value="1">CAGEUR</div>
+            <div class="custom-option" data-value="2">BAGEUR</div>
+            <div class="custom-option" data-value="3">BENER</div>
+            <div class="custom-option" data-value="4">PINTER</div>
+            <div class="custom-option" data-value="5">SINGER</div>
         </div>
         <input type="hidden" id="pos" value="1">
       </div>
       <div class="custom-select-wrapper" id="wrapper-domain">
-        <div class="select-trigger" id="trigger-domain">Dalam Sekolah</div>
+        <div class="select-trigger" id="trigger-domain">Lingkungan</div>
         <div class="custom-options" id="options-domain">
-            <div class="custom-option selected" data-value="sekolah">Dalam Sekolah</div>
-            <div class="custom-option" data-value="keluarga">Dalam Keluarga</div>
-            <div class="custom-option" data-value="sosial">Dalam Sosial</div>
+            <div class="custom-option selected" data-value="sekolah">Sekolah</div>
+            <div class="custom-option" data-value="keluarga">Keluarga</div>
+            <div class="custom-option" data-value="sosial">Sosial</div>
         </div>
         <input type="hidden" id="domain" value="sekolah">
       </div>
     </div>
+  </div>
+
+  <div class="logo-container">
+    <img src="12-removebg-preview.png" alt="Logo 1">
+    <img src="16-removebg-preview.png" alt="Logo 2">
+    <img src="6-removebg-preview (1).png" alt="Logo 3">
+    <img src="8-removebg-preview.png" alt="Logo 4">
+    <img src="31-removebg-preview.png" alt="Logo 5">
+    <img src="7.png" alt="Logo 6">
+    <img src="1_Citeureup.png" alt="Logo 7">
+    <img src="SMP_32.png" alt="Logo 8">
   </div>
 
   <div id="rubrik-body"></div>

@@ -164,10 +164,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   let authenticated = false;
   while (!authenticated) {
     const { value: password } = await Swal.fire({
-      title: "Masukkan Password",
+      title: "Password",
       input: "password",
       inputLabel: "Halaman ini dilindungi",
-      inputPlaceholder: "Masukkan password...",
+      inputPlaceholder: "password...",
       confirmButtonText: "Masuk",
       allowOutsideClick: false,
       allowEscapeKey: false,
@@ -367,3 +367,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
+

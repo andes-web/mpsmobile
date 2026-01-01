@@ -7,71 +7,40 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{
-  --bg: #fff5fc;
-  --accent: #000000;
-  --muted: #334e68;
-  --card: #ffffff;
-  --input: #f7f9fc;
-  --nav-bg: #ffcefd;
-  --shadow-light: rgba(0,0,0,0.05);
-  --primary:#b30077;
-  --deep-blue:#003366;
-  --light-blue:#e9f2ff;
+  --bg: #fff5fc; --accent: #000000; --muted: #334e68; --card: #ffffff;
+  --input: #f7f9fc; --nav-bg: #ffcefd; --shadow-light: rgba(0,0,0,0.05);
+  --primary:#b30077; --deep-blue:#003366; --light-blue:#e9f2ff;
 }
 *{box-sizing:border-box; transition: all 0.2s ease-out;}
-body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px}
+body{font-family:"Segoe UI",sans-serif;margin:0;background:var(--bg);color:var(--muted);font-size:13px}
 
 header {
-  position: fixed;
-  top: 0; left: 0; right: 0; height: 44px;
+  position: fixed; top: 0; left: 0; right: 0; height: 44px;
   background: linear-gradient(90deg,#ff00b3,var(--primary));
-  color: #fff; z-index: 1000;
-  display: flex; align-items: center; justify-content: center;
+  color: #fff; z-index: 1000; display: flex; align-items: center; justify-content: center;
 }
-header h1{margin:0;font-weight:700;font-size:15px;flex:1;text-align:center}
+header h1{margin:0;font-weight:700;font-size:15px;text-align:center}
 
 .identity-bar {
-  position: fixed;
-  top: 44px; left: 0; right: 0;
+  position: fixed; top: 44px; left: 0; right: 0;
   background: var(--nav-bg); padding: 6px 8px;
   z-index: 900; border-bottom: 1px solid #dcdfe4;
 }
-.identity-inner{
-  max-width:980px; margin:0 auto;
-  display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
-}
+.identity-inner{ max-width:980px; margin:0 auto; display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
 .identity-left{display:flex; flex-direction:column; gap:6px; flex:1 1 auto;}
 
-.identity-toplabel-container{
-  background:var(--light-blue); border-radius:6px;
-  padding:4px 8px; text-align:center; border:1px solid #c6d6f5;
-}
+.identity-toplabel-container{ background:var(--light-blue); border-radius:6px; padding:4px 8px; text-align:center; border:1px solid #c6d6f5; }
 .identity-toplabel{font-weight:700; font-size:13px; color:var(--deep-blue);}
 
-.identity-form-container{
-  background:#fff; border:1px solid #d3dae7;
-  border-radius:8px; padding:6px 8px;
-}
-
-.identity-row {
-  display: grid;
-  grid-template-columns: 3fr 80px;
-  gap: 8px;
-  margin-bottom: 6px;
-  align-items: end;
-}
-
-.identity-field {
-  display: flex; flex-direction: column; gap: 2px;
-  position: relative;
-}
+.identity-form-container{ background:#fff; border:1px solid #d3dae7; border-radius:8px; padding:6px 8px; }
+.identity-row { display: grid; grid-template-columns: 3fr 80px; gap: 8px; margin-bottom: 6px; align-items: end; }
+.identity-field { display: flex; flex-direction: column; gap: 2px; position: relative; }
 
 label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 
 .custom-select-trigger {
   width: 100%; min-height: 32px; padding: 6px 8px; border-radius: 5px; border: 1px solid #c9d6e4;
-  background: var(--input); font-size: 11px; cursor: pointer;
-  display: flex; justify-content: space-between; align-items: center;
+  background: var(--input); font-size: 11px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
 }
 
 .input-token {
@@ -80,62 +49,43 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 }
 
 .btn-mulai {
-  width: 100%; background: var(--primary); color: #fff;
-  border: none; border-radius: 6px; padding: 10px;
-  font-weight: 700; cursor: pointer; margin-top: 4px;
+  width: 100%; background: var(--primary); color: #fff; border: none; border-radius: 6px; 
+  padding: 10px; font-weight: 700; cursor: pointer; margin-top: 4px;
 }
 
 .floating-dropdown {
-  position: absolute; top: 100%; left: 0; right: 0; 
-  background: #fff; border: 1px solid #c9d6e4; 
-  border-radius: 5px; margin-top: 2px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-  z-index: 1100; max-height: 200px; 
-  overflow-y: auto; display: none;
+  position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #c9d6e4; 
+  border-radius: 5px; margin-top: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+  z-index: 1100; max-height: 200px; overflow-y: auto; display: none;
 }
 .floating-dropdown div { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #f1f1f1; font-size: 11px;}
 .show { display: block; }
 
 .score-panel{
   display:flex; flex-direction:column; align-items:center; gap:2px;
-  padding:5px 6px; border-radius:6px; background:#fff;
-  border:1px solid rgba(179,0,119,0.12); min-width:85px;
+  padding:5px 6px; border-radius:6px; background:#fff; border:1px solid rgba(179,0,119,0.12); min-width:85px;
 }
 .score-pill{
-  display:block; padding:2px 0; width:55px; text-align:center;
-  border-radius:4px; background:#fff5fc; border:1px solid rgba(179,0,119,0.08);
-  font-weight:700; color:var(--primary); font-size:14px;
+  display:block; padding:2px 0; width:55px; text-align:center; border-radius:4px; 
+  background:#fff5fc; border:1px solid rgba(179,0,119,0.08); font-weight:700; color:var(--primary); font-size:14px;
 }
 .score-label{font-size:10px; color:#444; font-weight:700; text-transform:uppercase;}
 
-.main {
-  max-width: 980px; margin: 0 auto;
-  padding-top: 220px; padding-bottom: 80px;
-  padding-left: 10px; padding-right: 10px;
-} 
+.main { max-width: 980px; margin: 0 auto; padding-top: 220px; padding-bottom: 80px; padding-left: 10px; padding-right: 10px; } 
 
 #questions, #btnNext { display: none; }
 
 .question-card {
-  background: var(--card); border-left: 4px solid var(--accent); 
-  padding: 15px; border-radius: 8px; margin-bottom: 15px; 
-  box-shadow: 0 4px 8px var(--shadow-light);
-  word-wrap: break-word; overflow-wrap: break-word;
+  background: var(--card); border-left: 4px solid var(--accent); padding: 15px; border-radius: 8px; 
+  margin-bottom: 15px; box-shadow: 0 4px 8px var(--shadow-light); word-wrap: break-word; overflow-wrap: break-word;
 }
 
-.q-text { 
-  font-size: 14px; margin: 0 0 12px 0; font-weight: 700; 
-  color: var(--accent); line-height: 1.5;
-  white-space: normal;
-} 
-
+.q-text { font-size: 14px; margin: 0 0 12px 0; font-weight: 700; color: var(--accent); line-height: 1.5; white-space: normal; } 
 .opt { 
-  display: flex; align-items: flex-start; gap: 10px; 
-  padding: 12px; border-radius: 6px; background: var(--input); 
-  border: 1px solid #e0e8f0; font-size: 13px; cursor: pointer; margin-bottom: 8px;
-  white-space: normal; line-height: 1.4;
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-radius: 6px; 
+  background: var(--input); border: 1px solid #e0e8f0; font-size: 13px; cursor: pointer; 
+  margin-bottom: 8px; white-space: normal; line-height: 1.4; 
 }
-
 .opt input { margin-top: 3px; flex-shrink: 0; }
 .opt span { flex: 1; word-break: break-word; overflow-wrap: break-word; }
 
@@ -146,9 +96,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 .fixed-send{position:fixed; left:0; right:0; bottom:0; background:linear-gradient(90deg, #ff00d4, #b300a4); padding:10px; z-index:950;}
 .btn-send{background:#fff; color:var(--accent); padding:10px 15px; border-radius:6px; border:none; font-weight:700; cursor:pointer;}
 
-@media (max-width:480px){ 
-  .main{padding-top: 300px;} 
-}
+@media (max-width:480px){ .main{padding-top: 300px;} }
 </style>
 </head>
 <body>
@@ -158,9 +106,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
 <div class="identity-bar">
   <div class="identity-inner">
     <div class="identity-left">
-      <div class="identity-toplabel-container">
-        <div class="identity-toplabel">Penilaian Mandiri Anggota Paskibra MANAGER PASKIBRA SOLUTION</div>
-      </div>
+      <div class="identity-toplabel-container"><div class="identity-toplabel">Penilaian Mandiri Anggota Paskibra MANAGER PASKIBRA SOLUTION</div></div>
       <div class="identity-form-container">
         <div class="identity-row">
           <div class="identity-field">
@@ -176,7 +122,7 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
         <div class="identity-row">
           <div class="identity-field">
             <label>Nama</label>
-            <div id="nama-trigger" class="custom-select-trigger">Pilih Nama</div>
+            <div id="nama-trigger" class="custom-select-trigger">Pilih Peserta</div>
             <div id="nama-dropdown" class="floating-dropdown"></div>
           </div>
           <div class="identity-field">
@@ -202,26 +148,25 @@ label{font-weight:700; font-size:11px; color:var(--muted); white-space: nowrap;}
   </div>
 </div>
 
-<main class="main">
-  <div id="questions"></div>
-</main>
+<main class="main"><div id="questions"></div></main>
 
 <div class="fixed-send">
   <div style="max-width:980px; margin:0 auto; display:flex; justify-content:space-between; align-items:center;">
-    <p style="color:#fff; margin:0">@2025 Andes-MPS System</p>
+    <p style="color:#fff; margin:0">© 2025 Andes | MPS System</p>
     <button id="btnNext" class="btn-send">SIMPAN DATA</button>
   </div>
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec"; 
+// GANTI DENGAN URL WEB APP ANDA
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
 let RAW_DATA = [], SEL_UNIT = "", SEL_SESI = "Cageur", SEL_NAMA = "", TOKEN_VALID = false, userAnswers = {};
 
 const QUEST_DATA = {
     "Cageur": [
         { q: "Saat latihan fisik intensif, Anda merasakan nyeri dada yang tidak biasa namun ingin tetap terlihat kuat di depan junior. Bagaimana Anda bersikap?", o: ["Mengabaikan rasa sakit dan terus lari sampai sesi selesai", "Berhenti sejenak secara diam-diam tanpa melapor instruktur", "Mengajak teman lain untuk ikut berhenti agar tidak sendiri", "Melapor kepada medis mengenai kondisi fisik secara jujur", "Meminum obat pereda nyeri tanpa mengetahui dosis yang pas"] },
         { q: "Instruktur memberikan instruksi dengan suara yang sangat keras dan mengintimidasi. Bagaimana kondisi mental Anda merespon hal ini?", o: ["Merasa takut dan ingin segera pulang karena tidak nyaman", "Tetap tenang mendengarkan instruksi tanpa terbawa emosi", "Membalas dengan teriakan sebagai bentuk protes lapangan", "Menangis di dalam barisan karena merasa sangat tertekan", "Mengabaikan instruksi tersebut karena dianggap kurang sopan"] },
-        { q: "Malam sebelum hari H upacara, Anda sulit tidur karena rasa cemas yang tinggi. Apa tindakan yang Anda ambil?", o: ["Begadang sampai pagi hari sambil bermain HP di asrama", "Mengonsumsi obat tidur agar dapat segera terlelap cepat", "Keluar dari asrama untuk mencari udara segar tanpa izin", "Memaksa teman untuk tetap bangun menemani Anda mengobrol", "Melakukan relaksasi dan memastikan tubuh tetap istirahat"] },
+        { q: "Malam sebelum hari H upacara, Anda sulit tidur karena rasa cemas yang tinggi. Apa tindakan yang Anda ambil?", o: ["Begadang sampai pagi hari sambil bermain HP di asrama", "Mengonsumsi obat tidur agar dapat segera terlelap cepat", "Keluar dari asrama untuk mencari udara segar tanpa izin", "Memaksa teman untuk tetap bangun menemani Anda mengobrol", "Melakukan relaksasi dan memastikan tubuh tetap istihat"] },
         { q: "Anda melihat teman satu unit pingsan saat upacara berlangsung. Posisi Anda berada tepat di belakangnya. Apa respon Anda?", o: ["Langsung keluar barisan untuk menolongnya secara spontan", "Tetap tegak di posisi dan membiarkan petugas menangani", "Berteriak memanggil bantuan sambil tetap dalam barisan", "Menertawakannya karena dianggap memiliki fisik yang lemah", "Pura-pura tidak tahu agar fokus tugas tidak terganggu"] },
         { q: "Setelah 3 jam latihan tanpa henti, Anda merasa sangat lapar dan lemas. Apa yang Anda lakukan?", o: ["Mencuri waktu untuk makan saat instruktur sedang lengah", "Sengaja menjatuhkan diri agar diistirahatkan lebih awal", "Bertahan dengan fokus penuh sampai waktu istirahat tiba", "Mengeluh sangat keras agar segera didengar oleh pelatih", "Meninggalkan barisan tanpa izin untuk mencari area kantin"] }
     ],
@@ -261,15 +206,12 @@ const CORRECT_ANSWERS = {
     "Singer": ["2", "1", "4", "3", "5"]
 };
 
-// FUNGSI VERIFIKASI MULAI
+// 1. FUNGSI MULAI (DENGAN CEK DATABASE)
 document.getElementById('btnVerify').onclick = async () => {
     const token = document.getElementById('input-token').value.trim();
-    if (!SEL_NAMA || !token) {
-        Swal.fire("Peringatan", "Pilih Nama dan isi Token dahulu!", "warning");
-        return;
-    }
-
-    Swal.fire({ title: 'Memeriksa Akses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+    if (!SEL_NAMA || !token) { Swal.fire("Peringatan", "Pilih Nama dan isi Token!", "warning"); return; }
+    
+    Swal.fire({ title: 'Memverifikasi Akses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
     try {
         const resp = await fetch(`${SCRIPT_URL}?action=verifyToken&nama=${encodeURIComponent(SEL_NAMA)}&token=${encodeURIComponent(token)}`);
@@ -277,21 +219,21 @@ document.getElementById('btnVerify').onclick = async () => {
 
         if (res.alreadySubmitted) {
             Swal.fire({
-                title: "Akses Ditolak!",
-                html: `<div style="text-align:left; background:#f9f9f9; padding:15px; border-radius:8px; border:1px solid #ddd;">
-                        <p style="text-align:center;"><b>${SEL_NAMA}</b> sudah mengisi rubrik.</p>
+                title: "Anda Sudah Mengisi!",
+                html: `<div style="text-align:left; background:#f0f4f8; padding:15px; border-radius:10px; border:1px solid #c3dafe;">
+                        <p style="text-align:center; margin-bottom:10px;">Data <b>${SEL_NAMA}</b> sudah ada di sistem.</p>
                         <hr>
-                        <p style="font-weight:bold; color:var(--primary); text-align:center; font-size:16px;">NILAI AKHIR</p>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; font-size:12px;">
+                        <p style="font-weight:bold; color:var(--primary); text-align:center; font-size:16px;">HASIL ANDA:</p>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
                           <span>Cageur: <b>${res.data.cag}</b></span>
                           <span>Bageur: <b>${res.data.bag}</b></span>
                           <span>Bener: <b>${res.data.ben}</b></span>
                           <span>Pinter: <b>${res.data.pin}</b></span>
                           <span>Singer: <b>${res.data.sin}</b></span>
                         </div>
-                        <p style="font-size:18px; color:#b30077; text-align:center; margin-top:10px;"><b>RATA-RATA: ${res.data.avg}</b></p>
+                        <h2 style="color:#b30077; text-align:center; margin-top:15px;">RATA-RATA: ${res.data.avg}</h2>
                        </div>`,
-                icon: "info"
+                icon: "error"
             });
         } else if (res.valid) {
             TOKEN_VALID = true;
@@ -299,15 +241,14 @@ document.getElementById('btnVerify').onclick = async () => {
             document.getElementById('btnNext').style.display = "block";
             document.getElementById('btnVerify').style.display = "none";
             renderQuestions(SEL_SESI);
-            Swal.fire("Berhasil", "Silahkan kerjakan rubrik.", "success");
+            Swal.fire("Berhasil", "Token Valid. Silahkan kerjakan.", "success");
         } else {
-            Swal.fire("Gagal", "Token salah atau tidak sesuai!", "error");
+            Swal.fire("Gagal", "Token Salah!", "error");
         }
-    } catch (e) {
-        Swal.fire("Error", "Gagal menghubungi server. Pastikan SCRIPT_URL benar.", "error");
-    }
+    } catch (e) { Swal.fire("Error", "Gagal cek database.", "error"); }
 };
 
+// 2. FUNGSI RENDER SOAL (DENGAN WRAPPING)
 function renderQuestions(sesi) {
     const container = document.getElementById('questions');
     container.innerHTML = `<h2 style="text-align:center; color:var(--primary); margin-bottom:20px;">Rubrik: ${sesi}</h2>`;
@@ -351,19 +292,14 @@ function calculateScore() {
     });
 }
 
-// SIMPAN DATA & TAMPIL NILAI
+// 3. FUNGSI SIMPAN & TAMPIL NILAI
 document.getElementById('btnNext').onclick = async () => {
-    if(Object.keys(userAnswers).length < 25) {
-        Swal.fire("Peringatan", "Selesaikan semua 25 soal sebelum simpan!", "warning");
-        return;
-    }
-
+    if(Object.keys(userAnswers).length < 25) { Swal.fire("Peringatan", "Selesaikan semua 25 soal!", "warning"); return; }
+    
     const confirm = await Swal.fire({
-        title: 'Simpan Hasil?',
-        text: "Setelah disimpan, Anda tidak dapat mengulangi pengisian.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Ya, Simpan!'
+        title: 'Kirim Jawaban?',
+        text: "Pastikan data sudah benar. Anda tidak bisa mengulang!",
+        icon: 'question', showCancelButton: true, confirmButtonText: 'Ya, Kirim!'
     });
 
     if(!confirm.isConfirmed) return;
@@ -389,26 +325,19 @@ document.getElementById('btnNext').onclick = async () => {
         const res = await resp.json();
         if(res.status === "success") {
             await Swal.fire({
-                title: "Data Berhasil Disimpan!",
+                title: "Berhasil!",
                 html: `<div style="text-align:center;">
-                        <p>Selamat <b>${SEL_NAMA}</b>!</p>
-                        <h2 style="color:var(--primary); margin:10px 0;">RATA-RATA: ${avg}</h2>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left; background:#f0f0f0; padding:15px; border-radius:10px;">
-                          <span>Cageur: <b>${sCag}</b></span>
-                          <span>Bageur: <b>${sBag}</b></span>
-                          <span>Bener: <b>${sBen}</b></span>
-                          <span>Pinter: <b>${sPin}</b></span>
-                          <span style="grid-column: span 2; text-align:center;">Singer: <b>${sSin}</b></span>
-                        </div>
+                        <h2 style="color:var(--primary);">NILAI: ${avg}</h2>
+                        <p>Data <b>${SEL_NAMA}</b> telah aman tersimpan.</p>
                        </div>`,
                 icon: "success"
             });
             location.reload();
         }
-    } catch(e) { Swal.fire("Error", "Gagal menyimpan data.", "error"); }
+    } catch(e) { Swal.fire("Error", "Gagal kirim data.", "error"); }
 };
 
-// DROPDOWN
+// 4. DROPDOWN LOGIC
 function setupDropdown(triggerId, dropdownId, onSelect) {
     const trigger = document.getElementById(triggerId);
     const dropdown = document.getElementById(dropdownId);
@@ -433,16 +362,14 @@ setupDropdown('unit-trigger', 'unit-dropdown', (val, idx) => {
 });
 
 setupDropdown('nama-trigger', 'nama-dropdown', (val) => { 
-    SEL_NAMA = val; 
-    TOKEN_VALID = false;
+    SEL_NAMA = val; TOKEN_VALID = false;
     document.getElementById('questions').style.display = "none";
     document.getElementById('btnNext').style.display = "none";
     document.getElementById('btnVerify').style.display = "block";
 });
 
 setupDropdown('sesi-trigger', 'sesi-dropdown', (val) => { 
-    SEL_SESI = val; 
-    if(TOKEN_VALID) renderQuestions(val); 
+    SEL_SESI = val; if(TOKEN_VALID) renderQuestions(val); 
 });
 
 async function loadData() {

@@ -4456,7 +4456,7 @@ const jurlamChildren = [
     </section>
 
 <style>
-  /* Animasi Floating yang diperhalus */
+  /* Animasi Floating untuk Mobile */
   @keyframes floating {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
@@ -4469,28 +4469,20 @@ const jurlamChildren = [
     background-color: #f8f9f5;
     padding: 20px;
     border-radius: 15px;
+    max-width: 1000px;
+    margin: auto;
   }
 
-  .floating-card {
-    animation: floating 4s ease-in-out infinite;
-    transition: all 0.3s ease;
-    border: 1px solid #dad7cd;
-  }
-
-  .floating-card:hover {
-    box-shadow: 0 15px 30px rgba(163, 177, 138, 0.2);
-    transform: scale(1.02);
-  }
-
-  /* Desain Tabel Modern */
+  /* Pengaturan Display */
   .desktop-table { display: block; overflow-x: auto; }
   .mobile-view { display: none; }
 
   @media screen and (max-width: 768px) {
-    .desktop-table { display: none; }
-    .mobile-view { display: block; }
+    .desktop-table { display: none !important; }
+    .mobile-view { display: block !important; }
   }
 
+  /* Style Tabel Desktop */
   .main-table {
     width: 100%;
     border-collapse: separate;
@@ -4498,17 +4490,16 @@ const jurlamChildren = [
     background: white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   }
 
   .main-table th {
-    background: #a3b18a; /* Sage Green */
+    background: #a3b18a;
     color: white;
     padding: 18px;
     text-align: left;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
   }
 
   .main-table td {
@@ -4522,33 +4513,51 @@ const jurlamChildren = [
     background: #dad7cd !important;
     color: #3a5a40 !important;
     font-weight: bold;
-    font-size: 1.1rem;
     text-align: center !important;
   }
 
+  /* Style Kartu Mobile */
+  .mobile-card {
+    background: white;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid #dad7cd;
+    animation: floating 4s ease-in-out infinite;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  }
+
+  .mobile-time {
+    font-weight: bold;
+    color: #588157;
+    display: block;
+    margin-bottom: 5px;
+  }
+
   .badge-game {
-    background: #dbeafe;
-    color: #1e40af;
+    background: #e8f5e9;
+    color: #2e7d32;
     padding: 4px 10px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
     display: inline-block;
     margin-top: 8px;
-    border: 1px solid #bfdbfe;
+    border: 1px solid #c8e6c9;
   }
 
   .tech-detail {
     font-size: 0.85rem;
-    color: #588157;
+    color: #555;
     margin-top: 5px;
     display: block;
+    line-height: 1.4;
   }
 </style>
 
 <div class="container-panca">
-  <h3 style="color: #3a5a40; border-left: 6px solid #a3b18a; padding-left: 15px; font-size: 1.2rem; margin-bottom: 5px;">
-    Rundown Kegiatan
+  <h3 style="color: #3a5a40; border-left: 6px solid #a3b18a; padding-left: 15px; font-size: 1.2rem; margin-bottom: 20px;">
+    Rundown Lengkap Kegiatan Paskibra
   </h3>
 
   <div class="desktop-table">
@@ -4562,7 +4571,6 @@ const jurlamChildren = [
       </thead>
       <tbody>
         <tr><td colspan="3" class="day-header">Hari Pertama: Karakter & Ketangkasan</td></tr>
-        
         <tr>
           <td>07.00 - 08.30</td>
           <td>
@@ -4570,9 +4578,8 @@ const jurlamChildren = [
             <span class="tech-detail">Teknis: Sterilisasi plastik sekali pakai dan pembagian atribut ramah lingkungan.</span>
             <span class="badge-game">Game: Eco-Relay (Estafet pilah sampah cepat sesuai kategori B3/Organik)</span>
           </td>
-          <td><strong>Sehat Singer</strong><br>Kesiapan ekosistem & disiplin.</td>
+          <td><strong>Sehat Singer</strong><br>Kesiapan ekosistem.</td>
         </tr>
-
         <tr>
           <td>08.30 - 10.00</td>
           <td>
@@ -4580,29 +4587,26 @@ const jurlamChildren = [
             <span class="tech-detail">Teknis: Bedah kasus sosial dengan Fishbone Diagram di atas media daur ulang.</span>
             <span class="badge-game">Game: Argumen Berantai (Mempertahankan logika di atas titian bambu)</span>
           </td>
-          <td><strong>Sehat Pinter</strong><br>Analisis tajam & problem solving.</td>
+          <td><strong>Sehat Pinter</strong><br>Analisis & Problem Solving.</td>
         </tr>
-
         <tr>
           <td>10.00 - 12.00</td>
           <td>
             <strong>Survival Kitchen (Masak Mandiri)</strong><br>
             <span class="tech-detail">Teknis: Tiap tim mengolah bahan mentah menggunakan kayu bakar dan alat tradisional.</span>
-            <span class="badge-game">Edukasi: Adab Makan (Tradisi Botram tanpa sisa makanan/zero waste)</span>
+            <span class="badge-game">Edukasi: Renungan Adab Makan (Tradisi Botram tanpa sisa makanan/zero waste) </span>
           </td>
-          <td><strong>Sehat Cageur & Bageur</strong><br>Kemandirian & kebersamaan.</td>
+          <td><strong>Sehat Cageur & Bageur</strong><br>Kemandirian & Kebersamaan.</td>
         </tr>
-
         <tr>
           <td>13.00 - 15.00</td>
           <td>
             <strong>Physical Resilience & PBB Mindful</strong><br>
-            <span class="tech-detail">Teknis: Latihan baris berbaris tanpa suara, hanya menggunakan instruksi ketukan tangan.</span>
+            <span class="tech-detail">Teknis: Latihan baris berbaris tanpa suara, hanya instruksi ketukan tangan.</span>
             <span class="badge-game">Game: Blind Leader (Navigasi tim bermata tertutup via kode peluit)</span>
           </td>
-          <td><strong>Sehat Cageur</strong><br>Ketahanan fisik & kepatuhan instruksi.</td>
+          <td><strong>Sehat Cageur</strong><br>Ketahanan Fisik.</td>
         </tr>
-
         <tr>
           <td>15.00 - 16.30</td>
           <td>
@@ -4610,9 +4614,8 @@ const jurlamChildren = [
             <span class="tech-detail">Teknis: Simulasi menyeberangi rintangan "lumpur" menggunakan media terbatas.</span>
             <span class="badge-game">Game: The Bridge (Kerjasama memindahkan papan titian secara kontinu)</span>
           </td>
-          <td><strong>Sehat Pinter</strong><br>Strategi kolektif & manajemen risiko.</td>
+          <td><strong>Sehat Pinter</strong><br>Strategi Kolektif.</td>
         </tr>
-
         <tr>
           <td>19.30 - 22.00</td>
           <td>
@@ -4620,11 +4623,9 @@ const jurlamChildren = [
             <span class="tech-detail">Teknis: Sesi berbagi pengalaman hidup (deep talk) di sekeliling api unggun.</span>
             <span class="badge-game">Game: Estafet Visi (Bisikan komitmen panjang antar anggota tim)</span>
           </td>
-          <td><strong>Sehat Bener</strong><br>Kejujuran nurani & penyelarasan visi.</td>
+          <td><strong>Sehat Bener</strong><br>Penyelarasan Visi.</td>
         </tr>
-
         <tr><td colspan="3" class="day-header">Hari Kedua: Kontemplasi & Pelantikan</td></tr>
-
         <tr>
           <td>02.00 - 05.00</td>
           <td>
@@ -4632,19 +4633,17 @@ const jurlamChildren = [
             <span class="tech-detail">Teknis: Perjalanan sunyi di alam malam untuk refleksi dosa dan janji perbaikan diri.</span>
             <span class="badge-game">Kegiatan: Tahajud berjamaah & Renungan Suci di bawah langit terbuka.</span>
           </td>
-          <td><strong>Sehat Bageur & Bener</strong><br>Pembersihan batin & spiritualitas.</td>
+          <td><strong>Sehat Bageur & Bener</strong><br>Spiritualitas.</td>
         </tr>
-
         <tr>
           <td>06.00 - 08.00</td>
           <td>
             <strong>Senam Panca Waluya & Sarapan</strong><br>
-            <span class="tech-detail">Teknis: Olah gerak pernapasan dikombinasikan dengan kuda-kuda bela diri.</span>
+            <span class="tech-detail">Teknis: Olah gerak pernapasan dikombinasikan dengan kuda-kuda bela diri..</span>
             <span class="badge-game">Game: Human Knot (Mengurai simpul tangan manusia tanpa melepas genggaman)</span>
           </td>
-          <td><strong>Sehat Cageur</strong><br>Kelenturan fisik & harmoni gerak.</td>
+          <td><strong>Sehat Cageur</strong><br>Kelenturan & Harmoni.</td>
         </tr>
-
         <tr>
           <td>08.00 - 10.00</td>
           <td>
@@ -4652,9 +4651,8 @@ const jurlamChildren = [
             <span class="tech-detail">Teknis: Membangun struktur rapuh di bawah tekanan intervensi mentor.</span>
             <span class="badge-game">Game: Trust Fall (Menjatuhkan diri ke arah tangkapan rekan setim)</span>
           </td>
-          <td><strong>Sehat Bageur & Pinter</strong><br>Manajemen emosi & solidaritas total.</td>
+          <td><strong>Sehat Bageur & Pinter</strong><br>Solidaritas Total.</td>
         </tr>
-
         <tr>
           <td>10.00 - 12.00</td>
           <td>
@@ -4662,11 +4660,60 @@ const jurlamChildren = [
             <span class="tech-detail">Teknis: Pembersihan total lokasi hingga kembali ke kondisi semula.</span>
             <span class="badge-game">Seremonial: Pembasuhan wajah & pengukuhan janji Panca Waluya.</span>
           </td>
-          <td><strong>Panca Waluya Utuh</strong><br>Integritas final & komitmen aksi.</td>
+          <td><strong>Panca Waluya Utuh</strong><br>Integritas Final.</td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <div class="mobile-view">
+    <div style="background: #dad7cd; padding: 10px; text-align: center; font-weight: bold; border-radius: 8px; margin-bottom: 15px; color: #3a5a40;">HARI PERTAMA</div>
+    
+    <div class="mobile-card">
+      <span class="mobile-time">07.00 - 08.30</span>
+      <strong>Eco-Orientation & Mobilisasi</strong>
+      <span class="tech-detail">Teknis: Sterilisasi plastik & atribut ramah lingkungan.</span>
+      <span class="badge-game">Game: Eco-Relay</span>
+    </div>
+
+    <div class="mobile-card">
+      <span class="mobile-time">08.30 - 10.00</span>
+      <strong>Critical Thinking Lab</strong>
+      <span class="tech-detail">Teknis: Bedah kasus dengan Fishbone Diagram.</span>
+      <span class="badge-game">Game: Argumen Berantai</span>
+    </div>
+
+    <div class="mobile-card">
+      <span class="mobile-time">10.00 - 12.00</span>
+      <strong>Survival Kitchen</strong>
+      <span class="tech-detail">Teknis: Memasak dengan kayu bakar & tradisi Botram.</span>
+      <span class="badge-game">Edukasi: Zero Waste</span>
+    </div>
+
+    <div class="mobile-card">
+      <span class="mobile-time">13.00 - 15.00</span>
+      <strong>PBB Mindful</strong>
+      <span class="tech-detail">Teknis: Baris berbaris tanpa suara (ketukan tangan).</span>
+      <span class="badge-game">Game: Blind Leader</span>
+    </div>
+
+    <div style="background: #dad7cd; padding: 10px; text-align: center; font-weight: bold; border-radius: 8px; margin: 20px 0 15px 0; color: #3a5a40;">HARI KEDUA</div>
+
+    <div class="mobile-card">
+      <span class="mobile-time">02.00 - 05.00</span>
+      <strong>Night Soul Journey</strong>
+      <span class="tech-detail">Teknis: Perjalanan sunyi & renungan suci.</span>
+      <span class="badge-game">Kegiatan: Tahajud Berjamaah</span>
+    </div>
+
+    <div class="mobile-card">
+      <span class="mobile-time">10.00 - 12.00</span>
+      <strong>Operasi Semut & Pelantikan</strong>
+      <span class="tech-detail">Teknis: Pembersihan lokasi & pengukuhan janji.</span>
+      <span class="badge-game">Seremonial: Pembasuhan Wajah</span>
+    </div>
+  </div>
+</div>
 
     <section style="background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0;">
       <h3 style="color: #2c3e50; font-size: 1.1rem; margin-bottom: 10px;">3. Target Panca Waluya di Lokasi</h3>
@@ -4932,7 +4979,7 @@ const jurlamChildren = [
   content: `<div class="makrab-container" style="font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; max-width: 100%;">
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #f39c12; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Api Refleksi & Kedisiplinan Bageur</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #f39c12; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Api Refleksi & Kedisiplinan</h3>
       <div style="background: #fff9f0; padding: 20px; border-radius: 12px; border: 1px solid #ffe8cc;">
         <p style="text-align: justify; font-size: 0.95rem; margin: 0;">
           Malam Keakraban bukan sekadar hiburan api unggun biasa, melainkan sebuah <strong>Ritual Transformasi</strong>. Di bawah langit malam, cahaya api melambangkan semangat yang membara sekaligus penghangat jiwa. Fokus utama sesi ini adalah <strong>Sehat Bageur</strong> melalui simulasi kasus nyata: peserta dihadapkan pada dilema moral dan kedisiplinan yang menguji integritas mereka sebagai calon pemimpin. Di sinilah mereka belajar bahwa disiplin bukan karena diawasi instruktur, melainkan karena kesadaran batin. Dalam suasana yang khidmat, setiap anggota diajak untuk meluruhkan ego, mengakui kelemahan, dan saling menguatkan dalam ikatan <strong>Panca Waluya</strong> yang utuh.
@@ -4942,7 +4989,7 @@ const jurlamChildren = [
 
     <section style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: auto; padding: 10px;">
   <h3 style="color: #2d3250; border-left: 5px solid #424769; padding-left: 15px; font-size: 1.3rem; margin-bottom: 25px;">
-    3. Detail Malam & Muhasabah
+    2. Detail Malam & Muhasabah
   </h3>
 
   <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -5083,8 +5130,8 @@ const jurlamChildren = [
     </section>
 
     <section style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: auto; padding: 10px;">
-  <h3 style="color: #432818; border-left: 5px solid #99582a; padding-left: 15px; font-size: 1.3rem; margin-bottom: 25px; text-transform: uppercase;">
-    4. Rundown Sesi Penutup & Pelantikan (Rencana A)
+  <h3 style="color: #2c3e50; border-left: 5px solid #34495e; padding-left: 15px; font-size: 1.2rem; margin-bottom: 25px;">
+    2. Rundown Sesi Penutup & Pelantikan
   </h3>
 
   <div style="display: flex; flex-direction: column; gap: 12px;">

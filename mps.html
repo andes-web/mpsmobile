@@ -1972,7 +1972,15 @@ header {
     vertical-align: middle !important;
   }
 }
-
+/* KODE UNTUK MEMBUAT SEMUA JUDUL DI DALAM KONTEN MENJADI CENTER */
+.content h2,  
+.content .perencanaan-container h2 {
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
 </style>
 
 </head>
@@ -3493,63 +3501,122 @@ const jurlamChildren = [
       {
         title: "Perencanaan",
     content: `<div class="perencanaan-container" style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 100%; background: #ffffff; padding: 10px;">
-  
+
   <section style="margin-bottom: 30px; animation: fadeIn 0.8s ease-out;">
     <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
       <span style="margin-right: 10px;">🌐</span> Gambaran Umum
     </h3>
     <p style="text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 20px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
       Selama 3 bulan, fokus utama adalah transisi dari sekadar "perencanaan acara" menjadi <strong>"transformasi pribadi"</strong>. 
-      Setiap anggota diajak memahami bahwa Bimental bukan hanya ajang latihan fisik, melainkan proses penyelarasan visi untuk mencapai keseimbangan 
+      Setiap anggota diajak memahami bahwa Bintal bukan hanya ajang latihan fisik, melainkan proses penyelarasan visi untuk mencapai keseimbangan 
       <strong>Panca Waluya</strong> (Cageur, Bageur, Bener, Pinter, dan Singer).
-    </p>
+      <br><br> Untuk mewujudkan transformasi tersebut, perencanaan disusun secara komprehensif melalui empat pilar utama yang menjembatani nilai-nilai filosofis ke dalam aksi nyata di lapangan diantaranya <strong>Kurikulum Karakter</strong>, <strong>Survei Lokasi & Mjn Risiko</strong>, <strong>Dana Mandiri Kreatif</strong>, <strong>Koordinasi Lintas Sektor</strong></p>
   </section>
 
   <section style="margin-bottom: 30px; animation: slideInUp 0.8s ease-out;">
-    <h3 style="color: #2c3e50; border-left: 5px solid #2ecc71; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
-      <span style="margin-right: 10px;">📅</span> Teknis Pelaksanaan
-    </h3>
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      <div style="background: #ffffff; padding: 15px; border-radius: 10px; border: 1px solid #dee2e6; border-left: 6px solid #3498db; transition: 0.3s;" onmouseover="this.style.transform='translateX(10px)'" onmouseout="this.style.transform='translateX(0)'">
-        <strong style="color: #3498db;">Bulan 1 (Diagnosa):</strong><br>
-        <span style="font-size: 0.9rem;">Pemetaan karakter & kesehatan mental anggota melalui <em>assessment</em> mandiri.</span>
+  <h3 style="color: #2c3e50; border-left: 5px solid #2ecc71; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
+    <span style="margin-right: 10px;">📅</span> Teknis Pelaksanaan
+  </h3>
+  
+  <div style="display: flex; flex-direction: column; gap: 15px;">
+    
+    <div style="background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #dee2e6; border-left: 6px solid #3498db; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateX(10px)'; this.style.borderColor='#3498db'" onmouseout="this.style.transform='translateX(0)'; this.style.borderColor='#dee2e6'">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <strong style="color: #3498db; font-size: 1rem;">Bulan 1: Fase Diagnosa</strong>
+        <span style="font-size: 0.7rem; background: #ebf5ff; color: #3498db; padding: 2px 8px; border-radius: 20px; font-weight: bold; text-transform: uppercase;">Penyusunan Kurikulum</span>
       </div>
-      <div style="background: #ffffff; padding: 15px; border-radius: 10px; border: 1px solid #dee2e6; border-left: 6px solid #2ecc71; transition: 0.3s;" onmouseover="this.style.transform='translateX(10px)'" onmouseout="this.style.transform='translateX(0)'">
-        <strong style="color: #2ecc71;">Bulan 2 (Kemandirian):</strong><br>
-        <span style="font-size: 0.9rem;">Aktivasi unit usaha kreatif (Bazar) untuk melatih kemandirian finansial.</span>
-      </div>
-      <div style="background: #ffffff; padding: 15px; border-radius: 10px; border: 1px solid #dee2e6; border-left: 6px solid #e74c3c; transition: 0.3s;" onmouseover="this.style.transform='translateX(10px)'" onmouseout="this.style.transform='translateX(0)'">
-        <strong style="color: #e74c3c;">Bulan 3 (Mitigasi):</strong><br>
-        <span style="font-size: 0.9rem;">Finalisasi teknis & simulasi manajemen risiko serta sampah (Zero Waste).</span>
-      </div>
+      <p style="font-size: 0.9rem; margin: 0; text-align: justify; color: #555;">
+        Fokus pada <strong>Pemetaan Karakter & Kesehatan Mental</strong> melalui <em>assessment</em> mandiri. Data ini menjadi dasar <strong>Peny. Kurikulum Karakter</strong> yang dipersonalisasi, guna memastikan materi kepemimpinan menjawab kebutuhan spesifik setiap individu (<em>Bener & Pinter</em>).
+      </p>
     </div>
-  </section>
+
+    <div style="background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #dee2e6; border-left: 6px solid #2ecc71; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateX(10px)'; this.style.borderColor='#2ecc71'" onmouseout="this.style.transform='translateX(0)'; this.style.borderColor='#dee2e6'">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <strong style="color: #2ecc71; font-size: 1rem;">Bulan 2: Fase Kemandirian</strong>
+        <span style="font-size: 0.7rem; background: #eafff2; color: #2ecc71; padding: 2px 8px; border-radius: 20px; font-weight: bold; text-transform: uppercase;">Penggalangan Dana Mandiri</span>
+      </div>
+      <p style="font-size: 0.9rem; margin: 0; text-align: justify; color: #555;">
+        Aktivasi unit usaha kreatif melalui bazar untuk melatih kemandirian finansial. Proses <strong>Penggalangan Dana</strong> ini adalah praktik langsung nilai <em>Singer</em>, di mana anggota belajar mengelola sumber daya secara inovatif demi keberlangsungan program.
+      </p>
+    </div>
+
+    <div style="background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #dee2e6; border-left: 6px solid #e74c3c; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateX(10px)'; this.style.borderColor='#e74c3c'" onmouseout="this.style.transform='translateX(0)'; this.style.borderColor='#dee2e6'">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <strong style="color: #e74c3c; font-size: 1rem;">Bulan 3: Fase Mitigasi</strong>
+        <span style="font-size: 0.7rem; background: #fff1f0; color: #e74c3c; padding: 2px 8px; border-radius: 20px; font-weight: bold; text-transform: uppercase;">Survei & Manajemen Risiko</span>
+      </div>
+      <p style="font-size: 0.9rem; margin: 0; text-align: justify; color: #555;">
+        Finalisasi teknis melalui <strong>Survei Lokasi & Mjn Risiko</strong>. Kami mensimulasikan protokol keamanan dan pengelolaan sampah (<em>Zero Waste</em>) untuk menjamin aspek <em>Cageur</em> (kesehatan/keselamatan) terjaga selama di lapangan.
+      </p>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px dashed #adb5bd; transition: 0.3s;" onmouseover="this.style.backgroundColor='#ffffff'; this.style.transform='scale(1.01)'" onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)'">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+        <span style="font-size: 1.2rem;">🤝</span>
+        <strong style="color: #495057;">Koordinasi Lintas Sektor (Finalisasi)</strong>
+      </div>
+      <p style="font-size: 0.85rem; margin: 0; color: #666; font-style: italic;">
+        Sebagai simpul akhir, koordinasi dilakukan dengan seluruh pihak terkait untuk menyelaraskan (<em>Bageur</em>) seluruh teknis pelaksanaan agar eksekusi di hari-H berjalan tanpa kendala.
+      </p>
+    </div>
+
+  </div>
+</section>
 
   <section style="margin-bottom: 30px;">
-    <h3 style="color: #2c3e50; border-left: 5px solid #f1c40f; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
-      <span style="margin-right: 10px;">⏳</span> Rundown Sesi Rapat
-    </h3>
-    <div style="background: #fffdf0; padding: 15px; border-radius: 15px; border: 1px solid #ffec99; overflow: hidden;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-        <tr style="border-bottom: 1px solid #f0e08c; animation: fadeIn 1s;">
-          <td style="padding: 12px; font-weight: bold; color: #856404; width: 30%;">08.00 - 08.15</td>
-          <td style="padding: 12px;"><strong>Cageur:</strong> Olahraga ringan bersama.</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #f0e08c;">
-          <td style="padding: 12px; font-weight: bold; color: #856404;">08.15 - 08.30</td>
-          <td style="padding: 12px;"><strong>Bageur:</strong> Mindfulness & doa.</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #f0e08c;">
-          <td style="padding: 12px; font-weight: bold; color: #856404;">08.30 - 10.00</td>
-          <td style="padding: 12px;"><strong>Pinter:</strong> Koordinasi & Solusi Kolektif.</td>
-        </tr>
-        <tr>
-          <td style="padding: 12px; font-weight: bold; color: #856404;">10.00 - Selesai</td>
-          <td style="padding: 12px;"><strong>Singer:</strong> Operasi semut (Kebersihan).</td>
-        </tr>
-      </table>
-    </div>
-  </section>
+  <h3 style="color: #2c3e50; border-left: 5px solid #f1c40f; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
+    <span style="margin-right: 10px;">⏳</span> Sesi Rapat
+  </h3>
+  
+  <div style="background: #fffdf0; padding: 10px; border-radius: 15px; border: 1px solid #ffec99; box-shadow: 0 4px 6px rgba(0,0,0,0.03);">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; table-layout: fixed;">
+      
+      <tr style="border-bottom: 1px solid #f0e08c;">
+        <td style="padding: 12px 8px; font-weight: bold; color: #856404; width: 25%; vertical-align: top;">08.00</td>
+        <td style="padding: 12px 8px;">
+          <strong style="color: #d4a017;">Pinter & Bener:</strong><br>
+          <span style="color: #555; font-style: italic; font-size: 0.8rem; display: block; margin-bottom: 4px;">Pilar 1: Penyusunan Kurikulum</span>
+          <span style="color: #333;">Diskusi panel perumusan indikator kesehatan mental dan materi kepemimpinan Paskibra yang akan diujikan.</span>
+        </td>
+      </tr>
+      
+      <tr style="border-bottom: 1px solid #f0e08c;">
+        <td style="padding: 12px 8px; font-weight: bold; color: #856404; width: 25%; vertical-align: top;">09.30</td>
+        <td style="padding: 12px 8px;">
+          <strong style="color: #d4a017;">Cageur:</strong><br>
+          <span style="color: #555; font-style: italic; font-size: 0.8rem; display: block; margin-bottom: 4px;">Pilar 2: Survei Lokasi & Mjn Risiko</span>
+          <span style="color: #333;">Pemaparan draf teknis lapangan dan simulasi mitigasi bahaya berdasarkan data awal calon lokasi kegiatan.</span>
+        </td>
+      </tr>
+      
+      <tr style="border-bottom: 1px solid #f0e08c;">
+        <td style="padding: 12px 8px; font-weight: bold; color: #856404; width: 25%; vertical-align: top;">11.00</td>
+        <td style="padding: 12px 8px;">
+          <strong style="color: #d4a017;">Singer:</strong><br>
+          <span style="color: #555; font-style: italic; font-size: 0.8rem; display: block; margin-bottom: 4px;">Pilar 3: Penggalangan Dana Kreatif</span>
+          <span style="color: #333;">Brainstorming ide unit usaha (Bazar/Merchandise) untuk membiayai operasional Bintal secara mandiri.</span>
+        </td>
+      </tr>
+      
+      <tr style="border-bottom: 1px solid #f0e08c;">
+        <td style="padding: 12px 8px; font-weight: bold; color: #856404; width: 25%; vertical-align: top;">13.00</td>
+        <td style="padding: 12px 8px;">
+          <strong style="color: #d4a017;">Bageur:</strong><br>
+          <span style="color: #555; font-style: italic; font-size: 0.8rem; display: block; margin-bottom: 4px;">Pilar 4: Koordinasi Lintas Sektor</span>
+          <span style="color: #333;">Penyusunan daftar <em>stakeholder</em> yang akan dihubungi untuk sinergi izin dan dukungan teknis.</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 12px 8px; font-weight: bold; color: #856404; width: 25%; vertical-align: top;">14.30</td>
+        <td style="padding: 12px 8px;">
+          <strong style="color: #d4a017;">Finalisasi Agenda:</strong><br>
+          <span style="color: #333;">Sinkronisasi seluruh draf pembahasan ke dalam rencana aksi (Timeline) Bulan 1-3.</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
 
   <section style="margin-bottom: 30px;">
     <h3 style="color: #2c3e50; border-left: 5px solid #9b59b6; padding-left: 15px; margin-bottom: 15px; font-weight: 800;">👥 4. Personel & Jobdesk</h3>
@@ -3654,12 +3721,37 @@ const jurlamChildren = [
       <div style="background: #f0fff4; padding: 15px; border-radius: 10px; border: 1px inset #c6f6d5;">
         <p style="text-align: justify; font-size: 0.95rem; margin: 0;">
           Kurikulum ini mengintegrasikan <strong>Ketangkasan PBB</strong> dengan konsep <em>Mindfulness</em>. Tujuannya agar anggota tidak hanya mahir secara visual, tetapi memiliki <strong>Ketenangan Jiwa (Bageur)</strong> saat di bawah tekanan dan <strong>Kebugaran Prima (Cageur)</strong> yang didasari kesadaran penuh akan kesehatan tubuh.
-        </p>
-      </div>
-    </section>
+        </p><p style="text-align: justify; font-size: 0.95rem; margin-bottom: 15px;">
+        Kurikulum ini merupakan proses internalisasi nilai untuk membentuk anggota Paskibra yang tangguh dan bermartabat melalui lima pilar utama:
+      </p>
+      
+      <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem;">
+        <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+          <span style="color: #27ae60; margin-right: 10px;">•</span>
+          <span><strong>Cageur (Sehat):</strong> Menjaga kebugaran fisik melalui PBB dan pola hidup bersih sebagai fondasi kesiapan bertugas.</span>
+        </li>
+        <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+          <span style="color: #3498db; margin-right: 10px;">•</span>
+          <span><strong>Bageur (Baik):</strong> Pembinaan mental melalui <em>Mindfulness</em>, etika berbicara, dan empati kepada sesama anggota.</span>
+        </li>
+        <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+          <span style="color: #e67e22; margin-right: 10px;">•</span>
+          <span><strong>Bener (Benar):</strong> Penanaman integritas, kedisiplinan murni, dan ketaatan pada aturan tanpa pengawasan.</span>
+        </li>
+        <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+          <span style="color: #9b59b6; margin-right: 10px;">•</span>
+          <span><strong>Pinter (Cerdas):</strong> Pengasahan daya pikir kritis untuk memahami strategi lapangan dan solusi kolektif yang efektif.</span>
+        </li>
+        <li style="margin-bottom: 0; display: flex; align-items: flex-start;">
+          <span style="color: #f1c40f; margin-right: 10px;">•</span>
+          <span><strong>Singer (Terampil):</strong> Melatih ketangkasan, kepedulian lingkungan (Zero Waste), dan kemandirian dalam mencari solusi kreatif.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #27ae60; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Latihan Berkesadaran (Per Jam)</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #27ae60; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Latihan Berkesadaran</h3>
       <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
           <thead style="background: #f8fafc; border-bottom: 2px solid #27ae60;">
@@ -3670,19 +3762,19 @@ const jurlamChildren = [
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">00.00 - 00.20</td>
+              <td style="padding: 12px; font-weight: bold;">00.00</td>
               <td style="padding: 12px;"><strong>Internalisasi & Cageur:</strong> Pemanasan kinetik dan meditasi berdiri untuk menyatukan fokus pikiran dengan kesiapan fisik.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">00.20 - 01.10</td>
-              <td style="padding: 12px;"><strong>Drilling & Bageur:</strong> Latihan PBB statis/dinamis dengan penekanan pada ritme napas. Menjaga ketenangan saat instruksi dipercepat.</td>
+              <td style="padding: 12px; font-weight: bold;">00.20</td>
+              <td style="padding: 12px;"><strong>Gerakan PBB & Bageur:</strong> Latihan PBB statis/dinamis dengan penekanan pada ritme napas. Menjaga ketenangan saat instruksi dipercepat.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">01.10 - 01.40</td>
+              <td style="padding: 12px; font-weight: bold;">01.10</td>
               <td style="padding: 12px;"><strong>Dinamika Pinter:</strong> Simulasi formasi kelompok yang membutuhkan komunikasi non-verbal dan empati antar rekan barisan.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">01.40 - 02.00</td>
+              <td style="padding: 12px; font-weight: bold;">01.40</td>
               <td style="padding: 12px;"><strong>Refleksi & Singer:</strong> <em>Self-reflection</em> (apa yang dirasakan tubuh), evaluasi asertif, dan aksi "Semut Lis" (bersih area).</td>
             </tr>
           </tbody>
@@ -3695,7 +3787,7 @@ const jurlamChildren = [
       <h3 style="color: #2c3e50; border-left: 5px solid #27ae60; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">3. Teknis Integrasi PBB & Panca Waluya</h3>
       <div style="display: grid; gap: 12px;">
         <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; color: #2d3748; margin-bottom: 5px;">A. PBB Berkesadaran (Mindful Drilling)</div>
+          <div style="font-weight: bold; color: #2d3748; margin-bottom: 5px;">A. PBB Berkesadaran</div>
           <p style="font-size: 0.9rem; margin: 0; color: #4a5568;">Melatih setiap gerakan dengan pengaturan napas yang sinkron, sehingga detak jantung tetap stabil (Sehat Cageur & Bageur).</p>
         </div>
         <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
@@ -3706,7 +3798,7 @@ const jurlamChildren = [
     </section>
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #27ae60; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">4. Personel Pelaksana Kurikulum</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #27ae60; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">4. Personel Pelaksana</h3>
       <div style="overflow-x: auto;">
         <table style="width: 100%; border-collapse: collapse; min-width: 500px; font-size: 0.85rem;">
           <thead>
@@ -3809,7 +3901,7 @@ const jurlamChildren = [
     </section>
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #2980b9; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Lapangan Tim Survei (Per Jam)</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #2980b9; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Kegiatan Tim Survei</h3>
       <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
           <thead style="background: #2980b9; color: white;">
@@ -3820,23 +3912,23 @@ const jurlamChildren = [
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">08.00 - 09.00</td>
+              <td style="padding: 12px; font-weight: bold;">08.00</td>
               <td style="padding: 12px;"><strong>Analisis Topografi:</strong> Pengecekan kemiringan lahan, zona rawan longsor (A) atau area konstruksi sekolah (B).</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">09.00 - 10.30</td>
+              <td style="padding: 12px; font-weight: bold;">09.00</td>
               <td style="padding: 12px;"><strong>Audit Sanitasi & Air:</strong> Memastikan ketersediaan air bersih untuk <em>Sehat Cageur</em> dan kelayakan toilet untuk <em>Sehat Singer</em>.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">10.30 - 12.00</td>
+              <td style="padding: 12px; font-weight: bold;">10.30</td>
               <td style="padding: 12px;"><strong>Mapping Evakuasi:</strong> Penentuan titik kumpul (Assembly Point) dan simulasi waktu tempuh dari area kegiatan ke medis terdekat.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">13.00 - 14.30</td>
+              <td style="padding: 12px; font-weight: bold;">13.00</td>
               <td style="padding: 12px;"><strong>Koordinasi Wilayah:</strong> Audiensi dengan tokoh masyarakat/pengelola villa/satpam sekolah untuk jaminan <em>Sehat Pinter</em>.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">14.30 - 15.30</td>
+              <td style="padding: 12px; font-weight: bold;">14.30</td>
               <td style="padding: 12px;"><strong>Final Risk Assessment:</strong> Pencatatan semua temuan dalam <em>Risk Map</em> untuk dibahas di rapat pleno.</td>
             </tr>
           </tbody>
@@ -3844,19 +3936,52 @@ const jurlamChildren = [
       </div>
     </section>
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #2980b9; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">3. Teknis Pemetaan Risiko</h3>
-      <div style="display: grid; gap: 12px;">
-        <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; color: #2980b9; margin-bottom: 5px;">A. Mitigasi Fisik (Safety First)</div>
-          <p style="font-size: 0.9rem; margin: 0; color: #4a5568;">Penyediaan alat pelindung diri ringan, tanda bahaya di area licin, dan protokol penanganan cedera fisik di lokasi.</p>
-        </div>
-        <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; color: #2980b9; margin-bottom: 5px;">B. Proteksi Ekosistem (Eco-Mapping)</div>
-          <p style="font-size: 0.9rem; margin: 0; color: #4a5568;">Identifikasi flora/fauna lokal yang harus dijaga dan penentuan sistem pengelolaan sampah harian agar tidak mencemari lingkungan.</p>
-        </div>
+    <section style="margin-bottom: 25px; animation: fadeIn 1s ease-out;">
+  <h3 style="color: #2c3e50; border-left: 5px solid #2980b9; padding-left: 12px; font-size: 1.2rem; margin-bottom: 15px; font-weight: 800;">
+    3. Teknis Pemetaan Risiko & Survei
+  </h3>
+  
+  <p style="text-align: justify; font-size: 0.95rem; color: #555; margin-bottom: 15px; padding-left: 5px;">
+    Sebagai langkah preventif dalam menjaga nilai <strong>Cageur</strong> (Kesehatan), proses survei lokasi tidak hanya melihat keindahan tempat, tetapi secara spesifik melakukan pemetaan terhadap potensi bahaya guna menjamin keamanan seluruh peserta Bintal Paskibra melalui dua aspek utama:
+  </p>
+
+  <div style="display: grid; gap: 15px;">
+    
+    <div style="background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; border-right: 5px solid #2980b9; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.3s ease; animation: slideInLeft 0.8s ease-out;" 
+         onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.1)';" 
+         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
+      <div style="font-weight: bold; color: #2980b9; margin-bottom: 8px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">🛡️</span> A. Mitigasi Fisik (Safety First)
       </div>
-    </section>
+      <p style="font-size: 0.9rem; margin: 0; color: #4a5568; text-align: justify; line-height: 1.5;">
+        Melakukan penandaan (<em>marking</em>) pada jalur latihan yang memiliki kontur licin atau curam, serta memastikan ketersediaan pos medis darurat di setiap titik latihan fisik. Narasi teknis ini mencakup standarisasi penggunaan sepatu yang tepat, penyediaan kotak P3K lengkap di tiap peleton, dan protokol evakuasi cepat jika terjadi cedera saat latihan ketangkasan.
+      </p>
+    </div>
+
+    <div style="background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; border-right: 5px solid #2ecc71; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.3s ease; animation: slideInLeft 1.2s ease-out;" 
+         onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.1)';" 
+         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
+      <div style="font-weight: bold; color: #2ecc71; margin-bottom: 8px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">🌱</span> B. Proteksi Ekosistem (Eco-Mapping)
+      </div>
+      <p style="font-size: 0.9rem; margin: 0; color: #4a5568; text-align: justify; line-height: 1.5;">
+        Sesuai komitmen <em>Zero Waste</em>, tim melakukan pemetaan area sensitif terhadap flora dan fauna lokal agar aktivitas PBB tidak merusak ekosistem. Teknis pelaksanaan mencakup penempatan kantong sampah terpilah di titik strategis dan pemberlakuan "Patroli Kebersihan" berkala, memastikan lokasi Bintal tetap dalam kondisi asri sebagaimana semangat menjaga lingkungan bagi anggota Paskibra.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
 
     <section style="margin-bottom: 25px;">
       <h3 style="color: #2c3e50; border-left: 5px solid #2980b9; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">4. Personel Survei & Risiko</h3>
@@ -3952,7 +4077,7 @@ const jurlamChildren = [
   content: `<div class="ekonomi-container" style="font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; max-width: 100%;">
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #8e44ad; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Sehat Bener</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #8e44ad; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Kemandirian Ekonomi</h3>
       <div style="background: #f3e5f5; padding: 15px; border-radius: 10px; border: 1px solid #d1c4e9;">
         <p style="text-align: justify; font-size: 0.95rem; margin: 0;">
           Kemandirian ekonomi adalah harga diri organisasi. Melalui poin ini, anggota Paskibra tidak hanya dilatih baris-berbaris, tetapi juga dilatih <strong>Mentalitas Kewirausahaan</strong>. Kita mengganti budaya "meminta" menjadi budaya "berusaha". Dengan mengelola bazar sehat dan iuran yang terencana secara demokratis, anggota belajar tentang <em>cash flow management</em>, kejujuran, dan tanggung jawab finansial yang merupakan pilar penting dalam <strong>Panca Waluya</strong>.
@@ -3961,7 +4086,7 @@ const jurlamChildren = [
     </section>
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #8e44ad; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Operasional Bener (Siklus Mingguan)</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #8e44ad; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Kegiatan Operasional</h3>
       <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
           <thead style="background: #8e44ad; color: white;">
@@ -3992,19 +4117,52 @@ const jurlamChildren = [
       </div>
     </section>
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #8e44ad; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">3. Teknis Pendanaan Panca Waluya</h3>
-      <div style="display: grid; gap: 12px;">
-        <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; color: #8e44ad; margin-bottom: 5px;">A. Bazar Sehat (Healthy Business)</div>
-          <p style="font-size: 0.9rem; margin: 0; color: #4a5568;">Menjual kudapan bergizi rendah gula kepada siswa sekolah. Menghasilkan profit sekaligus mendukung <strong>Sehat Cageur</strong> warga sekolah.</p>
-        </div>
-        <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; color: #8e44ad; margin-bottom: 5px;">B. Iuran Fleksibel & Terencana</div>
-          <p style="font-size: 0.9rem; margin: 0; color: #4a5568;">Tabungan harian selama 90 hari (3 bulan) yang besarannya disepakati bersama berdasarkan kemampuan ekonomi anggota terendah.</p>
-        </div>
+<section style="margin-bottom: 25px; animation: fadeInDelayed 1.2s ease-in;">
+  <h3 style="color: #2c3e50; border-left: 5px solid #8e44ad; padding-left: 12px; font-size: 1.2rem; margin-bottom: 15px; font-weight: 800;">
+    3. Teknis Pendanaan Mandiri
+  </h3>
+
+  <p style="text-align: justify; font-size: 0.95rem; color: #555; margin-bottom: 15px; padding-left: 5px;">
+    Implementasi nilai <strong>Singer</strong> (Kreatif & Cekatan) diwujudkan melalui strategi pendanaan mandiri yang tidak memberatkan, namun membangun jiwa kewirausahaan dan solidaritas antar anggota Paskibra melalui dua skema utama:
+  </p>
+
+  <div style="display: grid; gap: 15px;">
+    
+    <div style="background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 5px solid #8e44ad; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: zoomInPop 0.8s ease-out;" 
+         onmouseover="this.style.transform='scale(1.03)'; this.style.borderColor='#8e44ad'; this.style.boxShadow='0 10px 20px rgba(142, 68, 173, 0.15)';" 
+         onmouseout="this.style.transform='scale(1)'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
+      <div style="font-weight: bold; color: #8e44ad; margin-bottom: 8px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">🍎</span> A. Bazar Sehat (Healthy Business)
       </div>
-    </section>
+      <p style="font-size: 0.9rem; margin: 0; color: #4a5568; text-align: justify; line-height: 1.5;">
+        Program ini merupakan unit usaha kreatif berupa penjualan kudapan bergizi dan minuman sehat rendah gula di lingkungan sekolah. Selain bertujuan mengumpulkan profit untuk operasional Bintal, kegiatan ini mendidik anggota dalam hal manajemen stok, pemasaran, serta mendukung kampanye <strong>Cageur</strong> bagi seluruh warga sekolah.
+      </p>
+    </div>
+
+    <div style="background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 5px solid #9b59b6; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: zoomInPop 1.1s ease-out;" 
+         onmouseover="this.style.transform='scale(1.03)'; this.style.borderColor='#9b59b6'; this.style.boxShadow='0 10px 20px rgba(155, 89, 182, 0.15)';" 
+         onmouseout="this.style.transform='scale(1)'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
+      <div style="font-weight: bold; color: #9b59b6; margin-bottom: 8px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">💰</span> B. Iuran Fleksibel & Terencana
+      </div>
+      <p style="font-size: 0.9rem; margin: 0; color: #4a5568; text-align: justify; line-height: 1.5;">
+        Sistem tabungan harian selama 90 hari (3 bulan) yang dirancang untuk melatih kedisiplinan finansial. Besarannya ditentukan melalui musyawarah mufakat (<strong>Bageur</strong>) dengan mempertimbangkan kemampuan ekonomi terendah agar tidak ada anggota yang terbebani, sehingga prinsip <strong>Bener</strong> dalam keadilan sosial tetap terjaga.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @keyframes fadeInDelayed {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes zoomInPop {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+</style>
 
     <section style="margin-bottom: 25px;">
       <h3 style="color: #2c3e50; border-left: 5px solid #8e44ad; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">4. Personel Pengelola Dana</h3>
@@ -4100,7 +4258,7 @@ const jurlamChildren = [
   content: `<div class="koordinasi-container" style="font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; max-width: 100%;">
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #e67e22; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Sehat Pinter</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #e67e22; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Membangun Kepercayaan</h3>
       <div style="background: #fffaf0; padding: 15px; border-radius: 10px; border: 1px solid #feebc8;">
         <p style="text-align: justify; font-size: 0.95rem; margin: 0;">
           Paskibra bukan sekadar ekstrakurikuler, melainkan bagian dari keluarga besar sekolah. Melalui <strong>Rapat Koordinasi Lintas Sektor</strong>, kita membangun jembatan kepercayaan (<em>Trust Building</em>) antara siswa, sekolah, dan orang tua. Dengan komunikasi yang terbuka mengenai anggaran, keamanan, dan tujuan bimbingan mental, kita menciptakan <strong>Sehat Pinter</strong>. Dukungan dari orang tua dan sekolah adalah "bahan bakar" mental yang membuat peserta merasa aman secara psikologis (Bageur) selama menjalani kegiatan.
@@ -4109,7 +4267,7 @@ const jurlamChildren = [
     </section>
 
     <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #e67e22; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Pertemuan Besar (Per Jam)</h3>
+      <h3 style="color: #2c3e50; border-left: 5px solid #e67e22; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Pertemuan Besar</h3>
       <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
           <thead style="background: #e67e22; color: white;">
@@ -4120,19 +4278,19 @@ const jurlamChildren = [
           </thead>
           <tbody>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">09.00 - 09.30</td>
+              <td style="padding: 12px; font-weight: bold;">09.00</td>
               <td style="padding: 12px;"><strong>Pembukaan & Visi:</strong> Paparan konsep Bimental Panca Waluya kepada orang tua dan pihak sekolah.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">09.30 - 10.15</td>
+              <td style="padding: 12px; font-weight: bold;">09.30</td>
               <td style="padding: 12px;"><strong>Transparansi Finansial & Risiko:</strong> Penjelasan detail penggunaan dana mandiri dan hasil survei keamanan lokasi.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">10.15 - 11.00</td>
+              <td style="padding: 12px; font-weight: bold;">10.15</td>
               <td style="padding: 12px;"><strong>Sesi Dialog (Hearing):</strong> Mendengarkan masukan dan kekhawatiran orang tua serta arahan dari pembina/sekolah.</td>
             </tr>
             <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 12px; font-weight: bold;">11.00 - 11.30</td>
+              <td style="padding: 12px; font-weight: bold;">11.00</td>
               <td style="padding: 12px;"><strong>Penandatanganan Komitmen:</strong> Kesepakatan bersama untuk mendukung kelancaran kegiatan secara kolektif.</td>
             </tr>
           </tbody>
@@ -4140,19 +4298,52 @@ const jurlamChildren = [
       </div>
     </section>
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #e67e22; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">3. Teknis Koordinasi Panca Waluya</h3>
-      <div style="display: grid; gap: 12px;">
-        <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; color: #e67e22; margin-bottom: 5px;">A. Jalur Birokrasi (Sekolah)</div>
-          <p style="font-size: 0.9rem; margin: 0; color: #4a5568;">Penyusunan proposal yang akuntabel dan sinkronisasi kalender kegiatan dengan jadwal akademik sekolah.</p>
-        </div>
-        <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; color: #e67e22; margin-bottom: 5px;">B. Forum Orang Tua (Home-School Link)</div>
-          <p style="font-size: 0.9rem; margin: 0; color: #4a5568;">Menyediakan kanal informasi digital yang aktif 24 jam untuk menjawab pertanyaan seputar kondisi peserta di lapangan.</p>
-        </div>
+    <section style="margin-bottom: 25px; perspective: 1000px;">
+  <h3 style="color: #2c3e50; border-left: 5px solid #e67e22; padding-left: 12px; font-size: 1.2rem; margin-bottom: 15px; font-weight: 800; animation: fadeInRight 1s ease-out;">
+    3. Teknis Koordinasi Lintas Sektor
+  </h3>
+
+  <p style="text-align: justify; font-size: 0.95rem; color: #555; margin-bottom: 15px; padding-left: 5px; animation: fadeIn 1.5s ease-in;">
+    Sinergi yang kuat merupakan cerminan dari nilai <strong>Bageur</strong> (Kerja Sama) dan <strong>Bener</strong> (Integritas). Koordinasi ini dirancang untuk menyatukan visi antara penyelenggara, pihak sekolah, dan keluarga demi kelancaran operasional Bintal:
+  </p>
+
+  <div style="display: grid; gap: 15px;">
+    
+    <div style="background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 5px solid #e67e22; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.5s ease; animation: flipInX 0.8s ease-out;" 
+         onmouseover="this.style.backgroundColor='#fffcf9'; this.style.transform='rotate(1deg) scale(1.02)';" 
+         onmouseout="this.style.backgroundColor='#ffffff'; this.style.transform='rotate(0) scale(1)';">
+      <div style="font-weight: bold; color: #e67e22; margin-bottom: 8px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">📑</span> A. Jalur Birokrasi (Legalitas & Akademik)
       </div>
-    </section>
+      <p style="font-size: 0.9rem; margin: 0; color: #4a5568; text-align: justify; line-height: 1.5;">
+        Proses ini melibatkan penyusunan proposal kegiatan yang akuntabel, transparan, dan sistematis untuk mendapatkan legalitas resmi. Koordinasi dilakukan secara intensif dengan kesiswaan untuk melakukan sinkronisasi kalender kegiatan Bintal agar tidak berbenturan dengan agenda akademik, ujian, maupun hari libur nasional, guna menjaga keseimbangan tugas siswa sebagai pelajar dan anggota Paskibra (<strong>Pinter</strong>).
+      </p>
+    </div>
+
+    <div style="background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 5px solid #d35400; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.5s ease; animation: flipInX 1.1s ease-out;" 
+         onmouseover="this.style.backgroundColor='#fffcf9'; this.style.transform='rotate(-1deg) scale(1.02)';" 
+         onmouseout="this.style.backgroundColor='#ffffff'; this.style.transform='rotate(0) scale(1)';">
+      <div style="font-weight: bold; color: #d35400; margin-bottom: 8px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">📲</span> B. Forum Orang Tua (Home-School Link)
+      </div>
+      <p style="font-size: 0.9rem; margin: 0; color: #4a5568; text-align: justify; line-height: 1.5;">
+        Membangun sistem informasi dua arah melalui kanal digital resmi yang aktif secara berkala. Narasi teknis mencakup pemberian <em>live-report</em> kondisi harian peserta, dokumentasi kegiatan, serta jalur komunikasi darurat (<em>hotline</em>) yang responsif. Hal ini bertujuan untuk memberikan rasa aman kepada orang tua dan memastikan dukungan moril keluarga tetap mengalir bagi setiap peserta di lapangan.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @keyframes flipInX {
+    0% { transform: rotateX(-90deg); opacity: 0; }
+    100% { transform: rotateX(0); opacity: 1; }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
 
     <section style="margin-bottom: 25px;">
       <h3 style="color: #2c3e50; border-left: 5px solid #e67e22; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">4. Personel Koordinasi</h3>
@@ -4250,74 +4441,253 @@ const jurlamChildren = [
         title: "Pelaksanaan Rencana A",
   content: `<div class="rencana-a-container" style="font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; max-width: 100%;">
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #e74c3c; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Kontemplasi Alam (2D1N)</h3>
+    <section style="margin-bottom: 2px;">
+      <h3 style="color: #2c3e50; border-left: 5px solid #e74c3c; padding-left: 12px; font-size: 1.2rem; margin-bottom: 5px;">1. Kontemplasi Alam</h3>
       <div style="background: #fff5f5; padding: 15px; border-radius: 10px; border: 1px solid #fed7d7;">
         <p style="text-align: justify; font-size: 0.95rem; margin: 0;">
-          Rencana A di Villa Puncak adalah puncak dari perjalanan 3 bulan persiapan. Di sini, alam bukan hanya latar belakang, melainkan instrumen bimbingan mental. Melalui udara dingin dan kesunyian malam, peserta diajak melakukan <strong>Sehat Bageur</strong> secara mendalam lewat kontemplasi diri. Fokus utama adalah menghancurkan ego pribadi untuk membangun <strong>Ikatan Persaudaraan (Sehat Pinter)</strong> yang tak terpisahkan. Setiap detik dirancang agar peserta menyadari bahwa mereka adalah bagian dari semesta yang harus dijaga (<strong>Sehat Singer</strong>) dan memiliki raga yang harus tangguh (<strong>Sehat Cageur</strong>) untuk memikul tanggung jawab sebagai Paskibra.
+          Rencana A di Villa Puncak selama 2 hari 1 malam adalah puncak dari perjalanan 3 bulan persiapan. Di sini, alam bukan hanya latar belakang, melainkan instrumen bimbingan mental. Melalui udara dingin dan kesunyian malam, peserta diajak melakukan <strong>Sehat Bageur</strong> secara mendalam lewat kontemplasi diri. Fokus utama adalah menghancurkan ego pribadi untuk membangun <strong>Ikatan Persaudaraan (Sehat Pinter)</strong> yang tak terpisahkan. Setiap detik dirancang agar peserta menyadari bahwa mereka adalah bagian dari semesta yang harus dijaga (<strong>Sehat Singer</strong>) dan memiliki raga yang harus tangguh (<strong>Sehat Cageur</strong>) untuk memikul tanggung jawab sebagai Paskibra, melalui 3 kegiatan utama yaitu :
+            <ul style="padding-left: 20px; margin: 0;">
+                <li style="margin-bottom: 5px;"><strong>Dialog Alam:</strong> Gerak raga dan olah pikir ditengah hamparan perkebunan teh.</li>
+                <li style="margin-bottom: 5px;"><strong>Malam Keakraban:</strong> Simulasi kasus nyata dibawah langit malam.</li>
+                <li style="margin-bottom: 5px;"><strong>Simulasi Kepemimpinan:</strong> Fase di mana teori bertemu dengan realitas.</li>
+            </ul>
         </p>
       </div>
     </section>
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #e74c3c; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Kegiatan Strategis</h3>
-      
-      <div class="desktop-table" style="overflow-x: auto; background: white; border-radius: 10px; border: 1px solid #e2e8f0;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-          <thead style="background: #e74c3c; color: white;">
-            <tr>
-              <th style="padding: 12px; text-align: left;">Waktu</th>
-              <th style="padding: 12px; text-align: left;">Agenda Utama</th>
-              <th style="padding: 12px; text-align: left;">Esensi Panca Waluya</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td colspan="3" style="background: #f7fafc; font-weight: bold; padding: 8px 12px;">HARI PERTAMA: Penguatan Jiwa</td></tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">08.00 - 11.00</td>
-              <td style="padding: 10px;">Mobilisasi & Briefing Ekosistem</td>
-              <td style="padding: 10px;">Sehat Singer (Zero Waste)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">13.00 - 17.00</td>
-              <td style="padding: 10px;"><em>Physical Resilience & PBB Mindful</em></td>
-              <td style="padding: 10px;">Sehat Cageur</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">19.30 - 22.00</td>
-              <td style="padding: 10px;">Lingkaran Persaudaraan & Api Unggun</td>
-              <td style="padding: 10px;">Sehat Pinter</td>
-            </tr>
-            <tr><td colspan="3" style="background: #f7fafc; font-weight: bold; padding: 8px 12px;">HARI KEDUA: Kontemplasi & Pelantikan</td></tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">03.00 - 05.00</td>
-              <td style="padding: 10px;">Muhasabah (Renungan Suci)</td>
-              <td style="padding: 10px;">Sehat Bageur</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">08.00 - 11.00</td>
-              <td style="padding: 10px;">Operasi Semut & Evaluasi Bener</td>
-              <td style="padding: 10px;">Sehat Singer & Bener</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<style>
+  /* Animasi Floating yang diperhalus */
+  @keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+  }
 
-      <div class="mobile-only" style="display: none; margin-top: 10px;">
-        <div style="background: #fff; border: 1px solid #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 8px;">
-          <strong style="color: #e74c3c;">08.00 - 11.00:</strong> Mobilisasi & Briefing Zero Waste.
-        </div>
-        <div style="background: #fff; border: 1px solid #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 8px;">
-          <strong style="color: #e74c3c;">13.00 - 17.00:</strong> Latihan PBB Berbasis Napas & Stamina.
-        </div>
-        <div style="background: #fff; border: 1px solid #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 8px;">
-          <strong style="color: #e74c3c;">19.30 - 22.00:</strong> Api Unggun & Diskusi Persaudaraan.
-        </div>
-        <div style="background: #fff; border: 1px solid #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 8px;">
-          <strong style="color: #e74c3c;">03.00 - 05.00:</strong> Renungan Suci & Kontemplasi Diri.
-        </div>
-      </div>
-    </section>
+  .container-panca {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #344e41;
+    background-color: #f8f9f5;
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  .floating-card {
+    animation: floating 4s ease-in-out infinite;
+    transition: all 0.3s ease;
+    border: 1px solid #dad7cd;
+  }
+
+  .floating-card:hover {
+    box-shadow: 0 15px 30px rgba(163, 177, 138, 0.2);
+    transform: scale(1.02);
+  }
+
+  /* Desain Tabel Modern */
+  .desktop-table { display: block; overflow-x: auto; }
+  .mobile-view { display: none; }
+
+  @media screen and (max-width: 768px) {
+    .desktop-table { display: none; }
+    .mobile-view { display: block; }
+  }
+
+  .main-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  }
+
+  .main-table th {
+    background: #a3b18a; /* Sage Green */
+    color: white;
+    padding: 18px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .main-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .day-header {
+    background: #dad7cd !important;
+    color: #3a5a40 !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center !important;
+  }
+
+  .badge-game {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 8px;
+    border: 1px solid #bfdbfe;
+  }
+
+  .tech-detail {
+    font-size: 0.85rem;
+    color: #588157;
+    margin-top: 5px;
+    display: block;
+  }
+</style>
+
+<div class="container-panca">
+  <h3 style="color: #3a5a40; border-left: 6px solid #a3b18a; padding-left: 15px; font-size: 1.2rem; margin-bottom: 5px;">
+    Rundown Kegiatan
+  </h3>
+
+  <div class="desktop-table">
+    <table class="main-table">
+      <thead>
+        <tr>
+          <th style="width: 15%;">Waktu</th>
+          <th style="width: 55%;">Agenda & Teknis Kegiatan</th>
+          <th style="width: 30%;">Esensi & Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="3" class="day-header">Hari Pertama: Karakter & Ketangkasan</td></tr>
+        
+        <tr>
+          <td>07.00 - 08.30</td>
+          <td>
+            <strong>Eco-Orientation & Mobilisasi</strong><br>
+            <span class="tech-detail">Teknis: Sterilisasi plastik sekali pakai dan pembagian atribut ramah lingkungan.</span>
+            <span class="badge-game">Game: Eco-Relay (Estafet pilah sampah cepat sesuai kategori B3/Organik)</span>
+          </td>
+          <td><strong>Sehat Singer</strong><br>Kesiapan ekosistem & disiplin.</td>
+        </tr>
+
+        <tr>
+          <td>08.30 - 10.00</td>
+          <td>
+            <strong>Critical Thinking Lab</strong><br>
+            <span class="tech-detail">Teknis: Bedah kasus sosial dengan Fishbone Diagram di atas media daur ulang.</span>
+            <span class="badge-game">Game: Argumen Berantai (Mempertahankan logika di atas titian bambu)</span>
+          </td>
+          <td><strong>Sehat Pinter</strong><br>Analisis tajam & problem solving.</td>
+        </tr>
+
+        <tr>
+          <td>10.00 - 12.00</td>
+          <td>
+            <strong>Survival Kitchen (Masak Mandiri)</strong><br>
+            <span class="tech-detail">Teknis: Tiap tim mengolah bahan mentah menggunakan kayu bakar dan alat tradisional.</span>
+            <span class="badge-game">Edukasi: Adab Makan (Tradisi Botram tanpa sisa makanan/zero waste)</span>
+          </td>
+          <td><strong>Sehat Cageur & Bageur</strong><br>Kemandirian & kebersamaan.</td>
+        </tr>
+
+        <tr>
+          <td>13.00 - 15.00</td>
+          <td>
+            <strong>Physical Resilience & PBB Mindful</strong><br>
+            <span class="tech-detail">Teknis: Latihan baris berbaris tanpa suara, hanya menggunakan instruksi ketukan tangan.</span>
+            <span class="badge-game">Game: Blind Leader (Navigasi tim bermata tertutup via kode peluit)</span>
+          </td>
+          <td><strong>Sehat Cageur</strong><br>Ketahanan fisik & kepatuhan instruksi.</td>
+        </tr>
+
+        <tr>
+          <td>15.00 - 16.30</td>
+          <td>
+            <strong>Tactical Problem Solving</strong><br>
+            <span class="tech-detail">Teknis: Simulasi menyeberangi rintangan "lumpur" menggunakan media terbatas.</span>
+            <span class="badge-game">Game: The Bridge (Kerjasama memindahkan papan titian secara kontinu)</span>
+          </td>
+          <td><strong>Sehat Pinter</strong><br>Strategi kolektif & manajemen risiko.</td>
+        </tr>
+
+        <tr>
+          <td>19.30 - 22.00</td>
+          <td>
+            <strong>Api Unggun & Visi Integrasi</strong><br>
+            <span class="tech-detail">Teknis: Sesi berbagi pengalaman hidup (deep talk) di sekeliling api unggun.</span>
+            <span class="badge-game">Game: Estafet Visi (Bisikan komitmen panjang antar anggota tim)</span>
+          </td>
+          <td><strong>Sehat Bener</strong><br>Kejujuran nurani & penyelarasan visi.</td>
+        </tr>
+
+        <tr><td colspan="3" class="day-header">Hari Kedua: Kontemplasi & Pelantikan</td></tr>
+
+        <tr>
+          <td>02.00 - 05.00</td>
+          <td>
+            <strong>Night Soul Journey (Muhasabah)</strong><br>
+            <span class="tech-detail">Teknis: Perjalanan sunyi di alam malam untuk refleksi dosa dan janji perbaikan diri.</span>
+            <span class="badge-game">Kegiatan: Tahajud berjamaah & Renungan Suci di bawah langit terbuka.</span>
+          </td>
+          <td><strong>Sehat Bageur & Bener</strong><br>Pembersihan batin & spiritualitas.</td>
+        </tr>
+
+        <tr>
+          <td>06.00 - 08.00</td>
+          <td>
+            <strong>Senam Panca Waluya & Sarapan</strong><br>
+            <span class="tech-detail">Teknis: Olah gerak pernapasan dikombinasikan dengan kuda-kuda bela diri.</span>
+            <span class="badge-game">Game: Human Knot (Mengurai simpul tangan manusia tanpa melepas genggaman)</span>
+          </td>
+          <td><strong>Sehat Cageur</strong><br>Kelenturan fisik & harmoni gerak.</td>
+        </tr>
+
+        <tr>
+          <td>08.00 - 10.00</td>
+          <td>
+            <strong>Conflict Management: Tower of Trust</strong><br>
+            <span class="tech-detail">Teknis: Membangun struktur rapuh di bawah tekanan intervensi mentor.</span>
+            <span class="badge-game">Game: Trust Fall (Menjatuhkan diri ke arah tangkapan rekan setim)</span>
+          </td>
+          <td><strong>Sehat Bageur & Pinter</strong><br>Manajemen emosi & solidaritas total.</td>
+        </tr>
+
+        <tr>
+          <td>10.00 - 12.00</td>
+          <td>
+            <strong>Operasi Semut & Pelantikan</strong><br>
+            <span class="tech-detail">Teknis: Pembersihan total lokasi hingga kembali ke kondisi semula.</span>
+            <span class="badge-game">Seremonial: Pembasuhan wajah & pengukuhan janji Panca Waluya.</span>
+          </td>
+          <td><strong>Panca Waluya Utuh</strong><br>Integritas final & komitmen aksi.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mobile-view">
+    <div class="floating-card" style="background: white; border-left: 5px solid #a3b18a; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+      <div style="color: #3a5a40; font-weight: bold; font-size: 0.9rem;">H-1 | 08.30 - 10.00</div>
+      <div style="font-weight: bold; margin: 5px 0;">Critical Thinking Lab</div>
+      <div style="font-size: 0.8rem; color: #666;">Teknis: Bedah kasus sosial & Game Argumen Berantai di atas titian.</div>
+    </div>
+    
+    <div class="floating-card" style="background: white; border-left: 5px solid #588157; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+      <div style="color: #3a5a40; font-weight: bold; font-size: 0.9rem;">H-1 | 13.00 - 15.00</div>
+      <div style="font-weight: bold; margin: 5px 0;">Physical Resilience & PBB</div>
+      <div style="font-size: 0.8rem; color: #666;">Teknis: PBB Mindful & Game Blind Leader (Navigasi Peluit).</div>
+    </div>
+
+    <div class="floating-card" style="background: white; border-left: 5px solid #bc6c25; padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+      <div style="color: #bc6c25; font-weight: bold; font-size: 0.9rem;">H-2 | 08.00 - 10.00</div>
+      <div style="font-weight: bold; margin: 5px 0;">Management Conflict & Trust</div>
+      <div style="font-size: 0.8rem; color: #666;">Teknis: Membangun menara sedotan & Game Trust Fall.</div>
+    </div>
+  </div>
+</div>
 
     <section style="background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0;">
       <h3 style="color: #2c3e50; font-size: 1.1rem; margin-bottom: 10px;">3. Target Panca Waluya di Lokasi</h3>
@@ -4337,49 +4707,55 @@ const jurlamChildren = [
         .mobile-only { display: block !important; }
       }
     </style>
-<section style="margin-top: 5px; padding: 10px 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+<section style="margin-top: 5px; padding: 12px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
   <style>
     @keyframes pulseBreath {
       0% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.03); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 1; }
       100% { transform: scale(1); opacity: 0.9; }
     }
-    .btn-custom {
+    .btn-custom-compact {
       animation: pulseBreath 3s infinite ease-in-out;
-      border-radius: 16px 4px 16px 4px !important;
-      min-width: 80px; /* Menjaga lebar tombol agar tetap seragam */
+      border-radius: 14px 4px 14px 4px !important;
+      flex: 1; /* Membagi baris menjadi 3 bagian rata */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.3s;
+      min-width: 0; /* Menghapus batas minimal lebar */
     }
     .delay-1 { animation-delay: 0.2s; }
     .delay-2 { animation-delay: 0.4s; }
     .delay-3 { animation-delay: 0.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">✨ Navigasi Smart</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">✨ Navigasi Smart</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px;">
     
-    <a href="javascript:void(0);" class="btn-custom delay-1"
-       style="text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-1"
+       style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 5px 2px; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
        onmouseover="this.style.filter='brightness(1.2)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Sesi Dialog Alam'); el?.click();">
-      <span style="font-size: 0.7rem;">Dialog</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Dialog</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-2"
-       style="text-decoration: none; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-2"
+       style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 5px 2px; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Malam Keakraban Panca Waluya'); el?.click();">
-      <span style="font-size: 0.7rem;">Makrab</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Makrab</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-3"
-       style="text-decoration: none; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-3"
+       style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 5px 2px; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Simulasi Kepemimpinan Terapan'); el?.click();">
-      <span style="font-size: 0.7rem;">Simulasi</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Simulasi</span>
     </a>
 
   </div>
@@ -4395,57 +4771,99 @@ const jurlamChildren = [
       <div style="background: #f0fff4; padding: 15px; border-radius: 10px; border: 1px solid #c6f6d5;">
         <p style="text-align: justify; font-size: 0.95rem; margin: 0;">
           Sesi ini adalah perpaduan antara gerak raga dan olah pikir. Di tengah hamparan perkebunan teh yang hijau, peserta melakukan <strong>Sehat Cageur</strong> melalui jalan sehat (<em>hiking</em>) yang memacu sirkulasi oksigen bersih ke otak. Setelah fisik terasa segar, suasana tenang alam digunakan untuk <strong>Dialog Terbuka</strong>. Di sini, nilai <strong>Sehat Singer</strong> ditanamkan bukan sebagai teori, melainkan sebagai tanggung jawab moral pemuda. Peserta berdiskusi dalam kelompok kecil untuk melatih keberanian berpendapat (<strong>Sehat Pinter</strong>) sambil menyerap ketenangan alam (<strong>Sehat Bageur</strong>).
-        </p>
+      </p>
       </div>
     </section>
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #2ecc71; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Sesi Dialog Alam</h3>
-      
-      <div class="desktop-table" style="background: white; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-          <thead style="background: #2ecc71; color: white;">
-            <tr>
-              <th style="padding: 12px; text-align: left; width: 25%;">Waktu</th>
-              <th style="padding: 12px; text-align: left;">Aktivitas Utama</th>
-              <th style="padding: 12px; text-align: left;">Fokus Karakter</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">06.00 - 07.30</td>
-              <td style="padding: 10px;">Tea Walk & Olah Napas</td>
-              <td style="padding: 10px;">Stamina & Kesadaran Tubuh</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">07.30 - 08.30</td>
-              <td style="padding: 10px;">Breakfast Camp (Eco-Feeding)</td>
-              <td style="padding: 10px;">Kemandirian & Zero Waste</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">08.30 - 10.00</td>
-              <td style="padding: 10px;">Circle Talk: "Pemuda & Alam"</td>
-              <td style="padding: 10px;">Kepemimpinan Pinter</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<section style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: auto; padding: 10px;">
+  <h3 style="color: #2c3e50; border-left: 5px solid #2ecc71; padding-left: 15px; font-size: 1.2rem; margin-bottom: 25px;">
+    2. Detail Dialog Alam
+  </h3>
 
-      <div class="mobile-only" style="display: none;">
-        <div style="background: #ffffff; border: 1px solid #2ecc71; border-left: 5px solid #2ecc71; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #27ae60;">06.00 - 07.30</div>
-          <div style="font-size: 0.95rem;"><strong>Tea Walk:</strong> Jalan santai & latihan pernapasan statis di tengah kebun teh.</div>
+  <div style="display: flex; flex-direction: column; gap: 15px;">
+
+    <details style="background: #f1f8e9; border-radius: 12px; border: 1px solid #c5e1a5; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #81c784; color: #1b5e20;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; color: #1b5e20; font-weight: bold;">06.00 - 07.30</span>
+          <strong style="font-size: 1.05rem;">Eco-Orientation & Mobilisasi</strong>
         </div>
-        <div style="background: #ffffff; border: 1px solid #2ecc71; border-left: 5px solid #2ecc71; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #27ae60;">07.30 - 08.30</div>
-          <div style="font-size: 0.95rem;"><strong>Eco-Breakfast:</strong> Sarapan bersama tanpa menyisakan sampah plastik sama sekali.</div>
-        </div>
-        <div style="background: #ffffff; border: 1px solid #2ecc71; border-left: 5px solid #2ecc71; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #27ae60;">08.30 - 10.00</div>
-          <div style="font-size: 0.95rem;"><strong>Circle Talk:</strong> Diskusi kelompok tentang peran Paskibra menjaga kelestarian bumi.</div>
+        <div style="background: #1b5e20; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem;">Disiplin & Navigasi</div>
+      </summary>
+      <div style="padding: 20px; line-height: 1.7; color: #2e7d32; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Pasukan diberangkatkan dari titik awal dengan formasi barisan yang rapi menyusuri jalur alam. Bukan sekadar jalan santai, siswa wajib melakukan pengamatan medan dan menandai jalur yang dilalui sebagai bentuk latihan navigasi dasar. Komandan kelompok bertanggung jawab penuh atas keutuhan anggota pasukannya selama perpindahan tempat.</p>
+        <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; border-left: 4px solid #1b5e20; margin-top: 10px; color: #1b5e20;">
+          <strong style="color: #1b5e20;">Contoh:</strong> Selama perjalanan melakukan Sterilisasi plastik sekali pakai, mencatat pohon tumbang atau sungai kecil sebagai patokan jalur pulang agar tidak tersesat jika tanpa kompas, diakhir pembagian atribut ramah lingkungan.
         </div>
       </div>
-    </section>
+    </details>
+
+    <details style="background: #e8f5e9; border-radius: 12px; border: 1px solid #a5d6a7; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #66bb6a; color: #ffffff;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; color: #f1f8e9; font-weight: bold;">07.30 - 09.00</span>
+          <strong style="font-size: 1.05rem;">Critical Thinking Lab</strong>
+        </div>
+        <div style="background: #ffffff; color: #2e7d32; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;">Analisis & Inovasi</div>
+      </summary>
+      <div style="padding: 20px; line-height: 1.7; color: #1b5e20; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Siswa dikumpulkan dalam forum diskusi lapangan untuk melatih ketajaman berpikir. Setiap kelompok diberikan tantangan nyata terkait kendala di medan tugas. Siswa diajak untuk beradu argumen secara sehat dan menyusun solusi yang masuk akal secara cepat.</p>
+        <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; border-left: 4px solid #2e7d32; margin-top: 10px; color: #1b5e20;">
+          <strong style="color: #2e7d32;">Contoh:</strong> Bedah kasus sosial dengan Fishbone Diagram di atas media daur ulang dimana kelompok mendiskusikan cara mengevakuasi anggota yang cedera di tengah hutan dengan alat yang tersedia di tas punggung masing-masing.
+        </div>
+      </div>
+    </details>
+
+    <details style="background: #f1f8e9; border-radius: 12px; border: 1px solid #c5e1a5; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #81c784; color: #1b5e20;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; color: #1b5e20; font-weight: bold;">09.00 - 11.30</span>
+          <strong style="font-size: 1.05rem;">Survival Kitchen (Masak Mandiri)</strong>
+        </div>
+        <div style="background: #1b5e20; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem;">Manajemen Logistik</div>
+      </summary>
+      <div style="padding: 20px; line-height: 1.7; color: #2e7d32; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Uji kemandirian mengelola logistik. Siswa harus bekerja sama memasak makanan dengan bahan terbatas. Kedisiplinan dijaga ketat dalam hal penghematan air dan kebersihan lingkungan (Zero Waste).</p>
+        <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; border-left: 4px solid #1b5e20; margin-top: 10px; color: #1b5e20;">
+          <strong style="color: #1b5e20;">Contoh:</strong> Tiap tim mengolah bahan mentah dengan membagi tugas, Anggota A mencari kayu kering, Anggota B menyiapkan nesting (panci lapangan), dan Anggota C memastikan sisa sayuran dikubur agar tidak mengundang lalat.
+        </div>
+      </div>
+    </details>
+
+    <details style="background: #e8f5e9; border-radius: 12px; border: 1px solid #a5d6a7; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #66bb6a; color: #ffffff;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; color: #f1f8e9; font-weight: bold;">11.30 - 13.00</span>
+          <strong style="font-size: 1.05rem;">Physical Resilience & PBB Mindful</strong>
+        </div>
+        <div style="background: #ffffff; color: #2e7d32; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;">Ketahanan & Fokus</div>
+      </summary>
+      <div style="padding: 20px; line-height: 1.7; color: #1b5e20; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Latihan baris-berbaris di medan alam yang menantang. Fokus utama adalah ketenangan batin dalam mengikuti setiap aba-aba instruktur meskipun dalam kondisi fisik yang lelah.</p>
+        <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; border-left: 4px solid #2e7d32; margin-top: 10px; color: #1b5e20;">
+          <strong style="color: #2e7d32;">Contoh:</strong> Latihan baris berbaris tanpa suara, hanya menggunakan instruksi ketukan tangan dan melakukan gerakan PBB secara serentak di atas tanah berumput yang miring tanpa ada satupun anggota yang kehilangan keseimbangan.
+        </div>
+      </div>
+    </details>
+
+    <details style="background: #f1f8e9; border-radius: 12px; border: 1px solid #c5e1a5; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #81c784; color: #1b5e20;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; color: #1b5e20; font-weight: bold;">13.30 - 15.00</span>
+          <strong style="font-size: 1.05rem;">Tactical Problem Solving</strong>
+        </div>
+        <div style="background: #1b5e20; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem;">Kerjasama Strategis</div>
+      </summary>
+      <div style="padding: 20px; line-height: 1.7; color: #2e7d32; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Simulasi operasi lapangan yang menguji kekompakan. Kelompok diberikan misi taktis dengan kendala mendadak yang harus dijawab dengan koordinasi cepat.</p>
+        <div style="background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; border-left: 4px solid #1b5e20; margin-top: 10px; color: #1b5e20;">
+          <strong style="color: #1b5e20;">Contoh:</strong> Simulasi menyeberangi rintangan "lumpur" menggunakan media terbatas atau Misi memindahkan "bendera kelompok" melewati area rintangan alam tanpa boleh menyentuh tanah, melatih pembagian peran antara pemegang beban dan pemberi aba-aba.
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
 
     <section style="margin-bottom: 25px;">
       <h3 style="color: #2c3e50; border-left: 5px solid #2ecc71; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">3. Teknis Pelaksanaan Dialog</h3>
@@ -4475,53 +4893,59 @@ const jurlamChildren = [
         .mobile-only { display: block !important; }
       }
     </style>
-  <section style="margin-top: 5px; padding: 10px 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+<section style="margin-top: 5px; padding: 12px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
   <style>
     @keyframes pulseBreath {
       0% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.03); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 1; }
       100% { transform: scale(1); opacity: 0.9; }
     }
-    .btn-custom {
+    .btn-custom-compact {
       animation: pulseBreath 3s infinite ease-in-out;
-      border-radius: 16px 4px 16px 4px !important;
-      min-width: 80px; /* Menjaga lebar tombol agar tetap seragam */
+      border-radius: 14px 4px 14px 4px !important;
+      flex: 1; /* Membagi baris menjadi 3 bagian rata */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.3s;
+      min-width: 0; /* Menghapus batas minimal lebar */
     }
     .delay-1 { animation-delay: 0.2s; }
     .delay-2 { animation-delay: 0.4s; }
     .delay-3 { animation-delay: 0.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">✨ Navigasi Smart</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">✨ Navigasi Smart</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px;">
     
-    <a href="javascript:void(0);" class="btn-custom delay-1"
-       style="text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-1"
+       style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 5px 2px; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
        onmouseover="this.style.filter='brightness(1.2)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana A'); el?.click();">
-      <span style="font-size: 0.7rem;">Rencana A</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Rencana A</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-2"
-       style="text-decoration: none; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-2"
+       style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 5px 2px; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Malam Keakraban Panca Waluya'); el?.click();">
-      <span style="font-size: 0.7rem;">Makrab</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Makrab</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-3"
-       style="text-decoration: none; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-3"
+       style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 5px 2px; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Simulasi Kepemimpinan Terapan'); el?.click();">
-      <span style="font-size: 0.7rem;">Simulasi</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Simulasi</span>
     </a>
 
   </div>
-</section>  
+</section>
   </div>`
 },
           {
@@ -4537,58 +4961,51 @@ const jurlamChildren = [
       </div>
     </section>
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #f39c12; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Malam Refleksi (Per Jam)</h3>
-      
-      <div class="desktop-table" style="background: white; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-          <thead style="background: #f39c12; color: white;">
-            <tr>
-              <th style="padding: 12px; text-align: left; width: 25%;">Waktu</th>
-              <th style="padding: 12px; text-align: left;">Tahapan Refleksi</th>
-              <th style="padding: 12px; text-align: left;">Target Mental</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">20.00 - 20.45</td>
-              <td style="padding: 10px;">Penyalaan Api Panca Waluya</td>
-              <td style="padding: 10px;">Fokus & Konsentrasi (Bageur)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">20.45 - 21.30</td>
-              <td style="padding: 10px;">Simulasi Kasus Integritas</td>
-              <td style="padding: 10px;">Problem Solving & Etika (Pinter)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">21.30 - 22.30</td>
-              <td style="padding: 10px;">Sesi "Hati ke Hati" (Curhat Kepemimpinan)</td>
-              <td style="padding: 10px;">Koneksi Emosional & Persaudaraan</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">22.30 - 23.00</td>
-              <td style="padding: 10px;">Kontemplasi Mandiri (Silence Moment)</td>
-              <td style="padding: 10px;">Kedamaian Batin & Syukur</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <section style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: auto; padding: 10px;">
+  <h3 style="color: #2d3250; border-left: 5px solid #424769; padding-left: 15px; font-size: 1.3rem; margin-bottom: 25px;">
+    3. Detail Malam & Muhasabah
+  </h3>
 
-      <div class="mobile-only" style="display: none;">
-        <div style="background: #ffffff; border: 1px solid #f39c12; border-left: 6px solid #f39c12; padding: 15px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #d35400; text-transform: uppercase;">20.00 - 20.45</div>
-          <div style="font-size: 1rem; margin-top: 4px;"><strong>Ritual Api:</strong> Pembukaan sesi dengan semangat Paskibra.</div>
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+
+    <details style="background: #ffffff; border-radius: 12px; border: 1px solid #d1d5db; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, #2d3250, #424769); color: white;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; opacity: 0.8; font-weight: bold;">19.30 - 22.00</span>
+          <strong style="font-size: 1.05rem;">Api Unggun & Visi Integrasi</strong>
         </div>
-        <div style="background: #ffffff; border: 1px solid #f39c12; border-left: 6px solid #f39c12; padding: 15px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #d35400; text-transform: uppercase;">20.45 - 21.30</div>
-          <div style="font-size: 1rem; margin-top: 4px;"><strong>Simulasi Kasus:</strong> Diskusi kelompok mengenai penyelesaian masalah nyata di lapangan secara adil.</div>
+        <div style="background: #f6b17a; color: #2d3250; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;">
+          Persatuan & Visi
         </div>
-        <div style="background: #ffffff; border: 1px solid #f39c12; border-left: 6px solid #f39c12; padding: 15px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #d35400; text-transform: uppercase;">21.30 - 23.00</div>
-          <div style="font-size: 1rem; margin-top: 4px;"><strong>Refleksi & Doa:</strong> Pengakuan kesalahan, pemberian maaf, dan komitmen bersama untuk organisasi.</div>
+      </summary>
+      <div style="padding: 20px; background: #ffffff; border-top: 2px solid #f6b17a; line-height: 1.7; color: #4a5568; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Seluruh pasukan berkumpul membentuk lingkaran besar mengelilingi api suci. Sesi ini bukan sekadar hiburan, melainkan momen penyatuan visi antar anggota Paskibra. Setiap perwakilan kelompok menyampaikan komitmen dan harapan mereka untuk keutuhan organisasi. Suasana dibangun secara khidmat untuk menumbuhkan rasa persaudaraan yang erat di bawah sumpah setia pasukan.</p>
+        <div style="background: #f1f5f9; padding: 12px; border-radius: 8px; border-left: 4px solid #f6b17a; margin-top: 10px;">
+          <strong style="color: #2d3250;">Contoh:</strong> Sesi berbagi pengalaman hidup (deep talk) Siswa secara bergiliran maju ke depan api untuk mengucapkan satu janji setia yang akan ia pegang teguh selama bertugas sebagai anggota Paskibra.
         </div>
       </div>
-    </section>
+    </details>
+
+    <details style="background: #ffffff; border-radius: 12px; border: 1px solid #d1d5db; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(90deg, #424769, #7077a1); color: white;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; opacity: 0.8; font-weight: bold;">02.00 - 05.00</span>
+          <strong style="font-size: 1.05rem;">Night Soul Journey (Muhasabah)</strong>
+        </div>
+        <div style="background: #f6b17a; color: #2d3250; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;">
+          Kekuatan Mental
+        </div>
+      </summary>
+      <div style="padding: 20px; background: #ffffff; border-top: 2px solid #7077a1; line-height: 1.7; color: #4a5568; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Perjalanan kesunyian di tengah kegelapan malam. Siswa dilepas secara individu atau kelompok kecil dengan jarak waktu tertentu untuk melintasi jalur sunyi tanpa penerangan berlebih. Tujuannya adalah untuk berdialog dengan diri sendiri (muhasabah), melawan rasa takut, dan merenungkan kembali jati diri serta tanggung jawab sebagai seorang patriot. Di titik akhir, instruktur akan memberikan penguatan batin.</p>
+        <div style="background: #f1f5f9; padding: 12px; border-radius: 8px; border-left: 4px solid #7077a1; margin-top: 10px;">
+          <strong style="color: #2d3250;">Contoh:</strong> Perjalanan sunyi di alam malam untuk refleksi dosa dan janji perbaikan diri atau Siswa berjalan tenang mengikuti tali pembimbing, berhenti di pos refleksi untuk menuliskan kekurangan diri yang ingin diperbaiki sebelum fajar menyingsing.
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
 
     <section style="margin-bottom: 25px;">
       <h3 style="color: #2c3e50; border-left: 5px solid #f39c12; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">3. Teknis Simulasi Kasus Nyata</h3>
@@ -4618,53 +5035,59 @@ const jurlamChildren = [
         .mobile-only { display: block !important; }
       }
     </style>
-    <section style="margin-top: 5px; padding: 10px 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+<section style="margin-top: 5px; padding: 12px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
   <style>
     @keyframes pulseBreath {
       0% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.03); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 1; }
       100% { transform: scale(1); opacity: 0.9; }
     }
-    .btn-custom {
+    .btn-custom-compact {
       animation: pulseBreath 3s infinite ease-in-out;
-      border-radius: 16px 4px 16px 4px !important;
-      min-width: 80px; /* Menjaga lebar tombol agar tetap seragam */
+      border-radius: 14px 4px 14px 4px !important;
+      flex: 1; /* Membagi baris menjadi 3 bagian rata */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.3s;
+      min-width: 0; /* Menghapus batas minimal lebar */
     }
     .delay-1 { animation-delay: 0.2s; }
     .delay-2 { animation-delay: 0.4s; }
     .delay-3 { animation-delay: 0.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">✨ Navigasi Smart</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">✨ Navigasi Smart</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px;">
     
-    <a href="javascript:void(0);" class="btn-custom delay-1"
-       style="text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-1"
+       style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 5px 2px; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
        onmouseover="this.style.filter='brightness(1.2)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana A'); el?.click();">
-      <span style="font-size: 0.7rem;">Rencana A</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Rencana A</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-2"
-       style="text-decoration: none; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-2"
+       style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 5px 2px; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Sesi Dialog Alam'); el?.click();">
-      <span style="font-size: 0.7rem;">Dialog</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Dialog</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-3"
-       style="text-decoration: none; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-3"
+       style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 5px 2px; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Simulasi Kepemimpinan Terapan'); el?.click();">
-      <span style="font-size: 0.7rem;">Simulasi</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Simulasi</span>
     </a>
 
   </div>
-</section>  
+</section>
   </div>`
 },
           {
@@ -4680,53 +5103,69 @@ const jurlamChildren = [
       </div>
     </section>
 
-    <section style="margin-bottom: 25px;">
-      <h3 style="color: #2c3e50; border-left: 5px solid #34495e; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">2. Rundown Skenario Krisis (Per Jam)</h3>
-      
-      <div class="desktop-table" style="background: white; border-radius: 10px; border: 1px solid #e2e8f0; overflow: hidden;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-          <thead style="background: #34495e; color: white;">
-            <tr>
-              <th style="padding: 12px; text-align: left; width: 25%;">Waktu</th>
-              <th style="padding: 12px; text-align: left;">Tahapan Simulasi</th>
-              <th style="padding: 12px; text-align: left;">Dimensi Panca Waluya</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">10.00 - 10.30</td>
-              <td style="padding: 10px;">Briefing & Pembagian Peran (Struktur Krisis)</td>
-              <td style="padding: 10px;">Sehat Pinter (Koordinasi)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">10.30 - 11.30</td>
-              <td style="padding: 10px;">Eksekusi Roleplay: Respon Cepat Masalah</td>
-              <td style="padding: 10px;">Sehat Bageur & Bener</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #edf2f7;">
-              <td style="padding: 10px;">11.30 - 12.00</td>
-              <td style="padding: 10px;">Debriefing: Analisis Solusi & Visi Baru</td>
-              <td style="padding: 10px;">Keseimbangan Utuh</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <section style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: auto; padding: 10px;">
+  <h3 style="color: #432818; border-left: 5px solid #99582a; padding-left: 15px; font-size: 1.3rem; margin-bottom: 25px; text-transform: uppercase;">
+    4. Rundown Sesi Penutup & Pelantikan (Rencana A)
+  </h3>
 
-      <div class="mobile-only" style="display: none;">
-        <div style="background: #ffffff; border: 1px solid #34495e; padding: 15px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #34495e;">TAHAP 1: PERSYAPAN</div>
-          <div style="font-size: 1rem; margin-top: 5px;"><strong>(10.00-10.30)</strong> Penentuan peran pemimpin, sekretaris, dan tim logistik dalam kondisi darurat simulasi.</div>
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+
+    <details style="background: #ffffff; border-radius: 12px; border: 1px solid #e7d8c9; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #ffe6a7; color: #432818;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; color: #99582a; font-weight: bold;">06.00 - 08.00</span>
+          <strong style="font-size: 1.05rem;">Senam Panca Waluya & Sarapan</strong>
         </div>
-        <div style="background: #ffffff; border: 1px solid #34495e; padding: 15px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #34495e;">TAHAP 2: AKSI KRISIS</div>
-          <div style="font-size: 1rem; margin-top: 5px;"><strong>(10.30-11.30)</strong> Peserta harus menyelesaikan masalah (misal: dana hilang atau konflik internal) secara cepat dan tepat.</div>
+        <div style="background: #99582a; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;">
+          Kesehatan & Kesegaran
         </div>
-        <div style="background: #ffffff; border: 1px solid #34495e; padding: 15px; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-          <div style="font-weight: bold; font-size: 0.85rem; color: #34495e;">TAHAP 3: EVALUASI VISI</div>
-          <div style="font-size: 1rem; margin-top: 5px;"><strong>(11.30-12.00)</strong> Pembahasan bersama: "Apa yang akan kita lakukan lebih baik untuk organisasi ke depan?"</div>
+      </summary>
+      <div style="padding: 20px; background: #ffffff; border-top: 2px solid #bb9457; line-height: 1.7; color: #4a5568; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Mengawali pagi dengan gerakan Senam Panca Waluya untuk mengharmonisasikan energi tubuh dan pernapasan setelah kegiatan malam. Setelah tubuh bugar, pasukan diarahkan untuk sarapan bersama dengan tetap menjaga tata krama (adab) makan. Kejujuran dalam membagi porsi dan kerapihan setelah makan menjadi poin penilaian utama sebelum memulai tantangan terakhir.</p>
+        <div style="background: #fffcf2; padding: 12px; border-radius: 8px; border-left: 4px solid #bb9457; margin-top: 10px;">
+          <strong style="color: #432818;">Contoh:</strong> Olah gerak pernapasan dikombinasikan dengan kuda-kuda bela diri dimana Siswa melakukan gerakan senam dengan penuh semangat meskipun suhu dingin, lalu makan dalam barisan yang rapi tanpa suara (senyap) sebagai bentuk disiplin pasukan.
         </div>
       </div>
-    </section>
+    </details>
+
+    <details style="background: #ffffff; border-radius: 12px; border: 1px solid #e7d8c9; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #bb9457; color: white;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; opacity: 0.9; font-weight: bold;">08.00 - 10.00</span>
+          <strong style="font-size: 1.05rem;">Conflict Management: Tower of Trust</strong>
+        </div>
+        <div style="background: #432818; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;">
+          Kepemimpinan & Kepercayaan
+        </div>
+      </summary>
+      <div style="padding: 20px; background: #ffffff; border-top: 2px solid #432818; line-height: 1.7; color: #4a5568; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Sebuah permainan simulasi tinggi di mana tim harus membangun "menara kepercayaan". Di sini, konflik sengaja dimunculkan melalui batasan alat atau komunikasi. Siswa diuji bagaimana mengelola emosi, menurunkan ego, dan tetap percaya pada instruksi komandan meski situasi sedang kacau. Keberhasilan menara hanya bisa dicapai jika komunikasi terjalin tanpa ada yang merasa paling dominan.</p>
+        <div style="background: #fffcf2; padding: 12px; border-radius: 8px; border-left: 4px solid #432818; margin-top: 10px;">
+          <strong style="color: #432818;">Contoh:</strong> Membangun struktur rapuh di bawah tekanan intervensi mentor, Saat menara runtuh karena kesalahan satu anggota, kelompok dilarang saling menyalahkan, melainkan langsung berkoordinasi ulang untuk membangun kembali dengan strategi baru.
+        </div>
+      </div>
+    </details>
+
+    <details style="background: #ffffff; border-radius: 12px; border: 1px solid #e7d8c9; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; transition: all 0.3s ease;">
+      <summary style="padding: 18px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #432818; color: white;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.8rem; opacity: 0.9; font-weight: bold;">10.00 - 12.00</span>
+          <strong style="font-size: 1.05rem;">Operasi Semut & Pelantikan</strong>
+        </div>
+        <div style="background: #bb9457; color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold;">
+          Tanggung Jawab Akhir
+        </div>
+      </summary>
+      <div style="padding: 20px; background: #ffffff; border-top: 2px solid #99582a; line-height: 1.7; color: #4a5568; font-size: 0.95rem;">
+        <p><strong>Teknis Operasional:</strong> Sebelum pelantikan, seluruh siswa wajib melakukan Operasi Semut (pembersihan total area) agar alam tetap lestari. Setelah area dinyatakan bersih, sesi puncak dimulai dengan upacara pelantikan yang sakral. Penyerahan atribut atau simbol organisasi dilakukan sebagai tanda bahwa siswa telah sah menjadi anggota Paskibra yang memiliki ketahanan fisik, kecerdasan berpikir, dan kehalusan budi.</p>
+        <div style="background: #fffcf2; padding: 12px; border-radius: 8px; border-left: 4px solid #99582a; margin-top: 10px;">
+          <strong style="color: #432818;">Contoh:</strong> Pembersihan total lokasi hingga kembali ke kondisi semula, Pasukan menyisir rumput satu per satu untuk mengambil sampah sekecil apapun, kemudian berdiri tegak dengan sikap sempurna saat prosesi penyematan lencana.
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
 
     <section style="margin-bottom: 25px;">
       <h3 style="color: #2c3e50; border-left: 5px solid #34495e; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">3. Contoh Skenario Terapan</h3>
@@ -4765,53 +5204,59 @@ const jurlamChildren = [
         .mobile-only { display: block !important; }
       }
     </style>
-      <section style="margin-top: 5px; padding: 10px 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+<section style="margin-top: 5px; padding: 12px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
   <style>
     @keyframes pulseBreath {
       0% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.03); opacity: 1; }
+      50% { transform: scale(1.02); opacity: 1; }
       100% { transform: scale(1); opacity: 0.9; }
     }
-    .btn-custom {
+    .btn-custom-compact {
       animation: pulseBreath 3s infinite ease-in-out;
-      border-radius: 16px 4px 16px 4px !important;
-      min-width: 80px; /* Menjaga lebar tombol agar tetap seragam */
+      border-radius: 14px 4px 14px 4px !important;
+      flex: 1; /* Membagi baris menjadi 3 bagian rata */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.3s;
+      min-width: 0; /* Menghapus batas minimal lebar */
     }
     .delay-1 { animation-delay: 0.2s; }
     .delay-2 { animation-delay: 0.4s; }
     .delay-3 { animation-delay: 0.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">✨ Navigasi Smart</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #718096; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">✨ Navigasi Smart</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px;">
     
-    <a href="javascript:void(0);" class="btn-custom delay-1"
-       style="text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-1"
+       style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 5px 2px; box-shadow: 0 4px 10px rgba(118, 75, 162, 0.3);" 
        onmouseover="this.style.filter='brightness(1.2)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana A'); el?.click();">
-      <span style="font-size: 0.7rem;">Rencana A</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Rencana A</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-2"
-       style="text-decoration: none; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-2"
+       style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #b83280; padding: 5px 2px; box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Sesi Dialog Alam'); el?.click();">
-      <span style="font-size: 0.7rem;">Dialog</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Dialog</span>
     </a>
 
-    <a href="javascript:void(0);" class="btn-custom delay-3"
-       style="text-decoration: none; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.3s; border: none; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
+    <a href="javascript:void(0);" class="btn-custom-compact delay-3"
+       style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #234e52; padding: 5px 2px; box-shadow: 0 4px 10px rgba(67, 233, 123, 0.3);" 
        onmouseover="this.style.filter='brightness(1.1)'; this.style.transform='translateY(-2px)'" 
        onmouseout="this.style.filter='brightness(1)'; this.style.transform='translateY(0)'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Malam Keakraban Panca Waluya'); el?.click();">
-      <span style="font-size: 0.7rem;">Makrab</span>
+      <span style="font-size: 0.85rem; font-weight: 900; white-space: nowrap;">Makrab</span>
     </a>
 
   </div>
-</section> 
+</section>
   </div>`
 }
         ]
@@ -4907,50 +5352,56 @@ const jurlamChildren = [
         .mobile-only { display: block !important; }
       }
     </style>
-  <section style="margin-top: 5px; padding: 15px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi melayang naik turun (Floating) */
     @keyframes floatNav {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(-4px); }
       100% { transform: translateY(0px); }
     }
     
-    .btn-capsule {
+    .btn-capsule-compact {
       animation: floatNav 4s infinite ease-in-out;
-      border-radius: 50px !important; /* Bentuk Kapsul */
-      min-width: 100px;
+      border-radius: 50px !important;
       border: 2px solid transparent !important;
+      flex: 1; /* Membagi ruang secara adil */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.4s;
+      min-width: 0; /* Menghapus batas lebar minimal agar muat satu baris */
     }
 
-    /* Variasi kecepatan animasi agar terlihat alami */
+    /* Variasi kecepatan animasi */
     .float-1 { animation-delay: 0s; }
     .float-2 { animation-delay: 0.5s; }
     .float-3 { animation-delay: 1s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-capsule float-1"
-       style="text-decoration: none; background: #4c51bf; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(76, 81, 191, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-1"
+       style="background: #4c51bf; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(76, 81, 191, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#4c51bf'; this.style.borderColor='#4c51bf'" 
        onmouseout="this.style.background='#4c51bf'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Workshop Smart Spending & Logistik'); el?.click();">
        Workshop
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-2"
-       style="text-decoration: none; background: #319795; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(49, 151, 149, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-2"
+       style="background: #319795; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(49, 151, 149, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#319795'; this.style.borderColor='#319795'" 
        onmouseout="this.style.background='#319795'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Safari Ibadah'); el?.click();">
        Ibadah
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-3"
-       style="text-decoration: none; background: #d69e2e; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(214, 158, 46, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-3"
+       style="background: #d69e2e; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(214, 158, 46, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#d69e2e'; this.style.borderColor='#d69e2e'" 
        onmouseout="this.style.background='#d69e2e'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Bakti Sekolah'); el?.click();">
@@ -5033,57 +5484,64 @@ const jurlamChildren = [
         Melalui workshop ini, <strong>Sehat Bener</strong> dicapai bukan dengan pelit, melainkan dengan kecerdasan alokasi. Dana yang dikelola secara jujur menenangkan <strong>Bageur</strong>, makanan bergizi yang murah menyehatkan <strong>Cageur</strong>, transparansi mempererat hubungan <strong>Pinter</strong>, dan pemilihan bahan minim plastik menjaga <strong>Singer</strong>.
       </p>
     </section>
-<section style="margin-top: 5px; padding: 15px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi melayang naik turun (Floating) */
     @keyframes floatNav {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(-4px); }
       100% { transform: translateY(0px); }
     }
     
-    .btn-capsule {
+    .btn-capsule-compact {
       animation: floatNav 4s infinite ease-in-out;
-      border-radius: 50px !important; /* Bentuk Kapsul */
-      min-width: 100px;
+      border-radius: 50px !important;
       border: 2px solid transparent !important;
+      flex: 1; /* Membagi ruang secara adil */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.4s;
+      min-width: 0; /* Menghapus batas lebar minimal agar muat satu baris */
     }
 
-    /* Variasi kecepatan animasi agar terlihat alami */
+    /* Variasi kecepatan animasi */
     .float-1 { animation-delay: 0s; }
     .float-2 { animation-delay: 0.5s; }
     .float-3 { animation-delay: 1s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-capsule float-1"
-       style="text-decoration: none; background: #4c51bf; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(76, 81, 191, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-1"
+       style="background: #4c51bf; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(76, 81, 191, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#4c51bf'; this.style.borderColor='#4c51bf'" 
        onmouseout="this.style.background='#4c51bf'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana B'); el?.click();">
        Rencana B
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-2"
-       style="text-decoration: none; background: #319795; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(49, 151, 149, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-2"
+       style="background: #319795; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(49, 151, 149, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#319795'; this.style.borderColor='#319795'" 
        onmouseout="this.style.background='#319795'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Safari Ibadah'); el?.click();">
        Ibadah
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-3"
-       style="text-decoration: none; background: #d69e2e; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(214, 158, 46, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-3"
+       style="background: #d69e2e; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(214, 158, 46, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#d69e2e'; this.style.borderColor='#d69e2e'" 
        onmouseout="this.style.background='#d69e2e'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Bakti Sekolah'); el?.click();">
        Bakti
     </a>
+
   </div>
-</section> 
+</section>
   </div>`
 },
           {
@@ -5153,57 +5611,64 @@ const jurlamChildren = [
         <span style="font-size: 0.75rem;">Ketenangan Area</span>
       </div>
     </section>
-<section style="margin-top: 5px; padding: 15px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi melayang naik turun (Floating) */
     @keyframes floatNav {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(-4px); }
       100% { transform: translateY(0px); }
     }
     
-    .btn-capsule {
+    .btn-capsule-compact {
       animation: floatNav 4s infinite ease-in-out;
-      border-radius: 50px !important; /* Bentuk Kapsul */
-      min-width: 100px;
+      border-radius: 50px !important;
       border: 2px solid transparent !important;
+      flex: 1; /* Membagi ruang secara adil */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.4s;
+      min-width: 0; /* Menghapus batas lebar minimal agar muat satu baris */
     }
 
-    /* Variasi kecepatan animasi agar terlihat alami */
+    /* Variasi kecepatan animasi */
     .float-1 { animation-delay: 0s; }
     .float-2 { animation-delay: 0.5s; }
     .float-3 { animation-delay: 1s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-capsule float-1"
-       style="text-decoration: none; background: #4c51bf; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(76, 81, 191, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-1"
+       style="background: #4c51bf; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(76, 81, 191, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#4c51bf'; this.style.borderColor='#4c51bf'" 
        onmouseout="this.style.background='#4c51bf'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana B'); el?.click();">
        Rencana B
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-2"
-       style="text-decoration: none; background: #319795; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(49, 151, 149, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-2"
+       style="background: #319795; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(49, 151, 149, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#319795'; this.style.borderColor='#319795'" 
        onmouseout="this.style.background='#319795'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Workshop Smart Spending & Logistik'); el?.click();">
        Workshop
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-3"
-       style="text-decoration: none; background: #d69e2e; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(214, 158, 46, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-3"
+       style="background: #d69e2e; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(214, 158, 46, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#d69e2e'; this.style.borderColor='#d69e2e'" 
        onmouseout="this.style.background='#d69e2e'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Bakti Sekolah'); el?.click();">
        Bakti
     </a>
-      </div>
-</section> 
+
+  </div>
+</section>
   </div>`
 },
           {
@@ -5256,55 +5721,64 @@ const jurlamChildren = [
         <span style="font-size: 0.75rem;">Tumbuhnya jiwa korsa & kepedulian.</span>
       </div>
     </section>
-<section style="margin-top: 5px; padding: 15px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fdfdfd; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi melayang naik turun (Floating) */
     @keyframes floatNav {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(-4px); }
       100% { transform: translateY(0px); }
     }
     
-    .btn-capsule {
+    .btn-capsule-compact {
       animation: floatNav 4s infinite ease-in-out;
-      border-radius: 50px !important; /* Bentuk Kapsul */
-      min-width: 100px;
+      border-radius: 50px !important;
       border: 2px solid transparent !important;
+      flex: 1; /* Membagi ruang secara adil */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: 0.4s;
+      min-width: 0; /* Menghapus batas lebar minimal agar muat satu baris */
     }
 
-    /* Variasi kecepatan animasi agar terlihat alami */
+    /* Variasi kecepatan animasi */
     .float-1 { animation-delay: 0s; }
     .float-2 { animation-delay: 0.5s; }
     .float-3 { animation-delay: 1s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #4a5568; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">🧭 Alur Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-capsule float-1"
-       style="text-decoration: none; background: #4c51bf; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(76, 81, 191, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-1"
+       style="background: #4c51bf; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(76, 81, 191, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#4c51bf'; this.style.borderColor='#4c51bf'" 
        onmouseout="this.style.background='#4c51bf'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana B'); el?.click();">
        Rencana B
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-2"
-       style="text-decoration: none; background: #319795; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(49, 151, 149, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-2"
+       style="background: #319795; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(49, 151, 149, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#319795'; this.style.borderColor='#319795'" 
        onmouseout="this.style.background='#319795'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Workshop Smart Spending & Logistik'); el?.click();">
        Workshop
     </a>
 
-    <a href="javascript:void(0);" class="btn-capsule float-3"
-       style="text-decoration: none; background: #d69e2e; color: #ffffff; padding: 10px 9px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.4s; box-shadow: 0 6px 15px rgba(214, 158, 46, 0.4);" 
+    <a href="javascript:void(0);" class="btn-capsule-compact float-3"
+       style="background: #d69e2e; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 10px rgba(214, 158, 46, 0.3); white-space: nowrap;" 
        onmouseover="this.style.background='#ffffff'; this.style.color='#d69e2e'; this.style.borderColor='#d69e2e'" 
        onmouseout="this.style.background='#d69e2e'; this.style.color='#ffffff'; this.style.borderColor='transparent'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Safari Ibadah'); el?.click();">
        Ibadah
     </a>
+
+  </div>
+</section>
   </div>`
 }
         ]
@@ -5381,7 +5855,7 @@ const jurlamChildren = [
         <span style="background: #fff5f5; padding: 5px 10px; border-radius: 15px;">ADAB</span>
       </div>
     </section>
-<section style="margin-top: 5px; padding: 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Goyang (Wobble) saat muncul */
     @keyframes wobbleIn {
@@ -5390,11 +5864,16 @@ const jurlamChildren = [
       100% { transform: scale(1) rotate(0deg); }
     }
     
-    .btn-3d {
+    .btn-3d-compact {
       animation: wobbleIn 0.6s ease forwards;
       border-radius: 12px !important;
-      min-width: 90px;
       position: relative;
+      flex: 1; /* Membagi baris menjadi 3 bagian sama besar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Memungkinkan tombol menyusut lebih kecil dari kontennya */
     }
 
     /* Mengatur jeda animasi agar muncul bergantian */
@@ -5403,28 +5882,28 @@ const jurlamChildren = [
     .wob-3 { animation-delay: 0.3s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-3d wob-1"
-       style="text-decoration: none; background: #ff6b6b; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-1"
+       style="background: #ff6b6b; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #ee5253'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #ee5253'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'PBB Berkesadaran'); el?.click();">
-       Berkesadaran
+       Sadar
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-2"
-       style="text-decoration: none; background: #1dd1a1; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-2"
+       style="background: #1dd1a1; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #10ac84'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #10ac84'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Manajemen Emosi dalam Barisan'); el?.click();">
        Emosi
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-3"
-       style="text-decoration: none; background: #54a0ff; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-3"
+       style="background: #54a0ff; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #2e86de'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #2e86de'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Etika Berkomunikasi'); el?.click();">
@@ -5604,7 +6083,7 @@ const jurlamChildren = [
         100% { color: #2d3748; }
       }
     </style>
-<section style="margin-top: 5px; padding: 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Goyang (Wobble) saat muncul */
     @keyframes wobbleIn {
@@ -5613,11 +6092,16 @@ const jurlamChildren = [
       100% { transform: scale(1) rotate(0deg); }
     }
     
-    .btn-3d {
+    .btn-3d-compact {
       animation: wobbleIn 0.6s ease forwards;
       border-radius: 12px !important;
-      min-width: 90px;
       position: relative;
+      flex: 1; /* Membagi baris menjadi 3 bagian sama besar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Memungkinkan tombol menyusut lebih kecil dari kontennya */
     }
 
     /* Mengatur jeda animasi agar muncul bergantian */
@@ -5626,28 +6110,28 @@ const jurlamChildren = [
     .wob-3 { animation-delay: 0.3s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-3d wob-1"
-       style="text-decoration: none; background: #ff6b6b; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-1"
+       style="background: #ff6b6b; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #ee5253'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #ee5253'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Materi Kedisiplinan & Kesadaran Diri'); el?.click();">
-       Kedisiplinan
+       Disiplin
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-2"
-       style="text-decoration: none; background: #1dd1a1; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-2"
+       style="background: #1dd1a1; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #10ac84'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #10ac84'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Manajemen Emosi dalam Barisan'); el?.click();">
        Emosi
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-3"
-       style="text-decoration: none; background: #54a0ff; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-3"
+       style="background: #54a0ff; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #2e86de'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #2e86de'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Etika Berkomunikasi'); el?.click();">
@@ -5767,7 +6251,7 @@ const jurlamChildren = [
       @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
       .method-card:hover { transform: scale(1.02); border-color: #2c7a7b !important; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
     </style>
-<section style="margin-top: 5px; padding: 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Goyang (Wobble) saat muncul */
     @keyframes wobbleIn {
@@ -5776,11 +6260,16 @@ const jurlamChildren = [
       100% { transform: scale(1) rotate(0deg); }
     }
     
-    .btn-3d {
+    .btn-3d-compact {
       animation: wobbleIn 0.6s ease forwards;
       border-radius: 12px !important;
-      min-width: 90px;
       position: relative;
+      flex: 1; /* Membagi baris menjadi 3 bagian sama besar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Memungkinkan tombol menyusut lebih kecil dari kontennya */
     }
 
     /* Mengatur jeda animasi agar muncul bergantian */
@@ -5789,28 +6278,28 @@ const jurlamChildren = [
     .wob-3 { animation-delay: 0.3s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-3d wob-1"
-       style="text-decoration: none; background: #ff6b6b; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-1"
+       style="background: #ff6b6b; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #ee5253'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #ee5253'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Materi Kedisiplinan & Kesadaran Diri'); el?.click();">
-       Kedisiplinan
+       Disiplin
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-2"
-       style="text-decoration: none; background: #1dd1a1; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-2"
+       style="background: #1dd1a1; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #10ac84'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #10ac84'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'PBB Berkesadaran'); el?.click();">
-       Berkesadaran
+       Sadar
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-3"
-       style="text-decoration: none; background: #54a0ff; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-3"
+       style="background: #54a0ff; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #2e86de'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #2e86de'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Etika Berkomunikasi'); el?.click();">
@@ -5921,7 +6410,7 @@ const jurlamChildren = [
       @keyframes pulseGlow { 0%, 100% { opacity: 1; text-shadow: 0 0 2px #2b6cb0; } 50% { opacity: 0.7; text-shadow: 0 0 10px #2b6cb0; } }
       .comm-card:hover { transform: scale(1.02); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     </style>
-<section style="margin-top: 5px; padding: 15px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Goyang (Wobble) saat muncul */
     @keyframes wobbleIn {
@@ -5930,11 +6419,16 @@ const jurlamChildren = [
       100% { transform: scale(1) rotate(0deg); }
     }
     
-    .btn-3d {
+    .btn-3d-compact {
       animation: wobbleIn 0.6s ease forwards;
       border-radius: 12px !important;
-      min-width: 90px;
       position: relative;
+      flex: 1; /* Membagi baris menjadi 3 bagian sama besar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Memungkinkan tombol menyusut lebih kecil dari kontennya */
     }
 
     /* Mengatur jeda animasi agar muncul bergantian */
@@ -5943,28 +6437,28 @@ const jurlamChildren = [
     .wob-3 { animation-delay: 0.3s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #2d3748; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 900;">🎯 Langkah Kegiatan</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-3d wob-1"
-       style="text-decoration: none; background: #ff6b6b; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-1"
+       style="background: #ff6b6b; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #ee5253; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #ee5253'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #ee5253'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Materi Kedisiplinan & Kesadaran Diri'); el?.click();">
-       Kedisiplinan
+       Disiplin
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-2"
-       style="text-decoration: none; background: #1dd1a1; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-2"
+       style="background: #1dd1a1; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #10ac84; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #10ac84'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #10ac84'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'PBB Berkesadaran'); el?.click();">
-       Berkesadaran
+       Sadar
     </a>
 
-    <a href="javascript:void(0);" class="btn-3d wob-3"
-       style="text-decoration: none; background: #54a0ff; color: #ffffff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1);" 
+    <a href="javascript:void(0);" class="btn-3d-compact wob-3"
+       style="background: #54a0ff; color: #ffffff; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; transition: 0.1s; border: none; border-bottom: 5px solid #2e86de; box-shadow: 0 4px 0 rgba(0,0,0,0.1); white-space: nowrap;" 
        onmousedown="this.style.transform='translateY(4px)'; this.style.borderBottom='1px solid #2e86de'" 
        onmouseup="this.style.transform='translateY(0px)'; this.style.borderBottom='5px solid #2e86de'"
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Manajemen Emosi dalam Barisan'); el?.click();">
@@ -6107,7 +6601,7 @@ const jurlamChildren = [
       .mobile-scroll::-webkit-scrollbar { height: 4px; }
       .mobile-scroll::-webkit-scrollbar-thumb { background: #ecc94b; border-radius: 10px; }
     </style>
-<section style="margin-top: 5px; padding: 15px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Perubahan Warna Bingkai (RGB Glow) */
     @keyframes borderGlow {
@@ -6117,46 +6611,50 @@ const jurlamChildren = [
       100% { border-color: #ff9a9e; box-shadow: 0 0 5px #ff9a9e; }
     }
     
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.8);
+    .btn-glass-compact {
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(5px);
       border: 2px solid;
-      border-radius: 15px !important;
-      min-width: 95px;
-      animation: borderGlow 4s infinite linear;
+      border-radius: 12px !important;
       transition: all 0.3s ease;
+      animation: borderGlow 4s infinite linear;
+      flex: 1; /* Membagi ruang sama besar agar sejajar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Menghapus batas minimal agar muat satu baris */
     }
 
-    .btn-glass:hover {
+    .btn-glass-compact:hover {
       background: #ffffff;
-      transform: scale(1.05);
+      transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    /* Mengatur jeda warna agar tidak seragam */
     .glow-1 { animation-delay: 0s; }
     .glow-2 { animation-delay: 1.3s; }
     .glow-3 { animation-delay: 2.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">💡 Fokus Materi</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">💡 Fokus Materi</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-glass glow-1"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-1"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Problem Solving Berbasis Tim'); el?.click();">
-       Solving
+       Problem
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-2"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-2"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Sharing Session: Peluang Masa Depan'); el?.click();">
        Sharing
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-3"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-3"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Olahraga Tradisional & Gembira'); el?.click();">
        Olahraga
     </a>
@@ -6248,7 +6746,7 @@ const jurlamChildren = [
       @keyframes textGlow { 0%, 100% { color: #fff; text-shadow: none; } 50% { color: #f6ad55; text-shadow: 0 0 8px #ed8936; } }
       .challenge-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     </style>
-<section style="margin-top: 5px; padding: 15px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Perubahan Warna Bingkai (RGB Glow) */
     @keyframes borderGlow {
@@ -6258,46 +6756,50 @@ const jurlamChildren = [
       100% { border-color: #ff9a9e; box-shadow: 0 0 5px #ff9a9e; }
     }
     
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.8);
+    .btn-glass-compact {
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(5px);
       border: 2px solid;
-      border-radius: 15px !important;
-      min-width: 95px;
-      animation: borderGlow 4s infinite linear;
+      border-radius: 12px !important;
       transition: all 0.3s ease;
+      animation: borderGlow 4s infinite linear;
+      flex: 1; /* Membagi ruang sama besar agar sejajar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Menghapus batas minimal agar muat satu baris */
     }
 
-    .btn-glass:hover {
+    .btn-glass-compact:hover {
       background: #ffffff;
-      transform: scale(1.05);
+      transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    /* Mengatur jeda warna agar tidak seragam */
     .glow-1 { animation-delay: 0s; }
     .glow-2 { animation-delay: 1.3s; }
     .glow-3 { animation-delay: 2.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">💡 Fokus Materi</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">💡 Fokus Materi</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-glass glow-1"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-1"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Dinamika Kelompok & Solidaritas'); el?.click();">
        Dinamika
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-2"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-2"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Sharing Session: Peluang Masa Depan'); el?.click();">
        Sharing
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-3"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-3"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Olahraga Tradisional & Gembira'); el?.click();">
        Olahraga
     </a>
@@ -6415,7 +6917,7 @@ const jurlamChildren = [
         transition: all 0.3s ease;
       }
     </style>
-<section style="margin-top: 5px; padding: 15px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Perubahan Warna Bingkai (RGB Glow) */
     @keyframes borderGlow {
@@ -6425,46 +6927,50 @@ const jurlamChildren = [
       100% { border-color: #ff9a9e; box-shadow: 0 0 5px #ff9a9e; }
     }
     
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.8);
+    .btn-glass-compact {
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(5px);
       border: 2px solid;
-      border-radius: 15px !important;
-      min-width: 95px;
-      animation: borderGlow 4s infinite linear;
+      border-radius: 12px !important;
       transition: all 0.3s ease;
+      animation: borderGlow 4s infinite linear;
+      flex: 1; /* Membagi ruang sama besar agar sejajar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Menghapus batas minimal agar muat satu baris */
     }
 
-    .btn-glass:hover {
+    .btn-glass-compact:hover {
       background: #ffffff;
-      transform: scale(1.05);
+      transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    /* Mengatur jeda warna agar tidak seragam */
     .glow-1 { animation-delay: 0s; }
     .glow-2 { animation-delay: 1.3s; }
     .glow-3 { animation-delay: 2.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">💡 Fokus Materi</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">💡 Fokus Materi</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-glass glow-1"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-1"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Dinamika Kelompok & Solidaritas'); el?.click();">
        Dinamika
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-2"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-2"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Problem Solving Berbasis Tim'); el?.click();">
        Solving
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-3"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-3"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Olahraga Tradisional & Gembira'); el?.click();">
        Olahraga
     </a>
@@ -6590,7 +7096,7 @@ const jurlamChildren = [
         box-shadow: 0 8px 15px rgba(237, 137, 54, 0.2);
       }
     </style>
-<section style="margin-top: 5px; padding: 15px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
+<section style="margin-top: 5px; padding: 15px 8px; background: #fcfcfc; border-radius: 20px; border: 2px dashed #cbd5e0;">
   <style>
     /* Animasi Perubahan Warna Bingkai (RGB Glow) */
     @keyframes borderGlow {
@@ -6600,46 +7106,50 @@ const jurlamChildren = [
       100% { border-color: #ff9a9e; box-shadow: 0 0 5px #ff9a9e; }
     }
     
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.8);
+    .btn-glass-compact {
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(5px);
       border: 2px solid;
-      border-radius: 15px !important;
-      min-width: 95px;
-      animation: borderGlow 4s infinite linear;
+      border-radius: 12px !important;
       transition: all 0.3s ease;
+      animation: borderGlow 4s infinite linear;
+      flex: 1; /* Membagi ruang sama besar agar sejajar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      min-width: 0; /* Menghapus batas minimal agar muat satu baris */
     }
 
-    .btn-glass:hover {
+    .btn-glass-compact:hover {
       background: #ffffff;
-      transform: scale(1.05);
+      transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    /* Mengatur jeda warna agar tidak seragam */
     .glow-1 { animation-delay: 0s; }
     .glow-2 { animation-delay: 1.3s; }
     .glow-3 { animation-delay: 2.6s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">💡 Fokus Materi</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">💡 Fokus Materi</h4>
   
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 8px;">
     
-    <a href="javascript:void(0);" class="btn-glass glow-1"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-1"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Dinamika Kelompok & Solidaritas'); el?.click();">
        Dinamika
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-2"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-2"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Problem Solving Berbasis Tim'); el?.click();">
        Solving
     </a>
 
-    <a href="javascript:void(0);" class="btn-glass glow-3"
-       style="text-decoration: none; color: #475569; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-glass-compact glow-3"
+       style="color: #475569; padding: 5px 2px; text-align: center; font-size: 0.85rem; font-weight: 900; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Sharing Session: Peluang Masa Depan'); el?.click();">
        Sharing
     </a>
@@ -6728,39 +7238,38 @@ const jurlamChildren = [
         "Laporan yang baik adalah cermin dari organisasi yang sehat."
       </p>
     </section>
-<section style="margin-top: 5px; padding: 15px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
+<section style="margin-top: 5px; padding: 12px 10px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
   <style>
-    /* Animasi Kilatan Cahaya (Shimmer) */
     @keyframes shimmerSwipe {
       0% { left: -150%; }
       50% { left: 150%; }
       100% { left: 150%; }
     }
     
-    .btn-cyber {
+    .btn-cyber-compact {
       position: relative;
       overflow: hidden;
       background: #2d3748;
       border: 1px solid #4a5568;
-      border-radius: 8px 15px 8px 15px !important; /* Bentuk miring futuristik */
-      min-width: 100px;
+      border-radius: 6px 12px 6px 12px !important;
       transition: all 0.3s ease;
+      flex: 1; /* Membuat semua tombol membagi ruang secara adil */
+      max-width: 32%; /* Memastikan tidak lebih dari sepertiga lebar */
     }
 
-    /* Lapisan kilatan */
-    .btn-cyber::after {
+    .btn-cyber-compact::after {
       content: '';
       position: absolute;
       top: 0;
       height: 100%;
-      width: 50px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      width: 30px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
       animation: shimmerSwipe 3s infinite;
     }
 
-    .btn-cyber:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 15px currentColor; /* Glow sesuai warna teks */
+    .btn-cyber-compact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px currentColor;
     }
 
     .shimmer-1::after { animation-delay: 0s; }
@@ -6768,24 +7277,24 @@ const jurlamChildren = [
     .shimmer-3::after { animation-delay: 2s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #a0aec0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #a0aec0; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px; align-items: center;">
     
-    <a href="javascript:void(0);" class="btn-cyber shimmer-1"
-       style="text-decoration: none; color: #00f2ff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-1"
+       style="text-decoration: none; color: #00f2ff; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Evaluasi Berbasis Output Panca Waluya'); el?.click();">
        Evaluasi
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-2"
-       style="text-decoration: none; color: #ff00e5; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-2"
+       style="text-decoration: none; color: #ff00e5; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Penyusunan LPJ Transparan'); el?.click();">
        Susun LPJ
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-3"
-       style="text-decoration: none; color: #adff00; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-3"
+       style="text-decoration: none; color: #adff00; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pembuatan Video: Dokumentasi Inspiratif'); el?.click();">
        Dokumentasi
     </a>
@@ -6859,39 +7368,38 @@ const jurlamChildren = [
     <div style="background: white; padding: 15px; text-align: center; border-top: 1px solid #e2e8f0;">
       <p style="font-size: 0.8rem; color: #a0aec0; margin: 0; font-style: italic;">"Evaluasi terbaik adalah saat kita jujur pada diri sendiri dalam keheningan."</p>
     </div>
-<section style="margin-top: 5px; padding: 15px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
+<section style="margin-top: 5px; padding: 12px 10px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
   <style>
-    /* Animasi Kilatan Cahaya (Shimmer) */
     @keyframes shimmerSwipe {
       0% { left: -150%; }
       50% { left: 150%; }
       100% { left: 150%; }
     }
     
-    .btn-cyber {
+    .btn-cyber-compact {
       position: relative;
       overflow: hidden;
       background: #2d3748;
       border: 1px solid #4a5568;
-      border-radius: 8px 15px 8px 15px !important; /* Bentuk miring futuristik */
-      min-width: 100px;
+      border-radius: 6px 12px 6px 12px !important;
       transition: all 0.3s ease;
+      flex: 1; /* Membuat semua tombol membagi ruang secara adil */
+      max-width: 32%; /* Memastikan tidak lebih dari sepertiga lebar */
     }
 
-    /* Lapisan kilatan */
-    .btn-cyber::after {
+    .btn-cyber-compact::after {
       content: '';
       position: absolute;
       top: 0;
       height: 100%;
-      width: 50px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      width: 30px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
       animation: shimmerSwipe 3s infinite;
     }
 
-    .btn-cyber:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 15px currentColor; /* Glow sesuai warna teks */
+    .btn-cyber-compact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px currentColor;
     }
 
     .shimmer-1::after { animation-delay: 0s; }
@@ -6899,24 +7407,24 @@ const jurlamChildren = [
     .shimmer-3::after { animation-delay: 2s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #a0aec0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #a0aec0; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px; align-items: center;">
     
-    <a href="javascript:void(0);" class="btn-cyber shimmer-1"
-       style="text-decoration: none; color: #00f2ff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-1"
+       style="text-decoration: none; color: #00f2ff; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaporan & Tindak Lanjut'); el?.click();">
        Laporan
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-2"
-       style="text-decoration: none; color: #ff00e5; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-2"
+       style="text-decoration: none; color: #ff00e5; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Penyusunan LPJ Transparan'); el?.click();">
        Susun LPJ
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-3"
-       style="text-decoration: none; color: #adff00; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-3"
+       style="text-decoration: none; color: #adff00; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pembuatan Video: Dokumentasi Inspiratif'); el?.click();">
        Dokumentasi
     </a>
@@ -6982,39 +7490,38 @@ const jurlamChildren = [
         <div style="font-size: 0.7rem; font-weight: bold; color: #4a5568;">BEBAS KORUPSI</div>
       </div>
     </div>
-<section style="margin-top: 5px; padding: 15px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
+<section style="margin-top: 5px; padding: 12px 10px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
   <style>
-    /* Animasi Kilatan Cahaya (Shimmer) */
     @keyframes shimmerSwipe {
       0% { left: -150%; }
       50% { left: 150%; }
       100% { left: 150%; }
     }
     
-    .btn-cyber {
+    .btn-cyber-compact {
       position: relative;
       overflow: hidden;
       background: #2d3748;
       border: 1px solid #4a5568;
-      border-radius: 8px 15px 8px 15px !important; /* Bentuk miring futuristik */
-      min-width: 100px;
+      border-radius: 6px 12px 6px 12px !important;
       transition: all 0.3s ease;
+      flex: 1; /* Membuat semua tombol membagi ruang secara adil */
+      max-width: 32%; /* Memastikan tidak lebih dari sepertiga lebar */
     }
 
-    /* Lapisan kilatan */
-    .btn-cyber::after {
+    .btn-cyber-compact::after {
       content: '';
       position: absolute;
       top: 0;
       height: 100%;
-      width: 50px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      width: 30px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
       animation: shimmerSwipe 3s infinite;
     }
 
-    .btn-cyber:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 15px currentColor; /* Glow sesuai warna teks */
+    .btn-cyber-compact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px currentColor;
     }
 
     .shimmer-1::after { animation-delay: 0s; }
@@ -7022,24 +7529,24 @@ const jurlamChildren = [
     .shimmer-3::after { animation-delay: 2s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #a0aec0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #a0aec0; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px; align-items: center;">
     
-    <a href="javascript:void(0);" class="btn-cyber shimmer-1"
-       style="text-decoration: none; color: #00f2ff; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-1"
+       style="text-decoration: none; color: #00f2ff; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaporan & Tindak Lanjut'); el?.click();">
        Laporan
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-2"
-       style="text-decoration: none; color: #ff00e5; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-2"
+       style="text-decoration: none; color: #ff00e5; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Evaluasi Berbasis Output Panca Waluya'); el?.click();">
        Evaluasi
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-3"
-       style="text-decoration: none; color: #adff00; padding: 10px 8px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-3"
+       style="text-decoration: none; color: #adff00; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pembuatan Video: Dokumentasi Inspiratif'); el?.click();">
        Dokumentasi
     </a>
@@ -7120,39 +7627,38 @@ const jurlamChildren = [
     <div style="padding: 15px; text-align: center; background: #0f172a; font-size: 0.75rem; color: #6366f1; font-weight: bold;">
       #PancaWaluya #PaskibraInspiratif #VirusKebaikan
     </div>
-<section style="margin-top: 5px; padding: 15px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
+<section style="margin-top: 5px; padding: 12px 10px; background: #1a202c; border-radius: 20px; border: 2px solid #2d3748; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
   <style>
-    /* Animasi Kilatan Cahaya (Shimmer) */
     @keyframes shimmerSwipe {
       0% { left: -150%; }
       50% { left: 150%; }
       100% { left: 150%; }
     }
     
-    .btn-cyber {
+    .btn-cyber-compact {
       position: relative;
       overflow: hidden;
       background: #2d3748;
       border: 1px solid #4a5568;
-      border-radius: 8px 15px 8px 15px !important; /* Bentuk miring futuristik */
-      min-width: 100px;
+      border-radius: 6px 12px 6px 12px !important;
       transition: all 0.3s ease;
+      flex: 1; /* Membuat semua tombol membagi ruang secara adil */
+      max-width: 32%; /* Memastikan tidak lebih dari sepertiga lebar */
     }
 
-    /* Lapisan kilatan */
-    .btn-cyber::after {
+    .btn-cyber-compact::after {
       content: '';
       position: absolute;
       top: 0;
       height: 100%;
-      width: 50px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      width: 30px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
       animation: shimmerSwipe 3s infinite;
     }
 
-    .btn-cyber:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 15px currentColor; /* Glow sesuai warna teks */
+    .btn-cyber-compact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px currentColor;
     }
 
     .shimmer-1::after { animation-delay: 0s; }
@@ -7160,26 +7666,26 @@ const jurlamChildren = [
     .shimmer-3::after { animation-delay: 2s; }
   </style>
 
-  <h4 style="text-align: center; margin-top: 0; margin-bottom: 12px; color: #a0aec0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 10px; color: #a0aec0; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">⚡ Terminal Aktivitas</h4>
   
-  <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+  <div style="display: flex; justify-content: center; gap: 6px; align-items: center;">
     
-    <a href="javascript:void(0);" class="btn-cyber shimmer-1"
-       style="text-decoration: none; color: #00f2ff; padding: 10px 15px; text-align: center; font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-1"
+       style="text-decoration: none; color: #00f2ff; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaporan & Tindak Lanjut'); el?.click();">
-       Tindak Lanjut
+       Laporan
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-2"
-       style="text-decoration: none; color: #ff00e5; padding: 10px 15px; text-align: center; font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-2"
+       style="text-decoration: none; color: #ff00e5; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Evaluasi Berbasis Output Panca Waluya'); el?.click();">
-       Evaluasi Panca Waluya
+       Evaluasi
     </a>
 
-    <a href="javascript:void(0);" class="btn-cyber shimmer-3"
-       style="text-decoration: none; color: #adff00; padding: 10px 15px; text-align: center; font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" 
+    <a href="javascript:void(0);" class="btn-cyber-compact shimmer-3"
+       style="text-decoration: none; color: #adff00; padding: 10px 2px; text-align: center; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; justify-content: center; white-space: nowrap;" 
        onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Penyusunan LPJ Transparan'); el?.click();">
-       Penyusunan LPJ
+       Susun LPJ
     </a>
 
   </div>

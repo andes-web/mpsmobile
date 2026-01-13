@@ -1982,6 +1982,54 @@ header {
   margin-right: auto !important;
 }
 </style>
+<style>
+.perencanaan-container h3 {
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.perencanaan-container h3::after {
+  content: "▾";
+  position: absolute;
+  right: 12px;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.perencanaan-container h3.active::after {
+  transform: rotate(180deg);
+}
+
+.perencanaan-container h3 + div {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 8px;
+  transform-origin: top;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+
+.perencanaan-container h3 + div.floating-open {
+  max-height: 5000px;
+  opacity: 1;
+  overflow: visible;
+  position: relative;
+  z-index: 999;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+</style>
 
 </head>
 <body>
@@ -3495,9 +3543,309 @@ const jurlamChildren = [
   
 {
     title: "BINTAL", // H1
-    content: `<h2>BINTAL (Pembinaan Mental)</h2><p>Bintal bertujuan memperkuat dimensi spiritual, etika, dan moral anggota agar memiliki akhlak yang mulia.</p>`,
+    content: `<div class="perencanaan-container" style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 100%; background: #ffffff; padding: 1px;">
+        <p>Bimbingan mental Paskibra adalah proses sistematis untuk membentuk karakter, kedisiplinan, dan jiwa nasionalisme melalui pelatihan fisik dan psikis yang terukur diselaraskan dengan filosofi Panca Waluya untuk mencetak pribadi yang utuh:
+    <ul>
+        <li>Cageur (Sehat): Mewujudkan anggota yang sehat secara jasmani dan mental (psikis) untuk menghadapi tekanan tugas.</li>
+        <li>Bageur (Baik): Membentuk perilaku santun, rendah hati, dan peduli terhadap sesama rekan organisasi.</li>
+        <li>Bener (Benar): Menanamkan integritas agar anggota selalu bertindak di atas jalur hukum, aturan PBB, dan kode etik Paskibra.</li>
+        <li>Pinter (Cerdas): Mengasah kecakapan intelektual dan taktis dalam mengambil keputusan cepat saat di lapangan.</li>
+        <li>Singer (Mawas Diri/Terampil): Membentuk pribadi yang responsif, adaptif, dan teliti terhadap situasi di sekitarnya.</li>
+    </ul>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🎯</span> Tujuan Bimbingan Mental
+    </h3>
+  
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Bimbingan mental Paskibra adalah proses sistematis yang bertujuan untuk menciptakan generasi yang tangguh, mandiri, dan memiliki "Mental Juara". Fokus utamanya mencakup:</p>
+    <ul>
+        <li>Kedisiplinan: Melalui latihan baris-berbaris (PBB) sebagai media pembentukan kepatuhan pada instruksi.</li>
+        <li>Penguatan Ideologi: Penanaman nilai-nilai Pancasila dan wawasan kebangsaan agar anggota siap menjadi calon pemimpin bangsa.</li>
+        <li>Kesehatan Psikis: Upaya menjaga kesehatan mental murid agar tetap stabil dalam menghadapi tekanan latihan maupun tugas.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">⚖️</span> Dasar Hukum dan Peraturan Pemerintah
+    </h3>
+
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Kegiatan ini memiliki landasan hukum yang kuat melalui kebijakan pemerintah yang berlaku di tahun 2026:</p>
+    <ul>
+        <li>Peraturan Presiden (Perpres) Nomor 51 Tahun 2022: Mengatur tentang Program Paskibraka sebagai program kaderisasi pemimpin bangsa berkarakter Pancasila.</li>
+        <li>Peraturan Presiden Nomor 13 Tahun 2021: Fokus pada pembinaan ideologi Pancasila kepada generasi muda melalui program Paskibraka.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🏛️</span> Kebijakan Kementerian Pendidikan Dasar dan Menengah
+    </h3>
+
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Di bawah naungan Kemendikdasmen pada tahun 2026, bimbingan mental Paskibra diselaraskan dengan:</p>
+    <ul>
+        <li>Ekstrakurikuler sebagai Penguatan Karakter: Berdasarkan Permendikdasmen Nomor 13 Tahun 2025, sekolah didorong menciptakan lingkungan belajar yang aman secara emosional.</li>
+        <li>Gerakan Penumbuhan Budi Pekerti (PBP): Penumbuhan nilai positif melalui pembiasaan yang disiplin namun tetap ramah anak.</li>
+        <li>Surat Edaran Mendikdasmen Nomor 2 Tahun 2026: Pelaksanaan upacara bendera dan kegiatan "Pagi Ceria" untuk semangat kebangsaan.</li>
+        <li>Surat Edaran Bersama Nomor 1 Tahun 2025: Menekankan perlindungan kesehatan psikis dari kekerasan dan narkoba dalam materi bimbingan mental.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🧩</span> Transformasi Melalui Empat Pilar Olah Karakter
+    </h3>
+
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Bimbingan mental dilaksanakan melalui pendekatan holistik yang menyentuh seluruh aspek kemanusiaan:</p>
+    <ul>
+        <li>Olah Pikir: Literasi dan ketajaman nalar dalam memahami ideologi Pancasila serta wawasan kebangsaan.</li>
+        <li>Olah Hati: Pendalaman spiritual dan etika agar memiliki keyakinan teguh serta kejujuran batin.</li>
+        <li>Olah Rasa: Pengasahan sensitivitas estetis dan emosional (empati) demi menciptakan kekompakan tim.</li>
+        <li>Olah Raga: Kedisiplinan fisik dan ketangguhan tubuh sebagai fondasi pelaksanaan tugas negara.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🌱</span> Prinsip Pembelajaran
+    </h3>
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Sesuai dengan arah kebijakan 2026, Bintal tidak lagi kaku, melainkan mengusung konsep:</p>
+    <ul>
+        <li>Berkesadaran (Mindful): Anggota memahami "mengapa" mereka berlatih, bukan sekadar mengikuti perintah tanpa makna.</li>
+        <li>Bermakna: Setiap materi latihan dikaitkan dengan relevansi kehidupan nyata dan masa depan kepemimpinan mereka.</li>
+        <li>Menggembirakan: Menciptakan lingkungan latihan yang aman secara psikologis, suportif, dan jauh dari unsur kekerasan (Ramah Anak).</li>
+    </ul>
+    </div>
+    <hr>
+    </p>
+
+    <section style="margin-top: 5px; padding: 10px 15px; background: #f8f9fa; border-radius: 20px; border: 2px dashed #cbd5e0;">
+  <style>
+    /* Animasi halus saat tombol muncul */
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn-eksplorasi {
+      animation: fadeInSlide 0.5s ease forwards;
+    }
+  </style>
+
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 8px; color: #4a5568; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">🚀 Eksplorasi Cepat</h4>
+  
+  <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px;">
+    
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #ebf8ff; border: 1.5px solid #3182ce; color: #2b6cb0; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #3182ce;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #3182ce';this.style.background='#ebf8ff'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Perencanaan'); el?.click();">
+      <span style="font-size: 0.7rem;">Rencana</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #f0fff4; border: 1.5px solid #38a169; color: #2f855a; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #38a169; animation-delay: 0.1s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #38a169';this.style.background='#f0fff4'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana A'); el?.click();">
+      <span style="font-size: 0.7rem;">Opsi A</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #fffaf0; border: 1.5px solid #d69e2e; color: #b7791f; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #d69e2e; animation-delay: 0.2s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #d69e2e';this.style.background='#fffaf0'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana A'); el?.click();">
+      <span style="font-size: 0.7rem;">Opsi B</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #faf5ff; border: 1.5px solid #805ad5; color: #6b46c1; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #805ad5; animation-delay: 0.3s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #805ad5';this.style.background='#faf5ff'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Materi Kedisiplinan & Kesadaran Diri'); el?.click();">
+      <span style="font-size: 0.7rem;">Materi</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #ebf8ff; border: 1.5px solid #3182ce; color: #2b6cb0; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #3182ce;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #3182ce';this.style.background='#ebf8ff'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Dinamika Kelompok & Solidaritas'); el?.click();">
+      <span style="font-size: 0.7rem;">Dinamika</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #f0fff4; border: 1.5px solid #38a169; color: #2f855a; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #38a169; animation-delay: 0.1s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #38a169';this.style.background='#f0fff4'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaporan & Tindak Lanjut'); el?.click();">
+      <span style="font-size: 0.7rem;">Laporan</span>
+    </a>
+  </div>
+</section>
+
+    </div>`,
+
     children: [
-      // 1. Spiritual & Karakter 
+ {
+    title: "Tentang Bintal",
+    content: `<div class="perencanaan-container" style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 100%; background: #ffffff; padding: 1px;">
+        <p>Bimbingan mental Paskibra adalah proses sistematis untuk membentuk karakter, kedisiplinan, dan jiwa nasionalisme melalui pelatihan fisik dan psikis yang terukur diselaraskan dengan filosofi Panca Waluya untuk mencetak pribadi yang utuh:
+    <ul>
+        <li>Cageur (Sehat): Mewujudkan anggota yang sehat secara jasmani dan mental (psikis) untuk menghadapi tekanan tugas.</li>
+        <li>Bageur (Baik): Membentuk perilaku santun, rendah hati, dan peduli terhadap sesama rekan organisasi.</li>
+        <li>Bener (Benar): Menanamkan integritas agar anggota selalu bertindak di atas jalur hukum, aturan PBB, dan kode etik Paskibra.</li>
+        <li>Pinter (Cerdas): Mengasah kecakapan intelektual dan taktis dalam mengambil keputusan cepat saat di lapangan.</li>
+        <li>Singer (Mawas Diri/Terampil): Membentuk pribadi yang responsif, adaptif, dan teliti terhadap situasi di sekitarnya.</li>
+    </ul>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 0; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🎯</span> Tujuan Bintal
+    </h3>
+  
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Bimbingan mental Paskibra adalah proses sistematis yang bertujuan untuk menciptakan generasi yang tangguh, mandiri, dan memiliki "Mental Juara". Fokus utamanya mencakup:</p>
+    <ul>
+        <li>Kedisiplinan: Melalui latihan baris-berbaris (PBB) sebagai media pembentukan kepatuhan pada instruksi.</li>
+        <li>Penguatan Ideologi: Penanaman nilai-nilai Pancasila dan wawasan kebangsaan agar anggota siap menjadi calon pemimpin bangsa.</li>
+        <li>Kesehatan Psikis: Upaya menjaga kesehatan mental murid agar tetap stabil dalam menghadapi tekanan latihan maupun tugas.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 0; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">⚖️</span> Dasar Hukum dan Peraturan
+    </h3>
+
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Kegiatan ini memiliki landasan hukum yang kuat melalui kebijakan pemerintah yang berlaku di tahun 2026:</p>
+    <ul>
+        <li>Peraturan Presiden (Perpres) Nomor 51 Tahun 2022: Mengatur tentang Program Paskibraka sebagai program kaderisasi pemimpin bangsa berkarakter Pancasila.</li>
+        <li>Peraturan Presiden Nomor 13 Tahun 2021: Fokus pada pembinaan ideologi Pancasila kepada generasi muda melalui program Paskibraka.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 0; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🏛️</span> Kebijakan Kementerian
+    </h3>
+
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Di bawah naungan Kemendikdasmen pada tahun 2026, bimbingan mental Paskibra diselaraskan dengan:</p>
+    <ul>
+        <li>Ekstrakurikuler sebagai Penguatan Karakter: Berdasarkan Permendikdasmen Nomor 13 Tahun 2025, sekolah didorong menciptakan lingkungan belajar yang aman secara emosional.</li>
+        <li>Gerakan Penumbuhan Budi Pekerti (PBP): Penumbuhan nilai positif melalui pembiasaan yang disiplin namun tetap ramah anak.</li>
+        <li>Surat Edaran Mendikdasmen Nomor 2 Tahun 2026: Pelaksanaan upacara bendera dan kegiatan "Pagi Ceria" untuk semangat kebangsaan.</li>
+        <li>Surat Edaran Bersama Nomor 1 Tahun 2025: Menekankan perlindungan kesehatan psikis dari kekerasan dan narkoba dalam materi bimbingan mental.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 0; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🧩</span> Transformasi Empat Pilar
+    </h3>
+
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Bimbingan mental dilaksanakan melalui pendekatan holistik yang menyentuh seluruh aspek kemanusiaan:</p>
+    <ul>
+        <li>Olah Pikir: Literasi dan ketajaman nalar dalam memahami ideologi Pancasila serta wawasan kebangsaan.</li>
+        <li>Olah Hati: Pendalaman spiritual dan etika agar memiliki keyakinan teguh serta kejujuran batin.</li>
+        <li>Olah Rasa: Pengasahan sensitivitas estetis dan emosional (empati) demi menciptakan kekompakan tim.</li>
+        <li>Olah Raga: Kedisiplinan fisik dan ketangguhan tubuh sebagai fondasi pelaksanaan tugas negara.</li>
+    </ul>
+    </div>
+
+    <h3 style="color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 0; font-weight: 800; display: flex; align-items: center;">
+      <span style="margin-right: 10px;">🌱</span> Prinsip Pembelajaran
+    </h3>
+    <div style="width: 100%; text-align: justify; font-size: 0.95rem; background: linear-gradient(to right, #f0f7ff, #ffffff); padding: 10px; border-radius: 12px; border: 1px solid #d1e9ff; margin: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); box-sizing: border-box;">
+    <hr style="border: 0; border-top: 0px solid #d1e9ff; margin: 5px 0;">
+    <p>Sesuai dengan arah kebijakan 2026, Bintal tidak lagi kaku, melainkan mengusung konsep:</p>
+    <ul>
+        <li>Berkesadaran (Mindful): Anggota memahami "mengapa" mereka berlatih, bukan sekadar mengikuti perintah tanpa makna.</li>
+        <li>Bermakna: Setiap materi latihan dikaitkan dengan relevansi kehidupan nyata dan masa depan kepemimpinan mereka.</li>
+        <li>Menggembirakan: Menciptakan lingkungan latihan yang aman secara psikologis, suportif, dan jauh dari unsur kekerasan (Ramah Anak).</li>
+    </ul>
+    </div>
+    <hr>
+    </p>
+
+    <section style="margin-top: 5px; padding: 10px 15px; background: #f8f9fa; border-radius: 20px; border: 2px dashed #cbd5e0;">
+  <style>
+    /* Animasi halus saat tombol muncul */
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn-eksplorasi {
+      animation: fadeInSlide 0.5s ease forwards;
+    }
+  </style>
+
+  <h4 style="text-align: center; margin-top: 0; margin-bottom: 8px; color: #4a5568; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">🚀 Eksplorasi Cepat</h4>
+  
+  <div style="display: grid; grid-template-columns: repeat(3, 2fr); gap: 3px;">
+    
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #ebf8ff; border: 1.5px solid #3182ce; color: #2b6cb0; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #3182ce;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #3182ce';this.style.background='#ebf8ff'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Perencanaan'); el?.click();">
+      <span style="font-size: 0.7rem;">Rencana</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #f0fff4; border: 1.5px solid #38a169; color: #2f855a; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #38a169; animation-delay: 0.1s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #38a169';this.style.background='#f0fff4'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana A'); el?.click();">
+      <span style="font-size: 0.7rem;">Opsi A</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #fffaf0; border: 1.5px solid #d69e2e; color: #b7791f; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #d69e2e; animation-delay: 0.2s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #d69e2e';this.style.background='#fffaf0'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaksanaan Rencana A'); el?.click();">
+      <span style="font-size: 0.7rem;">Opsi B</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #faf5ff; border: 1.5px solid #805ad5; color: #6b46c1; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #805ad5; animation-delay: 0.3s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #805ad5';this.style.background='#faf5ff'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Materi Kedisiplinan & Kesadaran Diri'); el?.click();">
+      <span style="font-size: 0.7rem;">Materi</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #ebf8ff; border: 1.5px solid #3182ce; color: #2b6cb0; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #3182ce;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #3182ce';this.style.background='#ebf8ff'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Dinamika Kelompok & Solidaritas'); el?.click();">
+      <span style="font-size: 0.7rem;">Dinamika</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn-eksplorasi"
+       style="text-decoration: none; background: #f0fff4; border: 1.5px solid #38a169; color: #2f855a; padding: 5px 5px; border-radius: 12px; text-align: center; font-size: 0.7rem; font-weight: bold; display: flex; flex-direction: column; align-items: center; transition: 0.2s; box-shadow: 0 4px 0 #38a169; animation-delay: 0.1s;" 
+       onmouseover="this.style.transform='translateY(2px)';this.style.boxShadow='none';this.style.background='#ffffff'" 
+       onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 0 #38a169';this.style.background='#f0fff4'"
+       onclick="const el = [...document.querySelectorAll('*')].find(e => e.innerText?.trim() === 'Pelaporan & Tindak Lanjut'); el?.click();">
+      <span style="font-size: 0.7rem;">Laporan</span>
+    </a>
+  </div>
+</section>
+
+    </div>`
+  },
       {
         title: "Perencanaan",
     content: `<div class="perencanaan-container" style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 100%; background: #ffffff; padding: 10px;">
@@ -3895,7 +4243,7 @@ const jurlamChildren = [
       <h3 style="color: #2c3e50; border-left: 5px solid #2980b9; padding-left: 12px; font-size: 1.2rem; margin-bottom: 10px;">1. Keamanan & Kelestarian</h3>
       <div style="background: #ebf8ff; padding: 15px; border-radius: 10px; border: 1px solid #bee3f8;">
         <p style="text-align: justify; font-size: 0.95rem; margin: 0;">
-          Survei lokasi bukan sekadar mencari tempat yang indah, melainkan komitmen terhadap <strong>Sehat Singer</strong> dan <strong>Sehat Cageur</strong>. Kami memetakan risiko untuk memastikan transformasi mental peserta terjadi di zona yang aman dan nyaman. Di Puncak (Rencana A), fokus kami adalah menjaga ekosistem agar tetap lestari, sementara di Sekolah (Rencana B), fokus kami adalah optimalisasi fasilitas yang ada agar aman dari segala bentuk risiko fisik maupun sosial.
+          Survei lokasi bukan sekadar mencari tempat yang indah, melainkan komitmen terhadap <strong>Sehat Singer</strong> dan <strong>Sehat Cageur</strong>. Kami memetakan risiko untuk memastikan transformasi mental peserta terjadi di zona yang aman dan nyaman. Di Puncak, fokus kami adalah menjaga ekosistem agar tetap lestari, sementara di Sekolah (Rencana B), fokus kami adalah optimalisasi fasilitas yang ada agar aman dari segala bentuk risiko fisik maupun sosial.
         </p>
       </div>
     </section>
@@ -8977,6 +9325,62 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document
+    .querySelectorAll(".perencanaan-container h3")
+    .forEach(h3 => {
+      const panel = h3.nextElementSibling;
+      if (!panel || panel.tagName !== "DIV") return;
+
+      h3.addEventListener("click", () => {
+        const isOpen = h3.classList.contains("active");
+
+        // tutup semua panel lain
+        document.querySelectorAll(".perencanaan-container h3.active")
+          .forEach(el => {
+            el.classList.remove("active");
+            if (el.nextElementSibling)
+              el.nextElementSibling.classList.remove("floating-open");
+          });
+
+        // toggle current
+        if (!isOpen) {
+          h3.classList.add("active");
+          panel.classList.add("floating-open");
+        }
+      });
+    });
+});
+</script>
+<script>
+document.addEventListener("click", function (e) {
+  const h3 = e.target.closest(".perencanaan-container h3");
+  if (!h3) return;
+
+  const panel = h3.nextElementSibling;
+  if (!panel || panel.tagName !== "DIV") return;
+
+  h3.classList.toggle("active");
+  panel.classList.toggle("floating-open");
+});
+</script>
+<script>
+(function () {
+  function hideTentangBintalOnDesktop() {
+    if (window.innerWidth < 769) return; // MOBILE → BIARKAN
+
+    document.querySelectorAll("button, a, li, div").forEach(el => {
+      if (el.innerText?.trim() === "Tentang Bintal") {
+        el.style.display = "none";
+      }
+    });
+  }
+
+  hideTentangBintalOnDesktop();
+  window.addEventListener("resize", hideTentangBintalOnDesktop);
+})();
+</script>
 
 <!-- === END INTRO PAGE === -->
 </body>

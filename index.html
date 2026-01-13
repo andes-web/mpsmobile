@@ -2054,7 +2054,7 @@ header {
 <main class="content" id="content">
     <style>
         :root {
-            --primary: #1a237e; /* Navy */
+            --primary: #56df8a; /* Navy */
             --secondary: #fbc02d; /* Gold */
             --text-dark: #333;
             --bg-light: #f8f9fa;
@@ -2076,7 +2076,20 @@ header {
 
         .animated-section {
             animation: fadeIn 0.8s ease-out forwards;
-            margin-bottom: 25px;
+            margin-bottom: 5px;
+        }
+
+        /* Container Logo */
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .main-logo {
+            width: 150px; /* Ukuran besar proporsional */
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
         }
 
         h2, h3 {
@@ -2087,68 +2100,71 @@ header {
         .welcome-card {
             background: linear-gradient(135deg, var(--primary), #3949ab);
             color: white;
-            padding: 20px;
+            padding: 10px;
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 10px;
         }
 
         .justified-text {
             text-align: justify;
             text-justify: inter-word;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
-        /* Styling Organigram Modern */
+        /* Styling Organigram */
         .organigram-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            padding: 20px 0;
+            padding: 10px 0;
         }
 
         .org-card {
             background: white;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 12px;
+            padding: 12px;
             width: 140px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .org-card img {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--secondary);
-            margin-bottom: 8px;
+            border: 3px solid var(--secondary);
+            margin-bottom: 2px;
         }
 
         .org-card .name {
             font-weight: bold;
             font-size: 0.85rem;
             display: block;
+            color: var(--primary);
         }
 
         .org-card .role {
             font-size: 0.75rem;
             color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .connector-v {
             width: 2px;
-            height: 20px;
-            background: #ccc;
+            height: 25px;
+            background: var(--secondary);
         }
 
         .org-row {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             width: 100%;
         }
 
@@ -2158,24 +2174,31 @@ header {
             border-left: 5px solid var(--secondary);
             margin-bottom: 15px;
             padding: 15px;
-            border-radius: 0 10px 10px 0;
+            border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .program-card h4 {
             margin: 0 0 8px 0;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 
-    <div class="welcome-card animated-section">
-        <h2 style="color: white; margin: 0;">Selamat Datang</h2>
-        <p style="margin: 5px 0 0 0;">Manager Paskibra Solution (MPS)</p>
+    <div class="logo-container">
+        <img src="MPS.png" alt="Logo MPS" class="main-logo">
     </div>
 
-    <section class="animated-section">
+    <div class="welcome-card animated-section">
+        <h2 style="color: white; margin: 0;">Selamat Datang</h2>
+        <p style="margin: 5px 0 0 0; opacity: 0.9;">Manajer Paskibra Solution (MPS)</p>
+    </div>
+
+    <section class="animated-section" style="padding: 10px;">
         <p class="justified-text">
-            <b>Manager Paskibra Solution</b> adalah lembaga profesional yang berdedikasi dalam membentuk karakter pemuda melalui kedisiplinan tingkat tinggi. Kami mengintegrasikan pola pembinaan fisik, mental, dan intelektual untuk melahirkan pemimpin masa depan yang tangguh dan berintegritas.
+            <b>Paskibra Solution</b> adalah lembaga profesional yang berdedikasi dalam membentuk karakter pemuda melalui kedisiplinan tingkat tinggi. Kami mengintegrasikan pola pembinaan fisik, mental, dan intelektual untuk melahirkan pemimpin masa depan yang tangguh dan berintegritas.
         </p>
     </section>
 
@@ -2183,7 +2206,7 @@ header {
         <h3>Struktur Organisasi</h3>
         <div class="organigram-container">
             <div class="org-card">
-                <img src="https://via.placeholder.com/100" alt="Manager">
+                <img src="path/to/foto-manager.jpg" alt="Manager">
                 <span class="name">Nama Manager</span>
                 <span class="role">General Manager</span>
             </div>
@@ -2192,12 +2215,12 @@ header {
 
             <div class="org-row">
                 <div class="org-card">
-                    <img src="https://via.placeholder.com/100" alt="Ops">
+                    <img src="path/to/foto-ops.jpg" alt="Ops">
                     <span class="name">Staff Ops</span>
                     <span class="role">Operasional</span>
                 </div>
                 <div class="org-card">
-                    <img src="https://via.placeholder.com/100" alt="Kurikulum">
+                    <img src="path/to/foto-kurikulum.jpg" alt="Kurikulum">
                     <span class="name">Staff Kurik</span>
                     <span class="role">Kurikulum</span>
                 </div>
@@ -2209,18 +2232,18 @@ header {
         <h3>Program Kerja Strategis</h3>
         
         <div class="program-card">
-            <h4>🛡️ DIKLAT (Pendidikan Latihan)</h4>
-            <p class="justified-text">Proses standarisasi kecakapan teknik PBB dan tata upacara. Peserta digembleng secara fisik dan teori untuk mencapai kompetensi standar nasional Paskibra.</p>
+            <h4>🛡️ DIKLAT</h4>
+            <p class="justified-text"><b>Pendidikan Latihan:</b> Proses standarisasi kecakapan teknik PBB dan tata upacara. Peserta digembleng secara fisik dan teori untuk mencapai kompetensi standar nasional Paskibra.</p>
         </div>
 
         <div class="program-card" style="border-left-color: #e91e63;">
-            <h4>🧠 BINTAL (Bimbingan Mental)</h4>
-            <p class="justified-text">Program penguatan ideologi dan ketahanan psikis. Fokus pada pembentukan etika, sopan santun, dan mentalitas pantang menyerah dalam menghadapi tantangan.</p>
+            <h4>🧠 BINTAL</h4>
+            <p class="justified-text"><b>Bimbingan Mental:</b> Program penguatan ideologi dan ketahanan psikis. Fokus pada pembentukan etika, sopan santun, dan mentalitas pantang menyerah.</p>
         </div>
 
         <div class="program-card" style="border-left-color: #2196f3;">
-            <h4>🎓 BINTUR (Bimbingan Instruktur)</h4>
-            <p class="justified-text">Pelatihan khusus bagi para kader pelatih. Menitikberatkan pada kemampuan manajerial latihan, teknik instruksi yang efektif, serta kepemimpinan lapangan.</p>
+            <h4>🎓 BINTUR</h4>
+            <p class="justified-text"><b>Bimbingan Instruktur:</b> Pelatihan khusus bagi kader pelatih. Menitikberatkan pada kemampuan manajerial latihan, teknik instruksi efektif, serta kepemimpinan lapangan.</p>
         </div>
     </section>
 

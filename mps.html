@@ -2034,7 +2034,13 @@ header {
 </head>
 <body>
 <header>
-<img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
+<div style="text-align: center; padding: 20px;">
+    <img alt="Logo Instansi" class="logo" id="logo-mps-trigger" src="Logo_MPS.png" style="cursor: pointer; width: 120px; transition: transform 0.3s;">
+    <p style="font-family: sans-serif; color: #666;">Klik logo untuk profil lengkap</p>
+</div>
+
+<iframe id="target-iframe" style="width: 100%; height: 600px; border: 1px solid #eee; display: none; border-radius: 15px;"></iframe>
+
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
 <!-- Visitor Counter (Mobile Only, muncul di header kanan) -->
 <div class="visitor-counter-mobile">
@@ -2188,7 +2194,7 @@ header {
     </style>
 
     <div class="logo-container">
-        <img src="MPS.png" alt="Logo MPS" class="main-logo">
+        <img src="MPS.png" alt="LogoMPS" class="main-logo">
     </div>
 
     <div class="welcome-card animated-section">
@@ -2256,7 +2262,7 @@ header {
         <div class="program-card" style="border-left-color: #2196f3;">
             <h4>🎓 BINTUR</h4>
             <p class="justified-text"><b>Bimbingan Instruktur:</b> Pelatihan khusus bagi kader pelatih. Menitikberatkan pada kemampuan manajerial latihan, teknik instruksi efektif, serta kepemimpinan lapangan.</p>
-            <img src='BINTUR.jpg' alt='Foto Diklat' style='width:100%; max-width:400px; display:block; margin:10px auto;'>
+            <img src='BINTUR.jpg' alt='Foto Bintur' style='width:100%; max-width:400px; display:block; margin:10px auto;'>
         </div>
     </section>
 
@@ -9589,5 +9595,101 @@ document.addEventListener("click", function (e) {
 </script>
 
 <!-- === END INTRO PAGE === -->
+ <script>
+    document.getElementById('logo-mps-trigger').addEventListener('click', function() {
+        const iframe = document.getElementById('target-iframe');
+        
+        // Seluruh konten HTML & CSS yang Anda berikan
+        const rawContent = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    :root {
+                        --primary: #56df8a; --secondary: #fbc02d; --text-dark: #333; --bg-light: #f8f9fa;
+                    }
+                    body { margin: 0; background-color: var(--bg-light); }
+                    .content {
+                        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                        color: var(--text-dark); line-height: 1.6; padding: 15px;
+                    }
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(20px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    .animated-section { animation: fadeIn 0.8s ease-out forwards; margin-bottom: 1px; }
+                    .logo-container { text-align: center; padding: 20px 0; animation: fadeIn 1s ease-out; }
+                    .main-logo { width: 150px; height: auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
+                    h2, h3 { color: var(--primary); text-align: center; }
+                    .welcome-card {
+                        background: linear-gradient(135deg, var(--primary), #3949ab);
+                        color: white; padding: 10px; border-radius: 15px; text-align: center;
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 10px;
+                    }
+                    .justified-text { text-align: justify; text-justify: inter-word; margin-bottom: 5px; }
+                    .organigram-container { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 2px 0; }
+                    .org-card { background: white; border: 1px solid #ddd; border-radius: 12px; padding: 2px; width: 140px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+                    .org-card img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid var(--secondary); margin-bottom: 2px; }
+                    .org-card .name { font-weight: bold; font-size: 0.85rem; display: block; color: var(--primary); }
+                    .org-card .role { font-size: 0.65rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+                    .connector-v { width: 2px; height: 10px; background: var(--secondary); }
+                    .org-row { display: flex; justify-content: center; gap: 10px; width: 100%; }
+                    .program-card { background: white; border-left: 5px solid var(--secondary); margin-bottom: 15px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+                    .program-card h4 { margin: 0 0 8px 0; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+                </style>
+            </head>
+            <body>
+                <main class="content">
+                    <div class="logo-container">
+                        <img src="images/MPS.png" alt="LogoMPS" class="main-logo">
+                    </div>
+                    <div class="welcome-card animated-section">
+                        <h2 style="color: white; margin: 0;">Selamat Datang</h2>
+                        <p style="margin: 5px 0 0 0; opacity: 0.9;">Manajer Paskibra Solution (MPS)</p>
+                    </div>
+                    <section class="animated-section" style="padding: 10px;">
+                        <p class="justified-text">
+                            <b>Paskibra Solution</b> adalah lembaga profesional yang berdedikasi dalam membentuk karakter pemuda...
+                        </p>
+                    </section>
+                    <section class="animated-section">
+                        <h3>Struktur Organisasi</h3>
+                        <div class="organigram-container">
+                            <div class="org-card">
+                                <img src="images/MPS.png" alt="Manager">
+                                <span class="name">Nama Manager</span>
+                                <span class="role">General Manager</span>
+                            </div>
+                            <div class="connector-v"></div>
+                            <div class="org-row">
+                                <div class="org-card"><img src="images/MPS.png" alt="Ops"><span class="name">Staff</span><span class="role">Ops</span></div>
+                                <div class="org-card"><img src="images/MPS.png" alt="Adm"><span class="name">Staff</span><span class="role">Admin</span></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="animated-section">
+                        <h3>Program Kerja Strategis</h3>
+                        <div class="program-card">
+                            <h4>🛡️ DIKLAT</h4>
+                            <img src='images/DIKLAT.jpg' alt='Foto Diklat' style='width:100%; max-width:400px; display:block; margin:10px auto;'>
+                        </div>
+                        <div class="program-card" style="border-left-color: #e91e63;">
+                            <h4>🧠 BINTAL</h4>
+                            <img src='images/BINTAL.jpg' alt='Foto Bintal' style='width:100%; max-width:400px; display:block; margin:10px auto;'>
+                        </div>
+                    </section>
+                </main>
+            </body>
+            </html>
+        `;
+
+        // Menampilkan iframe dan memasukkan konten secara dinamis
+        iframe.style.display = 'block';
+        iframe.srcdoc = rawContent;
+        
+        // Scroll otomatis ke iframe agar user langsung melihat kontennya
+        iframe.scrollIntoView({ behavior: 'smooth' });
+    });
+</script>
 </body>
 </html>

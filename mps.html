@@ -1164,7 +1164,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapKelompok">Rekap Kelompok</option>
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
-          <option value="rekap_bintal">Rekap Bintal</option>
+          <option value="RekapBintal">Rekap Bintal</option>
         </select>
         
         <select id="unitFilter">
@@ -1370,7 +1370,7 @@ if (sheetName === "Rekap") {
     const data = await fetchData(sheetName);
     const rows = data.rawData;
 
-    if (rows.length === 0) {
+    if (rows.length === 0) {if (MODE_REKAP_BINTAL) return;
         document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Tidak ada data yang tersedia.</td></tr>';
         document.getElementById("statPeserta").innerText=0;
         document.getElementById("statRata").innerText=0;
@@ -2252,9 +2252,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (jenisRekap.value !== 'NilaiIndividu') {
              // disabled refresh
         }
-        if (jenis === "rekap_bintal") {
-            loadRekapBintal();
-        }
     }
     
     // Mobile menu logic (not directly related to rekap, but for completeness)
@@ -2272,6 +2269,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+});
+document.getElementById("jenisRekap").addEventListener("change", function () {
+  if (this.value === "RekapBintal") {
+    renderRekapBintal();
+  } else {
+    MODE_REKAP_BINTAL = false;
+  }
 });
 
 </script>
@@ -2506,48 +2510,59 @@ function loadUnitList() {
     ensureFooter();
   }
 })();
-
-// =======================================================
-// 🔹 LOAD REKAP BINTAL
-// =======================================================
-async function loadRekapBintal() {
-  const res = await fetch(`${SCRIPT_URL}?action=rekapBintal`);
-  const data = await res.json();
-
-  let html = `
-    <table class="rekap-table">
-      <thead>
-        <tr>
-          <th>Peringkat</th>
-          <th>Nama</th>
-          <th>BI</th>
-          <th>BK</th>
-          <th>BT</th>
-          <th>NA</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-
-  data.forEach(r => {
-    html += `
-      <tr>
-        <td>${r.peringkat}</td>
-        <td>${r.nama}</td>
-        <td>${r.bi}</td>
-        <td>${r.bk}</td>
-        <td>${r.bt}</td>
-        <td><strong>${r.na}</strong></td>
-      </tr>
-    `;
-  });
-
-  html += `</tbody></table>`;
-  document.getElementById("hasilRekap").innerHTML = html;
-}
-
 </script>
 
 <!-- END: Robust global footer -->
+
+<!-- ================= TAMBAHAN REKAP BINTAL (AUTO GENERATED) ================= -->
+<!-- ================= TAMBAHAN REKAP BINTAL (FRAME FIX) ================= -->
+<script>
+async function renderRekapBintal() {
+  MODE_REKAP_BINTAL = true;
+
+  const res = await fetch(GAS_URL + "?action=rekapBintal");
+  const data = await res.json();
+
+  const head = document.getElementById("tableHead");
+  const body = document.getElementById("tableBody");
+
+  head.innerHTML = `
+  <tr>
+    <th title="Peringkat">&#x1F3C5;</th>
+    <th>Nama</th>
+    <th>BI</th>
+    <th>BK</th>
+    <th>BT</th>
+    <th>NA</th>
+  </tr>
+`;
+
+
+  body.innerHTML = data.slice(1).map(r => `
+    <tr>
+      <td class="rank-icon">${medalIcon(Number(r[0]))}</td>
+      <td style="text-align:left;padding-left:6px">${r[1]}</td>
+      <td>${r[2]}</td>
+      <td>${r[3]}</td>
+      <td>${r[4]}</td>
+      <td><b>${r[5]}</b></td>
+    </tr>
+  `).join("");
+}
+</script>
+<script>
+function medalIcon(rank) {
+  if (rank === 1) return "🥇";
+  if (rank === 2) return "🥈";
+  if (rank === 3) return "🥉";
+  return rank;
+}
+</script>
+
+<script>
+let MODE_REKAP_BINTAL = false;
+</script>
+
 </body>
+
 </html>

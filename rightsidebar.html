@@ -1164,6 +1164,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapKelompok">Rekap Kelompok</option>
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
+          <option value="RekapBintal">Rekap Bintal</option>
         </select>
         
         <select id="unitFilter">
@@ -1369,7 +1370,7 @@ if (sheetName === "Rekap") {
     const data = await fetchData(sheetName);
     const rows = data.rawData;
 
-    if (rows.length === 0) {
+    if (rows.length === 0) {if (MODE_REKAP_BINTAL) return;
         document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Tidak ada data yang tersedia.</td></tr>';
         document.getElementById("statPeserta").innerText=0;
         document.getElementById("statRata").innerText=0;
@@ -2236,11 +2237,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 3. Setup Event Listener untuk Filter Unit
         unitFilter.onchange = () => {
             const currentSheet = jenisRekap.value;
-            // Jika mode Nilai Individu, filter dropdown peserta
-            if (currentSheet === 'NilaiIndividu') {
-                setupCustomDropdown(unitFilter.value); // FIX 3: Panggil setupCustomDropdown
+
+            // ⛔ LOCK MODE: Rekap Bintal harus berdiri sendiri
+            if (currentSheet === 'RekapBintal') {
+                renderRekapBintal(unitFilter.value);
+                return;
             }
-            // Jika mode Rekap Standar (Individu/Kelompok/Akhir), render ulang rekap dengan filter baru
+
+            // Mode Nilai Individu
+            if (currentSheet === 'NilaiIndividu') {
+                setupCustomDropdown(unitFilter.value);
+            }
+
+            // Rekap Standar
             if (currentSheet === 'Rekap' || currentSheet === 'RekapKelompok' || currentSheet === 'RekapAkhir') {
                 renderRekap(currentSheet);
             }
@@ -2268,6 +2277,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+});
+document.getElementById("jenisRekap").addEventListener("change", function () {
+  if (this.value === "RekapBintal") {
+    renderRekapBintal();
+  } else {
+    MODE_REKAP_BINTAL = false;
+  }
 });
 
 </script>
@@ -2505,5 +2521,177 @@ function loadUnitList() {
 </script>
 
 <!-- END: Robust global footer -->
+
+<!-- ================= TAMBAHAN REKAP BINTAL (AUTO GENERATED) ================= -->
+<!-- ================= TAMBAHAN REKAP BINTAL (FRAME FIX) ================= -->
+<script>
+async function renderRekapBintal(filterUnit = 'Semua Unit') {
+  MODE_REKAP_BINTAL = true;
+
+  const [bintalData, rekapAkhir] = await Promise.all([
+    fetch(GAS_URL + "?action=rekapBintal").then(r => r.json()),
+    fetchData('RekapAkhir')
+  ]);
+
+  // ===============================
+  // MAP Nama → Unit (RekapAkhir)
+  // ===============================
+  const unitMap = {};
+  rekapAkhir.rawData.forEach(r => {
+    const nama = String(r[0] || '').trim();
+    const unit = String(r[1] || '').trim();
+    if (nama) unitMap[nama] = unit;
+  });
+
+  // ===============================
+  // FILTER UNIT DULU
+  // ===============================
+  let rows = bintalData.slice(1).filter(r => {
+    if (filterUnit === 'Semua Unit') return true;
+    const nama = String(r[1] || '').trim();
+    return unitMap[nama] === filterUnit;
+  });
+
+  // ===============================
+  // SORT ULANG BERDASARKAN NA (DESC)
+  // ===============================
+  rows.sort((a, b) => Number(b[5]) - Number(a[5]));
+
+  const head = document.getElementById("tableHead");
+  const body = document.getElementById("tableBody");
+
+  head.innerHTML = `
+    <tr>
+      <th>🏅</th>
+      <th>Nama</th>
+      <th>BI</th>
+      <th>BK</th>
+      <th>BT</th>
+      <th>NA</th>
+    </tr>
+  `;
+
+  // ===============================
+  // RENDER + RANK RESET
+  // ===============================
+  body.innerHTML = rows.length
+    ? rows.map((r, i) => `
+        <tr>
+          <td class="rank-icon">${medalIcon(i + 1)}</td>
+          <td style="text-align:left;padding-left:6px">${r[1]}</td>
+          <td>${r[2]}</td>
+          <td>${r[3]}</td>
+          <td>${r[4]}</td>
+          <td><b>${r[5]}</b></td>
+        </tr>
+      `).join("")
+    : `<tr>
+         <td colspan="6" style="text-align:center;padding:10px">
+           Tidak ada data sesuai filter unit
+         </td>
+       </tr>`;
+}
+</script>
+
+<script>
+function medalIcon(rank) {
+  if (rank === 1) return "🥇";
+  if (rank === 2) return "🥈";
+  if (rank === 3) return "🥉";
+  return rank;
+}
+</script>
+
+<script>
+let MODE_REKAP_BINTAL = false;
+</script>
+
+
+<!-- ===================== PATCH FILTER UNIT REKAP BINTAL (FOCUS ONLY) ===================== -->
+<script>
+(function(){
+  const _origFetchData = window.fetchData;
+  if (typeof _origFetchData !== 'function') return;
+
+  window.fetchData = async function(sheetName){
+    const res = await _origFetchData(sheetName);
+    try{
+      const jenis = document.getElementById('jenisRekap')?.value || '';
+      const unitSel = document.getElementById('unitFilter')?.value || 'Semua Unit';
+      if (jenis === 'RekapBintal' && sheetName === 'RekapAkhir' && unitSel !== 'Semua Unit') {
+        const target = String(unitSel).trim().toLowerCase();
+        // KOLOM B = index 1
+        res.rawData = (res.rawData || []).filter(r => {
+          const u = (r && r[1] ? String(r[1]) : '').trim().toLowerCase();
+          return u === target;
+        });
+      }
+    }catch(e){
+      console.warn('Patch Rekap Bintal filter error:', e);
+    }
+    return res;
+  };
+})();
+</script>
+<!-- =================== END PATCH FILTER UNIT REKAP BINTAL ==================== -->
+
+
+<!-- ===================== PATCH RE-RENDER FILTER REKAP BINTAL ===================== -->
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    const unitSelect = document.getElementById('unitFilter');
+    const jenisSelect = document.getElementById('jenisRekap');
+    if (!unitSelect || !jenisSelect) return;
+
+    unitSelect.addEventListener('change', function(){
+      if (jenisSelect.value === 'RekapBintal') {
+
+        // ✅ PANGGIL RENDERER REKAP BINTAL
+        if (typeof renderRekapBintal === 'function') {
+          renderRekapBintal();
+        } 
+        else if (typeof loadRekapBintal === 'function') {
+          loadRekapBintal();
+        }
+
+      }
+    });
+  });
+})();
+
+function applyFreshRanking(data, nilaiIndex) {
+  // urutkan berdasarkan nilai (DESC)
+  data.sort((a, b) => Number(b[nilaiIndex]) - Number(a[nilaiIndex]));
+
+  // hitung peringkat baru
+  return data.map((row, i) => ({
+    ...row,
+    __rank: i + 1
+  }));
+}
+
+</script>
+<!-- =================== END PATCH RE-RENDER FILTER REKAP BINTAL ==================== -->
+
+
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    const unitFilter = document.getElementById('unitFilter');
+    const jenisRekap = document.getElementById('jenisRekap');
+    if(!unitFilter || !jenisRekap) return;
+
+    unitFilter.addEventListener('change', function(){
+      if(jenisRekap.value !== 'RekapBintal') return;
+      if(typeof renderRekapBintal === 'function'){
+        renderRekapBintal(unitFilter.value);
+      }
+    });
+  });
+})();
+</script>
+
 </body>
+
 </html>

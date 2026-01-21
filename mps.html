@@ -8838,26 +8838,36 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- === Versi fix: Buka "Penilaian Bintal" di tab baru (khusus MOBILE) === -->
 <script>
 (function() {
-  if (window.innerWidth > 768) return; // desktop aman
+  function bukaDiTabBaruJikaMobile() {
+    // Jalankan hanya jika lebar layar <= 768px (mobile)
+    if (window.innerWidth > 768) return;
 
+    // Cari tombol dengan teks "Penilaian Bintal"
+    const semuaTombol = document.querySelectorAll(".h4-button, button, a");
+    for (const btn of semuaTombol) {
+      if (btn.textContent.trim().toLowerCase() === "penilaian bintal") {
+        // Cegah event default bawaan accordion
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open("Nilai_bintalindividu.html", "_blank");
+        }, { once: true });
+        console.log("✅ Event Penilaian Bintal (mobile) terpasang.");
+        return;
+      }
+    }
+  }
+
+  // Coba jalankan awal
+  document.addEventListener("DOMContentLoaded", bukaDiTabBaruJikaMobile);
+
+  // Jika menu muncul belakangan, amati perubahan DOM
   const observer = new MutationObserver(() => {
-    const btn = [...document.querySelectorAll(".sidebar-left .h4-button")]
-      .find(el => el.textContent.trim().toLowerCase() === "penilaian bintal");
-
-    if (!btn) return;
-
-    btn.addEventListener("click", function(e) {
-      e.preventDefault();
-      window.open("Nilai_bintalindividu.html", "_blank");
-    }, { passive: true });
-
-    observer.disconnect(); // 🔴 WAJIB
+    bukaDiTabBaruJikaMobile();
   });
-
-  observer.observe(document.body, { childList:true, subtree:true });
+  observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
-
 
 <!-- === Buka Penilaian Diklat di tab baru khusus MOBILE === -->
 <script>
@@ -8912,7 +8922,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
-
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   // Jalankan hanya di layar mobile
@@ -9075,16 +9085,6 @@ document.addEventListener("DOMContentLoaded", function() {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 
-</script>
-
-aded", bukaDiTabBaruJikaMobile);
-
-  // Jika menu muncul belakangan, amati perubahan DOM
-  const observer = new MutationObserver(() => {
-    bukaDiTabBaruJikaMobile();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-})();
 </script>
 <!-- === VISITOR COUNTER SYNC (DESKTOP & MOBILE) === -->
 <script>

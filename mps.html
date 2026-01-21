@@ -2031,6 +2031,38 @@ header {
 
 </style>
 
+
+<style>
+.sidebar-left{
+  display:flex;
+  flex-direction:column;
+}
+.sidebar-media-bintal{
+  margin-top:auto;
+  padding-top:10px;
+  border-top:1px solid #d0d8e8;
+}
+.sidebar-media-bintal img,
+.sidebar-media-bintal video{
+  width:100%;
+  border-radius:8px;
+  cursor:pointer;
+  margin-bottom:8px;
+}
+.media-zoom-frame{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.media-zoom-frame img,
+.media-zoom-frame video{
+  max-width:100%;
+  max-height:100%;
+}
+</style>
+
 </head>
 <body>
 <header>
@@ -2044,12 +2076,22 @@ header {
 
 </header>
 <div class="layout">
-<aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
+<aside class="sidebar-left" id="sidebar-left">
 <!-- Visitor Counter Digital -->
 <div class="visitor-counter-digital">
   <div class="visitor-label">VISITOR</div>
   <div class="visitor-digits" id="visitorNumber">00000</div>
 </div>
+
+<!-- === SIDEBAR MEDIA BINTAL (BOTTOM) === -->
+<div class="sidebar-media-bintal">
+  <img src="images/FotoBintal.jpg" alt="Foto Bintal"
+       onclick="showMediaBintal('img','images/FotoBintal.jpg')">
+  <video src="images/KomenBintal_2.mp4" muted
+       onclick="showMediaBintal('video','images/KomenBintal_2.mp4')"></video>
+</div>
+<!-- === END SIDEBAR MEDIA BINTAL === -->
+
 </aside>
 <main class="content" id="content">
     <style>
@@ -9595,231 +9637,24 @@ document.addEventListener("click", function (e) {
 
 <!-- === END INTRO PAGE === -->
 
-<!-- === MEDIA BINTAL (DESKTOP ONLY, DI BAWAH FORM) === -->
-<style>
-@media (min-width:769px){
-  .media-bintal {
-    margin-top: 12px;
-    padding: 8px;
-    border-top: 1px dashed #cbd5e1;
-  }
-  .media-bintal img,
-  .media-bintal video {
-    width: 100%;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-bottom: 8px;
-  }
-}
-@media (max-width:768px){
-  .media-bintal{display:none!important;}
-}
-</style>
-
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.innerWidth < 769) return;
-
-  const observer = new MutationObserver(() => {
-    const sidebar = document.querySelector(".sidebar-left");
-    if (!sidebar) return;
-
-    const formAccordion = [...sidebar.querySelectorAll(".accordion")]
-      .find(el => el.textContent.includes("FORM"));
-
-    if (!formAccordion || sidebar.querySelector(".media-bintal")) return;
-
-    const box = document.createElement("div");
-    box.className = "media-bintal";
-    box.innerHTML = `
-      <img src="images/FotoBintal.jpg" style="width:100%;border-radius:8px;cursor:pointer" data-type="img">
-      <video src="images/KomenBintal_2.mp4" muted preload="metadata"
-        style="width:100%;border-radius:8px;cursor:pointer" data-type="video"></video>
-    `;
-
-    formAccordion.after(box);
-    observer.disconnect();
-  });
-
-  observer.observe(document.body, { childList:true, subtree:true });
-});
-</script>
-
-
-</body></html>`;
-    } else {
-      iframe.srcdoc = `
-        <html><body style="margin:0;text-align:center">
-        <img src="FotoBintal.jpg" style="max-width:100%;height:auto">
-        
-<!-- === MEDIA BINTAL (DESKTOP ONLY, OUTSIDE FORM CONTAINER) === -->
-<style>
-@media (min-width:769px){
-  .media-bintal {
-    width: 100%;
-    padding: 8px 6px;
-    margin-top: 10px;
-    border-top: 1px dashed #cbd5e1;
-    box-sizing: border-box;
-  }
-  .media-bintal img,
-  .media-bintal video {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 8px;
-    cursor: pointer;
-    display: block;
-    margin-bottom: 8px;
+function showMediaBintal(type, src){
+  const content = document.getElementById('content');
+  if(!content) return;
+  content.innerHTML = '<div class="media-zoom-frame"></div>';
+  const frame = content.querySelector('.media-zoom-frame');
+  if(type === 'img'){
+    const img = document.createElement('img');
+    img.src = src;
+    frame.appendChild(img);
+  } else {
+    const vid = document.createElement('video');
+    vid.src = src;
+    vid.controls = true;
+    vid.autoplay = true;
+    frame.appendChild(vid);
   }
 }
-@media (max-width:768px){
-  .media-bintal{display:none!important;}
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  if(window.innerWidth < 769) return;
-
-  const sidebar = document.querySelector(".sidebar-left");
-  if(!sidebar) return;
-
-  // Cari accordion/menu dengan teks FORM
-  let formAccordion = null;
-  sidebar.querySelectorAll(".accordion").forEach(acc => {
-    if(acc.textContent && acc.textContent.trim().startsWith("FORM")){
-      formAccordion = acc;
-    }
-  });
-  if(!formAccordion) return;
-
-  // Sisipkan SETELAH accordion FORM (bukan di dalam panelnya)
-  const mediaBox = document.createElement("div");
-  mediaBox.className = "media-bintal";
-  mediaBox.innerHTML = `
-    <img src="FotoBintal.jpg" alt="Foto Bintal" data-type="img">
-    <video src="KomenBintal_2.mp4" muted preload="metadata" data-type="video"></video>
-  `;
-
-  formAccordion.insertAdjacentElement("afterend", mediaBox);
-
-  mediaBox.addEventListener("click", function(e){
-    const target = e.target;
-    if(!target.dataset.type) return;
-
-    const content = document.querySelector(".content,#content");
-    if(!content) return;
-
-    content.innerHTML = "";
-    const iframe = document.createElement("iframe");
-    iframe.style.width = "100%";
-    iframe.style.height = "100vh";
-    iframe.style.border = "none";
-
-    if(target.dataset.type === "video"){
-      iframe.srcdoc = `
-        <html><body style="margin:0;background:#000">
-        <video src="KomenBintal_2.mp4" controls autoplay style="width:100%;height:100%"></video>
-        </body></html>`;
-    } else {
-      iframe.srcdoc = `
-        <html><body style="margin:0;text-align:center;background:#000">
-        <img src="FotoBintal.jpg" style="max-width:100%;height:auto">
-        </body></html>`;
-    }
-
-    content.appendChild(iframe);
-  });
-});
-</script>
-
-</body></html>`;
-    }
-    content.appendChild(iframe);
-  });
-});
-</script>
-
-
-<!-- === MEDIA BINTAL (DESKTOP ONLY, OUTSIDE FORM CONTAINER) === -->
-<style>
-@media (min-width:769px){
-  .media-bintal {
-    width: 100%;
-    padding: 8px 6px;
-    margin-top: 10px;
-    border-top: 1px dashed #cbd5e1;
-    box-sizing: border-box;
-  }
-  .media-bintal img,
-  .media-bintal video {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 8px;
-    cursor: pointer;
-    display: block;
-    margin-bottom: 8px;
-  }
-}
-@media (max-width:768px){
-  .media-bintal{display:none!important;}
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-  if(window.innerWidth < 769) return;
-
-  const sidebar = document.querySelector(".sidebar-left");
-  if(!sidebar) return;
-
-  // Cari accordion/menu dengan teks FORM
-  let formAccordion = null;
-  sidebar.querySelectorAll(".accordion").forEach(acc => {
-    if(acc.textContent && acc.textContent.trim().startsWith("FORM")){
-      formAccordion = acc;
-    }
-  });
-  if(!formAccordion) return;
-
-  // Sisipkan SETELAH accordion FORM (bukan di dalam panelnya)
-  const mediaBox = document.createElement("div");
-  mediaBox.className = "media-bintal";
-  mediaBox.innerHTML = `
-    <img src="FotoBintal.jpg" alt="Foto Bintal" data-type="img">
-    <video src="KomenBintal_2.mp4" muted preload="metadata" data-type="video"></video>
-  `;
-
-  formAccordion.insertAdjacentElement("afterend", mediaBox);
-
-  mediaBox.addEventListener("click", function(e){
-    const target = e.target;
-    if(!target.dataset.type) return;
-
-    const content = document.querySelector(".content,#content");
-    if(!content) return;
-
-    content.innerHTML = "";
-    const iframe = document.createElement("iframe");
-    iframe.style.width = "100%";
-    iframe.style.height = "100vh";
-    iframe.style.border = "none";
-
-    if(target.dataset.type === "video"){
-      iframe.srcdoc = `
-        <html><body style="margin:0;background:#000">
-        <video src="KomenBintal_2.mp4" controls autoplay style="width:100%;height:100%"></video>
-        </body></html>`;
-    } else {
-      iframe.srcdoc = `
-        <html><body style="margin:0;text-align:center;background:#000">
-        <img src="FotoBintal.jpg" style="max-width:100%;height:auto">
-        </body></html>`;
-    }
-
-    content.appendChild(iframe);
-  });
-});
 </script>
 
 </body>

@@ -2185,6 +2185,12 @@ header {
             align-items: center;
             gap: 10px;
         }
+        .sidebar-video-bintal video {
+  width: 98%;
+  border-radius: 8px;
+  display: block;
+}
+
     </style>
 
     <div class="logo-container">
@@ -9625,12 +9631,15 @@ document.addEventListener("DOMContentLoaded", function () {
   videoBox.className = "sidebar-video-bintal";
   videoBox.innerHTML = `
     <video controls playsinline preload="metadata">
-      <source src="images/KomenBintal_2.mp4" type="video/mp4">
+      <source src="KomenBintal_2.mp4" type="video/mp4">
       Browser tidak mendukung video.
     </video>
   `;
 
-  wrapper.insertAdjacentElement("afterend", videoBox);
+  
+  // pastikan benar-benar di luar container menu
+  sidebar.appendChild(videoBox);
+
 });
 </script>
 

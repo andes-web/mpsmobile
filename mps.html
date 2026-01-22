@@ -1031,6 +1031,7 @@ header .visitor-counter {
   .sidebar-left .sidebar-title {
     display: none !important;
   }
+  
 }
 /* === Tampilan profil anggota setelah klik logo === */
 /* === Tata letak profil logo besar & detail === */
@@ -2070,7 +2071,7 @@ header {
 
 </header>
 <div class="layout">
-<aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
+<aside class="sidebar-left" id="sidebar-left">
 <!-- Visitor Counter Digital -->
 <div class="visitor-counter-digital">
   <div class="visitor-label">VISITOR</div>
@@ -8954,7 +8955,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
-
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   // Jalankan hanya di layar mobile
@@ -9119,16 +9120,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </script>
 
-aded", bukaDiTabBaruJikaMobile);
-
-  // Jika menu muncul belakangan, amati perubahan DOM
-  const observer = new MutationObserver(() => {
-    bukaDiTabBaruJikaMobile();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-})();
-</script>
-<!-- === VISITOR COUNTER SYNC (DESKTOP & MOBILE) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   const endpoint =

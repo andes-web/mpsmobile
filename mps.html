@@ -2031,19 +2031,6 @@ header {
 
 </style>
 
-
-<style>
-@media (min-width: 769px) {
-  .sidebar-left{
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  .sidebar-left > *{
-    flex-shrink: 0;
-  }
-}
-</style>
-
 </head>
 <body>
 <header>
@@ -2063,37 +2050,6 @@ header {
   <div class="visitor-label">VISITOR</div>
   <div class="visitor-digits" id="visitorNumber">00000</div>
 </div>
-
-<!-- BINTAL MEDIA DESKTOP ONLY - FIXED BOTTOM -->
-<div class="bintal-media-desktop">
-  <img src="FotoBintal.jpg" alt="Foto Bintal">
-  <video src="KomenBintal_2.mp4" controls></video>
-</div>
-
-<style>
-@media (min-width: 769px) {
-  .bintal-media-desktop{
-    margin-top: auto; /* KUNCI: paksa ke paling bawah */
-    padding-top: 12px;
-    border-top: 2px solid #cfdff5;
-  }
-  .bintal-media-desktop img{
-    width:100%;
-    border-radius:8px;
-    margin-bottom:10px;
-    display:block;
-  }
-  .bintal-media-desktop video{
-    width:100%;
-    border-radius:8px;
-    display:block;
-  }
-}
-@media (max-width: 768px) {
-  .bintal-media-desktop{ display:none !important; }
-}
-</style>
-
 </aside>
 <main class="content" id="content">
     <style>
@@ -2307,38 +2263,7 @@ header {
 </main>
 <aside class="sidebar-right">
     Sidebar Kanan
-  
-<!-- BINTAL MEDIA DESKTOP ONLY - FIXED BOTTOM -->
-<div class="bintal-media-desktop">
-  <img src="FotoBintal.jpg" alt="Foto Bintal">
-  <video src="KomenBintal_2.mp4" controls></video>
-</div>
-
-<style>
-@media (min-width: 769px) {
-  .bintal-media-desktop{
-    margin-top: auto; /* KUNCI: paksa ke paling bawah */
-    padding-top: 12px;
-    border-top: 2px solid #cfdff5;
-  }
-  .bintal-media-desktop img{
-    width:100%;
-    border-radius:8px;
-    margin-bottom:10px;
-    display:block;
-  }
-  .bintal-media-desktop video{
-    width:100%;
-    border-radius:8px;
-    display:block;
-  }
-}
-@media (max-width: 768px) {
-  .bintal-media-desktop{ display:none !important; }
-}
-</style>
-
-</aside>
+  </aside>
 </div>
 
 <!-- Footer -->
@@ -8997,7 +8922,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
-</script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   // Jalankan hanya di layar mobile
@@ -9160,6 +9085,16 @@ document.addEventListener("DOMContentLoaded", function() {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 
+</script>
+
+aded", bukaDiTabBaruJikaMobile);
+
+  // Jika menu muncul belakangan, amati perubahan DOM
+  const observer = new MutationObserver(() => {
+    bukaDiTabBaruJikaMobile();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
 </script>
 <!-- === VISITOR COUNTER SYNC (DESKTOP & MOBILE) === -->
 <script>
@@ -9670,61 +9605,34 @@ document.addEventListener("click", function (e) {
 
 <!-- === END INTRO PAGE === -->
 
-<!-- === ADDED: Sidebar Media Bintal (BOTTOM) === -->
-<style>
-.sidebar-media-bintal {
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid #d0d8e8;
-}
-.sidebar-media-bintal img,
-.sidebar-media-bintal video {
-  width: 100%;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 8px;
-}
-.media-zoom-frame {
-  width: 100%;
-  height: 100%;
-}
-.media-zoom-frame img,
-.media-zoom-frame video {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  margin: auto;
-}
-</style>
-
 <script>
-(function(){
-  function showMedia(type, src){
-    const content = document.querySelector('.content');
-    if(!content) return;
-    content.innerHTML = '<div class="media-zoom-frame"></div>';
-    const frame = content.querySelector('.media-zoom-frame');
-    if(type === 'img'){
-      const img = document.createElement('img');
-      img.src = src;
-      frame.appendChild(img);
-    } else {
-      const vid = document.createElement('video');
-      vid.src = src;
-      vid.controls = true;
-      vid.autoplay = true;
-      frame.appendChild(vid);
-    }
-  }
-  window.showMediaBintal = showMedia;
-})();
-</script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sidebar = document.querySelector(".sidebar-left");
+  if (!sidebar) return;
 
-<div class="sidebar-media-bintal">
-  <img src="images/FotoBintal.jpg" onclick="showMediaBintal('img','FotoBintal.jpg')" />
-  <video src="images/KomenBintal_2.mp4" onclick="showMediaBintal('video','KomenBintal_2.mp4')"></video>
-</div>
-<!-- === END ADDED === -->
+  // cari elemen menu yang teksnya Penilaian N-Bintur2
+  const targets = Array.from(sidebar.querySelectorAll("*"))
+    .filter(el => el.textContent && el.textContent.trim() === "Penilaian N-Bintur2");
+
+  if (!targets.length) return;
+
+  const menuEl = targets[0];
+
+  // cari container terluar menu tersebut
+  let wrapper = menuEl.closest(".menu-item, .panel, .menu-wrapper, div") || menuEl;
+
+  const videoBox = document.createElement("div");
+  videoBox.className = "sidebar-video-bintal";
+  videoBox.innerHTML = `
+    <video controls playsinline preload="metadata">
+      <source src="images/KomenBintal_2.mp4" type="video/mp4">
+      Browser tidak mendukung video.
+    </video>
+  `;
+
+  wrapper.insertAdjacentElement("afterend", videoBox);
+});
+</script>
 
 </body>
 </html>

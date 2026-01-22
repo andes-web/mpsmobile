@@ -2031,6 +2031,32 @@ header {
 
 </style>
 
+
+<style>
+/* ===== BINTAL MEDIA (DESKTOP ONLY) ===== */
+@media (min-width: 769px) {
+  .bintal-media {
+    margin-top: 20px;
+  }
+  .bintal-media img,
+  .bintal-media video {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+  .bintal-media img {
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+}
+/* Sembunyikan total di mobile */
+@media (max-width: 768px) {
+  .bintal-media {
+    display: none !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <header>
@@ -9609,37 +9635,27 @@ document.addEventListener("click", function (e) {
 })();
 </script>
 
-<!-- === END INTRO PAGE === -->
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const sidebar = document.querySelector(".sidebar-left");
+  if (window.innerWidth < 769) return; // desktop only
+
+  const sidebar = document.getElementById("sidebar-left");
   if (!sidebar) return;
 
-  // cari elemen menu yang teksnya Penilaian N-Bintur2
-  const targets = Array.from(sidebar.querySelectorAll("*"))
-    .filter(el => el.textContent && el.textContent.trim() === "Penilaian N-Bintur2");
-
-  if (!targets.length) return;
-
-  const menuEl = targets[0];
-
-  // cari container terluar menu tersebut
-  let wrapper = menuEl.closest(".menu-item, .panel, .menu-wrapper, div") || menuEl;
-
-  const videoBox = document.createElement("div");
-  videoBox.className = "sidebar-video-bintal";
-  videoBox.innerHTML = `
-    <video controls playsinline preload="metadata">
-      <source src="images/KomenBintal_2.mp4" type="video/mp4">
-      Browser tidak mendukung video.
-    </video>
+  const wrapper = document.createElement("div");
+  wrapper.className = "bintal-media";
+  wrapper.innerHTML = `
+    <img src="images/FotoBintal.jpg" alt="Foto Bintal">
+    <video src="images/KomenBintal_2.mp4" controls></video>
   `;
 
-  
-  // pastikan benar-benar di luar container menu
-  sidebar.appendChild(videoBox);
+  sidebar.appendChild(wrapper);
 
+  wrapper.querySelector("img").addEventListener("click", function () {
+    const content = document.getElementById("content");
+    if (!content) return;
+    content.innerHTML = '<img src="images/FotoBintal.jpg" style="max-width:100%;height:auto;display:block;margin:auto;">';
+  });
 });
 </script>
 

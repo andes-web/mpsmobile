@@ -2033,33 +2033,14 @@ header {
 
 
 <style>
-.sidebar-left{
-  display:flex;
-  flex-direction:column;
-}
-.sidebar-media-bintal{
-  margin-top:auto;
-  padding-top:10px;
-  border-top:1px solid #d0d8e8;
-}
-.sidebar-media-bintal img,
-.sidebar-media-bintal video{
-  width:100%;
-  border-radius:8px;
-  cursor:pointer;
-  margin-bottom:8px;
-}
-.media-zoom-frame{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.media-zoom-frame img,
-.media-zoom-frame video{
-  max-width:100%;
-  max-height:100%;
+@media (min-width: 769px) {
+  .sidebar-left{
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .sidebar-left > *{
+    flex-shrink: 0;
+  }
 }
 </style>
 
@@ -2076,21 +2057,42 @@ header {
 
 </header>
 <div class="layout">
-<aside class="sidebar-left" id="sidebar-left">
+<aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
 <!-- Visitor Counter Digital -->
 <div class="visitor-counter-digital">
   <div class="visitor-label">VISITOR</div>
   <div class="visitor-digits" id="visitorNumber">00000</div>
 </div>
 
-<!-- === SIDEBAR MEDIA BINTAL (BOTTOM) === -->
-<div class="sidebar-media-bintal">
-  <img src="images/FotoBintal.jpg" alt="Foto Bintal"
-       onclick="showMediaBintal('img','images/FotoBintal.jpg')">
-  <video src="images/KomenBintal_2.mp4" muted
-       onclick="showMediaBintal('video','images/KomenBintal_2.mp4')"></video>
+<!-- BINTAL MEDIA DESKTOP ONLY - FIXED BOTTOM -->
+<div class="bintal-media-desktop">
+  <img src="FotoBintal.jpg" alt="Foto Bintal">
+  <video src="KomenBintal_2.mp4" controls></video>
 </div>
-<!-- === END SIDEBAR MEDIA BINTAL === -->
+
+<style>
+@media (min-width: 769px) {
+  .bintal-media-desktop{
+    margin-top: auto; /* KUNCI: paksa ke paling bawah */
+    padding-top: 12px;
+    border-top: 2px solid #cfdff5;
+  }
+  .bintal-media-desktop img{
+    width:100%;
+    border-radius:8px;
+    margin-bottom:10px;
+    display:block;
+  }
+  .bintal-media-desktop video{
+    width:100%;
+    border-radius:8px;
+    display:block;
+  }
+}
+@media (max-width: 768px) {
+  .bintal-media-desktop{ display:none !important; }
+}
+</style>
 
 </aside>
 <main class="content" id="content">
@@ -2305,7 +2307,38 @@ header {
 </main>
 <aside class="sidebar-right">
     Sidebar Kanan
-  </aside>
+  
+<!-- BINTAL MEDIA DESKTOP ONLY - FIXED BOTTOM -->
+<div class="bintal-media-desktop">
+  <img src="FotoBintal.jpg" alt="Foto Bintal">
+  <video src="KomenBintal_2.mp4" controls></video>
+</div>
+
+<style>
+@media (min-width: 769px) {
+  .bintal-media-desktop{
+    margin-top: auto; /* KUNCI: paksa ke paling bawah */
+    padding-top: 12px;
+    border-top: 2px solid #cfdff5;
+  }
+  .bintal-media-desktop img{
+    width:100%;
+    border-radius:8px;
+    margin-bottom:10px;
+    display:block;
+  }
+  .bintal-media-desktop video{
+    width:100%;
+    border-radius:8px;
+    display:block;
+  }
+}
+@media (max-width: 768px) {
+  .bintal-media-desktop{ display:none !important; }
+}
+</style>
+
+</aside>
 </div>
 
 <!-- Footer -->
@@ -9637,25 +9670,61 @@ document.addEventListener("click", function (e) {
 
 <!-- === END INTRO PAGE === -->
 
-<script>
-function showMediaBintal(type, src){
-  const content = document.getElementById('content');
-  if(!content) return;
-  content.innerHTML = '<div class="media-zoom-frame"></div>';
-  const frame = content.querySelector('.media-zoom-frame');
-  if(type === 'img'){
-    const img = document.createElement('img');
-    img.src = src;
-    frame.appendChild(img);
-  } else {
-    const vid = document.createElement('video');
-    vid.src = src;
-    vid.controls = true;
-    vid.autoplay = true;
-    frame.appendChild(vid);
-  }
+<!-- === ADDED: Sidebar Media Bintal (BOTTOM) === -->
+<style>
+.sidebar-media-bintal {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #d0d8e8;
 }
+.sidebar-media-bintal img,
+.sidebar-media-bintal video {
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.media-zoom-frame {
+  width: 100%;
+  height: 100%;
+}
+.media-zoom-frame img,
+.media-zoom-frame video {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: auto;
+}
+</style>
+
+<script>
+(function(){
+  function showMedia(type, src){
+    const content = document.querySelector('.content');
+    if(!content) return;
+    content.innerHTML = '<div class="media-zoom-frame"></div>';
+    const frame = content.querySelector('.media-zoom-frame');
+    if(type === 'img'){
+      const img = document.createElement('img');
+      img.src = src;
+      frame.appendChild(img);
+    } else {
+      const vid = document.createElement('video');
+      vid.src = src;
+      vid.controls = true;
+      vid.autoplay = true;
+      frame.appendChild(vid);
+    }
+  }
+  window.showMediaBintal = showMedia;
+})();
 </script>
+
+<div class="sidebar-media-bintal">
+  <img src="images/FotoBintal.jpg" onclick="showMediaBintal('img','FotoBintal.jpg')" />
+  <video src="images/KomenBintal_2.mp4" onclick="showMediaBintal('video','KomenBintal_2.mp4')"></video>
+</div>
+<!-- === END ADDED === -->
 
 </body>
 </html>

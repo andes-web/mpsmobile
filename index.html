@@ -2038,7 +2038,7 @@ header {
 @media (min-width: 769px) {
   .bintal-media {
     margin-top: 20px;
-	margin-bottom: 12px;
+    margin-bottom: 12px;
   }
   .bintal-media img,
   .bintal-media video {
@@ -2047,6 +2047,7 @@ header {
     display: block;
   }
   .bintal-media img {
+    margin-top: 20px;
     margin-bottom: 12px;
     cursor: pointer;
   }
@@ -9636,9 +9637,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const wrapper = document.createElement("div");
   wrapper.className = "bintal-media";
-  wrapper.innerHTML = `
+  wrapper.innerHTML = `    
     <video src="images/KomenBintal_2.mp4" controls></video>
-	<img src="images/FotoBintal.jpg" alt="Foto Bintal">
+    <img src="images/FotoBintal.jpg" alt="Foto Bintal">
   `;
 
   sidebar.appendChild(wrapper);

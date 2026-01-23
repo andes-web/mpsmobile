@@ -2063,7 +2063,7 @@ header {
 </head>
 <body>
 <header>
-<a href="#target-selamat-datang" style="display: flex; align-items: center; text-decoration: none;">
+<a href="javascript:void(0);" onclick="keLogoUtama()" style="display: flex; align-items: center; text-decoration: none; cursor: pointer;">
     <img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
   </a>
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
@@ -2224,9 +2224,9 @@ header {
 
     </style>
 
-    <div id="target-selamat-datang" class="logo-container">
-        <img src="MPS.png" alt="Logo MPS" class="main-logo">
-    </div>
+    <div id="target-logo-utama" class="logo-container">
+    <img src="MPS.png" alt="Logo MPS" class="main-logo">
+</div>
 
     <div class="welcome-card animated-section">
         <h2 style="color: white; margin: 0;">Selamat Datang</h2>
@@ -9653,6 +9653,19 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
-
+<script>
+function keLogoUtama() {
+    // 1. Cari area yang memiliki scroll (elemen .content)
+    const areaKonten = document.querySelector('.content');
+    
+    // 2. Jika ketemu, paksa scroll ke posisi paling atas (0)
+    if (areaKonten) {
+        areaKonten.scrollTo({
+            top: 0, 
+            behavior: 'smooth' // Efek geser halus
+        });
+    }
+}
+</script>
 </body>
 </html>

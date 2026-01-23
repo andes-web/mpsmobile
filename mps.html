@@ -2038,6 +2038,7 @@ header {
 @media (min-width: 769px) {
   .bintal-media {
     margin-top: 20px;
+    margin-bottom: 12px;
   }
   .bintal-media img,
   .bintal-media video {
@@ -2046,6 +2047,7 @@ header {
     display: block;
   }
   .bintal-media img {
+    margin-top: 20px;
     margin-bottom: 12px;
     cursor: pointer;
   }
@@ -2061,7 +2063,9 @@ header {
 </head>
 <body>
 <header>
-<img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
+<a href="#target-selamat-datang" style="display: flex; align-items: center; text-decoration: none;">
+    <img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
+  </a>
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
 <!-- Visitor Counter (Mobile Only, muncul di header kanan) -->
 <div class="visitor-counter-mobile">
@@ -2220,7 +2224,7 @@ header {
 
     </style>
 
-    <div class="logo-container">
+    <div id="target-selamat-datang" class="logo-container">
         <img src="MPS.png" alt="Logo MPS" class="main-logo">
     </div>
 
@@ -9635,9 +9639,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const wrapper = document.createElement("div");
   wrapper.className = "bintal-media";
-  wrapper.innerHTML = `
-    <img src="images/FotoBintal.jpg" alt="Foto Bintal">
+  wrapper.innerHTML = `    
     <video src="images/KomenBintal_2.mp4" controls></video>
+    <img src="images/FotoBintal.jpg" alt="Foto Bintal">
   `;
 
   sidebar.appendChild(wrapper);

@@ -1031,6 +1031,7 @@ header .visitor-counter {
   .sidebar-left .sidebar-title {
     display: none !important;
   }
+  
 }
 /* === Tampilan profil anggota setelah klik logo === */
 /* === Tata letak profil logo besar & detail === */
@@ -2031,6 +2032,32 @@ header {
 
 </style>
 
+
+<style>
+/* ===== BINTAL MEDIA (DESKTOP ONLY) ===== */
+@media (min-width: 769px) {
+  .bintal-media {
+    margin-top: 20px;
+  }
+  .bintal-media img,
+  .bintal-media video {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+  .bintal-media img {
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+}
+/* Sembunyikan total di mobile */
+@media (max-width: 768px) {
+  .bintal-media {
+    display: none !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <header>
@@ -2044,7 +2071,7 @@ header {
 
 </header>
 <div class="layout">
-<aside class="sidebar-left" id="sidebar-left"><div class="sidebar-title">NAVIGASI UTAMA</div>
+<aside class="sidebar-left" id="sidebar-left">
 <!-- Visitor Counter Digital -->
 <div class="visitor-counter-digital">
   <div class="visitor-label">VISITOR</div>
@@ -2185,6 +2212,12 @@ header {
             align-items: center;
             gap: 10px;
         }
+        .sidebar-video-bintal video {
+  width: 98%;
+  border-radius: 8px;
+  display: block;
+}
+
     </style>
 
     <div class="logo-container">
@@ -8769,33 +8802,48 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- === Versi fix: Buka "Penilaian Diklat" di tab baru (khusus MOBILE) === -->
 <script>
 (function() {
-  function bukaDiTabBaruJikaMobile() {
-    // Jalankan hanya jika lebar layar <= 768px (mobile)
-    if (window.innerWidth > 768) return;
+  let eventTerpasang = false;
 
-    // Cari tombol dengan teks "Penilaian Diklat"
+  function bukaDiTabBaruJikaMobile() {
+    // 1. Validasi awal
+    if (window.innerWidth > 768 || eventTerpasang) return;
+
+    // 2. Cari tombol
     const semuaTombol = document.querySelectorAll(".h4-button, button, a");
     for (const btn of semuaTombol) {
       if (btn.textContent.trim().toLowerCase() === "penilaian diklat") {
-        // Cegah event default bawaan accordion
+        
+        // 3. Pasang Event
         btn.addEventListener("click", function(e) {
           e.preventDefault();
           e.stopPropagation();
           window.open("Form_Individu.html", "_blank");
-        }, { once: true });
-        console.log("✅ Event Penilaian Diklat (mobile) terpasang.");
-        return;
+        });
+
+        console.log("✅ Event Penilaian Diklat terpasang.");
+        eventTerpasang = true;
+        
+        // 4. BERHENTI MENGAMATI (Penting agar tidak muncul glitch di footer)
+        if (observer) observer.disconnect();
+        break;
       }
     }
   }
 
-  // Coba jalankan awal
-  document.addEventListener("DOMContentLoaded", bukaDiTabBaruJikaMobile);
-
-  // Jika menu muncul belakangan, amati perubahan DOM
-  const observer = new MutationObserver(() => {
+  // Jalankan saat DOM siap
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bukaDiTabBaruJikaMobile);
+  } else {
     bukaDiTabBaruJikaMobile();
+  }
+
+  // Jalankan observer untuk memantau menu yang muncul terlambat
+  const observer = new MutationObserver((mutations) => {
+    if (!eventTerpasang) {
+      bukaDiTabBaruJikaMobile();
+    }
   });
+
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
@@ -8907,7 +8955,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
-
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   // Jalankan hanya di layar mobile
@@ -9072,16 +9120,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </script>
 
-aded", bukaDiTabBaruJikaMobile);
-
-  // Jika menu muncul belakangan, amati perubahan DOM
-  const observer = new MutationObserver(() => {
-    bukaDiTabBaruJikaMobile();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-})();
-</script>
-<!-- === VISITOR COUNTER SYNC (DESKTOP & MOBILE) === -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   const endpoint =
@@ -9411,7 +9449,7 @@ document.addEventListener("DOMContentLoaded", function(){
           </div>
           <div class="intro-right">
             <h1>Selamat Datang di Portal MPS</h1>
-            <p>Silakan masuk untuk melanjutkan ke halaman utama.</p>
+            <p>Silakan masuk ke halaman utama</p>
             <button class="btn-enter" id="btnEnterApp">Masuk ke Aplikasi</button>
           </div>
         </div>
@@ -9425,8 +9463,8 @@ document.addEventListener("DOMContentLoaded", function(){
       }
       #introOverlay {
         position: fixed;
-        top: 0;
-        left: 0;
+        top: -5px;
+        left: -45px;
         width: 100%;
         height: 100%;
         background: linear-gradient(135deg, #4facfe, #00f2fe);
@@ -9439,7 +9477,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }
       #introOverlay header {
         width: 100%;
-        height: 55px;
+        height: 60px;
         background: linear-gradient(90deg, #4facfe, #00f2fe);
         display: flex;
         justify-content: center;
@@ -9450,7 +9488,7 @@ document.addEventListener("DOMContentLoaded", function(){
         box-shadow: 0 2px 5px rgba(0,0,0,0.15);
       }
       #introOverlay main {
-        margin-top: 100px;
+        margin-top: 10px;
         text-align: center;
         animation: fadeIn 1s ease-in-out;
       }
@@ -9482,7 +9520,7 @@ document.addEventListener("DOMContentLoaded", function(){
       .intro-right p {
         font-size: 1.2rem;
         opacity: 0.9;
-        margin-bottom: 35px;
+        margin-bottom: 55px;
       }
       .intro-right .btn-enter {
         padding: 12px 30px;
@@ -9588,6 +9626,29 @@ document.addEventListener("click", function (e) {
 })();
 </script>
 
-<!-- === END INTRO PAGE === -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.innerWidth < 769) return; // desktop only
+
+  const sidebar = document.getElementById("sidebar-left");
+  if (!sidebar) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "bintal-media";
+  wrapper.innerHTML = `
+    <img src="images/FotoBintal.jpg" alt="Foto Bintal">
+    <video src="images/KomenBintal_2.mp4" controls></video>
+  `;
+
+  sidebar.appendChild(wrapper);
+
+  wrapper.querySelector("img").addEventListener("click", function () {
+    const content = document.getElementById("content");
+    if (!content) return;
+    content.innerHTML = '<img src="images/FotoBintal.jpg" style="max-width:100%;height:auto;display:block;margin:auto;">';
+  });
+});
+</script>
+
 </body>
 </html>

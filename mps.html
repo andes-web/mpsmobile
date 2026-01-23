@@ -2063,9 +2063,7 @@ header {
 </head>
 <body>
 <header>
-<a href="javascript:void(0);" onclick="keLogoUtama()" style="display: flex; align-items: center; text-decoration: none; cursor: pointer;">
-    <img alt="Logo Instansi" class="logo" src="Logo_MPS.png"/>
-  </a>
+<img alt="Logo Instansi" class="logo" src="Logo_MPS.png" style="cursor:pointer" onclick="showMainLogo()"/>
 <span class="instansi">MANAGER PASKIBRA SOLUTION</span>
 <!-- Visitor Counter (Mobile Only, muncul di header kanan) -->
 <div class="visitor-counter-mobile">
@@ -2224,9 +2222,10 @@ header {
 
     </style>
 
-    <div id="target-logo-utama" class="logo-container">
-    <img src="MPS.png" alt="Logo MPS" class="main-logo">
+    <div class="logo-container" id="logo-mps-content">
+  <img src="MPS.png" alt="Logo MPS" class="main-logo">
 </div>
+
 
     <div class="welcome-card animated-section">
         <h2 style="color: white; margin: 0;">Selamat Datang</h2>
@@ -9654,18 +9653,24 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <script>
-function keLogoUtama() {
-    // 1. Cari area yang memiliki scroll (elemen .content)
-    const areaKonten = document.querySelector('.content');
-    
-    // 2. Jika ketemu, paksa scroll ke posisi paling atas (0)
-    if (areaKonten) {
-        areaKonten.scrollTo({
-            top: 0, 
-            behavior: 'smooth' // Efek geser halus
-        });
-    }
+function showMainLogo() {
+  const target = document.getElementById("logo-mps-content");
+  if (!target) return;
+
+  target.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+  // efek highlight halus
+  target.style.transition = "box-shadow 0.3s ease";
+  target.style.boxShadow = "0 0 0 4px rgba(79,172,254,0.6)";
+
+  setTimeout(() => {
+    target.style.boxShadow = "none";
+  }, 800);
 }
 </script>
+
 </body>
 </html>

@@ -1288,17 +1288,8 @@
   }
   
   function fetchListData() {
-    // Tambahkan parameter ?action=getPesertaBintal di akhir URL script Anda
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=getPesertaBintal';
-    try {
-        const response = await fetch(scriptUrl);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return null;
-    }
-    return fetch(APPS_SCRIPT_URL + '?action=getListData')
+    // 1. Pastikan parameter action sesuai dengan yang ada di GS (getPesertaBintal)
+    return fetch(APPS_SCRIPT_URL + '?action=getPesertaBintal')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Kesalahan Jaringan: ${response.status} - ${response.statusText}`);
@@ -1306,18 +1297,21 @@
             return response.json();
         })
         .then(jsonResponse => {
-            if (jsonResponse.success) {
-                return jsonResponse.data;
-            } else {
-                throw new Error(jsonResponse.message || 'Respons server Apps Script gagal.');
+            // 2. Jika di Apps Script Anda mengirimkan error dalam JSON
+            if (jsonResponse.error) {
+                throw new Error(jsonResponse.error);
             }
+            
+            // 3. Langsung kembalikan jsonResponse karena GS mengirimkan 
+            // objek {pesertabintal: [], units: [], kelompok: []}
+            return jsonResponse; 
         })
         .catch(error => {
             console.error('Error fetching list data:', error);
             showToast(`Gagal memuat data dari Sheets: ${error.message}.`, false);
             return null;
         });
-  }
+}
 
   // FUNGSI BARU: Load data skor dari Google Sheets
   function loadScoreData(nama) {
@@ -1516,14 +1510,20 @@
     const data = await fetchListData();
     if (data) {
         sheetData = data;
+        // Pastikan memanggil .pesertabintal (sesuai output GS)
         populateIdentity(sheetData.pesertabintal, sheetData.units, sheetData.kelompok);
     }
-    document.getElementById('form-pesertabintal').addEventListener('submit', handleFormSubmission);
-    document.getElementById('form-panitia').addEventListener('submit', handleFormSubmission);
+    
+    // Pastikan ID form sesuai dengan yang ada di HTML Anda
+    const formPeserta = document.getElementById('form-pesertabintal') || document.getElementById('form-peserta');
+    if(formPeserta) formPeserta.addEventListener('submit', handleFormSubmission);
+    
+    const formPanitia = document.getElementById('form-panitia');
+    if(formPanitia) formPanitia.addEventListener('submit', handleFormSubmission);
     
     setupAccordionMapping();
     updateTotalScoreDisplay();
-  });
+});
 </script>
 </body>
 </html>

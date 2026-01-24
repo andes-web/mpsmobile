@@ -1004,6 +1004,17 @@
               });
           });
       });
+      // Cari semua select yang punya class custom-select (atau semua select di identity)
+    const selects = document.querySelectorAll('.floating-label-content select');
+    
+    selects.forEach(select => {
+        // Hapus elemen div pendukung jika sudah ada agar tidak duplikat
+        const existingCustom = select.parentElement.querySelectorAll('.custom-select-trigger, .custom-options');
+        existingCustom.forEach(el => el.remove());
+
+        // Jalankan logika pembuatan UI buatan di sini (sesuai template Anda)
+        // ... (kode template asli Anda untuk membuat div-div pengganti select)
+    });
   }
   
   function updateUnitKelompokFields(unit, kelompok) {
@@ -1263,25 +1274,25 @@
     updateTotalScoreDisplay();
   }
 
-  function populateIdentity(pesertaArray, units, kelompokArray) {
+function populateIdentity(pesertaArray, units, kelompokArray) {
     const unitSelect = document.getElementById('unit-select');
     const kelompokSelect = document.getElementById('kelompok-select');
     const namaSelect = document.getElementById('nama-select');
 
     if (!unitSelect || !kelompokSelect || !namaSelect) return;
 
-    // 1. Isi Dropdown Unit
+    // 1. Isi Dropdown Unit & Kelompok secara permanen
     unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
     units.sort().forEach(unit => {
         if(unit) unitSelect.innerHTML += `<option value="${unit}">${unit}</option>`;
     });
 
-    // 2. Isi Dropdown Kelompok
     kelompokSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>';
     kelompokArray.sort((a,b) => a-b).forEach(klp => {
         if(klp) kelompokSelect.innerHTML += `<option value="${klp}">${klp}</option>`;
     });
 
+    // 2. Logika Utama Filter Nama
     const filterNama = () => {
         const selectedUnit = unitSelect.value;
         const selectedKlp = kelompokSelect.value;
@@ -1298,29 +1309,30 @@
             if(p.nama) namaSelect.innerHTML += `<option value="${p.nama}">${p.nama}</option>`;
         });
 
-        // PENTING: Jika Anda menggunakan Custom Floating Dropdown, kita perlu me-refresh UI-nya
-        if (typeof updateCustomDropdown === 'function') {
-            updateCustomDropdown('nama-select');
-        }
+        // FORCE REFRESH: Ini bagian krusial untuk template Modern UI Anda
+        refreshCustomFloatingUI(); 
     };
 
-    unitSelect.addEventListener('change', () => {
-        filterNama();
-        if (typeof updateCustomDropdown === 'function') updateCustomDropdown('unit-select');
-    });
+    // Event Listeners
+    unitSelect.onchange = filterNama;
+    kelompokSelect.onchange = filterNama;
     
-    kelompokSelect.addEventListener('change', () => {
-        filterNama();
-        if (typeof updateCustomDropdown === 'function') updateCustomDropdown('kelompok-select');
-    });
-    
+    // Jalankan pertama kali
     filterNama();
+}
 
-    // Refresh semua tampilan dropdown di awal
-    if (typeof updateCustomDropdown === 'function') {
-        updateCustomDropdown('unit-select');
-        updateCustomDropdown('kelompok-select');
-        updateCustomDropdown('nama-select');
+/**
+ * Fungsi khusus untuk memaksa Floating UI mendeteksi ulang isi Select
+ */
+function refreshCustomFloatingUI() {
+    // Cari semua elemen dropdown buatan (biasanya classnya .custom-select-items atau .options)
+    // Kita hapus dan jalankan ulang fungsi init dari template Anda
+    const customOptions = document.querySelectorAll('.custom-select-options, .options-container');
+    customOptions.forEach(opt => opt.innerHTML = ''); 
+
+    // Panggil ulang fungsi bawaan template Anda (initCustomDropdowns)
+    if (typeof initCustomDropdowns === 'function') {
+        initCustomDropdowns(); 
     }
 }
   

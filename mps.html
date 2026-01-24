@@ -740,9 +740,9 @@
         </div>
 
         <div class="row tab-header-row">
-            <div class="col-6 header-tab active" id="tab-peserta" onclick="switchTab('peserta')">
+            <div class="col-6 header-tab active" id="tab-pesertabintal" onclick="switchTab('pesertabintal')">
                 <span class="tab-name-text">PESERTA</span>
-                <span class="tab-total-score" id="total-score-peserta">0</span>
+                <span class="tab-total-score" id="total-score-pesertabintal">0</span>
             </div>
             <div class="col-6 header-tab" id="tab-panitia" onclick="switchTab('panitia')">
                 <span class="tab-name-text">PANITIA</span>
@@ -766,8 +766,8 @@
 <div class="assessment-scroll-area">
 <div style="padding-bottom: 80px;">
 
-  <div id="content-peserta" class="assessment-content">
-    <form id="form-peserta">
+  <div id="content-pesertabintal" class="assessment-content">
+    <form id="form-pesertabintal">
       
       <div class="accordion accordion-content-area" id="accordionPesertaContent">
         <div id="collapseIndividu" class="accordion-collapse collapse" data-bs-parent="#accordionPesertaContent"><div class="accordion-body p-0">
@@ -894,7 +894,7 @@
     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.location.reload()">Home</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Cetak</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Unduh</button>
-    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-peserta" form="form-peserta" style="display: block;">Simpan</button>
+    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-pesertabintal" form="form-pesertabintal" style="display: block;">Simpan</button>
     <button type="submit" class="btn btn-primary btn-sm" id="btn-save-panitia" form="form-panitia" style="display: none;">Simpan</button>
 </div>
 
@@ -914,7 +914,7 @@
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec';
 
   let sheetData = {};
-  let currentRole = 'peserta';
+  let currentRole = 'pesertabintal';
   const scoreClasses = ['score-1', 'score-2', 'score-3', 'score-4', 'score-5'];
   
   function calculateTotalScore(role) {
@@ -931,10 +931,10 @@
   }
 
   function updateTotalScoreDisplay() {
-      const scorePeserta = calculateTotalScore('peserta');
+      const scorePeserta = calculateTotalScore('pesertabintal');
       const scorePanitia = calculateTotalScore('panitia');
       
-      document.getElementById('total-score-peserta').textContent = scorePeserta;
+      document.getElementById('total-score-pesertabintal').textContent = scorePeserta;
       document.getElementById('total-score-panitia').textContent = scorePanitia;
   }
 
@@ -1211,7 +1211,7 @@
               closeAllAccordions();
               
               if (isCollapsed) {
-                  const contentContainerId = (currentRole === 'peserta') ? 'accordionPesertaContent' : 'accordionPanitiaContent';
+                  const contentContainerId = (currentRole === 'pesertabintal') ? 'accordionPesertaContent' : 'accordionPanitiaContent';
                   const targetContentEl = document.querySelector(`#${contentContainerId} > ${collapseId}`);
                   
                   const disabledForPanitia = ['#collapsePraAsesmen', '#collapseFinalty', '#collapseLainnya'];
@@ -1233,14 +1233,14 @@
 
   function switchTab(role) {
     currentRole = role;
-    document.getElementById('tab-peserta').classList.remove('active');
+    document.getElementById('tab-pesertabintal').classList.remove('active');
     document.getElementById('tab-panitia').classList.remove('active');
     document.getElementById(`tab-${role}`).classList.add('active');
 
-    document.getElementById('content-peserta').style.display = (role === 'peserta') ? 'block' : 'none';
+    document.getElementById('content-pesertabintal').style.display = (role === 'pesertabintal') ? 'block' : 'none';
     document.getElementById('content-panitia').style.display = (role === 'panitia') ? 'block' : 'none';
     
-    document.getElementById('btn-save-peserta').style.display = (role === 'peserta') ? 'block' : 'none';
+    document.getElementById('btn-save-pesertabintal').style.display = (role === 'pesertabintal') ? 'block' : 'none';
     document.getElementById('btn-save-panitia').style.display = (role === 'panitia') ? 'block' : 'none';
     
     populateIdentity(sheetData[role], sheetData.units, sheetData.kelompok);
@@ -1308,6 +1308,11 @@
             return null;
         });
   }
+fetch(URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ action: 'getPesertaBintal' })
+})
 
   // FUNGSI BARU: Load data skor dari Google Sheets
   function loadScoreData(nama) {
@@ -1444,7 +1449,7 @@
     data.Nama = selectedNama;
     
     const saveBtn = document.getElementById(`btn-save-${currentRole}`);
-    const action = (currentRole === 'peserta') ? 'savePesertaScores' : 'savePanitiaScores';
+    const action = (currentRole === 'pesertabintal') ? 'savePesertaScores' : 'savePanitiaScores';
     
     for (const key in data) {
         if (data[key] === "") {
@@ -1506,9 +1511,9 @@
     const data = await fetchListData();
     if (data) {
         sheetData = data;
-        populateIdentity(sheetData.peserta, sheetData.units, sheetData.kelompok);
+        populateIdentity(sheetData.pesertabintal, sheetData.units, sheetData.kelompok);
     }
-    document.getElementById('form-peserta').addEventListener('submit', handleFormSubmission);
+    document.getElementById('form-pesertabintal').addEventListener('submit', handleFormSubmission);
     document.getElementById('form-panitia').addEventListener('submit', handleFormSubmission);
     
     setupAccordionMapping();

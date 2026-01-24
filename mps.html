@@ -698,6 +698,7 @@
         padding: 8px 4px;
       }
     }
+    
   </style>
 </head>
 <body>
@@ -1274,52 +1275,59 @@
     updateTotalScoreDisplay();
   }
 
-function populateIdentity(pesertaArray, units, kelompokArray) {
-    const unitSelect = document.getElementById('unit-select');
-    const kelompokSelect = document.getElementById('kelompok-select');
-    const namaSelect = document.getElementById('nama-select');
+function populateIdentity(data) {
+    const uSelect = document.getElementById('unit-select');
+    const kSelect = document.getElementById('kelompok-select');
+    const nSelect = document.getElementById('nama-select');
 
-    if (!unitSelect || !kelompokSelect || !namaSelect) return;
+    if (!uSelect || !kSelect || !nSelect) return;
 
-    // 1. Isi Dropdown Unit & Kelompok secara permanen
-    unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
-    units.sort().forEach(unit => {
-        if(unit) unitSelect.innerHTML += `<option value="${unit}">${unit}</option>`;
-    });
+    // Isi Unit & Kelompok
+    uSelect.innerHTML = '<option value="">-- Pilih Unit --</option>' + 
+        data.units.map(u => `<option value="${u}">${u}</option>`).join('');
+    
+    kSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>' + 
+        data.kelompok.map(k => `<option value="${k}">${k}</option>`).join('');
 
-    kelompokSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>';
-    kelompokArray.sort((a,b) => a-b).forEach(klp => {
-        if(klp) kelompokSelect.innerHTML += `<option value="${klp}">${klp}</option>`;
-    });
+    const updateNama = () => {
+        const filtered = data.pesertabintal.filter(p => 
+            (!uSelect.value || String(p.unit) === uSelect.value) && 
+            (!kSelect.value || String(p.kelompok) === kSelect.value)
+        );
 
-    // 2. Logika Utama Filter Nama
-    const filterNama = () => {
-        const selectedUnit = unitSelect.value;
-        const selectedKlp = kelompokSelect.value;
+        nSelect.innerHTML = '<option value="">-- Pilih Nama Peserta --</option>' + 
+            filtered.sort((a,b) => a.nama.localeCompare(b.nama))
+                    .map(p => `<option value="${p.nama}">${p.nama}</option>`).join('');
         
-        namaSelect.innerHTML = '<option value="">-- Pilih Nama Peserta --</option>';
-        
-        const filtered = pesertaArray.filter(p => {
-            const matchUnit = !selectedUnit || String(p.unit) === String(selectedUnit);
-            const matchKlp = !selectedKlp || String(p.kelompok) === String(selectedKlp);
-            return matchUnit && matchKlp;
-        });
-
-        filtered.sort((a,b) => a.nama.localeCompare(b.nama)).forEach(p => {
-            if(p.nama) namaSelect.innerHTML += `<option value="${p.nama}">${p.nama}</option>`;
-        });
-
-        // FORCE REFRESH: Ini bagian krusial untuk template Modern UI Anda
-        refreshCustomFloatingUI(); 
+        // RE-INITIALIZE CUSTOM UI (PENTING)
+        if (typeof initCustomDropdowns === 'function') initCustomDropdowns();
     };
 
-    // Event Listeners
-    unitSelect.onchange = filterNama;
-    kelompokSelect.onchange = filterNama;
+    uSelect.onchange = updateNama;
+    kSelect.onchange = updateNama;
     
-    // Jalankan pertama kali
-    filterNama();
+    updateNama(); // Jalankan pertama kali
 }
+
+// EKSEKUSI UTAMA
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Ambil Data
+    const data = await fetchListData();
+    
+    if (data) {
+        sheetData = data;
+        // 2. Isi data ke Select
+        populateIdentity(data);
+    }
+
+    // 3. Pasang Event Listener Form
+    const formBintal = document.getElementById('form-pesertabintal') || document.getElementById('form-peserta');
+    if (formBintal) formBintal.addEventListener('submit', handleFormSubmission);
+    
+    // 4. Inisialisasi komponen UI lainnya
+    if (typeof setupAccordionMapping === 'function') setupAccordionMapping();
+    if (typeof updateTotalScoreDisplay === 'function') updateTotalScoreDisplay();
+});
 
 /**
  * Fungsi khusus untuk memaksa Floating UI mendeteksi ulang isi Select
@@ -1337,6 +1345,14 @@ function refreshCustomFloatingUI() {
 }
   
   function fetchListData() {
+    try {
+        const response = await fetch(APPS_SCRIPT_URL + '?action=getPesertaBintal');
+        const json = await response.json();
+        return json.success ? json.data : null;
+    } catch (e) {
+        console.error("Fetch error:", e);
+        return null;
+    }
     // Gunakan action=getPesertaBintal agar masuk ke logika baru di GS
     return fetch(APPS_SCRIPT_URL + '?action=getPesertaBintal')
         .then(response => response.json())

@@ -1264,15 +1264,11 @@
   }
 
   function populateIdentity(pesertaArray, units, kelompokArray) {
-    // Pastikan ID ini sesuai dengan ID Select di HTML Anda
     const unitSelect = document.getElementById('unit-select');
     const kelompokSelect = document.getElementById('kelompok-select');
     const namaSelect = document.getElementById('nama-select');
 
-    if (!unitSelect || !kelompokSelect || !namaSelect) {
-        console.error("Elemen dropdown tidak ditemukan di HTML!");
-        return;
-    }
+    if (!unitSelect || !kelompokSelect || !namaSelect) return;
 
     // 1. Isi Dropdown Unit
     unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
@@ -1282,11 +1278,10 @@
 
     // 2. Isi Dropdown Kelompok
     kelompokSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>';
-    kelompokArray.sort((a, b) => a - b).forEach(klp => {
+    kelompokArray.sort((a,b) => a-b).forEach(klp => {
         if(klp) kelompokSelect.innerHTML += `<option value="${klp}">${klp}</option>`;
     });
 
-    // 3. Fungsi Filter Nama (Ini yang memunculkan data di floating)
     const filterNama = () => {
         const selectedUnit = unitSelect.value;
         const selectedKlp = kelompokSelect.value;
@@ -1299,19 +1294,34 @@
             return matchUnit && matchKlp;
         });
 
-        filtered.sort((a, b) => a.nama.localeCompare(b.nama)).forEach(p => {
+        filtered.sort((a,b) => a.nama.localeCompare(b.nama)).forEach(p => {
             if(p.nama) namaSelect.innerHTML += `<option value="${p.nama}">${p.nama}</option>`;
         });
-        
-        console.log("Data difilter:", filtered.length, "orang ditemukan");
+
+        // PENTING: Jika Anda menggunakan Custom Floating Dropdown, kita perlu me-refresh UI-nya
+        if (typeof updateCustomDropdown === 'function') {
+            updateCustomDropdown('nama-select');
+        }
     };
 
-    // Pasang Event Listener agar saat Unit/Kelompok diklik, Nama muncul
-    unitSelect.addEventListener('change', filterNama);
-    kelompokSelect.addEventListener('change', filterNama);
+    unitSelect.addEventListener('change', () => {
+        filterNama();
+        if (typeof updateCustomDropdown === 'function') updateCustomDropdown('unit-select');
+    });
     
-    // Panggil sekali di awal agar jika Unit/Klp kosong, semua nama muncul
+    kelompokSelect.addEventListener('change', () => {
+        filterNama();
+        if (typeof updateCustomDropdown === 'function') updateCustomDropdown('kelompok-select');
+    });
+    
     filterNama();
+
+    // Refresh semua tampilan dropdown di awal
+    if (typeof updateCustomDropdown === 'function') {
+        updateCustomDropdown('unit-select');
+        updateCustomDropdown('kelompok-select');
+        updateCustomDropdown('nama-select');
+    }
 }
   
   function fetchListData() {

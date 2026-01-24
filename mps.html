@@ -1307,12 +1307,12 @@
             showToast(`Gagal memuat data dari Sheets: ${error.message}.`, false);
             return null;
         });
-  }
-fetch(URL, {
+    fetch(URL, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ action: 'getPesertaBintal' })
 })
+  }
 
   // FUNGSI BARU: Load data skor dari Google Sheets
   function loadScoreData(nama) {

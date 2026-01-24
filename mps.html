@@ -1288,6 +1288,16 @@
   }
   
   function fetchListData() {
+    // Tambahkan parameter ?action=getPesertaBintal di akhir URL script Anda
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=getPesertaBintal';
+    try {
+        const response = await fetch(scriptUrl);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
     return fetch(APPS_SCRIPT_URL + '?action=getListData')
         .then(response => {
             if (!response.ok) {
@@ -1307,11 +1317,6 @@
             showToast(`Gagal memuat data dari Sheets: ${error.message}.`, false);
             return null;
         });
-    fetch(URL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ action: 'getPesertaBintal' })
-})
   }
 
   // FUNGSI BARU: Load data skor dari Google Sheets

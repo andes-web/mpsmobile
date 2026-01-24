@@ -1263,52 +1263,60 @@
     updateTotalScoreDisplay();
   }
 
-  function populateIdentity(data, units, kelompok) {
-    const unitList = document.getElementById('unit-options-list');
-    const kelompokList = document.getElementById('kelompok-options-list');
+  function populateIdentity(pesertaArray, units, kelompokArray) {
+    const unitSelect = document.getElementById('unit-select');
+    const kelompokSelect = document.getElementById('kelompok-select');
+    const namaSelect = document.getElementById('nama-select');
 
-    unitList.innerHTML = '';
-    kelompokList.innerHTML = '';
-    
-    const createOption = (value, text) => `<div class="identity-option" data-value="${value}">${text}</div>`;
+    // Isi Dropdown Unit
+    unitSelect.innerHTML = '<option value=\"\">-- Pilih Unit --</option>';
+    units.forEach(unit => {
+        unitSelect.innerHTML += `<option value=\"${unit}\">${unit}</option>`;
+    });
 
-    if (units) {
-        units.sort(naturalSort);
-        units.forEach(u => unitList.innerHTML += createOption(u, u));
-    }
-    if (kelompok) {
-        kelompok.sort(naturalSort);
-        kelompok.forEach(k => kelompokList.innerHTML += createOption(k, k));
-    }
+    // Isi Dropdown Kelompok
+    kelompokSelect.innerHTML = '<option value=\"\">-- Pilih Kelompok --</option>';
+    kelompokArray.forEach(klp => {
+        kelompokSelect.innerHTML += `<option value=\"${klp}\">${klp}</option>`;
+    });
+
+    // Logika Filter Nama berdasarkan Unit/Kelompok
+    const filterNama = () => {
+        const selectedUnit = unitSelect.value;
+        const selectedKlp = kelompokSelect.value;
+        
+        namaSelect.innerHTML = '<option value=\"\">-- Pilih Nama Peserta --</option>';
+        
+        pesertaArray.filter(p => {
+            return (!selectedUnit || p.unit === selectedUnit) && 
+                   (!selectedKlp || p.kelompok === selectedKlp);
+        }).forEach(p => {
+            // PASTIKAN p.nama (huruf kecil semua sesuai object di GS)
+            namaSelect.innerHTML += `<option value=\"${p.nama}\">${p.nama}</option>`;
+        });
+    };
+
+    unitSelect.addEventListener('change', filterNama);
+    kelompokSelect.addEventListener('change', filterNama);
     
-    resetIdentityInputs();
-    filterAndPopulateNama(); 
-    
-    setupIdentityDropdowns(); 
-  }
+    // Inisialisasi awal agar semua nama muncul jika belum difilter
+    filterNama();
+}
   
   function fetchListData() {
-    // 1. Pastikan parameter action sesuai dengan yang ada di GS (getPesertaBintal)
+    // Gunakan action=getPesertaBintal agar masuk ke logika baru di GS
     return fetch(APPS_SCRIPT_URL + '?action=getPesertaBintal')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Kesalahan Jaringan: ${response.status} - ${response.statusText}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(jsonResponse => {
-            // 2. Jika di Apps Script Anda mengirimkan error dalam JSON
-            if (jsonResponse.error) {
-                throw new Error(jsonResponse.error);
+            if (jsonResponse.success) {
+                return jsonResponse.data; // Ini akan berisi {pesertabintal, units, kelompok}
+            } else {
+                throw new Error(jsonResponse.error || 'Gagal mengambil data');
             }
-            
-            // 3. Langsung kembalikan jsonResponse karena GS mengirimkan 
-            // objek {pesertabintal: [], units: [], kelompok: []}
-            return jsonResponse; 
         })
         .catch(error => {
-            console.error('Error fetching list data:', error);
-            showToast(`Gagal memuat data dari Sheets: ${error.message}.`, false);
+            console.error('Error:', error);
+            showToast("Gagal memuat data peserta", false);
             return null;
         });
 }

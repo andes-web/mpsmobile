@@ -1264,42 +1264,53 @@
   }
 
   function populateIdentity(pesertaArray, units, kelompokArray) {
+    // Pastikan ID ini sesuai dengan ID Select di HTML Anda
     const unitSelect = document.getElementById('unit-select');
     const kelompokSelect = document.getElementById('kelompok-select');
     const namaSelect = document.getElementById('nama-select');
 
-    // Isi Dropdown Unit
-    unitSelect.innerHTML = '<option value=\"\">-- Pilih Unit --</option>';
-    units.forEach(unit => {
-        unitSelect.innerHTML += `<option value=\"${unit}\">${unit}</option>`;
+    if (!unitSelect || !kelompokSelect || !namaSelect) {
+        console.error("Elemen dropdown tidak ditemukan di HTML!");
+        return;
+    }
+
+    // 1. Isi Dropdown Unit
+    unitSelect.innerHTML = '<option value="">-- Pilih Unit --</option>';
+    units.sort().forEach(unit => {
+        if(unit) unitSelect.innerHTML += `<option value="${unit}">${unit}</option>`;
     });
 
-    // Isi Dropdown Kelompok
-    kelompokSelect.innerHTML = '<option value=\"\">-- Pilih Kelompok --</option>';
-    kelompokArray.forEach(klp => {
-        kelompokSelect.innerHTML += `<option value=\"${klp}\">${klp}</option>`;
+    // 2. Isi Dropdown Kelompok
+    kelompokSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>';
+    kelompokArray.sort((a, b) => a - b).forEach(klp => {
+        if(klp) kelompokSelect.innerHTML += `<option value="${klp}">${klp}</option>`;
     });
 
-    // Logika Filter Nama berdasarkan Unit/Kelompok
+    // 3. Fungsi Filter Nama (Ini yang memunculkan data di floating)
     const filterNama = () => {
         const selectedUnit = unitSelect.value;
         const selectedKlp = kelompokSelect.value;
         
-        namaSelect.innerHTML = '<option value=\"\">-- Pilih Nama Peserta --</option>';
+        namaSelect.innerHTML = '<option value="">-- Pilih Nama Peserta --</option>';
         
-        pesertaArray.filter(p => {
-            return (!selectedUnit || p.unit === selectedUnit) && 
-                   (!selectedKlp || p.kelompok === selectedKlp);
-        }).forEach(p => {
-            // PASTIKAN p.nama (huruf kecil semua sesuai object di GS)
-            namaSelect.innerHTML += `<option value=\"${p.nama}\">${p.nama}</option>`;
+        const filtered = pesertaArray.filter(p => {
+            const matchUnit = !selectedUnit || String(p.unit) === String(selectedUnit);
+            const matchKlp = !selectedKlp || String(p.kelompok) === String(selectedKlp);
+            return matchUnit && matchKlp;
         });
+
+        filtered.sort((a, b) => a.nama.localeCompare(b.nama)).forEach(p => {
+            if(p.nama) namaSelect.innerHTML += `<option value="${p.nama}">${p.nama}</option>`;
+        });
+        
+        console.log("Data difilter:", filtered.length, "orang ditemukan");
     };
 
+    // Pasang Event Listener agar saat Unit/Kelompok diklik, Nama muncul
     unitSelect.addEventListener('change', filterNama);
     kelompokSelect.addEventListener('change', filterNama);
     
-    // Inisialisasi awal agar semua nama muncul jika belum difilter
+    // Panggil sekali di awal agar jika Unit/Klp kosong, semua nama muncul
     filterNama();
 }
   
@@ -1512,25 +1523,21 @@
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
-    initCustomDropdowns(); 
-    setupIdentityDropdowns(); 
+    // Inisialisasi UI
+    if (typeof initCustomDropdowns === 'function') initCustomDropdowns(); 
     
     const data = await fetchListData();
-    if (data) {
+    if (data && data.pesertabintal) {
         sheetData = data;
-        // Pastikan memanggil .pesertabintal (sesuai output GS)
-        populateIdentity(sheetData.pesertabintal, sheetData.units, sheetData.kelompok);
+        // Memanggil fungsi perbaikan di atas
+        populateIdentity(data.pesertabintal, data.units, data.kelompok);
+    } else {
+        console.error("Data gagal dimuat atau format salah", data);
     }
     
-    // Pastikan ID form sesuai dengan yang ada di HTML Anda
-    const formPeserta = document.getElementById('form-pesertabintal') || document.getElementById('form-peserta');
-    if(formPeserta) formPeserta.addEventListener('submit', handleFormSubmission);
-    
-    const formPanitia = document.getElementById('form-panitia');
-    if(formPanitia) formPanitia.addEventListener('submit', handleFormSubmission);
-    
-    setupAccordionMapping();
-    updateTotalScoreDisplay();
+    // Event listener form (sesuaikan ID dengan file Anda)
+    const formBintal = document.getElementById('form-pesertabintal') || document.getElementById('form-peserta');
+    if(formBintal) formBintal.addEventListener('submit', handleFormSubmission);
 });
 </script>
 </body>

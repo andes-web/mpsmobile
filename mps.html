@@ -698,7 +698,6 @@
         padding: 8px 4px;
       }
     }
-    
   </style>
 </head>
 <body>
@@ -1005,17 +1004,6 @@
               });
           });
       });
-      // Cari semua select yang punya class custom-select (atau semua select di identity)
-    const selects = document.querySelectorAll('.floating-label-content select');
-    
-    selects.forEach(select => {
-        // Hapus elemen div pendukung jika sudah ada agar tidak duplikat
-        const existingCustom = select.parentElement.querySelectorAll('.custom-select-trigger, .custom-options');
-        existingCustom.forEach(el => el.remove());
-
-        // Jalankan logika pembuatan UI buatan di sini (sesuai template Anda)
-        // ... (kode template asli Anda untuk membuat div-div pengganti select)
-    });
   }
   
   function updateUnitKelompokFields(unit, kelompok) {
@@ -1275,100 +1263,51 @@
     updateTotalScoreDisplay();
   }
 
-function populateIdentity(data) {
-    const uSelect = document.getElementById('unit-select');
-    const kSelect = document.getElementById('kelompok-select');
-    const nSelect = document.getElementById('nama-select');
+  function populateIdentity(data, units, kelompok) {
+    const unitList = document.getElementById('unit-options-list');
+    const kelompokList = document.getElementById('kelompok-options-list');
 
-    if (!uSelect || !kSelect || !nSelect) return;
-
-    // Isi Unit & Kelompok
-    uSelect.innerHTML = '<option value="">-- Pilih Unit --</option>' + 
-        data.units.map(u => `<option value="${u}">${u}</option>`).join('');
+    unitList.innerHTML = '';
+    kelompokList.innerHTML = '';
     
-    kSelect.innerHTML = '<option value="">-- Pilih Kelompok --</option>' + 
-        data.kelompok.map(k => `<option value="${k}">${k}</option>`).join('');
+    const createOption = (value, text) => `<div class="identity-option" data-value="${value}">${text}</div>`;
 
-    const updateNama = () => {
-        const filtered = data.pesertabintal.filter(p => 
-            (!uSelect.value || String(p.unit) === uSelect.value) && 
-            (!kSelect.value || String(p.kelompok) === kSelect.value)
-        );
-
-        nSelect.innerHTML = '<option value="">-- Pilih Nama Peserta --</option>' + 
-            filtered.sort((a,b) => a.nama.localeCompare(b.nama))
-                    .map(p => `<option value="${p.nama}">${p.nama}</option>`).join('');
-        
-        // RE-INITIALIZE CUSTOM UI (PENTING)
-        if (typeof initCustomDropdowns === 'function') initCustomDropdowns();
-    };
-
-    uSelect.onchange = updateNama;
-    kSelect.onchange = updateNama;
-    
-    updateNama(); // Jalankan pertama kali
-}
-
-// EKSEKUSI UTAMA
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Ambil Data
-    const data = await fetchListData();
-    
-    if (data) {
-        sheetData = data;
-        // 2. Isi data ke Select
-        populateIdentity(data);
+    if (units) {
+        units.sort(naturalSort);
+        units.forEach(u => unitList.innerHTML += createOption(u, u));
     }
-
-    // 3. Pasang Event Listener Form
-    const formBintal = document.getElementById('form-pesertabintal') || document.getElementById('form-peserta');
-    if (formBintal) formBintal.addEventListener('submit', handleFormSubmission);
-    
-    // 4. Inisialisasi komponen UI lainnya
-    if (typeof setupAccordionMapping === 'function') setupAccordionMapping();
-    if (typeof updateTotalScoreDisplay === 'function') updateTotalScoreDisplay();
-});
-
-/**
- * Fungsi khusus untuk memaksa Floating UI mendeteksi ulang isi Select
- */
-function refreshCustomFloatingUI() {
-    // Cari semua elemen dropdown buatan (biasanya classnya .custom-select-items atau .options)
-    // Kita hapus dan jalankan ulang fungsi init dari template Anda
-    const customOptions = document.querySelectorAll('.custom-select-options, .options-container');
-    customOptions.forEach(opt => opt.innerHTML = ''); 
-
-    // Panggil ulang fungsi bawaan template Anda (initCustomDropdowns)
-    if (typeof initCustomDropdowns === 'function') {
-        initCustomDropdowns(); 
+    if (kelompok) {
+        kelompok.sort(naturalSort);
+        kelompok.forEach(k => kelompokList.innerHTML += createOption(k, k));
     }
-}
+    
+    resetIdentityInputs();
+    filterAndPopulateNama(); 
+    
+    setupIdentityDropdowns(); 
+  }
   
   function fetchListData() {
-    try {
-        const response = await fetch(APPS_SCRIPT_URL + '?action=getPesertaBintal');
-        const json = await response.json();
-        return json.success ? json.data : null;
-    } catch (e) {
-        console.error("Fetch error:", e);
-        return null;
-    }
-    // Gunakan action=getPesertaBintal agar masuk ke logika baru di GS
-    return fetch(APPS_SCRIPT_URL + '?action=getPesertaBintal')
-        .then(response => response.json())
+    return fetch(APPS_SCRIPT_URL + '?action=getListData')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Kesalahan Jaringan: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(jsonResponse => {
             if (jsonResponse.success) {
-                return jsonResponse.data; // Ini akan berisi {pesertabintal, units, kelompok}
+                return jsonResponse.data;
             } else {
-                throw new Error(jsonResponse.error || 'Gagal mengambil data');
+                throw new Error(jsonResponse.message || 'Respons server Apps Script gagal.');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showToast("Gagal memuat data peserta", false);
+            console.error('Error fetching list data:', error);
+            showToast(`Gagal memuat data dari Sheets: ${error.message}.`, false);
             return null;
         });
-}
+  }
 
   // FUNGSI BARU: Load data skor dari Google Sheets
   function loadScoreData(nama) {
@@ -1483,6 +1422,46 @@ function refreshCustomFloatingUI() {
             saveBtn.disabled = false;
         });
   }
+function saveBintalNonTeknis(payload) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName("Nilai_Bintal_Nonteknis");
+  if (!sh) throw new Error("Sheet Nilai_Bintal_Nonteknis tidak ditemukan");
+
+  const header = sh.getRange(1,1,1,sh.getLastColumn()).getValues()[0];
+
+  const baseData = {
+    "Timestamp": new Date(),
+    "Unit": payload.unit,
+    "Kelompok": payload.kelompok,
+    "Nama": payload.nama
+  };
+
+  const row = header.map(h => {
+    if (baseData[h] !== undefined) return baseData[h];
+    if (payload.nilai && payload.nilai[h] !== undefined) return payload.nilai[h];
+    return "";
+  });
+
+  sh.appendRow(row);
+}
+function initDropdownPeserta() {
+  const units = [...new Set(sheetData.peserta.map(p => p.unit))];
+  fillDropdown("unit", units);
+
+  document.getElementById("unit-options-list").onclick = e => {
+    const unit = e.target.dataset.value;
+    const kelompok = [...new Set(sheetData.peserta.filter(p => p.unit===unit).map(p=>p.kelompok))];
+    fillDropdown("kelompok", kelompok);
+  };
+
+  document.getElementById("kelompok-options-list").onclick = e => {
+    const kelompok = e.target.dataset.value;
+    const nama = sheetData.peserta
+      .filter(p=>p.kelompok===kelompok)
+      .map(p=>p.nama);
+    fillDropdown("nama", nama);
+  };
+}
 
   function handleFormSubmission(e) {
     e.preventDefault();
@@ -1561,22 +1540,49 @@ function refreshCustomFloatingUI() {
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
-    // Inisialisasi UI
-    if (typeof initCustomDropdowns === 'function') initCustomDropdowns(); 
+    initCustomDropdowns(); 
+    setupIdentityDropdowns(); 
     
     const data = await fetchListData();
-    if (data && data.pesertabintal) {
+    if (data) {
         sheetData = data;
-        // Memanggil fungsi perbaikan di atas
-        populateIdentity(data.pesertabintal, data.units, data.kelompok);
-    } else {
-        console.error("Data gagal dimuat atau format salah", data);
+        populateIdentity(sheetData.pesertabintal, sheetData.units, sheetData.kelompok);
     }
+    document.getElementById('form-pesertabintal').addEventListener('submit', handleFormSubmission);
+    document.getElementById('form-panitia').addEventListener('submit', handleFormSubmission);
     
-    // Event listener form (sesuaikan ID dengan file Anda)
-    const formBintal = document.getElementById('form-pesertabintal') || document.getElementById('form-peserta');
-    if(formBintal) formBintal.addEventListener('submit', handleFormSubmission);
-});
+    setupAccordionMapping();
+    updateTotalScoreDisplay();
+  });
+
+  fetch(APPS_SCRIPT_URL + '?action=pesertabintal')
+  .then(res => res.json())
+  .then(data => {
+    sheetData.peserta = data;
+    initDropdownPeserta();
+  });
+
+document.getElementById("form-pesertabintal").onsubmit = e => {
+  e.preventDefault();
+
+  const nilai = {};
+  document.querySelectorAll(".score-display-btn").forEach(btn=>{
+    const aspek = btn.closest(".score-custom-dropdown").dataset.name;
+    nilai[aspek] = Number(btn.dataset.value)||0;
+  });
+
+  fetch(APPS_SCRIPT_URL,{
+    method:"POST",
+    body:JSON.stringify({
+      formType:"bintal_non_teknis",
+      nama:document.getElementById("nama-select").value,
+      unit:document.getElementById("unit-select").value,
+      kelompok:document.getElementById("kelompok-select").value,
+      nilai:nilai
+    })
+  }).then(r=>r.json()).then(()=>alert("Data tersimpan"));
+};
+
 </script>
 </body>
 </html>

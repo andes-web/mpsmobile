@@ -1564,7 +1564,6 @@ function initDropdownPeserta() {
 
 document.getElementById("form-pesertabintal").onsubmit = e => {
   e.preventDefault();
-
   const nilai = {};
   document.querySelectorAll(".score-display-btn").forEach(btn=>{
     const aspek = btn.closest(".score-custom-dropdown").dataset.name;
@@ -1582,7 +1581,6 @@ document.getElementById("form-pesertabintal").onsubmit = e => {
     })
   }).then(r=>r.json()).then(()=>alert("Data tersimpan"));
 };
-
 </script>
 </body>
 </html>

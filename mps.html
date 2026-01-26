@@ -1551,9 +1551,10 @@ function refreshNamaFloating() {
 
   sheetData.pesertabintal
     .filter(p =>
-      String(p.unit) === unit &&
-      String(p.kelompok) === kelompok
-    )
+  String(p.unit).trim().toLowerCase() === unit.trim().toLowerCase() &&
+  String(p.kelompok).trim().toLowerCase() === kelompok.trim().toLowerCase()
+)
+
     .forEach(p => {
       const opt = document.createElement('div');
       opt.className = 'identity-option';

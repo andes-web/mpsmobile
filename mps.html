@@ -1551,9 +1551,9 @@ function refreshNamaFloating() {
 
   sheetData.pesertabintal
     .filter(p =>
-  String(p.unit).trim().toLowerCase() === unit.trim().toLowerCase() &&
-  String(p.kelompok).trim().toLowerCase() === kelompok.trim().toLowerCase()
-)
+      String(p.unit) === unit &&
+      String(p.kelompok) === kelompok
+    )
 
     .forEach(p => {
       const opt = document.createElement('div');

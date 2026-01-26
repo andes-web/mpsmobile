@@ -1586,6 +1586,65 @@ document.querySelectorAll('.identity-dropdown').forEach(dropdown => {
 });
 
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const unitInput = document.getElementById('unit-input');
+  const kelompokInput = document.getElementById('kelompok-input');
+  const namaInput = document.getElementById('nama-input');
+  const namaList = document.getElementById('nama-options-list');
+
+  if (!unitInput || !kelompokInput || !namaInput || !namaList) {
+    console.error('Elemen identity tidak lengkap');
+    return;
+  }
+
+  function renderNama() {
+    namaList.innerHTML = '';
+
+    const unit = unitInput.value;
+    const kelompok = kelompokInput.value;
+
+    if (!unit || !kelompok) return;
+    if (!window.sheetData || !sheetData.pesertabintal) return;
+
+    sheetData.pesertabintal
+      .filter(p =>
+        String(p.unit) === unit &&
+        String(p.kelompok) === kelompok
+      )
+      .forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'identity-option';
+        div.textContent = p.nama;
+        div.dataset.value = p.nama;
+        div.onclick = function () {
+          namaInput.value = p.nama;
+          namaInput.closest('.identity-dropdown').classList.remove('active');
+        };
+        namaList.appendChild(div);
+      });
+  }
+
+  namaInput.addEventListener('click', function (e) {
+    e.stopPropagation();
+    renderNama();
+    namaInput.closest('.identity-dropdown').classList.add('active');
+  });
+
+  [unitInput, kelompokInput].forEach(el => {
+    el.addEventListener('click', () => {
+      namaInput.value = '';
+      namaList.innerHTML = '';
+    });
+  });
+
+  document.addEventListener('click', () => {
+    namaInput.closest('.identity-dropdown').classList.remove('active');
+  });
+
+});
+</script>
 
 </body>
 </html>

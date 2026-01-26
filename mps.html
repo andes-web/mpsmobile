@@ -1102,11 +1102,7 @@ function filterAndPopulateNama() {
   }
 
   function setupIdentityDropdowns() {
-    if (input.id === 'unit-input' || input.id === 'kelompok-input') {
-  document.getElementById('nama-input').value = '';
-  filterAndPopulateNama();
-}
-
+    
     document.querySelectorAll('.identity-custom-dropdown').forEach(dropdown => {
         const displayBtn = dropdown.querySelector('.identity-display-btn');
         const optionsList = dropdown.querySelector('.identity-options-list');

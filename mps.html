@@ -1041,32 +1041,42 @@
     namaList.style.display = 'none'; 
   }
 
-function filterAndPopulateNama() {
-  const namaList = document.getElementById('nama-options-list');
-  namaList.innerHTML = '';
+  function filterAndPopulateNama() {
+      const unitValue = document.getElementById('unit-select').value;
+      const kelompokValue = document.getElementById('kelompok-select').value;
+      const namaList = document.getElementById('nama-options-list');
+      
+      namaList.innerHTML = '';
+      
+      if (!sheetData[currentRole]) return;
 
-  const selectedUnit = document.getElementById('unit-input').value;
-  const selectedKelompok = document.getElementById('kelompok-input').value;
+      let filteredData = sheetData[currentRole].filter(item => {
+          let matchesUnit = true;
+          let matchesKelompok = true;
+          
+          if (unitValue) {
+              matchesUnit = (item.Unit === unitValue);
+          }
+          
+          if (kelompokValue) {
+              matchesKelompok = (item.Kelompok === kelompokValue);
+          }
+          
+          return matchesUnit && matchesKelompok;
+      });
 
-  if (!selectedUnit || !selectedKelompok) return;
+      filteredData.sort((a, b) => naturalSort(a.Nama, b.Nama));
 
-  const filtered = sheetData.pesertabintal.filter(p =>
-    String(p.unit) === selectedUnit &&
-    String(p.kelompok) === selectedKelompok
-  );
-
-  filtered
-    .sort((a, b) => a.nama.localeCompare(b.nama))
-    .forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'identity-option';
-      div.dataset.value = p.nama;
-      div.textContent = p.nama;
-      namaList.appendChild(div);
-    });
-
-  setupIdentityDropdowns(); // WAJIB agar bisa diklik
-}
+      if (filteredData.length > 0) {
+          let html = '';
+          filteredData.forEach(item => {
+              html += `<div class="identity-option" data-value="${item.Nama}" data-unit="${item.Unit}" data-kelompok="${item.Kelompok}">${item.Nama}</div>`;
+          });
+          namaList.innerHTML = html;
+      } else if (unitValue || kelompokValue) {
+          namaList.innerHTML = '<div class="identity-option" style="color: #6c757d; cursor: default;">Tidak ada Nama yang cocok.</div>';
+      }
+  }
 
   function handleIdentityOptionClick(e, targetId) {
       const option = e.target;
@@ -1102,7 +1112,6 @@ function filterAndPopulateNama() {
   }
 
   function setupIdentityDropdowns() {
-    
     document.querySelectorAll('.identity-custom-dropdown').forEach(dropdown => {
         const displayBtn = dropdown.querySelector('.identity-display-btn');
         const optionsList = dropdown.querySelector('.identity-options-list');
@@ -1506,6 +1515,78 @@ function filterAndPopulateNama() {
     updateTotalScoreDisplay();
   });
 </script>
+<script>
+function populateNamaByFilter() {
+  const unit = document.getElementById('unit-input').value;
+  const kelompok = document.getElementById('kelompok-input').value;
+
+  const list = document.getElementById('nama-options-list');
+  list.innerHTML = '';
+
+  if (!unit || !kelompok) return;
+
+  const hasil = sheetData.pesertabintal.filter(p =>
+    String(p.unit) === unit &&
+    String(p.kelompok) === kelompok
+  );
+
+  hasil.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'identity-option';
+    div.textContent = p.nama;
+    div.dataset.value = p.nama;
+    list.appendChild(div);
+  });
+}
+</script>
+<script>
+function refreshNamaFloating() {
+  const unit = document.getElementById('unit-input').value;
+  const kelompok = document.getElementById('kelompok-input').value;
+
+  const list = document.getElementById('nama-options-list');
+  list.innerHTML = '';
+
+  if (!unit || !kelompok) return;
+
+  sheetData.pesertabintal
+    .filter(p =>
+      String(p.unit) === unit &&
+      String(p.kelompok) === kelompok
+    )
+    .forEach(p => {
+      const opt = document.createElement('div');
+      opt.className = 'identity-option';
+      opt.dataset.value = p.nama;
+      opt.textContent = p.nama;
+      list.appendChild(opt);
+    });
+}
+
+document.querySelectorAll('.identity-dropdown').forEach(dropdown => {
+  const input = dropdown.querySelector('input');
+
+  input.addEventListener('click', () => {
+
+    if (input.id === 'nama-input') {
+      refreshNamaFloating(); // ⬅️ INI PENTING
+    }
+
+    dropdown.classList.toggle('active');
+  });
+});
+['unit-input','kelompok-input'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.addEventListener('click', () => {
+    document.getElementById('nama-input').value = '';
+    document.getElementById('nama-options-list').innerHTML = '';
+  });
+});
+
+</script>
+
 </body>
 </html>
 <script>

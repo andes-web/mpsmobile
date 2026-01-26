@@ -1422,46 +1422,6 @@
             saveBtn.disabled = false;
         });
   }
-function saveBintalNonTeknis(payload) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName("Nilai_Bintal_Nonteknis");
-  if (!sh) throw new Error("Sheet Nilai_Bintal_Nonteknis tidak ditemukan");
-
-  const header = sh.getRange(1,1,1,sh.getLastColumn()).getValues()[0];
-
-  const baseData = {
-    "Timestamp": new Date(),
-    "Unit": payload.unit,
-    "Kelompok": payload.kelompok,
-    "Nama": payload.nama
-  };
-
-  const row = header.map(h => {
-    if (baseData[h] !== undefined) return baseData[h];
-    if (payload.nilai && payload.nilai[h] !== undefined) return payload.nilai[h];
-    return "";
-  });
-
-  sh.appendRow(row);
-}
-function initDropdownPeserta() {
-  const units = [...new Set(sheetData.peserta.map(p => p.unit))];
-  fillDropdown("unit", units);
-
-  document.getElementById("unit-options-list").onclick = e => {
-    const unit = e.target.dataset.value;
-    const kelompok = [...new Set(sheetData.peserta.filter(p => p.unit===unit).map(p=>p.kelompok))];
-    fillDropdown("kelompok", kelompok);
-  };
-
-  document.getElementById("kelompok-options-list").onclick = e => {
-    const kelompok = e.target.dataset.value;
-    const nama = sheetData.peserta
-      .filter(p=>p.kelompok===kelompok)
-      .map(p=>p.nama);
-    fillDropdown("nama", nama);
-  };
-}
 
   function handleFormSubmission(e) {
     e.preventDefault();
@@ -1554,33 +1514,12 @@ function initDropdownPeserta() {
     setupAccordionMapping();
     updateTotalScoreDisplay();
   });
-
-  fetch(APPS_SCRIPT_URL + '?action=pesertabintal')
-  .then(res => res.json())
-  .then(data => {
-    sheetData.peserta = data;
-    initDropdownPeserta();
-  });
-
-document.getElementById("form-pesertabintal").onsubmit = e => {
-  e.preventDefault();
-  const nilai = {};
-  document.querySelectorAll(".score-display-btn").forEach(btn=>{
-    const aspek = btn.closest(".score-custom-dropdown").dataset.name;
-    nilai[aspek] = Number(btn.dataset.value)||0;
-  });
-
-  fetch(APPS_SCRIPT_URL,{
-    method:"POST",
-    body:JSON.stringify({
-      formType:"bintal_non_teknis",
-      nama:document.getElementById("nama-select").value,
-      unit:document.getElementById("unit-select").value,
-      kelompok:document.getElementById("kelompok-select").value,
-      nilai:nilai
-    })
-  }).then(r=>r.json()).then(()=>alert("Data tersimpan"));
-};
 </script>
 </body>
 </html>
+<script>
+async function loadPesertaBintal(){
+  const res = await fetch(GAS_URL + '?action=getPesertaBintal');
+  return res.json();
+}
+</script>

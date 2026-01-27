@@ -698,6 +698,35 @@
         padding: 8px 4px;
       }
     }
+    .identity-custom-dropdown {
+    position: relative;
+}
+
+.identity-options-list {
+    display: none; /* Default sembunyi */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #1a1f3a; /* Warna dark */
+    border: 1px solid #00d4ff;
+    z-index: 1050;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.identity-option-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #e2e8f0;
+    border-bottom: 1px solid #2d3748;
+}
+
+.identity-option-item:hover {
+    background: #00d4ff;
+    color: #000;
+}
   </style>
 </head>
 <body>
@@ -724,7 +753,7 @@
             
             <div class="col-6">
                 <div class="identity-custom-dropdown" id="kelompok-dropdown" data-target-id="kelompok-select">
-                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Kelompok...</button>
+                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Kelompok</button>
                     <div class="identity-options-list" id="kelompok-options-list"></div>
                     <input type="hidden" id="kelompok-select" name="Kelompok" value="">
                 </div>
@@ -732,7 +761,7 @@
             
             <div class="col-12 mt-2">
                 <div class="identity-custom-dropdown" id="nama-dropdown" data-target-id="nama-select">
-                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Pilih Nama...</button>
+                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Pilih Nama</button>
                     <div class="identity-options-list" id="nama-options-list"></div>
                     <input type="hidden" id="nama-select" name="Nama" value="">
                 </div>
@@ -1033,7 +1062,7 @@
     const namaInput = document.getElementById('nama-select');
     const namaList = document.getElementById('nama-options-list');
     
-    namaBtn.textContent = 'Pilih Nama...';
+    namaBtn.textContent = 'Pilih Nama';
     namaBtn.setAttribute('data-value', '');
     namaInput.value = '';
     
@@ -1112,32 +1141,32 @@
   }
 
   function setupIdentityDropdowns() {
-    document.querySelectorAll('.identity-custom-dropdown').forEach(dropdown => {
-        const displayBtn = dropdown.querySelector('.identity-display-btn');
-        const optionsList = dropdown.querySelector('.identity-options-list');
-        const targetId = dropdown.getAttribute('data-target-id');
+    // Daftar ID dropdown sesuai HTML Anda
+    const ids = ['unit', 'kelompok', 'nama'];
+    
+    ids.forEach(id => {
+        const container = document.getElementById(`${id}-dropdown`);
+        if (!container) return;
 
-        displayBtn.onclick = function(e) { 
+        const btn = container.querySelector('.identity-display-btn');
+        const list = container.querySelector('.identity-options-list');
+
+        btn.onclick = (e) => {
             e.stopPropagation();
-            
-            document.querySelectorAll('.identity-options-list').forEach(list => {
-                if (list !== optionsList) {
-                    list.style.display = 'none';
-                }
+            // Tutup semua list yang terbuka
+            document.querySelectorAll('.identity-options-list').forEach(el => {
+                if (el !== list) el.style.display = 'none';
             });
-            document.querySelectorAll('.score-options-list').forEach(list => list.style.display = 'none'); 
-
-            optionsList.style.display = optionsList.style.display === 'block' ? 'none' : 'block';
+            // Toggle list ini
+            list.style.display = (list.style.display === 'block') ? 'none' : 'block';
         };
-
-        optionsList.onclick = (e) => handleIdentityOptionClick(e, targetId);
     });
 
-    document.addEventListener('click', function() {
-        document.querySelectorAll('.identity-options-list').forEach(list => list.style.display = 'none');
-        document.querySelectorAll('.score-options-list').forEach(list => list.style.display = 'none');
+    // Klik di luar untuk menutup
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.identity-options-list').forEach(el => el.style.display = 'none');
     });
-  }
+}
 
   function resetScoreInputs(closeAccordion = true) {
     if (closeAccordion) {
@@ -1263,29 +1292,89 @@
     updateTotalScoreDisplay();
   }
 
-  function populateIdentity(data, units, kelompok) {
+  function populateIdentity(peserta, units, kelompok) {
     const unitList = document.getElementById('unit-options-list');
-    const kelompokList = document.getElementById('kelompok-options-list');
+    const kelList = document.getElementById('kelompok-options-list');
 
+    // 1. Isi Dropdown Unit (Urutkan A-Z)
     unitList.innerHTML = '';
-    kelompokList.innerHTML = '';
-    
-    const createOption = (value, text) => `<div class="identity-option" data-value="${value}">${text}</div>`;
+    const sortedUnits = [...new Set(units)].filter(Boolean).sort();
+    sortedUnits.forEach(u => {
+        const item = document.createElement('div');
+        item.className = 'identity-option-item';
+        item.textContent = u;
+        item.onclick = () => {
+            selectOption('unit', u);
+            updateNamaDropdown();
+        };
+        unitList.appendChild(item);
+    });
 
-    if (units) {
-        units.sort(naturalSort);
-        units.forEach(u => unitList.innerHTML += createOption(u, u));
-    }
-    if (kelompok) {
-        kelompok.sort(naturalSort);
-        kelompok.forEach(k => kelompokList.innerHTML += createOption(k, k));
-    }
+    // 2. Isi Dropdown Kelompok (Urutan Numerik yang Benar & Anti-NaN)
+    kelList.innerHTML = '';
     
-    resetIdentityInputs();
-    filterAndPopulateNama(); 
+    // Gunakan Intl.Collator untuk mengurutkan secara alami (Natural Sort)
+    // Ini akan mengurutkan 1, 2, 10 secara benar tanpa merubahnya menjadi NaN
+    const sortedKelompok = [...new Set(kelompok)].filter(Boolean).sort((a, b) => {
+        return a.toString().localeCompare(b.toString(), undefined, {
+            numeric: true,
+            sensitivity: 'base'
+        });
+    });
+
+    sortedKelompok.forEach(k => {
+        const item = document.createElement('div');
+        item.className = 'identity-option-item';
+        item.textContent = k;
+        item.onclick = () => {
+            selectOption('kelompok', k);
+            updateNamaDropdown();
+        };
+        kelList.appendChild(item);
+    });
+}
+function updateNamaDropdown() {
+    const unitVal = document.getElementById('unit-select').value;
+    const kelVal = document.getElementById('kelompok-select').value;
+    const namaList = document.getElementById('nama-options-list');
+    const displayBtn = document.querySelector('#nama-dropdown .identity-display-btn');
+
+    // Reset nama jika unit/kelompok ganti
+    namaList.innerHTML = '';
+    displayBtn.textContent = 'Pilih Nama';
+    document.getElementById('nama-select').value = '';
+
+    if (!sheetData || !sheetData.pesertabintal) return;
+
+    // Filter berdasarkan Unit dan Kelompok yang dipilih
+    const filtered = sheetData.pesertabintal.filter(p => {
+        const matchUnit = (!unitVal || p.unit === unitVal);
+        const matchKel = (!kelVal || p.kelompok === kelVal);
+        return matchUnit && matchKel;
+    });
+
+    filtered.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'identity-option-item';
+        item.textContent = p.nama;
+        item.onclick = () => {
+            selectOption('nama', p.nama);
+            selectedNama = p.nama; // variabel global untuk simpan
+        };
+        namaList.appendChild(item);
+    });
+}
+// Helper untuk mengubah teks tombol dan input hidden
+function selectOption(id, value) {
+    const container = document.getElementById(`${id}-dropdown`);
+    const btn = container.querySelector('.identity-display-btn');
+    const input = document.getElementById(`${id}-select`);
     
-    setupIdentityDropdowns(); 
-  }
+    btn.textContent = value;
+    btn.setAttribute('data-value', value);
+    input.value = value;
+    container.querySelector('.identity-options-list').style.display = 'none';
+}
   
   function fetchListData() {
     return fetch(APPS_SCRIPT_URL + '?action=getListData')

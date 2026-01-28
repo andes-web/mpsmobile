@@ -940,7 +940,7 @@
     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.location.reload()">Home</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Cetak</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Unduh</button>
-    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-pesertabintal" form="form-pesertabintal" console.log(payload); style="display: block;">Simpan</button>
+    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-pesertabintal" form="form-pesertabintal" style="display: block;">Simpan</button>
     <button type="submit" class="btn btn-primary btn-sm" id="btn-save-panitia" form="form-panitia" style="display: none;">Simpan</button>
 </div>
 
@@ -1381,12 +1381,6 @@ function updateNamaDropdown() {
         namaList.appendChild(item);
     });
 }
-function pilihPeserta(nama, unit, kelompok) {
-  window.selectedNama = nama;
-  window.selectedUnit = unit;
-  window.selectedKelompok = kelompok;
-}
-
 // Helper untuk mengubah teks tombol dan input hidden
 function selectOption(id, value) {
     const container = document.getElementById(`${id}-dropdown`);
@@ -1627,20 +1621,25 @@ function selectOption(id, value) {
     updateTotalScoreDisplay();
   });
 </script>
+</body>
+</html>
+<script>
+async function loadPesertaBintal(){
+  const res = await fetch(GAS_URL + '?action=getPesertaBintal');
+  return res.json();
+}
+</script>
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  // pastikan global ada
-  window.selectedNama = "";
-  window.selectedUnit = "";
-  window.selectedKelompok = "";
-
-  function collectAspekNilai(formEl) {
+  function collectAspekNilai() {
     const aspek = {};
-    formEl.querySelectorAll(".score-custom-dropdown").forEach(el => {
-      const nama = el.getAttribute("data-name");
-      const val  = el.getAttribute("data-value");
-      if (nama && val !== null && val !== "") {
+    document.querySelectorAll(".score-custom-dropdown").forEach(el => {
+      const nama = el.dataset.name;
+      const val  = el.dataset.value;
+      if (nama && val !== undefined && val !== "") {
         aspek[nama] = Number(val) || 0;
       }
     });
@@ -1649,48 +1648,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function submitBintalNonTeknis() {
 
-    // 🔒 VALIDASI KERAS (INI PENTING)
     if (!window.selectedNama || !window.selectedUnit || !window.selectedKelompok) {
-      alert("❌ Peserta / Unit / Kelompok belum dipilih");
+      alert("Peserta belum dipilih");
       return;
     }
-
-    const aspekNilai = collectAspekNilai(
-      document.getElementById("form-pesertabintal")
-    );
 
     const payload = {
       formType: "bintal_nonteknis",
       nama: window.selectedNama,
       unit: window.selectedUnit,
       kelompok: window.selectedKelompok,
-      aspek_nilai: aspekNilai
+      aspek_nilai: collectAspekNilai()
     };
 
     const res = await fetch(SCRIPT_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
     const json = await res.json();
-    alert(json.message || "Submit selesai");
+    alert(json.message || "Selesai");
   }
 
   const btn = document.getElementById("btnSubmitBintal");
   if (btn) btn.addEventListener("click", submitBintalNonTeknis);
-
 });
-</script>
-
-
-</body>
-</html>
-<script>
-async function loadPesertaBintal(){
-  const res = await fetch(GAS_URL + '?action=getPesertaBintal');
-  return res.json();
-}
 </script>

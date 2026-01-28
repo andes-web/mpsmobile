@@ -940,7 +940,7 @@
     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.location.reload()">Home</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Cetak</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Unduh</button>
-    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-pesertabintal" form="form-pesertabintal" style="display: block;">Simpan</button>
+    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-pesertabintal" form="form-pesertabintal" console.log(payload); style="display: block;">Simpan</button>
     <button type="submit" class="btn btn-primary btn-sm" id="btn-save-panitia" form="form-panitia" style="display: none;">Simpan</button>
 </div>
 
@@ -1381,6 +1381,12 @@ function updateNamaDropdown() {
         namaList.appendChild(item);
     });
 }
+function pilihPeserta(nama, unit, kelompok) {
+  window.selectedNama = nama;
+  window.selectedUnit = unit;
+  window.selectedKelompok = kelompok;
+}
+
 // Helper untuk mengubah teks tombol dan input hidden
 function selectOption(id, value) {
     const container = document.getElementById(`${id}-dropdown`);

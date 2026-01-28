@@ -1624,11 +1624,16 @@ function selectOption(id, value) {
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
+  // pastikan global ada
+  window.selectedNama = "";
+  window.selectedUnit = "";
+  window.selectedKelompok = "";
+
   function collectAspekNilai(formEl) {
     const aspek = {};
     formEl.querySelectorAll(".score-custom-dropdown").forEach(el => {
       const nama = el.getAttribute("data-name");
-      const val  = el.getAttribute("data-value"); // ⬅️ WAJIB ADA
+      const val  = el.getAttribute("data-value");
       if (nama && val !== null && val !== "") {
         aspek[nama] = Number(val) || 0;
       }
@@ -1637,20 +1642,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function submitBintalNonTeknis() {
+
+    // 🔒 VALIDASI KERAS (INI PENTING)
+    if (!window.selectedNama || !window.selectedUnit || !window.selectedKelompok) {
+      alert("❌ Peserta / Unit / Kelompok belum dipilih");
+      return;
+    }
+
     const aspekNilai = collectAspekNilai(
       document.getElementById("form-pesertabintal")
     );
 
     const payload = {
       formType: "bintal_nonteknis",
-      nama: window.selectedNama || "",
-      unit: window.selectedUnit || "",
-      kelompok: window.selectedKelompok || "",
+      nama: window.selectedNama,
+      unit: window.selectedUnit,
+      kelompok: window.selectedKelompok,
       aspek_nilai: aspekNilai
     };
 
     const res = await fetch(SCRIPT_URL, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(payload)
     });
 
@@ -1658,11 +1673,12 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(json.message || "Submit selesai");
   }
 
-  // tombol submit (sesuaikan ID tombolmu)
   const btn = document.getElementById("btnSubmitBintal");
   if (btn) btn.addEventListener("click", submitBintalNonTeknis);
+
 });
 </script>
+
 
 </body>
 </html>

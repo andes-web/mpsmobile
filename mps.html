@@ -1394,26 +1394,18 @@ function selectOption(id, value) {
 }
   
   function fetchListData() {
-    return fetch(APPS_SCRIPT_URL + '?action=getListData')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Kesalahan Jaringan: ${response.status} - ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(jsonResponse => {
-            if (jsonResponse.success) {
-                return jsonResponse.data;
-            } else {
-                throw new Error(jsonResponse.message || 'Respons server Apps Script gagal.');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching list data:', error);
-            showToast(`Gagal memuat data dari Sheets: ${error.message}.`, false);
-            return null;
-        });
-  }
+  return new Promise(resolve => {
+    const cb = "cb_" + Date.now();
+    window[cb] = data => {
+      resolve(data);
+      delete window[cb];
+    };
+
+    const s = document.createElement("script");
+    s.src = APPS_SCRIPT_URL + "?action=getListData&callback=" + cb;
+    document.body.appendChild(s);
+  });
+}
 
   // FUNGSI BARU: Load data skor dari Google Sheets
   function loadScoreData(nama) {

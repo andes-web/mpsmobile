@@ -1653,12 +1653,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-const payload = {
-  form: "bintal_nonteknis",
-  nama: document.getElementById("nama").value,
-  aspek_nilai: nilaiObj
-};
-
+    const payload = {
+      formType: "bintal_nonteknis",
+      nama: window.selectedNama,
+      unit: window.selectedUnit,
+      kelompok: window.selectedKelompok,
+      aspek_nilai: collectAspekNilai()
+    };
 
     const res = await fetch(APPS_SCRIPT_URL, {
       method: "POST",

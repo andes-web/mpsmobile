@@ -1625,7 +1625,7 @@ function selectOption(id, value) {
 </html>
 <script>
 async function loadPesertaBintal(){
-  const res = await fetch(APPS_SCRIPT_URL + '?action=getPesertaBintal');
+  const res = await fetch(GAS_URL + '?action=getPesertaBintal');
   return res.json();
 }
 </script>
@@ -1653,13 +1653,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const payload = {
-      formType: "bintal_nonteknis",
-      nama: window.selectedNama,
-      unit: window.selectedUnit,
-      kelompok: window.selectedKelompok,
-      aspek_nilai: collectAspekNilai()
-    };
+const payload = {
+  form: "bintal_nonteknis",
+  nama: document.getElementById("nama").value,
+  aspek_nilai: nilaiObj
+};
+
 
     const res = await fetch(APPS_SCRIPT_URL, {
       method: "POST",

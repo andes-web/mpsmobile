@@ -1621,6 +1621,53 @@ function selectOption(id, value) {
     updateTotalScoreDisplay();
   });
 </script>
+<script>
+document.getElementById("formNBNT").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const btn = document.querySelector("button[type=submit]");
+  btn.disabled = true;
+
+  const aspek = {};
+  document.querySelectorAll("[data-aspek]").forEach(el=>{
+    aspek[el.dataset.aspek] = Number(el.value) || 0;
+  });
+
+  const payload = {
+    formType: "bintal_nonteknis",   // ⬅️ WAJIB PERSIS
+    nama: document.getElementById("nama").value.trim(),
+    unit: document.getElementById("unit").value.trim(),
+    kelompok: document.getElementById("kelompok").value.trim(),
+    aspek_nilai: aspek
+  };
+
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const json = await res.json();
+
+    if (json.status === "success") {
+      alert("Data berhasil disimpan");
+      this.reset();
+    } else {
+      throw json;
+    }
+
+  } catch (err) {
+    alert("GAGAL menyimpan data\n" + (err.message || err));
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+
 </body>
 </html>
 <script>

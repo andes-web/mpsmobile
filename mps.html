@@ -1527,14 +1527,12 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 <script>
 function renderUnit() {
-  const list = document.getElementById("unit-options-list");
-  list.innerHTML = "";
-  Object.keys(DATA_IDENTITAS).forEach(unit => {
-    const div = document.createElement("div");
-    div.textContent = unit;
-    div.onclick = () => pilihUnit(unit);
-    list.appendChild(div);
-  });
+  if (!Array.isArray(peserta) || peserta.length === 0) return;
+
+  const units = [...new Set(peserta.map(p => p.Unit))];
+  listUnit.innerHTML = units
+    .map(u => `<div onclick="pilihUnit('${u}')">${u}</div>`)
+    .join("");
 }
 
 function pilihUnit(unit) {
@@ -1672,5 +1670,40 @@ function simpan(){
   }).then(r=>r.text()).then(a=>alert(a));
 }
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // === AMBIL ELEMENT DULU ===
+  window.btnUnit = document.getElementById("btnUnit");
+  window.btnKelompok = document.getElementById("btnKelompok");
+  window.btnNama = document.getElementById("btnNama");
+
+  window.listUnit = document.getElementById("listUnit");
+  window.listKelompok = document.getElementById("listKelompok");
+  window.listNama = document.getElementById("listNama");
+
+  window.Unit = document.getElementById("Unit");
+  window.Kelompok = document.getElementById("Kelompok");
+  window.Nama = document.getElementById("Nama");
+
+  window.peserta = [];
+
+  // === FETCH DATA PESERTA ===
+  fetch(GAS_URL + "?action=getPeserta")
+    .then(res => res.text())
+    .then(txt => {
+      const data = JSON.parse(txt);
+      if (!Array.isArray(data)) throw new Error("Data bukan array");
+      peserta = data;
+      renderUnit();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Gagal memuat data dari Sheets");
+    });
+
+});
+</script>
+
 </body>
 </html>

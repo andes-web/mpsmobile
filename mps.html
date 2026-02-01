@@ -1623,23 +1623,26 @@ function selectOption(id, value) {
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("formNBNT");
+
+  const form = document.getElementById("form-pesertabintal");
   if (!form) {
-    console.error("formNBNT tidak ditemukan");
+    console.error("form-pesertabintal tidak ditemukan");
     return;
   }
 
   form.addEventListener("submit", async function(e){
     e.preventDefault();
 
-    const btn = e.submitter || this.querySelector("button[type=submit]");
+    const btn = e.submitter;
     if (btn) btn.disabled = true;
 
     const aspek = {};
-    document.querySelectorAll("[data-aspek]").forEach(el=>{
-      const key = el.dataset.aspek;
-      const val = el.value;
-      if (key && val !== "") aspek[key] = Number(val) || 0;
+    document.querySelectorAll(".score-custom-dropdown").forEach(el => {
+      const nama = el.dataset.name;
+      const val  = el.dataset.value;
+      if (nama && val !== undefined && val !== "") {
+        aspek[nama] = Number(val) || 0;
+      }
     });
 
     if (!Object.keys(aspek).length) {
@@ -1650,13 +1653,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const payload = {
       formType: "bintal_nonteknis",
-      nama: document.getElementById("nama")?.value.trim(),
-      unit: document.getElementById("unit")?.value.trim(),
-      kelompok: document.getElementById("kelompok")?.value.trim(),
+      nama: document.getElementById("nama-select")?.value.trim(),
+      unit: document.getElementById("unit-select")?.value.trim(),
+      kelompok: document.getElementById("kelompok-select")?.value.trim(),
       aspek_nilai: aspek
     };
 
-    console.log("PAYLOAD:", payload);
+    console.log("PAYLOAD NBNT:", payload);
 
     try {
       const res = await fetch(SCRIPT_URL, {
@@ -1669,13 +1672,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (json.status === "success") {
         alert("Data berhasil disimpan");
-        this.reset();
+        form.reset();
       } else {
         throw json;
       }
 
     } catch (err) {
-      alert("GAGAL menyimpan data\n" + (err.message || err));
+      alert("Gagal menyimpan\n" + (err.message || err));
       console.error(err);
     } finally {
       if (btn) btn.disabled = false;

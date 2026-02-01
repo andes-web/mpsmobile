@@ -1700,14 +1700,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function collectAspekNilai() {
     const aspek = {};
-    document.querySelectorAll(".score-custom-dropdown").forEach(el => {
-      const nama = el.dataset.name;
-      const val = el.dataset.value || el.dataset.score || el.innerText;
-      if (nama && val !== undefined && val !== "") {
-        aspek[nama] = Number(val) || 0;
-      }
-    });
-    return aspek;
+document.querySelectorAll(".score-custom-dropdown").forEach(el => {
+  const nama = el.dataset.name;
+  const val  = el.dataset.value;
+  if (nama) {
+    aspek[nama] = Number(val) || 0;
+  }
+});
+
+// VALIDASI YANG BENAR
+const totalNilai = Object.values(aspek).reduce((a,b)=>a+b,0);
+if (totalNilai === 0) {
+  alert("Nilai belum diisi");
+  return;
+}
+
   }
 
   async function submitBintalNonTeknis(e) {

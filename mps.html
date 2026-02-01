@@ -1593,6 +1593,16 @@ function simpanSemua() {
   }).simpanNilaiNBN(payload);
 }
 </script>
-
+<script>
+google.script.run.withSuccessHandler(res => {
+  if (res.ERROR) {
+    alert("ERROR SERVER:\n" + res.ERROR);
+    console.error(res.ERROR);
+    return;
+  }
+  DATA_IDENTITAS = res;
+  renderUnit();
+}).getIdentitasPeserta();
+</script>
 </body>
 </html>

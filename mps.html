@@ -1604,5 +1604,58 @@ google.script.run.withSuccessHandler(res => {
   renderUnit();
 }).getIdentitasPeserta();
 </script>
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
+
+let peserta = [];
+
+fetch(GAS_URL + "?action=getPeserta")
+.then(r=>r.json())
+.then(d=>{
+  peserta = d;
+  renderUnit();
+});
+
+function renderUnit(){
+  const u = [...new Set(peserta.map(x=>x.Unit))];
+  listUnit.innerHTML = u.map(v=>`<div onclick="pilihUnit('${v}')">${v}</div>`).join("");
+}
+
+btnUnit.onclick=()=>listUnit.style.display='block';
+btnKelompok.onclick=()=>listKelompok.style.display='block';
+btnNama.onclick=()=>listNama.style.display='block';
+
+function pilihUnit(v){
+  Unit.value=v; btnUnit.innerText=v;
+  listUnit.style.display='none';
+  const k = [...new Set(peserta.filter(x=>x.Unit==v).map(x=>x.Kelompok))];
+  listKelompok.innerHTML = k.map(v=>`<div onclick="pilihKelompok('${v}')">${v}</div>`).join("");
+}
+
+function pilihKelompok(v){
+  Kelompok.value=v; btnKelompok.innerText=v;
+  listKelompok.style.display='none';
+  const n = peserta.filter(x=>x.Unit==Unit.value && x.Kelompok==v);
+  listNama.innerHTML = n.map(v=>`<div onclick="pilihNama('${v.Nama}')">${v.Nama}</div>`).join("");
+}
+
+function pilihNama(v){
+  Nama.value=v; btnNama.innerText=v;
+  listNama.style.display='none';
+}
+
+function simpan(){
+  if(!Unit.value||!Kelompok.value||!Nama.value){alert("Identitas belum lengkap");return;}
+  const payload={
+    Unit:Unit.value,
+    Kelompok:Kelompok.value,
+    Nama:Nama.value
+  };
+  fetch(GAS_URL,{
+    method:"POST",
+    body:JSON.stringify(payload)
+  }).then(r=>r.text()).then(a=>alert(a));
+}
+</script>
 </body>
 </html>

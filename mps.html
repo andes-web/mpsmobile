@@ -1621,72 +1621,11 @@ function selectOption(id, value) {
     updateTotalScoreDisplay();
   });
 </script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("formNBNT");
-  if (!form) {
-    console.error("formNBNT tidak ditemukan");
-    return;
-  }
-
-  form.addEventListener("submit", async function(e){
-    e.preventDefault();
-
-    const btn = e.submitter || this.querySelector("button[type=submit]");
-    if (btn) btn.disabled = true;
-
-    const aspek = {};
-    document.querySelectorAll("[data-aspek]").forEach(el=>{
-      const key = el.dataset.aspek;
-      const val = el.value;
-      if (key && val !== "") aspek[key] = Number(val) || 0;
-    });
-
-    if (!Object.keys(aspek).length) {
-      alert("Nilai belum diisi");
-      if (btn) btn.disabled = false;
-      return;
-    }
-
-    const payload = {
-      formType: "bintal_nonteknis",
-      nama: document.getElementById("nama")?.value.trim(),
-      unit: document.getElementById("unit")?.value.trim(),
-      kelompok: document.getElementById("kelompok")?.value.trim(),
-      aspek_nilai: aspek
-    };
-
-    console.log("PAYLOAD:", payload);
-
-    try {
-      const res = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      const json = await res.json();
-
-      if (json.status === "success") {
-        alert("Data berhasil disimpan");
-        this.reset();
-      } else {
-        throw json;
-      }
-
-    } catch (err) {
-      alert("GAGAL menyimpan data\n" + (err.message || err));
-      console.error(err);
-    } finally {
-      if (btn) btn.disabled = false;
-    }
-  });
-});
-</script>
-
+</body>
+</html>
 <script>
 async function loadPesertaBintal(){
-  const res = await fetch(APPS_GAS_URL + '?action=getPesertaBintal');
+  const res = await fetch(GAS_URL + '?action=getPesertaBintal');
   return res.json();
 }
 </script>
@@ -1699,7 +1638,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const aspek = {};
     document.querySelectorAll(".score-custom-dropdown").forEach(el => {
       const nama = el.dataset.name;
-      const val = el.dataset.value || el.dataset.score || el.innerText;
+      const val  = el.dataset.value;
       if (nama && val !== undefined && val !== "") {
         aspek[nama] = Number(val) || 0;
       }
@@ -1707,8 +1646,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return aspek;
   }
 
-  async function submitBintalNonTeknis(e) {
-    if (e) e.preventDefault();
+  async function submitBintalNonTeknis() {
 
     if (!window.selectedNama || !window.selectedUnit || !window.selectedKelompok) {
       alert("Peserta belum dipilih");
@@ -1723,8 +1661,6 @@ document.addEventListener("DOMContentLoaded", () => {
       aspek_nilai: collectAspekNilai()
     };
 
-    console.log("PAYLOAD:", payload);
-
     const res = await fetch(APPS_SCRIPT_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1736,55 +1672,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const btn = document.getElementById("btnSubmitBintal");
-  if (btn) {
-    btn.addEventListener("click", submitBintalNonTeknis);
-  }
+  if (btn) btn.addEventListener("click", submitBintalNonTeknis);
 });
 </script>
-
-
-<!-- ===== PATCH NBNT SUBMIT (TANPA UBAH STRUKTUR) ===== -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("form-pesertabintal");
-  if (!form) {
-    console.error("form-pesertabintal tidak ditemukan");
-    return;
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const aspek = {};
-    document.querySelectorAll(".score-custom-dropdown").forEach(el => {
-      const nama = el.dataset.name;
-      const val  = Number(el.dataset.value || 0);
-      aspek[nama] = val;
-    });
-
-    const payload = {
-      formType: "bintal_nonteknis",
-      nama: document.getElementById("nama-select")?.value || "",
-      unit: document.getElementById("unit-select")?.value || "",
-      kelompok: document.getElementById("kelompok-select")?.value || "",
-      aspek_nilai: aspek
-    };
-
-    console.log("PATCH Sending:", payload);
-
-    const res = await fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(payload)
-    });
-
-    const json = await res.json();
-    alert(json.message || "Selesai");
-  });
-});
-</script>
-<!-- ===== END PATCH ===== -->
-
-</body>
-</html>
-

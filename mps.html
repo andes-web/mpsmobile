@@ -698,52 +698,6 @@
         padding: 8px 4px;
       }
     }
-    .identity-custom-dropdown {
-    position: relative;
-}
-
-.identity-options-list {
-    display: none; /* Default sembunyi */
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-    background: #1a1f3a; /* Warna dark */
-    border: 1px solid #00d4ff;
-    z-index: 1050;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-.identity-option-item {
-    padding: 8px 12px;
-    cursor: pointer;
-    color: #e2e8f0;
-    border-bottom: 1px solid #2d3748;
-}
-
-.identity-option-item:hover {
-    background: #00d4ff;
-    color: #000;
-}
-/* Media Query Khusus Mobile (Layar di bawah 768px) */
-@media (max-width: 767px) {
-    /* Mengatur lebar container agar tidak dipaksa turun ke bawah (stacking) */
-    .identity-container .col-8 {
-        width: 55% !important; /* Paksa lebar Unit */
-    }
-    .identity-container .col-4 {
-        width: 45% !important; /* Paksa lebar Kelompok */
-    }
-
-    /* Mengatur ukuran font agar pas di layar kecil */
-    .identity-display-btn {
-        font-size: 16px !important; 
-        padding: 5px 5px !important;
-        height: 38px !important;
-    }
-}
   </style>
 </head>
 <body>
@@ -758,9 +712,9 @@
 <div class="sticky-assessment-header">
     <div class="container-fluid">
         <div class="row g-1 identity-container">
-            <h5 class="mb-2 text-secondary d-none d-md-block">✅ Data Yang Dinilai</h5>
+            <h5 class="mb-2 text-secondary d-none d-md-block">👥 Data Yang Dinilai</h5>
             
-            <div class="col-8">
+            <div class="col-6">
                 <div class="identity-custom-dropdown" id="unit-dropdown" data-target-id="unit-select">
                     <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Unit...</button>
                     <div class="identity-options-list" id="unit-options-list"></div>
@@ -768,9 +722,9 @@
                 </div>
             </div>
             
-            <div class="col-4">
+            <div class="col-6">
                 <div class="identity-custom-dropdown" id="kelompok-dropdown" data-target-id="kelompok-select">
-                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Kelompok</button>
+                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Kelompok...</button>
                     <div class="identity-options-list" id="kelompok-options-list"></div>
                     <input type="hidden" id="kelompok-select" name="Kelompok" value="">
                 </div>
@@ -778,7 +732,7 @@
             
             <div class="col-12 mt-2">
                 <div class="identity-custom-dropdown" id="nama-dropdown" data-target-id="nama-select">
-                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Pilih Nama</button>
+                    <button class="identity-display-btn form-select-sm text-start" type="button" data-value="">Pilih Nama...</button>
                     <div class="identity-options-list" id="nama-options-list"></div>
                     <input type="hidden" id="nama-select" name="Nama" value="">
                 </div>
@@ -786,9 +740,9 @@
         </div>
 
         <div class="row tab-header-row">
-            <div class="col-6 header-tab active" id="tab-pesertabintal" onclick="switchTab('pesertabintal')">
+            <div class="col-6 header-tab active" id="tab-peserta" onclick="switchTab('peserta')">
                 <span class="tab-name-text">PESERTA</span>
-                <span class="tab-total-score" id="total-score-pesertabintal">0</span>
+                <span class="tab-total-score" id="total-score-peserta">0</span>
             </div>
             <div class="col-6 header-tab" id="tab-panitia" onclick="switchTab('panitia')">
                 <span class="tab-name-text">PANITIA</span>
@@ -812,8 +766,8 @@
 <div class="assessment-scroll-area">
 <div style="padding-bottom: 80px;">
 
-  <div id="content-pesertabintal" class="assessment-content">
-    <form id="form-pesertabintal">
+  <div id="content-peserta" class="assessment-content">
+    <form id="form-peserta">
       
       <div class="accordion accordion-content-area" id="accordionPesertaContent">
         <div id="collapseIndividu" class="accordion-collapse collapse" data-bs-parent="#accordionPesertaContent"><div class="accordion-body p-0">
@@ -940,7 +894,7 @@
     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.location.reload()">Home</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Cetak</button>
     <button type="button" class="btn btn-secondary btn-sm disabled">Unduh</button>
-    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-pesertabintal" form="form-pesertabintal" console.log(payload); style="display: block;">Simpan</button>
+    <button type="submit" class="btn btn-primary btn-sm" id="btn-save-peserta" form="form-peserta" style="display: block;">Simpan</button>
     <button type="submit" class="btn btn-primary btn-sm" id="btn-save-panitia" form="form-panitia" style="display: none;">Simpan</button>
 </div>
 
@@ -977,10 +931,10 @@
   }
 
   function updateTotalScoreDisplay() {
-      const scorePeserta = calculateTotalScore('pesertabintal');
+      const scorePeserta = calculateTotalScore('peserta');
       const scorePanitia = calculateTotalScore('panitia');
       
-      document.getElementById('total-score-pesertabintal').textContent = scorePeserta;
+      document.getElementById('total-score-peserta').textContent = scorePeserta;
       document.getElementById('total-score-panitia').textContent = scorePanitia;
   }
 
@@ -1079,7 +1033,7 @@
     const namaInput = document.getElementById('nama-select');
     const namaList = document.getElementById('nama-options-list');
     
-    namaBtn.textContent = 'Pilih Nama';
+    namaBtn.textContent = 'Pilih Nama...';
     namaBtn.setAttribute('data-value', '');
     namaInput.value = '';
     
@@ -1158,32 +1112,32 @@
   }
 
   function setupIdentityDropdowns() {
-    // Daftar ID dropdown sesuai HTML Anda
-    const ids = ['unit', 'kelompok', 'nama'];
-    
-    ids.forEach(id => {
-        const container = document.getElementById(`${id}-dropdown`);
-        if (!container) return;
+    document.querySelectorAll('.identity-custom-dropdown').forEach(dropdown => {
+        const displayBtn = dropdown.querySelector('.identity-display-btn');
+        const optionsList = dropdown.querySelector('.identity-options-list');
+        const targetId = dropdown.getAttribute('data-target-id');
 
-        const btn = container.querySelector('.identity-display-btn');
-        const list = container.querySelector('.identity-options-list');
-
-        btn.onclick = (e) => {
+        displayBtn.onclick = function(e) { 
             e.stopPropagation();
-            // Tutup semua list yang terbuka
-            document.querySelectorAll('.identity-options-list').forEach(el => {
-                if (el !== list) el.style.display = 'none';
+            
+            document.querySelectorAll('.identity-options-list').forEach(list => {
+                if (list !== optionsList) {
+                    list.style.display = 'none';
+                }
             });
-            // Toggle list ini
-            list.style.display = (list.style.display === 'block') ? 'none' : 'block';
+            document.querySelectorAll('.score-options-list').forEach(list => list.style.display = 'none'); 
+
+            optionsList.style.display = optionsList.style.display === 'block' ? 'none' : 'block';
         };
+
+        optionsList.onclick = (e) => handleIdentityOptionClick(e, targetId);
     });
 
-    // Klik di luar untuk menutup
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.identity-options-list').forEach(el => el.style.display = 'none');
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.identity-options-list').forEach(list => list.style.display = 'none');
+        document.querySelectorAll('.score-options-list').forEach(list => list.style.display = 'none');
     });
-}
+  }
 
   function resetScoreInputs(closeAccordion = true) {
     if (closeAccordion) {
@@ -1279,14 +1233,14 @@
 
   function switchTab(role) {
     currentRole = role;
-    document.getElementById('tab-pesertabintal').classList.remove('active');
+    document.getElementById('tab-peserta').classList.remove('active');
     document.getElementById('tab-panitia').classList.remove('active');
     document.getElementById(`tab-${role}`).classList.add('active');
 
-    document.getElementById('content-pesertabintal').style.display = (role === 'pesertabintal') ? 'block' : 'none';
+    document.getElementById('content-peserta').style.display = (role === 'peserta') ? 'block' : 'none';
     document.getElementById('content-panitia').style.display = (role === 'panitia') ? 'block' : 'none';
     
-    document.getElementById('btn-save-pesertabintal').style.display = (role === 'pesertabintal') ? 'block' : 'none';
+    document.getElementById('btn-save-peserta').style.display = (role === 'peserta') ? 'block' : 'none';
     document.getElementById('btn-save-panitia').style.display = (role === 'panitia') ? 'block' : 'none';
     
     populateIdentity(sheetData[role], sheetData.units, sheetData.kelompok);
@@ -1309,95 +1263,29 @@
     updateTotalScoreDisplay();
   }
 
-  function populateIdentity(peserta, units, kelompok) {
+  function populateIdentity(data, units, kelompok) {
     const unitList = document.getElementById('unit-options-list');
-    const kelList = document.getElementById('kelompok-options-list');
+    const kelompokList = document.getElementById('kelompok-options-list');
 
-    // 1. Isi Dropdown Unit (Urutkan A-Z)
     unitList.innerHTML = '';
-    const sortedUnits = [...new Set(units)].filter(Boolean).sort();
-    sortedUnits.forEach(u => {
-        const item = document.createElement('div');
-        item.className = 'identity-option-item';
-        item.textContent = u;
-        item.onclick = () => {
-            selectOption('unit', u);
-            updateNamaDropdown();
-        };
-        unitList.appendChild(item);
-    });
-
-    // 2. Isi Dropdown Kelompok (Urutan Numerik yang Benar & Anti-NaN)
-    kelList.innerHTML = '';
+    kelompokList.innerHTML = '';
     
-    // Gunakan Intl.Collator untuk mengurutkan secara alami (Natural Sort)
-    // Ini akan mengurutkan 1, 2, 10 secara benar tanpa merubahnya menjadi NaN
-    const sortedKelompok = [...new Set(kelompok)].filter(Boolean).sort((a, b) => {
-        return a.toString().localeCompare(b.toString(), undefined, {
-            numeric: true,
-            sensitivity: 'base'
-        });
-    });
+    const createOption = (value, text) => `<div class="identity-option" data-value="${value}">${text}</div>`;
 
-    sortedKelompok.forEach(k => {
-        const item = document.createElement('div');
-        item.className = 'identity-option-item';
-        item.textContent = k;
-        item.onclick = () => {
-            selectOption('kelompok', k);
-            updateNamaDropdown();
-        };
-        kelList.appendChild(item);
-    });
-}
-function updateNamaDropdown() {
-    const unitVal = document.getElementById('unit-select').value;
-    const kelVal = document.getElementById('kelompok-select').value;
-    const namaList = document.getElementById('nama-options-list');
-    const displayBtn = document.querySelector('#nama-dropdown .identity-display-btn');
-
-    // Reset nama jika unit/kelompok ganti
-    namaList.innerHTML = '';
-    displayBtn.textContent = 'Pilih Nama';
-    document.getElementById('nama-select').value = '';
-
-    if (!sheetData || !sheetData.pesertabintal) return;
-
-    // Filter berdasarkan Unit dan Kelompok yang dipilih
-    const filtered = sheetData.pesertabintal.filter(p => {
-        const matchUnit = (!unitVal || p.unit === unitVal);
-        const matchKel = (!kelVal || p.kelompok === kelVal);
-        return matchUnit && matchKel;
-    });
-
-    filtered.forEach(p => {
-        const item = document.createElement('div');
-        item.className = 'identity-option-item';
-        item.textContent = p.nama;
-        item.onclick = () => {
-            selectOption('nama', p.nama);
-            selectedNama = p.nama; // variabel global untuk simpan
-        };
-        namaList.appendChild(item);
-    });
-}
-function pilihPeserta(nama, unit, kelompok) {
-  window.selectedNama = nama;
-  window.selectedUnit = unit;
-  window.selectedKelompok = kelompok;
-}
-
-// Helper untuk mengubah teks tombol dan input hidden
-function selectOption(id, value) {
-    const container = document.getElementById(`${id}-dropdown`);
-    const btn = container.querySelector('.identity-display-btn');
-    const input = document.getElementById(`${id}-select`);
+    if (units) {
+        units.sort(naturalSort);
+        units.forEach(u => unitList.innerHTML += createOption(u, u));
+    }
+    if (kelompok) {
+        kelompok.sort(naturalSort);
+        kelompok.forEach(k => kelompokList.innerHTML += createOption(k, k));
+    }
     
-    btn.textContent = value;
-    btn.setAttribute('data-value', value);
-    input.value = value;
-    container.querySelector('.identity-options-list').style.display = 'none';
-}
+    resetIdentityInputs();
+    filterAndPopulateNama(); 
+    
+    setupIdentityDropdowns(); 
+  }
   
   function fetchListData() {
     return fetch(APPS_SCRIPT_URL + '?action=getListData')
@@ -1618,9 +1506,9 @@ function selectOption(id, value) {
     const data = await fetchListData();
     if (data) {
         sheetData = data;
-        populateIdentity(sheetData.pesertabintal, sheetData.units, sheetData.kelompok);
+        populateIdentity(sheetData.peserta, sheetData.units, sheetData.kelompok);
     }
-    document.getElementById('form-pesertabintal').addEventListener('submit', handleFormSubmission);
+    document.getElementById('form-peserta').addEventListener('submit', handleFormSubmission);
     document.getElementById('form-panitia').addEventListener('submit', handleFormSubmission);
     
     setupAccordionMapping();
@@ -1628,69 +1516,83 @@ function selectOption(id, value) {
   });
 </script>
 <script>
+let DATA_IDENTITAS = {};
+
 document.addEventListener("DOMContentLoaded", () => {
-
-  // pastikan global ada
-  window.selectedNama = "";
-  window.selectedUnit = "";
-  window.selectedKelompok = "";
-
-  function collectAspekNilai(formEl) {
-    const aspek = {};
-    formEl.querySelectorAll(".score-custom-dropdown").forEach(el => {
-      const nama = el.getAttribute("data-name");
-      const val  = el.getAttribute("data-value");
-      if (nama && val !== null && val !== "") {
-        aspek[nama] = Number(val) || 0;
-      }
-    });
-    return aspek;
-  }
-
-  async function submitBintalNonTeknis() {
-
-    // 🔒 VALIDASI KERAS (INI PENTING)
-    if (!window.selectedNama || !window.selectedUnit || !window.selectedKelompok) {
-      alert("❌ Peserta / Unit / Kelompok belum dipilih");
-      return;
-    }
-
-    const aspekNilai = collectAspekNilai(
-      document.getElementById("form-pesertabintal")
-    );
-
-    const payload = {
-      formType: "bintal_nonteknis",
-      nama: window.selectedNama,
-      unit: window.selectedUnit,
-      kelompok: window.selectedKelompok,
-      aspek_nilai: aspekNilai
-    };
-
-    const res = await fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const json = await res.json();
-    alert(json.message || "Submit selesai");
-  }
-
-  const btn = document.getElementById("btnSubmitBintal");
-  if (btn) btn.addEventListener("click", submitBintalNonTeknis);
-
+  google.script.run.withSuccessHandler(data => {
+    DATA_IDENTITAS = data;
+    renderUnit();
+  }).getIdentitasPeserta();
 });
 </script>
+<script>
+function renderUnit() {
+  const list = document.getElementById("unit-options-list");
+  list.innerHTML = "";
+  Object.keys(DATA_IDENTITAS).forEach(unit => {
+    const div = document.createElement("div");
+    div.textContent = unit;
+    div.onclick = () => pilihUnit(unit);
+    list.appendChild(div);
+  });
+}
 
+function pilihUnit(unit) {
+  setValue("unit", unit);
+  renderKelompok(unit);
+}
+
+function renderKelompok(unit) {
+  const list = document.getElementById("kelompok-options-list");
+  list.innerHTML = "";
+  Object.keys(DATA_IDENTITAS[unit]).forEach(kelompok => {
+    const div = document.createElement("div");
+    div.textContent = kelompok;
+    div.onclick = () => pilihKelompok(unit, kelompok);
+    list.appendChild(div);
+  });
+}
+
+function pilihKelompok(unit, kelompok) {
+  setValue("kelompok", kelompok);
+  renderNama(unit, kelompok);
+}
+
+function renderNama(unit, kelompok) {
+  const list = document.getElementById("nama-options-list");
+  list.innerHTML = "";
+  DATA_IDENTITAS[unit][kelompok].forEach(nama => {
+    const div = document.createElement("div");
+    div.textContent = nama;
+    div.onclick = () => setValue("nama", nama);
+    list.appendChild(div);
+  });
+}
+
+function setValue(id, val) {
+  document.getElementById(id + "-select").value = val;
+  document.querySelector("#" + id + "-dropdown button").textContent = val;
+}
+</script>
+<script>
+function simpanSemua() {
+  const payload = {
+    Unit: unit-select.value,
+    Kelompok: kelompok-select.value,
+    Nama: nama-select.value
+  };
+
+  document.querySelectorAll(".score-custom-dropdown").forEach(el => {
+    const key = el.dataset.name;
+    const val = el.getAttribute("data-value") || "";
+    payload[key] = val;
+  });
+
+  google.script.run.withSuccessHandler(res => {
+    alert("✅ Data berhasil disimpan");
+  }).simpanNilaiNBN(payload);
+}
+</script>
 
 </body>
 </html>
-<script>
-async function loadPesertaBintal(){
-  const res = await fetch(GAS_URL + '?action=getPesertaBintal');
-  return res.json();
-}
-</script>

@@ -1762,6 +1762,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const unitDropdown = document.getElementById("unit-dropdown");
+  const unitBtn = unitDropdown.querySelector("button");
+  const unitList = document.getElementById("unit-options-list");
+  const unitInput = document.getElementById("unit-select");
+
+  const kelompokDropdown = document.getElementById("kelompok-dropdown");
+  const kelompokBtn = kelompokDropdown.querySelector("button");
+  const kelompokList = document.getElementById("kelompok-options-list");
+  const kelompokInput = document.getElementById("kelompok-select");
+
+  const namaDropdown = document.getElementById("nama-dropdown");
+  const namaBtn = namaDropdown.querySelector("button");
+  const namaList = document.getElementById("nama-options-list");
+  const namaInput = document.getElementById("nama-select");
+
+  let peserta = [];
+
+  fetch(GAS_URL + "?action=getPeserta")
+    .then(r => r.text())
+    .then(t => {
+      const data = JSON.parse(t);
+      peserta = data;
+      renderUnit();
+    });
+
+  function renderUnit() {
+    unitList.innerHTML = "";
+    [...new Set(peserta.map(p => p.Unit))].forEach(u => {
+      const d = document.createElement("div");
+      d.textContent = u;
+      d.onclick = () => pilihUnit(u);
+      unitList.appendChild(d);
+    });
+  }
+
+  function pilihUnit(u) {
+    unitBtn.textContent = u;
+    unitInput.value = u;
+    unitList.style.display = "none";
+  }
+
+});
+</script>
 
 </body>
 </html>

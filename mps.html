@@ -1393,7 +1393,7 @@ function selectOption(id, value) {
     container.querySelector('.identity-options-list').style.display = 'none';
 }
 
-fetch(GAS_URL, {
+fetch(APPS_GAS_URL, {
   method: "POST",
   body: JSON.stringify({
     formType: "NBN",

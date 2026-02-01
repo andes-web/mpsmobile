@@ -1623,26 +1623,23 @@ function selectOption(id, value) {
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-  const form = document.getElementById("form-pesertabintal");
+  const form = document.getElementById("formNBNT");
   if (!form) {
-    console.error("form-pesertabintal tidak ditemukan");
+    console.error("formNBNT tidak ditemukan");
     return;
   }
 
   form.addEventListener("submit", async function(e){
     e.preventDefault();
 
-    const btn = e.submitter;
+    const btn = e.submitter || this.querySelector("button[type=submit]");
     if (btn) btn.disabled = true;
 
     const aspek = {};
-    document.querySelectorAll(".score-custom-dropdown").forEach(el => {
-      const nama = el.dataset.name;
-      const val  = el.dataset.value;
-      if (nama && val !== undefined && val !== "") {
-        aspek[nama] = Number(val) || 0;
-      }
+    document.querySelectorAll("[data-aspek]").forEach(el=>{
+      const key = el.dataset.aspek;
+      const val = el.value;
+      if (key && val !== "") aspek[key] = Number(val) || 0;
     });
 
     if (!Object.keys(aspek).length) {
@@ -1653,13 +1650,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const payload = {
       formType: "bintal_nonteknis",
-      nama: document.getElementById("nama-select")?.value.trim(),
-      unit: document.getElementById("unit-select")?.value.trim(),
-      kelompok: document.getElementById("kelompok-select")?.value.trim(),
+      nama: document.getElementById("nama")?.value.trim(),
+      unit: document.getElementById("unit")?.value.trim(),
+      kelompok: document.getElementById("kelompok")?.value.trim(),
       aspek_nilai: aspek
     };
 
-    console.log("PAYLOAD NBNT:", payload);
+    console.log("PAYLOAD:", payload);
 
     try {
       const res = await fetch(SCRIPT_URL, {
@@ -1672,13 +1669,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (json.status === "success") {
         alert("Data berhasil disimpan");
-        form.reset();
+        this.reset();
       } else {
         throw json;
       }
 
     } catch (err) {
-      alert("Gagal menyimpan\n" + (err.message || err));
+      alert("GAGAL menyimpan data\n" + (err.message || err));
       console.error(err);
     } finally {
       if (btn) btn.disabled = false;
@@ -1700,21 +1697,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function collectAspekNilai() {
     const aspek = {};
-document.querySelectorAll(".score-custom-dropdown").forEach(el => {
-  const nama = el.dataset.name;
-  const val  = el.dataset.value;
-  if (nama) {
-    aspek[nama] = Number(val) || 0;
-  }
-});
-
-// VALIDASI YANG BENAR
-const totalNilai = Object.values(aspek).reduce((a,b)=>a+b,0);
-if (totalNilai === 0) {
-  alert("Nilai belum diisi");
-  return;
-}
-
+    document.querySelectorAll(".score-custom-dropdown").forEach(el => {
+      const nama = el.dataset.name;
+      const val = el.dataset.value || el.dataset.score || el.innerText;
+      if (nama && val !== undefined && val !== "") {
+        aspek[nama] = Number(val) || 0;
+      }
+    });
+    return aspek;
   }
 
   async function submitBintalNonTeknis(e) {
@@ -1751,6 +1741,49 @@ if (totalNilai === 0) {
   }
 });
 </script>
+
+
+<!-- ===== PATCH NBNT SUBMIT (TANPA UBAH STRUKTUR) ===== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form-pesertabintal");
+  if (!form) {
+    console.error("form-pesertabintal tidak ditemukan");
+    return;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const aspek = {};
+    document.querySelectorAll(".score-custom-dropdown").forEach(el => {
+      const nama = el.dataset.name;
+      const val  = Number(el.dataset.value || 0);
+      aspek[nama] = val;
+    });
+
+    const payload = {
+      formType: "bintal_nonteknis",
+      nama: document.getElementById("nama-select")?.value || "",
+      unit: document.getElementById("unit-select")?.value || "",
+      kelompok: document.getElementById("kelompok-select")?.value || "",
+      aspek_nilai: aspek
+    };
+
+    console.log("PATCH Sending:", payload);
+
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    const json = await res.json();
+    alert(json.message || "Selesai");
+  });
+});
+</script>
+<!-- ===== END PATCH ===== -->
 
 </body>
 </html>

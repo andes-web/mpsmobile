@@ -1516,16 +1516,6 @@
   });
 </script>
 <script>
-let DATA_IDENTITAS = {};
-
-document.addEventListener("DOMContentLoaded", () => {
-  google.script.run.withSuccessHandler(data => {
-    DATA_IDENTITAS = data;
-    renderUnit();
-  }).getIdentitasPeserta();
-});
-</script>
-<script>
 function renderUnit() {
   if (!Array.isArray(peserta) || peserta.length === 0) return;
 
@@ -1571,36 +1561,6 @@ function setValue(id, val) {
   document.getElementById(id + "-select").value = val;
   document.querySelector("#" + id + "-dropdown button").textContent = val;
 }
-</script>
-<script>
-function simpanSemua() {
-  const payload = {
-    Unit: unit-select.value,
-    Kelompok: kelompok-select.value,
-    Nama: nama-select.value
-  };
-
-  document.querySelectorAll(".score-custom-dropdown").forEach(el => {
-    const key = el.dataset.name;
-    const val = el.getAttribute("data-value") || "";
-    payload[key] = val;
-  });
-
-  google.script.run.withSuccessHandler(res => {
-    alert("✅ Data berhasil disimpan");
-  }).simpanNilaiNBN(payload);
-}
-</script>
-<script>
-google.script.run.withSuccessHandler(res => {
-  if (res.ERROR) {
-    alert("ERROR SERVER:\n" + res.ERROR);
-    console.error(res.ERROR);
-    return;
-  }
-  DATA_IDENTITAS = res;
-  renderUnit();
-}).getIdentitasPeserta();
 </script>
 <script>
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";

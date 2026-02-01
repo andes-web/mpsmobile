@@ -1392,31 +1392,6 @@ function selectOption(id, value) {
     input.value = value;
     container.querySelector('.identity-options-list').style.display = 'none';
 }
-
-fetch(APPS_SCRIPT_URL, {
-  method: "POST",
-  body: JSON.stringify({
-    formType: "NBN",
-    nama: nama,
-    unit: unit,
-    kelompok: kelompok,
-    nilai: {
-      "Baju Olahraga": 1,
-      "Baju PDL": 1,
-      "Baju Putih": 1,
-      "Training": 1,
-      "ATK + Buku MP": 1,
-      "Pengetahuan Umum": 1,
-      "Bahasa Lokal": 1,
-      "Permainan Edukasi": 1,
-      "Makan Ngobrol": 1,
-      "Obstacle": 1,
-      "Effort": 1,
-      "Critics": 1,
-      "Succes Other": 1
-    }
-  })
-});
   
   function fetchListData() {
     return fetch(APPS_SCRIPT_URL + '?action=getListData')

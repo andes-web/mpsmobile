@@ -1545,65 +1545,49 @@ function selectOption(id, value) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
+    // Menambahkan identitas ke objek data
     data.Unit = unitValue;
     data.Kelompok = kelompokValue;
     data.Nama = selectedNama;
     
     const saveBtn = document.getElementById(`btn-save-${currentRole}`);
-    const action = (currentRole === 'pesertabintal') ? 'savePesertaScores' : 'savePanitiaScores';
     
-    for (const key in data) {
-        if (data[key] === "") {
-            delete data[key];
-        }
-        if (key !== 'Unit' && key !== 'Kelompok' && key !== 'Nama' && data[key] !== undefined) {
-             data[key] = parseInt(data[key]);
-        }
-    }
+    // PENENTUAN ACTION & FORM TYPE
+    // Jika tab adalah Peserta Bintal, kita arahkan ke sheet NBN
+    let action = 'savePesertaScores'; 
+    let payload = {
+        action: action,
+        formType: (currentRole === 'pesertabintal') ? 'nbn' : 'panitia', // Instruksi untuk server
+        data: JSON.stringify(data)
+    };
 
-    console.log('Sending data:', data);
+    console.log('Mengirim data ke NBN:', data);
     saveBtn.disabled = true;
     saveBtn.innerHTML = '⏳ Menyimpan...';
 
+    // Menggunakan fetch dengan URLSearchParams agar terbaca oleh doPost(e)
     fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'no-cors', // Mode ini umum digunakan untuk Apps Script
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: new URLSearchParams({
-            action: action,
-            data: JSON.stringify(data)
-        })
+        body: new URLSearchParams(payload)
     })
-    .then(response => {
-        console.log('Response received (no-cors mode)');
-        
-        // Karena mode no-cors, kita asumsikan sukses jika tidak ada error
-        showToast(`Data ${selectedNama} berhasil disimpan!`, true);
-        
-        // Reset form setelah sukses
+    .then(() => {
+        showToast(`Data ${selectedNama} Berhasil Disimpan ke NBN!`, true);
         resetScoreInputs(); 
         resetIdentityInputs();
-        
         saveBtn.disabled = false;
         saveBtn.innerHTML = 'Simpan';
     })
     .catch(error => {
-        console.error('Error saving scores:', error);
-        
-        // Bahkan jika ada "error" di no-cors, data mungkin tetap tersimpan
-        // Jadi kita tampilkan pesan yang lebih netral
-        showToast(`Data telah dikirim. Silakan cek Google Sheets untuk memastikan.`, true);
-        
-        // Tetap reset form
-        resetScoreInputs(); 
-        resetIdentityInputs();
-        
+        console.error('Error:', error);
+        showToast(`Terjadi kesalahan pengiriman.`, false);
         saveBtn.disabled = false;
         saveBtn.innerHTML = 'Simpan';
     });
-  }
+}
 
   document.addEventListener('DOMContentLoaded', async () => {
     initCustomDropdowns(); 

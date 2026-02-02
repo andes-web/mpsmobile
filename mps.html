@@ -1659,51 +1659,55 @@ function filterNamaByUnit(unitName) {
 // 4. Perbaikan Fungsi Simpan (handleFormSubmission)
 function handleFormSubmission(e) {
     e.preventDefault();
+    const form = this;
     
-    const nama = document.getElementById('nama-select').value;
-    const unit = document.getElementById('unit-select').value;
-    const kelompok = document.getElementById('kelompok-select').value;
+    const unitValue = document.getElementById('unit-select').value;
+    const kelompokValue = document.getElementById('kelompok-select').value;
+    const selectedNama = document.getElementById('nama-select').value;
     
-    if (!nama || nama === "") {
-        showToast("Pilih Nama Peserta terlebih dahulu!", false);
+    if (!selectedNama) {
+        showToast('Mohon pilih Nama terlebih dahulu!', false);
         return;
     }
-
-    const saveBtn = document.getElementById('save-btn');
-    saveBtn.disabled = true;
-    saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
-
-    // Ambil semua skor dari form yang aktif
-    const activeFormId = currentTab === 'pesertabintal' ? 'form-pesertabintal' : 'form-panitia';
-    const scores = {};
-    document.querySelectorAll(`#${activeFormId} .score-custom-dropdown`).forEach(drop => {
-        const name = drop.getAttribute('data-name');
-        const val = drop.getAttribute('data-value') || 0;
-        scores[name] = val;
+    
+    // Ambil SEMUA input nilai yang ada di form
+    const data = {};
+    const scoreInputs = form.querySelectorAll('.score-input');
+    scoreInputs.forEach(input => {
+        const name = input.getAttribute('data-name');
+        const val = parseFloat(input.value) || 0;
+        if (name) {
+            data[name] = val; // Menggunakan nama asli (misal: "Beras") sebagai Key
+        }
     });
 
-    const payload = {
-        action: 'saveToNBN', // Action khusus untuk sheet NBN
-        nama: nama,
-        unit: unit,
-        kelompok: kelompok,
-        scores: scores,
-        source: currentTab // Menandai apakah data dari tab Peserta atau Panitia
-    };
+    // Tambahkan identitas
+    data.Nama = selectedNama;
+    data.Unit = unitValue;
+    data.Kelompok = kelompokValue;
+    
+    const saveBtn = document.getElementById(`btn-save-${currentRole}`);
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '⏳ Menyimpan...';
 
-    fetch(GAS_URL, {
+    // Kirim data
+    fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: JSON.stringify(payload)
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            formType: 'nbn', // Memberitahu server ini untuk sheet NBN
+            data: JSON.stringify(data)
+        })
     })
-    .then(res => {
-        showToast(`Data ${nama} berhasil disimpan ke NBN!`, true);
-        resetForm();
+    .then(() => {
+        showToast(`Data ${selectedNama} Berhasil Disimpan!`, true);
+        resetScoreInputs();
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = 'Simpan';
     })
-    .catch(err => {
-        console.error(err);
-        showToast("Terjadi kesalahan saat menyimpan", false);
-    })
-    .finally(() => {
+    .catch(error => {
+        showToast(`Terjadi kesalahan.`, false);
         saveBtn.disabled = false;
         saveBtn.innerHTML = 'Simpan';
     });

@@ -1622,81 +1622,117 @@ function selectOption(id, value) {
   });
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
+// 1. Inisialisasi Data Global
+let sheetData = { pesertabintal: [], units: [], kelompok: [] };
 
-  const unitBtn = document.querySelector("#unit-dropdown button");
-  const unitList = document.getElementById("unit-options-list");
-  const unitInput = document.getElementById("unit-select");
+// 2. Fungsi Load Data Identitas (Panggil saat DOMContentLoaded)
+async function fetchIdentityData() {
+    try {
+        const response = await fetch(GAS_URL + '?action=getPesertaBintal');
+        const data = await response.json();
+        sheetData = data;
+        
+        // Isi dropdown Unit & Kelompok pertama kali
+        populateDropdownList('unit-options-list', sheetData.units, 'unit-select', 'unit-dropdown');
+        populateDropdownList('kelompok-options-list', sheetData.kelompok, 'kelompok-select', 'kelompok-dropdown');
+        populateDropdownList('nama-options-list', sheetData.pesertabintal.map(p => p.nama), 'nama-select', 'nama-dropdown');
+    } catch (e) {
+        console.error("Gagal mengambil data identitas:", e);
+    }
+}
 
-  const kelompokBtn = document.querySelector("#kelompok-dropdown button");
-  const kelompokList = document.getElementById("kelompok-options-list");
-  const kelompokInput = document.getElementById("kelompok-select");
-
-  const namaBtn = document.querySelector("#nama-dropdown button");
-  const namaList = document.getElementById("nama-options-list");
-  const namaInput = document.getElementById("nama-select");
-
-  let peserta = [];
-
-  try {
-    const res = await fetch(GAS_URL + "?action=getPeserta");
-    peserta = await res.json();
-    renderUnit();
-  } catch (e) {
-    alert("Gagal memuat data dari Sheets");
-    console.error(e);
-  }
-
-  function renderUnit() {
-    unitList.innerHTML = "";
-    [...new Set(peserta.map(p => p.Unit))].forEach(u => {
-      const div = document.createElement("div");
-      div.textContent = u;
-      div.onclick = () => {
-        unitBtn.textContent = u;
-        unitInput.value = u;
-        unitList.style.display = "none";
-        renderKelompok(u);
-      };
-      unitList.appendChild(div);
+// 3. Fungsi Helper untuk Mengisi List Dropdown
+function populateDropdownList(listId, items, inputId, dropdownId) {
+    const listContainer = document.getElementById(listId);
+    const displayBtn = document.querySelector(`#${dropdownId} .identity-display-btn`);
+    const hiddenInput = document.getElementById(inputId);
+    
+    listContainer.innerHTML = '';
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'identity-option';
+        div.textContent = item;
+        div.onclick = () => {
+            displayBtn.textContent = item;
+            displayBtn.setAttribute('data-value', item);
+            hiddenInput.value = item;
+            listContainer.style.display = 'none';
+            
+            // Logika Filter Otomatis (Jika pilih unit, filter nama)
+            if (inputId === 'unit-select') filterNamaByUnit(item);
+        };
+        listContainer.appendChild(div);
     });
-  }
+}
 
-  function renderKelompok(unit) {
-    kelompokList.innerHTML = "";
-    [...new Set(peserta.filter(p => p.Unit === unit).map(p => p.Kelompok))]
-      .forEach(k => {
-        const div = document.createElement("div");
-        div.textContent = k;
-        div.onclick = () => {
-          kelompokBtn.textContent = k;
-          kelompokInput.value = k;
-          kelompokList.style.display = "none";
-          renderNama(unit, k);
-        };
-        kelompokList.appendChild(div);
-      });
-  }
+function filterNamaByUnit(unitName) {
+    const filteredNama = sheetData.pesertabintal
+        .filter(p => p.unit === unitName)
+        .map(p => p.nama);
+    populateDropdownList('nama-options-list', filteredNama, 'nama-select', 'nama-dropdown');
+}
 
-  function renderNama(unit, kelompok) {
-    namaList.innerHTML = "";
-    peserta
-      .filter(p => p.Unit === unit && p.Kelompok === kelompok)
-      .forEach(p => {
-        const div = document.createElement("div");
-        div.textContent = p.Nama;
-        div.onclick = () => {
-          namaBtn.textContent = p.Nama;
-          namaInput.value = p.Nama;
-          namaList.style.display = "none";
-        };
-        namaList.appendChild(div);
-      });
-  }
+// 4. Perbaikan Fungsi Simpan (handleFormSubmission)
+function handleFormSubmission(e) {
+    e.preventDefault();
+    
+    const nama = document.getElementById('nama-select').value;
+    const unit = document.getElementById('unit-select').value;
+    const kelompok = document.getElementById('kelompok-select').value;
+    
+    if (!nama || nama === "") {
+        showToast("Pilih Nama Peserta terlebih dahulu!", false);
+        return;
+    }
 
+    const saveBtn = document.getElementById('save-btn');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
+
+    // Ambil semua skor dari form yang aktif
+    const activeFormId = currentTab === 'pesertabintal' ? 'form-pesertabintal' : 'form-panitia';
+    const scores = {};
+    document.querySelectorAll(`#${activeFormId} .score-custom-dropdown`).forEach(drop => {
+        const name = drop.getAttribute('data-name');
+        const val = drop.getAttribute('data-value') || 0;
+        scores[name] = val;
+    });
+
+    const payload = {
+        action: 'saveToNBN', // Action khusus untuk sheet NBN
+        nama: nama,
+        unit: unit,
+        kelompok: kelompok,
+        scores: scores,
+        source: currentTab // Menandai apakah data dari tab Peserta atau Panitia
+    };
+
+    fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    })
+    .then(res => {
+        showToast(`Data ${nama} berhasil disimpan ke NBN!`, true);
+        resetForm();
+    })
+    .catch(err => {
+        console.error(err);
+        showToast("Terjadi kesalahan saat menyimpan", false);
+    })
+    .finally(() => {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = 'Simpan';
+    });
+}
+
+// Panggil fetchIdentityData saat halaman siap
+document.addEventListener('DOMContentLoaded', () => {
+    fetchIdentityData();
+    // Inisialisasi event listener form
+    document.getElementById('form-pesertabintal').onsubmit = handleFormSubmission;
+    document.getElementById('form-panitia').onsubmit = handleFormSubmission;
 });
 </script>
-
 </body>
 </html>
 <script>

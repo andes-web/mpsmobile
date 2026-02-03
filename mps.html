@@ -1013,21 +1013,16 @@ footer {
     z-index: 100000 !important;
   }
 }
-/* Menambahkan garis tipis di bawah setiap baris tabel body */
-#tableBody tr {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Garis sangat tipis */
+/* Memberikan warna lembut hanya pada baris GENAP */
+#tableBody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.03); /* Warna gelap sangat transparan */
 }
 
-/* Memberikan sedikit ruang (padding) agar teks tidak menempel ke garis */
+/* Memastikan teks tetap terbaca jelas */
 #tableBody td {
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
-    vertical-align: middle;
-}
-
-/* Opsional: Efek hover agar baris yang disorot lebih jelas */
-#tableBody tr:hover {
-    background-color: rgba(0, 212, 255, 0.05);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border: none; /* Tetap menjaga tampilan bersih tanpa garis kaku */
 }
 </style>
 
@@ -2584,22 +2579,16 @@ async function renderRekapBintal(filterUnit = 'Semua Unit') {
   // RENDER BODY: Ambil data dari array sesuai urutan Apps Script
   body.innerHTML = rows.length
     ? rows.map((r, i) => `
-        <tr style="border-bottom: 1px solid #eee;"> <td class="rank-icon">${medalIcon(i + 1)}</td>
-      <td style="text-align:left; padding-left:10px; line-height: 1.2;">
-        <div style="font-weight: 600; font-size: 0.85rem; color: #2d3748;">${r[1]}</div>
-      </td>
-      <td style="text-align:center;">${r[2]}</td>
-      <td style="text-align:center;">${r[3]}</td>
-      <td style="text-align:center;">${r[4]}</td>
-      <td style="text-align:center; color:#007bff; font-weight:bold;">${r[5]}</td>
-      <td style="text-align:center;"><b>${r[6]}</b></td>
-    </tr>
+        <tr>
+          <td class="rank-icon" style="padding: 8px 4px;">${medalIcon(i + 1)}</td>
+          <td style="text-align:left; padding-left:8px; font-weight:500;">${r[1]}</td>
+          <td style="text-align:center;">${r[2]}</td>
+          <td style="text-align:center;">${r[3]}</td>
+          <td style="text-align:center;">${r[4]}</td>
+          <td style="text-align:center; color:#00d4ff;">${r[5]}</td> <td style="text-align:center;"><b>${r[6]}</b></td>
+        </tr>
       `).join("")
-    : `<tr>
-         <td colspan="7" style="text-align:center;padding:10px">
-           Tidak ada data sesuai filter unit
-         </td>
-       </tr>`;
+    : `<tr><td colspan="7" style="text-align:center;padding:20px">Tidak ada data</td></tr>`;
 }
 </script>
 

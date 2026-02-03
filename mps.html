@@ -367,7 +367,13 @@ setupDropdown('unit-trigger', 'unit-dropdown', (val, idx) => {
     document.getElementById('nama-trigger').textContent = "Pilih Nama";
     const namaDrop = document.getElementById('nama-dropdown');
     namaDrop.innerHTML = "";
-    for(let r=1; r<RAW_DATA.length; r++) { if(RAW_DATA[r][idx]) namaDrop.innerHTML += `<div>${RAW_DATA[r][idx]}</div>`; }
+    for(let r = 1; r < RAW_DATA.length; r++) {
+        // Cek apakah kolom Unit (index 1) sama dengan unit yang dipilih (val)
+        if(RAW_DATA[r][1] === val) {
+            // Jika cocok, masukkan Nama (index 0) ke dropdown Nama
+            namaDrop.innerHTML += `<div>${RAW_DATA[r][0]}</div>`;
+        }
+    }
 });
 
 setupDropdown('nama-trigger', 'nama-dropdown', (val) => { 

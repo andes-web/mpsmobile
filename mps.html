@@ -1013,16 +1013,22 @@ footer {
     z-index: 100000 !important;
   }
 }
-/* Memberikan warna lembut hanya pada baris GENAP */
+/* Warna selang-seling lembut */
 #tableBody tr:nth-child(even) {
-    background-color: rgba(27, 221, 52, 0.479); /* Warna gelap sangat transparan */
+  background-color: rgba(0, 0, 0, 0.03) !important;
 }
 
-/* Memastikan teks tetap terbaca jelas */
-#tableBody td {
-    padding-top: 6px;
-    padding-bottom: 6px;
-    border: none; /* Tetap menjaga tampilan bersih tanpa garis kaku */
+/* Garis pemisah baris yang sangat samar */
+#tableBody tr {
+  border-bottom: 0.8px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Memperbaiki jarak antar kolom */
+#tableBody td, #tableHead th {
+  padding: 6px 2px !important;
+  font-size: 0.75rem;
+  text-align: center;
+  vertical-align: middle;
 }
 </style>
 
@@ -2536,59 +2542,62 @@ function loadUnitList() {
 <!-- ================= TAMBAHAN REKAP BINTAL (AUTO GENERATED) ================= -->
 <!-- ================= TAMBAHAN REKAP BINTAL (FRAME FIX) ================= -->
 <script>
-async function renderRekapBintal(filterUnit = 'Semua Unit') {
+async function renderRekapBintal() {
   MODE_REKAP_BINTAL = true;
-
-  const [bintalData, rekapAkhir] = await Promise.all([
-    fetch(GAS_URL + "?action=rekapBintal").then(r => r.json()),
-    fetchData('RekapAkhir')
-  ]);
-
-  const unitMap = {};
-  rekapAkhir.rawData.forEach(r => {
-    const nama = String(r[0] || '').trim();
-    const unit = String(r[1] || '').trim();
-    if (nama) unitMap[nama] = unit;
-  });
-
-  let rows = bintalData.slice(1).filter(r => {
-    if (filterUnit === 'Semua Unit') return true;
-    const nama = String(r[1] || '').trim();
-    return unitMap[nama] === filterUnit;
-  });
-
-  // SORT ULANG BERDASARKAN NA (Sekarang NA ada di Index 6)
-  rows.sort((a, b) => Number(b[6]) - Number(a[6]));
-
+  
+  const filterUnit = document.getElementById('unitFilter').value; // Ambil nilai dropdown unit
   const head = document.getElementById("tableHead");
   const body = document.getElementById("tableBody");
+  
+  body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;font-size:0.75rem;">Memuat data...</td></tr>`;
 
-  // UPDATE HEADER: Tambah BN
-  head.innerHTML = `
-    <tr>
-      <th>🏅</th>
-      <th>Nama</th>
-      <th>BI</th>
-      <th>BK</th>
-      <th>BT</th>
-      <th>BN</th>
-      <th>NA</th>
-    </tr>
-  `;
+  try {
+    const response = await fetch(GAS_URL + "?action=rekapBintal");
+    const bintalData = await response.json();
+    
+    if (!bintalData || bintalData.length <= 1) {
+      body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;">Data kosong</td></tr>`;
+      return;
+    }
 
-  // RENDER BODY: Ambil data dari array sesuai urutan Apps Script
-  body.innerHTML = rows.length
-    ? rows.map((r, i) => `
+    // Index data: 0:Rank, 1:Nama, 2:BI, 3:BK, 4:BT, 5:BN, 6:NA, 7:Unit
+    let rows = bintalData.slice(1).filter(r => {
+      const unitPeserta = String(r[7] || '').trim();
+      return (filterUnit === 'Semua Unit' || unitPeserta === filterUnit);
+    });
+
+    // Urutkan berdasarkan NA (Index 6)
+    rows.sort((a, b) => Number(b[6]) - Number(a[6]));
+
+    head.innerHTML = `
+      <tr>
+        <th style="width:12%">🏅</th>
+        <th style="text-align:left; padding-left:8px;">Nama</th>
+        <th>BI</th>
+        <th>BK</th>
+        <th>BT</th>
+        <th style="color:#00d4ff">BN</th>
+        <th>NA</th>
+      </tr>
+    `;
+
+    body.innerHTML = rows.length ? rows.map((r, i) => `
         <tr>
-          <td class="rank-icon" style="padding: 8px 4px;">${medalIcon(i + 1)}</td>
-          <td style="text-align:left; padding-left:8px; font-weight:500;">${r[1]}</td>
-          <td style="text-align:center;">${r[2]}</td>
-          <td style="text-align:center;">${r[3]}</td>
-          <td style="text-align:center;">${r[4]}</td>
-          <td style="text-align:center; color:#00d4ff;">${r[5]}</td> <td style="text-align:center;"><b>${r[6]}</b></td>
+          <td class="rank-icon">${medalIcon(i + 1)}</td>
+          <td style="text-align:left; padding-left:8px; font-size:0.75rem; line-height:1.1;">
+            <div style="white-space: normal; word-break: break-word;">${r[1]}</div>
+          </td>
+          <td>${r[2]}</td>
+          <td>${r[3]}</td>
+          <td>${r[4]}</td>
+          <td style="font-weight:bold; color:#00d4ff;">${r[5]}</td>
+          <td><b>${r[6]}</b></td>
         </tr>
-      `).join("")
-    : `<tr><td colspan="7" style="text-align:center;padding:20px">Tidak ada data</td></tr>`;
+      `).join("") : `<tr><td colspan="7" style="text-align:center;padding:20px;">Tidak ada data unit ini</td></tr>`;
+
+  } catch (err) {
+    body.innerHTML = `<tr><td colspan="7" style="text-align:center;color:red;">Gagal memuat.</td></tr>`;
+  }
 }
 </script>
 

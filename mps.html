@@ -1013,22 +1013,20 @@ footer {
     z-index: 100000 !important;
   }
 }
-/* Warna selang-seling lembut */
+/* Warna selang-seling baris genap */
 #tableBody tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.03) !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
 }
 
-/* Garis pemisah baris yang sangat samar */
-#tableBody tr {
-  border-bottom: 0.8px solid rgba(0, 0, 0, 0.05);
+/* Hover effect agar baris mudah diikuti mata */
+#tableBody tr:hover {
+  background-color: rgba(0, 212, 255, 0.05);
 }
 
-/* Memperbaiki jarak antar kolom */
-#tableBody td, #tableHead th {
-  padding: 6px 2px !important;
-  font-size: 0.75rem;
-  text-align: center;
+#tableBody td {
+  padding: 8px 2px !important;
   vertical-align: middle;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
 }
 </style>
 
@@ -2543,35 +2541,41 @@ function loadUnitList() {
 <!-- ================= TAMBAHAN REKAP BINTAL (FRAME FIX) ================= -->
 <script>
 async function renderRekapBintal() {
-  MODE_REKAP_BINTAL = true;
+  // Pastikan variabel MODE_REKAP_BINTAL ada agar tidak error
+  window.MODE_REKAP_BINTAL = true;
   
-  const filterUnit = document.getElementById('unitFilter').value; // Ambil nilai dropdown unit
+  const unitFilterEl = document.getElementById('unitFilter');
+  const filterUnit = unitFilterEl ? unitFilterEl.value : 'Semua Unit';
+  
   const head = document.getElementById("tableHead");
   const body = document.getElementById("tableBody");
   
-  body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;font-size:0.75rem;">Memuat data...</td></tr>`;
+  body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;font-size:0.8rem;">⌛ Memuat data...</td></tr>`;
 
   try {
+    // Gunakan GAS_URL yang sudah terdefinisi di file Anda
     const response = await fetch(GAS_URL + "?action=rekapBintal");
+    if (!response.ok) throw new Error("Network response was not ok");
+    
     const bintalData = await response.json();
     
     if (!bintalData || bintalData.length <= 1) {
-      body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;">Data kosong</td></tr>`;
+      body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;">Data kosong atau belum ada nilai.</td></tr>`;
       return;
     }
 
-    // Index data: 0:Rank, 1:Nama, 2:BI, 3:BK, 4:BT, 5:BN, 6:NA, 7:Unit
+    // Index 7 adalah Unit untuk filter (Data tersembunyi)
     let rows = bintalData.slice(1).filter(r => {
       const unitPeserta = String(r[7] || '').trim();
       return (filterUnit === 'Semua Unit' || unitPeserta === filterUnit);
     });
 
-    // Urutkan berdasarkan NA (Index 6)
+    // Urutkan ulang peringkat berdasarkan filter yang baru
     rows.sort((a, b) => Number(b[6]) - Number(a[6]));
 
     head.innerHTML = `
       <tr>
-        <th style="width:12%">🏅</th>
+        <th style="width:12%">Rank</th>
         <th style="text-align:left; padding-left:8px;">Nama</th>
         <th>BI</th>
         <th>BK</th>
@@ -2581,11 +2585,16 @@ async function renderRekapBintal() {
       </tr>
     `;
 
-    body.innerHTML = rows.length ? rows.map((r, i) => `
-        <tr>
-          <td class="rank-icon">${medalIcon(i + 1)}</td>
-          <td style="text-align:left; padding-left:8px; font-size:0.75rem; line-height:1.1;">
-            <div style="white-space: normal; word-break: break-word;">${r[1]}</div>
+    if (rows.length === 0) {
+      body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;">Tidak ada data untuk unit: ${filterUnit}</td></tr>`;
+      return;
+    }
+
+    body.innerHTML = rows.map((r, i) => `
+        <tr class="rekap-row">
+          <td style="text-align:center;">${i + 1}</td>
+          <td style="text-align:left; padding-left:8px; font-size:0.75rem;">
+            <div style="white-space: normal; line-height:1.2; font-weight:500;">${r[1]}</div>
           </td>
           <td>${r[2]}</td>
           <td>${r[3]}</td>
@@ -2593,10 +2602,11 @@ async function renderRekapBintal() {
           <td style="font-weight:bold; color:#00d4ff;">${r[5]}</td>
           <td><b>${r[6]}</b></td>
         </tr>
-      `).join("") : `<tr><td colspan="7" style="text-align:center;padding:20px;">Tidak ada data unit ini</td></tr>`;
+      `).join("");
 
   } catch (err) {
-    body.innerHTML = `<tr><td colspan="7" style="text-align:center;color:red;">Gagal memuat.</td></tr>`;
+    console.error("Fetch Error:", err);
+    body.innerHTML = `<tr><td colspan="7" style="text-align:center;color:red;padding:20px;">❌ Gagal memuat data. Periksa koneksi atau URL Script.</td></tr>`;
   }
 }
 </script>

@@ -1013,6 +1013,22 @@ footer {
     z-index: 100000 !important;
   }
 }
+/* Menambahkan garis tipis di bawah setiap baris tabel body */
+#tableBody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Garis sangat tipis */
+}
+
+/* Memberikan sedikit ruang (padding) agar teks tidak menempel ke garis */
+#tableBody td {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    vertical-align: middle;
+}
+
+/* Opsional: Efek hover agar baris yang disorot lebih jelas */
+#tableBody tr:hover {
+    background-color: rgba(0, 212, 255, 0.05);
+}
 </style>
 
 </head>
@@ -2568,13 +2584,16 @@ async function renderRekapBintal(filterUnit = 'Semua Unit') {
   // RENDER BODY: Ambil data dari array sesuai urutan Apps Script
   body.innerHTML = rows.length
     ? rows.map((r, i) => `
-        <tr>
-          <td class="rank-icon">${medalIcon(i + 1)}</td>
-          <td style="text-align:left;padding-left:6px">${r[1]}</td>
-          <td>${r[2]}</td>
-          <td>${r[3]}</td>
-          <td>${r[4]}</td>
-          <td style="color:#00d4ff; font-weight:bold;">${r[5]}</td> <td><b>${r[6]}</b></td> </tr>
+        <tr style="border-bottom: 1px solid #eee;"> <td class="rank-icon">${medalIcon(i + 1)}</td>
+      <td style="text-align:left; padding-left:10px; line-height: 1.2;">
+        <div style="font-weight: 600; font-size: 0.85rem; color: #2d3748;">${r[1]}</div>
+      </td>
+      <td style="text-align:center;">${r[2]}</td>
+      <td style="text-align:center;">${r[3]}</td>
+      <td style="text-align:center;">${r[4]}</td>
+      <td style="text-align:center; color:#007bff; font-weight:bold;">${r[5]}</td>
+      <td style="text-align:center;"><b>${r[6]}</b></td>
+    </tr>
       `).join("")
     : `<tr>
          <td colspan="7" style="text-align:center;padding:10px">

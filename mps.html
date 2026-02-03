@@ -649,7 +649,20 @@ footer {
 .footer-link:hover, .footer-link:visited {
     color: inherit; 
 }
+/* Cari bagian ini di dalam <style> right.html */
+.tableBox tr:nth-child(even) td { 
+  background: #e0f2fe; /* Warna biru muda cerah (Tailwind Blue 100) */
+}
 
+/* Tambahkan ini agar baris ganjil tetap putih bersih */
+.tableBox tr:nth-child(odd) td { 
+  background: #ffffff; 
+}
+
+/* Efek saat kursor diarahkan (Hover) agar lebih interaktif */
+.tableBox tr:hover td { 
+  background: #bae6fd !important; /* Warna biru yang sedikit lebih gelap saat hover */
+}
 </style>
 <style>
     /* 🌐 Tampilan umum */

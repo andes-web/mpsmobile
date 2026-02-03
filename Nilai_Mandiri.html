@@ -367,7 +367,13 @@ setupDropdown('unit-trigger', 'unit-dropdown', (val, idx) => {
     document.getElementById('nama-trigger').textContent = "Pilih Nama";
     const namaDrop = document.getElementById('nama-dropdown');
     namaDrop.innerHTML = "";
-    for(let r=1; r<RAW_DATA.length; r++) { if(RAW_DATA[r][idx]) namaDrop.innerHTML += `<div>${RAW_DATA[r][idx]}</div>`; }
+    for(let r = 1; r < RAW_DATA.length; r++) {
+        // Cek apakah kolom Unit (index 1) sama dengan unit yang dipilih (val)
+        if(RAW_DATA[r][1] === val) {
+            // Jika cocok, masukkan Nama (index 0) ke dropdown Nama
+            namaDrop.innerHTML += `<div>${RAW_DATA[r][0]}</div>`;
+        }
+    }
 });
 
 setupDropdown('nama-trigger', 'nama-dropdown', (val) => { 
@@ -383,11 +389,33 @@ setupDropdown('sesi-trigger', 'sesi-dropdown', (val) => {
 
 async function loadData() {
     try {
-        const res = await fetch(`${SCRIPT_URL}?action=peserta`);
-        RAW_DATA = await res.json();
-        const unitDrop = document.getElementById('unit-dropdown');
-        RAW_DATA[0].forEach((u, i) => { if(u) unitDrop.innerHTML += `<div data-idx="${i}">${u}</div>`; });
-    } catch(e) {}
+        // Ubah action menjadi getListData agar sesuai dengan fungsi di Apps Script
+        const res = await fetch(`${SCRIPT_URL}?action=getListData`);
+        const result = await res.json();
+        
+        if (result.success) {
+            // Mapping data agar variabel RAW_DATA tetap kompatibel dengan fungsi setupDropdown Anda
+            // result.data.pesertabintal berisi array of object {nama, unit, kelompok}
+            // Kita konversi ke array of array agar logika index [idx] Anda tidak error
+            
+            const raw = result.data.pesertabintal;
+            RAW_DATA = [
+                ["Nama", "Unit", "Kelompok"], // Dummy Header
+                ...raw.map(p => [p.nama, p.unit, p.kelompok])
+            ];
+
+            // Isi dropdown Unit secara otomatis dari daftar unik yang sudah diproses server
+            const unitDrop = document.getElementById('unit-dropdown');
+            unitDrop.innerHTML = "";
+            result.data.units.forEach(u => {
+                // idx=1 karena Unit berada di index 1 pada array [nama, unit, kelompok]
+                unitDrop.innerHTML += `<div data-idx="1">${u}</div>`;
+            });
+        }
+    } catch (e) {
+        console.error("Gagal load data:", e);
+        Swal.fire("Error", "Gagal mengambil data peserta", "error");
+    }
 }
 loadData();
 </script>

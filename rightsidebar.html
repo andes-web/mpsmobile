@@ -288,17 +288,18 @@ select:focus,
   width: 100%;
   font-size: 0.7rem;
   border-collapse: collapse;
+  font-family: 'Poppins', sans-serif !important;
 }
 .tableBox th, .tableBox td { 
   padding: 2px 4px !important;
   text-align: center;
-  border: none;
+  font-size: 0.65rem !important;
 }
 .tableBox th { 
   background: #1d4ed8; 
   color: #fff; 
-  font-weight: 600;
-  border-bottom: 1px solid #3b82f6;
+  font-weight: 600 !important;
+  border-bottom: 2px solid #3b82f6;
 }
 /* Modifikasi: Kolom peringkat di tengah */
 .tableBox th:nth-child(1) { 
@@ -308,9 +309,14 @@ select:focus,
     width: 12%; 
     font-weight: 700;
 }
+/* Membuat kolom terakhir (NA) sedikit lebih tebal tulisannya */
+.tableBox td:last-child {
+  font-weight: 800 !important;
+  color: #1e40af !important; /* Biru gelap agar beda dari kolom lain */
+}
 .tableBox td:nth-child(2) { text-align: left; font-weight: 500; }
 .tableBox td:nth-child(3) { color: #4b5563; font-size: 0.65rem; }
-.tableBox tr:nth-child(even) td { background: #f9faff; }
+.tableBox tr:nth-child(even) td { background-color: #e0f2fe; }
 .tableBox tr:hover td { background: #eff6ff; }
 .tableBox tr:hover td:nth-child(1) { background: #bfdbfe; }
 
@@ -649,7 +655,20 @@ footer {
 .footer-link:hover, .footer-link:visited {
     color: inherit; 
 }
+/* Cari bagian ini di dalam <style> right.html */
+.tableBox tr:nth-child(even) td { 
+  background: #e0f2fe; /* Warna biru muda cerah (Tailwind Blue 100) */
+}
 
+/* Tambahkan ini agar baris ganjil tetap putih bersih */
+.tableBox tr:nth-child(odd) td { 
+  background: #ffffff; 
+}
+
+/* Efek saat kursor diarahkan (Hover) agar lebih interaktif */
+.tableBox tr:hover td { 
+  background: #bae6fd !important; /* Warna biru yang sedikit lebih gelap saat hover */
+}
 </style>
 <style>
     /* 🌐 Tampilan umum */
@@ -2533,9 +2552,6 @@ async function renderRekapBintal(filterUnit = 'Semua Unit') {
     fetchData('RekapAkhir')
   ]);
 
-  // ===============================
-  // MAP Nama → Unit (RekapAkhir)
-  // ===============================
   const unitMap = {};
   rekapAkhir.rawData.forEach(r => {
     const nama = String(r[0] || '').trim();
@@ -2543,23 +2559,19 @@ async function renderRekapBintal(filterUnit = 'Semua Unit') {
     if (nama) unitMap[nama] = unit;
   });
 
-  // ===============================
-  // FILTER UNIT DULU
-  // ===============================
   let rows = bintalData.slice(1).filter(r => {
     if (filterUnit === 'Semua Unit') return true;
     const nama = String(r[1] || '').trim();
     return unitMap[nama] === filterUnit;
   });
 
-  // ===============================
-  // SORT ULANG BERDASARKAN NA (DESC)
-  // ===============================
-  rows.sort((a, b) => Number(b[5]) - Number(a[5]));
+  // SORT ULANG BERDASARKAN NA (Sekarang NA ada di Index 6)
+  rows.sort((a, b) => Number(b[6]) - Number(a[6]));
 
   const head = document.getElementById("tableHead");
   const body = document.getElementById("tableBody");
 
+  // UPDATE HEADER: Tambah BN
   head.innerHTML = `
     <tr>
       <th>🏅</th>
@@ -2567,13 +2579,12 @@ async function renderRekapBintal(filterUnit = 'Semua Unit') {
       <th>BI</th>
       <th>BK</th>
       <th>BT</th>
+      <th>BN</th>
       <th>NA</th>
     </tr>
   `;
 
-  // ===============================
-  // RENDER + RANK RESET
-  // ===============================
+  // RENDER BODY: Ambil data dari array sesuai urutan Apps Script
   body.innerHTML = rows.length
     ? rows.map((r, i) => `
         <tr>
@@ -2582,11 +2593,10 @@ async function renderRekapBintal(filterUnit = 'Semua Unit') {
           <td>${r[2]}</td>
           <td>${r[3]}</td>
           <td>${r[4]}</td>
-          <td><b>${r[5]}</b></td>
-        </tr>
+          <td style="color:#00d4ff; font-weight:bold;">${r[5]}</td> <td><b>${r[6]}</b></td> </tr>
       `).join("")
     : `<tr>
-         <td colspan="6" style="text-align:center;padding:10px">
+         <td colspan="7" style="text-align:center;padding:10px">
            Tidak ada data sesuai filter unit
          </td>
        </tr>`;

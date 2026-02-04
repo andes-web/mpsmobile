@@ -8507,27 +8507,20 @@ const jurlamChildren = [
           },
           {
   title: "Penilaian N-Bintal",
-  action: (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  action: () => {
+    const url = "https://andes-web.github.io/mpsmobile/form_bintalnonteknis.html";
 
-    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      setTimeout(() => {
-        window.open(
-          "https://andes-web.github.io/mpsmobile/form_bintalnonteknis.html",
-          "_blank"
-        );
-      }, 0);
+    if (window.innerWidth <= 768) {
+      // MOBILE → langsung tab baru (1 klik)
+      window.open(url, "_blank");
     } else {
+      // DESKTOP → tetap iframe di konten
       loadContent(`
-        <iframe 
-          src="https://andes-web.github.io/mpsmobile/form_bintalnonteknis.html"
+        <iframe src="${url}"
           style="width:100%;height:100vh;border:none;display:block;"
-        ></iframe>
+          sandbox="allow-same-origin allow-scripts allow-top-navigation allow-forms"
+          scrolling="no">
+        </iframe>
       `);
     }
   }

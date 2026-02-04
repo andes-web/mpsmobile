@@ -745,26 +745,7 @@
     }
 }
   </style>
-  <script>
-  (function() {
-    // Fungsi untuk mendeteksi apakah perangkat adalah mobile
-    function isMobile() {
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-
-    // Cek apakah halaman dibuka di mobile dan bukan merupakan jendela hasil redirect (untuk menghindari looping)
-    if (isMobile() && !window.name.includes("mobile_window")) {
-      // Buka URL saat ini di jendela baru
-      var newWin = window.open(window.location.href, 'mobile_window_' + Date.now());
-      
-      if (newWin) {
-          // Jika jendela baru berhasil dibuka, tutup jendela lama atau beri pesan
-          window.location.href = "about:blank"; 
-          window.close();
-      }
-    }
-  })();
-</script>
+  
 </head>
 <body>
 
@@ -1740,6 +1721,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('form-pesertabintal').onsubmit = handleFormSubmission;
     document.getElementById('form-panitia').onsubmit = handleFormSubmission;
 });
+</script>
+<script>
+(function () {
+  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+
+  if (isMobile && !sessionStorage.getItem('openedNewTab')) {
+    sessionStorage.setItem('openedNewTab', 'yes');
+    window.open(window.location.href, '_blank');
+  }
+})();
 </script>
 
 </body>

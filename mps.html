@@ -669,6 +669,20 @@ footer {
 .tableBox tr:hover td { 
   background: #bae6fd !important; /* Warna biru yang sedikit lebih gelap saat hover */
 }
+
+/* Styling Isi Angka Kolom BN */
+.tableBox table td.kolom-bn-custom {
+  color: #000000 !important;           /* Paksa warna Hitam */
+  font-family: 'Poppins', sans-serif !important; /* Paksa font Poppins */
+  font-size: 0.85rem !important;        /* Ukuran angka */
+  font-weight: 600 !important;          /* Agar angka terlihat jelas */
+  text-align: center;
+}
+
+/* Opsional: Hilangkan background biru jika ada pada baris genap khusus kolom ini */
+.tableBox tr:nth-child(even) td.kolom-bn-custom {
+  background-color: inherit; 
+}
 </style>
 <style>
     /* 🌐 Tampilan umum */

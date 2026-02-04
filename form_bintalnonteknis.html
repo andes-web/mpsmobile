@@ -745,7 +745,6 @@
     }
 }
   </style>
-  
 </head>
 <body>
 
@@ -1722,17 +1721,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('form-panitia').onsubmit = handleFormSubmission;
 });
 </script>
-<script>
-(function () {
-  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
-
-  if (isMobile && !sessionStorage.getItem('openedNewTab')) {
-    sessionStorage.setItem('openedNewTab', 'yes');
-    window.open(window.location.href, '_blank');
-  }
-})();
-</script>
-
 </body>
 </html>
 <script>

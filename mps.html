@@ -670,19 +670,6 @@ footer {
   background: #bae6fd !important; /* Warna biru yang sedikit lebih gelap saat hover */
 }
 
-/* Styling Isi Angka Kolom BN */
-.tableBox table td.kolom-bn-custom {
-  color: #000000 !important;           /* Paksa warna Hitam */
-  font-family: 'Poppins', sans-serif !important; /* Paksa font Poppins */
-  font-size: 0.85rem !important;        /* Ukuran angka */
-  font-weight: 600 !important;          /* Agar angka terlihat jelas */
-  text-align: center;
-}
-
-/* Opsional: Hilangkan background biru jika ada pada baris genap khusus kolom ini */
-.tableBox tr:nth-child(even) td.kolom-bn-custom {
-  background-color: inherit; 
-}
 </style>
 <style>
     /* 🌐 Tampilan umum */
@@ -2441,6 +2428,19 @@ document.addEventListener('DOMContentLoaded', function () {
 /* Ensure main area has space so content won't be hidden by the footer */
 .sidebar main {
   padding-bottom: 80px !important;
+}
+
+/* Styling Khusus Kolom BN (Bintal Nonteknis) agar Hitam & Poppins */
+.tableBox table.rekap-bintal td.kolom-bn-hitam {
+  color: #000000 !important;          /* Paksa warna hitam */
+  font-family: 'Poppins', sans-serif !important; 
+  font-size: 0.85rem !important;       /* Ukuran angka */
+  font-weight: 700 !important;         /* Tebal agar jelas */
+}
+
+/* Pastikan saat baris disorot (hover), warnanya tetap hitam */
+.tableBox table.rekap-bintal tr:hover td.kolom-bn-hitam {
+  color: #000000 !important;
 }
 </style>
 

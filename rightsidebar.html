@@ -669,6 +669,7 @@ footer {
 .tableBox tr:hover td { 
   background: #bae6fd !important; /* Warna biru yang sedikit lebih gelap saat hover */
 }
+
 </style>
 <style>
     /* 🌐 Tampilan umum */
@@ -1436,7 +1437,7 @@ if (sheetName === "RekapAkhir") {
     const idxUnit = findIdx(['unit','satuan']);
     const idxNI = findIdx(['nilai individu','nilai_individu','nilaiindividu','nilai individu']);
     const idxNK = findIdx(['nilai kelompok','nilaikelompok','nilai_kelompok']);
-    const idxNN = findIdx(['nilai non teknis','nilai_non_teknis','nilai nonteknis','nilai non teknis']);
+    const idxNN = findIdx(['nilai lain','nilai_lain','nilailain','nilai lain']);
     const idxNA = findIdx(['nilai akhir','nilai_akhir','na','akhir']);
 
     console.log("Mapped idx -> Nama:", idxNama, "Unit:", idxUnit, "NI:", idxNI, "NK:", idxNK, "NN:", idxNN, "NA:", idxNA);
@@ -2701,7 +2702,55 @@ function applyFreshRanking(data, nilaiIndex) {
   });
 })();
 </script>
+<style>
+  /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */
+  #tableBody tr td:nth-child(6) {
+    color: #000000 !important; /* Paksa Hitam */
+    font-family: 'Poppins', sans-serif !important; /* Paksa Poppins */
+    font-weight: 500 !important;
+    font-size: 0.65rem !important;
+  }
 
+  /* Tetap hitam saat baris di-hover */
+  #tableBody tr:hover td:nth-child(6) {
+    color: #000000 !important;
+  }
+  
+</style>
+
+<script>
+/**
+ * Script Tambahan untuk Memastikan Kolom BN di Rekap Bintal Menjadi Hitam
+ * Ditempel paling bawah agar mengeksekusi setelah render selesai
+ */
+(function() {
+  const originalRenderRekapBintal = window.renderRekapBintal;
+  
+  window.renderRekapBintal = function() {
+    // Jalankan fungsi render asli dulu
+    if (typeof originalRenderRekapBintal === 'function') {
+      originalRenderRekapBintal.apply(this, arguments);
+    }
+    
+    // Setelah render selesai, cari semua baris di tabel
+    const rows = document.querySelectorAll('#tableBody tr');
+    const jenisRekap = document.getElementById('jenisRekap')?.value;
+
+    // Hanya eksekusi jika menu yang dipilih adalah Rekap Bintal
+    if (jenisRekap === 'RekapBintal') {
+      rows.forEach(row => {
+        const tdBN = row.cells[5]; // Kolom ke-6 (index 5) adalah BN
+        if (tdBN) {
+          tdBN.style.setProperty('color', '#000000', 'important');
+          tdBN.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
+          // Menghapus class warna biru/merah bawaan agar tidak konflik
+          tdBN.classList.remove('biru', 'merah');
+        }
+      });
+    }
+  };
+})();
+</script>
 </body>
 
 </html>

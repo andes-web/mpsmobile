@@ -9833,24 +9833,30 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 <script>
-document.addEventListener("click", function (e) {
-  if (!e.target) return;
-
-  const teks = e.target.textContent?.trim();
-  if (teks !== "Penilaian N-Bintal") return;
-
-  // KHUSUS MOBILE
-  if (window.innerWidth <= 768) {
-    e.preventDefault();
-
-    // ⛔ JANGAN stopPropagation di sini
-    // ⛔ JANGAN window.open
-
-    // ✅ INI KUNCINYA (SAMA DENGAN K-BINTAL)
-    window.location.href =
-      "https://andes-web.github.io/mpsmobile/form_bintalnonteknis.html";
+(function () {
+  function isMobile() {
+    return window.innerWidth <= 768;
   }
-});
+
+  document.addEventListener(
+    "touchstart",
+    function (e) {
+      const el = e.target.closest(".h4-button, div, button, span");
+      if (!el) return;
+
+      if (el.textContent.trim() === "Penilaian N-Bintal" && isMobile()) {
+        // 🔥 POTONG SEMUA PROSES UI
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        // 🔥 1 SENTUH LANGSUNG PINDAH
+        window.location.href =
+          "https://andes-web.github.io/mpsmobile/form_bintalnonteknis.html";
+      }
+    },
+    { passive: false } // ⬅️ WAJIB agar preventDefault bekerja
+  );
+})();
 </script>
 
 </body>

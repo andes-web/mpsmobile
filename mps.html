@@ -2715,34 +2715,7 @@ function applyFreshRanking(data, nilaiIndex) {
   #tableBody tr:hover td:nth-child(6) {
     color: #000000 !important;
   }
-
-  /* Atur lebar kolom khusus untuk Tabel Rekap Bintal */
-.tableBox table.rekap-bintal {
-  table-layout: fixed; /* Memaksa lebar kolom mengikuti pengaturan kita */
-  width: 100%;
-}
-
-/* Kolom 🏅 (Peringkat) */
-.tableBox table.rekap-bintal th:nth-child(1),
-.tableBox table.rekap-bintal td:nth-child(1) { width: 40px; }
-
-/* Kolom Nama */
-.tableBox table.rekap-bintal th:nth-child(2),
-.tableBox table.rekap-bintal td:nth-child(2) { width: 180px; }
-
-/* Kolom BI, BK, BT, BN (Ukuran Seragam) */
-.tableBox table.rekap-bintal th:nth-child(4), /* BI */
-.tableBox table.rekap-bintal td:nth-child(4),
-.tableBox table.rekap-bintal th:nth-child(5), /* BK */
-.tableBox table.rekap-bintal td:nth-child(5),
-.tableBox table.rekap-bintal th:nth-child(6), /* BT */
-.tableBox table.rekap-bintal td:nth-child(6),
-.tableBox table.rekap-bintal th:nth-child(7), /* BN */
-.tableBox table.rekap-bintal td:nth-child(7) { width: 60px; text-align: center; }
-
-/* Kolom NA (Nilai Akhir) */
-.tableBox table.rekap-bintal th:nth-child(8),
-.tableBox table.rekap-bintal td:nth-child(8) { width: 70px; font-weight: bold; }
+  
 </style>
 
 <script>

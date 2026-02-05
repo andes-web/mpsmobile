@@ -2311,15 +2311,13 @@ document.addEventListener('change', function(e) {
   const unit = document.getElementById('unitFilter').value;
 
   if (type === 'rekap_mps') {
-    // Pastikan fungsi ini sudah ada di file mps_renderer.html
-    if (typeof renderViewMPS === "function") {
-      renderViewMPS(unit);
-    } else {
-      console.error("Fungsi renderViewMPS belum terload. Pastikan include sudah benar.");
-    }
+    // Memanggil fungsi yang baru saja ditempel di bawah
+    renderViewMPS(unit);
   } else {
-    // Jalankan fungsi asli bawaan file mps.html Anda
-    if (typeof executeRender === "function") executeRender();
+    // Fungsi asli bawaan script Anda
+    if (typeof executeRender === "function") {
+      executeRender();
+    }
   }
 });
 </script>
@@ -2770,5 +2768,58 @@ function applyFreshRanking(data, nilaiIndex) {
 
 <?!= include('mps_renderer'); ?>
 </body>
+<script>
+  /**
+   * Fungsi Khusus untuk merender tampilan MPS
+   * Menghitung dan menampilkan data ke tabel utama
+   */
+  function renderViewMPS(filterUnit) {
+    const body = document.getElementById('tableBody'); 
+    const head = document.getElementById('tableHeader'); 
 
+    if (!body || !head) return;
+
+    // 1. Ganti Header Tabel agar sesuai format MPS
+    head.innerHTML = `
+      <tr>
+        <th style="width:10%">Rank</th>
+        <th style="width:40%">Nama</th>
+        <th style="width:12%">Diklat</th>
+        <th style="width:12%">Bintal</th>
+        <th style="width:10%">Bintur</th>
+        <th style="width:16%">Poin</th>
+      </tr>
+    `;
+
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center;">Memproses Nilai MPS...</td></tr>';
+
+    // 2. Ambil data dari fungsi GS (mps_logic.gs)
+    google.script.run.withSuccessHandler(function(data) {
+      if (!data || data.length === 0) {
+        body.innerHTML = '<tr><td colspan="6" style="text-align:center;">Data tidak ditemukan</td></tr>';
+        return;
+      }
+
+      const filtered = (filterUnit === "Semua Unit" || filterUnit === "SEMUA UNIT") 
+                       ? data 
+                       : data.filter(r => r.unit === filterUnit);
+      
+      if (filtered.length === 0) {
+        body.innerHTML = '<tr><td colspan="6" style="text-align:center;">Data unit ' + filterUnit + ' tidak ditemukan</td></tr>';
+        return;
+      }
+
+      body.innerHTML = filtered.map((r, i) => `
+        <tr>
+          <td style="text-align:center; font-weight:bold;">${i + 1}</td>
+          <td style="text-align:left; padding-left:8px;">${r.nama}</td>
+          <td style="text-align:center;">${(r.diklat || 0).toFixed(1)}</td>
+          <td style="text-align:center;">${(r.bintal || 0).toFixed(1)}</td>
+          <td style="text-align:center;">${r.bintur || 0}</td>
+          <td style="text-align:center; color:#2563eb; font-weight:bold;">${(r.poin || 0).toFixed(1)}</td>
+        </tr>
+      `).join("");
+    }).getRekapMPS_Data(); // Pastikan fungsi ini ada di mps_logic.gs
+  }
+</script>
 </html>

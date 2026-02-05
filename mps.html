@@ -2753,22 +2753,20 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 <script>
-/**
- * JEMBATAN INTEGRASI
- */
+// Logika pemindah menu
 (function() {
-  function checkAndRender() {
-    const jenis = document.getElementById('jenisRekap').value;
-    const unit = document.getElementById('unitFilter').value;
+  const menuRekap = document.getElementById('jenisRekap');
+  const unitFilter = document.getElementById('unitFilter');
 
-    if (jenis === 'NilaiMPS') {
+  function updateTampilan() {
+    const unit = unitFilter ? unitFilter.value : 'Semua Unit';
+    if (menuRekap.value === 'NilaiMPS') {
       renderNilaiMPS(unit);
     }
   }
 
-  // Aktifkan saat dropdown berubah
-  document.getElementById('jenisRekap')?.addEventListener('change', checkAndRender);
-  document.getElementById('unitFilter')?.addEventListener('change', checkAndRender);
+  menuRekap?.addEventListener('change', updateTampilan);
+  unitFilter?.addEventListener('change', updateTampilan);
 })();
 </script>
 

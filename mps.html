@@ -1185,7 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="NilaiMPS">Nilai MPS</option>
+          <option value="mps">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2617,82 +2617,7 @@ function medalIcon(rank) {
 <script>
 let MODE_REKAP_BINTAL = false;
 </script>
-<script>
-/**
-   * FUNGSI BARU: RENDER NILAI MPS
-   * Mengambil data dari MPS_Logic.gs
-   */
-  function renderNilaiMPS(filterUnit = 'Semua Unit') {
-    const head = document.getElementById("tableHead");
-    const body = document.getElementById("tableBody");
-    
-    body.innerHTML = '<tr><td colspan="6">Memuat data MPS...</td></tr>';
 
-    google.script.run.withSuccessHandler(function(rowsData) {
-      if (!rowsData || rowsData.length === 0) {
-        body.innerHTML = '<tr><td colspan="6">Data tidak ditemukan di sheet rekapakhir</td></tr>';
-        return;
-      }
-
-      // Filter Berdasarkan Unit (Unit ada di index 6)
-      let rows = rowsData.filter(r => {
-        if (filterUnit === 'Semua Unit') return true;
-        return r[6] === filterUnit;
-      });
-
-      // Update Header
-      head.innerHTML = `
-        <tr>
-          <th style="width:60px">Rank</th>
-          <th>Nama</th>
-          <th>Diklat</th>
-          <th>Bintal</th>
-          <th>Bintur</th>
-          <th>Poin</th>
-        </tr>
-      `;
-
-      // Update Body
-      body.innerHTML = rows.length ? rows.map((r, i) => `
-        <tr>
-          <td class="rank-icon">${medalIcon(i + 1)}</td>
-          <td style="text-align:left; font-weight:600;">${r[1]}</td>
-          <td>${r[2]}</td>
-          <td>${r[3]}</td>
-          <td>${r[4]}</td>
-          <td style="color:#2563eb; font-weight:bold;">${r[5]}</td>
-        </tr>
-      `).join("") : `<tr><td colspan="6">Tidak ada data untuk unit ini</td></tr>`;
-    })
-    .withFailureHandler(function(err) {
-      body.innerHTML = '<tr><td colspan="6" style="color:red">Error: ' + err + '</td></tr>';
-    })
-    .getRekapMPS_Data(); // Memanggil fungsi di Apps Script
-  }
-/**
-   * EVENT LISTENER UTAMA
-   * Mengatur perpindahan antar menu
-   */
-  function handleNav() {
-    const jenis = document.getElementById('jenisRekap').value;
-    const unit = document.getElementById('unitFilter').value;
-
-    if (jenis === 'NilaiMPS') {
-      renderNilaiMPS(unit);
-    } else if (jenis === 'RekapBintal') {
-      if (typeof renderRekapBintal === 'function') renderRekapBintal(unit);
-    } else {
-      // Panggil fungsi render bawaan file Anda sebelumnya jika ada
-      if (typeof renderData === 'function') renderData();
-    }
-  }
-
-  document.getElementById('jenisRekap').addEventListener('change', handleNav);
-  document.getElementById('unitFilter').addEventListener('change', handleNav);
-
-  // Jalankan saat pertama kali buka
-  window.onload = handleNav;
-</script>
 
 <!-- ===================== PATCH FILTER UNIT REKAP BINTAL (FOCUS ONLY) ===================== -->
 <script>
@@ -2828,52 +2753,13 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 <script>
-/**
- * FUNGSI RENDER NILAI MPS (DITAMBAHKAN)
- * Menampilkan data yang dikalkulasi dari MPS_Logic.gs
- */
-async function renderNilaiMPS(filterUnit = 'Semua Unit') {
-  const head = document.getElementById("tableHead");
-  const body = document.getElementById("tableBody");
-
-  // Panggil fungsi dari Apps Script baru (MPS_Logic.gs)
-  google.script.run.withSuccessHandler(function(rowsData) {
-    
-    // Filter berdasarkan Unit (Unit ada di index ke-6 dalam array)
-    let rows = rowsData.filter(r => {
-      if (filterUnit === 'Semua Unit') return true;
-      return r[6] === filterUnit;
-    });
-
-    // Update Header Tabel sesuai format MPS
-    head.innerHTML = `
-      <tr>
-        <th>🏅</th>
-        <th>Nama</th>
-        <th>Diklat</th>
-        <th>Bintal</th>
-        <th>Bintur</th>
-        <th>Poin</th>
-      </tr>
-    `;
-
-    // Render isi tabel
-    body.innerHTML = rows.length
-      ? rows.map((r, i) => `
-          <tr>
-            <td class="rank-icon">${typeof medalIcon === 'function' ? medalIcon(i + 1) : (i + 1)}</td>
-            <td style="text-align:left;padding-left:6px">${r[1]}</td>
-            <td>${r[2]}</td>
-            <td>${r[3]}</td>
-            <td>${r[4]}</td>
-            <td style="color:#2563eb; font-weight:bold;">${r[5]}</td>
-          </tr>
-        `).join("")
-      : `<tr><td colspan="6" style="text-align:center;padding:10px">Tidak ada data Nilai MPS</td></tr>`;
-      
-  }).getRekapMPS_Data(); // Ini memanggil fungsi di MPS_Logic.gs
-}
+document.getElementById("modeRekap").addEventListener("change", function(){
+  if (this.value === "mps") {
+    window.location.href = "mps_view.html";
+  }
+});
 </script>
+
 </body>
 
 </html>

@@ -1185,7 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="NilaiMPS">Nilai MPS</option>
+          <li onclick="loadPage('mps')">Nilai MPS</li>
         </select>
         
         <select id="unitFilter">
@@ -1282,79 +1282,7 @@ const softColors = [
   '#f472b6', // Pink 400
   '#a78bfa'  // Violet 400
 ];
-function updateUnitFilter(units) {
-  const unitFilter = document.getElementById('unitFilter');
-  unitFilter.innerHTML = '<option value="">Semua Unit</option>';
-  
-  // Filter: Jangan masukkan 'New Deploy' ke dropdown
-  const filteredUnits = units.filter(u => u.toUpperCase() !== "NEW DEPLOY");
-  
-  filteredUnits.forEach(unit => {
-    const opt = document.createElement('option');
-    opt.value = unit;
-    opt.textContent = unit;
-    unitFilter.appendChild(opt);
-  });
-}
 
-async function renderNilaiMPS() {
-  showLoading(true);
-  try {
-    const resp = await fetch(SCRIPT_URL + "?action=mpsNilai");
-    const data = await resp.json();
-    if (!data || data.length < 2) return;
-
-    const unitFilter = document.getElementById('unitFilter').value;
-    const tableHead = document.getElementById('tableHead');
-    const tableBody = document.getElementById('tableBody');
-
-    // Header Tabel
-    tableHead.innerHTML = `
-      <tr>
-        <th>Rank</th>
-        <th>Nama</th>
-        <th>Diklat</th>
-        <th>Bintal</th>
-        <th>Bintur</th>
-        <th>Poin</th>
-      </tr>
-    `;
-
-    tableBody.innerHTML = "";
-    let filteredData = data.slice(1);
-
-    // Filter Berdasarkan Unit (Jika dipilih)
-    if (unitFilter) {
-      // Catatan: Anda perlu menyertakan Unit di data JSON jika ingin filter client-side 
-      // atau biarkan Apps Script yang memfilter.
-    }
-
-    filteredData.forEach(row => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${row[0]}</td>
-        <td style="text-align:left; padding-left:8px;">${row[1]}</td>
-        <td>${row[2]}</td>
-        <td>${row[3]}</td>
-        <td>${row[4]}</td>
-        <td style="font-weight:800; color:#1e40af;">${row[5]}</td>
-      `;
-      tableBody.appendChild(tr);
-    });
-
-  } catch (err) {
-    console.error("Gagal memuat Nilai MPS:", err);
-  } finally {
-    showLoading(false);
-  }
-}
-function refreshData() {
-  const menu = document.getElementById('jenisRekap').value;
-  if (menu === "NilaiMPS") {
-    renderNilaiMPS();
-  } else if (menu === "RekapBintal") {
-    renderRekapBintal();
-  }}
 // ==========================================================
 // === FUNGSI FETCH DATA UNIFIED DAN ROBUST ===
 // ==========================================================
@@ -2823,6 +2751,64 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
+
+function getNilaiMPS(filterUnit) {
+  const ss = SpreadsheetApp.getActive();
+  const sh = ss.getSheetByName("rekapakhir");
+  if (!sh) return [];
+
+  const data = sh.getDataRange().getValues();
+  const head = data[0].map(h => h.toString().toLowerCase().trim());
+
+  const iNama = head.indexOf("nama");
+  const iUnit = head.indexOf("unit");
+
+  const iNI = head.indexOf("nilai individu");
+  const iNK = head.indexOf("nilai kelompok");
+  const iNL = head.indexOf("nilai lain");
+
+  const iBI = head.indexOf("bintal individu");
+  const iBK = head.indexOf("bintal kelompok");
+  const iBN = head.indexOf("bintal nonteknis");
+
+  let temp = [];
+
+  for (let i = 1; i < data.length; i++) {
+    const r = data[i];
+    const unit = r[iUnit];
+
+    if (filterUnit && unit !== filterUnit) continue;
+
+    const diklat =
+      (Number(r[iNI]) || 0) +
+      (Number(r[iNK]) || 0) +
+      (Number(r[iNL]) || 0);
+
+    const bintal =
+      (Number(r[iBI]) || 0) +
+      (Number(r[iBK]) || 0) +
+      (Number(r[iBN]) || 0);
+
+    const bintur = 0;
+    const poin = diklat + bintal + bintur;
+
+    temp.push({
+      nama: r[iNama],
+      diklat,
+      bintal,
+      bintur,
+      poin
+    });
+  }
+
+  temp.sort((a, b) => b.poin - a.poin);
+
+  return temp.map((r, i) => ({
+    rank: i + 1,
+    ...r
+  }));
+}
+
 </script>
 </body>
 

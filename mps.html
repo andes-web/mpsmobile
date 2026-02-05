@@ -1244,6 +1244,60 @@ table.rekap-akhir td:nth-child(3) {
       </div>
       
     </main>
+    <script>
+  function renderViewMPS(filterUnit) {
+    const body = document.getElementById('tableBody');
+    const head = document.getElementById('tableHeader');
+    
+    if (!body || !head) return;
+
+    // Set Header
+    head.innerHTML = `
+      <tr>
+        <th style="width:10%">Rank</th>
+        <th style="width:40%">Nama</th>
+        <th style="width:12%">Diklat</th>
+        <th style="width:12%">Bintal</th>
+        <th style="width:10%">Bintur</th>
+        <th style="width:16%">Poin</th>
+      </tr>
+    `;
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center;">Sedang mengambil data dari sheet...</td></tr>';
+
+    // Panggil fungsi di mps_logic.gs
+    google.script.run
+      .withSuccessHandler(function(data) {
+        if (!data || data.length === 0) {
+          body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">Data Kosong! Periksa nama Sheet dan kolom Anda.</td></tr>';
+          return;
+        }
+
+        // Normalisasi filter agar tidak sensitif huruf besar/kecil
+        const fUnit = filterUnit.toUpperCase();
+        const filtered = (fUnit === "SEMUA UNIT") ? data : data.filter(r => r.unit.toUpperCase() === fUnit);
+
+        if (filtered.length === 0) {
+          body.innerHTML = '<tr><td colspan="6" style="text-align:center;">Unit ' + filterUnit + ' tidak ditemukan.</td></tr>';
+          return;
+        }
+
+        body.innerHTML = filtered.map((r, i) => `
+          <tr>
+            <td style="text-align:center; font-weight:bold;">${i + 1}</td>
+            <td style="text-align:left; padding-left:8px;">${r.nama}</td>
+            <td style="text-align:center;">${r.diklat.toFixed(1)}</td>
+            <td style="text-align:center;">${r.bintal.toFixed(1)}</td>
+            <td style="text-align:center;">${r.bintur}</td>
+            <td style="text-align:center; color:#2563eb; font-weight:bold;">${r.poin.toFixed(1)}</td>
+          </tr>
+        `).join("");
+      })
+      .withFailureHandler(function(err) {
+        body.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">Error Server: ' + err.message + '</td></tr>';
+      })
+      .getRekapMPS_Data();
+  }
+</script>
     <footer>
       <a href="https://andes-web.github.io/mpsmobile/solo/spreadsheet.html" target="_blank" class="footer-link"> 
         © 2025 Andes | MPS System 
@@ -2311,13 +2365,10 @@ document.addEventListener('change', function(e) {
   const unit = document.getElementById('unitFilter').value;
 
   if (type === 'rekap_mps') {
-    // Memanggil fungsi yang baru saja ditempel di bawah
     renderViewMPS(unit);
   } else {
-    // Fungsi asli bawaan script Anda
-    if (typeof executeRender === "function") {
-      executeRender();
-    }
+    // Jalankan fungsi asli bawaan file mps.html Anda
+    if (typeof executeRender === "function") executeRender();
   }
 });
 </script>

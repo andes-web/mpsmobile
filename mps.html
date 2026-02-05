@@ -2753,13 +2753,21 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 <script>
-async function renderNilaiMPS(filterUnit = 'Semua Unit') {
+/**
+ * FUNGSI RENDER DENGAN PROTEKSI
+ */
+function renderNilaiMPS(filterUnit = 'Semua Unit') {
   const head = document.getElementById("tableHead");
   const body = document.getElementById("tableBody");
   
   if (!head || !body) return;
-  
   body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;">Memuat Data MPS...</td></tr>';
+
+  // PROTEKSI: Cek apakah library Google sudah siap
+  if (typeof google === 'undefined' || !google.script) {
+    body.innerHTML = '<tr><td colspan="6" style="color:red;text-align:center;">Error: Google Script API belum siap. Pastikan Anda membuka link dari Deployment Apps Script.</td></tr>';
+    return;
+  }
 
   google.script.run
     .withSuccessHandler(function(data) {
@@ -2770,7 +2778,7 @@ async function renderNilaiMPS(filterUnit = 'Semua Unit') {
 
       let filtered = data.filter(r => {
         if (filterUnit === 'Semua Unit') return true;
-        return String(r.unit).trim() === filterUnit.trim();
+        return String(r.unit).trim().toLowerCase() === filterUnit.trim().toLowerCase();
       });
 
       head.innerHTML = `
@@ -2791,37 +2799,38 @@ async function renderNilaiMPS(filterUnit = 'Semua Unit') {
 
       body.innerHTML = filtered.map(r => `
         <tr style="border-bottom: 1px solid #eee">
-          <td style="padding:8px"><b>${r.rank}</b></td>
+          <td style="padding:8px; text-align:center;"><b>${r.rank}</b></td>
           <td style="padding:8px; text-align:left">${r.nama}</td>
-          <td style="padding:8px">${r.diklat.toFixed(1)}</td>
-          <td style="padding:8px">${r.bintal.toFixed(1)}</td>
-          <td style="padding:8px">${r.bintur}</td>
-          <td style="padding:8px; color:#2563eb; font-weight:bold;">${r.poin.toFixed(1)}</td>
+          <td style="padding:8px; text-align:center;">${r.diklat.toFixed(1)}</td>
+          <td style="padding:8px; text-align:center;">${r.bintal.toFixed(1)}</td>
+          <td style="padding:8px; text-align:center;">${r.bintur}</td>
+          <td style="padding:8px; text-align:center; color:#2563eb; font-weight:bold;">${r.poin.toFixed(1)}</td>
         </tr>
       `).join("");
     })
     .withFailureHandler(function(err) {
-      body.innerHTML = `<tr><td colspan="6" style="color:red;text-align:center;">Gagal Terhubung ke Server</td></tr>`;
+      body.innerHTML = `<tr><td colspan="6" style="color:red;text-align:center;">Server Error: ${err}</td></tr>`;
     })
     .getRekapMPS_Data();
 }
 
-// LOGIKA PEMILIHAN MENU
-(function() {
+/**
+ * INISIALISASI EVENT LISTENER
+ */
+document.addEventListener('DOMContentLoaded', function() {
   const menuRekap = document.getElementById('jenisRekap');
   const unitFilter = document.getElementById('unitFilter');
 
   function updateTampilan() {
-    const unit = unitFilter ? unitFilter.value : 'Semua Unit';
     if (menuRekap.value === 'NilaiMPS') {
+      const unit = unitFilter ? unitFilter.value : 'Semua Unit';
       renderNilaiMPS(unit);
     }
   }
 
-  // Tambahkan event listener jika belum ada
   menuRekap?.addEventListener('change', updateTampilan);
   unitFilter?.addEventListener('change', updateTampilan);
-})();
+});
 </script>
 </body>
 

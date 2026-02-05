@@ -1185,7 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="mps">Nilai MPS</option>
+          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2753,13 +2753,23 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 <script>
-document.getElementById("modeRekap").addEventListener("change", function(){
-  if (this.value === "mps") {
-    window.location.href = "mps_view.html";
+(function() {
+  function hubungkanMenuMPS() {
+    const jenis = document.getElementById('jenisRekap').value;
+    const unit = document.getElementById('unitFilter').value;
+
+    if (jenis === 'NilaiMPS') {
+      renderNilaiMPS(unit); // Memanggil fungsi di mps_ui.html
+    }
   }
-});
+
+  // Pasang listener agar setiap ganti menu/unit, tabel MPS ikut terupdate
+  document.getElementById('jenisRekap')?.addEventListener('change', hubungkanMenuMPS);
+  document.getElementById('unitFilter')?.addEventListener('change', hubungkanMenuMPS);
+})();
 </script>
 
+<?!= include('mps_ui'); ?>
 </body>
 
 </html>

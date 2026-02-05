@@ -2306,16 +2306,20 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
     MODE_REKAP_BINTAL = false;
   }
 });
-// Contoh penempatan di right6x.html (bagian paling bawah)
 document.addEventListener('change', function(e) {
   const type = document.getElementById('jenisRekap').value;
   const unit = document.getElementById('unitFilter').value;
 
   if (type === 'rekap_mps') {
-    renderViewMPS(unit); // Panggil fungsi dari file mps_renderer.html
+    // Pastikan fungsi ini sudah ada di file mps_renderer.html
+    if (typeof renderViewMPS === "function") {
+      renderViewMPS(unit);
+    } else {
+      console.error("Fungsi renderViewMPS belum terload. Pastikan include sudah benar.");
+    }
   } else {
-    // Jalankan fungsi asli anda (executeRender atau renderTabel)
-    executeRender(); 
+    // Jalankan fungsi asli bawaan file mps.html Anda
+    if (typeof executeRender === "function") executeRender();
   }
 });
 </script>
@@ -2764,6 +2768,7 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 
+<?!= include('mps_renderer'); ?>
 </body>
 
 </html>

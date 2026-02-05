@@ -2754,80 +2754,70 @@ function applyFreshRanking(data, nilaiIndex) {
 </script>
 <script>
 /**
- * FUNGSI RENDER MPS DENGAN SISTEM TUNGGU (RETRY LOGIC)
+ * VERSI TERKUAT: Menunggu library Google sampai benar-benar ada
  */
-async function renderNilaiMPS(filterUnit = 'Semua Unit') {
+function jalankanRenderMPS() {
   const body = document.getElementById("tableBody");
   const head = document.getElementById("tableHead");
-  
+  const unit = document.getElementById('unitFilter')?.value || 'Semua Unit';
+
   if (!body) return;
-  body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;">Menghubungkan ke API Google...</td></tr>';
 
-  // Fungsi internal untuk eksekusi
-  const executeRender = () => {
-    google.script.run
-      .withSuccessHandler(function(data) {
-        if (data.error) {
-          body.innerHTML = `<tr><td colspan="6" style="color:red;text-align:center;">${data.error}</td></tr>`;
-          return;
-        }
-
-        let filtered = data.filter(r => {
-          if (filterUnit === 'Semua Unit') return true;
-          return String(r.unit).trim().toLowerCase() === filterUnit.trim().toLowerCase();
-        });
-
-        head.innerHTML = `
-          <tr style="background:#2563eb; color:white;">
-            <th style="padding:10px">Rank</th>
-            <th style="padding:10px; text-align:left">Nama</th>
-            <th style="padding:10px">Diklat</th>
-            <th style="padding:10px">Bintal</th>
-            <th style="padding:10px">Bintur</th>
-            <th style="padding:10px">Poin</th>
-          </tr>
-        `;
-
-        body.innerHTML = filtered.length ? filtered.map(r => `
-          <tr style="border-bottom: 1px solid #eee">
-            <td style="text-align:center;"><b>${r.rank}</b></td>
-            <td style="text-align:left; padding-left:10px;">${r.nama}</td>
-            <td style="text-align:center;">${r.diklat.toFixed(1)}</td>
-            <td style="text-align:center;">${r.bintal.toFixed(1)}</td>
-            <td style="text-align:center;">${r.bintur}</td>
-            <td style="text-align:center; color:#2563eb; font-weight:bold;">${r.poin.toFixed(1)}</td>
-          </tr>
-        `).join("") : '<tr><td colspan="6" style="text-align:center;">Data unit tidak ditemukan</td></tr>';
-      })
-      .getRekapMPS_Data();
-  };
-
-  // PENGECEKAN KESIAPAN API
-  if (typeof google !== 'undefined' && google.script && google.script.run) {
-    executeRender();
-  } else {
-    // Jika belum siap, tunggu 1 detik lalu coba lagi sekali saja
-    console.warn("Google API belum siap, mencoba ulang dalam 1 detik...");
-    setTimeout(() => {
-      if (typeof google !== 'undefined' && google.script) {
-        executeRender();
-      } else {
-        body.innerHTML = '<tr><td colspan="6" style="color:red;text-align:center;">Gagal memuat Google API. Pastikan Anda mengakses link via Deployment.</td></tr>';
-      }
-    }, 1000);
+  // CEK APAKAH GOOGLE API SUDAH ADA
+  if (typeof google === 'undefined' || !google.script || !google.script.run) {
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;">Menunggu koneksi Google (1 detik)...</td></tr>';
+    // Coba lagi otomatis dalam 1.5 detik
+    setTimeout(jalankanRenderMPS, 1500);
+    return;
   }
+
+  body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;">Mengambil data dari server...</td></tr>';
+
+  google.script.run
+    .withSuccessHandler(function(data) {
+      if (data.error) {
+        body.innerHTML = `<tr><td colspan="6" style="color:red;text-align:center;">${data.error}</td></tr>`;
+        return;
+      }
+
+      let filtered = data.filter(r => {
+        if (unit === 'Semua Unit') return true;
+        return String(r.unit).trim().toLowerCase() === unit.trim().toLowerCase();
+      });
+
+      head.innerHTML = `
+        <tr style="background:#2563eb; color:white;">
+          <th style="padding:10px">Rank</th>
+          <th style="padding:10px; text-align:left">Nama</th>
+          <th style="padding:10px">Diklat</th>
+          <th style="padding:10px">Bintal</th>
+          <th style="padding:10px">Bintur</th>
+          <th style="padding:10px">Poin</th>
+        </tr>
+      `;
+
+      body.innerHTML = filtered.length ? filtered.map(r => `
+        <tr style="border-bottom: 1px solid #eee">
+          <td style="text-align:center; font-weight:bold;">${r.rank}</td>
+          <td style="text-align:left; padding-left:10px;">${r.nama}</td>
+          <td style="text-align:center;">${r.diklat.toFixed(1)}</td>
+          <td style="text-align:center;">${r.bintal.toFixed(1)}</td>
+          <td style="text-align:center;">${r.bintur}</td>
+          <td style="text-align:center; color:#2563eb; font-weight:bold;">${r.poin.toFixed(1)}</td>
+        </tr>
+      `).join("") : '<tr><td colspan="6" style="text-align:center;">Data unit tidak cocok</td></tr>';
+    })
+    .withFailureHandler(function(err) {
+      body.innerHTML = `<tr><td colspan="6" style="color:red;text-align:center;">Gagal: ${err}</td></tr>`;
+    })
+    .getRekapMPS_Data();
 }
 
-/**
- * INISIALISASI PEMILIH MENU
- */
+// Pasang Event Listener ke Dropdown
 document.addEventListener('change', function(e) {
   if (e.target && (e.target.id === 'jenisRekap' || e.target.id === 'unitFilter')) {
-    const jenis = document.getElementById('jenisRekap').value;
-    const unit = document.getElementById('unitFilter').value;
-    
-    if (jenis === 'NilaiMPS') {
-      renderNilaiMPS(unit);
+    if (document.getElementById('jenisRekap').value === 'NilaiMPS') {
+      jalankanRenderMPS();
     }
   }
 });

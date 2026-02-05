@@ -2753,19 +2753,22 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 <script>
+/**
+ * JEMBATAN INTEGRASI
+ */
 (function() {
-  function hubungkanMenuMPS() {
+  function checkAndRender() {
     const jenis = document.getElementById('jenisRekap').value;
     const unit = document.getElementById('unitFilter').value;
 
     if (jenis === 'NilaiMPS') {
-      renderNilaiMPS(unit); // Memanggil fungsi di mps_ui.html
+      renderNilaiMPS(unit);
     }
   }
 
-  // Pasang listener agar setiap ganti menu/unit, tabel MPS ikut terupdate
-  document.getElementById('jenisRekap')?.addEventListener('change', hubungkanMenuMPS);
-  document.getElementById('unitFilter')?.addEventListener('change', hubungkanMenuMPS);
+  // Aktifkan saat dropdown berubah
+  document.getElementById('jenisRekap')?.addEventListener('change', checkAndRender);
+  document.getElementById('unitFilter')?.addEventListener('change', checkAndRender);
 })();
 </script>
 

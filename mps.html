@@ -2716,8 +2716,110 @@ function applyFreshRanking(data, nilaiIndex) {
 </script>
 <!-- =================== END PATCH RE-RENDER FILTER REKAP BINTAL ==================== -->
 
+<style>
+  /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */
+  #tableBody tr td:nth-child(6) {
+    color: #000000 !important; /* Paksa Hitam */
+    font-family: 'Poppins', sans-serif !important; /* Paksa Poppins */
+    font-weight: 500 !important;
+    font-size: 0.65rem !important;
+  }
+
+  /* Tetap hitam saat baris di-hover */
+  #tableBody tr:hover td:nth-child(6) {
+    color: #000000 !important;
+  }
+  
+</style>
 
 <script>
+/**
+ * Script Tambahan untuk Memastikan Kolom BN di Rekap Bintal Menjadi Hitam
+ * Ditempel paling bawah agar mengeksekusi setelah render selesai
+ */
+(function() {
+  const originalRenderRekapBintal = window.renderRekapBintal;
+  
+  window.renderRekapBintal = function() {
+    // Jalankan fungsi render asli dulu
+    if (typeof originalRenderRekapBintal === 'function') {
+      originalRenderRekapBintal.apply(this, arguments);
+    }
+    
+    // Setelah render selesai, cari semua baris di tabel
+    const rows = document.querySelectorAll('#tableBody tr');
+    const jenisRekap = document.getElementById('jenisRekap')?.value;
+
+    // Hanya eksekusi jika menu yang dipilih adalah Rekap Bintal
+    if (jenisRekap === 'RekapBintal') {
+      rows.forEach(row => {
+        const tdBN = row.cells[5]; // Kolom ke-6 (index 5) adalah BN
+        if (tdBN) {
+          tdBN.style.setProperty('color', '#000000', 'important');
+          tdBN.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
+          // Menghapus class warna biru/merah bawaan agar tidak konflik
+          tdBN.classList.remove('biru', 'merah');
+        }
+      });
+    }
+  };
+})();
+
+</script>
+<script>
+// 1. Variabel Pengunci Global
+let isMPSActive = false;
+
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    const unitFilter = document.getElementById('unitFilter');
+    const jenisRekap = document.getElementById('jenisRekap');
+    const statBox = document.querySelector('.statBox');
+    const inputPeserta = document.getElementById('inputPeserta');
+
+    if(!unitFilter || !jenisRekap) return;
+
+    // 2. Membajak fungsi render asli agar tidak bisa menghapus tabel MPS
+    const originalRenderData = window.renderData;
+    window.renderData = function() {
+      if (isMPSActive) {
+        console.log("Sistem mencoba refresh, tapi diblokir karena Nilai MPS aktif.");
+        return; // BERHENTI DI SINI, jangan hapus tabel
+      }
+      if (typeof originalRenderData === 'function') {
+        originalRenderData.apply(this, arguments);
+      }
+    };
+
+    // 3. Listener Perubahan Menu
+    jenisRekap.addEventListener('change', function() {
+      const val = this.value;
+      
+      // Reset State
+      isMPSActive = (val === 'NilaiMPS');
+
+      // Atur UI
+      if (document.getElementById('pesertaInputContainer')) {
+        document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+      }
+      unitFilter.style.display = (val === 'NilaiMPS') ? 'none' : 'block';
+
+      if (isMPSActive) {
+        if(statBox) statBox.style.display = 'none';
+        fetchNilaiMPS();
+      } else {
+        if(statBox) statBox.style.display = 'flex';
+        // Jalankan render normal kembali
+        window.renderData(); 
+      }
+    });
+
+    // Listener Unit Filter
+    unitFilter.addEventListener('change', function(){
+      if(!isMPSActive) window.renderData();
+    });
+  });
+})();
 
 /**
  * FUNGSI FETCH NILAI MPS - ANTI HAPUS & HEADER FIX
@@ -2770,56 +2872,6 @@ async function fetchNilaiMPS() {
     tableBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">⚠️ Gagal memuat. Periksa koneksi atau URL Apps Script.</td></tr>';
   }
 }
-</script>
-<style>
-  /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */
-  #tableBody tr td:nth-child(6) {
-    color: #000000 !important; /* Paksa Hitam */
-    font-family: 'Poppins', sans-serif !important; /* Paksa Poppins */
-    font-weight: 500 !important;
-    font-size: 0.65rem !important;
-  }
-
-  /* Tetap hitam saat baris di-hover */
-  #tableBody tr:hover td:nth-child(6) {
-    color: #000000 !important;
-  }
-  
-</style>
-
-<script>
-/**
- * Script Tambahan untuk Memastikan Kolom BN di Rekap Bintal Menjadi Hitam
- * Ditempel paling bawah agar mengeksekusi setelah render selesai
- */
-(function() {
-  const originalRenderRekapBintal = window.renderRekapBintal;
-  
-  window.renderRekapBintal = function() {
-    // Jalankan fungsi render asli dulu
-    if (typeof originalRenderRekapBintal === 'function') {
-      originalRenderRekapBintal.apply(this, arguments);
-    }
-    
-    // Setelah render selesai, cari semua baris di tabel
-    const rows = document.querySelectorAll('#tableBody tr');
-    const jenisRekap = document.getElementById('jenisRekap')?.value;
-
-    // Hanya eksekusi jika menu yang dipilih adalah Rekap Bintal
-    if (jenisRekap === 'RekapBintal') {
-      rows.forEach(row => {
-        const tdBN = row.cells[5]; // Kolom ke-6 (index 5) adalah BN
-        if (tdBN) {
-          tdBN.style.setProperty('color', '#000000', 'important');
-          tdBN.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
-          // Menghapus class warna biru/merah bawaan agar tidak konflik
-          tdBN.classList.remove('biru', 'merah');
-        }
-      });
-    }
-  };
-})();
-
 </script>
 </body>
 

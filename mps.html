@@ -2243,7 +2243,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // 1. Muat data peserta secara global
     await loadPesertaData();
-    
+    resetTableHeader();
     // 2. Setup Event Listener untuk Jenis Rekap
     if (jenisRekap) {
         jenisRekap.onchange = () => {
@@ -2322,6 +2322,26 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
     MODE_REKAP_BINTAL = false;
   }
 });
+
+function resetTableHeader() {
+    const table = document.querySelector("table");
+    if (!table) return;
+
+    // Pulihkan semua kolom (termasuk yang disembunyikan Rekap Akhir)
+    table.querySelectorAll("th, td").forEach(el => {
+        el.style.display = "";
+        el.style.visibility = "";
+        el.style.width = "";
+        el.style.minWidth = "";
+        el.style.maxWidth = "";
+    });
+
+    // Pulihkan colgroup jika ada
+    table.querySelectorAll("col").forEach(col => {
+        col.style.display = "";
+        col.style.width = "";
+    });
+}
 
 </script>
 

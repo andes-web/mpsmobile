@@ -2299,6 +2299,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 });
+if (document.getElementById("jenisRekap").value === "NilaiMPS") {
+  loadNilaiMPSFinal();
+  return;
+}
+
 document.getElementById("jenisRekap").addEventListener("change", function () {
   if (this.value === "RekapBintal") {
     renderRekapBintal();
@@ -2306,11 +2311,6 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
     MODE_REKAP_BINTAL = false;
   }
 });
-
-if (document.getElementById("jenisRekap").value === "NilaiMPS") {
-  loadNilaiMPSFinal();
-  return;
-}
 
 </script>
 

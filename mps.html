@@ -2769,11 +2769,23 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 
 async function renderNilaiMPS(selectedUnit = "Semua Unit") {
+    const tableHead = document.getElementById("tableHead");
     const tableBody = document.getElementById("tableBody");
+
+    tableHead.innerHTML = `
+        <tr>
+            <th>🏅</th>
+            <th>Nama</th>
+            <th>Diklat</th>
+            <th>Bintal</th>
+            <th>Bintur</th>
+            <th>Poin</th>
+        </tr>
+    `;
 
     tableBody.innerHTML = `
         <tr>
-            <td colspan="99" style="text-align:center;padding:10px">
+            <td colspan="6" style="text-align:center;padding:10px">
                 Memuat Nilai MPS...
             </td>
         </tr>
@@ -2786,7 +2798,7 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
         if (!Array.isArray(data) || data.length === 0) {
             tableBody.innerHTML = `
                 <tr>
-                    <td colspan="99" style="text-align:center">
+                    <td colspan="6" style="text-align:center">
                         Tidak ada data yang tersedia
                     </td>
                 </tr>`;
@@ -2799,28 +2811,25 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
 
         tableBody.innerHTML = filtered.map((r, i) => `
             <tr>
-                <td>${i + 1}</td>                 <!-- rank / medali -->
+                <td>${i + 1}</td>
                 <td style="text-align:left">${r.nama || "-"}</td>
-                <td>${r.diklat ?? 0}</td>
-                <td>${r.bintal ?? 0}</td>
-                <td>${r.bintur ?? 0}</td>
-                <td>${r.poin ?? 0}</td>
+                <td>${r.diklat || 0}</td>
+                <td>${r.bintal || 0}</td>
+                <td>${r.bintur || 0}</td>
+                <td><strong>${r.poin || 0}</strong></td>
             </tr>
         `).join("");
 
-    } catch (err) {
-        console.error(err);
+    } catch (e) {
+        console.error(e);
         tableBody.innerHTML = `
             <tr>
-                <td colspan="99" style="color:red;text-align:center">
+                <td colspan="6" style="color:red;text-align:center">
                     Gagal memuat Nilai MPS
                 </td>
             </tr>`;
     }
 }
-
-
-
 
 </script>
 </body>

@@ -2827,52 +2827,48 @@ document.addEventListener('DOMContentLoaded', function() {
     const jenisRekap = document.getElementById('jenisRekap');
     const unitFilter = document.getElementById('unitFilter');
     const statBox = document.querySelector('.statBox');
-    const inputContainer = document.getElementById('pesertaInputContainer');
-
-    // 1. Matikan fungsi render otomatis jika Nilai MPS atau Rekap Bintal aktif
-    const originalRenderData = window.renderData;
-    window.renderData = function() {
-        const currentVal = jenisRekap ? jenisRekap.value : '';
-        // Tambahkan pengecualian agar tidak terhapus saat Nilai MPS dipilih
-        if (currentVal === 'NilaiMPS' || currentVal === 'RekapBintal') {
-            console.log("Render otomatis dicegah untuk menjaga tabel tetap stabil.");
-            return; 
-        }
-        if (typeof originalRenderData === 'function') {
-            originalRenderData.apply(this, arguments);
-        }
-    };
+    const rekapContent = document.getElementById('rekapContent');
 
     if (jenisRekap) {
         jenisRekap.addEventListener('change', function() {
             const val = this.value;
-            
-            // 2. Kontrol Visibilitas UI secara ketat
-            if(unitFilter) {
-                unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal' || val === 'RekapAkhir') ? 'none' : 'block';
-            }
-            if(statBox) {
-                statBox.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'flex';
-            }
-            if(inputContainer) {
-                inputContainer.style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
-            }
 
-            // 3. Eksekusi Render Langsung
+            // 1. Matikan UI yang mengganggu
+            if(unitFilter) unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'block';
+            if(statBox) statBox.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'flex';
+
+            // 2. LOGIKA ANTI-HILANG (Hard-Lock)
             if (val === 'NilaiMPS') {
+                // Bersihkan konten dulu
+                rekapContent.innerHTML = '<div style="text-align:center; padding:20px;">Memuat Data MPS...</div>';
+                
+                // Panggil fetchNilaiMPS
                 if (typeof fetchNilaiMPS === 'function') {
-                    fetchNilaiMPS(); 
+                    fetchNilaiMPS();
+                    
+                    // Kunci elemen agar tidak bisa diubah oleh script lain selama 1 detik
+                    // Ini cukup untuk memblokir render otomatis yang telat masuk
+                    const originalInnerHTML = rekapContent.innerHTML;
+                    const lockInterval = setInterval(() => {
+                        if (jenisRekap.value !== 'NilaiMPS') {
+                            clearInterval(lockInterval);
+                        } else if (rekapContent.innerHTML === '' || rekapContent.innerHTML.includes('Memuat')) {
+                            // Biarkan fetch mengisi data
+                        } else {
+                            // Jika data sudah masuk, hentikan pembersihan liar
+                            window.renderData = function() { return false; }; 
+                        }
+                    }, 100);
                 }
             } else if (val === 'RekapBintal') {
-                // Pastikan fungsi rekap bintal dipanggil jika tersedia
                 if (typeof fetchRekapBintal === 'function') {
                     fetchRekapBintal();
                 } else {
                     window.renderData();
                 }
             } else {
-                // Kembalikan ke render normal untuk pilihan lainnya
-                window.renderData();
+                // Kembalikan fungsi renderData ke normal jika user pindah ke menu lain
+                location.reload(); // Alternatif paling stabil untuk reset state aplikasi
             }
         });
     }

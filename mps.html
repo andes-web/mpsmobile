@@ -2681,7 +2681,8 @@ let MODE_REKAP_BINTAL = false;
   if (val === 'NilaiMPS') {
     fetchNilaiMPS();
   } else {
-    // Panggil fungsi render original lainnya (renderRekap, dll)
+    document.querySelector('.statBox').style.display = 'flex';
+    document.querySelector('.unit-recap-bar').style.display = 'block';
     renderData(); 
   }
 });
@@ -2727,7 +2728,8 @@ function applyFreshRanking(data, nilaiIndex) {
   if (val === 'NilaiMPS') {
     fetchNilaiMPS();
   } else {
-    // Panggil fungsi render original lainnya (renderRekap, dll)
+    document.querySelector('.statBox').style.display = 'flex';
+    document.querySelector('.unit-recap-bar').style.display = 'block';
     renderData(); 
   }
 });
@@ -2786,39 +2788,55 @@ async function fetchNilaiMPS() {
   const tableHead = document.getElementById('tableHead');
   const tableBody = document.getElementById('tableBody');
   const statBox = document.querySelector('.statBox');
+  const unitBar = document.querySelector('.unit-recap-bar');
 
   // Loading state
-  tableBody.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding:20px;">Memuat data Nilai MPS...</td></tr>';
-  statBox.style.display = 'none'; // Sembunyikan statbox karena format datanya berbeda
+  tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">Memuat data Nilai MPS...</td></tr>';
+  statBox.style.display = 'none'; 
+  unitBar.style.display = 'none';
 
   try {
     const response = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
     const data = await response.json();
 
+    // Data dari URL tersebut adalah Array of Arrays:
+    // data[0] = ["Rank", "Nama", "Diklat", "Bintal", "Bintur", "Point"]
+    // data[1..n] = isinya
+    
     if (data && data.length > 0) {
-      // 1. Render Header
-      const headers = Object.keys(data[0]);
+      // 1. Ambil Header dari baris pertama (Index 0)
+      const headers = data[0]; 
       tableHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
 
-      // 2. Render Body
-      tableBody.innerHTML = data.map(row => {
-        return `<tr>${headers.map(h => {
-          let val = row[h] || '-';
-          // Tambahkan logika pewarnaan jika perlu (contoh untuk kolom Nilai)
+      // 2. Render Body mulai dari baris kedua (Index 1)
+      let bodyHtml = '';
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        bodyHtml += '<tr>';
+        row.forEach((cell, index) => {
+          let val = cell === null || cell === undefined ? '' : cell;
           let style = "";
-          if (h.toLowerCase().includes('nilai') && !isNaN(val)) {
+          
+          // Tambahkan logika warna hijau jika Point (kolom index 5) >= 75
+          if (index === 5 && !isNaN(val) && val !== "") {
              style = val >= 75 ? 'color: #00a759; font-weight:bold;' : 'color: #dc2626; font-weight:bold;';
           }
-          return `<td style="${style}">${val}</td>`;
-        }).join('')}</tr>`;
-      }).join('');
+          
+          // Kolom Nama (index 1) rata kiri
+          if (index === 1) style += 'text-align: left; padding-left: 8px;';
+
+          bodyHtml += `<td style="${style}">${val}</td>`;
+        });
+        bodyHtml += '</tr>';
+      }
+      tableBody.innerHTML = bodyHtml;
 
     } else {
-      tableBody.innerHTML = '<tr><td colspan="100%">Data tidak ditemukan.</td></tr>';
+      tableBody.innerHTML = '<tr><td colspan="6">Data tidak ditemukan.</td></tr>';
     }
   } catch (error) {
-    console.error('Error fetching Nilai MPS:', error);
-    tableBody.innerHTML = '<tr><td colspan="100%" style="color:red;">Gagal mengambil data dari server.</td></tr>';
+    console.error('Error:', error);
+    tableBody.innerHTML = '<tr><td colspan="6" style="color:red;">Gagal mengambil data.</td></tr>';
   }
 }
 </script>

@@ -2769,31 +2769,11 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 
 async function renderNilaiMPS(selectedUnit = "Semua Unit") {
-    const table = document.querySelector("table");
-    const tableHead = document.getElementById("tableHead");
     const tableBody = document.getElementById("tableBody");
 
-    // 🔥 WAJIB: reset thead untuk memutus warisan floating header lama
-    tableHead.replaceWith(tableHead.cloneNode(false));
-    const newHead = document.getElementById("tableHead");
-
-    // ✅ Header STRUKTUR ASLI (ikon + kolom lengkap)
-    newHead.innerHTML = `
-        <tr>
-            <th class="rank-col">🏅</th>
-            <th>Nama</th>
-            <th>Diklat</th>
-            <th>Bintal</th>
-            <th>Bintur</th>
-            <th>Poin</th>
-        </tr>
-    `;
-
-    // Body placeholder (jumlah kolom HARUS sama)
     tableBody.innerHTML = `
         <tr>
-            <td>–</td>
-            <td colspan="5" style="text-align:left;padding:10px">
+            <td colspan="99" style="text-align:center;padding:10px">
                 Memuat Nilai MPS...
             </td>
         </tr>
@@ -2806,8 +2786,7 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
         if (!Array.isArray(data) || data.length === 0) {
             tableBody.innerHTML = `
                 <tr>
-                    <td>–</td>
-                    <td colspan="5" style="text-align:left">
+                    <td colspan="99" style="text-align:center">
                         Tidak ada data yang tersedia
                     </td>
                 </tr>`;
@@ -2820,12 +2799,12 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
 
         tableBody.innerHTML = filtered.map((r, i) => `
             <tr>
-                <td>${i + 1}</td>
+                <td>${i + 1}</td>                 <!-- rank / medali -->
                 <td style="text-align:left">${r.nama || "-"}</td>
                 <td>${r.diklat ?? 0}</td>
                 <td>${r.bintal ?? 0}</td>
                 <td>${r.bintur ?? 0}</td>
-                <td><strong>${r.poin ?? 0}</strong></td>
+                <td>${r.poin ?? 0}</td>
             </tr>
         `).join("");
 
@@ -2833,13 +2812,13 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
         console.error(err);
         tableBody.innerHTML = `
             <tr>
-                <td>!</td>
-                <td colspan="5" style="color:red;text-align:left">
+                <td colspan="99" style="color:red;text-align:center">
                     Gagal memuat Nilai MPS
                 </td>
             </tr>`;
     }
 }
+
 
 
 

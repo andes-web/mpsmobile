@@ -2809,9 +2809,10 @@ function loadNilaiMPS() {
   const unitEl = document.getElementById('filterUnit');
   const unit = unitEl ? unitEl.value : '';
 
-  fetch(GAS_URL + '?action=nilaiMPS&unit=' + encodeURIComponent(unit), {cache:'no-store'})
-    .then(r => r.json())
-    .then(renderNilaiMPS)
+  fetch(GAS_URL + '?action=nilaiMPS')
+  .then(r => r.json())
+  .then(data => {
+    renderNilaiMPS(data);
     .catch(() => {
       const tb = document.getElementById('tableBody');
       if (tb) tb.innerHTML = '<tr><td colspan="6">Gagal memuat Nilai MPS</td></tr>';

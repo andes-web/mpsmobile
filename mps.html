@@ -2672,19 +2672,33 @@ let MODE_REKAP_BINTAL = false;
   });
   document.getElementById('jenisRekap').addEventListener('change', function() {
   const val = this.value;
-  
+  const statBox = document.querySelector('.statBox');
+  const unitBar = document.querySelector('.unit-recap-bar');
+  const searchContainer = document.querySelector('.search-container');
+  const pesertaInputContainer = document.getElementById('pesertaInputContainer');
+
   // Sembunyikan container input peserta jika bukan NilaiIndividu
   document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
   // Sembunyikan filter unit jika NilaiMPS dipilih
   document.getElementById('unitFilter').style.display = (val === 'NilaiMPS') ? 'none' : 'block';
 
   if (val === 'NilaiMPS') {
+    // Sembunyikan elemen yang tidak relevan dengan Nilai MPS
+    if(statBox) statBox.style.display = 'none';
+    if(unitBar) unitBar.style.display = 'none';
+    if(pesertaInputContainer) pesertaInputContainer.style.display = 'none';
+    
+    // Panggil fungsi Nilai MPS dan STOP sampai di sini
     fetchNilaiMPS();
   } else {
-    document.querySelector('.statBox').style.display = 'flex';
-    document.querySelector('.unit-recap-bar').style.display = 'block';
-    renderData(); 
-  }
+    // Kembalikan tampilan untuk menu lainnya
+    if(statBox) statBox.style.display = 'flex';
+    if(unitBar) unitBar.style.display = 'block';
+    
+    // Hanya jalankan renderData jika BUKAN NilaiMPS
+    if (typeof renderData === 'function') {
+      renderData(); 
+  }}
 });
 })();
 
@@ -2717,7 +2731,37 @@ function applyFreshRanking(data, nilaiIndex) {
       }
     });
   });
+  document.getElementById('jenisRekap').addEventListener('change', function() {
+  const val = this.value;
+  const statBox = document.querySelector('.statBox');
+  const unitBar = document.querySelector('.unit-recap-bar');
+  const searchContainer = document.querySelector('.search-container');
+  const pesertaInputContainer = document.getElementById('pesertaInputContainer');
+
+  // Sembunyikan container input peserta jika bukan NilaiIndividu
+  document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+  // Sembunyikan filter unit jika NilaiMPS dipilih
+  document.getElementById('unitFilter').style.display = (val === 'NilaiMPS') ? 'none' : 'block';
+
+  if (val === 'NilaiMPS') {
+    // Sembunyikan elemen yang tidak relevan dengan Nilai MPS
+    if(statBox) statBox.style.display = 'none';
+    if(unitBar) unitBar.style.display = 'none';
+    if(pesertaInputContainer) pesertaInputContainer.style.display = 'none';
+    
+    // Panggil fungsi Nilai MPS dan STOP sampai di sini
+    fetchNilaiMPS();
+  } else {
+    // Kembalikan tampilan untuk menu lainnya
+    if(statBox) statBox.style.display = 'flex';
+    if(unitBar) unitBar.style.display = 'block';
+    
+    // Hanya jalankan renderData jika BUKAN NilaiMPS
+    if (typeof renderData === 'function') {
+      renderData(); 
+  }}
 });
+})();
 </script>
 <style>
   /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */

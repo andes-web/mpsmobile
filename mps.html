@@ -2769,18 +2769,13 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 
 async function renderNilaiMPS(selectedUnit = "Semua Unit") {
-    const table = document.querySelector("table");
     const tableHead = document.getElementById("tableHead");
     const tableBody = document.getElementById("tableBody");
 
-    // 🔥 WAJIB: reset thead untuk memutus warisan floating header lama
-    tableHead.replaceWith(tableHead.cloneNode(false));
-    const newHead = document.getElementById("tableHead");
-
-    // ✅ Header STRUKTUR ASLI (ikon + kolom lengkap)
-    newHead.innerHTML = `
+    // 🔒 Header WAJIB konsisten (6 kolom, tanpa colspan)
+    tableHead.innerHTML = `
         <tr>
-            <th class="rank-col">🏅</th>
+            <th>Rank</th>
             <th>Nama</th>
             <th>Diklat</th>
             <th>Bintal</th>
@@ -2789,7 +2784,7 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
         </tr>
     `;
 
-    // Body placeholder (jumlah kolom HARUS sama)
+    // Placeholder body (juga 6 kolom)
     tableBody.innerHTML = `
         <tr>
             <td>–</td>
@@ -2814,6 +2809,7 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
             return;
         }
 
+        // Filter unit (jika digunakan)
         const filtered = selectedUnit === "Semua Unit"
             ? data
             : data.filter(r => r.unit === selectedUnit);
@@ -2821,7 +2817,7 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
         tableBody.innerHTML = filtered.map((r, i) => `
             <tr>
                 <td>${i + 1}</td>
-                <td style="text-align:left">${r.nama || "-"}</td>
+                <td style="text-align:left">${r.nama ?? "-"}</td>
                 <td>${r.diklat ?? 0}</td>
                 <td>${r.bintal ?? 0}</td>
                 <td>${r.bintur ?? 0}</td>
@@ -2829,8 +2825,8 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
             </tr>
         `).join("");
 
-    } catch (err) {
-        console.error(err);
+    } catch (e) {
+        console.error(e);
         tableBody.innerHTML = `
             <tr>
                 <td>!</td>
@@ -2840,6 +2836,8 @@ async function renderNilaiMPS(selectedUnit = "Semua Unit") {
             </tr>`;
     }
 }
+
+
 </script>
 </body>
 

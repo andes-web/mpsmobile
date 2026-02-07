@@ -1286,29 +1286,27 @@ const softColors = [
 // ==========================================================
 // === FUNGSI FETCH DATA UNIFIED DAN ROBUST ===
 // ==========================================================
-async function fetchData(sheetName) {
-    const url = `${GAS_URL}?sheet=${sheetName}`;
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Status HTTP: ${response.status}`);
-        }
-        const data = await response.json();
-        
-        if (!Array.isArray(data) || data.length === 0) {
-            return { headers: [], rawData: [] };
-        }
+async function fetchData(type) {
+    let url = "";
 
-        const headers = data[0].map(h => h.toString().trim());
-        const rawData = data.slice(1);
-        return { headers: headers, rawData: rawData };
+    if (type === "NilaiMPS") {
+        url = `${GAS_URL}?action=nilai_mps`;
+    } else {
+        url = `${GAS_URL}?sheet=${type}`;
+    }
 
-    } catch (error) {
-        console.error("Fetch error for sheet", sheetName, ":", error);
-        Swal.fire('Error Koneksi/Data', `Gagal memuat sheet **${sheetName}**. Pastikan URL Apps Script benar dan sheet ada. Pesan: ${error.message}`, 'error');
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Fetch gagal");
+    const data = await response.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
         return { headers: [], rawData: [] };
     }
+
+    const headers = Object.keys(data[0]);
+    return { headers, rawData: data };
 }
+
 
 // FUNGSI PERINGKAT: Menggunakan ikon hanya untuk 3 besar
 function getRankDisplay(rank){
@@ -2207,6 +2205,14 @@ async function renderRekap(sheetName) {
     const tableBox = document.querySelector(".tableBox");
     const nilaiIndividuView = document.getElementById("nilaiIndividuView");
 
+    // =======================
+// MODE NILAI MPS (KHUSUS)
+// =======================
+    if (sheetName === "NilaiMPS") {
+        await renderNilaiMPS();
+        return;
+    }
+
     // Tentukan apakah perlu populate ulang Unit Filter (hanya jika tipe berubah)
     if (sheetName !== lastSheetType) {
         // Reset filter Unit ke default sebelum mem-populate ulang
@@ -2836,6 +2842,55 @@ function renderNilaiMPS(data) {
       </tr>
     `).join('');
 }
+
+async function renderNilaiMPS() {
+    // reset tampilan
+    document.querySelector(".statBox").style.display = "none";
+    document.getElementById("posSection").style.display = "none";
+    document.getElementById("unitBarContainer").style.display = "none";
+
+    document.getElementById("tableHead").innerHTML = `
+        <tr>
+            <th>🏅</th>
+            <th>Nama</th>
+            <th>Diklat</th>
+            <th>Bintal</th>
+            <th>Bintur</th>
+            <th>Poin</th>
+        </tr>
+    `;
+
+    document.getElementById("tableBody").innerHTML =
+        `<tr><td colspan="6" style="text-align:center">Memuat data...</td></tr>`;
+
+    try {
+        const res = await fetch(`${GAS_URL}?action=nilai_mps`);
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+            document.getElementById("tableBody").innerHTML =
+                `<tr><td colspan="6" style="text-align:center">Tidak ada data yang tersedia</td></tr>`;
+            return;
+        }
+
+        document.getElementById("tableBody").innerHTML = data.map((r, i) => `
+            <tr>
+                <td>${i + 1}</td>
+                <td style="text-align:left">${r.nama || "-"}</td>
+                <td>${r.diklat || 0}</td>
+                <td>${r.bintal || 0}</td>
+                <td>${r.bintur || 0}</td>
+                <td><strong>${r.poin || 0}</strong></td>
+            </tr>
+        `).join("");
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById("tableBody").innerHTML =
+            `<tr><td colspan="6" style="color:red;text-align:center">Gagal memuat Nilai MPS</td></tr>`;
+    }
+}
+
 </script>
 
 </body>

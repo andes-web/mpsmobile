@@ -2824,23 +2824,36 @@ function renderNilaiMPS(data) {
 
   tb.innerHTML = '';
 
-  if (!data || data.length === 0) {
+  // data kosong atau hanya header
+  if (!Array.isArray(data) || data.length <= 1) {
     tb.innerHTML = '<tr><td colspan="6">Tidak ada data yang tersedia</td></tr>';
     return;
   }
 
-  data.forEach(r => {
+  // skip baris header (index 0)
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+
+    const rank   = row[0];  // No
+    const nama   = row[1];  // Nama
+    const diklat = row[2];  // Unit
+    const poin   = row[row.length - 1]; // Jumlah (kolom terakhir)
+
+    // contoh pembagian nilai (opsional / bisa disesuaikan)
+    const bintal = row[3] ?? '';
+    const bintur = row[4] ?? '';
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${r.rank}</td>
-      <td>${r.nama}</td>
-      <td>${r.diklat}</td>
-      <td>${r.bintal}</td>
-      <td>${r.bintur}</td>
-      <td><b>${r.poin}</b></td>
+      <td>${rank}</td>
+      <td>${nama}</td>
+      <td>${diklat}</td>
+      <td>${bintal}</td>
+      <td>${bintur}</td>
+      <td><b>${poin}</b></td>
     `;
     tb.appendChild(tr);
-  });
+  }
 }
 
 // Hook ke handler existing TANPA menimpa

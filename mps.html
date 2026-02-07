@@ -1185,6 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
+          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2751,129 +2752,55 @@ function applyFreshRanking(data, nilaiIndex) {
   };
 })();
 </script>
+<script>
+function handleJenisRekap() {
+  const jenis = document.getElementById("jenisRekap").value;
+
+  if (jenis === "NilaiMPS") {
+    loadNilaiMPSFinal();
+    return;
+  }}
+</script>
+<script>
+function loadNilaiMPSFinal() {
+  fetch(GAS_URL + "?action=nilai_mps")
+    .then(res => res.json())
+    .then(data => {
+
+      if (!Array.isArray(data) || data.length < 2) {
+        document.getElementById("tableBody").innerHTML =
+          "<tr><td colspan='50'>Tidak ada data yang tersedia</td></tr>";
+        return;
+      }
+
+      const thead = document.getElementById("tableHead");
+      const tbody = document.getElementById("tableBody");
+
+      thead.innerHTML = "";
+      tbody.innerHTML = "";
+
+      // HEADER
+      let trHead = "<tr>";
+      data[0].forEach(h => trHead += `<th>${h}</th>`);
+      trHead += "</tr>";
+      thead.innerHTML = trHead;
+
+      // BODY
+      for (let i = 1; i < data.length; i++) {
+        let tr = "<tr>";
+        data[i].forEach(td => tr += `<td>${td}</td>`);
+        tr += "</tr>";
+        tbody.innerHTML += tr;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("tableBody").innerHTML =
+        "<tr><td colspan='50'>Gagal memuat data</td></tr>";
+    });
+}
+</script>
+
 </body>
 
 </html>
-
-
-<!-- ==================== NILAI MPS ADDITION (DO NOT REMOVE EXISTING CODE) ==================== -->
-<script>
-/*
-  PENAMBAHAN NILAI MPS
-  - Tidak menghapus fungsi lama
-  - Tidak mengubah struktur tabel
-  - Menggunakan tableHead & tableBody yang sudah ada
-*/
-
-if (typeof window.ACTIVE_VIEW === 'undefined') {
-  window.ACTIVE_VIEW = '';
-}
-
-// Tambah opsi Nilai MPS ke floating jika belum ada
-(function ensureNilaiMPSOption(){
-  const sel = document.querySelector('select');
-  if (!sel) return;
-  const exists = Array.from(sel.options).some(o => o.value === 'nilai_mps');
-  if (!exists) {
-    const opt = document.createElement('option');
-    opt.value = 'nilai_mps';
-    opt.textContent = 'Nilai MPS';
-    sel.appendChild(opt);
-  }
-})();
-
-function setHeaderNilaiMPS() {
-  const head = document.getElementById('tableHead');
-  if (!head) return;
-  head.innerHTML = `
-    <tr>
-      <th>Rank</th>
-      <th>Nama</th>
-      <th>Diklat</th>
-      <th>Bintal</th>
-      <th>Bintur</th>
-      <th>Poin</th>
-    </tr>`;
-}
-
-function loadNilaiMPS() {
-  window.ACTIVE_VIEW = 'nilai_mps';
-
-  if (typeof GAS_URL === 'undefined') {
-    alert('GAS_URL belum didefinisikan');
-    return;
-  }
-
-  setHeaderNilaiMPS();
-
-  const unitEl = document.getElementById('filterUnit');
-  const unit = unitEl ? unitEl.value : '';
-
-  fetch(GAS_URL + '?action=nilaiMPS')
-  .then(r => r.json())
-  .then(data => {
-    renderNilaiMPS(data);
-    .catch(() => {
-      const tb = document.getElementById('tableBody');
-      if (tb) tb.innerHTML = '<tr><td colspan="6">Gagal memuat Nilai MPS</td></tr>';
-    });
-}
-
-function renderNilaiMPS(data) {
-  const tb = document.getElementById('tableBody');
-  if (!tb) return;
-
-  tb.innerHTML = '';
-
-  // data kosong atau hanya header
-  if (!Array.isArray(data) || data.length <= 1) {
-    tb.innerHTML = '<tr><td colspan="6">Tidak ada data yang tersedia</td></tr>';
-    return;
-  }
-
-  // skip baris header (index 0)
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i];
-
-    const rank   = row[0];  // No
-    const nama   = row[1];  // Nama
-    const diklat = row[2];  // Unit
-    const poin   = row[row.length - 1]; // Jumlah (kolom terakhir)
-
-    // contoh pembagian nilai (opsional / bisa disesuaikan)
-    const bintal = row[3] ?? '';
-    const bintur = row[4] ?? '';
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${rank}</td>
-      <td>${nama}</td>
-      <td>${diklat}</td>
-      <td>${bintal}</td>
-      <td>${bintur}</td>
-      <td><b>${poin}</b></td>
-    `;
-    tb.appendChild(tr);
-  }
-}
-
-// Hook ke handler existing TANPA menimpa
-(function hookViewChange(){
-  const oldHandle = window.handleViewChange;
-  window.handleViewChange = function(val){
-    if (oldHandle) oldHandle(val);
-    if (val === 'nilai_mps') loadNilaiMPS();
-  };
-})();
-
-(function hookFilterReload(){
-  const sel = document.getElementById('filterUnit');
-  if (!sel) return;
-  const old = sel.onchange;
-  sel.onchange = function(){
-    if (old) old.call(this);
-    if (window.ACTIVE_VIEW === 'nilai_mps') loadNilaiMPS();
-  };
-})();
-</script>
-<!-- ==================== END NILAI MPS ADDITION ==================== -->

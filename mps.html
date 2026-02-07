@@ -2666,9 +2666,27 @@ let MODE_REKAP_BINTAL = false;
         else if (typeof loadRekapBintal === 'function') {
           loadRekapBintal();
         }
-      }});
+
+      }
+    });
   });
+  document.getElementById('jenisRekap').addEventListener('change', function() {
+  const val = this.value;
+  
+  // Sembunyikan container input peserta jika bukan NilaiIndividu
+  document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+  // Sembunyikan filter unit jika NilaiMPS dipilih
+  document.getElementById('unitFilter').style.display = (val === 'NilaiMPS') ? 'none' : 'block';
+
+  if (val === 'NilaiMPS') {
+    fetchNilaiMPS();
+  } else {
+    document.querySelector('.statBox').style.display = 'flex';
+    document.querySelector('.unit-recap-bar').style.display = 'block';
+    renderData(); 
+  }
 });
+})();
 
 function applyFreshRanking(data, nilaiIndex) {
   // urutkan berdasarkan nilai (DESC)
@@ -2699,23 +2717,7 @@ function applyFreshRanking(data, nilaiIndex) {
       }
     });
   });
-  document.getElementById('jenisRekap').addEventListener('change', function() {
-  const val = this.value;
-  
-  // Sembunyikan container input peserta jika bukan NilaiIndividu
-  document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
-  // Sembunyikan filter unit jika NilaiMPS dipilih
-  document.getElementById('unitFilter').style.display = (val === 'NilaiMPS') ? 'none' : 'block';
-
-  if (val === 'NilaiMPS') {
-    fetchNilaiMPS();
-  } else {
-    document.querySelector('.statBox').style.display = 'flex';
-    document.querySelector('.unit-recap-bar').style.display = 'block';
-    renderData(); 
-  }
 });
-})();
 </script>
 <style>
   /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */

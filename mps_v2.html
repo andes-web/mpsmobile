@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body { font-family: Arial; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+    th { background: #2563eb; color: white; }
+  </style>
+</head>
+<body>
+
+<h3>Nilai MPS</h3>
+
+<label>Filter Unit:</label>
+<select id="unit" onchange="loadData()">
+  <option value="">Semua Unit</option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Nama</th>
+      <th>Diklat</th>
+      <th>Bintal</th>
+      <th>Bintur</th>
+      <th>Poin</th>
+    </tr>
+  </thead>
+  <tbody id="tbl"></tbody>
+</table>
+
+<script>
+const BASE = location.href;
+
+fetch(BASE + '?action=getUnits')
+  .then(r => r.json())
+  .then(units => {
+    const sel = document.getElementById('unit');
+    units.forEach(u => {
+      const o = document.createElement('option');
+      o.value = u;
+      o.textContent = u;
+      sel.appendChild(o);
+    });
+  });
+
+function loadData() {
+  const unit = document.getElementById('unit').value;
+  fetch(BASE + '?action=nilaiMPS&unit=' + encodeURIComponent(unit))
+    .then(r => r.json())
+    .then(draw);
+}
+
+function draw(data) {
+  const tb = document.getElementById('tbl');
+  tb.innerHTML = '';
+  data.forEach(r => {
+    tb.innerHTML += `
+      <tr>
+        <td>${r.rank}</td>
+        <td>${r.nama}</td>
+        <td>${r.diklat}</td>
+        <td>${r.bintal}</td>
+        <td>${r.bintur}</td>
+        <td><b>${r.poin}</b></td>
+      </tr>`;
+  });
+}
+
+loadData();
+</script>
+
+</body>
+</html>

@@ -2767,34 +2767,60 @@ function applyFreshRanking(data, nilaiIndex) {
   };
 })();
 
+let ACTIVE_VIEW = '';
+
 function handleViewChange(val) {
-  document.getElementById('rekapContainer').style.display = 'none';
-  document.getElementById('nilaiMPSContainer').style.display = 'none';
+  ACTIVE_VIEW = val;
+
+  document.getElementById('tableBody').innerHTML = '';
+  document.getElementById('tableHead').innerHTML = '';
 
   if (val === 'rekap_bintal') {
-    document.getElementById('rekapContainer').style.display = 'block';
     loadRekapBintal();
   }
 
   if (val === 'nilai_mps') {
-    document.getElementById('nilaiMPSContainer').style.display = 'block';
     loadNilaiMPS();
   }
 }
 
+
 const MPS_API = 'https://script.google.com/macros/s/AKfycbyyqdIj0l2BKem-xOE46fOe4-43PaWsK3Ry3Fks9fVYJfxLkUp5K_qQyFTd6rjiDVE6Tw/exec';
 
 function loadNilaiMPS() {
-  const unit = document.getElementById('filterUnit')?.value || '';
+  setHeaderNilaiMPS();
 
-  fetch(`${MPS_API}?action=nilaiMPS&unit=${encodeURIComponent(unit)}`)
+  const unitEl = document.getElementById('filterUnit');
+  const unit = unitEl ? unitEl.value : '';
+
+  fetch(`${MPS_API}?action=nilaiMPS&unit=${encodeURIComponent(unit)}`, {
+    cache: 'no-store'
+  })
     .then(r => r.json())
-    .then(renderNilaiMPS);
+    .then(renderNilaiMPS)
+    .catch(err => {
+      console.error(err);
+      alert('Gagal memuat Nilai MPS');
+    });
 }
 
+
 function renderNilaiMPS(data) {
-  const tb = document.getElementById('nilaiMPSTbody');
+  const tb = document.getElementById('tableBody');
+  if (!tb) {
+    alert('tableBody tidak ditemukan');
+    return;
+  }
+
   tb.innerHTML = '';
+
+  if (!data || data.length === 0) {
+    tb.innerHTML = `
+      <tr>
+        <td colspan="6">Tidak ada data yang tersedia</td>
+      </tr>`;
+    return;
+  }
 
   data.forEach(r => {
     const tr = document.createElement('tr');
@@ -2810,9 +2836,24 @@ function renderNilaiMPS(data) {
   });
 }
 
+
 function reloadActiveView() {
   const val = document.getElementById('menuView').value;
   if (val === 'nilai_mps') loadNilaiMPS();
+}
+
+function setHeaderNilaiMPS() {
+  const th = `
+    <tr>
+      <th>Rank</th>
+      <th>Nama</th>
+      <th>Diklat</th>
+      <th>Bintal</th>
+      <th>Bintur</th>
+      <th>Poin</th>
+    </tr>
+  `;
+  document.getElementById('tableHead').innerHTML = th;
 }
 
 </script>

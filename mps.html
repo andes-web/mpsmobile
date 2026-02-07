@@ -2767,89 +2767,86 @@ function applyFreshRanking(data, nilaiIndex) {
 
 </script>
 <script>
-// 1. Variabel Pengunci Global
-let isMPSActive = false;
+// Variabel pengunci global
+window.isMPSMode = false;
 
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    const unitFilter = document.getElementById('unitFilter');
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const jenisRekap = document.getElementById('jenisRekap');
+    const unitFilter = document.getElementById('unitFilter');
     const statBox = document.querySelector('.statBox');
-    const inputPeserta = document.getElementById('inputPeserta');
 
-    if(!unitFilter || !jenisRekap) return;
+    if (!jenisRekap) return;
 
-    // 2. Membajak fungsi render asli agar tidak bisa menghapus tabel MPS
+    // --- 1. OVERRIDE FUNGSI RENDER ASLI ---
+    // Kita membajak fungsi renderData agar dia benar-benar 'mati' saat NilaiMPS aktif
     const originalRenderData = window.renderData;
     window.renderData = function() {
-      if (isMPSActive) {
-        console.log("Sistem mencoba refresh, tapi diblokir karena Nilai MPS aktif.");
-        return; // BERHENTI DI SINI, jangan hapus tabel
+      if (window.isMPSMode) {
+        console.warn("Auto-refresh diblokir oleh pengunci Nilai MPS.");
+        return; // Hentikan fungsi render data lokal
       }
       if (typeof originalRenderData === 'function') {
         originalRenderData.apply(this, arguments);
       }
     };
 
-    // 3. Listener Perubahan Menu
+    // --- 2. EVENT LISTENER DROPDOWN ---
     jenisRekap.addEventListener('change', function() {
       const val = this.value;
       
-      // Reset State
-      isMPSActive = (val === 'NilaiMPS');
-
-      // Atur UI
-      if (document.getElementById('pesertaInputContainer')) {
-        document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
-      }
-      unitFilter.style.display = (val === 'NilaiMPS') ? 'none' : 'block';
-
-      if (isMPSActive) {
+      if (val === 'NilaiMPS') {
+        window.isMPSMode = true;
+        // Atur UI
+        if(unitFilter) unitFilter.style.display = 'none';
         if(statBox) statBox.style.display = 'none';
+        if(document.getElementById('pesertaInputContainer')) {
+          document.getElementById('pesertaInputContainer').style.display = 'none';
+        }
+        
         fetchNilaiMPS();
       } else {
+        window.isMPSMode = false;
+        // Kembalikan UI
+        if(unitFilter) unitFilter.style.display = 'block';
         if(statBox) statBox.style.display = 'flex';
-        // Jalankan render normal kembali
-        window.renderData(); 
+        
+        // Panggil render asli
+        if (typeof originalRenderData === 'function') originalRenderData();
       }
-    });
-
-    // Listener Unit Filter
-    unitFilter.addEventListener('change', function(){
-      if(!isMPSActive) window.renderData();
     });
   });
 })();
 
 /**
- * FUNGSI FETCH NILAI MPS - ANTI HAPUS & HEADER FIX
+ * FUNGSI FETCH NILAI MPS - VERSI ANTI-RESET
  */
 async function fetchNilaiMPS() {
   const tableHead = document.getElementById('tableHead');
   const tableBody = document.getElementById('tableBody');
   
-  if(!tableHead || !tableBody) return;
+  if (!tableHead || !tableBody) return;
 
-  // Tampilkan Loading
-  tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px; color:#1e293b; font-weight:600;">🔄 Sinkronisasi Data Apps Script...</td></tr>';
+  // Tampilkan loading yang jelas
+  tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold; color:#1e293b;">🔄 Mengambil Data Real-time MPS...</td></tr>';
 
   try {
     const response = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
     const data = await response.json();
 
-    // Pastikan menu masih di NilaiMPS saat data tiba
-    if (!isMPSActive) return;
+    // Pastikan user masih di mode NilaiMPS
+    if (!window.isMPSMode) return;
 
     if (data && data.length > 0) {
-      // SET HEADER (Ambil baris 0: Rank, Nama, Diklat, Bintal, Bintur, Point)
-      const headers = data[0];
+      // 1. HEADER (Index 0)
+      const headers = data[0]; 
       tableHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
 
-      // SET ISI DATA (Mulai baris 1)
-      let bodyHtml = '';
+      // 2. BODY (Index 1 ke atas)
+      let html = '';
       for (let i = 1; i < data.length; i++) {
         const row = data[i];
-        bodyHtml += '<tr>';
+        html += '<tr>';
         row.forEach((cell, idx) => {
           let val = (cell === null || cell === undefined) ? '' : cell;
           let style = (idx === 1) ? 'text-align:left; padding-left:15px;' : 'text-align:center;';
@@ -2858,18 +2855,33 @@ async function fetchNilaiMPS() {
           if (idx === 5 && val !== "" && !isNaN(val)) {
             style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
           }
-          bodyHtml += `<td style="${style}">${val}</td>`;
+          html += `<td style="${style}">${val}</td>`;
         });
-        bodyHtml += '</tr>';
+        html += '</tr>';
       }
-      tableBody.innerHTML = bodyHtml;
+      
+      // Inject data ke tabel
+      tableBody.innerHTML = html;
 
-    } else {
-      tableBody.innerHTML = '<tr><td colspan="6">Data tidak tersedia di Apps Script.</td></tr>';
+      // --- EXTRA PROTECTION ---
+      // Jika ada script lain yang mencoba mengosongkan tabel setelah ini, 
+      // kita kunci isinya selama 1 detik ke depan.
+      let counter = 0;
+      const reCheck = setInterval(() => {
+        if (!window.isMPSMode || counter > 5) {
+          clearInterval(reCheck);
+          return;
+        }
+        if (tableBody.innerHTML.includes('tidak ada data') || tableBody.innerHTML === '') {
+           tableBody.innerHTML = html; // Paksa isi ulang jika terhapus
+        }
+        counter++;
+      }, 500);
+
     }
   } catch (error) {
     console.error('Fetch Error:', error);
-    tableBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">⚠️ Gagal memuat. Periksa koneksi atau URL Apps Script.</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">⚠️ Gagal memuat data. Periksa Apps Script.</td></tr>';
   }
 }
 </script>

@@ -2823,45 +2823,57 @@ async function fetchNilaiMPS() {
 (function() {
   window.isMPSActive = false;
 
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const jenisRekap = document.getElementById('jenisRekap');
     const unitFilter = document.getElementById('unitFilter');
     const statBox = document.querySelector('.statBox');
+    const inputContainer = document.getElementById('pesertaInputContainer');
 
-    // Bajak fungsi renderData asli agar tidak mengganggu saat MPS aktif
-    const originalRenderData = window.renderData;
-    window.renderData = function() {
-      if (jenisRekap && jenisRekap.value === 'NilaiMPS') {
-        console.warn("Render lokal diblokir karena Nilai MPS sedang aktif.");
-        return; 
-      }
-      if (typeof originalRenderData === 'function') {
-        originalRenderData.apply(this, arguments);
-      }
-    };
+    // 1. Pastikan fungsi fetchNilaiMPS dan fetchRekapBintal tersedia secara global
+    // Jika fungsi tersebut belum ada, buat wrapper atau pastikan sudah didefinisikan.
 
     if (jenisRekap) {
-      jenisRekap.addEventListener('change', function() {
-        const val = this.value;
-        
-        // Reset pengunci
-        window.isMPSActive = (val === 'NilaiMPS');
+        jenisRekap.addEventListener('change', function() {
+            const val = this.value;
+            
+            // Reset status pengunci MPS
+            window.isMPSActive = (val === 'NilaiMPS');
 
-        // Atur UI
-        if(unitFilter) unitFilter.style.display = (val === 'NilaiMPS') ? 'none' : 'block';
-        if(statBox) statBox.style.display = (val === 'NilaiMPS') ? 'none' : 'flex';
-        
-        const inputContainer = document.getElementById('pesertaInputContainer');
-        if(inputContainer) inputContainer.style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+            // Atur Visibilitas UI berdasarkan pilihan
+            if(unitFilter) {
+                // Sembunyikan filter unit untuk MPS dan Bintal karena biasanya bersifat global/spesifik
+                unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'block';
+            }
+            
+            if(statBox) {
+                statBox.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'flex';
+            }
+            
+            if(inputContainer) {
+                inputContainer.style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+            }
 
-        if (val === 'NilaiMPS') {
-          fetchNilaiMPS(); // Sekarang sudah didefinisikan secara global, tidak akan error
-        } else {
-          window.renderData();
-        }
-      });
+            // 2. LOGIKA STABILIZER: Panggil fungsi render sesuai pilihan secara langsung
+            if (val === 'NilaiMPS') {
+                if (typeof fetchNilaiMPS === 'function') {
+                    fetchNilaiMPS(); 
+                } else {
+                    console.error("Fungsi fetchNilaiMPS tidak ditemukan.");
+                }
+            } else if (val === 'RekapBintal') {
+                if (typeof fetchRekapBintal === 'function') {
+                    fetchRekapBintal();
+                } else {
+                    // Jika fetchRekapBintal belum didefinisikan, panggil renderData umum
+                    window.renderData(); 
+                }
+            } else {
+                // Untuk pilihan lain, gunakan render data standar
+                window.renderData();
+            }
+        });
     }
-  });
+});
 })();
 </script>
 </body>

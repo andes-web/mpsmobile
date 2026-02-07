@@ -2718,9 +2718,6 @@ function applyFreshRanking(data, nilaiIndex) {
 
 
 <script>
-// Variabel global untuk mengunci status loading
-let isFetchingMPS = false;
-
 (function(){
   document.addEventListener('DOMContentLoaded', function(){
     const unitFilter = document.getElementById('unitFilter');
@@ -2729,79 +2726,75 @@ let isFetchingMPS = false;
 
     if(!unitFilter || !jenisRekap) return;
 
-    // 1. Interupsi fungsi renderData bawaan
+    // --- 1. TEKNIK PENGUNCIAN TOTAL (PENTING) ---
+    // Kita membajak fungsi renderData asli agar tidak bisa mengosongkan tabel saat Nilai MPS aktif
     const originalRenderData = window.renderData;
     window.renderData = function() {
-      // Jika sedang menampilkan NilaiMPS, TOLAK semua perintah render lainnya
       if (jenisRekap.value === 'NilaiMPS') {
-        console.log("RenderData diblokir karena sedang menampilkan Nilai MPS");
+        // Jika menu Nilai MPS, blokir semua upaya render data lokal
+        console.log("RenderData asli diblokir untuk menjaga data Nilai MPS tetap tampil.");
         return; 
       }
+      // Jika bukan Nilai MPS, jalankan fungsi aslinya
       if (typeof originalRenderData === 'function') {
         originalRenderData.apply(this, arguments);
       }
     };
 
-    // 2. Event Listener Dropdown
+    // --- 2. LOGIKA DROPDOWN ---
     jenisRekap.addEventListener('change', function() {
       const val = this.value;
       const pesertaInputContainer = document.getElementById('pesertaInputContainer');
       
-      // Atur UI
+      // Atur tampilan UI
       if(pesertaInputContainer) pesertaInputContainer.style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
       unitFilter.style.display = (val === 'NilaiMPS') ? 'none' : 'block';
 
       if (val === 'NilaiMPS') {
         if(statBox) statBox.style.display = 'none';
+        // Jalankan fetch
         fetchNilaiMPS();
       } else {
-        isFetchingMPS = false; // Reset lock
         if(statBox) statBox.style.display = 'flex';
-        window.renderData(); // Panggil render data normal
+        // Panggil renderData yang sudah kita bajak tadi (akan sukses karena val != NilaiMPS)
+        window.renderData(); 
       }
     });
 
-    // 3. Listener untuk Filter Unit
+    // Handle perubahan unit filter agar tidak merusak Nilai MPS
     unitFilter.addEventListener('change', function(){
-      if(jenisRekap.value !== 'NilaiMPS') {
-        window.renderData();
-      }
+      window.renderData();
     });
   });
 })();
 
 /**
- * FUNGSI FETCH NILAI MPS - DENGAN PENGUNCIAN TOTAL
+ * FUNGSI FETCH NILAI MPS - FORMAT ARRAY OF ARRAYS
+ * Memastikan Header & Data Stabil
  */
 async function fetchNilaiMPS() {
-  // Jika sedang proses, jangan jalankan lagi
-  if (isFetchingMPS) return;
-  
   const tableHead = document.getElementById('tableHead');
   const tableBody = document.getElementById('tableBody');
   const jenisRekap = document.getElementById('jenisRekap');
 
   if(!tableHead || !tableBody) return;
 
-  isFetchingMPS = true;
-  tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">⏳ Menghubungkan ke Server MPS...</td></tr>';
+  // Indikator Loading
+  tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; font-weight:bold; color:#1e293b;">🔄 Menghubungkan ke Database MPS...</td></tr>';
 
   try {
     const response = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
     const data = await response.json();
 
-    // Cek apakah user masih di menu NilaiMPS saat data datang
-    if (jenisRekap.value !== 'NilaiMPS') {
-      isFetchingMPS = false;
-      return;
-    }
+    // Pastikan user belum pindah menu saat data selesai didownload
+    if (jenisRekap.value !== 'NilaiMPS') return;
 
     if (data && data.length > 0) {
-      // Header Fix (Index 0)
-      const headers = data[0];
+      // 1. Render Header dari data[0]
+      const headers = data[0]; 
       tableHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
 
-      // Body Fix (Index 1 dst)
+      // 2. Render Body dari data[1] dst
       let html = '';
       for (let i = 1; i < data.length; i++) {
         const row = data[i];
@@ -2810,6 +2803,7 @@ async function fetchNilaiMPS() {
           let val = (cell === null || cell === undefined) ? '' : cell;
           let style = (idx === 1) ? 'text-align:left; padding-left:15px;' : 'text-align:center;';
           
+          // Kolom Point (Index 5) - Warna Merah/Hijau
           if (idx === 5 && val !== "" && !isNaN(val)) {
             style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
           }
@@ -2818,13 +2812,12 @@ async function fetchNilaiMPS() {
         html += '</tr>';
       }
       tableBody.innerHTML = html;
+    } else {
+      tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">Data MPS Kosong.</td></tr>';
     }
   } catch (error) {
-    console.error('Error:', error);
-    tableBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data. Periksa koneksi.</td></tr>';
-  } finally {
-    // Tetap biarkan isFetchingMPS true agar tidak ditimpa fungsi auto-refresh lain
-    // isFetchingMPS akan jadi false hanya jika user pindah menu
+    console.error('Fetch Error:', error);
+    tableBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center; padding:20px;">Gagal mengambil data. Pastikan Apps Script aktif.</td></tr>';
   }
 }
 </script>

@@ -2768,68 +2768,27 @@ function applyFreshRanking(data, nilaiIndex) {
   };
 })();
 
-async function renderNilaiMPS(selectedUnit = "Semua Unit") {
+function renderNilaiMPS() {
+    console.log("MODE NILAI MPS AKTIF");
+
     const tableHead = document.getElementById("tableHead");
     const tableBody = document.getElementById("tableBody");
 
     tableHead.innerHTML = `
         <tr>
-            <th>🏅</th>
-            <th>Nama</th>
-            <th>Diklat</th>
-            <th>Bintal</th>
-            <th>Bintur</th>
-            <th>Poin</th>
+            <th colspan="6">Nilai MPS</th>
         </tr>
     `;
 
     tableBody.innerHTML = `
         <tr>
-            <td colspan="6" style="text-align:center;padding:10px">
-                Memuat Nilai MPS...
+            <td colspan="6" style="text-align:center">
+                Mode Nilai MPS aktif (belum load data)
             </td>
         </tr>
     `;
-
-    try {
-        const res = await fetch(`${GAS_URL}?action=nilai_mps`);
-        const data = await res.json();
-
-        if (!Array.isArray(data) || data.length === 0) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" style="text-align:center">
-                        Tidak ada data yang tersedia
-                    </td>
-                </tr>`;
-            return;
-        }
-
-        const filtered = selectedUnit === "Semua Unit"
-            ? data
-            : data.filter(r => r.unit === selectedUnit);
-
-        tableBody.innerHTML = filtered.map((r, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td style="text-align:left">${r.nama || "-"}</td>
-                <td>${r.diklat || 0}</td>
-                <td>${r.bintal || 0}</td>
-                <td>${r.bintur || 0}</td>
-                <td><strong>${r.poin || 0}</strong></td>
-            </tr>
-        `).join("");
-
-    } catch (e) {
-        console.error(e);
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="6" style="color:red;text-align:center">
-                    Gagal memuat Nilai MPS
-                </td>
-            </tr>`;
-    }
 }
+
 
 </script>
 </body>

@@ -1179,12 +1179,13 @@ table.rekap-akhir td:nth-child(3) {
     <main>
       
       <div class="top-controls">
-        <select id="jenisRekap">
+        <select id="jenisRekap" onchange="reloadActiveView()">
           <option value="Rekap">Rekap Individu</option>
           <option value="RekapKelompok">Rekap Kelompok</option>
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
+          <option value="nilai_mps">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -1249,6 +1250,21 @@ table.rekap-akhir td:nth-child(3) {
       </a>
     </footer>
   </div>
+<div id="nilaiMPSContainer" style="display:none;">
+  <table class="rekap-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Nama</th>
+        <th>Diklat</th>
+        <th>Bintal</th>
+        <th>Bintur</th>
+        <th>Poin</th>
+      </tr>
+    </thead>
+    <tbody id="nilaiMPSTbody"></tbody>
+  </table>
+</div>
 
 <script>
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
@@ -1984,8 +2000,6 @@ function setupCustomDropdown(unitFilterValue = null) {
     pesertaInput.onfocus = (e) => {
         showDropdown(e.target.value);
     };
-    window.open("https://script.google.com/macros/s/AKfycbyyqdIj0l2BKem-xOE46fOe4-43PaWsK3Ry3Fks9fVYJfxLkUp5K_qQyFTd6rjiDVE6Tw/exec", "_blank");
-
 }
 
 
@@ -2752,6 +2766,55 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
+
+function handleViewChange(val) {
+  document.getElementById('rekapContainer').style.display = 'none';
+  document.getElementById('nilaiMPSContainer').style.display = 'none';
+
+  if (val === 'rekap_bintal') {
+    document.getElementById('rekapContainer').style.display = 'block';
+    loadRekapBintal();
+  }
+
+  if (val === 'nilai_mps') {
+    document.getElementById('nilaiMPSContainer').style.display = 'block';
+    loadNilaiMPS();
+  }
+}
+
+const MPS_API = 'https://script.google.com/macros/s/AKfycbyyqdIj0l2BKem-xOE46fOe4-43PaWsK3Ry3Fks9fVYJfxLkUp5K_qQyFTd6rjiDVE6Tw/exec';
+
+function loadNilaiMPS() {
+  const unit = document.getElementById('filterUnit')?.value || '';
+
+  fetch(`${MPS_API}?action=nilaiMPS&unit=${encodeURIComponent(unit)}`)
+    .then(r => r.json())
+    .then(renderNilaiMPS);
+}
+
+function renderNilaiMPS(data) {
+  const tb = document.getElementById('nilaiMPSTbody');
+  tb.innerHTML = '';
+
+  data.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.rank}</td>
+      <td>${r.nama}</td>
+      <td>${r.diklat}</td>
+      <td>${r.bintal}</td>
+      <td>${r.bintur}</td>
+      <td><b>${r.poin}</b></td>
+    `;
+    tb.appendChild(tr);
+  });
+}
+
+function reloadActiveView() {
+  const val = document.getElementById('menuView').value;
+  if (val === 'nilai_mps') loadNilaiMPS();
+}
+
 </script>
 </body>
 

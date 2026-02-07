@@ -2307,6 +2307,11 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
   }
 });
 
+if (document.getElementById("jenisRekap").value === "NilaiMPS") {
+  loadNilaiMPSFinal();
+  return;
+}
+
 </script>
 
 <!-- BEGIN MOBILE FIX PATCH (added by ChatGPT) -->
@@ -2753,25 +2758,10 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 <script>
-function handleJenisRekap() {
-  const jenis = document.getElementById("jenisRekap").value;
-
-  if (jenis === "NilaiMPS") {
-    loadNilaiMPSFinal();
-    return;
-  }}
-</script>
-<script>
 function loadNilaiMPSFinal() {
   fetch(GAS_URL + "?action=nilai_mps")
     .then(res => res.json())
     .then(data => {
-
-      if (!Array.isArray(data) || data.length < 2) {
-        document.getElementById("tableBody").innerHTML =
-          "<tr><td colspan='50'>Tidak ada data yang tersedia</td></tr>";
-        return;
-      }
 
       const thead = document.getElementById("tableHead");
       const tbody = document.getElementById("tableBody");
@@ -2779,22 +2769,28 @@ function loadNilaiMPSFinal() {
       thead.innerHTML = "";
       tbody.innerHTML = "";
 
+      if (!Array.isArray(data) || data.length < 2) {
+        tbody.innerHTML =
+          "<tr><td colspan='50'>Tidak ada data yang tersedia</td></tr>";
+        return;
+      }
+
       // HEADER
-      let trHead = "<tr>";
-      data[0].forEach(h => trHead += `<th>${h}</th>`);
-      trHead += "</tr>";
-      thead.innerHTML = trHead;
+      let headRow = "<tr>";
+      data[0].forEach(h => headRow += `<th>${h}</th>`);
+      headRow += "</tr>";
+      thead.innerHTML = headRow;
 
       // BODY
       for (let i = 1; i < data.length; i++) {
-        let tr = "<tr>";
-        data[i].forEach(td => tr += `<td>${td}</td>`);
-        tr += "</tr>";
-        tbody.innerHTML += tr;
+        let row = "<tr>";
+        data[i].forEach(cell => row += `<td>${cell}</td>`);
+        row += "</tr>";
+        tbody.innerHTML += row;
       }
     })
     .catch(err => {
-      console.error(err);
+      console.error("Nilai MPS error:", err);
       document.getElementById("tableBody").innerHTML =
         "<tr><td colspan='50'>Gagal memuat data</td></tr>";
     });

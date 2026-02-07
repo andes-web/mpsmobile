@@ -2767,118 +2767,101 @@ function applyFreshRanking(data, nilaiIndex) {
 
 </script>
 <script>
+/** * 1. DEFINISI FUNGSI SECARA GLOBAL 
+ * Agar bisa dipanggil oleh Event Listener di mana saja
+ */
+async function fetchNilaiMPS() {
+  const tHead = document.getElementById('tableHead');
+  const tBody = document.getElementById('tableBody');
+  const jenisRekap = document.getElementById('jenisRekap');
+
+  if (!tHead || !tBody) return;
+
+  // Set status agar fungsi render lain tahu kita sedang di mode MPS
+  window.isMPSActive = true; 
+
+  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold;">🔄 Sinkronisasi Data MPS...</td></tr>';
+
+  try {
+    const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
+    const data = await resp.json();
+
+    // Validasi apakah user masih memilih Nilai MPS
+    if (jenisRekap.value !== 'NilaiMPS') return;
+
+    if (data && data.length > 0) {
+      // Render Header (Kolom: Rank, Nama, Diklat, Bintal, Bintur, Point)
+      const headers = data[0];
+      tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+
+      // Render Body
+      let html = '';
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        html += '<tr>';
+        row.forEach((cell, idx) => {
+          let val = cell || '';
+          let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
+          if (idx === 5 && !isNaN(val) && val !== "") {
+            style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
+          }
+          html += `<td style="${style}">${val}</td>`;
+        });
+        html += '</tr>';
+      }
+      tBody.innerHTML = html;
+    }
+  } catch (e) {
+    console.error(e);
+    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data dari server.</td></tr>';
+  }
+}
+
 /**
- * REKAP NILAI MPS - FINAL FIX (ANTI-HILANG & HEADER FIX)
+ * 2. LOGIKA KONTROL & EVENT LISTENER
  */
 (function() {
-  // Variabel pengunci di level window agar global
-  window.currentMode = ""; 
+  window.isMPSActive = false;
 
   document.addEventListener('DOMContentLoaded', function() {
     const jenisRekap = document.getElementById('jenisRekap');
     const unitFilter = document.getElementById('unitFilter');
     const statBox = document.querySelector('.statBox');
-    const tableBody = document.getElementById('tableBody');
 
-    if (!jenisRekap) return;
-
-    // --- 1. OVERRIDE FUNGSI RENDER UTAMA ---
-    // Ini akan membungkus fungsi renderData asli
+    // Bajak fungsi renderData asli agar tidak mengganggu saat MPS aktif
     const originalRenderData = window.renderData;
     window.renderData = function() {
-      if (window.currentMode === 'NilaiMPS') {
-        console.warn("Mencegah renderData lokal menimpa data MPS.");
-        return; // KUNCI MATI: Jangan biarkan data lokal masuk
+      if (jenisRekap && jenisRekap.value === 'NilaiMPS') {
+        console.warn("Render lokal diblokir karena Nilai MPS sedang aktif.");
+        return; 
       }
       if (typeof originalRenderData === 'function') {
         originalRenderData.apply(this, arguments);
       }
     };
 
-    // --- 2. LOGIKA PERUBAHAN DROPDOWN ---
-    jenisRekap.addEventListener('change', function() {
-      window.currentMode = this.value;
-      
-      if (window.currentMode === 'NilaiMPS') {
-        // Sembunyikan semua filter & statistik
-        if(unitFilter) unitFilter.style.display = 'none';
-        if(statBox) statBox.style.display = 'none';
-        if(document.getElementById('pesertaInputContainer')) {
-            document.getElementById('pesertaInputContainer').style.display = 'none';
+    if (jenisRekap) {
+      jenisRekap.addEventListener('change', function() {
+        const val = this.value;
+        
+        // Reset pengunci
+        window.isMPSActive = (val === 'NilaiMPS');
+
+        // Atur UI
+        if(unitFilter) unitFilter.style.display = (val === 'NilaiMPS') ? 'none' : 'block';
+        if(statBox) statBox.style.display = (val === 'NilaiMPS') ? 'none' : 'flex';
+        
+        const inputContainer = document.getElementById('pesertaInputContainer');
+        if(inputContainer) inputContainer.style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+
+        if (val === 'NilaiMPS') {
+          fetchNilaiMPS(); // Sekarang sudah didefinisikan secara global, tidak akan error
+        } else {
+          window.renderData();
         }
-        
-        // Panggil Fetch
-        fetchNilaiMPS();
-      } else {
-        // Kembalikan ke normal
-        if(unitFilter) unitFilter.style.display = 'block';
-        if(statBox) statBox.style.display = 'flex';
-        
-        // Jalankan renderData asli (karena mode sudah bukan NilaiMPS)
-        if (typeof originalRenderData === 'function') originalRenderData();
-      }
-    });
-  });
-
-  // --- 3. FUNGSI FETCH KHUSUS MPS ---
-  async function fetchNilaiMPS() {
-    const tHead = document.getElementById('tableHead');
-    const tBody = document.getElementById('tableBody');
-    
-    // Animasi Loading
-    tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold;">🔄 Memuat Data MPS...</td></tr>';
-
-    try {
-      const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
-      const data = await resp.json();
-
-      // Cek apakah user masih di menu NilaiMPS
-      if (window.currentMode !== 'NilaiMPS') return;
-
-      if (data && data.length > 0) {
-        // HEADER: Ambil baris ke-0 (Rank, Nama, Diklat, Bintal, Bintur, Point)
-        const headers = data[0];
-        tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
-
-        // BODY: Mulai baris ke-1
-        let rowsHtml = '';
-        for (let i = 1; i < data.length; i++) {
-          const row = data[i];
-          rowsHtml += '<tr>';
-          row.forEach((cell, idx) => {
-            let val = cell || '';
-            let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
-            
-            // Warna Point (Index 5)
-            if (idx === 5 && !isNaN(val) && val !== "") {
-              style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
-            }
-            rowsHtml += `<td style="${style}">${val}</td>`;
-          });
-          rowsHtml += '</tr>';
-        }
-        
-        tBody.innerHTML = rowsHtml;
-
-        // --- 4. SUPER LOCK (INTERVAL CHECK) ---
-        // Jika dalam 2 detik ada fungsi 'liar' yang mengosongkan tabel, paksa isi kembali
-        let lockCounter = 0;
-        const antiReset = setInterval(() => {
-          if (window.currentMode !== 'NilaiMPS' || lockCounter > 10) {
-            clearInterval(antiReset);
-            return;
-          }
-          if (tBody.innerHTML.includes('Data tidak tersedia') || tBody.innerHTML === '') {
-            tBody.innerHTML = rowsHtml; // Pasang lagi datanya!
-          }
-          lockCounter++;
-        }, 300);
-
-      }
-    } catch (e) {
-      tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal koneksi ke Apps Script.</td></tr>';
+      });
     }
-  }
+  });
 })();
 </script>
 </body>

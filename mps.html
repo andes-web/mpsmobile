@@ -2718,59 +2718,6 @@ function applyFreshRanking(data, nilaiIndex) {
 
 
 <script>
-// 1. Variabel Pengunci Global
-let isMPSActive = false;
-
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    const unitFilter = document.getElementById('unitFilter');
-    const jenisRekap = document.getElementById('jenisRekap');
-    const statBox = document.querySelector('.statBox');
-    const inputPeserta = document.getElementById('inputPeserta');
-
-    if(!unitFilter || !jenisRekap) return;
-
-    // 2. Membajak fungsi render asli agar tidak bisa menghapus tabel MPS
-    const originalRenderData = window.renderData;
-    window.renderData = function() {
-      if (isMPSActive) {
-        console.log("Sistem mencoba refresh, tapi diblokir karena Nilai MPS aktif.");
-        return; // BERHENTI DI SINI, jangan hapus tabel
-      }
-      if (typeof originalRenderData === 'function') {
-        originalRenderData.apply(this, arguments);
-      }
-    };
-
-    // 3. Listener Perubahan Menu
-    jenisRekap.addEventListener('change', function() {
-      const val = this.value;
-      
-      // Reset State
-      isMPSActive = (val === 'NilaiMPS');
-
-      // Atur UI
-      if (document.getElementById('pesertaInputContainer')) {
-        document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
-      }
-      unitFilter.style.display = (val === 'NilaiMPS') ? 'none' : 'block';
-
-      if (isMPSActive) {
-        if(statBox) statBox.style.display = 'none';
-        fetchNilaiMPS();
-      } else {
-        if(statBox) statBox.style.display = 'flex';
-        // Jalankan render normal kembali
-        window.renderData(); 
-      }
-    });
-
-    // Listener Unit Filter
-    unitFilter.addEventListener('change', function(){
-      if(!isMPSActive) window.renderData();
-    });
-  });
-})();
 
 /**
  * FUNGSI FETCH NILAI MPS - ANTI HAPUS & HEADER FIX

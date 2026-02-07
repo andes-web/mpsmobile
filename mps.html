@@ -2799,8 +2799,8 @@ function setHeaderNilaiMPS() {
 function loadNilaiMPS() {
   window.ACTIVE_VIEW = 'nilai_mps';
 
-  if (typeof MPS_API === 'undefined') {
-    alert('MPS_API belum didefinisikan');
+  if (typeof GAS_URL === 'undefined') {
+    alert('GAS_URL belum didefinisikan');
     return;
   }
 
@@ -2809,7 +2809,7 @@ function loadNilaiMPS() {
   const unitEl = document.getElementById('filterUnit');
   const unit = unitEl ? unitEl.value : '';
 
-  fetch(MPS_API + '?action=nilaiMPS&unit=' + encodeURIComponent(unit), {cache:'no-store'})
+  fetch(GAS_URL + '?action=nilaiMPS&unit=' + encodeURIComponent(unit), {cache:'no-store'})
     .then(r => r.json())
     .then(renderNilaiMPS)
     .catch(() => {

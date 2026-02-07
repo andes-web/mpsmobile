@@ -1185,7 +1185,6 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <li onclick="loadPage('mps')">Nilai MPS</li>
         </select>
         
         <select id="unitFilter">
@@ -1985,6 +1984,8 @@ function setupCustomDropdown(unitFilterValue = null) {
     pesertaInput.onfocus = (e) => {
         showDropdown(e.target.value);
     };
+    window.open("https://script.google.com/macros/s/AKfycbyyqdIj0l2BKem-xOE46fOe4-43PaWsK3Ry3Fks9fVYJfxLkUp5K_qQyFTd6rjiDVE6Tw/exec", "_blank");
+
 }
 
 
@@ -2751,64 +2752,6 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
-
-function getNilaiMPS(filterUnit) {
-  const ss = SpreadsheetApp.getActive();
-  const sh = ss.getSheetByName("rekapakhir");
-  if (!sh) return [];
-
-  const data = sh.getDataRange().getValues();
-  const head = data[0].map(h => h.toString().toLowerCase().trim());
-
-  const iNama = head.indexOf("nama");
-  const iUnit = head.indexOf("unit");
-
-  const iNI = head.indexOf("nilai individu");
-  const iNK = head.indexOf("nilai kelompok");
-  const iNL = head.indexOf("nilai lain");
-
-  const iBI = head.indexOf("bintal individu");
-  const iBK = head.indexOf("bintal kelompok");
-  const iBN = head.indexOf("bintal nonteknis");
-
-  let temp = [];
-
-  for (let i = 1; i < data.length; i++) {
-    const r = data[i];
-    const unit = r[iUnit];
-
-    if (filterUnit && unit !== filterUnit) continue;
-
-    const diklat =
-      (Number(r[iNI]) || 0) +
-      (Number(r[iNK]) || 0) +
-      (Number(r[iNL]) || 0);
-
-    const bintal =
-      (Number(r[iBI]) || 0) +
-      (Number(r[iBK]) || 0) +
-      (Number(r[iBN]) || 0);
-
-    const bintur = 0;
-    const poin = diklat + bintal + bintur;
-
-    temp.push({
-      nama: r[iNama],
-      diklat,
-      bintal,
-      bintur,
-      poin
-    });
-  }
-
-  temp.sort((a, b) => b.poin - a.poin);
-
-  return temp.map((r, i) => ({
-    rank: i + 1,
-    ...r
-  }));
-}
-
 </script>
 </body>
 

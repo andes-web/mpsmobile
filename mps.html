@@ -2299,11 +2299,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 });
-if (document.getElementById("jenisRekap").value === "NilaiMPS") {
-  loadNilaiMPSFinal();
-  return;
-}
-
 document.getElementById("jenisRekap").addEventListener("change", function () {
   if (this.value === "RekapBintal") {
     renderRekapBintal();
@@ -2659,23 +2654,32 @@ let MODE_REKAP_BINTAL = false;
   document.addEventListener('DOMContentLoaded', function(){
     const unitSelect = document.getElementById('unitFilter');
     const jenisSelect = document.getElementById('jenisRekap');
+    
     if (!unitSelect || !jenisSelect) return;
 
     unitSelect.addEventListener('change', function(){
+
       if (jenisSelect.value === 'RekapBintal') {
 
-        // ✅ PANGGIL RENDERER REKAP BINTAL
         if (typeof renderRekapBintal === 'function') {
           renderRekapBintal();
         } 
         else if (typeof loadRekapBintal === 'function') {
           loadRekapBintal();
         }
-
+        else if (jenis === 'NilaiMPS') {
+          renderNilaiMPS(data);
+        }
       }
+      // ✅ TAMBAHAN UNTUK NILAI MPS
+      else if (jenisSelect.value === 'NilaiMPS') {
+        loadNilaiMPS();
+      }
+
     });
   });
 })();
+
 
 function applyFreshRanking(data, nilaiIndex) {
   // urutkan berdasarkan nilai (DESC)
@@ -2758,42 +2762,79 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 </script>
 <script>
-function loadNilaiMPSFinal() {
-  fetch(GAS_URL + "?action=nilai_mps")
-    .then(res => res.json())
-    .then(data => {
+function renderNilaiMPS(data) {
+  if (!Array.isArray(data) || data.length < 2) {
+    document.getElementById('tableHead').innerHTML = '';
+    document.getElementById('tableBody').innerHTML =
+      '<tr><td colspan="6">Tidak ada data yang tersedia</td></tr>';
+    return;
+  }
 
-      const thead = document.getElementById("tableHead");
-      const tbody = document.getElementById("tableBody");
+  const header = data[0].map(h => h.toString().toLowerCase());
+  const rows = data.slice(1);
 
-      thead.innerHTML = "";
-      tbody.innerHTML = "";
+  const idxNama =
+    header.indexOf('nama');
+  const idxNI =
+    header.indexOf('nilai individu');
+  const idxNK =
+    header.indexOf('nilai kelompok');
+  const idxNL =
+    header.indexOf('nilai lain');
+  const idxBI =
+    header.indexOf('bintal individu');
+  const idxBK =
+    header.indexOf('bintal kelompok');
+  const idxBN =
+    header.indexOf('bintal nonteknis');
 
-      if (!Array.isArray(data) || data.length < 2) {
-        tbody.innerHTML =
-          "<tr><td colspan='50'>Tidak ada data yang tersedia</td></tr>";
-        return;
-      }
+  const hasil = rows.map(r => {
+    const diklat =
+      (Number(r[idxNI]) || 0) +
+      (Number(r[idxNK]) || 0) +
+      (Number(r[idxNL]) || 0);
 
-      // HEADER
-      let headRow = "<tr>";
-      data[0].forEach(h => headRow += `<th>${h}</th>`);
-      headRow += "</tr>";
-      thead.innerHTML = headRow;
+    const bintal =
+      (Number(r[idxBI]) || 0) +
+      (Number(r[idxBK]) || 0) +
+      (Number(r[idxBN]) || 0);
 
-      // BODY
-      for (let i = 1; i < data.length; i++) {
-        let row = "<tr>";
-        data[i].forEach(cell => row += `<td>${cell}</td>`);
-        row += "</tr>";
-        tbody.innerHTML += row;
-      }
-    })
-    .catch(err => {
-      console.error("Nilai MPS error:", err);
-      document.getElementById("tableBody").innerHTML =
-        "<tr><td colspan='50'>Gagal memuat data</td></tr>";
-    });
+    const bintur = 0;
+    const poin = diklat + bintal + bintur;
+
+    return {
+      nama: r[idxNama],
+      diklat,
+      bintal,
+      bintur,
+      poin
+    };
+  });
+
+  hasil.sort((a, b) => b.poin - a.poin);
+
+  document.getElementById('tableHead').innerHTML = `
+    <tr>
+      <th>Rank</th>
+      <th>Nama</th>
+      <th>Diklat</th>
+      <th>Bintal</th>
+      <th>Bintur</th>
+      <th>Poin</th>
+    </tr>
+  `;
+
+  document.getElementById('tableBody').innerHTML =
+    hasil.map((r, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${r.nama}</td>
+        <td>${r.diklat}</td>
+        <td>${r.bintal}</td>
+        <td>${r.bintur}</td>
+        <td>${r.poin}</td>
+      </tr>
+    `).join('');
 }
 </script>
 

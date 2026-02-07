@@ -2829,46 +2829,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const statBox = document.querySelector('.statBox');
     const inputContainer = document.getElementById('pesertaInputContainer');
 
-    // 1. Pastikan fungsi fetchNilaiMPS dan fetchRekapBintal tersedia secara global
-    // Jika fungsi tersebut belum ada, buat wrapper atau pastikan sudah didefinisikan.
+    // 1. Matikan fungsi render otomatis jika Nilai MPS atau Rekap Bintal aktif
+    const originalRenderData = window.renderData;
+    window.renderData = function() {
+        const currentVal = jenisRekap ? jenisRekap.value : '';
+        // Tambahkan pengecualian agar tidak terhapus saat Nilai MPS dipilih
+        if (currentVal === 'NilaiMPS' || currentVal === 'RekapBintal') {
+            console.log("Render otomatis dicegah untuk menjaga tabel tetap stabil.");
+            return; 
+        }
+        if (typeof originalRenderData === 'function') {
+            originalRenderData.apply(this, arguments);
+        }
+    };
 
     if (jenisRekap) {
         jenisRekap.addEventListener('change', function() {
             const val = this.value;
             
-            // Reset status pengunci MPS
-            window.isMPSActive = (val === 'NilaiMPS');
-
-            // Atur Visibilitas UI berdasarkan pilihan
+            // 2. Kontrol Visibilitas UI secara ketat
             if(unitFilter) {
-                // Sembunyikan filter unit untuk MPS dan Bintal karena biasanya bersifat global/spesifik
-                unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'block';
+                unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal' || val === 'RekapAkhir') ? 'none' : 'block';
             }
-            
             if(statBox) {
                 statBox.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'flex';
             }
-            
             if(inputContainer) {
                 inputContainer.style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
             }
 
-            // 2. LOGIKA STABILIZER: Panggil fungsi render sesuai pilihan secara langsung
+            // 3. Eksekusi Render Langsung
             if (val === 'NilaiMPS') {
                 if (typeof fetchNilaiMPS === 'function') {
                     fetchNilaiMPS(); 
-                } else {
-                    console.error("Fungsi fetchNilaiMPS tidak ditemukan.");
                 }
             } else if (val === 'RekapBintal') {
+                // Pastikan fungsi rekap bintal dipanggil jika tersedia
                 if (typeof fetchRekapBintal === 'function') {
                     fetchRekapBintal();
                 } else {
-                    // Jika fetchRekapBintal belum didefinisikan, panggil renderData umum
-                    window.renderData(); 
+                    window.renderData();
                 }
             } else {
-                // Untuk pilihan lain, gunakan render data standar
+                // Kembalikan ke render normal untuk pilihan lainnya
                 window.renderData();
             }
         });

@@ -2243,24 +2243,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // 1. Muat data peserta secara global
     await loadPesertaData();
-    resetTableHeader();
+    
     // 2. Setup Event Listener untuk Jenis Rekap
     if (jenisRekap) {
         jenisRekap.onchange = () => {
-    if (refreshTimer) clearInterval(refreshTimer);
-        const mode = jenisRekap.value;
-    // 🔒 MODE TERISOLASI
-    if (mode === "RekapBintal") {
-        renderRekapBintal(unitFilter.value);
-        return;
-    }
-    if (mode === "NilaiMPS") {
-        renderNilaiMPS(unitFilter.value);
-        return;
-    }
-    // Mode normal
-    renderRekap(mode);
-
+            if (refreshTimer) clearInterval(refreshTimer);
+            renderRekap(jenisRekap.value);
             // Mulai timer lagi jika bukan mode Nilai Individu
             if (jenisRekap.value !== 'NilaiIndividu') {
                 // disabled refresh
@@ -2285,10 +2273,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Rekap Standar
             if (currentSheet === 'Rekap' || currentSheet === 'RekapKelompok' || currentSheet === 'RekapAkhir') {
                 renderRekap(currentSheet);
-            }
-            if (currentSheet === "NilaiMPS") {
-                renderNilaiMPS(unitFilter.value);
-              return;
             }
         };
 
@@ -2322,26 +2306,6 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
     MODE_REKAP_BINTAL = false;
   }
 });
-
-function resetTableHeader() {
-    const table = document.querySelector("table");
-    if (!table) return;
-
-    // Pulihkan semua kolom (termasuk yang disembunyikan Rekap Akhir)
-    table.querySelectorAll("th, td").forEach(el => {
-        el.style.display = "";
-        el.style.visibility = "";
-        el.style.width = "";
-        el.style.minWidth = "";
-        el.style.maxWidth = "";
-    });
-
-    // Pulihkan colgroup jika ada
-    table.querySelectorAll("col").forEach(col => {
-        col.style.display = "";
-        col.style.width = "";
-    });
-}
 
 </script>
 
@@ -2706,6 +2670,21 @@ let MODE_REKAP_BINTAL = false;
       }
     });
   });
+  document.getElementById('jenisRekap').addEventListener('change', function() {
+  const val = this.value;
+  
+  // Sembunyikan container input peserta jika bukan NilaiIndividu
+  document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+  // Sembunyikan filter unit jika NilaiMPS dipilih
+  document.getElementById('unitFilter').style.display = (val === 'NilaiMPS') ? 'none' : 'block';
+
+  if (val === 'NilaiMPS') {
+    fetchNilaiMPS();
+  } else {
+    // Panggil fungsi render original lainnya (renderRekap, dll)
+    renderData(); 
+  }
+});
 })();
 
 function applyFreshRanking(data, nilaiIndex) {
@@ -2737,6 +2716,21 @@ function applyFreshRanking(data, nilaiIndex) {
       }
     });
   });
+  document.getElementById('jenisRekap').addEventListener('change', function() {
+  const val = this.value;
+  
+  // Sembunyikan container input peserta jika bukan NilaiIndividu
+  document.getElementById('pesertaInputContainer').style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
+  // Sembunyikan filter unit jika NilaiMPS dipilih
+  document.getElementById('unitFilter').style.display = (val === 'NilaiMPS') ? 'none' : 'block';
+
+  if (val === 'NilaiMPS') {
+    fetchNilaiMPS();
+  } else {
+    // Panggil fungsi render original lainnya (renderRekap, dll)
+    renderData(); 
+  }
+});
 })();
 </script>
 <style>
@@ -2788,69 +2782,45 @@ function applyFreshRanking(data, nilaiIndex) {
   };
 })();
 
-async function renderNilaiMPS(selectedUnit = "Semua Unit") {
-    const tableHead = document.getElementById("tableHead");
-    const tableBody = document.getElementById("tableBody");
+async function fetchNilaiMPS() {
+  const tableHead = document.getElementById('tableHead');
+  const tableBody = document.getElementById('tableBody');
+  const statBox = document.querySelector('.statBox');
 
-    tableHead.innerHTML = `
-        <tr>
-            <th>🏅</th>
-            <th>Nama</th>
-            <th>Diklat</th>
-            <th>Bintal</th>
-            <th>Bintur</th>
-            <th>Poin</th>
-        </tr>
-    `;
+  // Loading state
+  tableBody.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding:20px;">Memuat data Nilai MPS...</td></tr>';
+  statBox.style.display = 'none'; // Sembunyikan statbox karena format datanya berbeda
 
-    tableBody.innerHTML = `
-        <tr>
-            <td colspan="6" style="text-align:center;padding:10px">
-                Memuat Nilai MPS...
-            </td>
-        </tr>
-    `;
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
+    const data = await response.json();
 
-    try {
-        const res = await fetch(`${GAS_URL}?action=nilai_mps`);
-        const data = await res.json();
+    if (data && data.length > 0) {
+      // 1. Render Header
+      const headers = Object.keys(data[0]);
+      tableHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
 
-        if (!Array.isArray(data) || data.length === 0) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" style="text-align:center">
-                        Tidak ada data yang tersedia
-                    </td>
-                </tr>`;
-            return;
-        }
+      // 2. Render Body
+      tableBody.innerHTML = data.map(row => {
+        return `<tr>${headers.map(h => {
+          let val = row[h] || '-';
+          // Tambahkan logika pewarnaan jika perlu (contoh untuk kolom Nilai)
+          let style = "";
+          if (h.toLowerCase().includes('nilai') && !isNaN(val)) {
+             style = val >= 75 ? 'color: #00a759; font-weight:bold;' : 'color: #dc2626; font-weight:bold;';
+          }
+          return `<td style="${style}">${val}</td>`;
+        }).join('')}</tr>`;
+      }).join('');
 
-        const filtered = selectedUnit === "Semua Unit"
-            ? data
-            : data.filter(r => r.unit === selectedUnit);
-
-        tableBody.innerHTML = filtered.map((r, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td style="text-align:left">${r.nama || "-"}</td>
-                <td>${r.diklat || 0}</td>
-                <td>${r.bintal || 0}</td>
-                <td>${r.bintur || 0}</td>
-                <td><strong>${r.poin || 0}</strong></td>
-            </tr>
-        `).join("");
-
-    } catch (e) {
-        console.error(e);
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="6" style="color:red;text-align:center">
-                    Gagal memuat Nilai MPS
-                </td>
-            </tr>`;
+    } else {
+      tableBody.innerHTML = '<tr><td colspan="100%">Data tidak ditemukan.</td></tr>';
     }
+  } catch (error) {
+    console.error('Error fetching Nilai MPS:', error);
+    tableBody.innerHTML = '<tr><td colspan="100%" style="color:red;">Gagal mengambil data dari server.</td></tr>';
+  }
 }
-
 </script>
 </body>
 

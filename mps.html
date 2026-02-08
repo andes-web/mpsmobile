@@ -2629,6 +2629,20 @@ let MODE_REKAP_BINTAL = false;
     const res = await _origFetchData(sheetName);
     try{
       const jenis = document.getElementById('jenisRekap')?.value || '';
+      // RESET TAMPILAN (Penting agar stabil)
+tableBox.style.display = 'block'; // Pastikan box tabel utama muncul
+statBox.style.display = 'flex';   // Munculkan statistik default
+posSection.style.display = 'none'; // Sembunyikan section POS jika ada
+nilaiIndividuView.style.display = 'none'; // Sembunyikan view individu
+
+switch (jenis) {
+  case 'RekapBintal':
+    await fetchRekapBintal(); // Panggil fungsi khusus Bintal
+    break;
+  case 'NilaiMPS':
+    await fetchNilaiMPS(); // Panggil fungsi khusus Nilai MPS
+    break;
+}
       const unitSel = document.getElementById('unitFilter')?.value || 'Semua Unit';
       if (jenis === 'RekapBintal' && sheetName === 'RekapAkhir' && unitSel !== 'Semua Unit') {
         const target = String(unitSel).trim().toLowerCase();
@@ -2787,24 +2801,23 @@ async function fetchNilaiMPS() {
   const tableBody = document.getElementById('tableBody');
   const statBox = document.querySelector('.statBox');
 
-  // Loading state
+  // Tampilkan loading di dalam tabel agar user tahu proses berjalan
   tableBody.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding:20px;">Memuat data Nilai MPS...</td></tr>';
-  statBox.style.display = 'none'; // Sembunyikan statbox karena format datanya berbeda
+  statBox.style.display = 'none'; // Sembunyikan statbox karena format data berbeda
 
   try {
     const response = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
     const data = await response.json();
 
     if (data && data.length > 0) {
-      // 1. Render Header
+      // Render Header
       const headers = Object.keys(data[0]);
       tableHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
 
-      // 2. Render Body
+      // Render Body
       tableBody.innerHTML = data.map(row => {
         return `<tr>${headers.map(h => {
           let val = row[h] || '-';
-          // Tambahkan logika pewarnaan jika perlu (contoh untuk kolom Nilai)
           let style = "";
           if (h.toLowerCase().includes('nilai') && !isNaN(val)) {
              style = val >= 75 ? 'color: #00a759; font-weight:bold;' : 'color: #dc2626; font-weight:bold;';
@@ -2812,13 +2825,9 @@ async function fetchNilaiMPS() {
           return `<td style="${style}">${val}</td>`;
         }).join('')}</tr>`;
       }).join('');
-
-    } else {
-      tableBody.innerHTML = '<tr><td colspan="100%">Data tidak ditemukan.</td></tr>';
     }
   } catch (error) {
-    console.error('Error fetching Nilai MPS:', error);
-    tableBody.innerHTML = '<tr><td colspan="100%" style="color:red;">Gagal mengambil data dari server.</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="100%" style="color:red; text-align:center;">Gagal memuat data.</td></tr>';
   }
 }
 </script>

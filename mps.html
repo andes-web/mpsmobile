@@ -2767,96 +2767,96 @@ function applyFreshRanking(data, nilaiIndex) {
 
 </script>
 <script>
-// Global Variable untuk Lock
-window.isMPSActive = false;
-
+// 1. Fungsi Utama Fetch MPS yang Stabil
 async function fetchNilaiMPS() {
-    const tHead = document.getElementById('tableHead');
-    const tBody = document.getElementById('tableBody');
-    const jenisRekap = document.getElementById('jenisRekap');
+  const tHead = document.getElementById('tableHead');
+  const tBody = document.getElementById('tableBody');
+  const jenisRekap = document.getElementById('jenisRekap');
 
-    if (!tHead || !tBody) return;
+  if (!tHead || !tBody) return;
 
-    // KUNCI: Set status aktif
-    window.isMPSActive = true; 
-    tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold;">🔄 Sinkronisasi Data MPS...</td></tr>';
+  // Set pengunci global agar fungsi lain tidak berani masuk
+  window.isMPSActive = true; 
+  
+  // Tampilkan loading yang tidak bisa dihapus dengan mudah
+  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold; background:#fff;">🔄 Sinkronisasi Data MPS...</td></tr>';
 
-    try {
-        const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
-        const data = await resp.json();
+  try {
+    const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
+    const data = await resp.json();
 
-        // Validasi: Jika saat data datang user sudah pindah menu, jangan render
-        if (!window.isMPSActive || jenisRekap.value !== 'NilaiMPS') return;
+    // Validasi ketat: Jika user sudah pindah menu, batalkan render
+    if (jenisRekap.value !== 'NilaiMPS') return;
 
-        if (data && data.length > 0) {
-            // Render Header
-            const headers = data[0];
-            tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+    if (data && data.length > 0) {
+      // Render Header
+      const headers = data[0];
+      tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
 
-            // Render Body
-            let html = '';
-            for (let i = 1; i < data.length; i++) {
-                const row = data[i];
-                html += '<tr>';
-                row.forEach((cell, idx) => {
-                    let val = cell || '';
-                    let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
-                    if (idx === 5 && !isNaN(val) && val !== "") {
-                        style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
-                    }
-                    html += `<td style="${style}">${val}</td>`;
-                });
-                html += '</tr>';
-            }
-            tBody.innerHTML = html;
-        }
-    } catch (e) {
-        console.error(e);
-        if(window.isMPSActive) tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data.</td></tr>';
+      // Render Body
+      let html = '';
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        html += '<tr style="background:#fff !important;">';
+        row.forEach((cell, idx) => {
+          let val = cell || '';
+          let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
+          if (idx === 5 && !isNaN(val) && val !== "") {
+            style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
+          }
+          html += `<td style="${style}">${val}</td>`;
+        });
+        html += '</tr>';
+      }
+      
+      // Inject data dan paksa tampilan tetap ada
+      tBody.innerHTML = html;
+      
+      // Mencegah fungsi render lain "membersihkan" tabel ini
+      const tableBox = document.querySelector('.tableBox');
+      if(tableBox) tableBox.style.display = 'block';
     }
+  } catch (e) {
+    console.error(e);
+    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data.</td></tr>';
+  }
 }
 
+// 2. Logic Controller yang Tidak Bisa Diinterupsi
 document.addEventListener('DOMContentLoaded', function() {
-    const jenisRekap = document.getElementById('jenisRekap');
-    const unitFilter = document.getElementById('unitFilter');
-    const statBox = document.querySelector('.statBox');
+  const jenisRekap = document.getElementById('jenisRekap');
+  const unitFilter = document.getElementById('unitFilter');
+  const statBox = document.querySelector('.statBox');
 
-    // PROTEKSI: Bajak renderData agar tidak bisa bersih-bersih saat MPS Aktif
-    const originalRenderData = window.renderData;
-    window.renderData = function() {
-        if (window.isMPSActive) {
-            console.log("Render otomatis diblokir untuk menjaga tabel MPS.");
-            return; // Berhenti di sini, jangan lakukan apa-apa
-        }
-        if (typeof originalRenderData === 'function') {
-            originalRenderData.apply(this, arguments);
-        }
-    };
-
-    if (jenisRekap) {
-        jenisRekap.addEventListener('change', function() {
-            const val = this.value;
-            
-            // Atur Mode
-            window.isMPSActive = (val === 'NilaiMPS');
-
-            // Atur Visual
-            if(unitFilter) unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'block';
-            if(statBox) statBox.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'flex';
-
-            if (val === 'NilaiMPS') {
-                fetchNilaiMPS();
-            } else if (val === 'RekapBintal') {
-                // Panggil fungsi bintal Anda jika ada, atau render standar
-                if (typeof fetchRekapBintal === 'function') fetchRekapBintal();
-                else window.renderData();
-            } else {
-                // Untuk pilihan lain, pastikan renderData bisa jalan lagi
-                window.isMPSActive = false;
-                window.renderData();
-            }
-        });
+  // PROTEKSI TOTAL: Bajak fungsi renderData bawaan sistem
+  const originalRenderData = window.renderData;
+  window.renderData = function() {
+    // Jika sedang di mode Nilai MPS, blokir semua upaya render dari luar
+    if (jenisRekap && jenisRekap.value === 'NilaiMPS') {
+      console.warn("Render otomatis diblokir untuk kestabilan Nilai MPS.");
+      return; 
     }
+    if (typeof originalRenderData === 'function') {
+      originalRenderData.apply(this, arguments);
+    }
+  };
+
+  if (jenisRekap) {
+    jenisRekap.addEventListener('change', function() {
+      const val = this.value;
+
+      // Sembunyikan elemen pengganggu yang sering memicu re-layout
+      if(unitFilter) unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'block';
+      if(statBox) statBox.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'flex';
+
+      if (val === 'NilaiMPS') {
+        fetchNilaiMPS();
+      } else {
+        window.isMPSActive = false;
+        window.renderData();
+      }
+    });
+  }
 });
 </script>
 </body>

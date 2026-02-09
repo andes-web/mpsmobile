@@ -2823,90 +2823,97 @@ async function fetchNilaiMPS() {
 }
 
 // 2. Logic Controller yang Tidak Bisa Diinterupsi
+// 2. Logic Controller yang Stabil (Anti-Hilang)
 document.addEventListener('DOMContentLoaded', function() {
   const jenisRekap = document.getElementById('jenisRekap');
   const unitFilter = document.getElementById('unitFilter');
   const statBox = document.querySelector('.statBox');
+  const tableBody = document.getElementById('tableBody');
 
-  // PROTEKSI TOTAL: Bajak fungsi renderData bawaan sistem
+  // BAJAK FUNGSI RENDER: Cegah sistem luar menghapus tabel Nilai MPS
   const originalRenderData = window.renderData;
   window.renderData = function() {
-    // Jika sedang di mode Nilai MPS, blokir semua upaya render dari luar
+    // Jika sedang di mode Nilai MPS, kunci tabel agar tidak di-reset
     if (jenisRekap && jenisRekap.value === 'NilaiMPS') {
-      console.warn("Render otomatis diblokir untuk kestabilan Nilai MPS.");
-      return; 
+      if (tableBody && tableBody.innerHTML.trim() !== "") {
+        console.warn("Stabilitas Aktif: Menahan tampilan Nilai MPS agar tidak hilang.");
+        return; // Hentikan fungsi render otomatis di sini
+      }
     }
+    // Jika bukan Nilai MPS, jalankan fungsi normal
     if (typeof originalRenderData === 'function') {
       originalRenderData.apply(this, arguments);
     }
   };
 
+  // Event listener saat dropdown berubah
   if (jenisRekap) {
     jenisRekap.addEventListener('change', function() {
-      const val = this.value;
-
-      // Sembunyikan elemen pengganggu yang sering memicu re-layout
-      if(unitFilter) unitFilter.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'block';
-      if(statBox) statBox.style.display = (val === 'NilaiMPS' || val === 'RekapBintal') ? 'none' : 'flex';
-
-      if (val === 'NilaiMPS') {
-        fetchNilaiMPS();
-      } else {
-        window.isMPSActive = false;
-        window.renderData();
+      if (this.value === 'NilaiMPS') {
+          // Sembunyikan elemen pengganggu agar layout tidak melompat
+          if(unitFilter) unitFilter.style.display = 'none';
+          if(statBox) statBox.style.display = 'none';
+          
+          // Panggil fungsi pengisi data Nilai MPS Anda secara instan
+          fetchNilaiMPS(); 
       }
     });
   }
 });
 </script>
 
-<!-- === PATCH: STABILKAN FLOATING NILAI MPS (AUTO-LOCK MODE) === -->
 <script>
-(function(){
-  if (window.__MPS_LOCK_PATCH__) return;
-  window.__MPS_LOCK_PATCH__ = true;
+  let MODE_NILAI_MPS = false;
+  
+  document.getElementById("jenisRekap").addEventListener("change", async function () {
+  const val = this.value;
 
-  let activeView = "rekap";
+  // RESET MODE
+  MODE_NILAI_MPS = false;
 
-  const jenisSelect = document.getElementById("jenisRekap");
-  const posSection = document.getElementById("posSection");
-  const rekapTable = document.getElementById("rekapTable");
-  const nilaiIndividuView = document.getElementById("nilaiIndividuView");
+  // Sembunyikan semua view dulu
+  document.querySelector(".tableBox").style.display = "none";
+  document.getElementById("nilaiIndividuView").style.display = "none";
+  document.getElementById("posSection").style.display = "none";
 
-  function lockNilaiMPS(){
-    activeView = "nilaiMPS";
-    if (rekapTable) rekapTable.style.display = "none";
-    if (nilaiIndividuView) nilaiIndividuView.style.display = "none";
-    if (posSection) posSection.style.display = "block";
+  if (val === "NilaiMPS") {
+    MODE_NILAI_MPS = true;
+
+    // 🔒 PAKSA TAMPIL
+    document.querySelector(".tableBox").style.display = "block";
+    document.querySelector(".statBox").style.display = "flex";
+
+    await renderNilaiMPS();   // ⬅️ SEKALI INI SAJA
+    return;
   }
 
-  function unlockNilaiMPS(){
-    activeView = "rekap";
-    if (rekapTable) rekapTable.style.display = "table";
+  // MODE LAIN
+  if (val === "RekapBintal") {
+    await renderRekapBintal();
+    return;
   }
 
-  if (jenisSelect){
-    jenisSelect.addEventListener("change", function(){
-      if (this.value === "NilaiMPS"){
-        lockNilaiMPS();
-      } else {
-        unlockNilaiMPS();
-      }
-    }, true);
+  if (val === "Rekap") {
+    await renderStandardRekap("Rekap");
+    return;
   }
 
-  // Guard global render/reset (soft override)
-  const _fetch = window.fetch;
-  window.fetch = function(){
-    if (activeView === "nilaiMPS") {
-      return Promise.resolve(new Response(JSON.stringify([])));
-    }
-    return _fetch.apply(this, arguments);
-  };
-})();
+  if (val === "RekapKelompok") {
+    await renderStandardRekap("RekapKelompok");
+    return;
+  }
+
+  if (val === "RekapAkhir") {
+    await renderStandardRekap("RekapAkhir");
+    return;
+  }
+
+  if (val === "NilaiIndividu") {
+    document.getElementById("nilaiIndividuView").style.display = "block";
+  }
+});
+
 </script>
-<!-- === END PATCH === -->
-
 </body>
 
 </html>

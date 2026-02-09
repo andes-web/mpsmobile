@@ -2823,40 +2823,39 @@ async function fetchNilaiMPS() {
 }
 
 // 2. Logic Controller yang Tidak Bisa Diinterupsi
-// 2. Logic Controller yang Lebih Stabil
+// 2. Logic Controller yang Stabil (Anti-Hilang)
 document.addEventListener('DOMContentLoaded', function() {
   const jenisRekap = document.getElementById('jenisRekap');
   const unitFilter = document.getElementById('unitFilter');
   const statBox = document.querySelector('.statBox');
   const tableBody = document.getElementById('tableBody');
 
-  // FUNGSI PENGUNCI: Mencegah render ulang jika sedang di mode Nilai MPS
+  // BAJAK FUNGSI RENDER: Cegah sistem luar menghapus tabel Nilai MPS
   const originalRenderData = window.renderData;
   window.renderData = function() {
+    // Jika sedang di mode Nilai MPS, kunci tabel agar tidak di-reset
     if (jenisRekap && jenisRekap.value === 'NilaiMPS') {
-      // Jika tabel sudah ada isinya, jangan biarkan dihapus/di-render ulang secara otomatis
       if (tableBody && tableBody.innerHTML.trim() !== "") {
-        console.log("Stabilitas Aktif: Menahan tampilan Nilai MPS agar tidak hilang.");
-        return; 
+        console.warn("Stabilitas Aktif: Menahan tampilan Nilai MPS agar tidak hilang.");
+        return; // Hentikan fungsi render otomatis di sini
       }
     }
+    // Jika bukan Nilai MPS, jalankan fungsi normal
     if (typeof originalRenderData === 'function') {
       originalRenderData.apply(this, arguments);
     }
   };
 
+  // Event listener saat dropdown berubah
   if (jenisRekap) {
     jenisRekap.addEventListener('change', function() {
-      const val = this.value;
-      
-      // Jika Nilai MPS dipilih, langsung panggil fungsi pembuat tabel tanpa delay
-      if (val === 'NilaiMPS') {
-          // Pastikan filter lain yang mengganggu disembunyikan
+      if (this.value === 'NilaiMPS') {
+          // Sembunyikan elemen pengganggu agar layout tidak melompat
           if(unitFilter) unitFilter.style.display = 'none';
           if(statBox) statBox.style.display = 'none';
           
-          // Panggil fungsi render khusus Nilai MPS Anda di sini
-          // Contoh: fetchNilaiMPS(); 
+          // Panggil fungsi pengisi data Nilai MPS Anda secara instan
+          fetchNilaiMPS(); 
       }
     });
   }

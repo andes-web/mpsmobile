@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Nilai MPS - FIXED POS</title>
+<title>Rekap Nilai MPS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -470,42 +470,6 @@ select:focus,
   font-weight: 700;
   text-align: center;
   padding: 6px 4px;
-}
-/* ================================
-   🔒 MODE KHUSUS: NILAI MPS ONLY
-   ================================ */
-table.nilai-mps {
-  table-layout: fixed;   /* patuh lebar sidebar */
-  width: 100%;
-}
-
-table.nilai-mps th,
-table.nilai-mps td {
-  padding: 1px 2px !important;
-  font-size: clamp(0.5rem, 1.2vw, 0.62rem) !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* kolom rank */
-table.nilai-mps th:nth-child(1),
-table.nilai-mps td:nth-child(1) {
-  width: 8%;
-}
-
-/* kolom nama */
-table.nilai-mps th:nth-child(2),
-table.nilai-mps td:nth-child(2) {
-  width: 36%;
-  text-align: left;
-}
-
-/* kolom angka (Diklat, Bintal, Bintur, Poin, dll) */
-table.nilai-mps th:nth-child(n+3),
-table.nilai-mps td:nth-child(n+3) {
-  width: auto;
-  text-align: center;
 }
 
 /* Tabel POS Elegan dan Proporsional */
@@ -2804,50 +2768,58 @@ function applyFreshRanking(data, nilaiIndex) {
 </script>
 <script>
 // 1. Fungsi Utama Fetch MPS yang Stabil
-async function renderNilaiMPS() {
+async function fetchNilaiMPS() {
   const tHead = document.getElementById('tableHead');
   const tBody = document.getElementById('tableBody');
+  const jenisRekap = document.getElementById('jenisRekap');
+
+  if (!tHead || !tBody) return;
+
+  // Set pengunci global agar fungsi lain tidak berani masuk
+  window.isMPSActive = true; 
   
-  // 1. Tampilkan Loading
-  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Memuat Data MPS...</td></tr>';
+  // Tampilkan loading yang tidak bisa dihapus dengan mudah
+  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold; background:#fff;">🔄 Sinkronisasi Data MPS...</td></tr>';
 
-  // 2. Set Header (Tetap 6 kolom sesuai permintaan)
-  tHead.innerHTML = `
-    <tr>
-      <th style="width:50px">🏅</th>
-      <th>Nama</th>
-      <th>Dik</th>
-      <th>Bin</th>
-      <th>Bit</th>
-      <th>Tot</th>
-    </tr>`;
+  try {
+    const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
+    const data = await resp.json();
 
-  // 3. Panggil fungsi di Code.gs
-  google.script.run
-    .withSuccessHandler(function(data) {
-      if (!data || data.length === 0) {
-        tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Data Tidak Ditemukan di Sheet rekapakhir</td></tr>';
-        return;
+    // Validasi ketat: Jika user sudah pindah menu, batalkan render
+    if (jenisRekap.value !== 'NilaiMPS') return;
+
+    if (data && data.length > 0) {
+      // Render Header
+      const headers = data[0];
+      tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+
+      // Render Body
+      let html = '';
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        html += '<tr style="background:#fff !important;">';
+        row.forEach((cell, idx) => {
+          let val = cell || '';
+          let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
+          if (idx === 5 && !isNaN(val) && val !== "") {
+            style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
+          }
+          html += `<td style="${style}">${val}</td>`;
+        });
+        html += '</tr>';
       }
-
-      let html = "";
-      data.forEach(row => {
-        html += `
-          <tr>
-            <td style="text-align:center;">${row[0]}</td>
-            <td style="text-align:left; font-weight:600;">${row[1]}</td>
-            <td style="text-align:center;">${row[2]}</td>
-            <td style="text-align:center; color:blue; font-weight:bold;">${row[3]}</td>
-            <td style="text-align:center; color:green; font-weight:bold;">${row[4]}</td>
-            <td style="text-align:center; font-weight:900; background:#f8fafc;">${row[5]}</td>
-          </tr>`;
-      });
+      
+      // Inject data dan paksa tampilan tetap ada
       tBody.innerHTML = html;
-    })
-    .withFailureHandler(function(err) {
-      tBody.innerHTML = '<tr><td colspan="6" style="color:red;text-align:center;">Error: ' + err.message + '</td></tr>';
-    })
-    .getNilaiMPS(); // Harus sama dengan nama function di Code.gs
+      
+      // Mencegah fungsi render lain "membersihkan" tabel ini
+      const tableBox = document.querySelector('.tableBox');
+      if(tableBox) tableBox.style.display = 'block';
+    }
+  } catch (e) {
+    console.error(e);
+    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data.</td></tr>';
+  }
 }
 
 // 2. Logic Controller yang Tidak Bisa Diinterupsi
@@ -2940,9 +2912,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("nilaiIndividuView").style.display = "block";
   }
 });
-document.getElementById("rekapTable").className = "nilai-mps";
-document.getElementById("rekapTable").className = "";
-rekapTable.classList.remove("nilai-mps");
 
 </script>
 </body>

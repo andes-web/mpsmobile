@@ -2807,58 +2807,54 @@ function applyFreshRanking(data, nilaiIndex) {
 async function fetchNilaiMPS() {
   const tHead = document.getElementById('tableHead');
   const tBody = document.getElementById('tableBody');
-  const unitFilter = document.getElementById('unitFilter').value;
+  const jenisRekap = document.getElementById('jenisRekap');
+
+  if (!tHead || !tBody) return;
+
+  // Set pengunci global agar fungsi lain tidak berani masuk
+  window.isMPSActive = true; 
   
-  tBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Memproses Nilai MPS...</td></tr>';
+  // Tampilkan loading yang tidak bisa dihapus dengan mudah
+  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold; background:#fff;">🔄 Sinkronisasi Data MPS...</td></tr>';
 
   try {
-    // 1. Ambil data dari sheet RekapAkhir (atau sheet sumber Nilai MPS)
-    const data = await fetchData('RekapAkhir');
-    if (!data || data.rawData.length === 0) return;
+    const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
+    const data = await resp.json();
 
-    // 2. Definisi Header untuk Nilai MPS
-    tHead.innerHTML = `
-      <tr>
-        <th>🏅</th>
-        <th>Nama</th>
-        <th>Unit</th>
-        <th>Bin</th> 
-        <th>Bit</th>
-        <th>NN</th>
-        <th>NA</th>
-      </tr>`;
+    // Validasi ketat: Jika user sudah pindah menu, batalkan render
+    if (jenisRekap.value !== 'NilaiMPS') return;
 
-    // 3. Mapping data (Pastikan index kolom sesuai dengan spreadsheet Anda)
-    // Asumsi: Bin ada di kolom 4 (index 3), Bit di kolom 5 (index 4)
-    let rowsHtml = data.rawData
-      .filter(r => {
-        if (unitFilter.startsWith("Semua")) return true;
-        return normalizeUnit(r[1]) === normalizeUnit(unitFilter);
-      })
-      .map((r, i) => {
-        // Ambil nilai dan pastikan jika kosong/NaN tampil sebagai 0
-        const valBin = parseFloat(String(r[3] || 0).replace(',', '.')) || 0;
-        const valBit = parseFloat(String(r[4] || 0).replace(',', '.')) || 0;
-        const valNN  = parseFloat(String(r[5] || 0).replace(',', '.')) || 0;
-        const valNA  = parseFloat(String(r[6] || 0).replace(',', '.')) || 0;
+    if (data && data.length > 0) {
+      // Render Header
+      const headers = data[0];
+      tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
 
-        return `
-          <tr>
-            <td>${getRankDisplay(i + 1)}</td>
-            <td style="text-align:left;">${r[0] || '-'}</td>
-            <td>${r[1] || '-'}</td>
-            <td style="font-weight:bold;">${valBin.toFixed(0)}</td>
-            <td style="font-weight:bold;">${valBit.toFixed(0)}</td>
-            <td>${valNN.toFixed(0)}</td>
-            <td class="nilai-na ${valNA >= 120 ? 'biru' : 'merah'}">${valNA.toFixed(0)}</td>
-          </tr>`;
-      }).join("");
-
-    tBody.innerHTML = rowsHtml;
-
+      // Render Body
+      let html = '';
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        html += '<tr style="background:#fff !important;">';
+        row.forEach((cell, idx) => {
+          let val = cell || '';
+          let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
+          if (idx === 5 && !isNaN(val) && val !== "") {
+            style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
+          }
+          html += `<td style="${style}">${val}</td>`;
+        });
+        html += '</tr>';
+      }
+      
+      // Inject data dan paksa tampilan tetap ada
+      tBody.innerHTML = html;
+      
+      // Mencegah fungsi render lain "membersihkan" tabel ini
+      const tableBox = document.querySelector('.tableBox');
+      if(tableBox) tableBox.style.display = 'block';
+    }
   } catch (e) {
-    console.error("Gagal Render Nilai MPS:", e);
-    tBody.innerHTML = '<tr><td colspan="7" style="color:red;">Gagal memuat kolom Bin/Bit.</td></tr>';
+    console.error(e);
+    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data.</td></tr>';
   }
 }
 

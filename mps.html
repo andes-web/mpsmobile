@@ -2807,54 +2807,48 @@ function applyFreshRanking(data, nilaiIndex) {
 async function fetchNilaiMPS() {
   const tHead = document.getElementById('tableHead');
   const tBody = document.getElementById('tableBody');
-  const jenisRekap = document.getElementById('jenisRekap');
-
-  if (!tHead || !tBody) return;
-
-  // Set pengunci global agar fungsi lain tidak berani masuk
-  window.isMPSActive = true; 
+  const unitFilter = document.getElementById('unitFilter').value;
   
-  // Tampilkan loading yang tidak bisa dihapus dengan mudah
-  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold; background:#fff;">🔄 Sinkronisasi Data MPS...</td></tr>';
+  // Tampilkan loading agar user tahu proses sedang berjalan
+  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Memproses Nilai...</td></tr>';
 
   try {
-    const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
-    const data = await resp.json();
-
-    // Validasi ketat: Jika user sudah pindah menu, batalkan render
-    if (jenisRekap.value !== 'NilaiMPS') return;
-
-    if (data && data.length > 0) {
-      // Render Header
-      const headers = data[0];
-      tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
-
-      // Render Body
-      let html = '';
-      for (let i = 1; i < data.length; i++) {
-        const row = data[i];
-        html += '<tr style="background:#fff !important;">';
-        row.forEach((cell, idx) => {
-          let val = cell || '';
-          let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
-          if (idx === 5 && !isNaN(val) && val !== "") {
-            style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
-          }
-          html += `<td style="${style}">${val}</td>`;
-        });
-        html += '</tr>';
+    // Memanggil fungsi dari Code.gs
+    google.script.run.withSuccessHandler(function(output) {
+      if (!output || output.length <= 1) {
+        tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Tidak ada data tersedia</td></tr>';
+        return;
       }
+
+      // Set Header Sesuai Keinginan (6 Kolom)
+      tHead.innerHTML = `
+        <tr>
+          <th>🏅</th>
+          <th>Nama</th>
+          <th>Dik</th>
+          <th>Bin</th>
+          <th>Bit</th>
+          <th>Tot</th>
+        </tr>`;
+
+      // Filter Berdasarkan Unit (Jika filter unit diaktifkan di UI)
+      const dataRows = output.slice(1); // Hilangkan header dari array
       
-      // Inject data dan paksa tampilan tetap ada
-      tBody.innerHTML = html;
-      
-      // Mencegah fungsi render lain "membersihkan" tabel ini
-      const tableBox = document.querySelector('.tableBox');
-      if(tableBox) tableBox.style.display = 'block';
-    }
+      tBody.innerHTML = dataRows.map((r) => `
+        <tr>
+          <td>${getRankDisplay(r[0])}</td>
+          <td style="text-align:left; padding-left:8px;">${r[1]}</td>
+          <td>${r[2]}</td>
+          <td style="font-weight:bold; color:#1d4ed8;">${r[3]}</td>
+          <td style="font-weight:bold; color:#1d4ed8;">${r[4]}</td>
+          <td style="font-weight:800; background:#f0f9ff;">${r[5]}</td>
+        </tr>
+      `).join("");
+
+    }).getNilaiMPS(); // PENTING: Nama fungsi harus sama dengan di Code.gs
+
   } catch (e) {
-    console.error(e);
-    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data.</td></tr>';
+    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data MPS</td></tr>';
   }
 }
 

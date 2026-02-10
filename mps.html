@@ -286,18 +286,14 @@ select:focus,
 }
 .tableBox table {
   width: 100%;
-  table-layout: fixed;        /* ⬅️ PENTING */
+  font-size: 0.7rem;
   border-collapse: collapse;
   font-family: 'Poppins', sans-serif !important;
-  font-size: clamp(0.55rem, 1.5vw, 0.7rem); /* responsif */
 }
 .tableBox th, .tableBox td { 
-  padding: 2px !important;
+  padding: 2px 4px !important;
   text-align: center;
-  font-size: clamp(0.55rem, 1.4vw, 0.65rem) !important;
-  white-space: nowrap;        /* ⬅️ cegah kolom melebar */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.65rem !important;
 }
 .tableBox th { 
   background: #1d4ed8; 
@@ -475,11 +471,41 @@ select:focus,
   text-align: center;
   padding: 6px 4px;
 }
-/* 🔒 Khusus tabel Nilai MPS */
+/* ================================
+   🔒 MODE KHUSUS: NILAI MPS ONLY
+   ================================ */
+table.nilai-mps {
+  table-layout: fixed;   /* patuh lebar sidebar */
+  width: 100%;
+}
+
 table.nilai-mps th,
 table.nilai-mps td {
-  font-size: clamp(0.5rem, 1.3vw, 0.6rem) !important;
   padding: 1px 2px !important;
+  font-size: clamp(0.5rem, 1.2vw, 0.62rem) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* kolom rank */
+table.nilai-mps th:nth-child(1),
+table.nilai-mps td:nth-child(1) {
+  width: 8%;
+}
+
+/* kolom nama */
+table.nilai-mps th:nth-child(2),
+table.nilai-mps td:nth-child(2) {
+  width: 36%;
+  text-align: left;
+}
+
+/* kolom angka (Diklat, Bintal, Bintur, Poin, dll) */
+table.nilai-mps th:nth-child(n+3),
+table.nilai-mps td:nth-child(n+3) {
+  width: auto;
+  text-align: center;
 }
 
 /* Tabel POS Elegan dan Proporsional */
@@ -2923,6 +2949,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 document.getElementById("rekapTable").className = "nilai-mps";
+document.getElementById("rekapTable").className = "";
+rekapTable.classList.remove("nilai-mps");
+
 </script>
 </body>
 

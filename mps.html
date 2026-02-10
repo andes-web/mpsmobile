@@ -2804,52 +2804,50 @@ function applyFreshRanking(data, nilaiIndex) {
 </script>
 <script>
 // 1. Fungsi Utama Fetch MPS yang Stabil
-async function fetchNilaiMPS() {
+async function renderNilaiMPS() {
   const tHead = document.getElementById('tableHead');
   const tBody = document.getElementById('tableBody');
-  const unitFilter = document.getElementById('unitFilter').value;
   
-  // Tampilkan loading agar user tahu proses sedang berjalan
-  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Memproses Nilai...</td></tr>';
+  // 1. Tampilkan Loading
+  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Memuat Data MPS...</td></tr>';
 
-  try {
-    // Memanggil fungsi dari Code.gs
-    google.script.run.withSuccessHandler(function(output) {
-      if (!output || output.length <= 1) {
-        tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Tidak ada data tersedia</td></tr>';
+  // 2. Set Header (Tetap 6 kolom sesuai permintaan)
+  tHead.innerHTML = `
+    <tr>
+      <th style="width:50px">🏅</th>
+      <th>Nama</th>
+      <th>Dik</th>
+      <th>Bin</th>
+      <th>Bit</th>
+      <th>Tot</th>
+    </tr>`;
+
+  // 3. Panggil fungsi di Code.gs
+  google.script.run
+    .withSuccessHandler(function(data) {
+      if (!data || data.length === 0) {
+        tBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Data Tidak Ditemukan di Sheet rekapakhir</td></tr>';
         return;
       }
 
-      // Set Header Sesuai Keinginan (6 Kolom)
-      tHead.innerHTML = `
-        <tr>
-          <th>🏅</th>
-          <th>Nama</th>
-          <th>Dik</th>
-          <th>Bin</th>
-          <th>Bit</th>
-          <th>Tot</th>
-        </tr>`;
-
-      // Filter Berdasarkan Unit (Jika filter unit diaktifkan di UI)
-      const dataRows = output.slice(1); // Hilangkan header dari array
-      
-      tBody.innerHTML = dataRows.map((r) => `
-        <tr>
-          <td>${getRankDisplay(r[0])}</td>
-          <td style="text-align:left; padding-left:8px;">${r[1]}</td>
-          <td>${r[2]}</td>
-          <td style="font-weight:bold; color:#1d4ed8;">${r[3]}</td>
-          <td style="font-weight:bold; color:#1d4ed8;">${r[4]}</td>
-          <td style="font-weight:800; background:#f0f9ff;">${r[5]}</td>
-        </tr>
-      `).join("");
-
-    }).getNilaiMPS(); // PENTING: Nama fungsi harus sama dengan di Code.gs
-
-  } catch (e) {
-    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data MPS</td></tr>';
-  }
+      let html = "";
+      data.forEach(row => {
+        html += `
+          <tr>
+            <td style="text-align:center;">${row[0]}</td>
+            <td style="text-align:left; font-weight:600;">${row[1]}</td>
+            <td style="text-align:center;">${row[2]}</td>
+            <td style="text-align:center; color:blue; font-weight:bold;">${row[3]}</td>
+            <td style="text-align:center; color:green; font-weight:bold;">${row[4]}</td>
+            <td style="text-align:center; font-weight:900; background:#f8fafc;">${row[5]}</td>
+          </tr>`;
+      });
+      tBody.innerHTML = html;
+    })
+    .withFailureHandler(function(err) {
+      tBody.innerHTML = '<tr><td colspan="6" style="color:red;text-align:center;">Error: ' + err.message + '</td></tr>';
+    })
+    .getNilaiMPS(); // Harus sama dengan nama function di Code.gs
 }
 
 // 2. Logic Controller yang Tidak Bisa Diinterupsi

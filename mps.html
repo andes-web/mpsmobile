@@ -286,14 +286,18 @@ select:focus,
 }
 .tableBox table {
   width: 100%;
-  font-size: 0.7rem;
+  table-layout: fixed;        /* ⬅️ PENTING */
   border-collapse: collapse;
   font-family: 'Poppins', sans-serif !important;
+  font-size: clamp(0.55rem, 1.5vw, 0.7rem); /* responsif */
 }
 .tableBox th, .tableBox td { 
-  padding: 2px 4px !important;
+  padding: 2px !important;
   text-align: center;
-  font-size: 0.65rem !important;
+  font-size: clamp(0.55rem, 1.4vw, 0.65rem) !important;
+  white-space: nowrap;        /* ⬅️ cegah kolom melebar */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tableBox th { 
   background: #1d4ed8; 
@@ -470,6 +474,12 @@ select:focus,
   font-weight: 700;
   text-align: center;
   padding: 6px 4px;
+}
+/* 🔒 Khusus tabel Nilai MPS */
+table.nilai-mps th,
+table.nilai-mps td {
+  font-size: clamp(0.5rem, 1.3vw, 0.6rem) !important;
+  padding: 1px 2px !important;
 }
 
 /* Tabel POS Elegan dan Proporsional */
@@ -2912,7 +2922,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("nilaiIndividuView").style.display = "block";
   }
 });
-
+document.getElementById("rekapTable").className = "nilai-mps";
 </script>
 </body>
 

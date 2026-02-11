@@ -2759,20 +2759,28 @@ function applyFreshRanking(data, nilaiIndex) {
 function loadNilaiMPS() {
 
     let unit = document.getElementById("unitFilter").value;
+    if (unit === "Semua Unit") unit = "";
 
-    // Jika pilih Semua Unit, kirim kosong saja
-    if (unit === "Semua Unit") {
-        unit = "";
-    }
+    const url = GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit);
 
-    fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
-        .then(res => res.json())
-        .then(data => {
-            console.log("DATA MPS:", data); // debug
-            renderNilaiMPSTable(data);
+    console.log("REQUEST KE:", url);
+
+    fetch(url)
+        .then(res => res.text())   // 🔥 PAKAI TEXT DULU
+        .then(text => {
+            console.log("RAW RESPONSE:", text);
+
+            try {
+                const data = JSON.parse(text);
+                console.log("PARSED DATA:", data);
+                renderNilaiMPSTable(data);
+            } catch (e) {
+                console.error("GAGAL PARSE JSON:", e);
+            }
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error("FETCH ERROR:", err));
 }
+
 
 function renderNilaiMPSTable(data) {
 

@@ -2758,13 +2758,22 @@ function applyFreshRanking(data, nilaiIndex) {
 
 function loadNilaiMPS() {
 
-    const unit = document.getElementById("unitFilter").value;
+    let unit = document.getElementById("unitFilter").value;
+
+    // Jika pilih Semua Unit, kirim kosong saja
+    if (unit === "Semua Unit") {
+        unit = "";
+    }
 
     fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
         .then(res => res.json())
-        .then(data => renderNilaiMPSTable(data))
+        .then(data => {
+            console.log("DATA MPS:", data); // debug
+            renderNilaiMPSTable(data);
+        })
         .catch(err => console.error(err));
 }
+
 function renderNilaiMPSTable(data) {
 
     const tableHead = document.getElementById("tableHead");

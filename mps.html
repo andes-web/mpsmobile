@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rekap Nilai MPS</title>
+<title>Rekap Nilai MPS - FIXED POS</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1185,7 +1185,6 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2654,68 +2653,55 @@ let MODE_REKAP_BINTAL = false;
   document.addEventListener('DOMContentLoaded', function(){
     const unitSelect = document.getElementById('unitFilter');
     const jenisSelect = document.getElementById('jenisRekap');
-    const pesertaInputContainer = document.getElementById('pesertaInputContainer');
-    const statBox = document.querySelector('.statBox');
-
     if (!unitSelect || !jenisSelect) return;
 
-    // 1. Handle Perubahan Dropdown Unit
     unitSelect.addEventListener('change', function(){
       if (jenisSelect.value === 'RekapBintal') {
+
+        // ✅ PANGGIL RENDERER REKAP BINTAL
         if (typeof renderRekapBintal === 'function') {
           renderRekapBintal();
         } 
-      } else if (jenisSelect.value !== 'NilaiMPS') {
-        // Jangan panggil renderData jika sedang di mode NilaiMPS
-        if (typeof renderData === 'function') renderData();
-      }
-    });
-
-    // 2. Handle Perubahan Dropdown Jenis Rekap
-    jenisSelect.addEventListener('change', function() {
-      const val = this.value;
-      
-      // Toggle tampilan input peserta
-      if(pesertaInputContainer) {
-        pesertaInputContainer.style.display = (val === 'NilaiIndividu') ? 'flex' : 'none';
-      }
-
-      // Toggle tampilan filter unit
-      if(unitSelect) {
-        unitSelect.style.display = (val === 'NilaiMPS') ? 'none' : 'block';
-      }
-
-      if (val === 'NilaiMPS') {
-        // Sembunyikan statBox agar tidak bentrok layout
-        if(statBox) statBox.style.display = 'none';
-        
-        // Panggil fungsi Nilai MPS
-        fetchNilaiMPS();
-      } else {
-        // Kembalikan statBox untuk menu lain
-        if(statBox) statBox.style.display = 'flex';
-        
-        // Pastikan renderData asli dijalankan
-        if (typeof renderData === 'function') {
-          renderData(); 
+        else if (typeof loadRekapBintal === 'function') {
+          loadRekapBintal();
         }
+
       }
     });
   });
 })();
 
-
-
 function applyFreshRanking(data, nilaiIndex) {
+  // urutkan berdasarkan nilai (DESC)
   data.sort((a, b) => Number(b[nilaiIndex]) - Number(a[nilaiIndex]));
+
+  // hitung peringkat baru
   return data.map((row, i) => ({
     ...row,
     __rank: i + 1
   }));
 }
+
 </script>
 <!-- =================== END PATCH RE-RENDER FILTER REKAP BINTAL ==================== -->
 
+
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    const unitFilter = document.getElementById('unitFilter');
+    const jenisRekap = document.getElementById('jenisRekap');
+    if(!unitFilter || !jenisRekap) return;
+
+    unitFilter.addEventListener('change', function(){
+      if(jenisRekap.value !== 'RekapBintal') return;
+      if(typeof renderRekapBintal === 'function'){
+        renderRekapBintal(unitFilter.value);
+      }
+    });
+  });
+})();
+</script>
 <style>
   /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */
   #tableBody tr td:nth-child(6) {
@@ -2764,155 +2750,6 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
-
-</script>
-<script>
-// 1. Fungsi Utama Fetch MPS yang Stabil
-async function fetchNilaiMPS() {
-  const tHead = document.getElementById('tableHead');
-  const tBody = document.getElementById('tableBody');
-  const jenisRekap = document.getElementById('jenisRekap');
-
-  if (!tHead || !tBody) return;
-
-  // Set pengunci global agar fungsi lain tidak berani masuk
-  window.isMPSActive = true; 
-  
-  // Tampilkan loading yang tidak bisa dihapus dengan mudah
-  tBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:50px; font-weight:bold; background:#fff;">🔄 Sinkronisasi Data MPS...</td></tr>';
-
-  try {
-    const resp = await fetch('https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec?action=nilai_mps');
-    const data = await resp.json();
-
-    // Validasi ketat: Jika user sudah pindah menu, batalkan render
-    if (jenisRekap.value !== 'NilaiMPS') return;
-
-    if (data && data.length > 0) {
-      // Render Header
-      const headers = data[0];
-      tHead.innerHTML = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
-
-      // Render Body
-      let html = '';
-      for (let i = 1; i < data.length; i++) {
-        const row = data[i];
-        html += '<tr style="background:#fff !important;">';
-        row.forEach((cell, idx) => {
-          let val = cell || '';
-          let style = (idx === 1) ? 'text-align:left; padding-left:12px;' : 'text-align:center;';
-          if (idx === 5 && !isNaN(val) && val !== "") {
-            style += (parseFloat(val) >= 75) ? 'color:#00a759; font-weight:bold;' : 'color:#dc2626; font-weight:bold;';
-          }
-          html += `<td style="${style}">${val}</td>`;
-        });
-        html += '</tr>';
-      }
-      
-      // Inject data dan paksa tampilan tetap ada
-      tBody.innerHTML = html;
-      
-      // Mencegah fungsi render lain "membersihkan" tabel ini
-      const tableBox = document.querySelector('.tableBox');
-      if(tableBox) tableBox.style.display = 'block';
-    }
-  } catch (e) {
-    console.error(e);
-    tBody.innerHTML = '<tr><td colspan="6" style="color:red; text-align:center;">Gagal memuat data.</td></tr>';
-  }
-}
-
-// 2. Logic Controller yang Tidak Bisa Diinterupsi
-// 2. Logic Controller yang Stabil (Anti-Hilang)
-document.addEventListener('DOMContentLoaded', function() {
-  const jenisRekap = document.getElementById('jenisRekap');
-  const unitFilter = document.getElementById('unitFilter');
-  const statBox = document.querySelector('.statBox');
-  const tableBody = document.getElementById('tableBody');
-
-  // BAJAK FUNGSI RENDER: Cegah sistem luar menghapus tabel Nilai MPS
-  const originalRenderData = window.renderData;
-  window.renderData = function() {
-    // Jika sedang di mode Nilai MPS, kunci tabel agar tidak di-reset
-    if (jenisRekap && jenisRekap.value === 'NilaiMPS') {
-      if (tableBody && tableBody.innerHTML.trim() !== "") {
-        console.warn("Stabilitas Aktif: Menahan tampilan Nilai MPS agar tidak hilang.");
-        return; // Hentikan fungsi render otomatis di sini
-      }
-    }
-    // Jika bukan Nilai MPS, jalankan fungsi normal
-    if (typeof originalRenderData === 'function') {
-      originalRenderData.apply(this, arguments);
-    }
-  };
-
-  // Event listener saat dropdown berubah
-  if (jenisRekap) {
-    jenisRekap.addEventListener('change', function() {
-      if (this.value === 'NilaiMPS') {
-          // Sembunyikan elemen pengganggu agar layout tidak melompat
-          if(unitFilter) unitFilter.style.display = 'none';
-          if(statBox) statBox.style.display = 'none';
-          
-          // Panggil fungsi pengisi data Nilai MPS Anda secara instan
-          fetchNilaiMPS(); 
-      }
-    });
-  }
-});
-</script>
-
-<script>
-  let MODE_NILAI_MPS = false;
-  
-  document.getElementById("jenisRekap").addEventListener("change", async function () {
-  const val = this.value;
-
-  // RESET MODE
-  MODE_NILAI_MPS = false;
-
-  // Sembunyikan semua view dulu
-  document.querySelector(".tableBox").style.display = "none";
-  document.getElementById("nilaiIndividuView").style.display = "none";
-  document.getElementById("posSection").style.display = "none";
-
-  if (val === "NilaiMPS") {
-    MODE_NILAI_MPS = true;
-
-    // 🔒 PAKSA TAMPIL
-    document.querySelector(".tableBox").style.display = "block";
-    document.querySelector(".statBox").style.display = "flex";
-
-    await renderNilaiMPS();   // ⬅️ SEKALI INI SAJA
-    return;
-  }
-
-  // MODE LAIN
-  if (val === "RekapBintal") {
-    await renderRekapBintal();
-    return;
-  }
-
-  if (val === "Rekap") {
-    await renderStandardRekap("Rekap");
-    return;
-  }
-
-  if (val === "RekapKelompok") {
-    await renderStandardRekap("RekapKelompok");
-    return;
-  }
-
-  if (val === "RekapAkhir") {
-    await renderStandardRekap("RekapAkhir");
-    return;
-  }
-
-  if (val === "NilaiIndividu") {
-    document.getElementById("nilaiIndividuView").style.display = "block";
-  }
-});
-
 </script>
 </body>
 

@@ -1185,6 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
+          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2304,6 +2305,10 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
   } else {
     MODE_REKAP_BINTAL = false;
   }
+  if (this.value === "NilaiMPS") {
+    loadNilaiMPS();
+    return;
+}
 });
 
 </script>
@@ -2750,6 +2755,89 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
+
+function loadNilaiMPS() {
+
+    const unit = document.getElementById("unitFilter").value;
+
+    fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
+        .then(res => res.json())
+        .then(data => renderNilaiMPSTable(data))
+        .catch(err => console.error(err));
+}
+function renderNilaiMPSTable(data) {
+
+    const tableHead = document.getElementById("tableHead");
+    const tableBody = document.getElementById("tableBody");
+
+    tableHead.innerHTML = `
+        <tr>
+            <th>Rank</th>
+            <th>Nama</th>
+            <th>Unit</th>
+            <th>Dik</th>
+            <th>Bin</th>
+            <th>Bit</th>
+            <th>Tot</th>
+        </tr>
+    `;
+
+    tableBody.innerHTML = "";
+
+    data.forEach(row => {
+
+        const tr = document.createElement("tr");
+
+        // Highlight 3 besar
+        if (row.rank === 1) tr.style.background = "#fde68a";
+        if (row.rank === 2) tr.style.background = "#e5e7eb";
+        if (row.rank === 3) tr.style.background = "#fcd34d";
+
+        tr.innerHTML = `
+            <td>${getMedal(row.rank)}</td>
+            <td>${row.nama}</td>
+            <td>${row.unit}</td>
+            <td>${row.dik}</td>
+            <td>${row.bin}</td>
+            <td>${row.bit}</td>
+            <td><strong>${row.tot}</strong></td>
+        `;
+
+        tableBody.appendChild(tr);
+    });
+
+    updateStatBoxMPS(data);
+}
+function getMedal(rank){
+    if(rank === 1) return "🥇";
+    if(rank === 2) return "🥈";
+    if(rank === 3) return "🥉";
+    return rank;
+}
+function updateStatBoxMPS(data){
+
+    if (!data.length) return;
+
+    const totals = data.map(d => d.tot);
+
+    const sum = totals.reduce((a,b)=>a+b,0);
+    const avg = (sum / totals.length).toFixed(1);
+    const max = Math.max(...totals);
+    const min = Math.min(...totals);
+
+    document.getElementById("statPeserta").innerText = totals.length;
+    document.getElementById("statRata").innerText = avg;
+    document.getElementById("statMax").innerText = max;
+    document.getElementById("statMin").innerText = min;
+
+    document.getElementById("statProsentase").innerText = "100%";
+}
+document.getElementById("unitFilter").addEventListener("change", function(){
+    if(document.getElementById("jenisRekap").value === "NilaiMPS"){
+        loadNilaiMPS();
+    }
+});
+
 </script>
 </body>
 

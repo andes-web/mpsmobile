@@ -1185,6 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
+          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2299,6 +2300,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 document.getElementById("jenisRekap").addEventListener("change", function () {
+  const val = this.value;
+
+  if (val === "NilaiMPS") {
+    loadNilaiMPS();
+    return;
+  }
+  // kondisi lain biarkan tetap
   if (this.value === "RekapBintal") {
     renderRekapBintal();
   } else {
@@ -2750,6 +2758,50 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
+
+function loadNilaiMPS() {
+  const unit = document.getElementById("unitFilter").value;
+
+  fetch(GAS_URL + "?action=getNilaiMPS&unit=" + encodeURIComponent(unit))
+    .then(res => res.json())
+    .then(data => {
+      renderNilaiMPSTable(data);
+    });
+}
+
+function renderNilaiMPSTable(data) {
+
+  const tableHead = document.getElementById("tableHead");
+  const tableBody = document.getElementById("tableBody");
+
+  tableHead.innerHTML = "";
+  tableBody.innerHTML = "";
+
+  if (!data || data.length === 0) return;
+
+  // HEADER
+  let headRow = "<tr>";
+  data[0].forEach(col => {
+    headRow += "<th>" + col + "</th>";
+  });
+  headRow += "</tr>";
+
+  tableHead.innerHTML = headRow;
+
+  // BODY
+  for (let i = 1; i < data.length; i++) {
+    let row = "<tr>";
+
+    data[i].forEach(col => {
+      row += "<td>" + col + "</td>";
+    });
+
+    row += "</tr>";
+    tableBody.innerHTML += row;
+  }
+}
+
+
 </script>
 </body>
 

@@ -2300,19 +2300,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 document.getElementById("jenisRekap").addEventListener("change", function () {
-  const val = this.value;
-
-  if (val === "NilaiMPS") {
-    loadNilaiMPS();
-    return;
-  }
-  // kondisi lain biarkan tetap
-  if (this.value === "RekapBintal") {
-    renderRekapBintal();
-  } else {
-    MODE_REKAP_BINTAL = false;
-  }
+  handleRekapChange(this.value);
 });
+
 
 </script>
 
@@ -2760,14 +2750,22 @@ function applyFreshRanking(data, nilaiIndex) {
 })();
 
 function loadNilaiMPS() {
+
   const unit = document.getElementById("unitFilter").value;
 
-  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
+  // Bersihkan dulu
+  document.getElementById("tableHead").innerHTML = "";
+  document.getElementById("tableBody").innerHTML = "";
+
+  fetch(GAS_URL + "?action=nilai_mps&unit="
+        + encodeURIComponent(unit)
+        + "&t=" + new Date().getTime())
     .then(res => res.json())
     .then(data => {
       renderNilaiMPSTable(data);
     });
 }
+
 
 function renderNilaiMPSTable(data) {
 
@@ -2801,6 +2799,38 @@ function renderNilaiMPSTable(data) {
   }
 }
 
+function handleRekapChange(val) {
+
+  if (val === "NilaiMPS") {
+    loadNilaiMPS();
+    return;
+  }
+
+  if (val === "Rekap") {
+    loadSheet("Rekap");
+    return;
+  }
+
+  if (val === "RekapKelompok") {
+    loadSheet("RekapKelompok");
+    return;
+  }
+
+  if (val === "RekapAkhir") {
+    loadSheet("RekapAkhir");
+    return;
+  }
+
+  if (val === "NilaiIndividu") {
+    loadSheet("NilaiIndividu");
+    return;
+  }
+
+  if (val === "RekapBintal") {
+    loadSheet("RekapBintal");
+    return;
+  }
+}
 
 </script>
 </body>

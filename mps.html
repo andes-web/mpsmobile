@@ -2785,15 +2785,35 @@ function renderNilaiMPSTable(data) {
     headRow += "<th>" + col + "</th>";
   });
   headRow += "</tr>";
-
   tableHead.innerHTML = headRow;
 
   // BODY
   for (let i = 1; i < data.length; i++) {
+
     let row = "<tr>";
 
-    data[i].forEach(col => {
-      row += "<td>" + col + "</td>";
+    data[i].forEach((col, index) => {
+
+      // Kolom ke-2 adalah Unit (index 2 karena urutan: Rank, Nama, Unit...)
+      if (index === 2) {
+
+        const logoFile = unitLogoMap[col];
+
+        if (logoFile) {
+          row += `
+            <td style="text-align:center;">
+              <img src="${logoFile}" 
+                   alt="${col}" 
+                   style="height:30px; width:auto;">
+            </td>`;
+        } else {
+          row += `<td>${col}</td>`;
+        }
+
+      } else {
+        row += `<td>${col}</td>`;
+      }
+
     });
 
     row += "</tr>";
@@ -2801,6 +2821,17 @@ function renderNilaiMPSTable(data) {
   }
 }
 
+
+const unitLogoMap = {
+  "SMPN 1 Citeureup": "1_Citeureup.png",
+  "SMPN 6 Depok": "6-removebg-preview (1).png",
+  "SMPN 7 Depok": "7.png",
+  "SMPN 8 Depok": "8-removebg-preview.png",
+  "SMPN 12 Depok": "12-removebg-preview.png",
+  "SMPN 16 Depok": "16-removebg-preview.png",
+  "SMPN 31 Depok": "31-removebg-preview.png",
+  "SMPN 32 Depok": "SMP_32.png"
+};
 
 </script>
 </body>

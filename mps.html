@@ -1185,7 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="nilai_mps">Nilai MPS</option>
+          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2859,46 +2859,56 @@ function handleRekapChange() {
   }
 }
 
+// Tambahkan fungsi ini di dalam tag <script> mps_0.html
 function renderNilaiMPS(data) {
-  const selectedUnit = document.getElementById("filterUnit").value;
+  const tableHead = document.getElementById('tableHead');
+  const tableBody = document.getElementById('tableBody');
+  const unitFilter = document.getElementById('unitFilter').value;
 
-  const filtered = selectedUnit
-    ? data.filter(d => d.unit === selectedUnit)
-    : data;
-
-  let html = `
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Nama</th>
-          <th>Unit</th>
-          <th>Dik</th>
-          <th>Bin</th>
-          <th>Bit</th>
-          <th>Tot</th>
-        </tr>
-      </thead>
-      <tbody>
+  // Header sesuai permintaan
+  tableHead.innerHTML = `
+    <tr>
+      <th>🏅</th>
+      <th>Nama</th>
+      <th>Unit</th>
+      <th>Dik</th>
+      <th>Bin</th>
+      <th>Bit</th>
+      <th>Tot</th>
+    </tr>
   `;
 
-  filtered.forEach(r => {
-    html += `
-      <tr>
-        <td>${r.rank}</td>
-        <td>${r.nama}</td>
-        <td>${r.unit}</td>
-        <td>${r.dik}</td>
-        <td>${r.bin}</td>
-        <td>${r.bit}</td>
-        <td><b>${r.tot}</b></td>
-      </tr>
-    `;
+  tableBody.innerHTML = "";
+  
+  // Filter berdasarkan unit jika dipilih
+  let filteredData = data;
+  if (unitFilter && unitFilter !== "Semua Unit") {
+    filteredData = data.filter(r => r.unit === unitFilter);
+  }
+
+  filteredData.forEach((row, index) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td style="text-align:left">${row.nama}</td>
+      <td>${row.unit}</td>
+      <td>${row.diklat}</td>
+      <td>${row.bintal}</td>
+      <td>0</td>
+      <td style="font-weight:800; color:#1e40af">${row.total}</td>
+    </tr>`;
+    tableBody.appendChild(tr);
   });
+}
 
-  html += "</tbody></table>";
-
-  document.getElementById("contentArea").innerHTML = html;
+// Pastikan handleRekapChange() mengenali action baru
+function handleRekapChange() {
+  const jenis = document.getElementById('jenisRekap').value;
+  if (jenis === "NilaiMPS") {
+    fetchData("nilai_mps"); // Memanggil action di Apps Script
+  } else {
+    // ... logika yang sudah ada sebelumnya
+  }
 }
 
 </script>

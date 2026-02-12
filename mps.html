@@ -2762,7 +2762,7 @@ function applyFreshRanking(data, nilaiIndex) {
 function loadNilaiMPS() {
   const unit = document.getElementById("unitFilter").value;
 
-  fetch(GAS_URL + "?action=getNilaiMPS&unit=" + encodeURIComponent(unit))
+  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
     .then(res => res.json())
     .then(data => {
       renderNilaiMPSTable(data);

@@ -2774,36 +2774,35 @@ async function renderNilaiMPS() {
 
   showLoading(true);
   try {
-    // Gunakan URL Apps Script Anda
     const resp = await fetch(API_URL + "?action=nilai_mps");
     let data = await resp.json();
+    
+    console.log("Data Nilai MPS diterima:", data); // Debugging
 
-    // 1. Filter berdasarkan Unit jika bukan 'Semua Unit'
+    // Filter Unit
     if (unitFilter && unitFilter !== 'Semua Unit') {
       data = data.filter(d => d.unit === unitFilter);
     }
 
-    // 2. Sort berdasarkan Total (Tot) Terbesar ke Terkecil
+    // Sort Skor Tertinggi
     data.sort((a, b) => b.tot - a.tot);
 
     tableBody.innerHTML = "";
     
-    if (data.length === 0) {
-      tableBody.innerHTML = "<tr><td colspan='7'>Data tidak ditemukan</td></tr>";
+    if (!data || data.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='7' style='padding:20px'>Data tidak ditemukan di sheet.</td></tr>";
       return;
     }
 
     data.forEach((row, index) => {
       const tr = document.createElement('tr');
-      
-      // Ikon Ranking
-      let rankDisplay = index + 1;
-      if (rankDisplay === 1) rankDisplay = '🥇';
-      else if (rankDisplay === 2) rankDisplay = '🥈';
-      else if (rankDisplay === 3) rankDisplay = '🥉';
+      let rank = index + 1;
+      if (rank === 1) rank = '🥇';
+      else if (rank === 2) rank = '🥈';
+      else if (rank === 3) rank = '🥉';
 
       tr.innerHTML = `
-        <td>${rankDisplay}</td>
+        <td>${rank}</td>
         <td style="text-align:left; font-weight:600">${row.nama}</td>
         <td>${row.unit}</td>
         <td>${row.dik}</td>
@@ -2814,8 +2813,7 @@ async function renderNilaiMPS() {
       tableBody.appendChild(tr);
     });
   } catch (err) {
-    console.error("Error Render MPS:", err);
-    Swal.fire("Error", "Gagal memuat data Nilai MPS", "error");
+    tableBody.innerHTML = "<tr><td colspan='7' style='color:red'>Gagal memproses data: " + err.message + "</td></tr>";
   } finally {
     showLoading(false);
   }

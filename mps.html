@@ -2760,57 +2760,62 @@ async function renderNilaiMPS() {
   const tableBody = document.getElementById('tableBody');
   const unitFilter = document.getElementById('unitFilter').value;
 
-  // Header sesuai permintaan: Rank (Icon), Nama, Unit, Dik, Bin, Bit, Tot
   tableHead.innerHTML = `
     <tr>
       <th style="width:10%">🏅</th>
       <th style="width:40%">Nama</th>
       <th style="width:20%">Unit</th>
-      <th style="width:7%">Dik</th>
-      <th style="width:7%">Bin</th>
-      <th style="width:7%">Bit</th>
-      <th style="width:9%">Tot</th>
+      <th>Dik</th>
+      <th>Bin</th>
+      <th>Bit</th>
+      <th>Tot</th>
     </tr>
   `;
 
   showLoading(true);
   try {
-    // Memanggil action baru "nilai_mps" yang kita buat di Apps Script
+    // Gunakan URL Apps Script Anda
     const resp = await fetch(API_URL + "?action=nilai_mps");
-    const data = await resp.json();
+    let data = await resp.json();
 
-    // Logika Filter Unit
-    let filteredData = data;
-    if (unitFilter !== 'Semua Unit') {
-      filteredData = data.filter(d => d.unit === unitFilter);
+    // 1. Filter berdasarkan Unit jika bukan 'Semua Unit'
+    if (unitFilter && unitFilter !== 'Semua Unit') {
+      data = data.filter(d => d.unit === unitFilter);
     }
 
-    // Urutkan berdasarkan Total (Tot) tertinggi
-    filteredData.sort((a, b) => b.tot - a.tot);
+    // 2. Sort berdasarkan Total (Tot) Terbesar ke Terkecil
+    data.sort((a, b) => b.tot - a.tot);
 
     tableBody.innerHTML = "";
-    filteredData.forEach((row, index) => {
+    
+    if (data.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='7'>Data tidak ditemukan</td></tr>";
+      return;
+    }
+
+    data.forEach((row, index) => {
       const tr = document.createElement('tr');
       
-      // Medali untuk Top 3
-      let rankIcon = index + 1;
-      if (rankIcon === 1) rankIcon = '🥇';
-      else if (rankIcon === 2) rankIcon = '🥈';
-      else if (rankIcon === 3) rankIcon = '🥉';
+      // Ikon Ranking
+      let rankDisplay = index + 1;
+      if (rankDisplay === 1) rankDisplay = '🥇';
+      else if (rankDisplay === 2) rankDisplay = '🥈';
+      else if (rankDisplay === 3) rankDisplay = '🥉';
 
       tr.innerHTML = `
-        <td>${rankIcon}</td>
+        <td>${rankDisplay}</td>
         <td style="text-align:left; font-weight:600">${row.nama}</td>
         <td>${row.unit}</td>
         <td>${row.dik}</td>
         <td>${row.bin}</td>
         <td>${row.bit}</td>
-        <td style="font-weight:800; color:#1e40af; font-size:0.8rem">${row.tot}</td>
+        <td style="font-weight:bold; color:#1e40af">${row.tot}</td>
       `;
       tableBody.appendChild(tr);
     });
   } catch (err) {
-    console.error("Gagal load Nilai MPS:", err);
+    console.error("Error Render MPS:", err);
+    Swal.fire("Error", "Gagal memuat data Nilai MPS", "error");
   } finally {
     showLoading(false);
   }
@@ -2819,16 +2824,17 @@ async function renderNilaiMPS() {
 // Pastikan handleRekapChange juga memanggil fungsi baru ini
 function handleRekapChange() {
   const jenis = document.getElementById('jenisRekap').value;
-  // Sembunyikan input pencarian jika bukan rekap individu (opsional, sesuai script lama)
-  const containerInput = document.getElementById('pesertaInputContainer');
-  if(containerInput) containerInput.style.display = (jenis === 'RekapIndividu') ? 'flex' : 'none';
+  
+  // Sembunyikan input cari jika bukan rekap individu
+  const searchCont = document.getElementById('pesertaInputContainer');
+  if(searchCont) searchCont.style.display = (jenis === 'RekapIndividu') ? 'flex' : 'none';
 
   if (jenis === 'NilaiMPS') {
     renderNilaiMPS();
   } else if (jenis === 'RekapBintal') {
-    renderRekapBintal();
+    if(typeof renderRekapBintal === 'function') renderRekapBintal();
   } else {
-    // panggil render standar lainnya...
+    // Fungsi render default (Rekap Akhir/Individu/Kelompok)
     if(typeof renderTable === 'function') renderTable();
   }
 }

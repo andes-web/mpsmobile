@@ -1185,7 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="NilaiMPS">Nilai MPS</option>
+          <option value="nilai_mps">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -1308,6 +1308,11 @@ async function fetchData(sheetName) {
         Swal.fire('Error Koneksi/Data', `Gagal memuat sheet **${sheetName}**. Pastikan URL Apps Script benar dan sheet ada. Pesan: ${error.message}`, 'error');
         return { headers: [], rawData: [] };
     }
+}
+if (selectedMenu === "nilai_mps") {
+  fetch(`${BASE_URL}?action=nilai_mps`)
+    .then(res => res.json())
+    .then(data => renderNilaiMPS(data));
 }
 
 // FUNGSI PERINGKAT: Menggunakan ikon hanya untuk 3 besar
@@ -2853,6 +2858,49 @@ function handleRekapChange() {
     if(typeof renderTable === 'function') renderTable();
   }
 }
+
+function renderNilaiMPS(data) {
+  const selectedUnit = document.getElementById("filterUnit").value;
+
+  const filtered = selectedUnit
+    ? data.filter(d => d.unit === selectedUnit)
+    : data;
+
+  let html = `
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Nama</th>
+          <th>Unit</th>
+          <th>Dik</th>
+          <th>Bin</th>
+          <th>Bit</th>
+          <th>Tot</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  filtered.forEach(r => {
+    html += `
+      <tr>
+        <td>${r.rank}</td>
+        <td>${r.nama}</td>
+        <td>${r.unit}</td>
+        <td>${r.dik}</td>
+        <td>${r.bin}</td>
+        <td>${r.bit}</td>
+        <td><b>${r.tot}</b></td>
+      </tr>
+    `;
+  });
+
+  html += "</tbody></table>";
+
+  document.getElementById("contentArea").innerHTML = html;
+}
+
 </script>
 </body>
 

@@ -2755,106 +2755,74 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
+// Tambahkan fungsi ini di dalam script mps_0.html
+async function renderNilaiMPS() {
+  const tableHead = document.getElementById('tableHead');
+  const tableBody = document.getElementById('tableBody');
+  const unitFilter = document.getElementById('unitFilter').value;
 
-function loadNilaiMPS() {
+  // Header Tabel
+  tableHead.innerHTML = `
+    <tr>
+      <th>🏅</th>
+      <th>Nama</th>
+      <th>Unit</th>
+      <th>Dik</th>
+      <th>Bin</th>
+      <th>Bit</th>
+      <th>Tot</th>
+    </tr>
+  `;
 
-    let unit = document.getElementById("unitFilter").value;
-    if (unit === "Semua Unit") unit = "";
+  showLoading(true);
+  try {
+    const resp = await fetch(GAS_URL + "?action=getNilaiMPS");
+    const data = await resp.json();
 
-    const url = GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit);
+    let filteredData = data;
+    if (unitFilter !== 'Semua Unit') {
+      filteredData = data.filter(d => d.unit === unitFilter);
+    }
 
-    console.log("REQUEST KE:", url);
-
-    fetch(url)
-        .then(res => res.text())   // 🔥 PAKAI TEXT DULU
-        .then(text => {
-            console.log("RAW RESPONSE:", text);
-
-            try {
-                const data = JSON.parse(text);
-                console.log("PARSED DATA:", data);
-                renderNilaiMPSTable(data);
-            } catch (e) {
-                console.error("GAGAL PARSE JSON:", e);
-            }
-        })
-        .catch(err => console.error("FETCH ERROR:", err));
-}
-
-
-function renderNilaiMPSTable(data) {
-
-    const tableHead = document.getElementById("tableHead");
-    const tableBody = document.getElementById("tableBody");
-
-    tableHead.innerHTML = `
-        <tr>
-            <th>Rank</th>
-            <th>Nama</th>
-            <th>Unit</th>
-            <th>Dik</th>
-            <th>Bin</th>
-            <th>Bit</th>
-            <th>Tot</th>
-        </tr>
-    `;
+    // Urutkan berdasarkan Total (Tot) tertinggi
+    filteredData.sort((a, b) => b.tot - a.tot);
 
     tableBody.innerHTML = "";
+    filteredData.forEach((row, index) => {
+      const tr = document.createElement('tr');
+      // Kolom Rank dengan Icon Medali untuk top 3
+      let rank = index + 1;
+      if(rank === 1) rank = '🥇';
+      else if(rank === 2) rank = '🥈';
+      else if(rank === 3) rank = '🥉';
 
-    data.forEach(row => {
-
-        const tr = document.createElement("tr");
-
-        // Highlight 3 besar
-        if (row.rank === 1) tr.style.background = "#fde68a";
-        if (row.rank === 2) tr.style.background = "#e5e7eb";
-        if (row.rank === 3) tr.style.background = "#fcd34d";
-
-        tr.innerHTML = `
-            <td>${getMedal(row.rank)}</td>
-            <td>${row.nama}</td>
-            <td>${row.unit}</td>
-            <td>${row.dik}</td>
-            <td>${row.bin}</td>
-            <td>${row.bit}</td>
-            <td><strong>${row.tot}</strong></td>
-        `;
-
-        tableBody.appendChild(tr);
+      tr.innerHTML = `
+        <td>${rank}</td>
+        <td style="text-align:left">${row.nama}</td>
+        <td>${row.unit}</td>
+        <td>${row.dik}</td>
+        <td>${row.bin}</td>
+        <td>${row.bit}</td>
+        <td style="font-weight:800; color:#1e40af">${row.tot}</td>
+      `;
+      tableBody.appendChild(tr);
     });
-
-    updateStatBoxMPS(data);
+  } catch (err) {
+    console.error("Gagal memuat Nilai MPS:", err);
+  } finally {
+    showLoading(false);
+  }
 }
-function getMedal(rank){
-    if(rank === 1) return "🥇";
-    if(rank === 2) return "🥈";
-    if(rank === 3) return "🥉";
-    return rank;
+
+// Pastikan fungsi handleRekapChange() mengenali NilaiMPS
+function handleRekapChange() {
+  const jenis = document.getElementById('jenisRekap').value;
+  if (jenis === 'NilaiMPS') {
+    renderNilaiMPS();
+  } else {
+    // panggil fungsi render lainnya yang sudah ada...
+  }
 }
-function updateStatBoxMPS(data){
-
-    if (!data.length) return;
-
-    const totals = data.map(d => d.tot);
-
-    const sum = totals.reduce((a,b)=>a+b,0);
-    const avg = (sum / totals.length).toFixed(1);
-    const max = Math.max(...totals);
-    const min = Math.min(...totals);
-
-    document.getElementById("statPeserta").innerText = totals.length;
-    document.getElementById("statRata").innerText = avg;
-    document.getElementById("statMax").innerText = max;
-    document.getElementById("statMin").innerText = min;
-
-    document.getElementById("statProsentase").innerText = "100%";
-}
-document.getElementById("unitFilter").addEventListener("change", function(){
-    if(document.getElementById("jenisRekap").value === "NilaiMPS"){
-        loadNilaiMPS();
-    }
-});
-
 </script>
 </body>
 

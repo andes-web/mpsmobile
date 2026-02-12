@@ -1185,7 +1185,6 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -1308,11 +1307,6 @@ async function fetchData(sheetName) {
         Swal.fire('Error Koneksi/Data', `Gagal memuat sheet **${sheetName}**. Pastikan URL Apps Script benar dan sheet ada. Pesan: ${error.message}`, 'error');
         return { headers: [], rawData: [] };
     }
-}
-if (selectedMenu === "nilai_mps") {
-  fetch(`${BASE_URL}?action=nilai_mps`)
-    .then(res => res.json())
-    .then(data => renderNilaiMPS(data));
 }
 
 // FUNGSI PERINGKAT: Menggunakan ikon hanya untuk 3 besar
@@ -2310,10 +2304,6 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
   } else {
     MODE_REKAP_BINTAL = false;
   }
-  if (this.value === "NilaiMPS") {
-    loadNilaiMPS();
-    return;
-}
 });
 
 </script>
@@ -2760,157 +2750,6 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
-async function renderNilaiMPS() {
-  const tableHead = document.getElementById('tableHead');
-  const tableBody = document.getElementById('tableBody');
-  const unitFilter = document.getElementById('unitFilter');
-  
-  if (!tableHead || !tableBody) {
-    console.error("Elemen tabel tidak ditemukan di HTML!");
-    return;
-  }
-
-  // PAKSA HEADER MUNCUL DULU
-  tableHead.innerHTML = `
-    <tr>
-      <th style="width:10%">🏅</th>
-      <th style="width:35%">Nama</th>
-      <th style="width:20%">Unit</th>
-      <th>Dik</th>
-      <th>Bin</th>
-      <th>Bit</th>
-      <th>Tot</th>
-    </tr>
-  `;
-  tableBody.innerHTML = "<tr><td colspan='7'>Memuat data...</td></tr>";
-
-  if(typeof showLoading === 'function') showLoading(true);
-
-  try {
-    const response = await fetch(API_URL + "?action=nilai_mps");
-    const result = await response.json();
-
-    // Jika Apps Script mengirim pesan error
-    if (result.error) {
-      throw new Error(result.error);
-    }
-
-    let data = Array.isArray(result) ? result : [];
-    const selectedUnit = unitFilter ? unitFilter.value : 'Semua Unit';
-
-    // Filter Unit
-    if (selectedUnit !== 'Semua Unit') {
-      data = data.filter(d => d.unit === selectedUnit);
-    }
-
-    // Sort Skor Tertinggi
-    data.sort((a, b) => (b.tot || 0) - (a.tot || 0));
-
-    if (data.length === 0) {
-      tableBody.innerHTML = "<tr><td colspan='7'>Data kosong atau unit tidak cocok.</td></tr>";
-      return;
-    }
-
-    let html = "";
-    data.forEach((row, index) => {
-      let rank = index + 1;
-      if (rank === 1) rank = '🥇';
-      else if (rank === 2) rank = '🥈';
-      else if (rank === 3) rank = '🥉';
-
-      html += `
-        <tr>
-          <td>${rank}</td>
-          <td style="text-align:left; font-weight:600">${row.nama || '-'}</td>
-          <td>${row.unit || '-'}</td>
-          <td>${row.dik || 0}</td>
-          <td>${row.bin || 0}</td>
-          <td>${row.bit || 0}</td>
-          <td style="font-weight:bold; color:#1e40af">${row.tot || 0}</td>
-        </tr>
-      `;
-    });
-    tableBody.innerHTML = html;
-
-  } catch (err) {
-    console.error(err);
-    tableBody.innerHTML = `<tr><td colspan='7' style="color:red; padding:10px;">Error: ${err.message}</td></tr>`;
-    Swal.fire("Gagal", err.message, "error");
-  } finally {
-    if(typeof showLoading === 'function') showLoading(false);
-  }
-}
-
-// Pastikan handleRekapChange juga memanggil fungsi baru ini
-function handleRekapChange() {
-  const jenis = document.getElementById('jenisRekap').value;
-  
-  // Sembunyikan input cari jika bukan rekap individu
-  const searchCont = document.getElementById('pesertaInputContainer');
-  if(searchCont) searchCont.style.display = (jenis === 'RekapIndividu') ? 'flex' : 'none';
-
-  if (jenis === 'NilaiMPS') {
-    renderNilaiMPS();
-  } else if (jenis === 'RekapBintal') {
-    if(typeof renderRekapBintal === 'function') renderRekapBintal();
-  } else {
-    // Fungsi render default (Rekap Akhir/Individu/Kelompok)
-    if(typeof renderTable === 'function') renderTable();
-  }
-}
-
-// Tambahkan fungsi ini di dalam tag <script> mps_0.html
-function renderNilaiMPS(data) {
-  const tableHead = document.getElementById('tableHead');
-  const tableBody = document.getElementById('tableBody');
-  const unitFilter = document.getElementById('unitFilter').value;
-
-  // Header sesuai permintaan
-  tableHead.innerHTML = `
-    <tr>
-      <th>🏅</th>
-      <th>Nama</th>
-      <th>Unit</th>
-      <th>Dik</th>
-      <th>Bin</th>
-      <th>Bit</th>
-      <th>Tot</th>
-    </tr>
-  `;
-
-  tableBody.innerHTML = "";
-  
-  // Filter berdasarkan unit jika dipilih
-  let filteredData = data;
-  if (unitFilter && unitFilter !== "Semua Unit") {
-    filteredData = data.filter(r => r.unit === unitFilter);
-  }
-
-  filteredData.forEach((row, index) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td style="text-align:left">${row.nama}</td>
-      <td>${row.unit}</td>
-      <td>${row.diklat}</td>
-      <td>${row.bintal}</td>
-      <td>0</td>
-      <td style="font-weight:800; color:#1e40af">${row.total}</td>
-    </tr>`;
-    tableBody.appendChild(tr);
-  });
-}
-
-// Pastikan handleRekapChange() mengenali action baru
-function handleRekapChange() {
-  const jenis = document.getElementById('jenisRekap').value;
-  if (jenis === "NilaiMPS") {
-    fetchData("nilai_mps"); // Memanggil action di Apps Script
-  } else {
-    // ... logika yang sudah ada sebelumnya
-  }
-}
-
 </script>
 </body>
 

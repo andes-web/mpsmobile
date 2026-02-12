@@ -2758,12 +2758,18 @@ function applyFreshRanking(data, nilaiIndex) {
 async function renderNilaiMPS() {
   const tableHead = document.getElementById('tableHead');
   const tableBody = document.getElementById('tableBody');
-  const unitFilter = document.getElementById('unitFilter').value;
+  const unitFilter = document.getElementById('unitFilter');
+  
+  if (!tableHead || !tableBody) {
+    console.error("Elemen tabel tidak ditemukan di HTML!");
+    return;
+  }
 
+  // PAKSA HEADER MUNCUL DULU
   tableHead.innerHTML = `
     <tr>
       <th style="width:10%">🏅</th>
-      <th style="width:40%">Nama</th>
+      <th style="width:35%">Nama</th>
       <th style="width:20%">Unit</th>
       <th>Dik</th>
       <th>Bin</th>
@@ -2771,51 +2777,62 @@ async function renderNilaiMPS() {
       <th>Tot</th>
     </tr>
   `;
+  tableBody.innerHTML = "<tr><td colspan='7'>Memuat data...</td></tr>";
 
-  showLoading(true);
+  if(typeof showLoading === 'function') showLoading(true);
+
   try {
-    const resp = await fetch(API_URL + "?action=nilai_mps");
-    let data = await resp.json();
-    
-    console.log("Data Nilai MPS diterima:", data); // Debugging
+    const response = await fetch(API_URL + "?action=nilai_mps");
+    const result = await response.json();
+
+    // Jika Apps Script mengirim pesan error
+    if (result.error) {
+      throw new Error(result.error);
+    }
+
+    let data = Array.isArray(result) ? result : [];
+    const selectedUnit = unitFilter ? unitFilter.value : 'Semua Unit';
 
     // Filter Unit
-    if (unitFilter && unitFilter !== 'Semua Unit') {
-      data = data.filter(d => d.unit === unitFilter);
+    if (selectedUnit !== 'Semua Unit') {
+      data = data.filter(d => d.unit === selectedUnit);
     }
 
     // Sort Skor Tertinggi
-    data.sort((a, b) => b.tot - a.tot);
+    data.sort((a, b) => (b.tot || 0) - (a.tot || 0));
 
-    tableBody.innerHTML = "";
-    
-    if (!data || data.length === 0) {
-      tableBody.innerHTML = "<tr><td colspan='7' style='padding:20px'>Data tidak ditemukan di sheet.</td></tr>";
+    if (data.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='7'>Data kosong atau unit tidak cocok.</td></tr>";
       return;
     }
 
+    let html = "";
     data.forEach((row, index) => {
-      const tr = document.createElement('tr');
       let rank = index + 1;
       if (rank === 1) rank = '🥇';
       else if (rank === 2) rank = '🥈';
       else if (rank === 3) rank = '🥉';
 
-      tr.innerHTML = `
-        <td>${rank}</td>
-        <td style="text-align:left; font-weight:600">${row.nama}</td>
-        <td>${row.unit}</td>
-        <td>${row.dik}</td>
-        <td>${row.bin}</td>
-        <td>${row.bit}</td>
-        <td style="font-weight:bold; color:#1e40af">${row.tot}</td>
+      html += `
+        <tr>
+          <td>${rank}</td>
+          <td style="text-align:left; font-weight:600">${row.nama || '-'}</td>
+          <td>${row.unit || '-'}</td>
+          <td>${row.dik || 0}</td>
+          <td>${row.bin || 0}</td>
+          <td>${row.bit || 0}</td>
+          <td style="font-weight:bold; color:#1e40af">${row.tot || 0}</td>
+        </tr>
       `;
-      tableBody.appendChild(tr);
     });
+    tableBody.innerHTML = html;
+
   } catch (err) {
-    tableBody.innerHTML = "<tr><td colspan='7' style='color:red'>Gagal memproses data: " + err.message + "</td></tr>";
+    console.error(err);
+    tableBody.innerHTML = `<tr><td colspan='7' style="color:red; padding:10px;">Error: ${err.message}</td></tr>`;
+    Swal.fire("Gagal", err.message, "error");
   } finally {
-    showLoading(false);
+    if(typeof showLoading === 'function') showLoading(false);
   }
 }
 
@@ -2834,33 +2851,6 @@ function handleRekapChange() {
   } else {
     // Fungsi render default (Rekap Akhir/Individu/Kelompok)
     if(typeof renderTable === 'function') renderTable();
-  }
-}
-
-// Pastikan handleRekapChange juga memanggil fungsi baru ini
-function handleRekapChange() {
-  const jenis = document.getElementById('jenisRekap').value;
-  // Sembunyikan input pencarian jika bukan rekap individu (opsional, sesuai script lama)
-  const containerInput = document.getElementById('pesertaInputContainer');
-  if(containerInput) containerInput.style.display = (jenis === 'RekapIndividu') ? 'flex' : 'none';
-
-  if (jenis === 'NilaiMPS') {
-    renderNilaiMPS();
-  } else if (jenis === 'RekapBintal') {
-    renderRekapBintal();
-  } else {
-    // panggil render standar lainnya...
-    if(typeof renderTable === 'function') renderTable();
-  }
-}
-
-// Pastikan fungsi handleRekapChange() mengenali NilaiMPS
-function handleRekapChange() {
-  const jenis = document.getElementById('jenisRekap').value;
-  if (jenis === 'NilaiMPS') {
-    renderNilaiMPS();
-  } else {
-    // panggil fungsi render lainnya yang sudah ada...
   }
 }
 </script>

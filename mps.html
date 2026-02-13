@@ -2642,6 +2642,19 @@ if (MODE_NILAI_MPS) return;
     const res = await _origFetchData(sheetName);
     try{
       const jenis = document.getElementById('jenisRekap')?.value || '';
+      if (jenis === "NilaiMPS") {
+        renderNilaiMPS(); // panggil ulang khusus Nilai MPS
+    } 
+    else if (jenis === "Rekap") {
+        renderStandardRekap("Rekap");
+    }
+    else if (jenis === "RekapKelompok") {
+        renderStandardRekap("RekapKelompok");
+    }
+    else if (jenis === "RekapAkhir") {
+        renderStandardRekap("RekapAkhir");
+    }
+    
       const unitSel = document.getElementById('unitFilter')?.value || 'Semua Unit';
       if (jenis === 'RekapBintal' && sheetName === 'RekapAkhir' && unitSel !== 'Semua Unit') {
         const target = String(unitSel).trim().toLowerCase();
@@ -2779,28 +2792,56 @@ function renderNilaiMPSTable(data) {
 
   const tableHead = document.getElementById("tableHead");
   const tableBody = document.getElementById("tableBody");
+  const selectedUnitRaw = document.getElementById("unitFilter").value;
+  const selectedUnit = normalizeUnit(selectedUnitRaw);
 
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
 
   if (!data || data.length === 0) return;
 
+  // =====================
+  // FILTER DATA
+  // =====================
+  let filteredData = [data[0]]; // header tetap
+
+  if (selectedUnit && !selectedUnit.startsWith("semua")) {
+
+    for (let i = 1; i < data.length; i++) {
+
+      const unitCell = normalizeUnit(data[i][2]); // index 2 = kolom Unit
+
+      if (unitCell === selectedUnit) {
+        filteredData.push(data[i]);
+      }
+    }
+
+  } else {
+    filteredData = data;
+  }
+
+  if (filteredData.length <= 1) return;
+
+  // =====================
   // HEADER
+  // =====================
   let headRow = "<tr>";
-  data[0].forEach(col => {
+  filteredData[0].forEach(col => {
     headRow += "<th>" + col + "</th>";
   });
   headRow += "</tr>";
   tableHead.innerHTML = headRow;
 
+  // =====================
   // BODY
-  for (let i = 1; i < data.length; i++) {
+  // =====================
+  for (let i = 1; i < filteredData.length; i++) {
 
     let row = "<tr>";
 
-    data[i].forEach((col, index) => {
+    filteredData[i].forEach((col, index) => {
 
-      // Kolom ke-2 adalah Unit (index 2 karena urutan: Rank, Nama, Unit...)
+      // Kolom ke-2 adalah Unit (index 2 karena: Rank, Nama, Unit)
       if (index === 2) {
 
         const logoFile = unitLogoMap[col];
@@ -2826,7 +2867,6 @@ function renderNilaiMPSTable(data) {
     tableBody.innerHTML += row;
   }
 }
-
 
 const unitLogoMap = {
   "SMPN 1 Citeureup": "1_Citeureup.png",

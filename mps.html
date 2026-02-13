@@ -2768,7 +2768,9 @@ function applyFreshRanking(data, nilaiIndex) {
 function loadNilaiMPS() {
   const unit = document.getElementById("unitFilter").value;
 
-  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
+  fetch(GAS_URL + "?action=nilai_mps"
+        + "&unit=" + encodeURIComponent(unit)
+        + "&t=" + new Date().getTime())
     .then(res => res.json())
     .then(data => {
       renderNilaiMPSTable(data);
@@ -2827,6 +2829,20 @@ function renderNilaiMPSTable(data) {
   }
 }
 
+const unitFilter = document.getElementById("unitFilter").value;
+
+const filteredData = [data[0]];
+
+for (let i = 1; i < data.length; i++) {
+  if (
+    unitFilter === "Semua Unit" ||
+    data[i][2] === unitFilter
+  ) {
+    filteredData.push(data[i]);
+  }
+}
+
+data = filteredData;
 
 const unitLogoMap = {
   "SMPN 1 Citeureup": "1_Citeureup.png",
@@ -2839,6 +2855,20 @@ const unitLogoMap = {
   "SMPN 32 Depok": "SMP_32.png"
 };
 
+document.getElementById("unitFilter")
+  .addEventListener("change", function () {
+
+    const menuAktif = document.getElementById("jenisRekap").value;
+
+    if (menuAktif === "NilaiMPS") {
+      loadNilaiMPS();
+    }
+
+    if (menuAktif === "RekapBintal") {
+      renderRekapBintal();
+    }
+
+  });
 </script>
 </body>
 

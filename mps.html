@@ -2247,43 +2247,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Setup Event Listener untuk Jenis Rekap
     if (jenisRekap) {
         jenisRekap.onchange = () => {
-            if (refreshTimer) clearInterval(refreshTimer);
+            if (window.refreshTimer) clearInterval(window.refreshTimer);
             renderRekap(jenisRekap.value);
             // Mulai timer lagi jika bukan mode Nilai Individu
             if (jenisRekap.value !== 'NilaiIndividu') {
-                // disabled refresh
+                // disabled refresh logic here if needed
             }
         };
         
         // 3. Setup Event Listener untuk Filter Unit
         unitFilter.onchange = () => {
             const currentSheet = jenisRekap.value;
+            const selectedUnit = unitFilter.value;
+
+            // --- TAMBAHAN UNTUK NILAI MPS ---
+            if (currentSheet === 'NilaiMPS') {
+                // Pastikan window.allDataNilaiMPS menyimpan data asli (array of arrays)
+                if (window.allDataNilaiMPS) {
+                    const filtered = filterNilaiMPSByUnit(window.allDataNilaiMPS, selectedUnit);
+                    renderNilaiMPSTable(filtered);
+                } else {
+                    // Jika data belum ada di memory, panggil render utama
+                    renderRekap('NilaiMPS');
+                }
+                return;
+            }
+            // --------------------------------
 
             // ⛔ LOCK MODE: Rekap Bintal harus berdiri sendiri
             if (currentSheet === 'RekapBintal') {
-                renderRekapBintal(unitFilter.value);
+                renderRekapBintal(selectedUnit);
                 return;
             }
 
             // Mode Nilai Individu
             if (currentSheet === 'NilaiIndividu') {
-                setupCustomDropdown(unitFilter.value);
+                setupCustomDropdown(selectedUnit);
             }
 
-            // Rekap Standar
-            if (currentSheet === 'Rekap' || currentSheet === 'RekapKelompok' || currentSheet === 'RekapAkhir') {
+            // Rekap Standar (Rekap, RekapKelompok, RekapAkhir)
+            if (['Rekap', 'RekapKelompok', 'RekapAkhir'].includes(currentSheet)) {
                 renderRekap(currentSheet);
             }
         };
 
-        // Render awal (Ini akan memanggil repopulateUnitFilter untuk pertama kali)
+        // Render awal
         renderRekap(jenisRekap.value);
-        if (jenisRekap.value !== 'NilaiIndividu') {
-             // disabled refresh
-        }
     }
     
-    // Mobile menu logic (not directly related to rekap, but for completeness)
+    // Mobile menu logic
     const menuToggle = document.getElementById('menuToggle');
     const submenu = document.getElementById('mobileSubmenu');
     if (menuToggle) {
@@ -2297,8 +2309,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
-
 });
+
+/**
+ * Fungsi Helper untuk memfilter array data Nilai MPS
+ * @param {Array} data - Seluruh data (termasuk header di index 0)
+ * @param {String} unit - Nama unit yang dipilih
+ */
+function filterNilaiMPSByUnit(data, unit) {
+    if (!data || data.length === 0) return [];
+    if (!unit || unit === "Semua Unit") return data;
+
+    const header = data[0];
+    const filteredRows = data.slice(1).filter(row => {
+        // Berdasarkan file Anda, Unit ada di kolom ke-3 (Index 2)
+        // Row: [Rank, Nama, Unit, Nilai1, Nilai2, ...]
+        return row[2] === unit;
+    });
+
+    return [header, ...filteredRows];
+}
 
 document.getElementById("jenisRekap").addEventListener("change", function () {
 
@@ -2642,19 +2672,6 @@ if (MODE_NILAI_MPS) return;
     const res = await _origFetchData(sheetName);
     try{
       const jenis = document.getElementById('jenisRekap')?.value || '';
-      if (jenis === "NilaiMPS") {
-        renderNilaiMPS(); // panggil ulang khusus Nilai MPS
-    } 
-    else if (jenis === "Rekap") {
-        renderStandardRekap("Rekap");
-    }
-    else if (jenis === "RekapKelompok") {
-        renderStandardRekap("RekapKelompok");
-    }
-    else if (jenis === "RekapAkhir") {
-        renderStandardRekap("RekapAkhir");
-    }
-    
       const unitSel = document.getElementById('unitFilter')?.value || 'Semua Unit';
       if (jenis === 'RekapBintal' && sheetName === 'RekapAkhir' && unitSel !== 'Semua Unit') {
         const target = String(unitSel).trim().toLowerCase();
@@ -2792,56 +2809,28 @@ function renderNilaiMPSTable(data) {
 
   const tableHead = document.getElementById("tableHead");
   const tableBody = document.getElementById("tableBody");
-  const selectedUnitRaw = document.getElementById("unitFilter").value;
-  const selectedUnit = normalizeUnit(selectedUnitRaw);
 
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
 
   if (!data || data.length === 0) return;
 
-  // =====================
-  // FILTER DATA
-  // =====================
-  let filteredData = [data[0]]; // header tetap
-
-  if (selectedUnit && !selectedUnit.startsWith("semua")) {
-
-    for (let i = 1; i < data.length; i++) {
-
-      const unitCell = normalizeUnit(data[i][2]); // index 2 = kolom Unit
-
-      if (unitCell === selectedUnit) {
-        filteredData.push(data[i]);
-      }
-    }
-
-  } else {
-    filteredData = data;
-  }
-
-  if (filteredData.length <= 1) return;
-
-  // =====================
   // HEADER
-  // =====================
   let headRow = "<tr>";
-  filteredData[0].forEach(col => {
+  data[0].forEach(col => {
     headRow += "<th>" + col + "</th>";
   });
   headRow += "</tr>";
   tableHead.innerHTML = headRow;
 
-  // =====================
   // BODY
-  // =====================
-  for (let i = 1; i < filteredData.length; i++) {
+  for (let i = 1; i < data.length; i++) {
 
     let row = "<tr>";
 
-    filteredData[i].forEach((col, index) => {
+    data[i].forEach((col, index) => {
 
-      // Kolom ke-2 adalah Unit (index 2 karena: Rank, Nama, Unit)
+      // Kolom ke-2 adalah Unit (index 2 karena urutan: Rank, Nama, Unit...)
       if (index === 2) {
 
         const logoFile = unitLogoMap[col];
@@ -2867,6 +2856,7 @@ function renderNilaiMPSTable(data) {
     tableBody.innerHTML += row;
   }
 }
+
 
 const unitLogoMap = {
   "SMPN 1 Citeureup": "1_Citeureup.png",

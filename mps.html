@@ -2247,55 +2247,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Setup Event Listener untuk Jenis Rekap
     if (jenisRekap) {
         jenisRekap.onchange = () => {
-            if (window.refreshTimer) clearInterval(window.refreshTimer);
+            if (refreshTimer) clearInterval(refreshTimer);
             renderRekap(jenisRekap.value);
             // Mulai timer lagi jika bukan mode Nilai Individu
             if (jenisRekap.value !== 'NilaiIndividu') {
-                // disabled refresh logic here if needed
+                // disabled refresh
             }
         };
         
         // 3. Setup Event Listener untuk Filter Unit
-        unitFilter.onchange = () => {
-            const currentSheet = jenisRekap.value;
-            const selectedUnit = unitFilter.value;
+unitFilter.onchange = () => {
+    const currentSheet = jenisRekap.value;
 
-            // --- TAMBAHAN UNTUK NILAI MPS ---
-            if (currentSheet === 'NilaiMPS') {
-                // Pastikan window.allDataNilaiMPS menyimpan data asli (array of arrays)
-                if (window.allDataNilaiMPS) {
-                    const filtered = filterNilaiMPSByUnit(window.allDataNilaiMPS, selectedUnit);
-                    renderNilaiMPSTable(filtered);
-                } else {
-                    // Jika data belum ada di memory, panggil render utama
-                    renderRekap('NilaiMPS');
-                }
-                return;
-            }
-            // --------------------------------
+    if (currentSheet === 'RekapBintal') {
+        renderRekapBintal(unitFilter.value);
+        return;
+    }
 
-            // ⛔ LOCK MODE: Rekap Bintal harus berdiri sendiri
-            if (currentSheet === 'RekapBintal') {
-                renderRekapBintal(selectedUnit);
-                return;
-            }
+    if (currentSheet === 'NilaiMPS') {
+        loadNilaiMPS();
+        return;
+    }
 
-            // Mode Nilai Individu
-            if (currentSheet === 'NilaiIndividu') {
-                setupCustomDropdown(selectedUnit);
-            }
+    if (currentSheet === 'NilaiIndividu') {
+        setupCustomDropdown(unitFilter.value);
+    }
 
-            // Rekap Standar (Rekap, RekapKelompok, RekapAkhir)
-            if (['Rekap', 'RekapKelompok', 'RekapAkhir'].includes(currentSheet)) {
-                renderRekap(currentSheet);
-            }
-        };
+    if (currentSheet === 'Rekap' || currentSheet === 'RekapKelompok' || currentSheet === 'RekapAkhir') {
+        renderRekap(currentSheet);
+    }
+};
 
-        // Render awal
+
+        // Render awal (Ini akan memanggil repopulateUnitFilter untuk pertama kali)
         renderRekap(jenisRekap.value);
+        if (jenisRekap.value !== 'NilaiIndividu') {
+             // disabled refresh
+        }
     }
     
-    // Mobile menu logic
+    // Mobile menu logic (not directly related to rekap, but for completeness)
     const menuToggle = document.getElementById('menuToggle');
     const submenu = document.getElementById('mobileSubmenu');
     if (menuToggle) {
@@ -2309,26 +2300,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+
 });
-
-/**
- * Fungsi Helper untuk memfilter array data Nilai MPS
- * @param {Array} data - Seluruh data (termasuk header di index 0)
- * @param {String} unit - Nama unit yang dipilih
- */
-function filterNilaiMPSByUnit(data, unit) {
-    if (!data || data.length === 0) return [];
-    if (!unit || unit === "Semua Unit") return data;
-
-    const header = data[0];
-    const filteredRows = data.slice(1).filter(row => {
-        // Berdasarkan file Anda, Unit ada di kolom ke-3 (Index 2)
-        // Row: [Rank, Nama, Unit, Nilai1, Nilai2, ...]
-        return row[2] === unit;
-    });
-
-    return [header, ...filteredRows];
-}
 
 document.getElementById("jenisRekap").addEventListener("change", function () {
 

@@ -1185,6 +1185,7 @@ table.rekap-akhir td:nth-child(3) {
           <option value="RekapAkhir">Rekap Akhir</option>
           <option value="NilaiIndividu">Nilai Individu</option>
           <option value="RekapBintal">Rekap Bintal</option>
+          <option value="NilaiMPS">Nilai MPS</option>
         </select>
         
         <select id="unitFilter">
@@ -2255,25 +2256,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         
         // 3. Setup Event Listener untuk Filter Unit
-        unitFilter.onchange = () => {
-            const currentSheet = jenisRekap.value;
+unitFilter.onchange = () => {
+    const currentSheet = jenisRekap.value;
 
-            // ⛔ LOCK MODE: Rekap Bintal harus berdiri sendiri
-            if (currentSheet === 'RekapBintal') {
-                renderRekapBintal(unitFilter.value);
-                return;
-            }
+    if (currentSheet === 'RekapBintal') {
+        renderRekapBintal(unitFilter.value);
+        return;
+    }
 
-            // Mode Nilai Individu
-            if (currentSheet === 'NilaiIndividu') {
-                setupCustomDropdown(unitFilter.value);
-            }
+    if (currentSheet === 'NilaiMPS') {
+        loadNilaiMPS();
+        return;
+    }
 
-            // Rekap Standar
-            if (currentSheet === 'Rekap' || currentSheet === 'RekapKelompok' || currentSheet === 'RekapAkhir') {
-                renderRekap(currentSheet);
-            }
-        };
+    if (currentSheet === 'NilaiIndividu') {
+        setupCustomDropdown(unitFilter.value);
+    }
+
+    if (currentSheet === 'Rekap' || currentSheet === 'RekapKelompok' || currentSheet === 'RekapAkhir') {
+        renderRekap(currentSheet);
+    }
+};
+
 
         // Render awal (Ini akan memanggil repopulateUnitFilter untuk pertama kali)
         renderRekap(jenisRekap.value);
@@ -2298,12 +2302,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 });
+
 document.getElementById("jenisRekap").addEventListener("change", function () {
-  if (this.value === "RekapBintal") {
-    renderRekapBintal();
-  } else {
-    MODE_REKAP_BINTAL = false;
+
+  const val = this.value;
+
+  MODE_NILAI_MPS = false; // reset dulu
+
+  if (val === "NilaiMPS") {
+    MODE_NILAI_MPS = true;
+    loadNilaiMPS();
+    return;
   }
+
+  if (val === "RekapBintal") {
+    renderRekapBintal();
+    return;
+  }
+
 });
 
 </script>
@@ -2615,6 +2631,7 @@ function medalIcon(rank) {
 
 <script>
 let MODE_REKAP_BINTAL = false;
+if (MODE_NILAI_MPS) return;
 </script>
 
 
@@ -2750,6 +2767,81 @@ function applyFreshRanking(data, nilaiIndex) {
     }
   };
 })();
+
+function loadNilaiMPS() {
+  const unit = document.getElementById("unitFilter").value;
+
+  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
+    .then(res => res.json())
+    .then(data => {
+      renderNilaiMPSTable(data);
+    });
+}
+
+function renderNilaiMPSTable(data) {
+
+  const tableHead = document.getElementById("tableHead");
+  const tableBody = document.getElementById("tableBody");
+
+  tableHead.innerHTML = "";
+  tableBody.innerHTML = "";
+
+  if (!data || data.length === 0) return;
+
+  // HEADER
+  let headRow = "<tr>";
+  data[0].forEach(col => {
+    headRow += "<th>" + col + "</th>";
+  });
+  headRow += "</tr>";
+  tableHead.innerHTML = headRow;
+
+  // BODY
+  for (let i = 1; i < data.length; i++) {
+
+    let row = "<tr>";
+
+    data[i].forEach((col, index) => {
+
+      // Kolom ke-2 adalah Unit (index 2 karena urutan: Rank, Nama, Unit...)
+      if (index === 2) {
+
+        const logoFile = unitLogoMap[col];
+
+        if (logoFile) {
+          row += `
+            <td style="text-align:center;">
+              <img src="${logoFile}" 
+                   alt="${col}" 
+                   style="height:18px; width:auto;">
+            </td>`;
+        } else {
+          row += `<td>${col}</td>`;
+        }
+
+      } else {
+        row += `<td>${col}</td>`;
+      }
+
+    });
+
+    row += "</tr>";
+    tableBody.innerHTML += row;
+  }
+}
+
+
+const unitLogoMap = {
+  "SMPN 1 Citeureup": "1_Citeureup.png",
+  "SMPN 6 Depok": "6-removebg-preview (1).png",
+  "SMPN 7 Depok": "7.png",
+  "SMPN 8 Depok": "8-removebg-preview.png",
+  "SMPN 12 Depok": "12-removebg-preview.png",
+  "SMPN 16 Depok": "16-removebg-preview.png",
+  "SMPN 31 Depok": "31-removebg-preview.png",
+  "SMPN 32 Depok": "SMP_32.png"
+};
+
 </script>
 </body>
 

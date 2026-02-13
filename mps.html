@@ -2299,26 +2299,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 });
+
 document.getElementById("jenisRekap").addEventListener("change", function () {
+
   const val = this.value;
 
+  MODE_NILAI_MPS = false; // reset dulu
+
   if (val === "NilaiMPS") {
+    MODE_NILAI_MPS = true;
     loadNilaiMPS();
     return;
   }
-  // kondisi lain biarkan tetap
-  if (this.value === "RekapBintal") {
-    renderRekapBintal();
-  } else {
-    MODE_REKAP_BINTAL = false;
-  }
-});
 
-function activateMenu(value) {
-  const dropdown = document.getElementById("jenisRekap");
-  dropdown.value = value;
-  dropdown.dispatchEvent(new Event("change"));
-}
+  if (val === "RekapBintal") {
+    renderRekapBintal();
+    return;
+  }
+
+});
 
 </script>
 
@@ -2629,6 +2628,7 @@ function medalIcon(rank) {
 
 <script>
 let MODE_REKAP_BINTAL = false;
+if (MODE_NILAI_MPS) return;
 </script>
 
 

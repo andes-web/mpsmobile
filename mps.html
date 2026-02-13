@@ -2314,6 +2314,12 @@ document.getElementById("jenisRekap").addEventListener("change", function () {
   }
 });
 
+function activateMenu(value) {
+  const dropdown = document.getElementById("jenisRekap");
+  dropdown.value = value;
+  dropdown.dispatchEvent(new Event("change"));
+}
+
 </script>
 
 <!-- BEGIN MOBILE FIX PATCH (added by ChatGPT) -->
@@ -2804,7 +2810,7 @@ function renderNilaiMPSTable(data) {
             <td style="text-align:center;">
               <img src="${logoFile}" 
                    alt="${col}" 
-                   style="height:15px; width:auto;">
+                   style="height:18px; width:auto;">
             </td>`;
         } else {
           row += `<td>${col}</td>`;

@@ -2615,7 +2615,7 @@ if (MODE_NILAI_MPS) return;
 
 <!-- ===================== PATCH RE-RENDER FILTER REKAP BINTAL ===================== -->
 <script>
-// 1. Data Map Logo
+// 1. Map Logo
 const unitLogoMap = {
   "SMPN 1 Citeureup": "1_Citeureup.png",
   "SMPN 6 Depok": "6-removebg-preview (1).png",
@@ -2627,112 +2627,97 @@ const unitLogoMap = {
   "SMPN 32 Depok": "SMP_32.png"
 };
 
-// 2. Fungsi Load Utama
+// 2. Fungsi Load Nilai MPS
 function loadNilaiMPS() {
   const unit = document.getElementById("unitFilter")?.value || "Semua Unit";
-  const jenisSelect = document.getElementById('jenisRekap');
-  
-  if (jenisSelect) jenisSelect.value = "NilaiMPS";
-
-  if (typeof GAS_URL === 'undefined') {
-    console.error("GAS_URL belum terdefinisi.");
-    return;
-  }
+  if (typeof GAS_URL === 'undefined') return;
 
   fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
     .then(res => res.json())
     .then(data => {
-      renderNilaiMPSTable(data);
-      const loadingEl = document.getElementById('loading');
-      if (loadingEl) loadingEl.style.display = 'none';
+      // Hanya render jika user masih di menu NilaiMPS
+      if (document.getElementById('jenisRekap').value === "NilaiMPS") {
+        renderNilaiMPSTable(data);
+      }
     })
-    .catch(err => console.error("Gagal memuat MPS:", err));
+    .catch(err => console.error("Error:", err));
 }
 
-// 3. Fungsi Render Tabel
+// 3. Fungsi Render (Ditambahkan proteksi agar tidak kosong)
 function renderNilaiMPSTable(data) {
   const tableHead = document.getElementById("tableHead");
   const tableBody = document.getElementById("tableBody");
+  if (!tableHead || !tableBody || !data || data.length === 0) return;
 
-  if (!tableHead || !tableBody) return;
-  
-  // Jika data kosong, jangan bersihkan tabel yang sudah ada (mencegah kedip)
-  if (!data || data.length === 0) return;
+  // Bangun konten di memori dulu, baru tempel ke DOM (cegah kedip)
+  let headHtml = "<tr>";
+  data[0].forEach(col => { headHtml += `<th>${col}</th>`; });
+  headHtml += "</tr>";
 
-  tableHead.innerHTML = "";
-  tableBody.innerHTML = "";
-
-  // Render Header
-  let headRow = "<tr>";
-  data[0].forEach(col => { headRow += `<th>${col}</th>`; });
-  headRow += "</tr>";
-  tableHead.innerHTML = headRow;
-
-  // Render Body
+  let bodyHtml = "";
   for (let i = 1; i < data.length; i++) {
-    let row = "<tr>";
+    bodyHtml += "<tr>";
     data[i].forEach((col, index) => {
-      if (index === 2) { // Kolom Unit
-        const logoFile = unitLogoMap[col];
-        row += logoFile 
-          ? `<td style="text-align:center;"><img src="${logoFile}" alt="${col}" style="height:20px; width:auto;"></td>`
-          : `<td>${col}</td>`;
+      if (index === 2) {
+        const logo = unitLogoMap[col];
+        bodyHtml += logo ? `<td style="text-align:center;"><img src="${logo}" style="height:20px;"></td>` : `<td>${col}</td>`;
       } else {
-        row += `<td>${col}</td>`;
+        bodyHtml += `<td>${col}</td>`;
       }
     });
-    row += "</tr>";
-    tableBody.innerHTML += row;
+    bodyHtml += "</tr>";
   }
+
+  tableHead.innerHTML = headHtml;
+  tableBody.innerHTML = bodyHtml;
 }
 
-// 4. MEKANISME LOCK (Agar tidak hilang)
+// 4. LOGIKA UTAMA: SILENT INITIALIZATION
 (function() {
+  // Langsung kunci nilai dropdown ke NilaiMPS sebelum browser sempat menggantinya
+  const fixDefault = () => {
+    const js = document.getElementById('jenisRekap');
+    if (js) js.value = "NilaiMPS";
+  };
+  fixDefault();
+
   document.addEventListener('DOMContentLoaded', function() {
+    fixDefault();
     const unitSelect = document.getElementById('unitFilter');
     const jenisSelect = document.getElementById('jenisRekap');
 
-    // Event Listener Manual
-    if(unitSelect) {
-      unitSelect.addEventListener('change', function() {
-        if (jenisSelect.value === 'NilaiMPS') loadNilaiMPS();
-      });
-    }
+    // Listener Manual
+    unitSelect.addEventListener('change', () => {
+      if (jenisSelect.value === "NilaiMPS") loadNilaiMPS();
+    });
+    jenisSelect.addEventListener('change', (e) => {
+      if (e.target.value === "NilaiMPS") loadNilaiMPS();
+    });
+
+    // RAHASIA AGAR TIDAK HILANG:
+    // Kita "membajak" fungsi innerHTML pada tableBody khusus saat startup
+    const tb = document.getElementById("tableBody");
+    const originalSet = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML').set;
     
-    if(jenisSelect) {
-      jenisSelect.addEventListener('change', function() {
-        if (this.value === 'NilaiMPS') loadNilaiMPS();
-      });
-    }
+    Object.defineProperty(tb, 'innerHTML', {
+      set: function(value) {
+        // Jika ada script lain mencoba mengosongkan tabel saat mode NilaiMPS, TOLAK!
+        if (value === "" && jenisSelect.value === "NilaiMPS" && tb.innerHTML !== "") {
+          return; 
+        }
+        originalSet.call(this, value);
+      },
+      configurable: true
+    });
 
-    // --- WATCHDOG SYSTEM ---
-    // Cek tabel setiap 1 detik. Jika kosong dalam 5 detik pertama, isi lagi.
-    let checkCount = 0;
-    const watchdog = setInterval(() => {
-      const tableBody = document.getElementById("tableBody");
-      const currentMode = document.getElementById('jenisRekap')?.value;
-
-      if (currentMode === "NilaiMPS" && (!tableBody || tableBody.innerHTML === "")) {
-        console.log("Sistem mendeteksi tabel kosong, mengisi ulang...");
-        loadNilaiMPS();
-      }
-
-      checkCount++;
-      // Berhenti mengawasi setelah 5 detik agar tidak membebani browser
-      if (checkCount > 5) clearInterval(watchdog);
-    }, 1000);
+    // Panggil pertama kali
+    loadNilaiMPS();
+    
+    // Pastikan sekali lagi setelah 1.5 detik jika ada script GAS yang telat jalan
+    setTimeout(loadNilaiMPS, 1500);
   });
 })();
 </script>
-
-<style>
-  /* Menjaga tampilan kolom BN tetap hitam jika di Rekap Bintal */
-  #tableBody tr td:nth-child(6) {
-    color: #000000 !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 500 !important;
-  }
-</style>
 
 </body>
 

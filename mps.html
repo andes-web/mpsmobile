@@ -2672,7 +2672,7 @@ function renderNilaiMPSTable(data) {
   // 2. VARIABEL HITUNG
   let totalNilai = 0;
   let nilaiArray = [];
-  let pesertaIsiNilai = 0; // Untuk hitung prosentase (yang tidak 0)
+  let pesertaIsiNilai = 0; 
   let bodyHtml = "";
 
   // 3. LOOP DATA
@@ -2681,21 +2681,25 @@ function renderNilaiMPSTable(data) {
     bodyHtml += "<tr>";
 
     rowData.forEach((col, index) => {
-      // Logika Logo Unit
+      // Pastikan angka 0 tetap tampil sebagai "0", bukan kosong
+      // Kita cek jika nilainya null atau undefined baru kita kosongkan
+      let cellValue = (col !== null && col !== undefined) ? col : "";
+
+      // Logika Logo Unit (Index 2)
       if (index === 2) {
-        const logoFile = unitLogoMap[col];
+        const logoFile = unitLogoMap[cellValue];
         bodyHtml += logoFile 
           ? `<td style="text-align:center;"><img src="${logoFile}" style="height:20px; width:auto;"></td>`
-          : `<td>${col || ""}</td>`;
+          : `<td>${cellValue}</td>`;
       } else {
-        bodyHtml += `<td>${col || ""}</td>`;
+        bodyHtml += `<td>${cellValue}</td>`;
       }
 
-      // Ambil nilai dari kolom terakhir (Tot)
+      // Ambil nilai dari kolom terakhir (Tot) untuk statistik
       if (index === rowData.length - 1) {
-        let val = parseFloat(String(col).replace(',', '.')) || 0;
+        let val = parseFloat(String(cellValue).replace(',', '.')) || 0;
         if (val > 0) {
-          pesertaIsiNilai++; // Hanya hitung yang tidak 0
+          pesertaIsiNilai++; 
         }
         nilaiArray.push(val);
         totalNilai += val;
@@ -2705,28 +2709,28 @@ function renderNilaiMPSTable(data) {
   }
   tableBody.innerHTML = bodyHtml;
 
-  // 4. LOGIKA STATISTIK
+  // 4. LOGIKA STATISTIK (PEMBULATAN SESUAI PERMINTAAN)
   const jmlPeserta = data.length - 1;
   if (jmlPeserta > 0) {
     const rata = Math.round(totalNilai / jmlPeserta);
     const tinggi = Math.round(Math.max(...nilaiArray));
     const rendah = Math.round(Math.min(...nilaiArray));
     
-    // Hitung Prosentase (Peserta isi / Total Peserta)
+    // Prosentase: (Isi / Total) * 100
     let prosentaseVal = (pesertaIsiNilai / jmlPeserta) * 100;
     if (prosentaseVal > 100) prosentaseVal = 100;
 
-    // TAMPILKAN KE STATBOX
+    // Tampilkan Angka Bulat di StatBox
     document.getElementById("statPeserta").innerText = jmlPeserta;
     document.getElementById("statRata").innerText = rata;
     document.getElementById("statMax").innerText = tinggi;
     document.getElementById("statMin").innerText = rendah;
 
     const prosEl = document.getElementById("statProsentase");
-    // Jika 100% bulat, jika tidak pakai 1 desimal
-    prosEl.innerText = prosentaseVal === 100 ? "100%" : prosentaseVal.toFixed(1) + "%";
+    // 100% bulat, jika di bawah 100% pakai 1 desimal
+    prosEl.innerText = prosentaseVal >= 100 ? "100%" : prosentaseVal.toFixed(1) + "%";
 
-    // Warna Prosentase
+    // Warna: Merah jika belum 100%
     prosEl.style.color = prosentaseVal < 100 ? "#ef4444" : "#22c55e";
   }
 }

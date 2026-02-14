@@ -1180,12 +1180,14 @@ table.rekap-akhir td:nth-child(3) {
       
       <div class="top-controls">
         <select id="jenisRekap">
-          <option value="Rekap">Rekap Individu</option>
-          <option value="RekapKelompok">Rekap Kelompok</option>
-          <option value="RekapAkhir">Rekap Akhir</option>
-          <option value="NilaiIndividu">Nilai Individu</option>
+          <option value="NilaiMPS">Rekap Nilai MPS</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="NilaiMPS">Nilai MPS</option>
+          <option value="RekapAkhir">Rekap Diklat</option>
+          <option value="Rekap">Diklat Individu</option>
+          <option value="RekapKelompok">Diklat Kelompok</option>
+          <option value="NilaiIndividu">Kartu Nilai Anggota</option>
+          
+          
         </select>
         
         <select id="unitFilter">
@@ -2813,7 +2815,7 @@ function renderNilaiMPSTable(data) {
             <td style="text-align:center;">
               <img src="${logoFile}" 
                    alt="${col}" 
-                   style="height:18px; width:auto;">
+                   style="height:20px; width:auto;">
             </td>`;
         } else {
           row += `<td>${col}</td>`;

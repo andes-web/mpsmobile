@@ -2845,21 +2845,32 @@ const unitLogoMap = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Pastikan value select adalah NilaiMPS
-    const jenisRekap = document.getElementById('jenisRekap');
-    jenisRekap.value = "NilaiMPS";
-
-    // 2. Picu fungsi untuk memuat data pertama kali
-    // Catatan: Ganti 'updateTampilan' dengan nama fungsi utama 
-    // yang Anda gunakan untuk me-render tabel/data di script Anda.
-    if (typeof updateTampilan === "function") {
-        updateTampilan(); 
-    } else {
-        // Jika fungsi Anda menggunakan event listener 'change', picu secara manual
-        jenisRekap.dispatchEvent(new Event('change'));
-    }
+    // Memberi jeda 1 detik agar script utama (Google Apps Script) 
+    // selesai melakukan inisialisasi awal.
+    setTimeout(function() {
+        const jenisRekap = document.getElementById('jenisRekap');
+        
+        // Paksa pilih NilaiMPS
+        jenisRekap.value = "NilaiMPS";
+        
+        // Picu event change agar fungsi penarik data berjalan
+        // Ganti 'updateTampilan' jika nama fungsi penarik data Anda berbeda
+        if (typeof updateTampilan === "function") {
+            updateTampilan();
+        } else {
+            jenisRekap.dispatchEvent(new Event('change'));
+        }
+    }, 1000); 
 });
+
+// Pastikan ini diletakkan di bagian paling bawah sebelum tag
+window.onload = function() {
+  setTimeout(() => {
+    document.getElementById('jenisRekap').dispatchEvent(new Event('change'));
+  }, 1500);
+};
 </script>
+
 </body>
 
 </html>

@@ -1115,61 +1115,36 @@ table.rekap-akhir td:nth-child(3) {
 
 <script>
 (function(){
-  // Mobile dropdown behavior (Option A)
   document.addEventListener('DOMContentLoaded', function(){
+
     const menuToggle = document.getElementById('menuToggle');
     const mobileSubmenu = document.getElementById('mobileSubmenu');
 
-    if (!menuToggle || !mobileSubmenu) return;
+    if (menuToggle && mobileSubmenu) {
+      const toggle = (ev) => {
+        ev.stopPropagation();
+        mobileSubmenu.classList.toggle('show');
+      };
 
-    const toggle = (ev) => {
-      ev.stopPropagation();
-      const isShown = mobileSubmenu.classList.contains('show');
-      if (isShown) {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      } else {
-        mobileSubmenu.classList.add('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'false');
-      }
-    };
+      menuToggle.addEventListener('click', toggle);
 
-    menuToggle.addEventListener('click', toggle);
-    // keyboard accessibility
-    menuToggle.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle(e);
-      } else if (e.key === 'Escape') {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      }
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', function(ev){
-      if (!mobileSubmenu.contains(ev.target) && ev.target !== menuToggle) {
-        if (mobileSubmenu.classList.contains('show')) {
+      document.addEventListener('click', function(ev){
+        if (!mobileSubmenu.contains(ev.target) && ev.target !== menuToggle) {
           mobileSubmenu.classList.remove('show');
-          mobileSubmenu.setAttribute('aria-hidden', 'true');
         }
-      }
-    });
+      });
+    }
 
-    // Close on resize to desktop
-    window.addEventListener('resize', function(){
-      if (window.innerWidth >= 769 && mobileSubmenu.classList.contains('show')) {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      }
-    });
+    // =========================
+    // DEFAULT NILAI MPS
+    // =========================
     const jenisRekap = document.getElementById("jenisRekap");
 
-    // Paksa default ke NilaiMPS
-    jenisRekap.value = "NilaiMPS";
-
-    // Langsung panggil fungsi render
-    tampilkanRekap("NilaiMPS"); // atau fungsi yang biasa dipakai saat change
+    if (jenisRekap) {
+      jenisRekap.value = "NilaiMPS";
+      // Tidak perlu panggil apa-apa lagi
+      // Karena renderRekap() sudah dipanggil di init utama file
+    }
 
   });
 })();

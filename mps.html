@@ -2615,7 +2615,7 @@ if (MODE_NILAI_MPS) return;
 
 <!-- ===================== PATCH RE-RENDER FILTER REKAP BINTAL ===================== -->
 <script>
-// 1. Definisikan Map Logo
+// 1. Data Map Logo
 const unitLogoMap = {
   "SMPN 1 Citeureup": "1_Citeureup.png",
   "SMPN 6 Depok": "6-removebg-preview (1).png",
@@ -2627,18 +2627,28 @@ const unitLogoMap = {
   "SMPN 32 Depok": "SMP_32.png"
 };
 
-// 2. Fungsi Load Data Nilai MPS
+// 2. Fungsi Load Utama yang Lebih Kuat
 function loadNilaiMPS() {
-  const unit = document.getElementById("unitFilter").value;
-  // Pastikan GAS_URL sudah terdefinisi di bagian atas script utama Anda
-  if (typeof GAS_URL === 'undefined') return;
+  const unit = document.getElementById("unitFilter")?.value || "Semua Unit";
+  const jenisSelect = document.getElementById('jenisRekap');
+  
+  // Pastikan dropdown tetap pada NilaiMPS
+  if (jenisSelect) jenisSelect.value = "NilaiMPS";
+
+  if (typeof GAS_URL === 'undefined') {
+    console.error("GAS_URL belum terdefinisi.");
+    return;
+  }
 
   fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
     .then(res => res.json())
     .then(data => {
       renderNilaiMPSTable(data);
+      // Sembunyikan loading jika ada elemen loading
+      const loadingEl = document.getElementById('loading');
+      if (loadingEl) loadingEl.style.display = 'none';
     })
-    .catch(err => console.error("Error loading MPS:", err));
+    .catch(err => console.error("Gagal memuat MPS:", err));
 }
 
 // 3. Fungsi Render Tabel
@@ -2652,13 +2662,13 @@ function renderNilaiMPSTable(data) {
 
   if (!data || data.length === 0) return;
 
-  // HEADER
+  // Render Header
   let headRow = "<tr>";
-  data[0].forEach(col => { headRow += "<th>" + col + "</th>"; });
+  data[0].forEach(col => { headRow += `<th>${col}</th>`; });
   headRow += "</tr>";
   tableHead.innerHTML = headRow;
 
-  // BODY
+  // Render Body
   for (let i = 1; i < data.length; i++) {
     let row = "<tr>";
     data[i].forEach((col, index) => {
@@ -2676,49 +2686,42 @@ function renderNilaiMPSTable(data) {
   }
 }
 
-// 4. LOGIKA UTAMA (Inisialisasi)
+// 4. Mekanisme Anti-Gagal (Force Initialization)
 (function() {
+  // Jalankan saat DOM siap
   document.addEventListener('DOMContentLoaded', function() {
     const unitSelect = document.getElementById('unitFilter');
     const jenisSelect = document.getElementById('jenisRekap');
 
-    if (!unitSelect || !jenisSelect) return;
+    // Listener untuk perubahan manual
+    if(unitSelect) {
+      unitSelect.addEventListener('change', function() {
+        if (jenisSelect.value === 'NilaiMPS') loadNilaiMPS();
+      });
+    }
+    
+    if(jenisSelect) {
+      jenisSelect.addEventListener('change', function() {
+        if (this.value === 'NilaiMPS') loadNilaiMPS();
+      });
+    }
 
-    // Gabungkan Listener agar mendukung NilaiMPS dan RekapBintal
-    unitSelect.addEventListener('change', function() {
-      const mode = jenisSelect.value;
-      if (mode === 'NilaiMPS') {
-        loadNilaiMPS();
-      } else if (mode === 'RekapBintal') {
-        if (typeof renderRekapBintal === 'function') renderRekapBintal();
-        else if (typeof loadRekapBintal === 'function') loadRekapBintal();
-      }
-    });
-
-    // SET DEFAULT SAAT HALAMAN DIBUKA
-    // Gunakan satu setTimeout saja agar tidak bentrok
-    setTimeout(function() {
-      jenisSelect.value = "NilaiMPS";
-      
-      // Jalankan fungsi load secara langsung
-      loadNilaiMPS();
-      
-      // Jika ada fungsi updateTampilan global, panggil juga
-      if (typeof updateTampilan === "function") {
-        updateTampilan();
-      }
-    }, 800); // Jeda 800ms cukup untuk nunggu script GAS siap
+    // PROTEKSI: Jalankan load dengan jeda bertahap untuk menimpa proses 'reset' sistem
+    // Jeda 500ms (percobaan pertama)
+    setTimeout(loadNilaiMPS, 500);
+    
+    // Jeda 2000ms (percobaan kedua untuk memastikan jika ada reset otomatis dari script lain)
+    setTimeout(loadNilaiMPS, 2000);
   });
 })();
 </script>
 
 <style>
-  /* CSS Tetap Sama */
+  /* Menjaga tampilan kolom BN tetap hitam jika di Rekap Bintal */
   #tableBody tr td:nth-child(6) {
     color: #000000 !important;
     font-family: 'Poppins', sans-serif !important;
     font-weight: 500 !important;
-    font-size: 0.65rem !important;
   }
 </style>
 

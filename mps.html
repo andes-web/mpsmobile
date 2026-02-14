@@ -2661,76 +2661,73 @@ function renderNilaiMPSTable(data) {
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
 
-  if (!data || data.length <= 1) {
-    updateStatBox(0, 0, 0, 0, 0); // Reset statistik jika data kosong
-    return;
-  }
+  if (!data || data.length === 0) return;
 
-  // 1. Render Header
+  // 1. RENDER HEADER
   let headRow = "<tr>";
   data[0].forEach(col => { headRow += "<th>" + col + "</th>"; });
   headRow += "</tr>";
   tableHead.innerHTML = headRow;
 
-  // 2. Variabel Statistik
+  // 2. VARIABEL HITUNG
   let totalNilai = 0;
   let nilaiArray = [];
-  let jmlPeserta = data.length - 1; // Kecuali header
+  let pesertaIsiNilai = 0; // Untuk hitung prosentase (yang tidak 0)
+  let bodyHtml = "";
 
-  // 3. Render Body & Ambil Nilai untuk StatBox
+  // 3. LOOP DATA
   for (let i = 1; i < data.length; i++) {
-    let row = "<tr>";
-    
-    // Asumsi: Nilai angka berada di kolom terakhir (indeks terakhir)
-    // Jika kolom nilai bukan yang terakhir, ganti 'rowValues.length - 1' dengan indeks kolom nilai Anda
-    let nilai = parseFloat(data[i][data[i].length - 1]) || 0;
-    nilaiArray.push(nilai);
-    totalNilai += nilai;
+    const rowData = data[i];
+    bodyHtml += "<tr>";
 
-    data[i].forEach((col, index) => {
-      if (index === 2) { // Kolom Unit Logo
+    rowData.forEach((col, index) => {
+      // Logika Logo Unit
+      if (index === 2) {
         const logoFile = unitLogoMap[col];
-        row += logoFile 
+        bodyHtml += logoFile 
           ? `<td style="text-align:center;"><img src="${logoFile}" style="height:20px; width:auto;"></td>`
-          : `<td>${col}</td>`;
+          : `<td>${col || ""}</td>`;
       } else {
-        row += `<td>${col}</td>`;
+        bodyHtml += `<td>${col || ""}</td>`;
+      }
+
+      // Ambil nilai dari kolom terakhir (Tot)
+      if (index === rowData.length - 1) {
+        let val = parseFloat(String(col).replace(',', '.')) || 0;
+        if (val > 0) {
+          pesertaIsiNilai++; // Hanya hitung yang tidak 0
+        }
+        nilaiArray.push(val);
+        totalNilai += val;
       }
     });
-
-    row += "</tr>";
-    tableBody.innerHTML += row;
+    bodyHtml += "</tr>";
   }
+  tableBody.innerHTML = bodyHtml;
 
-  // 4. Hitung Statistik Akhir
-  const rata = totalNilai / jmlPeserta;
-  const tinggi = Math.max(...nilaiArray);
-  const rendah = Math.min(...nilaiArray);
-  
-  // Asumsi Prosentase: (Rata-rata / 100) * 100 atau logika target lainnya
-  // Di sini saya gunakan (rata-rata) sebagai prosentase dasar
-  const prosentase = rata; 
+  // 4. LOGIKA STATISTIK
+  const jmlPeserta = data.length - 1;
+  if (jmlPeserta > 0) {
+    const rata = Math.round(totalNilai / jmlPeserta);
+    const tinggi = Math.round(Math.max(...nilaiArray));
+    const rendah = Math.round(Math.min(...nilaiArray));
+    
+    // Hitung Prosentase (Peserta isi / Total Peserta)
+    let prosentaseVal = (pesertaIsiNilai / jmlPeserta) * 100;
+    if (prosentaseVal > 100) prosentaseVal = 100;
 
-  // 5. Update Tampilan StatBox
-  updateStatBox(jmlPeserta, rata, tinggi, rendah, prosentase);
-}
+    // TAMPILKAN KE STATBOX
+    document.getElementById("statPeserta").innerText = jmlPeserta;
+    document.getElementById("statRata").innerText = rata;
+    document.getElementById("statMax").innerText = tinggi;
+    document.getElementById("statMin").innerText = rendah;
 
-// Fungsi Pembantu untuk Mengisi StatBox
-function updateStatBox(peserta, rata, tinggi, rendah, prosentase) {
-  document.getElementById("statPeserta").innerText = peserta;
-  document.getElementById("statRata").innerText = rata.toFixed(2);
-  document.getElementById("statMax").innerText = tinggi.toFixed(2);
-  document.getElementById("statMin").innerText = rendah.toFixed(2);
-  
-  const prosEl = document.getElementById("statProsentase");
-  prosEl.innerText = prosentase.toFixed(1) + "%";
+    const prosEl = document.getElementById("statProsentase");
+    // Jika 100% bulat, jika tidak pakai 1 desimal
+    prosEl.innerText = prosentaseVal === 100 ? "100%" : prosentaseVal.toFixed(1) + "%";
 
-  // Bonus: Ubah warna prosentase (Merah jika < 75, Hijau jika >= 75)
-  if (prosentase < 75) {
-    prosEl.className = "statProsentase statProsentase-red";
-  } else {
-    prosEl.className = "statProsentase statProsentase-green"; 
-    // pastikan class .statProsentase-green ada di CSS Anda
+    // Warna Prosentase
+    prosEl.style.color = prosentaseVal < 100 ? "#ef4444" : "#22c55e";
   }
 }
 

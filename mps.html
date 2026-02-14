@@ -1313,6 +1313,14 @@ function renderUnitBars(unitMap) {
  * @param {string} sheetName - Nama sheet yang akan dirender ('Rekap', 'RekapKelompok', 'RekapAkhir').
  */
 async function renderStandardRekap(sheetName) {
+    // --- TAMBAHAN PROTEKSI ---
+    // Jika sheetName kosong atau NilaiMPS, jangan jalankan fungsi rekap standar ini
+    // agar tidak bentrok dengan loadNilaiMPS()
+    if (!sheetName || sheetName === "NilaiMPS") {
+        return; 
+    }
+    // -------------------------
+
     // Tampilkan elemen standar
     document.querySelector(".statBox").style.display = "flex";
     document.querySelector(".tableBox").style.display = "block";
@@ -1323,18 +1331,19 @@ async function renderStandardRekap(sheetName) {
     document.getElementById("unitRecapTitle").style.display = showUnitPos ? "block" : "none";
     document.getElementById("unitBarContainer").style.display = showUnitPos ? "block" : "none";
     
-    // Ganti class tabel untuk CSS lebar kolom yang benar
+    // Ganti class tabel
     const table = document.getElementById("rekapTable");
-table.classList.remove("rekap-individu", "rekap-kelompok", "rekap-akhir");
+    table.classList.remove("rekap-individu", "rekap-kelompok", "rekap-akhir");
 
-if (sheetName === "Rekap") {
-  table.classList.add("rekap-individu");
-} else if (sheetName === "RekapKelompok") {
-  table.classList.add("rekap-kelompok");
-} else if (sheetName === "RekapAkhir") {
-  table.classList.add("rekap-akhir");
-}
+    if (sheetName === "Rekap") {
+        table.classList.add("rekap-individu");
+    } else if (sheetName === "RekapKelompok") {
+        table.classList.add("rekap-kelompok");
+    } else if (sheetName === "RekapAkhir") {
+        table.classList.add("rekap-akhir");
+    }
     
+    // Baris inilah yang tadi menghapus data Anda
     document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Memuat data...</td></tr>';
     
     const data = await fetchData(sheetName);

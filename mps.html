@@ -2615,27 +2615,7 @@ if (MODE_NILAI_MPS) return;
 
 <!-- ===================== PATCH RE-RENDER FILTER REKAP BINTAL ===================== -->
 <script>
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    const unitSelect = document.getElementById('unitFilter');
-    const jenisSelect = document.getElementById('jenisRekap');
-    if (!unitSelect || !jenisSelect) return;
 
-    unitSelect.addEventListener('change', function(){
-      if (jenisSelect.value === 'RekapBintal') {
-
-        // ✅ PANGGIL RENDERER REKAP BINTAL
-        if (typeof renderRekapBintal === 'function') {
-          renderRekapBintal();
-        } 
-        else if (typeof loadRekapBintal === 'function') {
-          loadRekapBintal();
-        }
-
-      }
-    });
-  });
-})();
 
 function applyFreshRanking(data, nilaiIndex) {
   // urutkan berdasarkan nilai (DESC)

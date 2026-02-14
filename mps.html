@@ -1163,6 +1163,14 @@ table.rekap-akhir td:nth-child(3) {
         mobileSubmenu.setAttribute('aria-hidden', 'true');
       }
     });
+    const jenisRekap = document.getElementById("jenisRekap");
+
+    // Paksa default ke NilaiMPS
+    jenisRekap.value = "NilaiMPS";
+
+    // Langsung panggil fungsi render
+    tampilkanRekap("NilaiMPS"); // atau fungsi yang biasa dipakai saat change
+
   });
 })();
 </script>
@@ -1186,8 +1194,6 @@ table.rekap-akhir td:nth-child(3) {
           <option value="Rekap">Diklat Individu</option>
           <option value="RekapKelompok">Diklat Kelompok</option>
           <option value="NilaiIndividu">Kartu Nilai Anggota</option>
-          
-          
         </select>
         
         <select id="unitFilter">

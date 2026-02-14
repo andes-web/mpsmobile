@@ -1113,59 +1113,6 @@ table.rekap-akhir td:nth-child(3) {
 
 </style>
 
-<script>
-(function(){
-  // Mobile dropdown behavior (Option A)
-  document.addEventListener('DOMContentLoaded', function(){
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileSubmenu = document.getElementById('mobileSubmenu');
-
-    if (!menuToggle || !mobileSubmenu) return;
-
-    const toggle = (ev) => {
-      ev.stopPropagation();
-      const isShown = mobileSubmenu.classList.contains('show');
-      if (isShown) {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      } else {
-        mobileSubmenu.classList.add('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'false');
-      }
-    };
-
-    menuToggle.addEventListener('click', toggle);
-    // keyboard accessibility
-    menuToggle.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle(e);
-      } else if (e.key === 'Escape') {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      }
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', function(ev){
-      if (!mobileSubmenu.contains(ev.target) && ev.target !== menuToggle) {
-        if (mobileSubmenu.classList.contains('show')) {
-          mobileSubmenu.classList.remove('show');
-          mobileSubmenu.setAttribute('aria-hidden', 'true');
-        }
-      }
-    });
-
-    // Close on resize to desktop
-    window.addEventListener('resize', function(){
-      if (window.innerWidth >= 769 && mobileSubmenu.classList.contains('show')) {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      }
-    });
-  });
-})();
-</script>
 <div class="sidebar"> 
     <header>
     <span>Rekap Interaktif</span>
@@ -2702,25 +2649,7 @@ function applyFreshRanking(data, nilaiIndex) {
 }
 
 </script>
-<!-- =================== END PATCH RE-RENDER FILTER REKAP BINTAL ==================== -->
 
-
-<script>
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    const unitFilter = document.getElementById('unitFilter');
-    const jenisRekap = document.getElementById('jenisRekap');
-    if(!unitFilter || !jenisRekap) return;
-
-    unitFilter.addEventListener('change', function(){
-      if(jenisRekap.value !== 'RekapBintal') return;
-      if(typeof renderRekapBintal === 'function'){
-        renderRekapBintal(unitFilter.value);
-      }
-    });
-  });
-})();
-</script>
 <style>
   /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */
   #tableBody tr td:nth-child(6) {

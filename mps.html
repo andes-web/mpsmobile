@@ -2656,29 +2656,82 @@ function loadNilaiMPS() {
 function renderNilaiMPSTable(data) {
   const tableHead = document.getElementById("tableHead");
   const tableBody = document.getElementById("tableBody");
-  if (!tableHead || !tableBody || !data || data.length === 0) return;
 
-  // Bangun konten di memori dulu, baru tempel ke DOM (cegah kedip)
-  let headHtml = "<tr>";
-  data[0].forEach(col => { headHtml += `<th>${col}</th>`; });
-  headHtml += "</tr>";
+  if (!tableHead || !tableBody) return;
+  tableHead.innerHTML = "";
+  tableBody.innerHTML = "";
 
-  let bodyHtml = "";
-  for (let i = 1; i < data.length; i++) {
-    bodyHtml += "<tr>";
-    data[i].forEach((col, index) => {
-      if (index === 2) {
-        const logo = unitLogoMap[col];
-        bodyHtml += logo ? `<td style="text-align:center;"><img src="${logo}" style="height:20px;"></td>` : `<td>${col}</td>`;
-      } else {
-        bodyHtml += `<td>${col}</td>`;
-      }
-    });
-    bodyHtml += "</tr>";
+  if (!data || data.length <= 1) {
+    updateStatBox(0, 0, 0, 0, 0); // Reset statistik jika data kosong
+    return;
   }
 
-  tableHead.innerHTML = headHtml;
-  tableBody.innerHTML = bodyHtml;
+  // 1. Render Header
+  let headRow = "<tr>";
+  data[0].forEach(col => { headRow += "<th>" + col + "</th>"; });
+  headRow += "</tr>";
+  tableHead.innerHTML = headRow;
+
+  // 2. Variabel Statistik
+  let totalNilai = 0;
+  let nilaiArray = [];
+  let jmlPeserta = data.length - 1; // Kecuali header
+
+  // 3. Render Body & Ambil Nilai untuk StatBox
+  for (let i = 1; i < data.length; i++) {
+    let row = "<tr>";
+    
+    // Asumsi: Nilai angka berada di kolom terakhir (indeks terakhir)
+    // Jika kolom nilai bukan yang terakhir, ganti 'rowValues.length - 1' dengan indeks kolom nilai Anda
+    let nilai = parseFloat(data[i][data[i].length - 1]) || 0;
+    nilaiArray.push(nilai);
+    totalNilai += nilai;
+
+    data[i].forEach((col, index) => {
+      if (index === 2) { // Kolom Unit Logo
+        const logoFile = unitLogoMap[col];
+        row += logoFile 
+          ? `<td style="text-align:center;"><img src="${logoFile}" style="height:20px; width:auto;"></td>`
+          : `<td>${col}</td>`;
+      } else {
+        row += `<td>${col}</td>`;
+      }
+    });
+
+    row += "</tr>";
+    tableBody.innerHTML += row;
+  }
+
+  // 4. Hitung Statistik Akhir
+  const rata = totalNilai / jmlPeserta;
+  const tinggi = Math.max(...nilaiArray);
+  const rendah = Math.min(...nilaiArray);
+  
+  // Asumsi Prosentase: (Rata-rata / 100) * 100 atau logika target lainnya
+  // Di sini saya gunakan (rata-rata) sebagai prosentase dasar
+  const prosentase = rata; 
+
+  // 5. Update Tampilan StatBox
+  updateStatBox(jmlPeserta, rata, tinggi, rendah, prosentase);
+}
+
+// Fungsi Pembantu untuk Mengisi StatBox
+function updateStatBox(peserta, rata, tinggi, rendah, prosentase) {
+  document.getElementById("statPeserta").innerText = peserta;
+  document.getElementById("statRata").innerText = rata.toFixed(2);
+  document.getElementById("statMax").innerText = tinggi.toFixed(2);
+  document.getElementById("statMin").innerText = rendah.toFixed(2);
+  
+  const prosEl = document.getElementById("statProsentase");
+  prosEl.innerText = prosentase.toFixed(1) + "%";
+
+  // Bonus: Ubah warna prosentase (Merah jika < 75, Hijau jika >= 75)
+  if (prosentase < 75) {
+    prosEl.className = "statProsentase statProsentase-red";
+  } else {
+    prosEl.className = "statProsentase statProsentase-green"; 
+    // pastikan class .statProsentase-green ada di CSS Anda
+  }
 }
 
 // 4. LOGIKA UTAMA: SILENT INITIALIZATION

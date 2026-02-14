@@ -1113,59 +1113,6 @@ table.rekap-akhir td:nth-child(3) {
 
 </style>
 
-<script>
-(function(){
-  // Mobile dropdown behavior (Option A)
-  document.addEventListener('DOMContentLoaded', function(){
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileSubmenu = document.getElementById('mobileSubmenu');
-
-    if (!menuToggle || !mobileSubmenu) return;
-
-    const toggle = (ev) => {
-      ev.stopPropagation();
-      const isShown = mobileSubmenu.classList.contains('show');
-      if (isShown) {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      } else {
-        mobileSubmenu.classList.add('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'false');
-      }
-    };
-
-    menuToggle.addEventListener('click', toggle);
-    // keyboard accessibility
-    menuToggle.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle(e);
-      } else if (e.key === 'Escape') {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      }
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', function(ev){
-      if (!mobileSubmenu.contains(ev.target) && ev.target !== menuToggle) {
-        if (mobileSubmenu.classList.contains('show')) {
-          mobileSubmenu.classList.remove('show');
-          mobileSubmenu.setAttribute('aria-hidden', 'true');
-        }
-      }
-    });
-
-    // Close on resize to desktop
-    window.addEventListener('resize', function(){
-      if (window.innerWidth >= 769 && mobileSubmenu.classList.contains('show')) {
-        mobileSubmenu.classList.remove('show');
-        mobileSubmenu.setAttribute('aria-hidden', 'true');
-      }
-    });
-  });
-})();
-</script>
 <div class="sidebar"> 
     <header>
     <span>Rekap Interaktif</span>
@@ -1180,12 +1127,14 @@ table.rekap-akhir td:nth-child(3) {
       
       <div class="top-controls">
         <select id="jenisRekap">
-          <option value="Rekap">Rekap Individu</option>
-          <option value="RekapKelompok">Rekap Kelompok</option>
-          <option value="RekapAkhir">Rekap Akhir</option>
-          <option value="NilaiIndividu">Nilai Individu</option>
+          <option value="NilaiMPS">Rekap Nilai MPS</option>
           <option value="RekapBintal">Rekap Bintal</option>
-          <option value="NilaiMPS">Nilai MPS</option>
+          <option value="RekapAkhir">Rekap Diklat</option>
+          <option value="Rekap">Diklat Individu</option>
+          <option value="RekapKelompok">Diklat Kelompok</option>
+          <option value="NilaiIndividu">Kartu Nilai Anggota</option>
+          
+          
         </select>
         
         <select id="unitFilter">
@@ -1364,6 +1313,14 @@ function renderUnitBars(unitMap) {
  * @param {string} sheetName - Nama sheet yang akan dirender ('Rekap', 'RekapKelompok', 'RekapAkhir').
  */
 async function renderStandardRekap(sheetName) {
+    // --- TAMBAHAN PROTEKSI ---
+    // Jika sheetName kosong atau NilaiMPS, jangan jalankan fungsi rekap standar ini
+    // agar tidak bentrok dengan loadNilaiMPS()
+    if (!sheetName || sheetName === "NilaiMPS") {
+        return; 
+    }
+    // -------------------------
+
     // Tampilkan elemen standar
     document.querySelector(".statBox").style.display = "flex";
     document.querySelector(".tableBox").style.display = "block";
@@ -1374,18 +1331,19 @@ async function renderStandardRekap(sheetName) {
     document.getElementById("unitRecapTitle").style.display = showUnitPos ? "block" : "none";
     document.getElementById("unitBarContainer").style.display = showUnitPos ? "block" : "none";
     
-    // Ganti class tabel untuk CSS lebar kolom yang benar
+    // Ganti class tabel
     const table = document.getElementById("rekapTable");
-table.classList.remove("rekap-individu", "rekap-kelompok", "rekap-akhir");
+    table.classList.remove("rekap-individu", "rekap-kelompok", "rekap-akhir");
 
-if (sheetName === "Rekap") {
-  table.classList.add("rekap-individu");
-} else if (sheetName === "RekapKelompok") {
-  table.classList.add("rekap-kelompok");
-} else if (sheetName === "RekapAkhir") {
-  table.classList.add("rekap-akhir");
-}
+    if (sheetName === "Rekap") {
+        table.classList.add("rekap-individu");
+    } else if (sheetName === "RekapKelompok") {
+        table.classList.add("rekap-kelompok");
+    } else if (sheetName === "RekapAkhir") {
+        table.classList.add("rekap-akhir");
+    }
     
+    // Baris inilah yang tadi menghapus data Anda
     document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Memuat data...</td></tr>';
     
     const data = await fetchData(sheetName);
@@ -2666,171 +2624,7 @@ if (MODE_NILAI_MPS) return;
 
 <!-- ===================== PATCH RE-RENDER FILTER REKAP BINTAL ===================== -->
 <script>
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    const unitSelect = document.getElementById('unitFilter');
-    const jenisSelect = document.getElementById('jenisRekap');
-    if (!unitSelect || !jenisSelect) return;
-
-    unitSelect.addEventListener('change', function(){
-      if (jenisSelect.value === 'RekapBintal') {
-
-        // ✅ PANGGIL RENDERER REKAP BINTAL
-        if (typeof renderRekapBintal === 'function') {
-          renderRekapBintal();
-        } 
-        else if (typeof loadRekapBintal === 'function') {
-          loadRekapBintal();
-        }
-
-      }
-    });
-  });
-})();
-
-function applyFreshRanking(data, nilaiIndex) {
-  // urutkan berdasarkan nilai (DESC)
-  data.sort((a, b) => Number(b[nilaiIndex]) - Number(a[nilaiIndex]));
-
-  // hitung peringkat baru
-  return data.map((row, i) => ({
-    ...row,
-    __rank: i + 1
-  }));
-}
-
-</script>
-<!-- =================== END PATCH RE-RENDER FILTER REKAP BINTAL ==================== -->
-
-
-<script>
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    const unitFilter = document.getElementById('unitFilter');
-    const jenisRekap = document.getElementById('jenisRekap');
-    if(!unitFilter || !jenisRekap) return;
-
-    unitFilter.addEventListener('change', function(){
-      if(jenisRekap.value !== 'RekapBintal') return;
-      if(typeof renderRekapBintal === 'function'){
-        renderRekapBintal(unitFilter.value);
-      }
-    });
-  });
-})();
-</script>
-<style>
-  /* CSS ini akan memaksa kolom ke-6 (BN) menjadi Hitam & Poppins */
-  #tableBody tr td:nth-child(6) {
-    color: #000000 !important; /* Paksa Hitam */
-    font-family: 'Poppins', sans-serif !important; /* Paksa Poppins */
-    font-weight: 500 !important;
-    font-size: 0.65rem !important;
-  }
-
-  /* Tetap hitam saat baris di-hover */
-  #tableBody tr:hover td:nth-child(6) {
-    color: #000000 !important;
-  }
-  
-</style>
-
-<script>
-/**
- * Script Tambahan untuk Memastikan Kolom BN di Rekap Bintal Menjadi Hitam
- * Ditempel paling bawah agar mengeksekusi setelah render selesai
- */
-(function() {
-  const originalRenderRekapBintal = window.renderRekapBintal;
-  
-  window.renderRekapBintal = function() {
-    // Jalankan fungsi render asli dulu
-    if (typeof originalRenderRekapBintal === 'function') {
-      originalRenderRekapBintal.apply(this, arguments);
-    }
-    
-    // Setelah render selesai, cari semua baris di tabel
-    const rows = document.querySelectorAll('#tableBody tr');
-    const jenisRekap = document.getElementById('jenisRekap')?.value;
-
-    // Hanya eksekusi jika menu yang dipilih adalah Rekap Bintal
-    if (jenisRekap === 'RekapBintal') {
-      rows.forEach(row => {
-        const tdBN = row.cells[5]; // Kolom ke-6 (index 5) adalah BN
-        if (tdBN) {
-          tdBN.style.setProperty('color', '#000000', 'important');
-          tdBN.style.setProperty('font-family', "'Poppins', sans-serif", 'important');
-          // Menghapus class warna biru/merah bawaan agar tidak konflik
-          tdBN.classList.remove('biru', 'merah');
-        }
-      });
-    }
-  };
-})();
-
-function loadNilaiMPS() {
-  const unit = document.getElementById("unitFilter").value;
-
-  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
-    .then(res => res.json())
-    .then(data => {
-      renderNilaiMPSTable(data);
-    });
-}
-
-function renderNilaiMPSTable(data) {
-
-  const tableHead = document.getElementById("tableHead");
-  const tableBody = document.getElementById("tableBody");
-
-  tableHead.innerHTML = "";
-  tableBody.innerHTML = "";
-
-  if (!data || data.length === 0) return;
-
-  // HEADER
-  let headRow = "<tr>";
-  data[0].forEach(col => {
-    headRow += "<th>" + col + "</th>";
-  });
-  headRow += "</tr>";
-  tableHead.innerHTML = headRow;
-
-  // BODY
-  for (let i = 1; i < data.length; i++) {
-
-    let row = "<tr>";
-
-    data[i].forEach((col, index) => {
-
-      // Kolom ke-2 adalah Unit (index 2 karena urutan: Rank, Nama, Unit...)
-      if (index === 2) {
-
-        const logoFile = unitLogoMap[col];
-
-        if (logoFile) {
-          row += `
-            <td style="text-align:center;">
-              <img src="${logoFile}" 
-                   alt="${col}" 
-                   style="height:20px; width:auto;">
-            </td>`;
-        } else {
-          row += `<td>${col}</td>`;
-        }
-
-      } else {
-        row += `<td>${col}</td>`;
-      }
-
-    });
-
-    row += "</tr>";
-    tableBody.innerHTML += row;
-  }
-}
-
-
+// 1. Map Logo
 const unitLogoMap = {
   "SMPN 1 Citeureup": "1_Citeureup.png",
   "SMPN 6 Depok": "6-removebg-preview (1).png",
@@ -2842,7 +2636,152 @@ const unitLogoMap = {
   "SMPN 32 Depok": "SMP_32.png"
 };
 
+// 2. Fungsi Load Nilai MPS
+function loadNilaiMPS() {
+  const unit = document.getElementById("unitFilter")?.value || "Semua Unit";
+  if (typeof GAS_URL === 'undefined') return;
+
+  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
+    .then(res => res.json())
+    .then(data => {
+      // Hanya render jika user masih di menu NilaiMPS
+      if (document.getElementById('jenisRekap').value === "NilaiMPS") {
+        renderNilaiMPSTable(data);
+      }
+    })
+    .catch(err => console.error("Error:", err));
+}
+
+// 3. Fungsi Render (Ditambahkan proteksi agar tidak kosong)
+function renderNilaiMPSTable(data) {
+  const tableHead = document.getElementById("tableHead");
+  const tableBody = document.getElementById("tableBody");
+
+  if (!tableHead || !tableBody) return;
+  tableHead.innerHTML = "";
+  tableBody.innerHTML = "";
+
+  if (!data || data.length === 0) return;
+
+  // 1. RENDER HEADER
+  let headRow = "<tr>";
+  data[0].forEach(col => { headRow += "<th>" + col + "</th>"; });
+  headRow += "</tr>";
+  tableHead.innerHTML = headRow;
+
+  // 2. VARIABEL HITUNG
+  let totalNilai = 0;
+  let nilaiArray = [];
+  let pesertaIsiNilai = 0; 
+  let bodyHtml = "";
+
+  // 3. LOOP DATA
+  for (let i = 1; i < data.length; i++) {
+    const rowData = data[i];
+    bodyHtml += "<tr>";
+
+    rowData.forEach((col, index) => {
+      // Pastikan angka 0 tetap tampil sebagai "0", bukan kosong
+      // Kita cek jika nilainya null atau undefined baru kita kosongkan
+      let cellValue = (col !== null && col !== undefined) ? col : "";
+
+      // Logika Logo Unit (Index 2)
+      if (index === 2) {
+        const logoFile = unitLogoMap[cellValue];
+        bodyHtml += logoFile 
+          ? `<td style="text-align:center;"><img src="${logoFile}" style="height:20px; width:auto;"></td>`
+          : `<td>${cellValue}</td>`;
+      } else {
+        bodyHtml += `<td>${cellValue}</td>`;
+      }
+
+      // Ambil nilai dari kolom terakhir (Tot) untuk statistik
+      if (index === rowData.length - 1) {
+        let val = parseFloat(String(cellValue).replace(',', '.')) || 0;
+        if (val > 0) {
+          pesertaIsiNilai++; 
+        }
+        nilaiArray.push(val);
+        totalNilai += val;
+      }
+    });
+    bodyHtml += "</tr>";
+  }
+  tableBody.innerHTML = bodyHtml;
+
+  // 4. LOGIKA STATISTIK (PEMBULATAN SESUAI PERMINTAAN)
+  const jmlPeserta = data.length - 1;
+  if (jmlPeserta > 0) {
+    const rata = Math.round(totalNilai / jmlPeserta);
+    const tinggi = Math.round(Math.max(...nilaiArray));
+    const rendah = Math.round(Math.min(...nilaiArray));
+    
+    // Prosentase: (Isi / Total) * 100
+    let prosentaseVal = (pesertaIsiNilai / jmlPeserta) * 100;
+    if (prosentaseVal > 100) prosentaseVal = 100;
+
+    // Tampilkan Angka Bulat di StatBox
+    document.getElementById("statPeserta").innerText = jmlPeserta;
+    document.getElementById("statRata").innerText = rata;
+    document.getElementById("statMax").innerText = tinggi;
+    document.getElementById("statMin").innerText = rendah;
+
+    const prosEl = document.getElementById("statProsentase");
+    // 100% bulat, jika di bawah 100% pakai 1 desimal
+    prosEl.innerText = prosentaseVal >= 100 ? "100%" : prosentaseVal.toFixed(1) + "%";
+
+    // Warna: Merah jika belum 100%
+    prosEl.style.color = prosentaseVal < 100 ? "#ef4444" : "#22c55e";
+  }
+}
+
+// 4. LOGIKA UTAMA: SILENT INITIALIZATION
+(function() {
+  // Langsung kunci nilai dropdown ke NilaiMPS sebelum browser sempat menggantinya
+  const fixDefault = () => {
+    const js = document.getElementById('jenisRekap');
+    if (js) js.value = "NilaiMPS";
+  };
+  fixDefault();
+
+  document.addEventListener('DOMContentLoaded', function() {
+    fixDefault();
+    const unitSelect = document.getElementById('unitFilter');
+    const jenisSelect = document.getElementById('jenisRekap');
+
+    // Listener Manual
+    unitSelect.addEventListener('change', () => {
+      if (jenisSelect.value === "NilaiMPS") loadNilaiMPS();
+    });
+    jenisSelect.addEventListener('change', (e) => {
+      if (e.target.value === "NilaiMPS") loadNilaiMPS();
+    });
+
+    // RAHASIA AGAR TIDAK HILANG:
+    // Kita "membajak" fungsi innerHTML pada tableBody khusus saat startup
+    const tb = document.getElementById("tableBody");
+    const originalSet = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML').set;
+    
+    Object.defineProperty(tb, 'innerHTML', {
+      set: function(value) {
+        // Jika ada script lain mencoba mengosongkan tabel saat mode NilaiMPS, TOLAK!
+        if (value === "" && jenisSelect.value === "NilaiMPS" && tb.innerHTML !== "") {
+          return; 
+        }
+        originalSet.call(this, value);
+      },
+      configurable: true
+    });
+
+    // Panggil pertama kali
+    loadNilaiMPS();
+    
+    // Pastikan sekali lagi setelah 1.5 detik jika ada script GAS yang telat jalan
+    setTimeout(loadNilaiMPS, 1500);
+  });
+})();
 </script>
+
 </body>
 
 </html>

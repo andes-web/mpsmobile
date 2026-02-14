@@ -1115,37 +1115,54 @@ table.rekap-akhir td:nth-child(3) {
 
 <script>
 (function(){
+  // Mobile dropdown behavior (Option A)
   document.addEventListener('DOMContentLoaded', function(){
-
     const menuToggle = document.getElementById('menuToggle');
     const mobileSubmenu = document.getElementById('mobileSubmenu');
 
-    if (menuToggle && mobileSubmenu) {
-      const toggle = (ev) => {
-        ev.stopPropagation();
-        mobileSubmenu.classList.toggle('show');
-      };
+    if (!menuToggle || !mobileSubmenu) return;
 
-      menuToggle.addEventListener('click', toggle);
+    const toggle = (ev) => {
+      ev.stopPropagation();
+      const isShown = mobileSubmenu.classList.contains('show');
+      if (isShown) {
+        mobileSubmenu.classList.remove('show');
+        mobileSubmenu.setAttribute('aria-hidden', 'true');
+      } else {
+        mobileSubmenu.classList.add('show');
+        mobileSubmenu.setAttribute('aria-hidden', 'false');
+      }
+    };
 
-      document.addEventListener('click', function(ev){
-        if (!mobileSubmenu.contains(ev.target) && ev.target !== menuToggle) {
+    menuToggle.addEventListener('click', toggle);
+    // keyboard accessibility
+    menuToggle.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle(e);
+      } else if (e.key === 'Escape') {
+        mobileSubmenu.classList.remove('show');
+        mobileSubmenu.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function(ev){
+      if (!mobileSubmenu.contains(ev.target) && ev.target !== menuToggle) {
+        if (mobileSubmenu.classList.contains('show')) {
           mobileSubmenu.classList.remove('show');
+          mobileSubmenu.setAttribute('aria-hidden', 'true');
         }
-      });
-    }
+      }
+    });
 
-    // =========================
-    // DEFAULT NILAI MPS
-    // =========================
-    const jenisRekap = document.getElementById("jenisRekap");
-
-    if (jenisRekap) {
-      jenisRekap.value = "NilaiMPS";
-      // Tidak perlu panggil apa-apa lagi
-      // Karena renderRekap() sudah dipanggil di init utama file
-    }
-
+    // Close on resize to desktop
+    window.addEventListener('resize', function(){
+      if (window.innerWidth >= 769 && mobileSubmenu.classList.contains('show')) {
+        mobileSubmenu.classList.remove('show');
+        mobileSubmenu.setAttribute('aria-hidden', 'true');
+      }
+    });
   });
 })();
 </script>
@@ -1169,6 +1186,8 @@ table.rekap-akhir td:nth-child(3) {
           <option value="Rekap">Diklat Individu</option>
           <option value="RekapKelompok">Diklat Kelompok</option>
           <option value="NilaiIndividu">Kartu Nilai Anggota</option>
+          
+          
         </select>
         
         <select id="unitFilter">
@@ -2825,6 +2844,21 @@ const unitLogoMap = {
   "SMPN 32 Depok": "SMP_32.png"
 };
 
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Pastikan value select adalah NilaiMPS
+    const jenisRekap = document.getElementById('jenisRekap');
+    jenisRekap.value = "NilaiMPS";
+
+    // 2. Picu fungsi untuk memuat data pertama kali
+    // Catatan: Ganti 'updateTampilan' dengan nama fungsi utama 
+    // yang Anda gunakan untuk me-render tabel/data di script Anda.
+    if (typeof updateTampilan === "function") {
+        updateTampilan(); 
+    } else {
+        // Jika fungsi Anda menggunakan event listener 'change', picu secara manual
+        jenisRekap.dispatchEvent(new Event('change'));
+    }
+});
 </script>
 </body>
 

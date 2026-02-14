@@ -2616,7 +2616,6 @@ if (MODE_NILAI_MPS) return;
 <!-- ===================== PATCH RE-RENDER FILTER REKAP BINTAL ===================== -->
 <script>
 
-
 function applyFreshRanking(data, nilaiIndex) {
   // urutkan berdasarkan nilai (DESC)
   data.sort((a, b) => Number(b[nilaiIndex]) - Number(a[nilaiIndex]));
@@ -2754,7 +2753,24 @@ const unitLogoMap = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Memberi jeda 1 detik agar script utama (Google Apps Script) 
+      const unitSelect = document.getElementById('unitFilter');
+    const jenisSelect = document.getElementById('jenisRekap');
+    if (!unitSelect || !jenisSelect) return;
+
+    unitSelect.addEventListener('change', function(){
+      if (jenisSelect.value === 'RekapBintal') {
+
+        // ✅ PANGGIL RENDERER REKAP BINTAL
+        if (typeof renderRekapBintal === 'function') {
+          renderRekapBintal();
+        } 
+        else if (typeof loadRekapBintal === 'function') {
+          loadRekapBintal();
+        }
+
+      }
+    });  
+  // Memberi jeda 1 detik agar script utama (Google Apps Script) 
     // selesai melakukan inisialisasi awal.
     setTimeout(function() {
         const jenisRekap = document.getElementById('jenisRekap');

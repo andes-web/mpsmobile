@@ -2627,93 +2627,68 @@ const unitLogoMap = {
   "SMPN 32 Depok": "SMP_32.png"
 };
 
-// 2. Fungsi Load Utama yang Lebih Kuat
-function loadNilaiMPS() {
-  const unit = document.getElementById("unitFilter")?.value || "Semua Unit";
-  const jenisSelect = document.getElementById('jenisRekap');
-  
-  // Pastikan dropdown tetap pada NilaiMPS
-  if (jenisSelect) jenisSelect.value = "NilaiMPS";
+// 1. Kunci konfigurasi di level tertinggi agar tidak bisa diubah script lain saat startup
+window.currentDefaultMode = "NilaiMPS";
 
-  if (typeof GAS_URL === 'undefined') {
-    console.error("GAS_URL belum terdefinisi.");
-    return;
-  }
-
-  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
-    .then(res => res.json())
-    .then(data => {
-      renderNilaiMPSTable(data);
-      // Sembunyikan loading jika ada elemen loading
-      const loadingEl = document.getElementById('loading');
-      if (loadingEl) loadingEl.style.display = 'none';
-    })
-    .catch(err => console.error("Gagal memuat MPS:", err));
-}
-
-// 3. Fungsi Render Tabel
-function renderNilaiMPSTable(data) {
-  const tableHead = document.getElementById("tableHead");
-  const tableBody = document.getElementById("tableBody");
-
-  if (!tableHead || !tableBody) return;
-  tableHead.innerHTML = "";
-  tableBody.innerHTML = "";
-
-  if (!data || data.length === 0) return;
-
-  // Render Header
-  let headRow = "<tr>";
-  data[0].forEach(col => { headRow += `<th>${col}</th>`; });
-  headRow += "</tr>";
-  tableHead.innerHTML = headRow;
-
-  // Render Body
-  for (let i = 1; i < data.length; i++) {
-    let row = "<tr>";
-    data[i].forEach((col, index) => {
-      if (index === 2) { // Kolom Unit
-        const logoFile = unitLogoMap[col];
-        row += logoFile 
-          ? `<td style="text-align:center;"><img src="${logoFile}" alt="${col}" style="height:20px; width:auto;"></td>`
-          : `<td>${col}</td>`;
-      } else {
-        row += `<td>${col}</td>`;
-      }
-    });
-    row += "</tr>";
-    tableBody.innerHTML += row;
-  }
-}
-
-// 4. Mekanisme Anti-Gagal (Force Initialization)
 (function() {
-  // Jalankan saat DOM siap
   document.addEventListener('DOMContentLoaded', function() {
-    const unitSelect = document.getElementById('unitFilter');
     const jenisSelect = document.getElementById('jenisRekap');
+    const unitSelect = document.getElementById('unitFilter');
 
-    // Listener untuk perubahan manual
-    if(unitSelect) {
-      unitSelect.addEventListener('change', function() {
-        if (jenisSelect.value === 'NilaiMPS') loadNilaiMPS();
-      });
-    }
-    
-    if(jenisSelect) {
-      jenisSelect.addEventListener('change', function() {
-        if (this.value === 'NilaiMPS') loadNilaiMPS();
-      });
-    }
+    // Paksa value sejak detik ke-0
+    if (jenisSelect) jenisSelect.value = window.currentDefaultMode;
 
-    // PROTEKSI: Jalankan load dengan jeda bertahap untuk menimpa proses 'reset' sistem
-    // Jeda 500ms (percobaan pertama)
-    setTimeout(loadNilaiMPS, 500);
+    // --- STRATEGI ANTI-HILANG ---
+    // Kita buat fungsi pengawas (Observer)
+    // Jika ada script lain yang mencoba mengosongkan tabel atau mengubah dropdown,
+    // kita paksa balik ke NilaiMPS sampai data benar-benar stabil.
     
-    // Jeda 2000ms (percobaan kedua untuk memastikan jika ada reset otomatis dari script lain)
-    setTimeout(loadNilaiMPS, 2000);
+    let retryCount = 0;
+    const forceLoadInterval = setInterval(() => {
+      const tableBody = document.getElementById("tableBody");
+      
+      // Jika tabel kosong DAN kita masih dalam 5 detik pertama startup
+      if (tableBody && tableBody.innerHTML === "" && retryCount < 10) {
+        console.log("Sistem mendeteksi tabel kosong, memicu ulang NilaiMPS...");
+        if (typeof loadNilaiMPS === 'function') {
+          loadNilaiMPS();
+        } else {
+          jenisSelect.dispatchEvent(new Event('change'));
+        }
+      }
+      
+      retryCount++;
+      // Setelah 5 detik atau tabel sudah terisi, berhenti mengawasi
+      if (retryCount > 10 || (tableBody && tableBody.innerHTML !== "")) {
+        clearInterval(forceLoadInterval);
+      }
+    }, 800); // Cek setiap 0.8 detik
   });
 })();
+
+// 2. Pastikan fungsi penarik data Anda menerima perintah dengan benar
+function loadNilaiMPS() {
+  const unit = document.getElementById("unitFilter")?.value || "Semua Unit";
+  
+  // Jika GAS_URL hilang karena script lain, pastikan Anda mendefinisikannya kembali di sini atau di global scope
+  if (typeof GAS_URL !== 'undefined') {
+    fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
+      .then(res => res.json())
+      .then(data => {
+        if (typeof renderNilaiMPSTable === 'function') {
+          renderNilaiMPSTable(data);
+        }
+      });
+  }
+}
+
+// 3. Tambahkan listener pada filter unit agar tidak error saat diubah
+document.getElementById('unitFilter').addEventListener('change', function() {
+    const js = document.getElementById('jenisRekap');
+    if (js && js.value === "NilaiMPS") {
+        loadNilaiMPS();
+      }
+});
 </script>
 
 <style>

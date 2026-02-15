@@ -39,7 +39,19 @@
       font-size: 9px !important;
       padding: 10px 5px !important;
     }
+/* Cari bagian ini di index.html Anda dan modifikasi: */
 
+.filter-row .form-floating:nth-child(1) { 
+  flex: 2.5; /* Kotak Unit lebih lebar (skala 2) */
+}
+
+.filter-row .form-floating:nth-child(2) { 
+  flex: 1; /* Kotak Kegiatan sedang (skala 1.5) */
+}
+
+.filter-row .form-floating:nth-child(3) { 
+  flex: 1.5; /* Kotak Tanggal lebih kecil (skala 1.2) */
+}
     /* Tabel Section (Scrollable) */
     .table-container {
       flex: 1;
@@ -151,7 +163,7 @@
 
   // Gunakan Direct Link (contoh jika menggunakan hosting publik) 
   // Jika logo masih tidak muncul, pastikan URL ini benar-benar bisa dibuka di browser
-  const BASE_URL_LOGO = "https://your-storage-link.com/logos/"; 
+  const BASE_URL_LOGO = "https://andes-web.github.io/mpsmobile/"; 
 
   const unitLogoMap = {
     "SMPN 1 Citeureup": "1_Citeureup.png",

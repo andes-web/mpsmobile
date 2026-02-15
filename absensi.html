@@ -105,6 +105,7 @@
     }
 
     /* Footer / Tombol Simpan */
+/* Footer / Layout Dua Tombol */
     .footer-action {
       position: fixed;
       bottom: 0; left: 0; right: 0;
@@ -112,14 +113,35 @@
       padding: 10px;
       border-top: 1px solid #ddd;
       z-index: 2000;
+      display: flex; /* Mengaktifkan flexbox */
+      gap: 10px;    /* Jarak antar tombol */
+    }
+
+    .btn-home {
+      flex: 1; /* Ukuran 50% */
+      background-color: var(--primary-green);
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 12px;
+      border: none;
+      font-size: 14px;
+      text-decoration: none;
+      text-align: center;
     }
 
     .btn-save { 
+      flex: 1; /* Ukuran 50% */
       background-color: var(--primary-green); 
-      color: white; font-weight: bold; width: 100%;
-      border-radius: 8px; padding: 12px; border: none;
+      color: white; 
+      font-weight: bold;
+      border-radius: 8px; 
+      padding: 12px; 
+      border: none;
       font-size: 14px;
     }
+    
+    .btn-home:hover { background-color: #5a6268; color: white; }
     
     .text-truncate-mobile {
       max-width: 120px;
@@ -169,8 +191,12 @@
 </div>
 
 <div class="footer-action">
+  <a href="https://andes-web.github.io/mpsmobile/" class="btn-home">
+    🏠 HOME
+  </a>
+
   <button onclick="simpanKehadiran()" id="btnSimpan" class="btn btn-save">
-    SIMPAN KEHADIRAN
+    💾 SIMPAN
   </button>
 </div>
 

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Presensi Mobile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { 
+      --primary-green: #2d6a4f; 
+      --soft-green: #e9f5ec; 
+      --header-green: #1b4332; 
+    }
+    
+    body { 
+      background-color: var(--soft-green); 
+      font-family: sans-serif;
+      margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+    }
+
+    /* 1 Baris Identitas Rapat */
+    .header-fixed {
+      background-color: #ffffff;
+      padding: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 1050;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 3px; 
+    }
+
+    /* --- PERBAIKAN FLOATING LABEL & INPUT --- */
+    .form-floating > .form-select, 
+    .form-floating > .form-control {
+      font-size: 13px !important; 
+      height: 42px !important;
+      padding: 1.2rem 0.5rem 0.5rem 0.5rem !important; /* Memberi ruang di atas agar teks tidak tertutup label */
+      min-height: 42px !important;
+      line-height: 1 !important;
+    }
+
+    /* Label Transparan & Tidak Menutupi */
+    .form-floating > label {
+      font-size: 10px !important;
+      padding: 10px 5px !important;
+      background-color: transparent !important; /* Paksa Transparan */
+      color: rgba(0, 0, 0, 0.6) !important;
+      pointer-events: none;
+      width: 100%;
+    }
+
+    /* Posisi Label saat Melayang (Floating) */
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label,
+    .form-floating > .form-select ~ label {
+      transform: scale(0.8) translateY(-0.8rem) translateX(0.1rem) !important;
+      background-color: transparent !important;
+      opacity: 1 !important;
+      color: var(--primary-green) !important; /* Warna label saat mengecil */
+    }
+
+    /* Pengaturan Lebar Kolom Identitas */
+    .filter-row .form-floating:nth-child(1) { flex: 2.5; } /* Unit */
+    .filter-row .form-floating:nth-child(2) { flex: 1.3; } /* Kegiatan */
+    .filter-row .form-floating:nth-child(3) { flex: 1.2; } /* Tanggal */
+
+    /* --- PERBAIKAN TABEL --- */
+    .table-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 5px;
+      padding-bottom: 80px; 
+    }
+
+    .table-wrapper {
+      background: white; border-radius: 8px; overflow: hidden; width: 100%;
+    }
+
+    .table { font-size: 13px; border-collapse: collapse !important; }
+
+    /* Paksa Header Hijau, Teks Putih, Center */
+    .table thead th {
+      background-color: var(--header-green) !important; /* Paksa Hijau Tua */
+      color: #ffffff !important; /* Paksa Putih */
+      text-align: center !important; /* Posisi Center */
+      vertical-align: middle !important;
+      padding: 12px 4px !important;
+      font-weight: bold !important;
+      font-size: 13px !important;
+      border: none !important;
+      text-transform: uppercase;
+    }
+
+    .table td { 
+      padding: 8px 4px !important; 
+      white-space: nowrap; 
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Logo Unit */
+    .unit-logo {
+      height: 25px; max-width: 60px; object-fit: contain;
+    }
+
+    /* Footer / Tombol Simpan */
+    .footer-action {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: white;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+      z-index: 2000;
+    }
+
+    .btn-save { 
+      background-color: var(--primary-green); 
+      color: white; font-weight: bold; width: 100%;
+      border-radius: 8px; padding: 12px; border: none;
+      font-size: 14px;
+    }
+    
+    .text-truncate-mobile {
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+</style>
+</head>
+<body>
+
+<div class="header-fixed">
+  <div class="filter-row">
+    <div class="form-floating">
+      <select id="filterUnit" class="form-select" onchange="renderTable()"><option value="Semua Unit">Semua</option></select>
+      <label>UNIT</label>
+    </div>
+    <div class="form-floating">
+      <select id="kegiatan" class="form-select">
+        <option value="Diklat">Diklat</option>
+        <option value="Bintal">Bintal</option>
+        <option value="Bintur">Bintur</option>
+      </select>
+      <label>KEGIATAN</label>
+    </div>
+    <div class="form-floating">
+      <input type="date" id="tanggal" class="form-control">
+      <label>TANGGAL</label>
+    </div>
+  </div>
+</div>
+
+<div class="table-container">
+  <div class="table-wrapper">
+    <table class="table table-sm table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th width="10%">NO</th>
+          <th width="50%">NAMA</th>
+          <th width="20%">UNIT</th>
+          <th width="20%">STATUS</th>
+        </tr>
+      </thead>
+      <tbody id="tabelBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer-action">
+  <button onclick="simpanKehadiran()" id="btnSimpan" class="btn btn-save">
+    SIMPAN KEHADIRAN
+  </button>
+</div>
+
+<script>
+  let dataPeserta = [];
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
+
+  // Gunakan Direct Link (contoh jika menggunakan hosting publik) 
+  // Jika logo masih tidak muncul, pastikan URL ini benar-benar bisa dibuka di browser
+  const BASE_URL_LOGO = "https://andes-web.github.io/mpsmobile/"; 
+
+  const unitLogoMap = {
+    "SMPN 1 Citeureup": "1_Citeureup.png",
+    "SMPN 6 Depok": "6-removebg-preview (1).png",
+    "SMPN 7 Depok": "7.png",
+    "SMPN 8 Depok": "8-removebg-preview.png",
+    "SMPN 12 Depok": "12-removebg-preview.png",
+    "SMPN 16 Depok": "16-removebg-preview.png",
+    "SMPN 31 Depok": "31-removebg-preview.png",
+    "SMPN 32 Depok": "SMP_32.png"
+  };
+
+  window.onload = () => {
+    document.getElementById('tanggal').valueAsDate = new Date();
+    fetch(GAS_URL + "?action=getListData")
+      .then(res => res.json())
+      .then(res => {
+        if(res.success) {
+          dataPeserta = res.data.pesertabintal;
+          const unitSelect = document.getElementById('filterUnit');
+          res.data.units.forEach(u => { unitSelect.add(new Option(u, u)); });
+          renderTable();
+        }
+      });
+  };
+
+  function renderTable() {
+    const filter = document.getElementById('filterUnit').value;
+    const tbody = document.getElementById('tabelBody');
+    tbody.innerHTML = "";
+    
+    const filtered = filter === "Semua Unit" ? dataPeserta : dataPeserta.filter(p => p.unit === filter);
+    
+    filtered.forEach((p, i) => {
+      const fileName = unitLogoMap[p.unit];
+      // Jika logo tidak muncul, tampilkan inisial/singkatan unit saja agar tetap 1 baris
+      const unitDisplay = fileName 
+        ? `<img src="${BASE_URL_LOGO + fileName}" class="unit-logo" onerror="this.outerHTML='<small>${p.unit.substring(0,7)}</small>'">` 
+        : `<small>${p.unit.substring(0,7)}</small>`;
+
+      tbody.innerHTML += `
+        <tr>
+          <td class="text-center">${i+1}</td>
+          <td class="text-truncate-mobile">${p.nama}</td>
+          <td class="text-center">${unitDisplay}</td>
+          <td>
+            <select class="form-select form-select-sm p-0 px-1 status-select" style="font-size:10px; height:25px;" data-nama="${p.nama}" data-unit="${p.unit}">
+              <option value="Hadir">H</option>
+              <option value="Ijin">I</option>
+              <option value="Sakit">S</option>
+              <option value="Absen">A</option>
+            </select>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  function simpanKehadiran() {
+    const btn = document.getElementById('btnSimpan');
+    const tgl = document.getElementById('tanggal').value;
+    const keg = document.getElementById('kegiatan').value;
+    if(!tgl) return alert("Pilih Tanggal!");
+    
+    btn.disabled = true;
+    btn.innerText = "MENYIMPAN...";
+
+    const seleksi = document.querySelectorAll('.status-select');
+    const statusMap = {"H": "Hadir", "I": "Ijin", "S": "Sakit", "A": "Absen"};
+    
+    const payload = Array.from(seleksi).map(s => ({
+      nama: s.dataset.nama,
+      unit: s.dataset.unit,
+      status: statusMap[s.value] || s.value,
+      tanggal: tgl,
+      kegiatan: keg
+    }));
+
+    fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: "saveKehadiran", data: payload })
+    })
+    .then(r => r.json())
+    .then(res => {
+      alert("Tersimpan!");
+      btn.disabled = false;
+      btn.innerText = "SIMPAN KEHADIRAN";
+    })
+    .catch(() => {
+      alert("Gagal!");
+      btn.disabled = false;
+      btn.innerText = "SIMPAN KEHADIRAN";
+    });
+  }
+</script>
+</body>
+</html>

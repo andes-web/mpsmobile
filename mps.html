@@ -222,6 +222,18 @@
     box-shadow: none !important; /* Hilangkan shadow agar tidak ada garis abu */
     border-bottom: 1px solid #ddd; /* Garis tipis sebagai pembatas bersih */
   }
+  /* Pengaturan Khusus Mobile agar Nama tidak terpotong ekstrem */
+  .table th:nth-child(1) { width: 30px !important; font-size: 11px; } 
+  .table th:nth-child(2) { min-width: 125px; } 
+  .table th:nth-child(3) { width: 50px !important; } 
+  .table th:nth-child(4) { width: 55px !important; }
+
+  /* Mencegah teks nama meluap (wrapping) */
+  .table td:nth-child(2) {
+    white-space: normal; /* Biarkan nama turun ke bawah jika terlalu panjang */
+    word-break: break-word;
+    line-height: 1.1 !important;
+  }
 }
   </style>
 </head>

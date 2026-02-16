@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Presensi Mobile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal/minimal.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
   <style>
@@ -21,22 +20,65 @@
       margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden;
     }
 
-    .header-fixed { background-color: #ffffff; padding: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 1050; }
-    .filter-row { display: flex; gap: 3px; }
-    .form-floating > .form-select, .form-floating > .form-control { font-size: 13px !important; height: 42px !important; padding: 1.2rem 1.5rem 1.0rem 1.2rem !important; min-height: 42px !important; }
-    .form-floating > label { font-size: 10px !important; padding: 10px 5px !important; background-color: transparent !important; color: rgba(0, 0, 0, 0.6) !important; pointer-events: none; width: 100%; }
-    
-    .table-container { flex: 1; overflow-y: auto; padding: 5px; padding-bottom: 80px; }
-    .table-wrapper { background: white; border-radius: 8px; overflow: hidden; width: 100%; }
-    .table thead th { background-color: var(--header-green) !important; color: #ffffff !important; text-align: center !important; padding: 12px 4px !important; font-size: 13px !important; }
-    
-    .footer-action { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; border-top: 1px solid #ddd; z-index: 2000; display: flex; gap: 10px; }
-    .btn-home, .btn-save { flex: 1; background-color: var(--primary-green); color: white; font-weight: bold; border-radius: 8px; padding: 12px; border: none; font-size: 14px; text-decoration: none; text-align: center; }
+    /* Header Identitas */
+    .header-fixed {
+      background-color: #ffffff;
+      padding: 8px 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 1100;
+    }
+
+    /* Lebar Kolom Permanen sesuai Request */
+    .filter-row { display: flex; gap: 4px; width: 100%; }
+    .filter-row .form-floating:nth-child(1) { flex: 0 0 50%; } /* Unit 50% */
+    .filter-row .form-floating:nth-child(2) { flex: 0 0 20%; } /* Kegiatan 20% */
+    .filter-row .form-floating:nth-child(3) { flex: 0 0 28%; } /* Tanggal sisanya (total ~100%) */
+
+    .form-floating > .form-select, .form-floating > .form-control {
+      font-size: 11px !important; height: 45px !important; padding-top: 1.2rem !important;
+    }
+
+    .form-floating > label { font-size: 9px !important; padding: 12px 8px !important; }
+
+    /* Container Tabel dengan Scroll */
+    .table-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 5px;
+      position: relative;
+    }
+
+    .table-wrapper { background: white; border-radius: 0 0 8px 8px; width: 100%; }
+
+    /* Header Tabel Statis (Sticky) */
+    .table thead th {
+      position: sticky;
+      top: 0;
+      background-color: var(--header-green) !important;
+      color: #ffffff !important;
+      z-index: 1000;
+      text-align: center !important;
+      vertical-align: middle !important;
+      padding: 12px 4px !important;
+      font-size: 12px !important;
+      border: none !important;
+    }
+
+    .table td { padding: 10px 4px !important; font-size: 13px; border-bottom: 1px solid #eee; }
+
+    .footer-action {
+      background: white; padding: 10px; border-top: 1px solid #ddd;
+      display: flex; gap: 10px; z-index: 1100;
+    }
+
+    .btn-home, .btn-save { 
+      flex: 1; background-color: var(--primary-green); color: white; 
+      font-weight: bold; border-radius: 8px; padding: 12px; 
+      border: none; font-size: 14px; text-decoration: none; text-align: center; 
+    }
     
     .unit-logo { height: 25px; max-width: 60px; object-fit: contain; }
-    .text-truncate-mobile { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-    /* Custom Mungil Swal */
+    .text-truncate-mobile { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .swal2-popup { font-size: 0.8rem !important; border-radius: 15px !important; }
   </style>
 </head>
@@ -71,11 +113,11 @@
           <th width="10%">NO</th>
           <th width="50%">NAMA</th>
           <th width="20%">UNIT</th>
-          <th width="20%">STATUS</th>
+          <th width="20%">ST</th>
         </tr>
       </thead>
       <tbody id="tabelBody">
-        <tr><td colspan="4" class="text-center p-4">Menunggu Verifikasi...</td></tr>
+        <tr><td colspan="4" class="text-center p-4">Verifikasi Password...</td></tr>
       </tbody>
     </table>
   </div>
@@ -93,36 +135,25 @@
   const BASE_URL_LOGO = "https://andes-web.github.io/mpsmobile/"; 
 
   const unitLogoMap = {
-    "SMPN 1 Citeureup": "1_Citeureup.png",
-    "SMPN 6 Depok": "6-removebg-preview (1).png",
-    "SMPN 7 Depok": "7.png",
-    "SMPN 8 Depok": "8-removebg-preview.png",
-    "SMPN 12 Depok": "12-removebg-preview.png",
-    "SMPN 16 Depok": "16-removebg-preview.png",
-    "SMPN 31 Depok": "31-removebg-preview.png",
-    "SMPN 32 Depok": "SMP_32.png"
+    "SMPN 1 Citeureup": "1_Citeureup.png", "SMPN 6 Depok": "6-removebg-preview (1).png",
+    "SMPN 7 Depok": "7.png", "SMPN 8 Depok": "8-removebg-preview.png",
+    "SMPN 12 Depok": "12-removebg-preview.png", "SMPN 16 Depok": "16-removebg-preview.png",
+    "SMPN 31 Depok": "31-removebg-preview.png", "SMPN 32 Depok": "SMP_32.png"
   };
 
   window.onload = async () => {
-    // Gunakan prompt standar browser jika Swal belum siap
-    let userPass = "";
-    if (typeof Swal !== 'undefined') {
-      const { value: password } = await Swal.fire({
-        title: 'Input Password',
-        input: 'password',
-        confirmButtonColor: '#2d6a4f',
-        allowOutsideClick: false
-      });
-      userPass = password;
-    } else {
-      userPass = prompt("Masukkan Password:");
-    }
+    const { value: password } = await Swal.fire({
+      title: 'Akses Sistem 🔐',
+      input: 'password',
+      inputPlaceholder: 'Password...',
+      confirmButtonColor: '#2d6a4f',
+      allowOutsideClick: false
+    });
 
-    if (userPass === PASS_VALID) {
+    if (password === PASS_VALID) {
       startApp();
     } else {
-      alert("Password Salah!");
-      window.location.reload();
+      Swal.fire('Salah!', 'Akses ditolak', 'error').then(() => window.location.reload());
     }
   };
 
@@ -174,41 +205,42 @@
     const tgl = document.getElementById('tanggal').value;
     if(!tgl) return Swal.fire('Oops', 'Pilih tanggal!', 'warning');
     
-    const btn = document.getElementById('btnSimpan');
-    btn.disabled = true;
-    btn.innerText = "SEDANG MENYIMPAN...";
+    Swal.fire({
+      title: 'Simpan Data?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#2d6a4f',
+      confirmButtonText: 'Ya!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const btn = document.getElementById('btnSimpan');
+        btn.disabled = true;
+        btn.innerText = "...";
 
-    const seleksi = document.querySelectorAll('.status-select');
-    const statusMap = {"H": "Hadir", "I": "Ijin", "S": "Sakit", "A": "Absen"};
-    
-    const payload = Array.from(seleksi).map(s => ({
-      nama: s.dataset.nama,
-      unit: s.dataset.unit,
-      status: statusMap[s.value] || s.value,
-      tanggal: tgl,
-      kegiatan: document.getElementById('kegiatan').value
-    }));
+        const payload = Array.from(document.querySelectorAll('.status-select')).map(s => ({
+          nama: s.dataset.nama,
+          unit: s.dataset.unit,
+          status: s.value,
+          tanggal: tgl,
+          kegiatan: document.getElementById('kegiatan').value
+        }));
 
-    fetch(GAS_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: "saveKehadiran", data: payload })
-    })
-    .then(r => r.json())
-    .then(res => {
-      Swal.fire({
-        title: 'Tersimpan!',
-        text: 'Data presensi berhasil dicatat.',
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false
-      });
-      btn.disabled = false;
-      btn.innerText = "💾 SIMPAN";
-    })
-    .catch(() => {
-      Swal.fire('Gagal', 'Terjadi kesalahan sistem.', 'error');
-      btn.disabled = false;
-      btn.innerText = "💾 SIMPAN";
+        fetch(GAS_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: "saveKehadiran", data: payload })
+        })
+        .then(r => r.json())
+        .then(() => {
+          Swal.fire('Berhasil!', '', 'success');
+          btn.disabled = false;
+          btn.innerText = "💾 SIMPAN";
+        })
+        .catch(() => {
+          Swal.fire('Gagal!', '', 'error');
+          btn.disabled = false;
+          btn.innerText = "💾 SIMPAN";
+        });
+      }
     });
   }
 </script>

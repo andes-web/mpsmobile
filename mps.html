@@ -44,7 +44,7 @@
     .table-container {
       flex: 1;
       overflow-y: auto;
-      padding: 10px;
+      padding: 0 10px 10px 10px;
       -webkit-overflow-scrolling: touch;
       position: relative; /* Tambahkan ini */
     }
@@ -57,7 +57,7 @@
       border: 1px solid rgba(0,0,0,0.05);
     }
 
-    .table { margin: 0; width: 100%; border-collapse: separate !important; border-spacing: 0; }
+    .table { margin: 0; width: 100%; border-collapse: collapse !important; }
     
     .table thead th {
   position: -webkit-sticky; /* Dukungan Safari */
@@ -65,14 +65,14 @@
   top: 0;
   background-color: var(--header-green) !important;
   color: white !important;
-  z-index: 10; /* Pastikan di atas konten body tabel */
+  z-index: 1000; /* Pastikan di atas konten body tabel */
   font-size: 12px;
   text-align: center;
   padding: 15px 5px !important;
   border: none;
   text-transform: uppercase;
   /* Tambahkan box-shadow halus agar header tidak terlihat tembus saat scroll */
-  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1); 
+  box-shadow: 0 2px 2px rgba(0,0,0,0.1); 
 }
 
     .table td { 

@@ -165,17 +165,30 @@
   .form-floating > .form-control {
     height: 34px !important; /* Sangat tipis */
     min-height: 34px !important; /* Menghilangkan batasan default Bootstrap */
-    font-size: 10px !important;
+    font-size: 12px !important;
     padding-top: 12px !important; /* Memberi ruang untuk teks isi */
     padding-bottom: 2px !important;
     line-height: 1 !important;
   }
 
   .form-floating > label {
-    font-size: 8px !important; /* Kecilkan label (UNIT, KEGIATAN, TANGGAL) */
+    font-size: 8px !important; 
     padding: 6px 8px !important;
     transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-  }
+    /* Solusi Transparansi */
+    background-color: transparent !important; 
+    height: auto !important;
+    width: auto !important;
+    pointer-events: none; /* Agar tidak mengganggu klik pada dropdown */
+}
+
+/* Pastikan saat input fokus atau terisi, label tidak memunculkan background putih */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    background-color: transparent !important;
+    opacity: 0.8; /* Sedikit redup agar estetik */
+}
 
   /* 2. Rampingkan Footer */
   .footer-action {

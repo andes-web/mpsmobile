@@ -34,7 +34,7 @@
     .filter-row .form-floating:nth-child(3) { flex: 1.1; } /* Tanggal */
 
     .form-floating > .form-select, .form-floating > .form-control {
-      font-size: 11px !important; height: 48px !important; border-radius: 10px !important;
+      font-size: 11px !important; height: 48px !important; border-radius: 6px !important;
       border: 1px solid #ced4da;
     }
 
@@ -126,8 +126,14 @@
   .table thead th {
     padding: 6px 2px !important;
     font-size: 12px !important;
+    border-radius: 6px !important;
+    top: -1px; /* Sedikit overlap untuk menutup celah pixel */
+    box-shadow: none !important; /* Opsional: hilangkan shadow agar flat rapat */
   }
-
+.table-wrapper {
+    border-radius: 0 !important;
+    border-top: none !important;
+  }
   /* 3. Paksa tinggi select status menjadi sangat ramping */
   .status-select {
     height: 24px !important;
@@ -198,13 +204,23 @@
 
   .btn-home, .btn-save {
     padding: 8px !important; /* Kurangi ketebalan tombol */
-    font-size: 12px !important; /* Kecilkan font tombol */
-    border-radius: 8px !important;
+    font-size: 13px !important; /* Kecilkan font tombol */
+    border-radius: 6px !important;
   }
 
   /* 3. Maksimalkan Area Tabel */
   .table-container {
-    padding: 4px 8px !important; /* Kurangi padding samping tabel */
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  /* 1. Hilangkan margin agar header menempel ke tabel */
+  .header-fixed {
+    padding: 6px 6px 4px 6px !important;
+    margin-bottom: 0 !important; /* Hilangkan jarak pemisah */
+    border-bottom-left-radius: 0 !important; /* Kotak siku agar rapat */
+    border-bottom-right-radius: 0 !important;
+    box-shadow: none !important; /* Hilangkan shadow agar tidak ada garis abu */
+    border-bottom: 1px solid #ddd; /* Garis tipis sebagai pembatas bersih */
   }
 }
   </style>

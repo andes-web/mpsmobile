@@ -114,6 +114,7 @@
 
     /* Media Query khusus untuk layar HP */
 @media (max-width: 768px) {
+  
   /* 1. Paksa padding sel tabel sekecil mungkin */
   .table td { 
     padding: 2px 4px !important; 
@@ -145,6 +146,45 @@
   .unit-logo {
     height: 18px !important;
     max-width: 45px !important;
+  }
+  
+  /* 1. Rampingkan Header Floating */
+  .header-fixed {
+    padding: 6px 4px !important; /* Kurangi padding luar header */
+  }
+
+  .filter-row {
+    gap: 3px !important; /* Rapatkan jarak antar kotak input */
+  }
+
+  .form-floating > .form-select, 
+  .form-floating > .form-control {
+    height: 38px !important; /* Kurangi tinggi kotak input dari 48px ke 38px */
+    font-size: 11px !important;
+    padding-top: 10px !important; /* Sesuaikan posisi teks di dalam */
+  }
+
+  .form-floating > label {
+    font-size: 8px !important; /* Kecilkan label (UNIT, KEGIATAN, TANGGAL) */
+    padding: 8px 8px !important;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  }
+
+  /* 2. Rampingkan Footer */
+  .footer-action {
+    padding: 8px 12px !important; /* Kurangi padding footer dari 15px ke 8px */
+    gap: 8px !important;
+  }
+
+  .btn-home, .btn-save {
+    padding: 8px !important; /* Kurangi ketebalan tombol */
+    font-size: 12px !important; /* Kecilkan font tombol */
+    border-radius: 8px !important;
+  }
+
+  /* 3. Maksimalkan Area Tabel */
+  .table-container {
+    padding: 4px 8px !important; /* Kurangi padding samping tabel */
   }
 }
   </style>

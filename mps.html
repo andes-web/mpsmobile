@@ -14,108 +14,104 @@
       --header-green: #1b4332; 
     }
     
+    /* Mencegah scroll pada body */
+    html, body { 
+      height: 100%; 
+      margin: 0; 
+      padding: 0; 
+      overflow: hidden; 
+      background-color: var(--soft-green);
+    }
+
     body { 
-      background-color: var(--soft-green); 
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+      display: flex; 
+      flex-direction: column; 
+      height: 100dvh; /* Dynamic Viewport Height untuk Mobile */
     }
 
-    /* Header Identitas */
+    /* Header Statis */
     .header-fixed {
+      flex-shrink: 0;
       background-color: #ffffff;
-      padding: 10px 8px;
+      padding: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      z-index: 100;
+      z-index: 10;
     }
 
-    .filter-row { display: flex; gap: 4px; width: 100%; }
-    .filter-row .form-floating:nth-child(1) { flex: 0 0 48%; }
-    .filter-row .form-floating:nth-child(2) { flex: 0 0 22%; }
-    .filter-row .form-floating:nth-child(3) { flex: 0 0 26%; }
+    .filter-row { display: flex; gap: 5px; }
+    .filter-row .form-floating:nth-child(1) { flex: 0 0 50%; }
+    .filter-row .form-floating:nth-child(2) { flex: 0 0 20%; }
+    .filter-row .form-floating:nth-child(3) { flex: 0 0 28%; }
 
     .form-floating > .form-select, .form-floating > .form-control {
-      font-size: 11px !important; height: 45px !important; 
-      border-radius: 10px; border: 1px solid #ddd;
+      font-size: 11px !important; height: 42px !important; border-radius: 12px !important;
     }
+    .form-floating > label { font-size: 9px !important; padding: 10px 8px !important; }
 
-    /* Container Tabel */
+    /* Area Tengah yang Bisa Di-scroll */
     .table-container {
-      flex: 1;
+      flex: 1 1 auto;
       overflow-y: auto;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
+      -webkit-overflow-scrolling: touch; /* Smooth scroll iOS */
+      padding: 12px;
     }
 
-    /* Tabel yang Diperhalus */
+    /* Tabel Diperhalus Total */
     .table-wrapper { 
       background: white; 
-      border-radius: 15px; /* Sudut melengkung halus */
+      border-radius: 20px !important; /* Sudut sangat bulat */
       overflow: hidden; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Bayangan halus */
+      border-collapse: separate; /* Penting untuk radius di tabel */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       border: 1px solid rgba(0,0,0,0.05);
     }
 
-    .table { margin-bottom: 0; }
+    .table { margin: 0 !important; width: 100% !important; border-collapse: separate !important; border-spacing: 0; }
     
     .table thead th {
       position: sticky;
       top: 0;
       background-color: var(--header-green) !important;
-      color: #ffffff !important;
-      z-index: 10;
-      text-align: center !important;
+      color: white !important;
+      z-index: 5;
+      font-size: 11px;
+      text-align: center;
       padding: 15px 5px !important;
-      font-size: 11px !important;
-      border: none !important;
-      letter-spacing: 0.5px;
+      border: none;
     }
 
     .table td { 
-      padding: 12px 5px !important; 
-      font-size: 12.5px; 
-      border-bottom: 1px solid #f1f1f1;
-      color: #333;
+      padding: 12px 8px !important; 
+      font-size: 13px; 
+      border-bottom: 1px solid #f0f0f0;
+      background: white;
     }
 
-    /* Footer Statis di Bawah */
+    /* Footer Terkunci di Bawah */
     .footer-action {
+      flex-shrink: 0; /* Mencegah footer mengecil atau hilang */
       background: white; 
       padding: 12px 15px; 
       border-top: 1px solid #eee;
       display: flex; 
-      gap: 12px; 
-      z-index: 50; /* Di bawah Swal */
+      gap: 10px;
     }
 
     .btn-home, .btn-save { 
-      flex: 1; border-radius: 12px; padding: 14px; 
-      font-weight: 600; border: none; font-size: 14px; 
-      text-decoration: none; text-align: center;
-      transition: opacity 0.2s;
+      flex: 1; border-radius: 15px; padding: 12px; 
+      font-weight: bold; border: none; font-size: 14px; 
+      text-align: center; text-decoration: none;
     }
 
-    .btn-home { background-color: #f8f9fa; color: #333; border: 1px solid #ddd; }
+    .btn-home { background-color: #f1f3f5; color: #495057; }
     .btn-save { background-color: var(--primary-green); color: white; }
-    
-    /* CSS Khusus Swal agar selalu di depan dan di tengah */
-    .swal2-container {
-      z-index: 9999 !important; /* Memastikan di atas footer */
-    }
-    .swal2-popup { 
-      font-size: 0.85rem !important; 
-      border-radius: 20px !important; 
-      padding: 1.5rem !important;
-    }
 
-    .status-select {
-      border-radius: 8px !important;
-      background-color: #f9f9f9;
-      border: 1px solid #eee;
-    }
+    /* Fix SweetAlert Mobile */
+    .swal2-container { z-index: 99999 !important; }
+    .swal2-popup { border-radius: 25px !important; font-size: 0.85rem !important; }
 
-    .unit-logo { height: 22px; max-width: 55px; object-fit: contain; }
-    .text-truncate-mobile { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .unit-logo { height: 22px; max-width: 50px; object-fit: contain; }
+    .status-select { border-radius: 8px !important; font-size: 11px !important; height: 28px !important; }
   </style>
 </head>
 <body>
@@ -124,19 +120,19 @@
   <div class="filter-row">
     <div class="form-floating">
       <select id="filterUnit" class="form-select" onchange="renderTable()"><option value="Semua Unit">Semua</option></select>
-      <label>UNIT</label>
+      <label>UNIT (50%)</label>
     </div>
     <div class="form-floating">
       <select id="kegiatan" class="form-select">
-        <option value="Diklat">Diklat</option>
-        <option value="Bintal">Bintal</option>
-        <option value="Bintur">Bintur</option>
+        <option value="Diklat">D</option>
+        <option value="Bintal">B</option>
+        <option value="Bintur">T</option>
       </select>
-      <label>KEGIATAN</label>
+      <label>KEG</label>
     </div>
     <div class="form-floating">
       <input type="date" id="tanggal" class="form-control">
-      <label>TANGGAL</label>
+      <label>TGL</label>
     </div>
   </div>
 </div>
@@ -146,22 +142,22 @@
     <table class="table table-hover align-middle">
       <thead>
         <tr>
-          <th width="10%">NO</th>
-          <th width="50%">NAMA</th>
-          <th width="20%">UNIT</th>
-          <th width="20%">ST</th>
+          <th style="width: 45px; border-top-left-radius: 20px;">NO</th>
+          <th>NAMA PESERTA</th>
+          <th style="width: 60px;">UNIT</th>
+          <th style="width: 70px; border-top-right-radius: 20px;">ST</th>
         </tr>
       </thead>
       <tbody id="tabelBody">
-        <tr><td colspan="4" class="text-center p-5 text-muted">Menunggu Verifikasi...</td></tr>
+        <tr><td colspan="4" class="text-center p-5">Memverifikasi Akses...</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
 <div class="footer-action">
-  <a href="https://andes-web.github.io/mpsmobile/" class="btn-home">🏠 Home</a>
-  <button onclick="simpanKehadiran()" id="btnSimpan" class="btn-save">💾 Simpan</button>
+  <a href="https://andes-web.github.io/mpsmobile/" class="btn-home">🏠 HOME</a>
+  <button onclick="simpanKehadiran()" id="btnSimpan" class="btn-save">💾 SIMPAN DATA</button>
 </div>
 
 <script>
@@ -170,30 +166,20 @@
   const GAS_URL = "https://script.google.com/macros/s/AKfycbzuZDCErpR_k3OaCwOpE24-hBQErV_PW__qEQMDvhtFqmUNRgaQQehSvaejgGiLf9I/exec";
   const BASE_URL_LOGO = "https://andes-web.github.io/mpsmobile/"; 
 
-  const unitLogoMap = {
-    "SMPN 1 Citeureup": "1_Citeureup.png", "SMPN 6 Depok": "6-removebg-preview (1).png",
-    "SMPN 7 Depok": "7.png", "SMPN 8 Depok": "8-removebg-preview.png",
-    "SMPN 12 Depok": "12-removebg-preview.png", "SMPN 16 Depok": "16-removebg-preview.png",
-    "SMPN 31 Depok": "31-removebg-preview.png", "SMPN 32 Depok": "SMP_32.png"
-  };
-
-  // Fungsi Password saat Load
   window.onload = async () => {
     const { value: password } = await Swal.fire({
-      title: 'Akses Presensi 🔐',
-      text: 'Silahkan masukkan password',
+      title: 'Akses Masuk',
       input: 'password',
-      inputPlaceholder: 'Password...',
+      inputPlaceholder: 'Ketik password @mps#',
       confirmButtonColor: '#2d6a4f',
       allowOutsideClick: false,
-      backdrop: `rgba(0,0,0,0.4)`
+      heightAuto: false // Penting untuk mobile agar tidak lompat
     });
 
     if (password === PASS_VALID) {
       startApp();
     } else {
-      Swal.fire({ icon: 'error', title: 'Akses Ditolak', text: 'Password Salah!' })
-      .then(() => window.location.reload());
+      Swal.fire('Gagal', 'Password salah!', 'error').then(() => window.location.reload());
     }
   };
 
@@ -218,18 +204,13 @@
     const filtered = filter === "Semua Unit" ? dataPeserta : dataPeserta.filter(p => p.unit === filter);
     
     filtered.forEach((p, i) => {
-      const fileName = unitLogoMap[p.unit];
-      const unitDisplay = fileName 
-        ? `<img src="${BASE_URL_LOGO + fileName}" class="unit-logo" onerror="this.outerHTML='<small>${p.unit.substring(0,7)}</small>'">` 
-        : `<small>${p.unit.substring(0,7)}</small>`;
-
       tbody.innerHTML += `
         <tr>
           <td class="text-center text-muted">${i+1}</td>
-          <td class="text-truncate-mobile fw-bold">${p.nama}</td>
-          <td class="text-center">${unitDisplay}</td>
+          <td class="fw-bold" style="font-size:12px;">${p.nama}</td>
+          <td class="text-center"><small>${p.unit.substring(0,5)}</small></td>
           <td>
-            <select class="form-select form-select-sm p-0 px-1 status-select" style="font-size:11px; height:28px;" data-nama="${p.nama}" data-unit="${p.unit}">
+            <select class="form-select form-select-sm status-select" data-nama="${p.nama}" data-unit="${p.unit}">
               <option value="Hadir">H</option>
               <option value="Ijin">I</option>
               <option value="Sakit">S</option>
@@ -243,44 +224,33 @@
 
   function simpanKehadiran() {
     const tgl = document.getElementById('tanggal').value;
-    if(!tgl) return Swal.fire('Oops', 'Pilih tanggal dulu ya!', 'warning');
+    if(!tgl) return Swal.fire('Oops', 'Isi tanggal!', 'warning');
     
     Swal.fire({
-      title: 'Simpan Absensi?',
+      title: 'Simpan Sekarang?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#2d6a4f',
-      cancelButtonColor: '#aaa',
-      confirmButtonText: 'Ya, Simpan!',
-      cancelButtonText: 'Batal'
+      confirmButtonText: 'Ya, Simpan'
     }).then((result) => {
       if (result.isConfirmed) {
         const btn = document.getElementById('btnSimpan');
+        btn.innerText = "PROSES...";
         btn.disabled = true;
-        btn.innerText = "...";
 
         const payload = Array.from(document.querySelectorAll('.status-select')).map(s => ({
-          nama: s.dataset.nama,
-          unit: s.dataset.unit,
-          status: s.value,
-          tanggal: tgl,
-          kegiatan: document.getElementById('kegiatan').value
+          nama: s.dataset.nama, unit: s.dataset.unit, status: s.value,
+          tanggal: tgl, kegiatan: document.getElementById('kegiatan').value
         }));
 
         fetch(GAS_URL, {
           method: 'POST',
           body: JSON.stringify({ action: "saveKehadiran", data: payload })
         })
-        .then(r => r.json())
         .then(() => {
-          Swal.fire({ icon: 'success', title: 'Berhasil!', showConfirmButton: false, timer: 1500 });
+          Swal.fire({ title: 'Tersimpan!', icon: 'success', timer: 1500, showConfirmButton: false });
+          btn.innerText = "💾 SIMPAN DATA";
           btn.disabled = false;
-          btn.innerText = "💾 Simpan";
-        })
-        .catch(() => {
-          Swal.fire('Gagal!', 'Terjadi gangguan koneksi.', 'error');
-          btn.disabled = false;
-          btn.innerText = "💾 Simpan";
         });
       }
     });

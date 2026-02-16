@@ -27,18 +27,18 @@
       z-index: 100;
     }
 
-    .filter-row { display: flex; gap: 8px; width: 100%; }
+    .filter-row { display: flex; gap: 4px; width: 100%; }
     /* Penyesuaian Lebar agar Floating Label tetap cantik */
     .filter-row .form-floating:nth-child(1) { flex: 2; } /* Unit */
-    .filter-row .form-floating:nth-child(2) { flex: 1; } /* Kegiatan */
-    .filter-row .form-floating:nth-child(3) { flex: 1.2; } /* Tanggal */
+    .filter-row .form-floating:nth-child(2) { flex: 1.1; } /* Kegiatan */
+    .filter-row .form-floating:nth-child(3) { flex: 1.1; } /* Tanggal */
 
     .form-floating > .form-select, .form-floating > .form-control {
-      font-size: 12px !important; height: 48px !important; border-radius: 12px !important;
+      font-size: 11px !important; height: 48px !important; border-radius: 10px !important;
       border: 1px solid #ced4da;
     }
 
-    .form-floating > label { font-size: 10px !important; padding: 12px 10px !important; }
+    .form-floating > label { font-size: 9px !important; padding: 10px 8px !important; }
 
     /* Area Tengah - Scrollable */
     .table-container {
@@ -51,7 +51,7 @@
     /* Tabel Halus */
     .table-wrapper { 
       background: white; 
-      border-radius: 18px !important; 
+      border-radius: 12px !important; 
       overflow: hidden; 
       box-shadow: 0 4px 15px rgba(0,0,0,0.06);
       border: 1px solid rgba(0,0,0,0.05);
@@ -63,8 +63,8 @@
       position: sticky; top: 0;
       background-color: var(--header-green) !important;
       color: white !important;
-      z-index: 10;
-      font-size: 11px;
+      z-index: 10000;
+      font-size: 12px;
       text-align: center;
       padding: 15px 5px !important;
       border: none;
@@ -95,7 +95,7 @@
       text-align: center; text-decoration: none;
     }
 
-    .btn-home { background-color: #f8f9fa; color: #333; border: 1px solid #ddd; }
+    .btn-home { background-color: var(--primary-green); color: white; border: 1px solid #ddd; }
     .btn-save { background-color: var(--primary-green); color: white; }
 
     /* Styling Logo & Status */
@@ -117,11 +117,11 @@
     </div>
     <div class="form-floating">
       <select id="kegiatan" class="form-select">
-        <option value="Diklat">DK</option>
-        <option value="Bintal">BT</option>
-        <option value="Bintur">TR</option>
+        <option value="Diklat">Diklat</option>
+        <option value="Bintal">Bintal</option>
+        <option value="Bintur">Bintur</option>
       </select>
-      <label>KEG</label>
+      <label>KEGIATAN</label>
     </div>
     <div class="form-floating">
       <input type="date" id="tanggal" class="form-control">
@@ -138,7 +138,7 @@
           <th style="width: 40px;">NO</th>
           <th>NAMA</th>
           <th style="width: 80px;">UNIT</th>
-          <th style="width: 75px;">ST</th>
+          <th style="width: 75px;">STATUS</th>
         </tr>
       </thead>
       <tbody id="tabelBody">

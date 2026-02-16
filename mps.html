@@ -111,6 +111,42 @@
     /* Swal Positioning Fix */
     .swal2-container { z-index: 99999 !important; }
     .swal2-popup { border-radius: 20px !important; padding: 1.2rem !important; }
+
+    /* Media Query khusus untuk layar HP */
+@media (max-width: 768px) {
+  /* 1. Paksa padding sel tabel sekecil mungkin */
+  .table td { 
+    padding: 2px 4px !important; 
+    line-height: 1 !important;
+    height: 32px; /* Mengunci tinggi baris agar konsisten */
+  }
+
+  /* 2. Perkecil padding header agar tidak memakan ruang layar */
+  .table thead th {
+    padding: 6px 2px !important;
+    font-size: 12px !important;
+  }
+
+  /* 3. Paksa tinggi select status menjadi sangat ramping */
+  .status-select {
+    height: 24px !important;
+    padding: 0 2px !important;
+    font-size: 12px !important;
+    margin: 0 !important;
+  }
+
+  /* 4. Sesuaikan ukuran teks Nama agar tidak overflow */
+  .table td.fw-bold {
+    font-size: 12px !important;
+    letter-spacing: -0.2px;
+  }
+
+  /* 5. Kecilkan logo unit lebih jauh di mobile */
+  .unit-logo {
+    height: 18px !important;
+    max-width: 45px !important;
+  }
+}
   </style>
 </head>
 <body>

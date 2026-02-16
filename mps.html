@@ -14,79 +14,87 @@
       --header-green: #1b4332; 
     }
     
+    /* Body diatur visible secara default, tapi konten utama disembunyikan di container */
     body { 
       background-color: var(--soft-green); 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0; height: 100vh; display: none; /* Disembunyikan sampai password benar */
-      flex-direction: column; overflow: hidden;
+      font-family: sans-serif;
+      margin: 0; height: 100vh; 
     }
 
-    /* --- CSS Tetap Sama Seperti Sebelumnya --- */
+    #mainContent {
+      display: none; /* Disembunyikan sampai password benar */
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* CSS Styling tetap sama seperti file asli Anda */
     .header-fixed { background-color: #ffffff; padding: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 1050; }
     .filter-row { display: flex; gap: 3px; }
-    .form-floating > .form-select, .form-floating > .form-control { font-size: 13px !important; height: 42px !important; padding: 1.2rem 0.5rem 0.5rem 0.5rem !important; min-height: 42px !important; line-height: 1 !important; }
+    .form-floating > .form-select, .form-floating > .form-control { font-size: 13px !important; height: 42px !important; padding: 1.2rem 0.5rem 0.5rem 0.5rem !important; min-height: 42px !important; }
     .form-floating > label { font-size: 10px !important; padding: 10px 5px !important; background-color: transparent !important; color: rgba(0, 0, 0, 0.6) !important; pointer-events: none; width: 100%; }
-    .form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-select ~ label { transform: scale(0.8) translateY(-0.8rem) translateX(0.1rem) !important; background-color: transparent !important; opacity: 1 !important; color: var(--primary-green) !important; }
+    .form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-select ~ label { transform: scale(0.8) translateY(-0.8rem) translateX(0.1rem) !important; color: var(--primary-green) !important; }
     .filter-row .form-floating:nth-child(1) { flex: 2.5; }
     .filter-row .form-floating:nth-child(2) { flex: 1.3; }
     .filter-row .form-floating:nth-child(3) { flex: 1.2; }
     .table-container { flex: 1; overflow-y: auto; padding: 5px; padding-bottom: 80px; }
     .table-wrapper { background: white; border-radius: 8px; overflow: hidden; width: 100%; }
     .table { font-size: 13px; border-collapse: collapse !important; }
-    .table thead th { background-color: var(--header-green) !important; color: #ffffff !important; text-align: center !important; vertical-align: middle !important; padding: 12px 4px !important; font-weight: bold !important; font-size: 13px !important; border: none !important; text-transform: uppercase; }
+    .table thead th { background-color: var(--header-green) !important; color: #ffffff !important; text-align: center !important; vertical-align: middle !important; padding: 12px 4px !important; font-weight: bold !important; text-transform: uppercase; }
     .table td { padding: 8px 4px !important; white-space: nowrap; border-bottom: 1px solid #eee; }
     .unit-logo { height: 25px; max-width: 60px; object-fit: contain; }
     .footer-action { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; border-top: 1px solid #ddd; z-index: 2000; display: flex; gap: 10px; }
     .btn-home, .btn-save { flex: 1; background-color: var(--primary-green); color: white; font-weight: bold; border-radius: 8px; padding: 12px; border: none; font-size: 14px; text-decoration: none; text-align: center; }
-    .btn-home:hover { background-color: #1b4332; color: white; }
     .text-truncate-mobile { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     
-    /* Style khusus untuk Swal agar lebih mungil */
-    .swal2-popup { font-size: 0.8rem !important; border-radius: 15px !important; }
+    /* Ukuran Swal agar mungil */
+    .swal2-popup { font-size: 0.85rem !important; }
   </style>
 </head>
 <body>
 
-<div class="header-fixed">
-  <div class="filter-row">
-    <div class="form-floating">
-      <select id="filterUnit" class="form-select" onchange="renderTable()"><option value="Semua Unit">Semua</option></select>
-      <label>UNIT</label>
-    </div>
-    <div class="form-floating">
-      <select id="kegiatan" class="form-select">
-        <option value="Diklat">Diklat</option>
-        <option value="Bintal">Bintal</option>
-        <option value="Bintur">Bintur</option>
-      </select>
-      <label>KEGIATAN</label>
-    </div>
-    <div class="form-floating">
-      <input type="date" id="tanggal" class="form-control">
-      <label>TANGGAL</label>
+<div id="mainContent">
+  <div class="header-fixed">
+    <div class="filter-row">
+      <div class="form-floating">
+        <select id="filterUnit" class="form-select" onchange="renderTable()"><option value="Semua Unit">Semua</option></select>
+        <label>UNIT</label>
+      </div>
+      <div class="form-floating">
+        <select id="kegiatan" class="form-select">
+          <option value="Diklat">Diklat</option>
+          <option value="Bintal">Bintal</option>
+          <option value="Bintur">Bintur</option>
+        </select>
+        <label>KEGIATAN</label>
+      </div>
+      <div class="form-floating">
+        <input type="date" id="tanggal" class="form-control">
+        <label>TANGGAL</label>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="table-container">
-  <div class="table-wrapper">
-    <table class="table table-sm table-hover align-middle mb-0">
-      <thead>
-        <tr>
-          <th width="10%">NO</th>
-          <th width="50%">NAMA</th>
-          <th width="20%">UNIT</th>
-          <th width="20%">STATUS</th>
-        </tr>
-      </thead>
-      <tbody id="tabelBody"></tbody>
-    </table>
+  <div class="table-container">
+    <div class="table-wrapper">
+      <table class="table table-sm table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th width="10%">NO</th>
+            <th width="50%">NAMA</th>
+            <th width="20%">UNIT</th>
+            <th width="20%">STATUS</th>
+          </tr>
+        </thead>
+        <tbody id="tabelBody"></tbody>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class="footer-action">
-  <a href="https://andes-web.github.io/mpsmobile/" class="btn-home">🏠 HOME</a>
-  <button onclick="simpanKehadiran()" id="btnSimpan" class="btn btn-save">💾 SIMPAN</button>
+  <div class="footer-action">
+    <a href="https://andes-web.github.io/mpsmobile/" class="btn-home">🏠 HOME</a>
+    <button onclick="simpanKehadiran()" id="btnSimpan" class="btn btn-save">💾 SIMPAN</button>
+  </div>
 </div>
 
 <script>
@@ -105,44 +113,31 @@
     "SMPN 32 Depok": "SMP_32.png"
   };
 
-  // Fungsi Proteksi Password
-  async function cekPassword() {
+  // Fungsi utama yang dipanggil saat load
+  window.onload = async function() {
     const { value: password } = await Swal.fire({
       title: 'Akses Terbatas 🔐',
       input: 'password',
-      inputLabel: 'Masukkan Password',
-      inputPlaceholder: 'Ketik di sini...',
-      confirmButtonColor: '#2d6a4f',
+      inputPlaceholder: 'Masukkan Password...',
       allowOutsideClick: false,
-      inputAttributes: {
-        autocapitalize: 'off',
-        autocorrect: 'off'
-      }
+      confirmButtonColor: '#2d6a4f',
+      inputAttributes: { autocapitalize: 'off' }
     });
 
     if (password === '@mps#') {
-      document.body.style.display = 'flex';
+      document.getElementById('mainContent').style.display = 'flex';
       initData();
     } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops!',
-        text: 'Password salah, akses ditolak.',
-        confirmButtonText: 'Coba Lagi'
-      }).then(() => {
-        window.location.reload();
-      });
+      await Swal.fire({ icon: 'error', title: 'Salah!', text: 'Akses Ditolak' });
+      window.location.reload();
     }
-  }
-
-  window.onload = cekPassword;
+  };
 
   function initData() {
     document.getElementById('tanggal').valueAsDate = new Date();
     
-    // Notifikasi Loading yang mungil
     Swal.fire({
-      title: 'Memuat Data...',
+      title: 'Tunggu bentar ya...',
       allowOutsideClick: false,
       didOpen: () => { Swal.showLoading(); }
     });
@@ -159,7 +154,7 @@
         }
       })
       .catch(() => {
-        Swal.fire('Gagal!', 'Koneksi bermasalah.', 'error');
+        Swal.fire({ icon: 'error', title: 'Aduh!', text: 'Gagal ambil data' });
       });
   }
 
@@ -167,6 +162,7 @@
     const filter = document.getElementById('filterUnit').value;
     const tbody = document.getElementById('tabelBody');
     tbody.innerHTML = "";
+    
     const filtered = filter === "Semua Unit" ? dataPeserta : dataPeserta.filter(p => p.unit === filter);
     
     filtered.forEach((p, i) => {
@@ -194,28 +190,23 @@
   }
 
   function simpanKehadiran() {
-    const btn = document.getElementById('btnSimpan');
     const tgl = document.getElementById('tanggal').value;
-    const keg = document.getElementById('kegiatan').value;
-    
-    if(!tgl) {
-      return Swal.fire({ icon: 'warning', title: 'Eh!', text: 'Pilih tanggal dulu ya!', confirmButtonColor: '#2d6a4f' });
-    }
-    
+    if(!tgl) return Swal.fire('Eits!', 'Tanggalnya diisi dulu.', 'warning');
+
     Swal.fire({
-      title: 'Simpan Absensi?',
-      text: "Data akan dikirim ke server.",
+      title: 'Sudah benar?',
+      text: "Data akan disimpan ke sistem.",
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#2d6a4f',
-      cancelButtonColor: '#d33',
       confirmButtonText: 'Ya, Simpan!',
-      cancelButtonText: 'Batal'
+      cancelButtonText: 'Cek lagi'
     }).then((result) => {
       if (result.isConfirmed) {
+        const btn = document.getElementById('btnSimpan');
         btn.disabled = true;
-        btn.innerText = "MENYIMPAN...";
-        
+        btn.innerText = "PROSES...";
+
         const seleksi = document.querySelectorAll('.status-select');
         const statusMap = {"H": "Hadir", "I": "Ijin", "S": "Sakit", "A": "Absen"};
         
@@ -224,7 +215,7 @@
           unit: s.dataset.unit,
           status: statusMap[s.value] || s.value,
           tanggal: tgl,
-          kegiatan: keg
+          kegiatan: document.getElementById('kegiatan').value
         }));
 
         fetch(GAS_URL, {
@@ -233,17 +224,12 @@
         })
         .then(r => r.json())
         .then(res => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Berhasil! 🎉',
-            text: 'Data absensi sudah tersimpan.',
-            confirmButtonColor: '#2d6a4f'
-          });
+          Swal.fire('Berhasil! ✨', 'Data sudah masuk.', 'success');
           btn.disabled = false;
           btn.innerText = "💾 SIMPAN";
         })
         .catch(() => {
-          Swal.fire('Gagal!', 'Terjadi kesalahan saat menyimpan.', 'error');
+          Swal.fire('Gagal!', 'Coba ulangi lagi ya.', 'error');
           btn.disabled = false;
           btn.innerText = "💾 SIMPAN";
         });

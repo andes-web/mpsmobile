@@ -281,13 +281,22 @@ select:focus,
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   margin-bottom: 2px;
-  overflow: hidden;
   border: 1px solid #e0e7ff;
+  max-height: 80vh; /* Atur tinggi tabel sesuai keinginan (misal: 400px) */
+  overflow-y: auto;  /* Aktifkan scroll vertikal */
+  overflow-x: hidden;
+  position: relative;
+  scrollbar-width: none;       /* Untuk Firefox */
+  -ms-overflow-style: none;    /* Untuk Internet Explorer dan Edge */
+}
+.tableBox::-webkit-scrollbar {
+  display: none;
 }
 .tableBox table {
   width: 100%;
   font-size: 0.7rem;
-  border-collapse: collapse;
+  border-collapse: separate; /* Ubah ke separate agar border sticky bekerja dengan baik */
+  border-spacing: 0;
   font-family: 'Poppins', sans-serif !important;
 }
 .tableBox th, .tableBox td { 
@@ -299,7 +308,12 @@ select:focus,
   background: #1d4ed8; 
   color: #fff; 
   font-weight: 600 !important;
+  padding: 8px 4px !important;
   border-bottom: 2px solid #3b82f6;
+  position: sticky;
+  top: 0;
+  z-index: 20; /* Agar tidak tertutup oleh isi tabel saat di-scroll */
+  box-shadow: inset 0 -1px 0 #3b82f6;
 }
 /* Modifikasi: Kolom peringkat di tengah */
 .tableBox th:nth-child(1) { 
@@ -702,8 +716,11 @@ footer {
         overflow-y: auto; /* PENTING: Area yang bisa di scroll */
         padding: 8px 10px;
         height: auto; /* Hapus height fix */
+        scrollbar-width: none; /* Sembunyikan scroll di mobile */
     }
-    
+    .sidebar main::-webkit-scrollbar {
+    display: none;
+  }
     .sidebar footer {
     flex-shrink: 0;
     height: 30px;
@@ -1583,7 +1600,7 @@ if (sheetName === "RekapAkhir") {
     document.getElementById("tableHead").innerHTML = "<tr><th>🏅</th><th>Nama</th><th>Unit</th><th>Jml</th></tr>";
     
     // Pasang Data 4 Kolom
-    document.getElementById("tableBody").innerHTML = sorted.slice(0, 10).map((r, i) => `
+    document.getElementById("tableBody").innerHTML = sorted.slice(0, 300).map((r, i) => `
         <tr><td>${getRankDisplay(i+1)}</td><td style="text-align:left;padding-left:8px;">${r.nama}</td><td style="display:none">${r.unit}</td><td>${r.unit}</td><td class="nilai-jml ${r.jumlah >= 40 ? 'biru' : 'merah'}">${r.jumlah.toFixed(0)}</td>
 </tr>
     `).join("");
@@ -1783,7 +1800,7 @@ document.getElementById("btnPDF").addEventListener("click", () => {
     }
 
     // Output
-    doc.save(`${tableTitle.replace(/ /g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`);
+    doc.save(`${tableTitle.replace(/ /g, '_')}_${new Date().toISOString().slice(0, 300)}.pdf`);
 });
 
 

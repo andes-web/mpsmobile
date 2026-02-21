@@ -8315,7 +8315,7 @@ const jurlamChildren = [
     title: "BINTUR", // H1
     content: `
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.4; font-size: 12px;">
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.4; font-size: 13px;">
             
             <h2 style="text-align: center; font-weight: 600;">(Bimbingan Instruktur)</h2>
             <p style="padding: 0 10px;">Kegiatan Bintur merupakan kawah candradimuka bagi para calon instruktur Paskibra untuk mengasah ketajaman mental dan kekuatan fisik sebelum mereka terjun langsung membimbing junior di arena DIKLAT dan BINTAL. Para anggota Paskibra, dengan seragam kebanggaan yang melekat, berkumpul di aula. Udara pagi yang segar menyelimuti suasana, namun semangat mereka membara lebih dari sekadar hangatnya mentari. Mereka adalah para instruktur Paskibra, yang kini akan dibimbing untuk membimbing junior mereka dalam kegiatan DIKLAT dan BINTUR yang akan datang. Tujuan utamanya? Mempersiapkan mental dan fisik, agar mereka mampu menjadi teladan dan pembimbing yang tangguh.</p>
@@ -8403,28 +8403,641 @@ const jurlamChildren = [
     `,
     children: [
       // 1. Kesadaran Diri & Kepemimpinan
-      {
+    {
         title: "Kesadaran Pemimpin", 
-        content: "Fokus pada pengembangan kesadaran diri instruktur, gaya kepemimpinan yang efektif, dan kemampuan memimpin dengan teladan.",
+        content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #f0f7ff; 
+                padding: 10px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 11px; 
+                color: #444; 
+                border-left: 3px solid #1e40af;
+                line-height: 1.5;
+            }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; }
+        </style>
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.4; font-size: 13px;">
+            
+            <h2 style="text-align: center; font-weight: 600;">Menemukan Jati Diri di Balik Seragam</h2>
+            <p style="padding: 0 10px;">Sesi ini bukan sekadar tentang memberikan aba-aba, melainkan tentang siapa Anda saat seragam itu melekat di tubuh. Instruktur diajak menyelami makna kepemimpinan sebagai sebuah cermin: jika instruktur retak, maka junior akan melihat bayangan yang hancur. Melalui tahapan ini, jati diri ditemukan bukan dari senioritas, melainkan dari integritas dan empati.</p>
+            
+            <ul style="text-align: left; margin-bottom: 20px;">
+                <li><strong>Refleksi Kepemimpinan:</strong> Mengenali titik lemah dan kekuatan pribadi.</li>
+                <li><strong>Peran Instruktur:</strong> Bertransformasi dari anggota menjadi pembentuk karakter.</li>
+                <li><strong>Sharing Pengalaman:</strong> Mentransfer kebijaksanaan, bukan sekadar trauma atau ego.</li>
+            </ul>
+
+            <div style="background-color: #f0f7ff; padding: 20px; border-radius: 15px; display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 25px; gap: 20px; border: 1px solid #e1effe;">
+                <div style="flex: 1; min-width: 300px;">
+                    <figure style="margin: 0; cursor: zoom-in;" onclick="this.style.transform=this.style.transform=='scale(1.5)'?'scale(1)':'scale(1.5)'; this.style.zIndex='100'; this.style.transition='0.3s';">
+                        <img src="https://andes-web.github.io/mpsmobile/images/gbmateri1.jpg" alt="Refleksi Kepemimpinan Paskibra" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <figcaption style="font-size: 0.8em; text-align: center; margin-top: 5px;">Sesi Refleksi Kepemimpinan</figcaption>
+                    </figure>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af;">Schedule Kegiatan: 6 Jam Menuju Jati Diri</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 12px;">Waktu</th>
+                            <th style="padding: 12px;">Kegiatan & Rincian Teknis</th>
+                            <th style="padding: 12px;">Tujuan & Detail Permainan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 1</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>The Mirror Task (Mandiri)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Peserta membawa cermin kecil atau berhadapan dengan partner. Fasilitator memberikan waktu 10 menit hening. Peserta menuliskan di buku saku: "Siapa saya tanpa jabatan?". Dilanjutkan dengan mengakui 3 kegagalan di depan forum kecil tanpa pembelaan diri.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Setiap instruktur berdiri di depan cermin/rekan dengan atribut lengkap. Mereka harus menyebutkan 3 kegagalan terbesar dan bagaimana hal itu membentuk kedisiplinan mereka hari ini.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background-color: #f9f9f9;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 2</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>Blindfold Leader (Kelompok)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Gunakan lapangan dengan rintangan botol air. 1 Leader memandu 5 anggota yang matanya ditutup kain. Leader dilarang masuk ke arena rintangan. Jika ada botol yang jatuh, kelompok kembali ke garis start. Fokus pada artikulasi vokal.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Permainan memandu anggota yang matanya tertutup melalui rintangan hanya dengan suara tanpa menyentuh. Melatih <em>instruksi yang jelas</em> dan <em>kepercayaan (trust)</em>.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 3</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>Silent PBB (Dinamika)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Pasukan membentuk saf. Instruksi gerakan diberikan melalui isyarat mata atau gerakan kepala leader saja. Tidak ada hentakan kaki yang berbunyi keras. Penilaian pada kesamaan tempo tanpa aba-aba suara.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Melakukan gerakan PBB tanpa suara komando sama sekali. Instruktur harus memiliki "kesadaran batin" terhadap ritme rekan di sampingnya. Menemukan jati diri dalam keselarasan.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background-color: #f9f9f9;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 4</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>Circle of Truth (Sharing)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Nyalakan satu lilin di tengah. Baret diletakkan di lantai melingkari lilin. Peserta bercerita secara bergantian mengenai beban mental terberat saat menghadapi junior. Rekan lain dilarang memotong, hanya mendengarkan dengan empati.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Duduk melingkar tanpa atribut pangkat. Sesi diskusi "apa ketakutan terbesarmu saat junior tidak mendengarkan?". Di sini instruktur melepas ego dan saling menguatkan.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 5</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>The Puppet Master (Simulasi)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Fasilitator berperan sebagai junior yang sengaja membangkang atau menangis histeris. Instruktur harus melakukan pendekatan psikologis tanpa amarah selama 5 menit. Dievaluasi oleh rekan instruktur lainnya.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Permainan peran di mana satu orang menjadi junior yang "bermasalah" dan satu menjadi instruktur. Kelompok lain menganalisis apakah cara penanganannya sudah berbasis <em>Kesadaran Pemimpin</em>.</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 6</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>The Identity Pledge (Mandiri)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Peserta diberikan satu amplop coklat. Mereka menuliskan "Versi Terbaik Diriku" yang akan diterapkan pada DIKLAT nanti. Surat disegel dan hanya dibuka saat kegiatan berakhir sebagai pengingat jati diri awal.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Menuliskan "Janji Instruktur" pribadi pada selembar kertas tentang jati diri yang ingin ditinggalkan sebagai warisan bagi junior, lalu ditutup dengan doa bersama.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="text-align: center; font-style: italic; margin-top: 20px; font-weight: 600; color: #1e40af;">"Karena seragam hanyalah kain, jika di dalamnya tidak ada jiwa yang memimpin."</p>
+        </div>
+    `,
         children: [
-          {
-            title: "Refleksi Kepemimpinan", 
-            content: "<h4>Mengevaluasi Gaya Kepemimpinan</h4><p>Sesi refleksi mendalam mengenai kekuatan dan kelemahan diri sebagai pemimpin/instruktur. Mengidentifikasi area pengembangan pribadi dan profesional.</p>"
-          },
-          {
-            title: "Peran Instruktur", 
-            content: "<h4>Menjadi Pembimbing</h4><p>Diskusi tentang esensi peran instruktur, mulai dari fasilitator, motivator, hingga mentor. Menetapkan standar etika dan profesionalisme dalam pembinaan.</p>"
-          },
-          {
-            title: "Sharing Pengalaman", 
-            content: "<h4>Forum Tukar Wawasan</h4><p>Instruktur berbagi pengalaman keberhasilan dan kegagalan dalam melatih atau mengelola kegiatan. Tujuannya adalah saling belajar dari praktik terbaik (best practices) dan tantangan yang dihadapi.</p>"
-          }
-        ]
+  {
+    title: "Refleksi Kepemimpinan",
+    content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #f0f7ff; 
+                padding: 10px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 12px; 
+                color: #444; 
+                border-left: 3px solid #1e40af;
+                line-height: 1.5;
+            }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; }
+            .image-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .image-grid img {
+                width: 100%;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.2;">
+            <h4 style="text-align: center; font-weight: 600; color: #1e40af;">Mengenali titik lemah dan kekuatan pribadi</h4>
+            <p style="font-size: 13px;">Tahap awal ini mencakup <strong>Jam ke-1 (The Mirror Task)</strong> dan <strong>Jam ke-2 (Blindfold Leader)</strong>. Di sini, instruktur dipaksa untuk berdiri tanpa topeng jabatan. Menemukan jati diri dimulai dengan keberanian mengakui bahwa sebelum memimpin orang lain, kita harus mampu memimpin ego sendiri. Melalui refleksi cermin dan simulasi kepercayaan, instruktur belajar bahwa kekuatan sejati bukan terletak pada kerasnya suara, melainkan pada kejujuran dalam mengenali keterbatasan diri dan kesediaan untuk tumbuh bersama tim.</p>
+        
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 20px;">Schedule Kegiatan</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 13px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 12px;">Waktu</th>
+                            <th style="padding: 12px;">Kegiatan & Rincian Teknis</th>
+                            <th style="padding: 12px;">Tujuan & Detail Permainan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 1</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>The Mirror Task (Mandiri)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Peserta membawa cermin kecil atau berhadapan dengan partner. Fasilitator memberikan waktu 10 menit hening. Peserta menuliskan di buku saku: "Siapa saya tanpa jabatan?". Dilanjutkan dengan mengakui 3 kegagalan di depan forum kecil tanpa pembelaan diri.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Setiap instruktur berdiri di depan cermin/rekan dengan atribut lengkap. Mereka harus menyebutkan 3 kegagalan terbesar dan bagaimana hal itu membentuk kedisiplinan mereka hari ini.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background-color: #f9f9f9;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 2</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>Blindfold Leader (Kelompok)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Gunakan lapangan dengan rintangan botol air. 1 Leader memandu 5 anggota yang matanya ditutup kain. Leader dilarang masuk ke arena rintangan. Jika ada botol yang jatuh, kelompok kembali ke garis start. Fokus pada artikulasi vokal.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Permainan memandu anggota yang matanya tertutup melalui rintangan hanya dengan suara tanpa menyentuh. Melatih <em>instruksi yang jelas</em> dan <em>kepercayaan (trust)</em>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="image-grid">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbrefleksi1.jpg" alt="Kegiatan 1">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbrefleksi2.jpg" alt="Kegiatan 2">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbrefleksi3.jpg" alt="Kegiatan 3">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbrefleksi4.jpg" alt="Kegiatan 4">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbrefleksi5.jpg" alt="Kegiatan 5">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbrefleksi6.jpg" alt="Kegiatan 6">
+            </div>
+        </div>`
+},
+  {
+    title: "Peran Instruktur",
+    content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #f0f7ff; 
+                padding: 10px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 12px; 
+                color: #444; 
+                border-left: 3px solid #1e40af;
+                line-height: 1.5;
+            }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; }
+            .image-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .image-grid img {
+                width: 100%;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.2;">
+            <h4 style="text-align: center; font-weight: 600; color: #1e40af;">Bertransformasi dari anggota menjadi pembentuk karakter</h4>
+            <p style="font-size: 13px;">Tahap kedua ini mencakup <strong>Jam 3 (Silent PBB)</strong> dan <strong>Jam 5 (The Puppet Master)</strong>. Fokus utama adalah perubahan mindset dari "dilayani" menjadi "melayani". Instruktur bukan lagi pemain yang mengejar kesempurnaan gerakan untuk dirinya sendiri, melainkan seorang arsitek karakter yang harus peka terhadap dinamika junior. Dalam Silent PBB, mereka belajar membangun koneksi batin tanpa kata-kata, sementara dalam simulasi Puppet Master, mereka diuji untuk menangani berbagai situasi sulit di lapangan dengan pendekatan yang edukatif dan berwibawa.</p>
+        
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 20px;">Schedule Kegiatan</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 13px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 12px;">Waktu</th>
+                            <th style="padding: 12px;">Kegiatan & Rincian Teknis</th>
+                            <th style="padding: 12px;">Tujuan & Detail Permainan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 3</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>Silent PBB (Dinamika)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Pasukan membentuk saf. Instruksi gerakan diberikan melalui isyarat mata atau gerakan kepala leader saja. Tidak ada hentakan kaki yang berbunyi keras. Penilaian pada kesamaan tempo tanpa aba-aba suara.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Melakukan gerakan PBB tanpa suara komando sama sekali. Instruktur harus memiliki "kesadaran batin" terhadap ritme rekan di sampingnya. Menemukan jati diri dalam keselarasan.</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee; background-color: #f9f9f9;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 4</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>Circle of Truth (Sharing)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Nyalakan satu lilin di tengah. Baret diletakkan di lantai melingkari lilin. Peserta bercerita secara bergantian mengenai beban mental terberat saat menghadapi junior. Rekan lain dilarang memotong, hanya mendengarkan dengan empati.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Duduk melingkar tanpa atribut pangkat. Sesi diskusi "apa ketakutan terbesarmu saat junior tidak mendengarkan?". Di sini instruktur melepas ego dan saling menguatkan.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="image-grid">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbpbb1.jpg" alt="Kegiatan 1">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbpbb2.jpg" alt="Kegiatan 2">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbpbb3.jpg" alt="Kegiatan 3">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbpbb4.jpg" alt="Kegiatan 4">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbpbb5.jpg" alt="Kegiatan 5">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbpbb6.jpg" alt="Kegiatan 6">
+            </div>
+        </div>`
+},
+  {
+    title: "Sharing Pengalaman",
+        content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #f0f7ff; 
+                padding: 10px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 12px; 
+                color: #444; 
+                border-left: 3px solid #1e40af;
+                line-height: 1.5;
+            }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; }
+            .image-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .image-grid img {
+                width: 100%;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.2;">
+            <h4 style="text-align: center; font-weight: 600; color: #1e40af;">Mentransfer kebijaksanaan, bukan sekadar trauma atau ego</h4>
+            <p style="font-size: 13px;">Tahap akhir ini mencakup <strong>Jam 4 (Circle of Truth)</strong> dan <strong>Jam 6 (The Identity Pledge)</strong>. Inilah puncak dari penemuan jati diri, di mana instruktur berbagi kerentanan untuk membangun kekuatan kolektif. Tujuannya adalah memutus rantai senioritas yang toksik dan menggantinya dengan transfer kebijaksanaan. Dengan menuliskan janji identitas, instruktur berkomitmen untuk menjadi mentor yang membimbing dengan hati. Mereka memahami bahwa seragam yang mereka kenakan adalah amanah untuk membentuk generasi baru Paskibra yang lebih tangguh, bukan untuk menunjukkan superioritas pribadi.</p>
+        
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 20px;">Schedule Kegiatan</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 13px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 12px;">Waktu</th>
+                            <th style="padding: 12px;">Kegiatan & Rincian Teknis</th>
+                            <th style="padding: 12px;">Tujuan & Detail Permainan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                                <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 5</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>The Puppet Master (Simulasi)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Fasilitator berperan sebagai junior yang sengaja membangkang atau menangis histeris. Instruktur harus melakukan pendekatan psikologis tanpa amarah selama 5 menit. Dievaluasi oleh rekan instruktur lainnya.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Permainan peran di mana satu orang menjadi junior yang "bermasalah" dan satu menjadi instruktur. Kelompok lain menganalisis apakah cara penanganannya sudah berbasis <em>Kesadaran Pemimpin</em>.</td>
+                        </tr>
+                        <tr style="background-color: #f0f7ff;">
+                            <td style="padding: 10px; font-weight: 600; vertical-align: top;">Jam 6</td>
+                            <td style="padding: 10px; vertical-align: top;">
+                                <details>
+                                    <summary>
+                                        <strong>The Identity Pledge (Mandiri)</strong>
+                                        <span class="click-hint">Klik untuk rincian teknis ▼</span>
+                                    </summary>
+                                    <div class="detail-text">
+                                        <strong>Teknis:</strong> Peserta diberikan satu amplop coklat. Mereka menuliskan "Versi Terbaik Diriku" yang akan diterapkan pada DIKLAT nanti. Surat disegel dan hanya dibuka saat kegiatan berakhir sebagai pengingat jati diri awal.
+                                    </div>
+                                </details>
+                            </td>
+                            <td style="padding: 10px; vertical-align: top;">Menuliskan "Janji Instruktur" pribadi pada selembar kertas tentang jati diri yang ingin ditinggalkan sebagai warisan bagi junior, lalu ditutup dengan doa bersama.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="image-grid">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbsharing1.jpg" alt="Kegiatan 1">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbsharing2.jpg" alt="Kegiatan 2">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbsharing3.jpg" alt="Kegiatan 3">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbsharing4.jpg" alt="Kegiatan 4">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbsharing5.jpg" alt="Kegiatan 5">
+                <img src="https://andes-web.github.io/mpsmobile/images/gbsharing6.jpg" alt="Kegiatan 6">
+            </div>
+        </div>`
+}
+]
       },
       // 2. Analisis & Intelektual
       {
-        title: "Analisis & Intelektual", 
-        content: "Meningkatkan kompetensi teknis instruktur dalam merancang, menyampaikan, dan mengevaluasi program pelatihan secara terstruktur dan analitis.",
+    title: "Analisis & Intelektual", 
+    content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; display: flex; align-items: center; transition: 0.3s; font-size: 13px; font-weight: 600; color: #333; }
+            summary::-webkit-details-marker { display: none; }
+            details[open] summary { color: #1e40af; }
+            
+            .detail-text { 
+                background-color: #f0f7ff; 
+                padding: 15px; 
+                border-radius: 10px; 
+                margin-top: 10px; 
+                font-size: 12px; 
+                color: #444; 
+                border-left: 5px solid #1e40af;
+                line-height: 1.6;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .click-hint { 
+                font-size: 10px; 
+                color: #1e40af; 
+                background: #e1effe;
+                padding: 2px 8px;
+                border-radius: 5px;
+                margin-left: 10px;
+                font-weight: 400;
+            }
+            
+            .schedule-table {
+                width: 100%; 
+                border-collapse: collapse; 
+                font-size: 13px; 
+                background-color: #ffffff; 
+                border-radius: 12px; 
+                overflow: hidden; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            }
+
+            .schedule-table th {
+                background-color: #1e40af; 
+                color: #ffffff; 
+                text-align: left;
+                padding: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .schedule-table td {
+                padding: 8px;
+                border-bottom: 1px solid #eee;
+                vertical-align: top;
+                line-height: 1.5;
+            }
+
+            .main-flex-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 30px;
+                align-items: flex-start;
+                margin-top: 25px;
+            }
+
+            .image-section {
+                flex: 0 0 300px; /* Lebar gambar tetap agar proporsional */
+            }
+
+            .table-section {
+                flex: 1; /* Tabel mengambil sisa ruang yang ada */
+                min-width: 500px;
+            }
+
+            @media (max-width: 992px) {
+                .image-section { flex: 1 0 100%; }
+                .table-section { min-width: 100%; }
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.6; font-size: 14px;">
+            <p style="padding: 0 15px; border-left: 4px solid #1e40af; margin-bottom: 25px; background-color: #f9fbff; padding-top: 10px; padding-bottom: 10px;">Sesi ini dirancang untuk mengubah pola pikir instruktur dari sekadar "pemberi perintah" menjadi seorang <strong>"analis strategi pengajaran"</strong>. Melalui simulasi 6 jam yang intens, setiap peserta ditantang membedah metode instruksional dan ketahanan mental secara mandiri maupun kolaboratif.</p>
+            <div class="main-flex-container">                
+                <div class="image-section">
+                    <figure style="margin: 0; position: sticky; top: 20px;">
+                        <img src="https://andes-web.github.io/mpsmobile/images/gbmateri2.jpg" alt="Workshop Microteaching Paskibra" style="width: 100%; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border: 3px solid #fff;">
+                        <figcaption style="font-size: 12px; text-align: center; margin-top: 12px; color: #555; font-weight: 600;">Diskusi Analitis dan Perencanaan</figcaption>
+                        
+                        <div style="background-color: #1e40af; padding: 20px; border-radius: 15px; margin-top: 20px; color: white;">
+                            <h4 style="margin: 0 0 10px 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px;">Kompetensi Utama:</h4>
+                            <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.8;">
+                                <li>Microteaching Strategis</li>
+                                <li>Analisis Psikologi Massa</li>
+                                <li>Tactical DIKLAT Planning</li>
+                                <li>Problem Solving Lapangan</li>
+                            </ul>
+                        </div>
+                    </figure>
+                </div>
+                <div class="table-section">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">Waktu</th>
+                                <th style="width: 15%;">Kegiatan</th>
+                                <th style="width: 80%;">Tujuan Strategis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td style="font-weight: 600; color: #1e40af;">Jam 1</td>
+                                    <td>The Method Deconstruction</td>
+                                    <td>
+                                        <details>
+                                            <summary>Mengasah ketajaman analisis teknis terhadap detail gerakan terkecil <span class="click-hint">Klik Detail ▼</span></summary>
+                                            <div class="detail-text">
+                                                <strong>Teknis Mandiri:</strong> Peserta diberikan satu gerakan PBB yang salah. Secara mandiri, mereka harus menuliskan 5 alasan logis mengapa gerakan tersebut salah dan bagaimana anatomi tubuh seharusnya bekerja untuk memperbaikinya (Analisis Biomekanika).
+                                            </div>
+                                        </details>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight: 600; color: #1e40af;">Jam 2</td>
+                                    <td>Silent Instruction Strategy</td>
+                                    <td>
+                                        <details>
+                                            <summary>Membangun insting kepemimpinan tanpa ketergantungan pada teriakan atau aba-aba <span class="click-hint">Klik Detail ▼</span></summary>
+                                            <div class="detail-text">
+                                                <strong>Teknis Kelompok:</strong> Dibagi per kelompok. Instruksikan tim untuk membentuk formasi rumit TANPA suara dan TANPA isyarat tangan. Mereka hanya boleh menggunakan kontak mata dan gerakan kepala (Analisis Non-Verbal).
+                                            </div>
+                                        </details>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight: 600; color: #1e40af;">Jam 3</td>
+                                    <td>The Junior's Mind Maze</td>
+                                    <td>
+                                        <details>
+                                            <summary>Melatih analisis psikologis dalam menangani konflik di lapangan secara intelektual <span class="click-hint">Klik Detail ▼</span></summary>
+                                            <div class="detail-text">
+                                                <strong>Teknis Studi Kasus:</strong> Peserta diberikan amplop berisi profil "Junior Bermasalah" (contoh: Junior yang membangkang karena lelah fisik). Peserta harus membedah solusi menggunakan pendekatan psikologis dalam 15 menit dan mempresentasikannya.
+                                            </div>
+                                        </details>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight: 600; color: #1e40af;">Jam 4</td>
+                                    <td>Microteaching Roulette</td>
+                                    <td>
+                                        <details>
+                                            <summary>Menguji penguasaan materi dan kemampuan retorika instruktur di depan publik <span class="click-hint">Klik Detail ▼</span></summary>
+                                            <div class="detail-text">
+                                                <strong>Teknis Simulasi:</strong> Setiap instruktur maju secara acak untuk mengajar metode PBB tertentu. Rekan yang lain berperan sebagai "Junior Kritis" yang menanyakan alasan di balik setiap aturan instruksi tersebut.
+                                            </div>
+                                        </details>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight: 600; color: #1e40af;">Jam 5</td>
+                                    <td>The Pressure Analysis</td>
+                                    <td>
+                                        <details>
+                                            <summary>Mengubah kegagalan masa lalu menjadi basis data strategi baru melalui evaluasi kritis <span class="click-hint">Klik Detail ▼</span></summary>
+                                            <div class="detail-text">
+                                                <strong>Teknis Dinamika:</strong> Sesi melingkar (Circle of Truth) di lapangan terbuka. Satu orang menceritakan kegagalan strategi mengajarnya di masa lalu. Kelompok melakukan "Bedah Strategi" untuk mencari titik lemah dan memperbaikinya bersama.
+                                            </div>
+                                        </details>
+                                    </td>
+                                </tr>
+
+                                <tr style="background-color: #f0f7ff;">
+                                    <td style="font-weight: 600; color: #1e40af;">Jam 6</td>
+                                    <td>The Master Blueprint</td>
+                                    <td>
+                                        <details>
+                                            <summary>Intelektualisasi diri: Menjadikan diri sendiri sebagai objek yang terus dikembangkan <span class="click-hint">Klik Detail ▼</span></summary>
+                                            <div class="detail-text">
+                                                <strong>Teknis Final:</strong> Penyerahan amplop coklat "Versi Terbaik Diriku". Peserta menyusun jadwal latihan mandiri untuk dirinya sendiri selama 1 bulan ke depan berdasarkan hasil analisis kekurangan sepanjang hari ini. Segel dengan lilin.
+                                            </div>
+                                        </details>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding: 25px; background: linear-gradient(135deg, #1e40af, #3b82f6); border-radius: 20px; color: white; text-align: center; box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);">
+                <p style="margin: 0; font-size: 14px; opacity: 0.9; letter-spacing: 1px; text-transform: uppercase;">Motto Intelektual</p>
+                <p style="margin: 10px 0 0; font-weight: 600; font-style: italic; font-size: 16px; line-height: 1.4;">"Analisis yang tajam melahirkan instruksi yang bermakna. Jadilah instruktur yang mengajar dengan otak, bukan hanya otot."</p>
+            </div>
+        </div>
+    `,
         children: [
           {
             title: "Workshop Microteaching", 

@@ -9234,24 +9234,37 @@ const jurlamChildren = [
             }
             .step-title { font-weight: 600; color: #1e40af; text-decoration: underline; display: block; margin-top: 8px; }
             .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; font-weight: 400; }
-            .image-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-                margin-top: 20px;
-            }
-            .image-grid img {
+            
+            /* Style Gambar */
+            .activity-image {
                 width: 100%;
+                max-width: 400px;
                 border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                aspect-ratio: 1 / 1;
-                object-fit: cover;
+                margin-top: 15px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                display: block;
+                cursor: zoom-in;
+                transition: transform 0.2s;
+            }
+            .activity-image:hover {
+                transform: scale(1.02);
+            }
+
+            /* Garis Pembatas Tebal antar baris */
+            table tbody tr td {
+                border-bottom: 2px solid #cbd5e1; /* Garis abu-abu tebal */
+                padding-bottom: 20px !important;
+            }
+            /* Menghilangkan border pada header hari agar lebih rapi */
+            tr[style*="background-color: #e5e7eb"] td {
+                border-bottom: none;
+                padding-bottom: 8px !important;
             }
         </style>
 
         <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.2;">
             <h4 style="text-align: center; font-weight: 600; color: #1e40af;">Panduan Lengkap Simulasi DIKLAT 2025</h4>
-            <p style="font-size: 13px;">Rangkuman operasional ini mencakup seluruh rangkaian kegiatan dari kedatangan peserta hingga penutupan di hari kedua, termasuk detail teknis pos-pos Jurit Malam.</p>
+            <p style="font-size: 13px;">Rangkuman operasional ini mencakup seluruh rangkaian kegiatan dari kedatangan peserta hingga penutupan di hari kedua, termasuk detail teknis pos-pos Jurit Malam. <strong>Klik gambar untuk memperbesar di jendela baru.</strong></p>
         
             <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 20px;">Jadwal Operasional Rinci</h3>
             
@@ -9275,6 +9288,7 @@ const jurlamChildren = [
                                         <br><span class="step-title">Pelaksanaan:</span> Peserta melakukan daftar ulang, pemeriksaan kesehatan singkat, dan pengumpulan logistik yang tidak diperlukan di lapangan.
                                     </div>
                                 </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbpenerimaan.jpg" class="activity-image" alt="Kegiatan 1" onclick="window.open(this.src, '_blank')">
                             </td>
                         </tr>
                         <tr>
@@ -9288,6 +9302,7 @@ const jurlamChildren = [
                                         <br><span class="step-title">Ishoma:</span> Makan siang bersama dengan tata cara yang telah ditentukan, sholat berjamaah, dan istirahat sejenak.
                                     </div>
                                 </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gborientasi.jpg" class="activity-image" alt="Kegiatan 2" onclick="window.open(this.src, '_blank')">
                             </td>
                         </tr>
                         <tr>
@@ -9302,6 +9317,7 @@ const jurlamChildren = [
                                         <br>• <strong>Jam 5-6:</strong> Evaluasi strategi mengajar & penyusunan komitmen mandiri.
                                     </div>
                                 </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbmateriutama.jpg" class="activity-image" alt="Kegiatan 3" onclick="window.open(this.src, '_blank')">
                             </td>
                         </tr>
 
@@ -9321,6 +9337,7 @@ const jurlamChildren = [
                                         <br><span class="step-title">Penutupan:</span> Refleksi akhir seluruh tim dan doa bersama sebelum istirahat malam.
                                     </div>
                                 </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbsiapmalam.jpg" class="activity-image" alt="Kegiatan 4" onclick="window.open(this.src, '_blank')">
                             </td>
                         </tr>
 
@@ -9335,6 +9352,7 @@ const jurlamChildren = [
                                         <br><span class="step-title">Senam & Sarapan:</span> Latihan fisik ringan diikuti pengisian energi untuk sesi terakhir.
                                     </div>
                                 </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/bgpagi.jpg" class="activity-image" alt="Kegiatan 5" onclick="window.open(this.src, '_blank')">
                             </td>
                         </tr>
                         <tr>
@@ -9347,19 +9365,11 @@ const jurlamChildren = [
                                         <br><span class="step-title">Operasi Semut:</span> Seluruh peserta menyisir area latihan untuk memastikan kebersihan total sebelum meninggalkan lokasi.
                                     </div>
                                 </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbpenutup.jpg" class="activity-image" alt="Kegiatan 6" onclick="window.open(this.src, '_blank')">
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-
-            <div class="image-grid">
-                <img src="https://andes-web.github.io/mpsmobile/images/gbpsiko1.jpg" alt="Kegiatan 1">
-                <img src="https://andes-web.github.io/mpsmobile/images/gbpsiko2.jpg" alt="Kegiatan 2">
-                <img src="https://andes-web.github.io/mpsmobile/images/gbpsiko3.jpg" alt="Kegiatan 3">
-                <img src="https://andes-web.github.io/mpsmobile/images/gbpsiko4.jpg" alt="Kegiatan 4">
-                <img src="https://andes-web.github.io/mpsmobile/images/gbpsiko5.jpg" alt="Kegiatan 5">
-                <img src="https://andes-web.github.io/mpsmobile/images/gbpsiko6.jpg" alt="Kegiatan 6">
             </div>
         </div>`
 },

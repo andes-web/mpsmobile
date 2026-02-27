@@ -10411,21 +10411,549 @@ const jurlamChildren = [
     `,
         children: [
           {
-            title: "PBB Instruktur", 
-            content: "<h4>Penguasaan Teknik PBB Lanjutan</h4><p>Sesi latihan PBB dengan penekanan pada detail, kekompakan, dan kejelasan aba-aba. Bertujuan memastikan instruktur memiliki standar PBB tertinggi sebelum melatih.</p>"
-          },
+  title: "PBB Instruktur", 
+  content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; font-weight: 600; color: #1e40af; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #f0f7ff; 
+                padding: 15px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 12px; 
+                color: #333; 
+                border-left: 5px solid #1e40af;
+                line-height: 1.8;
+            }
+            .step-title { font-weight: 600; color: #1e40af; text-decoration: underline; display: block; margin-top: 10px; }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; font-weight: 400; }
+            
+            .activity-image {
+                width: 100%;
+                max-width: 400px;
+                border-radius: 8px;
+                margin-top: 15px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                display: block;
+                cursor: zoom-in;
+                transition: transform 0.2s;
+            }
+            .activity-image:hover { transform: scale(1.02); }
+
+            table tbody tr td {
+                border-bottom: 2px solid #cbd5e1; 
+                padding-bottom: 25px !important;
+            }
+            tr[style*="background-color: #e5e7eb"] td {
+                border-bottom: none;
+                padding-bottom: 8px !important;
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.4;">
+            <h4 style="text-align: center; font-weight: 600; color: #1e40af;">PBB Instruktur: Precision Mastery</h4>
+            <p style="font-size: 13px; line-height: 1.6;">Seorang instruktur bukan hanya pemberi aba-aba, tetapi adalah standar hidup dari gerakan itu sendiri. Sesi **The Mirror Drill** menuntut sinkronisasi tanpa suara untuk menyamakan frekuensi otot dan intuisi visual antar instruktur. <strong>Klik detail untuk prosedur teknis standarisasi elit.</strong></p>
+        
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 25px;">Prosedur Mirroring & Sinkronisasi Tanpa Suara</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 13px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 15px; width: 22%;">Tahap Latihan</th>
+                            <th style="padding: 15px;">Narasi Teknis & Standar Eksekusi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">FASE 1: Visual Connection & Rhythm Discovery</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The Shadow Protocol</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Sinkronisasi Gerakan Statis <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Teknis Formasi:</span>
+                                        Instruktur dibagi menjadi pasangan (A dan B) yang berdiri berhadapan dengan jarak tepat 2 meter. Mereka harus mengunci pandangan mata (Eye-Lock) sebagai satu-satunya alat komunikasi.
+                                        <br><span class="step-title">Mekanisme Gerakan:</span>
+                                        Peserta A memulai gerakan PBB statis (contoh: Hormat, Hadap Kanan, atau Balik Kanan) secara sangat lambat (Slow Motion). Peserta B harus mengikuti gerakan tersebut seperti bayangan di cermin tanpa keterlambatan satu milidetik pun.
+                                        <br><span class="step-title">Narasi Teknis:</span>
+                                        Tujuannya bukan hanya meniru arah, tetapi menyamakan <b>Power (kekuatan)</b> dan <b>Snapping (hentakan)</b>. Instruktur harus merasakan getaran langkah rekannya melalui tanah dan visualisasi bahu untuk menentukan kapan gerakan dimulai dan berakhir tanpa ada suara "Mulai" atau hitungan.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbpbbinstruktur1.png" class="activity-image" alt="Mirroring Session" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The Silent Tempo</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Standarisasi Langkah Tegak <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Uji Sinkronisasi Dinamis:</span>
+                                        Pasangan instruktur mulai melakukan Langkah Tegak Maju secara berhadapan (mendekat dan menjauh). Fokus utama adalah tinggi tungkai kaki yang harus persis 45 derajat dan ayunan tangan 90 derajat secara bersamaan.
+                                        <br><span class="step-title">Manajemen Tempo:</span>
+                                        Tanpa aba-aba, mereka harus mempertahankan tempo 120 langkah per menit secara internal. Jika salah satu lebih cepat, ia harus menyesuaikan frekuensinya secara instan hanya dengan melihat fluktuasi gerakan pundak pasangannya.
+                                        <br><span class="step-title">Tantangan Ekstrem:</span>
+                                        Fasilitator akan mengganti pasangan secara acak di tengah gerakan. Instruktur harus mampu beradaptasi dengan ritme orang baru tanpa merusak estetika dan keseragaman gerakan sedikitpun.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbpbbinstruktur2.png" class="activity-image" alt="Silent Tempo" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">FASE 2: Unified Command Standard</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The Master Symmetry</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Kalibrasi Sudut & Power <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Detail Teknis:</span>
+                                        Pada tahap ini, seluruh instruktur membentuk barisan besar. Mereka melakukan kombinasi gerakan PBB yang kompleks (seperti Jalan di Tempat ke Haluan Kanan) dalam kesunyian total.
+                                        <br><span class="step-title">Narasi Keseragaman:</span>
+                                        Instruktur diuji untuk memiliki <b>Sudut Pandang 180 Derajat</b> (Peripheral Vision). Mereka tidak boleh menoleh, namun harus mampu merasakan posisi rekan di samping dan belakangnya untuk menjaga kelurusan saf dan banjar secara otomatis.
+                                        <br><span class="step-title">Standardisasi Elit:</span>
+                                        Gerakan dianggap gagal jika ada perbedaan tinggi tangan meski hanya 1 cm. Hal ini melatih instruktur agar saat melatih junior nanti, mereka memiliki "mata elang" yang sudah terkalibrasi dengan standar kesempurnaan yang sama.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbpbbinstruktur3.png" class="activity-image" alt="Symmetry Test" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">Evaluation: Precision Soul</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Bedah Gerakan & Penyatuan Visi <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Analisis Pasca-Drill:</span>
+                                        Setiap pasangan memberikan koreksi teknis terhadap rekannya tentang detail terkecil: sudut jempol saat hormat, bunyi hentakan sepatu, hingga ketajaman lirik mata saat periksa kerapihan.
+                                        <br><span class="step-title">Output Karakter:</span>
+                                        1. <b>Intuisi Visual:</b> Instruktur mampu mendeteksi ketidaksinkronan dalam pasukan junior hanya dengan satu kali pandangan sekilas.
+                                        2. <b>Keseragaman Tempo:</b> Memastikan seluruh instruktur dalam satu unit memiliki irama yang identik, sehingga tidak membingungkan junior saat berganti pelatih.
+                                        3. <b>Professional Pride:</b> Menanamkan bahwa instruktur adalah "cermin" bagi junior; jika instruktur tidak presisi, maka pasukan pun tidak akan pernah mencapai kesempurnaan.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbpbbinstruktur4.png" class="activity-image" alt="Evaluation" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>`
+},
           {
-            title: "Senam Kreatif", 
-            content: "<h4>Perancangan Latihan Kebugaran</h4><p>Workshop untuk merancang sesi senam atau peregangan yang inovatif, menarik, namun tetap efektif. Melatih instruktur untuk membuat variasi kegiatan fisik yang tidak monoton.</p>"
-          },
+  title: "Senam Kreatif", 
+  content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; font-weight: 600; color: #1e40af; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #f8fafc; 
+                padding: 15px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 12px; 
+                color: #333; 
+                border-left: 5px solid #0ea5e9;
+                line-height: 1.8;
+            }
+            .step-title { font-weight: 600; color: #0ea5e9; text-decoration: underline; display: block; margin-top: 10px; }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; font-weight: 400; }
+            
+            .activity-image {
+                width: 100%;
+                max-width: 400px;
+                border-radius: 8px;
+                margin-top: 15px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                display: block;
+                cursor: zoom-in;
+                transition: transform 0.2s;
+            }
+            .activity-image:hover { transform: scale(1.02); }
+
+            table tbody tr td {
+                border-bottom: 2px solid #cbd5e1; 
+                padding-bottom: 25px !important;
+            }
+            tr[style*="background-color: #e5e7eb"] td {
+                border-bottom: none;
+                padding-bottom: 8px !important;
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.4;">
+            <h4 style="text-align: center; font-weight: 600; color: #1e40af;">Senam Kreatif: Dynamic Agility</h4>
+            <p style="font-size: 13px; line-height: 1.6;">Disiplin tidak harus kaku. **Dynamic Agility** menantang pasukan untuk mentransformasikan ketegasan PBB ke dalam aliran gerak senam yang enerjik. Melalui permainan **Rhythm Relay**, setiap anggota dilatih untuk memiliki stamina tinggi namun tetap fleksibel dalam koordinasi tim. <strong>Klik detail untuk skenario teknis senam taktis.</strong></p>
+        
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 25px;">Prosedur Gerak & Kompetisi Kreatif</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 13px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 15px; width: 22%;">Fase Latihan</th>
+                            <th style="padding: 15px;">Narasi Teknis & Manajemen Formasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">TAHAP 1: Hybrid Movement Calibration</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The PBB-Dance Fusion</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Sinkronisasi Ketukan Cepat <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Teknis Dasar:</span>
+                                        Kelompok diwajibkan menyusun 8 hitungan gerak dasar yang mengombinasikan elemen PBB (Hentak kaki, Jalan di tempat, Lirik kanan) dengan gerakan peregangan dinamis.
+                                        <br><span class="step-title">Narasi Teknis:</span>
+                                        Musik dengan tempo 130-140 BPM diputar. Anggota harus memastikan bahwa setiap "snap" tangan (perpindahan posisi) tetap tajam seperti saat melakukan defile, namun dengan kelenturan sendi bahu dan pinggul yang lebih luas untuk menghindari cedera.
+                                        <br><span class="step-title">Detail Floating:</span>
+                                        Kekuatan (Power) pada hentakan kaki tetap menjadi poin penilaian utama, namun harus diselaraskan dengan irama musik. Jika ketukan kaki tidak jatuh tepat pada "downbeat" musik, maka barisan dianggap gagal menyatukan frekuensi.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbsenamkreatif1.png" class="activity-image" alt="Motion Calibration" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">Rhythm Relay Circuit</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Estafet Gerak Berantai <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Mekanisme Estafet:</span>
+                                        Setiap sub-kelompok berdiri di pos yang berbeda. Kelompok pertama melakukan 1 variasi gerakan, lalu "mengirimkan" ritme tersebut ke kelompok berikutnya dengan teriakan yel-yel pendek.
+                                        <br><span class="step-title">Uji Agilitas:</span>
+                                        Kelompok penerima harus segera melanjutkan gerakan tersebut tanpa menghentikan aliran tempo. Ini melatih kewaspadaan (alertness) anggota dalam kondisi detak jantung yang meningkat (High Heart Rate). 
+                                        <br><span class="step-title">Teknis Ketahanan:</span>
+                                        Durasi dilakukan selama 10-15 menit non-stop. Fokus ditekankan pada kestabilan napas (respiratory control) agar postur tubuh tidak membungkuk meskipun stamina mulai terkuras.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbsenamkreatif2.png" class="activity-image" alt="Relay Circuit" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">TAHAP 2: Group Innovation Showcase</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The Formation Ripple</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Variasi Formasi Gelombang <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Detail Skenario:</span>
+                                        Kelompok menciptakan gerakan "Ripple" (gelombang berurutan) menggunakan gerakan dasar PBB yang dimodifikasi. Misalnya, gerakan hormat yang dilakukan berurutan dari anggota pertama hingga terakhir secara cepat mengikuti alur melodi.
+                                        <br><span class="step-title">Manajemen Visual:</span>
+                                        Instruktur menilai keseragaman sudut tangan dan arah pandangan mata (head-snap). Kreativitas ditekankan pada bagaimana tim berpindah dari satu formasi ke formasi lain sambil tetap melakukan gerakan senam tanpa terlihat berantakan.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbsenamkreatif3.png" class="activity-image" alt="Innovation Showcase" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">Cooling Down & Reflection</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Penyatuan Energi & Stamina <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Narasi Refleksi Akhir:</span>
+                                        Setelah intensitas tinggi, tempo musik melambat. Peserta melakukan peregangan statis sambil mengatur napas dalam. 
+                                        <br><span class="step-title">Output Karakter:</span>
+                                        1. <b>Endurance (Daya Tahan):</b> Meningkatkan kapasitas fisik anggota untuk menghadapi latihan PBB berdurasi panjang.
+                                        2. <b>Mental Agility:</b> Melatih kemampuan beradaptasi dengan cepat terhadap perubahan instruksi yang diberikan di tengah aktivitas yang melelahkan.
+                                        3. <b>Team Synergy:</b> Mencairkan suasana tegang menjadi keceriaan kolektif, sehingga memperkuat ikatan emosional (bonding) melalui tawa dan kreativitas bersama.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbsenamkreatif4.png" class="activity-image" alt="Reflection Phase" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>`
+},
           {
-            title: "Games Ketahanan Fisik", 
-            content: "<h4>Latihan Fisik Berbasis Tugas Ganda</h4><p>Permainan yang menuntut kombinasi antara ketahanan fisik (endurance) dan fokus mental (konsentrasi). Contoh: lari estafet sambil menghafal urutan angka. Melatih multi-tasking di bawah tekanan.</p>"
-          },
+  title: "Ketahanan Fisik", 
+  content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; font-weight: 600; color: #1e40af; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #fff7ed; 
+                padding: 15px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 12px; 
+                color: #333; 
+                border-left: 5px solid #ea580c;
+                line-height: 1.8;
+            }
+            .step-title { font-weight: 600; color: #ea580c; text-decoration: underline; display: block; margin-top: 10px; }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; font-weight: 400; }
+            
+            .activity-image {
+                width: 100%;
+                max-width: 400px;
+                border-radius: 8px;
+                margin-top: 15px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                display: block;
+                cursor: zoom-in;
+                transition: transform 0.2s;
+            }
+            .activity-image:hover { transform: scale(1.02); }
+
+            table tbody tr td {
+                border-bottom: 2px solid #cbd5e1; 
+                padding-bottom: 25px !important;
+            }
+            tr[style*="background-color: #e5e7eb"] td {
+                border-bottom: none;
+                padding-bottom: 8px !important;
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.4;">
+            <h4 style="text-align: center; font-weight: 600; color: #1e40af;">Ketahanan Fisik: The Endurance Core</h4>
+            <p style="font-size: 13px; line-height: 1.6;">Wibawa seorang instruktur lahir dari ketangguhan yang melampaui batas anak didiknya. Sesi ini bukan sekadar olahraga, melainkan pembuktian bahwa **instruktur adalah pilar terkuat** dalam pasukan. Kesalahan postur adalah kegagalan integritas. <strong>Klik detail untuk skema Circuit Training militer.</strong></p>
+        
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 25px;">Protokol Circuit: Physical Integrity</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 13px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 15px; width: 22%;">Stasiun Latihan</th>
+                            <th style="padding: 15px;">Narasi Teknis & Manajemen Ambang Batas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">TAHAP 1: Upper Body & Core Stability</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">Tactical Push-Up</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Standardisasi Kekuatan Bahu <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Teknis Pelaksanaan:</span>
+                                        Instruktur melakukan push-up dengan tempo 2-1-2 (2 detik turun, 1 detik tahan di bawah, 2 detik naik). Dada wajib berjarak maksimal 5 cm dari tanah (Kepal tangan standar).
+                                        <br><span class="step-title">Pengawasan Postur:</span>
+                                        Pinggul tidak boleh naik (tengking) atau melandai. Garis tubuh dari tumit hingga kepala harus lurus sempurna. Kesalahan postur sekecil apa pun mengakibatkan hitungan kembali ke angka nol.
+                                        <br><span class="step-title">Filosofi Teknis:</span>
+                                        Instruktur harus mampu menyelesaikan 40-50 repetisi berkualitas tinggi sebagai syarat minimal "Wibawa Fisik" di depan pasukan.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi1.jpg" class="activity-image" alt="Push-up Drill" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The Iron Plank</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Ketahanan Mental Statis <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Narasi Teknis:</span>
+                                        Plank dilakukan selama 3-5 menit tanpa henti. Saat otot mulai gemetar (tremor), instruktur dilarang menunjukkan ekspresi kesakitan di wajah. 
+                                        <br><span class="step-title">Tantangan Kognitif:</span>
+                                        Sambil menahan beban tubuh, instruktur diwajibkan menghafal atau mengulang instruksi PBB yang kompleks secara verbal. Ini melatih kemampuan pengambilan keputusan (Decision Making) saat tubuh berada dalam kondisi stres oksigen tingkat tinggi.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi2.jpg" class="activity-image" alt="Core Stability" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">TAHAP 2: Lower Body & Explosive Endurance</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">Stationary Sprint</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Lari Statis Intensitas Tinggi <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Teknis Eksekusi:</span>
+                                        Lari di tempat dengan lutut naik setinggi pinggang (High Knees). Frekuensi langkah harus stabil di atas 160 langkah per menit.
+                                        <br><span class="step-title">Integrasi PBB:</span>
+                                        Setiap 30 detik, pelatih akan meneriakkan aba-aba PBB (misal: "Hadap Kanan!"). Instruktur harus melakukan gerakan tersebut secara eksplosif tanpa kehilangan momentum kecepatan lari statisnya. 
+                                        <br><span class="step-title">Output Ketahanan:</span>
+                                        Melatih VO2 Max dan memastikan instruktur tetap memiliki energi cadangan untuk memberikan komando yang lantang setelah aktivitas fisik berat.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi3.jpg" class="activity-image" alt="Endurance Sprint" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The Pillar Briefing</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Refleksi Otoritas Fisik <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Sesi Penenangan (Cooling Down):</span>
+                                        Peserta berdiri tegak dalam posisi siap sempurna (Sikap Sempurna) selama 5 menit untuk menormalkan detak jantung tanpa bersandar atau duduk.
+                                        <br><span class="step-title">Output Karakter:</span>
+                                        1. <b>Leading by Example:</b> Instruktur membuktikan bahwa instruksi "Push-up 20 kali" yang diberikan ke junior bukan beban, karena ia sendiri mampu melakukan dua kali lipatnya.
+                                        2. <b>Mental Toughness:</b> Membangun pola pikir bahwa rasa lelah adalah halusinasi yang bisa dikendalikan oleh disiplin.
+                                        3. <b>Physical Authority:</b> Postur tubuh yang tetap tegak meski lelah adalah kunci untuk menjaga respek dari seluruh pasukan.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi4.jpg" class="activity-image" alt="Final Pillar" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>`
+},
           {
-            title: "Simulasi Latihan Fisik", 
-            content: "<h4>Latihan Menjadi Komandan Lapangan</h4><p>Instruktur bergantian memimpin sesi latihan fisik penuh, mulai dari pemanasan hingga pendinginan. Diberi umpan balik mengenai intonasi suara, motivasi, dan manajemen waktu latihan.</p>"
-          }
+  title: "Simulasi Latihan Fisik", 
+  content: `
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            summary { cursor: pointer; outline: none; list-style: none; font-weight: 600; color: #1e40af; }
+            summary::-webkit-details-marker { display: none; }
+            .detail-text { 
+                background-color: #f5f3ff; 
+                padding: 15px; 
+                border-radius: 8px; 
+                margin-top: 8px; 
+                font-size: 12px; 
+                color: #333; 
+                border-left: 5px solid #7c3aed;
+                line-height: 1.8;
+            }
+            .step-title { font-weight: 600; color: #7c3aed; text-decoration: underline; display: block; margin-top: 10px; }
+            .click-hint { font-size: 9px; color: #1e40af; display: block; margin-top: 4px; font-weight: 400; }
+            
+            .activity-image {
+                width: 100%;
+                max-width: 400px;
+                border-radius: 8px;
+                margin-top: 15px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                display: block;
+                cursor: zoom-in;
+                transition: transform 0.2s;
+            }
+            .activity-image:hover { transform: scale(1.02); }
+
+            table tbody tr td {
+                border-bottom: 2px solid #cbd5e1; 
+                padding-bottom: 25px !important;
+            }
+            tr[style*="background-color: #e5e7eb"] td {
+                border-bottom: none;
+                padding-bottom: 8px !important;
+            }
+        </style>
+
+        <div style="font-family: 'Poppins', sans-serif; text-align: justify; color: #333; line-height: 1.4;">
+            <h4 style="text-align: center; font-weight: 600; color: #1e40af;">Simulasi Latihan: The Flexibility Flow (Range of Motion)</h4>
+            <p style="font-size: 13px; line-height: 1.6;">Otot yang kuat tanpa kelenturan adalah kerapuhan. **The Flexibility Flow** melatih instruktur untuk mendesain mobilitas sendi yang optimal, memastikan gerakan PBB tidak kaku dan risiko cedera otot (strain) dapat diminimalisir. <strong>Klik detail untuk protokol mobilitas sendi.</strong></p>
+        
+            <h3 style="text-align: center; font-weight: 600; color: #1e40af; margin-top: 25px;">Prosedur Mobilitas & Elastisitas Otot</h3>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 13px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 15px; width: 22%;">Fase Mobilitas</th>
+                            <th style="padding: 15px;">Narasi Teknis & Manajemen Fascia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">TAHAP 1: Dynamic Stretching & Joint Opening</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">Hip & Shoulder Opening</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Optimalisasi Ruang Gerak Sendi <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Teknis Perancangan:</span>
+                                        Instruktur merancang sekuens *Dynamic Lunges* dengan rotasi torso dan *Arm Circles* skala besar. Fokus pada pelumasan sendi synovial sebelum beban intensitas tinggi diberikan.
+                                        <br><span class="step-title">Narasi Teknis:</span>
+                                        Kelenturan panggul (Hip Mobility) menentukan panjang langkah kaki yang konsisten dalam PBB. Tanpa kelenturan bahu, posisi "Lengan Kanan Grak" akan terlihat miring dan tidak simetris.
+                                        <br><span class="step-title">Indikator Keberhasilan:</span>
+                                        Peserta mampu mendemonstrasikan gerakan tanpa adanya tahanan otot (muscle guarding) yang menyebabkan gerakan terlihat patah-patah.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi1.jpg" class="activity-image" alt="Joint Mobility" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">Spinal Decompression</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Relaksasi Tulang Belakang <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Skenario Simulasi:</span>
+                                        Merancang teknik *Cat-Cow* atau *Child’s Pose* yang dimodifikasi untuk menetralkan tekanan pada tulang belakang setelah sesi "Sikap Sempurna" yang lama.
+                                        <br><span class="step-title">Teknis Pengawasan:</span>
+                                        Instruktur harus memastikan junior bernapas secara diafragmatik saat melakukan peregangan. Napas yang tertahan akan menghambat elastisitas jaringan ikat (fascia).
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi2.jpg" class="activity-image" alt="Spinal Flow" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+
+                        <tr style="background-color: #e5e7eb;"><td colspan="2" style="padding: 10px 15px; font-weight: 600;">TAHAP 2: Static Recovery & Injury Prevention</td></tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The PNF Method</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Peregangan Berpasangan (Proprioceptive) <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Teknis Lanjutan:</span>
+                                        Menggunakan teknik *Contract-Relax*. Rekan sejawat membantu menahan kaki pada posisi regang, sementara pelaku memberikan perlawanan selama 6 detik sebelum dilepaskan untuk mencapai jangkauan baru.
+                                        <br><span class="step-title">Manajemen Risiko:</span>
+                                        Instruktur harus peka terhadap sinyal nyeri junior. Peregangan berlebihan (over-stretching) dapat menyebabkan robekan mikro pada tendon.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi3.jpg" class="activity-image" alt="PNF Stretching" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; color: #1e40af; padding: 15px;">The Fluidity Mastery</td>
+                            <td style="padding: 15px;">
+                                <details>
+                                    <summary>Output Karakter Kelenturan <span class="click-hint">Klik Detail ▼</span></summary>
+                                    <div class="detail-text">
+                                        <span class="step-title">Kesimpulan Akhir:</span>
+                                        Kekuatan yang dibungkus dengan kelenturan menciptakan estetika gerakan yang elegan namun bertenaga.
+                                        <br><span class="step-title">Output Karakter:</span>
+                                        1. <b>Adaptability:</b> Kelenturan fisik mencerminkan kelenturan mental dalam menghadapi perubahan situasi lapangan.
+                                        2. <b>Longevity:</b> Instruktur yang menguasai mobilitas akan memiliki masa bakti yang lebih lama karena fisik yang awet (bebas cedera kronis).
+                                        3. <b>Precision of Art:</b> Menghasilkan pasukan yang gerakannya tidak hanya sekadar benar secara aturan, tapi indah secara visual.
+                                    </div>
+                                </details>
+                                <img src="https://andes-web.github.io/mpsmobile/images/gbapresiasi4.jpg" class="activity-image" alt="Final Flexibility" onclick="window.open(this.src, '_blank')">
+                            </td>
+                        </tr>
+                     <thead>
+                        <tr style="background-color: #1e40af; color: #ffffff; text-align: left;">
+                            <th style="padding: 15px; width: 22%;">Fase Simulasi</th>
+                            <th style="padding: 15px;">Teknis Skenario & Manajemen Konflik</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                                <tr style="background-color: #f0f7ff;">
+                                    <td><strong>Finalization:</strong> <br>Physical Commitment</td>
+                                    <td>
+                                        <details>
+                                            <summary>Janji diri menjaga kebugaran demi performa tim <span class="click-hint">Klik Detail ▼</span></summary>
+                                            <div class="detail-text">
+                                                <strong>Teknis Final:</strong> Penulisan target latihan fisik pribadi selama 30 hari ke depan dalam jadwal mandiri. Hasil komitmen ini dimasukkan ke dalam amplop coklat "Versi Terbaik Diriku".
+                                                <br><strong>Tujuan:</strong> Menciptakan budaya disiplin yang berkelanjutan, bukan hanya saat pelatihan berlangsung.
+                                            </div>
+                                        </details>
+                                        <img src="https://andes-web.github.io/mpsmobile/images/gbmentoring5.jpg" class="activity-image" alt="Final Transformation" onclick="window.open(this.src, '_blank')">
+                                    </td>
+                                </tr>   
+                    </tbody>
+                </table>
+            </div>
+        </div>`
+},
         ]
       }
     ]

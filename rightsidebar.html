@@ -2158,7 +2158,7 @@ async function populateUnitFilter(sheetName) {
         }
 
         // Filter out empty headers and limit to 50 (sesuai data Apps Script)
-        filterItems = data.headers.slice(0, 50).filter(h => h && h.trim() !== '');
+        filterItems = data.headers.slice(0, 150).filter(h => h && h.trim() !== '');
         defaultText = 'Kelompok';
     }
 

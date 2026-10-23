@@ -2492,7 +2492,33 @@ document.addEventListener("DOMContentLoaded", function() {
 const jurlamChildren = [
   {
     title: "DIKLAT", // H1
-    content: `<h2>DIKLAT (Pendidikan dan Pelatihan)</h2><p>Diklat Paskibra bertujuan membentuk karakter anggota yang disiplin, tangguh, dan berwawasan kebangsaan melalui serangkaian materi teoritis dan praktik lapangan.</p>`,
+content: `
+  <h2>DIKLAT (Pendidikan dan Pelatihan)</h2>
+
+  <p>
+    Diklat Paskibra bertujuan membentuk karakter anggota
+    yang disiplin, tangguh, dan berwawasan kebangsaan
+    melalui serangkaian materi teoritis dan praktik lapangan.
+  </p>
+
+  <div style="width:100%; max-width:900px; margin:20px auto;">
+    <video
+      controls
+      playsinline
+      preload="metadata"
+      style="
+        display:block;
+        width:100%;
+        height:auto;
+        border-radius:12px;
+        background:#000;
+      "
+    >
+      <source src="images/DiklatMindset.mp4" type="video/mp4">
+      Browser Anda tidak mendukung pemutaran video.
+    </video>
+  </div>
+`,
     children: [
       // 1. Spiritual & Karakter 
       {

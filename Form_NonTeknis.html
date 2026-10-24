@@ -358,11 +358,16 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
     Swal.fire({icon:'warning',title:'Perhatian',text:'Semua aspek penilaian harus diisi (1-5)!',confirmButtonColor:'#facc15'}); return;
   }
   const sheetPayload={
-    form:"nonteknis",nama,unit,kelompok:kelompok||"",jumlah:total,
-    aspekList:[
-      {name:"Unit",nilai:unit},{name:"Kelompok",nilai:kelompok||""},
-      ...aspekList,{name:"Jumlah",nilai:total}
-    ]
+    form:"nonteknis",
+    nama,
+    unit,
+    kelompok:kelompok||"",
+    jumlah:total,
+    // Format disesuaikan dengan Code.gs: updateRowData membaca item.aspek dan item.nilai
+    aspek_nilai:allAspects.map(a=>({
+      aspek:a.aspek,
+      nilai:Number(nilaiData[a.key]||0)
+    }))
   };
   Swal.fire({title:'Mengirim data...',text:'Mohon tunggu',allowOutsideClick:false,showConfirmButton:false,didOpen:()=>Swal.showLoading()});
   fetch(scriptURL,{method:"POST",body:new URLSearchParams({data:JSON.stringify(sheetPayload)})})

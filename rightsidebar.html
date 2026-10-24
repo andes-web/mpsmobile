@@ -2653,14 +2653,14 @@ if (MODE_NILAI_MPS) return;
 <script>
 // 1. Pemetaan Logo Unit Sekolah
 const unitLogoMap = {
-  "smpn 1 citeureup": "1_Citeureup.png",
-  "smpn 6 depok": "6-removebg-preview (1).png",
-  "smpn 7 depok": "7.png",
-  "smpn 8 depok": "8-removebg-preview.png",
-  "smpn 12 depok": "12-removebg-preview.png",
-  "smpn 16 depok": "16-removebg-preview.png",
-  "smpn 31 depok": "31-removebg-preview.png",
-  "smpn 32 depok": "SMP_32.png"
+  "smpn 1 citeureup": "https://andes-web.github.io/mpsmobile/1_Citeureup.png",
+  "smpn 6 depok": "https://andes-web.github.io/mpsmobile/6-removebg-preview (1).png",
+  "smpn 7 depok": "https://andes-web.github.io/mpsmobile/7.png",
+  "smpn 8 depok": "https://andes-web.github.io/mpsmobile/8-removebg-preview.png",
+  "smpn 12 depok": "https://andes-web.github.io/mpsmobile/12-removebg-preview.png",
+  "smpn 16 depok": "https://andes-web.github.io/mpsmobile/16-removebg-preview.png",
+  "smpn 31 depok": "https://andes-web.github.io/mpsmobile/31-removebg-preview.png",
+  "smpn 32 depok": "https://andes-web.github.io/mpsmobile/SMP_32.png"
 };
 
 // Normalisasi nama unit agar perbedaan huruf besar/kecil atau spasi tidak
@@ -2723,12 +2723,18 @@ function renderNilaiMPSTable(data) {
       // Kita cek jika nilainya null atau undefined baru kita kosongkan
       let cellValue = (col !== null && col !== undefined) ? col : "";
 
-      // Logika Logo Unit (kolom index 2 pada data Rekap Nilai MPS)
+      // Kolom Unit: tampilkan logo sekolah berdasarkan nama Unit dari API.
       if (index === 2) {
-        const logoFile = getUnitLogoFile(cellValue);
-        bodyHtml += logoFile
-          ? `<td style="text-align:center;vertical-align:middle;"><img src="${logoFile}" alt="Logo ${String(cellValue).replace(/[&<>"']/g, '')}" title="${String(cellValue).replace(/[&<>"']/g, '')}" style="height:24px;max-width:72px;width:auto;object-fit:contain;display:inline-block;" onerror="this.parentElement.textContent='${String(cellValue).replace(/[&<>"']/g, '')}'"></td>`
-          : `<td>${cellValue}</td>`;
+        const unitName = String(cellValue ?? "").replace(/\\u00A0/g, " ").trim().replace(/\\s+/g, " ");
+        const logoUrl = getUnitLogoFile(unitName);
+        const safeName = unitName.replace(/[&<>"']/g, "");
+        bodyHtml += logoUrl
+          ? `<td class="unit-logo-cell" style="text-align:center;vertical-align:middle;">
+               <img src="${logoUrl}" alt="Logo ${safeName}" title="${safeName}"
+                 style="height:30px;max-width:90px;width:auto;object-fit:contain;display:inline-block;"
+                 onerror="this.style.display='none';this.parentElement.textContent='${safeName}'">
+             </td>`
+          : `<td>${safeName || "-"}</td>`;
       } else {
         bodyHtml += `<td>${cellValue}</td>`;
       }

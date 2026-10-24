@@ -21,15 +21,17 @@
      overflow halaman. Kombinasi lama membuat konten di bawah viewport,
      termasuk tombol SUBMIT, terpotong pada desktop. */
   html {
+    width: 100%;
     min-height: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
     overflow-y: auto;
+    -webkit-text-size-adjust: 100%;
   }
   body {
     box-sizing: border-box;
     min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow-x: clip;
+    overflow-y: visible;
     margin: 0;
     padding: 20px;
     background: linear-gradient(135deg,#f0f8ff 0%,#f0fff8 100%);
@@ -43,8 +45,8 @@
       transform: none;
       transform-origin: initial;
       width: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow-x: clip;
+      overflow-y: visible;
       margin: 0;
       padding: 20px;
     }
@@ -58,7 +60,7 @@
 
   @media (max-width: 768px) {
     body { padding: 8px; }
-    .container { padding: 10px 10px 120px; margin-bottom: 0; }
+     .container { padding: 10px; margin-bottom: 12px; }
     .static-header { position: static; }
     .row-identity { gap: 6px; }
     .aspek-card { padding: 8px; gap: 6px; }
@@ -68,15 +70,15 @@
     .nilai-buttons { gap: 3px; }
     .nilai-buttons button { padding: 7px 10px; }
     .nilai-besar { font-size: 2.5rem; }
-    .controls-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); }
-    .controls-row .btn { width: 100%; max-width: none; min-width: 0; min-height: 42px; font-size: .82rem; }
+     .controls-row { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px 0; margin-top: 14px; }
+    .controls-row .btn { width: 100%; max-width: none; min-width: 0; min-height: 44px; font-size: .84rem; }
     .total-container { padding: 10px; font-size: 1rem; }
     .total-value { font-size: 2rem; }
     .rubrik-scroll-area { max-height: none; height: auto; overflow: visible; }
   }
 
-  .container{max-width:900px;width:100%;margin:0 auto 100px;background:#fff;border-radius:12px;
-             padding:16px 16px 110px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+   .container{max-width:900px;width:100%;margin:0 auto 20px;background:#fff;border-radius:12px;
+             padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
   .static-header {
       position: static;
       top: auto;
@@ -126,29 +128,26 @@
     text-shadow: 2px 2px 3px rgba(0,0,0,0.4),-2px -2px 3px rgba(255,255,255,0.9);}
   .nilai-besar.hidden {opacity: 0.25;color: #777;text-shadow: none;}
   .controls-row{
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: static;
+    z-index: auto;
     width: 100%;
-    margin: 0 auto;
-    padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
-    display: flex;
-    flex-wrap: nowrap;
+    margin: 18px auto 8px;
+    padding: 12px 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
     justify-content: center;
-    background: rgba(255,255,255,.97);
-    border-top: 1px solid rgba(148,163,184,.55);
-    box-shadow: 0 -5px 18px rgba(15,23,42,.12);
-    backdrop-filter: blur(10px);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
   }
   .controls-row .btn {
-    flex: 1 1 0;
     width: 100%;
-    max-width: 180px;
-    min-height: 42px;
-    padding: 9px 6px;
+    min-width: 0;
+    max-width: none;
+    min-height: 44px;
+    padding: 10px 6px;
     border-radius: 7px;
     border: none;
     font-weight: 800;

@@ -16,49 +16,58 @@
     --kepemimpinan-color: #5b21b6;
   }
 
-  /* FIX RESPONSIF:
-     Jangan melakukan transform:scale pada seluruh body dan jangan mengunci
-     overflow halaman. Kombinasi lama membuat konten di bawah viewport,
-     termasuk tombol SUBMIT, terpotong pada desktop. */
+  /*
+     * GOOGLE APPS SCRIPT / IFRAME SCROLL FIX
+     * Hindari scroll container bersarang pada html/body.
+     * Seluruh dokumen mengikuti tinggi konten; gulir ditangani oleh browser/iframe.
+     */
   html {
     width: 100%;
     min-height: 100%;
-    overflow-x: clip;
-    overflow-y: auto;
+    height: auto;
+    overflow: visible;
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto;
   }
   body {
     box-sizing: border-box;
-    min-height: 100vh;
-    overflow-x: clip;
-    overflow-y: visible;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    overflow: visible;
     margin: 0;
     padding: 20px;
     background: linear-gradient(135deg,#f0f8ff 0%,#f0fff8 100%);
     font-family: "Segoe UI",sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; }
+  
 
   @media (min-width: 769px) {
     body {
-      /* Ukuran normal agar halaman tetap dapat digulir. */
       transform: none;
-      transform-origin: initial;
       width: 100%;
-      overflow-x: clip;
-      overflow-y: visible;
+      height: auto;
+      min-height: 0;
+      overflow: visible;
       margin: 0;
       padding: 20px;
     }
     .rubrik-scroll-area {
-        height: auto;
-        max-height: none;
-        overflow: visible;
-        padding-top: 10px;
-      }
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      padding-top: 10px;
+    }
   }
 
   @media (max-width: 768px) {
+    html, body {
+      width: 100%;
+      height: auto !important;
+      min-height: 0 !important;
+      overflow: visible !important;
+    }
     body { padding: 8px; }
      .container { padding: 10px; margin-bottom: 12px; }
     .static-header { position: static; }
@@ -74,11 +83,30 @@
     .controls-row .btn { width: 100%; max-width: none; min-width: 0; min-height: 44px; font-size: .84rem; }
     .total-container { padding: 10px; font-size: 1rem; }
     .total-value { font-size: 2rem; }
-    .rubrik-scroll-area { max-height: none; height: auto; overflow: visible; }
+    .rubrik-scroll-area {
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+    .controls-row {
+      position: static !important;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
   }
 
-   .container{max-width:900px;width:100%;margin:0 auto 20px;background:#fff;border-radius:12px;
-             padding:16px;box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+   .container{
+    display: flow-root;
+    max-width: 900px;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0 auto 20px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
   .static-header {
       position: static;
       top: auto;
@@ -100,6 +128,13 @@
   .form-col input,.form-col select{
     width:100%;box-sizing:border-box;padding:8px;border-radius:6px;border:1px solid #ccc;}
   .form-col input::placeholder { color: #888; font-weight: 500;}
+  .rubrik-scroll-area {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
   .rubrik{display:grid;gap:8px;}
   .rubrik-section{
       margin-top: 15px; padding: 10px; border-radius: 10px;
@@ -132,7 +167,7 @@
     z-index: auto;
     width: 100%;
     margin: 18px auto 8px;
-    padding: 12px 0;
+    padding: 12px 0 16px;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
@@ -143,6 +178,7 @@
     backdrop-filter: none;
   }
   .controls-row .btn {
+    display: block;
     width: 100%;
     min-width: 0;
     max-width: none;

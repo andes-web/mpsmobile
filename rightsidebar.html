@@ -1418,26 +1418,28 @@ if (sheetName === "RekapAkhir") {
 
     console.log("Mapped idx -> Nama:", idxNama, "Unit:", idxUnit, "NI:", idxNI, "NK:", idxNK, "NN:", idxNN, "NA:", idxNA);
 
-    // If Unit column not present in RekapAkhir, build name->unit map from Rekap (primary source)
+    // Selalu ambil Unit sekolah dari sheet Rekap berdasarkan Nama.
+    // RekapAkhir bisa saja sudah memiliki kolom Unit, tetapi isinya keliru
+    // (misalnya nama kelompok); untuk tampilan, sumber utama adalah sheet Rekap.
     let nameToUnitMap = {};
-    if (idxUnit === -1) {
-        try {
-            const rekapResp = await fetchData('Rekap'); // fetch full Rekap sheet
-            const rekapHeaders = (rekapResp.headers || []).map(h => (h||'').toString().trim());
-            const rekapRows = rekapResp.rawData || [];
-            const namaIdxRekap = rekapHeaders.indexOf('Nama') !== -1 ? rekapHeaders.indexOf('Nama') : 0;
-            const unitIdxRekap = rekapHeaders.indexOf('Unit') !== -1 ? rekapHeaders.indexOf('Unit') : 1;
-            // Build map normalized name => unit
+    try {
+        const rekapResp = await fetchData('Rekap');
+        const rekapHeaders = (rekapResp.headers || []).map(h => (h || '').toString().replace(/\\u00A0/g, ' ').trim().toLowerCase());
+        const rekapRows = rekapResp.rawData || [];
+        const namaIdxRekap = rekapHeaders.indexOf('nama');
+        const unitIdxRekap = rekapHeaders.indexOf('unit');
+
+        if (namaIdxRekap > -1 && unitIdxRekap > -1) {
             rekapRows.forEach(r => {
                 const nameCell = (r[namaIdxRekap] || '').toString().trim();
                 const unitCell = (r[unitIdxRekap] || '').toString().trim();
-                if (nameCell) nameToUnitMap[nameCell.toLowerCase()] = unitCell;
+                if (nameCell && unitCell) nameToUnitMap[nameCell.toLowerCase()] = unitCell;
             });
-            console.log("Built name->unit map from Rekap, size:", Object.keys(nameToUnitMap).length);
-        } catch (err) {
-            console.warn("Error fetching Rekap for unit lookup:", err);
-            nameToUnitMap = {};
         }
+        console.log("Built name->school-unit map from Rekap, size:", Object.keys(nameToUnitMap).length);
+    } catch (err) {
+        console.warn("Error fetching Rekap for school-unit lookup:", err);
+        nameToUnitMap = {};
     }
 
     // Helper to safely get cell value from row and index
@@ -1460,14 +1462,14 @@ if (sheetName === "RekapAkhir") {
             nameVal = (safeGet(r, 0, '') || safeGet(r, 1, '')).toString().trim();
         }
 
-        // unit: prefer explicit column if present; otherwise lookup by name from Rekap
+        // Prefer school Unit mapped by participant name from Rekap.
+        // Use RekapAkhir's own Unit only if no matching school was found in Rekap.
         let unitVal = '';
-        if (idxUnit > -1) {
+        const mappedUnit = nameVal ? nameToUnitMap[nameVal.toLowerCase()] : '';
+        if (mappedUnit) {
+            unitVal = mappedUnit;
+        } else if (idxUnit > -1) {
             unitVal = safeGet(r, idxUnit, '').toString().trim();
-        }
-        if (!unitVal && nameVal) {
-            const mapped = nameToUnitMap[nameVal.toLowerCase()];
-            if (mapped) unitVal = mapped;
         }
 
         // Numeric fields: try indices, else fallback to best guess positions (after name)

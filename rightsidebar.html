@@ -2651,17 +2651,28 @@ if (MODE_NILAI_MPS) return;
 
 <!-- ===================== PATCH RE-RENDER FILTER REKAP BINTAL ===================== -->
 <script>
-// 1. Map Logo
+// 1. Pemetaan Logo Unit Sekolah
 const unitLogoMap = {
-  "SMPN 1 Citeureup": "1_Citeureup.png",
-  "SMPN 6 Depok": "6-removebg-preview (1).png",
-  "SMPN 7 Depok": "7.png",
-  "SMPN 8 Depok": "8-removebg-preview.png",
-  "SMPN 12 Depok": "12-removebg-preview.png",
-  "SMPN 16 Depok": "16-removebg-preview.png",
-  "SMPN 31 Depok": "31-removebg-preview.png",
-  "SMPN 32 Depok": "SMP_32.png"
+  "smpn 1 citeureup": "1_Citeureup.png",
+  "smpn 6 depok": "6-removebg-preview (1).png",
+  "smpn 7 depok": "7.png",
+  "smpn 8 depok": "8-removebg-preview.png",
+  "smpn 12 depok": "12-removebg-preview.png",
+  "smpn 16 depok": "16-removebg-preview.png",
+  "smpn 31 depok": "31-removebg-preview.png",
+  "smpn 32 depok": "SMP_32.png"
 };
+
+// Normalisasi nama unit agar perbedaan huruf besar/kecil atau spasi tidak
+// membuat logo gagal ditemukan. Nama sekolah di data tetap tidak diubah.
+function getUnitLogoFile(unitName) {
+  const key = String(unitName ?? "")
+    .replace(/\u00A0/g, " ")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+  return unitLogoMap[key] || "";
+}
 
 // 2. Fungsi Load Nilai MPS
 function loadNilaiMPS() {
@@ -2712,11 +2723,11 @@ function renderNilaiMPSTable(data) {
       // Kita cek jika nilainya null atau undefined baru kita kosongkan
       let cellValue = (col !== null && col !== undefined) ? col : "";
 
-      // Logika Logo Unit (Index 2)
+      // Logika Logo Unit (kolom index 2 pada data Rekap Nilai MPS)
       if (index === 2) {
-        const logoFile = unitLogoMap[cellValue];
-        bodyHtml += logoFile 
-          ? `<td style="text-align:center;"><img src="${logoFile}" style="height:20px; width:auto;"></td>`
+        const logoFile = getUnitLogoFile(cellValue);
+        bodyHtml += logoFile
+          ? `<td style="text-align:center;vertical-align:middle;"><img src="${logoFile}" alt="Logo ${String(cellValue).replace(/[&<>"']/g, '')}" title="${String(cellValue).replace(/[&<>"']/g, '')}" style="height:24px;max-width:72px;width:auto;object-fit:contain;display:inline-block;" onerror="this.parentElement.textContent='${String(cellValue).replace(/[&<>"']/g, '')}'"></td>`
           : `<td>${cellValue}</td>`;
       } else {
         bodyHtml += `<td>${cellValue}</td>`;

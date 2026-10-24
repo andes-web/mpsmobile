@@ -363,9 +363,10 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
     unit,
     kelompok:kelompok||"",
     jumlah:total,
-    // Format disesuaikan dengan Code.gs: updateRowData membaca item.aspek dan item.nilai
+    // Nama aspek dikirim persis seperti header kolom di Google Sheets.
+    // Contoh: Konsumsi_I, Perlengkapan_I, PBB_Statis_I, dan seterusnya.
     aspek_nilai:allAspects.map(a=>({
-      aspek:a.aspek,
+      aspek:a.key,
       nilai:Number(nilaiData[a.key]||0)
     }))
   };

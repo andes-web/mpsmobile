@@ -2675,19 +2675,74 @@ function getUnitLogoFile(unitName) {
 }
 
 // 2. Fungsi Load Nilai MPS
-function loadNilaiMPS() {
-  const unit = document.getElementById("unitFilter")?.value || "Semua Unit";
+// Identitas Unit selalu dipetakan dari sheet Rekap; RekapKelompok tidak digunakan
+// untuk menentukan sekolah. Apps Script tidak perlu diubah.
+function normalizeMpsKey(value) {
+  return String(value ?? "")
+    .replace(/\u00A0/g, " ")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLocaleLowerCase("id-ID");
+}
+
+async function loadNilaiMPS() {
+  const selectedUnit = document.getElementById("unitFilter")?.value || "Semua Unit";
   if (typeof GAS_URL === 'undefined') return;
 
-  fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent(unit))
-    .then(res => res.json())
-    .then(data => {
-      // Hanya render jika user masih di menu NilaiMPS
-      if (document.getElementById('jenisRekap').value === "NilaiMPS") {
-        renderNilaiMPSTable(data);
+  try {
+    // Ambil seluruh nilai, lalu filter di browser berdasarkan Unit hasil pemetaan Rekap.
+    const [nilaiResponse, rekap] = await Promise.all([
+      fetch(GAS_URL + "?action=nilai_mps&unit=" + encodeURIComponent("Semua Unit")),
+      fetchData("Rekap")
+    ]);
+
+    if (!nilaiResponse.ok) throw new Error("Gagal mengambil data Nilai MPS");
+    const data = await nilaiResponse.json();
+    const rekapHeaders = (rekap.headers || []).map(normalizeMpsKey);
+    const namaIdx = rekapHeaders.indexOf("nama");
+    const unitIdx = rekapHeaders.indexOf("unit");
+
+    if (namaIdx < 0 || unitIdx < 0) {
+      throw new Error("Sheet Rekap harus memiliki kolom Nama dan Unit.");
+    }
+
+    const unitByName = Object.create(null);
+    (rekap.rawData || []).forEach(row => {
+      const namaKey = normalizeMpsKey(row[namaIdx]);
+      const unitName = String(row[unitIdx] ?? "").replace(/\u00A0/g, " ").trim();
+      if (namaKey && unitName && unitName !== "-") unitByName[namaKey] = unitName;
+    });
+
+    if (Array.isArray(data) && data.length > 1) {
+      const header = data[0];
+      const nameColumn = header.findIndex(h => normalizeMpsKey(h) === "nama");
+      const unitColumn = header.findIndex(h => normalizeMpsKey(h) === "unit");
+      if (nameColumn < 0 || unitColumn < 0) {
+        throw new Error("Respons Nilai MPS tidak memiliki kolom Nama dan Unit.");
       }
-    })
-    .catch(err => console.error("Error:", err));
+
+      const fixedRows = data.slice(1).map(row => {
+        const copy = row.slice();
+        const nameKey = normalizeMpsKey(copy[nameColumn]);
+        // Bila tidak ditemukan di Rekap, jangan percaya Unit yang mungkin berupa nama kelompok.
+        copy[unitColumn] = unitByName[nameKey] || "Unit tidak ditemukan di Rekap";
+        return copy;
+      });
+
+      const filteredRows = selectedUnit === "Semua Unit"
+        ? fixedRows
+        : fixedRows.filter(row => normalizeMpsKey(row[unitColumn]) === normalizeMpsKey(selectedUnit));
+      data.splice(1, data.length - 1, ...filteredRows);
+    }
+
+    // Hanya render jika user masih berada di menu NilaiMPS.
+    if (document.getElementById('jenisRekap')?.value === "NilaiMPS") {
+      renderNilaiMPSTable(data);
+    }
+  } catch (err) {
+    console.error("Error loadNilaiMPS:", err);
+    if (window.Swal) Swal.fire("Gagal Memuat Nilai MPS", err.message || String(err), "error");
+  }
 }
 
 // 3. Fungsi Render (Ditambahkan proteksi agar tidak kosong)

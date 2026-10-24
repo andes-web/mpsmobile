@@ -2725,16 +2725,23 @@ function renderNilaiMPSTable(data) {
 
       // Kolom Unit: tampilkan logo sekolah berdasarkan nama Unit dari API.
       if (index === 2) {
-        const unitName = String(cellValue ?? "").replace(/\\u00A0/g, " ").trim().replace(/\\s+/g, " ");
+        const unitName = String(cellValue ?? "")
+          .replace(/\u00A0/g, " ")
+          .trim()
+          .replace(/\s+/g, " ");
         const logoUrl = getUnitLogoFile(unitName);
         const safeName = unitName.replace(/[&<>"']/g, "");
-        bodyHtml += logoUrl
-          ? `<td class="unit-logo-cell" style="text-align:center;vertical-align:middle;">
-               <img src="${logoUrl}" alt="Logo ${safeName}" title="${safeName}"
-                 style="height:30px;max-width:90px;width:auto;object-fit:contain;display:inline-block;"
-                 onerror="this.style.display='none';this.parentElement.textContent='${safeName}'">
-             </td>`
-          : `<td>${safeName || "-"}</td>`;
+        if (logoUrl) {
+          // Encode spasi pada nama file, khususnya logo SMPN 6 Depok.
+          const encodedLogoUrl = logoUrl.replace(/ /g, "%20");
+          bodyHtml += `<td class="unit-logo-cell" style="text-align:center;vertical-align:middle;">
+            <img src="${encodedLogoUrl}" alt="Logo ${safeName}" title="${safeName}"
+              style="height:34px;max-width:100px;width:auto;object-fit:contain;display:inline-block;"
+              onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='Logo gagal: ${safeName}'">
+          </td>`;
+        } else {
+          bodyHtml += `<td title="Nama unit tidak cocok dengan unitLogoMap">${safeName || "-"}</td>`;
+        }
       } else {
         bodyHtml += `<td>${cellValue}</td>`;
       }

@@ -11949,6 +11949,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const logoTrigger = document.getElementById("main-logo-trigger");
@@ -11962,8 +11963,7 @@ document.addEventListener("DOMContentLoaded", function () {
     logoTrigger.addEventListener("click", function (event) {
         event.preventDefault();
 
-        // Tampilkan halaman utama MPS yang baru:
-        // hanya dua gambar cover, tanpa tampilan lama.
+        // Tampilkan halaman utama MPS dengan tiga gambar cover.
         contentArea.innerHTML = `
             <style>
                 #content {
@@ -11998,6 +11998,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     alt="Cover MPS bagian atas"
                     class="mps-cover"
                 >
+
+                <img
+                    src="./images/CoverMPStengah.png"
+                    alt="Cover MPS bagian tengah"
+                    class="mps-cover"
+                >
+
                 <img
                     src="./images/CoverMPSbawah2.png"
                     alt="Cover MPS bagian bawah"
@@ -12011,6 +12018,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
 
 <script>
 (function () {

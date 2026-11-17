@@ -2080,11 +2080,10 @@ header {
   <div class="visitor-digits" id="visitorNumber">00000</div>
 </div>
 </aside>
-	
-
 
 
 <main class="content" id="content">
+
     <style>
         .content {
             padding: 0;
@@ -2106,10 +2105,9 @@ header {
             display: block;
             width: 100%;
             height: auto;
-            aspect-ratio: auto;
             margin: 0;
             padding: 0;
-            border: none;
+            border: 0;
             border-radius: 0;
             box-shadow: none;
             object-fit: contain;
@@ -2119,47 +2117,28 @@ header {
 
     <div class="mps-cover-container">
 
-        <!-- VIDEO 1: COVER ATAS -->
-        <video
-            class="mps-cover-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-        >
+        <!-- VIDEO 1: BAGIAN ATAS -->
+        <video class="mps-cover-video"
+               autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPSatas1.mp4" type="video/mp4">
-            Browser Anda tidak mendukung video MP4.
         </video>
 
-        <!-- VIDEO 2: COVER TENGAH -->
-        <video
-            class="mps-cover-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-        >
+        <!-- VIDEO 2: BAGIAN TENGAH -->
+        <video class="mps-cover-video"
+               autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPStengah3.mp4" type="video/mp4">
-            Browser Anda tidak mendukung video MP4.
         </video>
 
-        <!-- VIDEO 3: COVER BAWAH -->
-        <video
-            class="mps-cover-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-        >
+        <!-- VIDEO 3: BAGIAN BAWAH -->
+        <video class="mps-cover-video"
+               autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPSbawah2.mp4" type="video/mp4">
-            Browser Anda tidak mendukung video MP4.
         </video>
 
     </div>
+
 </main>
+
 
 <aside class="sidebar-right">
     Sidebar Kanan
@@ -12043,71 +12022,54 @@ document.addEventListener("DOMContentLoaded", function () {
         // Tampilkan halaman utama MPS dengan tiga gambar cover.
         contentArea.innerHTML = `
             <style>
-                #content {
-                    padding: 0 !important;
-                    margin: 0 !important;
-                    background: #fff !important;
-                    overflow-x: hidden !important;
-                }
+        .content {
+            padding: 0;
+            margin: 0;
+            background: #fff;
+            overflow-x: hidden;
+        }
 
-                #content .mps-cover-container {
-                    width: 100%;
-                    margin: 0;
-                    padding: 0;
-                }
+        .mps-cover-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            gap: 0;
+        }
 
-                #content .mps-cover {
-                    display: block;
-                    width: 100%;
-                    max-width: none;
-                    height: auto;
-                    margin: 0;
-                    padding: 0;
-                    border: none;
-                    border-radius: 0;
-                    box-shadow: none;
-                }
-            </style>
+        .mps-cover-video {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            object-fit: contain;
+            background: #fff;
+        }
+    </style>
 
-          <div class="mps-cover-container">
+    <div class="mps-cover-container">
 
-        <!-- VIDEO 1: COVER ATAS -->
-        <video
-            class="mps-cover-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-        >
+        <!-- VIDEO 1: BAGIAN ATAS -->
+        <video class="mps-cover-video"
+               autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPSatas1.mp4" type="video/mp4">
-            Browser Anda tidak mendukung video MP4.
         </video>
 
-        <!-- VIDEO 2: COVER TENGAH -->
-        <video
-            class="mps-cover-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-        >
+        <!-- VIDEO 2: BAGIAN TENGAH -->
+        <video class="mps-cover-video"
+               autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPStengah3.mp4" type="video/mp4">
-            Browser Anda tidak mendukung video MP4.
         </video>
 
-        <!-- VIDEO 3: COVER BAWAH -->
-        <video
-            class="mps-cover-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-        >
+        <!-- VIDEO 3: BAGIAN BAWAH -->
+        <video class="mps-cover-video"
+               autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPSbawah2.mp4" type="video/mp4">
-            Browser Anda tidak mendukung video MP4.
         </video>
 
     </div>

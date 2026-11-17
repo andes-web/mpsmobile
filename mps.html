@@ -2100,21 +2100,23 @@ header {
     padding: 0;
     gap: 0;
     overflow: hidden;
+    line-height: 0;
 }
 
         #content .mps-cover-video {
     display: block;
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100%;
     aspect-ratio: 16 / 9;
-    object-fit: cover;
+    object-fit: fill;
     object-position: center;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    background: #fff;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    vertical-align: top;
 }
     </style>
 

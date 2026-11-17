@@ -2082,17 +2082,17 @@ header {
 </aside>
 
 
-<main class="content" id="content">
 
+<main class="content" id="content">
     <style>
-        .content {
+        #content {
             padding: 0;
             margin: 0;
             background: #fff;
             overflow-x: hidden;
         }
 
-        .mps-cover-container {
+        #content .mps-cover-container {
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -2101,7 +2101,7 @@ header {
             gap: 0;
         }
 
-        .mps-cover-video {
+        #content .mps-cover-video {
             display: block;
             width: 100%;
             height: auto;
@@ -2115,29 +2115,26 @@ header {
         }
     </style>
 
-    <div class="mps-cover-container">
+    <div class="mps-cover-container" id="mpsCoverHome">
 
-        <!-- VIDEO 1: BAGIAN ATAS -->
         <video class="mps-cover-video"
                autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPSatas1.mp4" type="video/mp4">
         </video>
 
-        <!-- VIDEO 2: BAGIAN TENGAH -->
         <video class="mps-cover-video"
                autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPStengah3.mp4" type="video/mp4">
         </video>
 
-        <!-- VIDEO 3: BAGIAN BAWAH -->
         <video class="mps-cover-video"
                autoplay muted loop playsinline preload="auto">
             <source src="./images/CoverMPSbawah2.mp4" type="video/mp4">
         </video>
 
     </div>
-
 </main>
+
 
 
 <aside class="sidebar-right">
@@ -12006,6 +12003,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const logoTrigger = document.getElementById("main-logo-trigger");
@@ -12016,67 +12014,49 @@ document.addEventListener("DOMContentLoaded", function () {
     logoTrigger.style.cursor = "pointer";
     logoTrigger.title = "Kembali ke halaman utama MPS";
 
-    logoTrigger.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        // Tampilkan halaman utama MPS dengan tiga gambar cover.
+    function tampilkanCoverMPS() {
         contentArea.innerHTML = `
-            <style>
-        .content {
-            padding: 0;
-            margin: 0;
-            background: #fff;
-            overflow-x: hidden;
-        }
+            <div class="mps-cover-container" id="mpsCoverHome">
 
-        .mps-cover-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            gap: 0;
-        }
+                <video class="mps-cover-video"
+                       autoplay muted loop playsinline preload="auto">
+                    <source src="./images/CoverMPSatas1.mp4" type="video/mp4">
+                </video>
 
-        .mps-cover-video {
-            display: block;
-            width: 100%;
-            height: auto;
-            margin: 0;
-            padding: 0;
-            border: 0;
-            border-radius: 0;
-            box-shadow: none;
-            object-fit: contain;
-            background: #fff;
-        }
-    </style>
+                <video class="mps-cover-video"
+                       autoplay muted loop playsinline preload="auto">
+                    <source src="./images/CoverMPStengah3.mp4" type="video/mp4">
+                </video>
 
-    <div class="mps-cover-container">
+                <video class="mps-cover-video"
+                       autoplay muted loop playsinline preload="auto">
+                    <source src="./images/CoverMPSbawah2.mp4" type="video/mp4">
+                </video>
 
-        <!-- VIDEO 1: BAGIAN ATAS -->
-        <video class="mps-cover-video"
-               autoplay muted loop playsinline preload="auto">
-            <source src="./images/CoverMPSatas1.mp4" type="video/mp4">
-        </video>
-
-        <!-- VIDEO 2: BAGIAN TENGAH -->
-        <video class="mps-cover-video"
-               autoplay muted loop playsinline preload="auto">
-            <source src="./images/CoverMPStengah3.mp4" type="video/mp4">
-        </video>
-
-        <!-- VIDEO 3: BAGIAN BAWAH -->
-        <video class="mps-cover-video"
-               autoplay muted loop playsinline preload="auto">
-            <source src="./images/CoverMPSbawah2.mp4" type="video/mp4">
-        </video>
-
-    </div>
+            </div>
         `;
 
-        // Kembalikan area konten ke posisi paling atas.
         contentArea.scrollTop = 0;
+
+        // Jalankan setiap video secara mandiri.
+        contentArea.querySelectorAll("video").forEach(video => {
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            video.load();
+
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.warn("Video belum dapat diputar:", error);
+                });
+            }
+        });
+    }
+
+    logoTrigger.addEventListener("click", function (event) {
+        event.preventDefault();
+        tampilkanCoverMPS();
     });
 });
 </script>

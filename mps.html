@@ -2093,26 +2093,29 @@ header {
         }
 
         #content .mps-cover-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            gap: 0;
-        }
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
+}
 
         #content .mps-cover-video {
-            display: block;
-            width: 100%;
-            height: auto;
-            margin: 0;
-            padding: 0;
-            border: 0;
-            border-radius: 0;
-            box-shadow: none;
-            object-fit: contain;
-            background: #fff;
-        }
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: #fff;
+}
     </style>
 
     <div class="mps-cover-container" id="mpsCoverHome">
